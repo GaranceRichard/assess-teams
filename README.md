@@ -15,10 +15,10 @@ Le dépôt contient uniquement le socle technique et un health check `GET /api/h
 
 ## Travail en cours
 
-- **Périmètre :** raffinement documentaire de l'Epic Gestion des équipes.
-- **Sujet :** découpage du cycle de vie d'une équipe en sept PBIs indépendamment développables, testables et livrables.
-- **Évolution attendue :** rendre `TEAM-001` à `TEAM-007` directement exploitables, avec critères d'acceptation, refus, dépendances et priorités explicites.
-- **Hors périmètre :** code applicatif, affectation des coachs, modèles d'évaluation, fréquences, évaluations et notifications.
+- **Périmètre :** suivi documentaire de l’ensemble du backlog produit.
+- **Sujet :** synthèse des Epics, progression par Feature et qualification de chaque PBI.
+- **Évolution attendue :** rendre visibles les volumes, statuts, tailles, modèles Codex recommandés et indicateurs globaux sans dupliquer le détail métier.
+- **Hors périmètre :** implémentation applicative et modification du contenu fonctionnel des PBIs.
 
 Ce README est mis à jour avant le début de tout développement, correction, refactoring ou changement technique afin d'annoncer le travail entrepris. L'ordre temporel ne peut pas être prouvé de manière fiable par un script ; le gate automatisé vérifie donc qu'un changement applicatif est accompagné d'une modification du README dans le même ensemble de changements.
 

@@ -37,3 +37,4 @@ Priorités :
 - [Modèles, planification et passation des évaluations](backlog/03-evaluations.md)
 - [Suivi, notifications et pilotage](backlog/04-suivi-et-pilotage.md)
 - [Ordonnancement, domaines et garde-fous](backlog/05-ordonnancement.md)
+- [Synthèse de suivi du travail](backlog/06-synthese-suivi.md)
