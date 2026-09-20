@@ -22,6 +22,11 @@ Le dépôt contient uniquement le socle technique et un health check `GET /api/h
 
 Ce README est mis à jour avant le début de tout développement, correction, refactoring ou changement technique afin d'annoncer le travail entrepris. L'ordre temporel ne peut pas être prouvé de manière fiable par un script ; le gate automatisé vérifie donc qu'un changement applicatif est accompagné d'une modification du README dans le même ensemble de changements.
 
+### Contrôle technique en cours
+
+- **Périmètre :** contrôle automatisé de la limite de 200 lignes sur tous les fichiers source applicables.
+- **Évolution attendue :** exposer `npm run check:lines` et réutiliser ce contrôle dans les quality gates et la CI.
+
 ## Installation
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell.
@@ -118,11 +123,14 @@ Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée 
 Depuis PowerShell à la racine du dépôt :
 
 ```powershell
+# limite de 200 lignes — commande utilisateur de référence
+npm run check:lines
+
 # quality:quick — informatif, retourne toujours 0 après les contrôles
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality.ps1 quick
+npm run quality:quick
 
 # quality:full — exhaustif, retourne 1 dès que le résultat global est non conforme
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality.ps1 full
+npm run quality:full
 ```
 
 PowerShell 7 (`pwsh`) peut remplacer `powershell.exe`. Les résultats utilisent les statuts `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE`.
@@ -135,7 +143,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-hooks.ps
 
 Le `pre-commit` lance `quality:quick` sans bloquer le commit. Le `pre-push` lance `quality:full` et bloque le push en cas d'échec. Le workflow [GitHub Actions](.github/workflows/quality.yml) appelle exactement le même script en mode `full`, ce qui rend `--no-verify` sans effet sur le contrôle distant.
 
-`quality:full` réutilise l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de taille, secrets, cohérence, documentation, lint, formatage et migrations.
+`quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage et migrations.
 
 ## État actuel
 

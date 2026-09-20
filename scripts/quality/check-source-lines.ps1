@@ -9,15 +9,21 @@ foreach ($relativePath in Get-SourceFiles -Root $Root) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { continue }
     $lineCount = @(Get-Content -LiteralPath $path).Count
     if ($lineCount -gt 200) {
-        $violations += "${relativePath}: $lineCount lignes"
+        $violations += [PSCustomObject]@{
+            Path = $relativePath
+            Lines = $lineCount
+        }
     }
 }
 
 if ($violations.Count -gt 0) {
-    Write-Host '[FAIL] Limite absolue de 200 lignes depassee :' -ForegroundColor Red
-    $violations | ForEach-Object { Write-Host "  - $_" }
+    Write-Host 'FAIL - Files exceeding 200 lines:' -ForegroundColor Red
+    Write-Host
+    $violations | ForEach-Object { Write-Host "$($_.Path) : $($_.Lines) lines" }
+    Write-Host
+    Write-Host "$($violations.Count) files exceed the maximum allowed size of 200 lines."
     exit 1
 }
 
-Write-Host '[PASS] Aucun fichier source maintenu ne depasse 200 lignes.' -ForegroundColor Green
+Write-Host 'PASS - No source file exceeds 200 lines.' -ForegroundColor Green
 exit 0

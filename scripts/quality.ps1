@@ -77,7 +77,7 @@ function Invoke-NpmScript {
 }
 
 Write-Host "Quality gate '$Mode' - Assess teams" -ForegroundColor White
-Invoke-PowerShellCheck 'Limite de 200 lignes' 'scripts\quality\check-source-lines.ps1'
+Invoke-QualityStep 'Limite de 200 lignes' { & npm run check:lines }
 Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
 Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
 Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
