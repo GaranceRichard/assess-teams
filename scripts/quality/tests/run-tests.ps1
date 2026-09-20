@@ -92,11 +92,25 @@ try {
 
     $caseExcluded = Join-Path $testRoot 'case-excluded'
     Set-LineFixture (Join-Path $caseExcluded 'sample.py') 1
-    Set-LineFixture (Join-Path $caseExcluded 'package-lock.json') 201
-    Set-LineFixture (Join-Path $caseExcluded 'node_modules/dependency.js') 201
-    Set-LineFixture (Join-Path $caseExcluded 'coverage/report.html') 201
-    Set-LineFixture (Join-Path $caseExcluded 'app/migrations/0001_initial.py') 201
-    Set-LineFixture (Join-Path $caseExcluded 'bundle.min.js') 201
+    $excludedDirectories = @(
+        '.venv', 'venv', 'node_modules', 'dist', 'build', 'coverage',
+        'htmlcov', 'playwright-report', 'test-results', '__pycache__',
+        '.pytest_cache', '.ruff_cache', '.mypy_cache', '.cache'
+    )
+    foreach ($directory in $excludedDirectories) {
+        Set-LineFixture (Join-Path $caseExcluded "$directory/generated.txt") 201
+    }
+    $lockFiles = @(
+        'package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock', 'pnpm-lock.yaml',
+        'poetry.lock', 'Pipfile.lock', 'Cargo.lock', 'composer.lock', 'Gemfile.lock', 'uv.lock'
+    )
+    foreach ($lockFile in $lockFiles) {
+        Set-LineFixture (Join-Path $caseExcluded $lockFile) 201
+    }
+    foreach ($generated in @('app/migrations/0001_initial.py', 'bundle.min.js', 'bundle.min.css', 'bundle.js.map')) {
+        Set-LineFixture (Join-Path $caseExcluded $generated) 201
+    }
+    Set-LineFixture (Join-Path $caseExcluded 'asset.png') 201
     $binary = [Text.Encoding]::UTF8.GetBytes(("binary`0data`n" * 201))
     [IO.File]::WriteAllBytes((Join-Path $caseExcluded 'asset.bin'), $binary)
     Invoke-LineCheck 'artefacts techniques exclus' $caseExcluded 0 @(

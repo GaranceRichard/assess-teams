@@ -13,7 +13,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 - [ ] **Aucun fichier maintenu manuellement ne dépasse 200 lignes ; cette limite est non négociable et bloquante.**
 - [ ] Le contrôle couvre les fichiers Python, TypeScript, TSX, JavaScript, les tests, les utilitaires et les configurations maintenues manuellement.
-- [ ] Seuls les fichiers générés automatiquement, les lock files et les migrations Django générées sont exclus.
+- [ ] Les exclusions correspondent à l’unique définition exécutable de `scripts/quality/files.ps1`, décrite dans `AGENTS.md` : métadonnées Git, dépendances et environnements locaux, sorties et caches nommés, migrations Django, fichiers minifiés, source maps, lock files explicitement reconnus et fichiers binaires détectés par extension ou contenu.
 - [ ] La limite n'est pas contournée par une compaction artificielle, la suppression de retours à la ligne utiles ou une dégradation de la lisibilité.
 
 ## Tests et couverture

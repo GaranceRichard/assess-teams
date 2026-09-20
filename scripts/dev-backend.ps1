@@ -1,3 +1,5 @@
+param([switch]$NoReload)
+
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $backend = Join-Path $root 'backend'
@@ -16,7 +18,9 @@ Push-Location $backend
 try {
     & $python manage.py migrate --noinput
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-    & $python manage.py runserver 127.0.0.1:8000
+    $serverArguments = @('manage.py', 'runserver', '127.0.0.1:8000')
+    if ($NoReload) { $serverArguments += '--noreload' }
+    & $python @serverArguments
     exit $LASTEXITCODE
 } finally {
     Pop-Location

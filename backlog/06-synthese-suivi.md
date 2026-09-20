@@ -1,116 +1,99 @@
 # Synthèse de suivi du travail
 
-Cette synthèse est dérivée des éléments décrits dans les fichiers du backlog. Dans l’état actuel du découpage, chaque entrée atomique `FEAT-*` ou `TEAM-*` constitue à la fois une Feature et son unique PBI. Cette convention évite d’inventer ou de dupliquer des PBIs avant leur raffinement.
+La hiérarchie suivie est `Epic → Feature → PBI`. Une entrée `FEAT-*` reste une Feature tant qu’elle n’est pas raffinée ; elle ne devient jamais implicitement un PBI. Seuls `TEAM-001` à `TEAM-007` sont actuellement des PBIs raffinés, tous ouverts puisque le dépôt ne contient encore aucun domaine métier.
 
-Le README indique qu’aucun domaine métier n’est encore implémenté : tous les PBIs sont donc ouverts. Une date de réalisation ne sera renseignée qu’après livraison effective d’un PBI.
-
-## Tableau d’ensemble
-
-| Epic | Nom |
-| --- | --- |
-| EPIC-001 | Identités, coachs et habilitations |
-| EPIC-002 | Gestion des équipes |
-| EPIC-002A | Accompagnement des équipes |
-| EPIC-003 | Référentiel des modèles d’évaluation |
-| EPIC-004 | Affectations et planification des évaluations |
-| EPIC-005 | Passation et preuve d’évaluation |
-| EPIC-006 | Suivi longitudinal |
-| EPIC-007 | Notifications du dispositif |
-| EPIC-008 | Pilotage du dispositif |
+`N/A` signifie qu’aucun PBI n’existe encore sous la Feature ou l’Epic : aucun pourcentage artificiel n’est calculé sur un dénominateur nul.
 
 ## EPIC-001 — Identités, coachs et habilitations
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-001 | 1 | 0 | 0 % |
-| FEAT-002 | 1 | 0 | 0 % |
-| FEAT-003 | 1 | 0 | 0 % |
-| FEAT-004 | 1 | 0 | 0 % |
-| **Total EPIC-001** | **4** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-001 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-002 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-003 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-004 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-001** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-002 — Gestion des équipes
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| TEAM-001 | 1 | 0 | 0 % |
-| TEAM-002 | 1 | 0 | 0 % |
-| TEAM-003 | 1 | 0 | 0 % |
-| TEAM-004 | 1 | 0 | 0 % |
-| TEAM-005 | 1 | 0 | 0 % |
-| TEAM-006 | 1 | 0 | 0 % |
-| TEAM-007 | 1 | 0 | 0 % |
-| **Total EPIC-002** | **7** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-005 | Raffinée (`TEAM-001`) | 1 | 0 | 1 | 0 % |
+| FEAT-006 | Raffinée (`TEAM-004`) | 1 | 0 | 1 | 0 % |
+| FEAT-007 | Raffinée (`TEAM-002`, `TEAM-003`) | 2 | 0 | 2 | 0 % |
+| FEAT-010 | Raffinée (`TEAM-005` à `TEAM-007`) | 3 | 0 | 3 | 0 % |
+| **Total EPIC-002** |  | **7** | **0** | **7** | **0 %** |
 
 ## EPIC-002A — Accompagnement des équipes
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-008 | 1 | 0 | 0 % |
-| FEAT-009 | 1 | 0 | 0 % |
-| **Total EPIC-002A** | **2** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-008 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-009 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-002A** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-003 — Référentiel des modèles d’évaluation
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-011 | 1 | 0 | 0 % |
-| FEAT-012 | 1 | 0 | 0 % |
-| FEAT-013 | 1 | 0 | 0 % |
-| FEAT-014 | 1 | 0 | 0 % |
-| **Total EPIC-003** | **4** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-011 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-012 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-013 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-014 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-003** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-004 — Affectations et planification des évaluations
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-015 | 1 | 0 | 0 % |
-| FEAT-016 | 1 | 0 | 0 % |
-| FEAT-017 | 1 | 0 | 0 % |
-| FEAT-018 | 1 | 0 | 0 % |
-| FEAT-019 | 1 | 0 | 0 % |
-| **Total EPIC-004** | **5** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-015 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-016 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-017 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-018 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-019 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-004** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-005 — Passation et preuve d’évaluation
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-020 | 1 | 0 | 0 % |
-| FEAT-021 | 1 | 0 | 0 % |
-| FEAT-022 | 1 | 0 | 0 % |
-| FEAT-023 | 1 | 0 | 0 % |
-| **Total EPIC-005** | **4** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-020 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-021 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-022 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-023 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-005** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-006 — Suivi longitudinal
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-024 | 1 | 0 | 0 % |
-| FEAT-025 | 1 | 0 | 0 % |
-| FEAT-026 | 1 | 0 | 0 % |
-| FEAT-027 | 1 | 0 | 0 % |
-| **Total EPIC-006** | **4** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-024 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-025 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-026 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-027 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-006** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-007 — Notifications du dispositif
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-028 | 1 | 0 | 0 % |
-| FEAT-029 | 1 | 0 | 0 % |
-| FEAT-030 | 1 | 0 | 0 % |
-| **Total EPIC-007** | **3** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-028 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-029 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-030 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-007** |  | **0** | **0** | **0** | **N/A** |
 
 ## EPIC-008 — Pilotage du dispositif
 
-| Feature | Nb PBI | PBI réalisés | Avancement |
-| --- | ---: | ---: | ---: |
-| FEAT-031 | 1 | 0 | 0 % |
-| FEAT-032 | 1 | 0 | 0 % |
-| FEAT-033 | 1 | 0 | 0 % |
-| FEAT-034 | 1 | 0 | 0 % |
-| FEAT-035 | 1 | 0 | 0 % |
-| **Total EPIC-008** | **5** | **0** | **0 %** |
+| Feature | État | PBI | Réalisés | Ouverts | Avancement |
+| --- | --- | ---: | ---: | ---: | ---: |
+| FEAT-031 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-032 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-033 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-034 | Non raffinée | 0 | 0 | 0 | N/A |
+| FEAT-035 | Non raffinée | 0 | 0 | 0 | N/A |
+| **Total EPIC-008** |  | **0** | **0** | **0** | **N/A** |
 
-## Qualification des PBIs par Feature
+## État de raffinement détaillé
 
 - [Identités et équipes](suivi-features-01-identites-equipes.md)
 - [Modèles, planification et passation](suivi-features-02-evaluations.md)
@@ -120,7 +103,11 @@ Le README indique qu’aucun domaine métier n’est encore implémenté : tous 
 
 | Indicateur | Valeur |
 | --- | ---: |
-| Nombre total de PBI | 38 |
-| PBI ouverts | 38 |
-| PBI réalisés | 0 |
+| Epics | 9 |
+| Features | 35 |
+| Features raffinées | 4 |
+| Features non raffinées | 31 |
+| Nombre total de PBIs | 7 |
+| PBIs ouverts | 7 |
+| PBIs réalisés | 0 |
 | Avancement global | 0 % |

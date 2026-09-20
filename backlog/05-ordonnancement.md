@@ -1,10 +1,10 @@
 ﻿## Ordonnancement recommandé
 
-1. **Socle du parcours P0 :** `FEAT-001` à `FEAT-004`, `TEAM-001` à `TEAM-005`, `FEAT-008` et `FEAT-009`.
-2. **Cadre d’évaluation P0 :** `FEAT-011` à `FEAT-018`.
-3. **Passation et preuve P0 :** `FEAT-020` à `FEAT-024`, puis validation E2E de `PV-001` avec son chemin nominal et ses refus essentiels.
-4. **Maîtrise opérationnelle P1 :** consultation et réactivation des équipes archivées, retard, comparaison, tendances, notifications et supervision (`TEAM-006`, `TEAM-007`, `FEAT-019`, `FEAT-025` à `FEAT-034`).
-5. **Synthèse P2 :** vue globale du dispositif (`FEAT-035`).
+1. **Premier PBI d’implémentation :** `TEAM-001`, sans prérequis d’authentification ou d’habilitation.
+2. **Suite du socle P0 :** raffiner les Features `FEAT-001` à `FEAT-004`, puis livrer les PBIs nécessaires ; poursuivre avec `TEAM-002` à `TEAM-005`, `FEAT-008` et `FEAT-009` après leur raffinement.
+3. **Cadre d’évaluation P0 :** raffiner puis livrer `FEAT-011` à `FEAT-018`.
+4. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E.
+5. **Suite P1/P2 :** `TEAM-006`, `TEAM-007`, puis les autres Features après leur raffinement selon la valeur et les dépendances.
 
 Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django.
 
@@ -21,7 +21,7 @@ Cette cartographie est une hypothèse évolutive. Elle guide un découpage cohé
 ### Gestion des équipes et accompagnement
 
 - **Responsabilité principale :** identité et état des équipes, responsabilité courante du coach et historique des affectations.
-- **PBIs et features concernés :** `TEAM-001` à `TEAM-007`, `FEAT-008` et `FEAT-009`.
+- **Features concernées :** `FEAT-005` à `FEAT-010` ; `TEAM-001` à `TEAM-007` raffinent `FEAT-005`, `FEAT-006`, `FEAT-007` et `FEAT-010`.
 - **Dépendances :** reçoit les identités de coachs du domaine Identités et habilitations ; expose équipe active et affectation applicable à Planification et Passations.
 
 ### Référentiel d’évaluation

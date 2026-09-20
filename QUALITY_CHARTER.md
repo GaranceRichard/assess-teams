@@ -27,11 +27,7 @@ Les modules doivent exprimer leur intention, rester faciles à tester et évolue
 
 La limite couvre les fichiers Python, TypeScript, TSX, JavaScript, les tests, les utilitaires et les configurations maintenues manuellement.
 
-Sont exclus uniquement :
-
-- les fichiers générés automatiquement ;
-- les lock files ;
-- les migrations Django générées.
+`scripts/quality/files.ps1` porte l’unique définition exécutable des exclusions, décrite dans `AGENTS.md` : métadonnées Git ; dépendances et environnements locaux ; répertoires nommés de build, coverage, rapports E2E et caches ; migrations Django, fichiers minifiés et source maps ; lock files explicitement reconnus ; fichiers binaires détectés par extension ou contenu.
 
 La conformité doit être obtenue par une séparation cohérente des responsabilités. Compacter artificiellement le code, retirer des retours à la ligne utiles ou dégrader la lisibilité pour rester sous la limite est interdit.
 

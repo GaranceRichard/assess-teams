@@ -16,6 +16,8 @@ Priorités :
 
 **Objectif :** prouver rapidement la valeur et la cohérence du produit sur une chaîne complète : **Coach → Équipe → Affectation du coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**.
 
+`TEAM-001` est le premier PBI d’implémentation. Il établit la création d’une équipe avant l’ajout de l’authentification et des habilitations ; le rôle d’administrateur y reste une intention fonctionnelle, sans dépendance technique à `FEAT-004`.
+
 **Scénario nominal :**
 
 1. Un administrateur authentifié crée et active le compte d’un coach (`FEAT-001` à `FEAT-004`).

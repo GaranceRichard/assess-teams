@@ -119,7 +119,7 @@ if (-not (Test-Path $packagePath)) {
     } $frontendPath
     if ($Mode -eq 'quick') {
         Invoke-QualityStep 'Frontend tests rapides et coverage courant' {
-            Invoke-NpmScript 'test:quick' $package
+            Invoke-NpmScript 'test:coverage' $package
         } $frontendPath
     }
 }

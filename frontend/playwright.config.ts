@@ -1,14 +1,8 @@
-import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { defineConfig, devices } from "@playwright/test";
 
-const backendDirectory = resolve(import.meta.dirname, "../backend");
-const localPython = resolve(backendDirectory, ".venv/Scripts/python.exe");
-const python =
-  process.platform === "win32" && existsSync(localPython)
-    ? `"${localPython}"`
-    : "python";
+const repositoryRoot = resolve(import.meta.dirname, "..");
 
 export default defineConfig({
   testDir: "./e2e",
@@ -23,8 +17,9 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: [
     {
-      command: `${python} manage.py runserver 127.0.0.1:8000 --noreload`,
-      cwd: backendDirectory,
+      command:
+        "node ./scripts/run-powershell.mjs ./scripts/dev-backend.ps1 -NoReload",
+      cwd: repositoryRoot,
       url: "http://127.0.0.1:8000/api/health/",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,

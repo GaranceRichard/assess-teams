@@ -21,7 +21,7 @@
   - une identité unique et valide peut être créée puis corrigée par un administrateur habilité ;
   - la désactivation bloque les nouvelles connexions sans supprimer les actions historiques ;
   - une identité en doublon ou des données obligatoires invalides sont refusées.
-- **Dépendances éventuelles :** `FEAT-001`, `FEAT-004`.
+- **Dépendances éventuelles :** `FEAT-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
 ### FEAT-003 — Qualifier et superviser un coach

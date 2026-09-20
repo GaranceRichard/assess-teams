@@ -13,21 +13,6 @@
 
 Le dépôt contient uniquement le socle technique et un health check `GET /api/health/`. Aucun domaine métier n'est encore implémenté.
 
-## Travail en cours
-
-- **Périmètre :** suivi documentaire de l’ensemble du backlog produit.
-- **Sujet :** synthèse des Epics, progression par Feature et qualification de chaque PBI.
-- **Évolution attendue :** rendre visibles les volumes, statuts, tailles, modèles Codex recommandés et indicateurs globaux sans dupliquer le détail métier.
-- **Hors périmètre :** implémentation applicative et modification du contenu fonctionnel des PBIs.
-
-Ce README est mis à jour avant le début de tout développement, correction, refactoring ou changement technique afin d'annoncer le travail entrepris. L'ordre temporel ne peut pas être prouvé de manière fiable par un script ; le gate automatisé vérifie donc qu'un changement applicatif est accompagné d'une modification du README dans le même ensemble de changements.
-
-### Contrôle technique en cours
-
-- **Périmètre :** contrôle automatisé de la limite de 200 lignes sur tous les fichiers maintenus manuellement, y compris les fichiers Markdown.
-- **Sujet :** remplacement du filtrage par extensions par des exclusions techniques ciblées, couverture de test Markdown et découpage de `BACKLOG.md`.
-- **Évolution attendue :** lister toutes les infractions avec leur chemin et leur taille, puis faire échouer `npm run check:lines` sans ignorer la documentation maintenue.
-
 ## Installation
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell.
@@ -91,7 +76,7 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check nominal, le refus d'une méthode non supportée, SQLite et le contrat JSON. Le frontend couvre le shell, le client API, les états nominal et d'erreur. Playwright couvre uniquement le smoke technique navigateur → Vite → Django → SQLite. Les tests unitaires backend et les tests de non-régression sont actuellement `NON APPLICABLE`, faute de logique isolée ou de bug corrigé.
+Le backend couvre le health check nominal, le refus d'une méthode non supportée, SQLite et le contrat JSON. Le frontend couvre le shell, le client API, les états nominal et d'erreur. Playwright couvre le smoke technique navigateur → Vite → Django → SQLite et vérifie que le backend applique les migrations avant de servir. Les tests unitaires backend et les tests de non-régression sont actuellement `NON APPLICABLE`, faute de logique isolée ou de bug corrigé.
 
 ## Approche quality-first
 
@@ -134,7 +119,7 @@ npm run quality:quick
 npm run quality:full
 ```
 
-`check:lines` contrôle tous les fichiers maintenus manuellement, sans liste blanche d’extensions. Il inclut donc la documentation Markdown et ignore seulement les dépendances, caches, sorties de build et de couverture, migrations générées, fichiers minifiés, source maps, lock files et fichiers binaires.
+`check:lines` contrôle tous les fichiers maintenus manuellement, sans liste blanche d’extensions. `scripts/quality/files.ps1` est la définition exécutable unique des exclusions : métadonnées Git ; dépendances et environnements locaux ; répertoires nommés de build, coverage, rapports E2E et caches ; migrations Django, fichiers minifiés et source maps ; lock files explicitement reconnus ; fichiers binaires détectés par extension ou contenu.
 
 PowerShell 7 (`pwsh`) peut remplacer `powershell.exe`. Les résultats utilisent les statuts `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE`.
 
@@ -146,7 +131,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-hooks.ps
 
 Le `pre-commit` lance `quality:quick` sans bloquer le commit. Le `pre-push` lance `quality:full` et bloque le push en cas d'échec. Le workflow [GitHub Actions](.github/workflows/quality.yml) appelle exactement le même script en mode `full`, ce qui rend `--no-verify` sans effet sur le contrôle distant.
 
-`quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage et migrations.
+`quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. Le gate rapide produit réellement les coverages backend et frontend courants, tout en restant informatif. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage et migrations.
 
 ## État actuel
 

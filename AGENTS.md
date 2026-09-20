@@ -18,11 +18,14 @@ L'ordre temporel ne pouvant pas être vérifié fiablement par Git, l'automatisa
 
 Elle s'applique notamment aux fichiers Python, TypeScript, TSX, JavaScript, aux tests, aux utilitaires et aux configurations maintenues manuellement.
 
-Les seules exclusions sont :
+La définition exécutable unique des exclusions se trouve dans `scripts/quality/files.ps1`. Elle couvre uniquement :
 
-- les fichiers générés automatiquement ;
-- les lock files ;
-- les migrations Django générées.
+- les métadonnées Git (`.git`) ;
+- les dépendances et environnements locaux (`node_modules`, `.venv`, `venv`) ;
+- les sorties et caches nommés `dist`, `build`, `coverage`, `htmlcov`, `playwright-report`, `test-results`, `__pycache__`, `.pytest_cache`, `.ruff_cache`, `.mypy_cache` ou `.cache` ;
+- les migrations Django `migrations/*.py`, les fichiers minifiés `*.min.js` et `*.min.css`, et les source maps `*.map` ;
+- les lock files explicitement reconnus dans ce script ;
+- les fichiers binaires, détectés par extension connue ou par présence d’un octet nul.
 
 Il est interdit de contourner cette règle par une compaction artificielle, la suppression de retours à la ligne utiles ou toute dégradation de la lisibilité. Lorsqu'un fichier approche de la limite, le découper selon des responsabilités cohérentes.
 

@@ -1,8 +1,10 @@
 ﻿## EPIC-002 — Gestion des équipes
 
-Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’affectation des coachs, les modèles d’évaluation, les fréquences, les évaluations et les notifications restent dans leurs Epics respectifs. Les PBIs `TEAM-001`, `TEAM-003`, `TEAM-004` et `TEAM-005` remplacent respectivement les anciennes entrées `FEAT-005`, `FEAT-007`, `FEAT-006` et `FEAT-010` sans les dupliquer.
+Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’affectation des coachs, les modèles d’évaluation, les fréquences, les évaluations et les notifications restent dans leurs Epics respectifs. Les Features `FEAT-005`, `FEAT-006`, `FEAT-007` et `FEAT-010` sont raffinées par les sept PBIs `TEAM-001` à `TEAM-007`.
 
-### TEAM-001 — Créer une équipe — PBI pilote
+### FEAT-005 — Constituer une équipe
+
+#### TEAM-001 — Créer une équipe — premier PBI d’implémentation
 
 - **Identifiant :** `TEAM-001`.
 - **Titre :** Créer une équipe.
@@ -13,16 +15,18 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
   - lorsqu’un administrateur soumet un nom non vide et non utilisé, une seule équipe est créée ;
   - l’équipe créée possède un identifiant généré par le système, distinct de son nom et immuable ;
   - son état initial est `active`, sans choix supplémentaire demandé à l’administrateur ;
-  - après confirmation, une consultation par l’identifiant restitue le même identifiant, le nom enregistré et l’état `active` ;
+  - la confirmation de création retourne l’identifiant, le nom enregistré et l’état `active` de l’équipe créée, sans introduire de consultation dédiée ;
   - si la création est refusée, aucune équipe ni donnée partielle correspondant à la demande n’est conservée.
-- **Principaux cas de refus :** acteur non autorisé ; nom absent, vide après suppression des espaces périphériques ou d’un type invalide ; nom déjà porté par une équipe active ou archivée selon une comparaison insensible à la casse et aux espaces périphériques.
-- **Dépendances :** `FEAT-004` pour l’autorisation ; aucune dépendance à un autre PBI de cet Epic.
+- **Principaux cas de refus :** nom absent, vide après suppression des espaces périphériques ou d’un type invalide ; nom déjà porté par une équipe active ou archivée selon une comparaison insensible à la casse et aux espaces périphériques.
+- **Dépendances :** aucune. L’administrateur exprime l’acteur métier visé ; l’authentification et les habilitations seront intégrées par leurs propres PBIs après raffinement.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
 - **Valeur apportée :** rend une équipe identifiable et disponible pour les parcours métier ultérieurs.
-- **Notes d’implémentation :** PBI pilote du premier vertical slice. Son implémentation future doit valider le pattern complet `React → API DRF → Application → Domain → Port → Adapter de persistance → SQLite`. Cette note d’architecture n’est pas un critère d’acceptation métier.
+- **Notes d’implémentation :** premier PBI du produit et pilote du premier vertical slice. Son implémentation future doit valider le pattern complet `React → API DRF → Application → Domain → Port → Adapter de persistance → SQLite`. Le cas d’usage se limite à la création et peut retourner l’équipe créée ; retrouver ensuite une équipe par son identifiant appartient à `TEAM-003`. Cette note d’architecture n’est pas un critère d’acceptation métier.
 
-### TEAM-002 — Lister les équipes
+### FEAT-007 — Consulter les équipes
+
+#### TEAM-002 — Lister les équipes
 
 - **Identifiant :** `TEAM-002`.
 - **Titre :** Lister les équipes.
@@ -41,7 +45,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 - **Valeur apportée :** permet de retrouver rapidement les équipes sur lesquelles une action courante est possible.
 - **Notes d’implémentation :** ne prévoit ni pagination, ni recherche, ni filtrage avancé à ce stade.
 
-### TEAM-003 — Consulter une équipe
+#### TEAM-003 — Consulter une équipe
 
 - **Identifiant :** `TEAM-003`.
 - **Titre :** Consulter une équipe.
@@ -60,7 +64,9 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 - **Valeur apportée :** donne un point d’accès stable au dossier minimal d’une équipe.
 - **Notes d’implémentation :** les coachs, modèles, fréquences, évaluations et notifications enrichiront d’autres vues ou parcours ; ils ne font pas partie de ce PBI.
 
-### TEAM-004 — Modifier une équipe
+### FEAT-006 — Faire évoluer les informations d’une équipe
+
+#### TEAM-004 — Modifier une équipe
 
 - **Identifiant :** `TEAM-004`.
 - **Titre :** Modifier une équipe.
@@ -79,7 +85,9 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 - **Valeur apportée :** maintient une information exacte sans perdre la continuité de suivi.
 - **Notes d’implémentation :** la mise à jour doit être atomique ; ce point soutient les critères métier d’absence de modification partielle.
 
-### TEAM-005 — Archiver une équipe
+### FEAT-010 — Gérer la sortie et la reprise du suivi actif
+
+#### TEAM-005 — Archiver une équipe
 
 - **Identifiant :** `TEAM-005`.
 - **Titre :** Archiver une équipe.
@@ -99,7 +107,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 - **Valeur apportée :** garde la liste active pertinente tout en protégeant la traçabilité du dispositif.
 - **Notes d’implémentation :** le traitement des affectations, modèles, échéances ou évaluations en cours appartient à leurs Epics respectifs et dépendra de l’état archivé exposé ici.
 
-### TEAM-006 — Consulter les équipes archivées
+#### TEAM-006 — Consulter les équipes archivées
 
 - **Identifiant :** `TEAM-006`.
 - **Titre :** Consulter les équipes archivées.
@@ -118,7 +126,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 - **Valeur apportée :** permet de retrouver une équipe inactive et d’accéder à son suivi conservé.
 - **Notes d’implémentation :** aucune pagination, recherche ou vue historique détaillée n’est incluse sans besoin complémentaire.
 
-### TEAM-007 — Réactiver une équipe
+#### TEAM-007 — Réactiver une équipe
 
 - **Identifiant :** `TEAM-007`.
 - **Titre :** Réactiver une équipe.
