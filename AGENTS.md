@@ -69,6 +69,31 @@ Un seuil global ne dispense jamais de tester les comportements modifiés, les br
 
 Avant tout push, effectuer une revue d'impact documentaire. Vérifier au minimum `README.md`, `AGENTS.md`, `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md`, `TEST_STRATEGY.md`, la documentation d'architecture, la documentation API et tout autre fichier Markdown concerné. Mettre à jour chaque document affecté dans le même changement.
 
+## Livraison complète par défaut
+
+**Sauf instruction explicite contraire dans le prompt, terminer une tâche signifie aussi la committer et la pousser.** Un prompt Codex autorise et exige donc par défaut la livraison complète du travail sur la branche distante correspondante, selon la séquence `travail → validation → commit → push`.
+
+Pour chaque tâche, Codex doit automatiquement :
+
+1. lire le contexte et les règles du dépôt ;
+2. mettre à jour préalablement `README.md` lorsque la règle de préparation l'exige ;
+3. réaliser le travail demandé ;
+4. mettre à jour la documentation concernée ;
+5. exécuter les contrôles et tests applicables ;
+6. exécuter le full quality gate ;
+7. corriger les erreurs liées au travail réalisé et relancer les contrôles ;
+8. vérifier `git status` et les fichiers à versionner ;
+9. vérifier l'absence de secrets, credentials et artefacts indésirables ;
+10. créer un commit cohérent ne contenant que les fichiers pertinents ;
+11. pousser ce commit sans contourner les hooks ;
+12. vérifier la synchronisation de la branche locale avec sa branche distante ;
+13. vérifier que le working tree final est propre ;
+14. rendre compte du commit, du pre-push, du push et de l'état final.
+
+Le commit ou le push ne sont omis que si le prompt l'ordonne explicitement, par exemple avec `ne pas commit`, `ne pas push`, `travail local uniquement`, `préparation uniquement` ou une formulation équivalente. L'absence de demande explicite de push n'est pas une exception.
+
+`main` reste la branche de référence tant qu'aucune autre stratégie n'est définie. Ne pas réécrire inutilement l'historique. Ne jamais utiliser `--no-verify` pour contourner le pre-push. Si un problème externe indépendant du changement empêche techniquement le push, préserver l'état local validé et signaler précisément le blocage.
+
 ## Procédure de livraison
 
 Avant de déclarer une tâche terminée :
@@ -78,7 +103,8 @@ Avant de déclarer une tâche terminée :
 3. exécuter les tests, le coverage, le lint et le contrôle de formatage applicables ;
 4. vérifier les migrations, les contrats, les parcours E2E et la sécurité selon l'impact ;
 5. effectuer la revue documentaire avant le push ;
-6. signaler explicitement tout contrôle impossible à exécuter.
+6. suivre la procédure de livraison complète par défaut, sauf exception explicite du prompt ;
+7. signaler explicitement tout contrôle impossible à exécuter.
 
 Une tâche reste non terminée dès qu'un quality gate est en échec.
 

@@ -91,13 +91,14 @@ Avant même de commencer un développement, une correction, un refactoring ou un
 
 ## Workflow automatisé
 
-Le workflow de référence est : mise à jour préalable du README, travail, commit avec gate rapide informatif, push avec full gate bloquant, puis CI GitHub avec le même full gate bloquant. Les commandes et l'activation des hooks versionnés sont définies dans le [README](README.md#commandes-qualité).
+Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, full quality gate, commit avec gate rapide informatif, pre-push avec full gate bloquant, push, puis vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. `AGENTS.md` porte la règle opérationnelle complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](README.md#commandes-qualité).
 
 - `quality:quick` exécute les contrôles rapides applicables, affiche le coverage courant et signale les échecs sans empêcher un commit intermédiaire.
 - `quality:full` exécute tous les contrôles applicables et retourne un code d'échec si l'un d'eux n'est pas conforme.
 - `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE` distinguent explicitement les résultats.
 - Un squelette backend ou frontend absent est non applicable ; un squelette détecté mais mal configuré est en échec.
 - Les hooks ne contiennent pas la logique qualité : ils appellent la commande commune également utilisée par la CI.
+- Aucun push ne contourne le pre-push avec `--no-verify`.
 
 ## Quality gates bloquants
 

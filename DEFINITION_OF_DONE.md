@@ -64,5 +64,8 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 - [ ] Le pre-push bloque effectivement tout résultat non conforme.
 - [ ] La CI GitHub exécute la même commande `quality:full` et passe.
 - [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.
+- [ ] Sauf instruction explicite contraire du prompt, le changement est commité puis poussé conformément à la procédure de référence d'`AGENTS.md`.
+- [ ] Le commit ne contient que les fichiers pertinents et aucun secret, credential ou artefact local.
+- [ ] Le push a été vérifié, la branche locale est synchronisée avec sa branche distante et le working tree est propre.
 
 Si une case applicable n'est pas cochée, la tâche n'est pas Done.

@@ -14,9 +14,9 @@ Le squelette Django/React n'est pas encore créé. Ce dépôt définit d'abord s
 
 ## Travail en cours
 
-- **Périmètre :** mise en place du socle d'automatisation des quality gates.
-- **Sujet :** commandes qualité communes, hooks Git versionnés et CI GitHub.
-- **Évolution attendue :** fournir un contrôle rapide et informatif au commit, puis un contrôle complet et bloquant avant le push et dans GitHub Actions.
+- **Périmètre :** formalisation du cycle de livraison par défaut des tâches Codex.
+- **Sujet :** documentation de la convention `travail → validation → commit → push`.
+- **Évolution attendue :** rendre le commit et le push obligatoires en fin de tâche, sauf instruction explicite contraire, sans contourner les quality gates.
 - **Hors périmètre :** aucune feature métier et aucun bootstrap Django ou React.
 
 Ce README est mis à jour avant le début de tout développement, correction, refactoring ou changement technique afin d'annoncer le travail entrepris. L'ordre temporel ne peut pas être prouvé de manière fiable par un script ; le gate automatisé vérifie donc qu'un changement applicatif est accompagné d'une modification du README dans le même ensemble de changements.
@@ -28,16 +28,24 @@ Le projet traite la qualité comme une condition de livraison : Clean Code, fich
 Le workflow attendu est :
 
 ```text
-README mis à jour avant travail
+README / documentation préalable si nécessaire
         ↓
-Développement
+Travail
+        ↓
+Tests et contrôles
+        ↓
+Full quality gate
         ↓
 Commit → quality gate rapide et informatif
         ↓
-Push → full quality gate bloquant
+Pre-push → full quality gate bloquant
         ↓
-GitHub → CI full quality gate bloquante
+Push GitHub → CI full quality gate bloquante
+        ↓
+Vérification finale
 ```
+
+Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée sur la branche distante correspondante. `AGENTS.md` définit la règle opérationnelle complète et ses exceptions.
 
 ## Commandes qualité
 
