@@ -14,7 +14,7 @@ L'ordre temporel ne pouvant pas être vérifié fiablement par Git, l'automatisa
 
 ## Règle bloquante des 200 lignes
 
-**Aucun fichier source ne doit dépasser 200 lignes. Cette limite est non négociable et bloquante.**
+**Aucun fichier maintenu manuellement ne doit dépasser 200 lignes. Cette limite est non négociable et bloquante.**
 
 Elle s'applique notamment aux fichiers Python, TypeScript, TSX, JavaScript, aux tests, aux utilitaires et aux configurations maintenues manuellement.
 
@@ -99,7 +99,7 @@ Le commit ou le push ne sont omis que si le prompt l'ordonne explicitement, par 
 Avant de déclarer une tâche terminée :
 
 1. vérifier la conformité à `DEFINITION_OF_DONE.md` ;
-2. contrôler la longueur de tous les fichiers source concernés ;
+2. contrôler la longueur de tous les fichiers maintenus concernés ;
 3. exécuter les tests, le coverage, le lint et le contrôle de formatage applicables ;
 4. vérifier les migrations, les contrats, les parcours E2E et la sécurité selon l'impact ;
 5. effectuer la revue documentaire avant le push ;

@@ -11,7 +11,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 ## Limite bloquante des fichiers
 
-- [ ] **Aucun fichier source ne dépasse 200 lignes ; cette limite est non négociable et bloquante.**
+- [ ] **Aucun fichier maintenu manuellement ne dépasse 200 lignes ; cette limite est non négociable et bloquante.**
 - [ ] Le contrôle couvre les fichiers Python, TypeScript, TSX, JavaScript, les tests, les utilitaires et les configurations maintenues manuellement.
 - [ ] Seuls les fichiers générés automatiquement, les lock files et les migrations Django générées sont exclus.
 - [ ] La limite n'est pas contournée par une compaction artificielle, la suppression de retours à la ligne utiles ou une dégradation de la lisibilité.

@@ -24,8 +24,9 @@ Ce README est mis à jour avant le début de tout développement, correction, re
 
 ### Contrôle technique en cours
 
-- **Périmètre :** contrôle automatisé de la limite de 200 lignes sur tous les fichiers source applicables.
-- **Évolution attendue :** exposer `npm run check:lines` et réutiliser ce contrôle dans les quality gates et la CI.
+- **Périmètre :** contrôle automatisé de la limite de 200 lignes sur tous les fichiers maintenus manuellement, y compris les fichiers Markdown.
+- **Sujet :** remplacement du filtrage par extensions par des exclusions techniques ciblées, couverture de test Markdown et découpage de `BACKLOG.md`.
+- **Évolution attendue :** lister toutes les infractions avec leur chemin et leur taille, puis faire échouer `npm run check:lines` sans ignorer la documentation maintenue.
 
 ## Installation
 
@@ -94,7 +95,7 @@ Le backend couvre le health check nominal, le refus d'une méthode non supporté
 
 ## Approche quality-first
 
-Le projet traite la qualité comme une condition de livraison : Clean Code, fichiers source limités à 200 lignes, tests à plusieurs niveaux, coverage backend et frontend d'au moins 90 %, sécurité et documentation à jour.
+Le projet traite la qualité comme une condition de livraison : Clean Code, fichiers maintenus limités à 200 lignes, tests à plusieurs niveaux, coverage backend et frontend d'au moins 90 %, sécurité et documentation à jour.
 
 Le workflow attendu est :
 
@@ -132,6 +133,8 @@ npm run quality:quick
 # quality:full — exhaustif, retourne 1 dès que le résultat global est non conforme
 npm run quality:full
 ```
+
+`check:lines` contrôle tous les fichiers maintenus manuellement, sans liste blanche d’extensions. Il inclut donc la documentation Markdown et ignore seulement les dépendances, caches, sorties de build et de couverture, migrations générées, fichiers minifiés, source maps, lock files et fichiers binaires.
 
 PowerShell 7 (`pwsh`) peut remplacer `powershell.exe`. Les résultats utilisent les statuts `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE`.
 

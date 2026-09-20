@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'files.ps1')
 
 $violations = @()
-foreach ($relativePath in Get-SourceFiles -Root $Root) {
+foreach ($relativePath in Get-MaintainedFiles -Root $Root) {
     $path = Join-Path $Root $relativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { continue }
     $lineCount = @(Get-Content -LiteralPath $path).Count
@@ -25,5 +25,5 @@ if ($violations.Count -gt 0) {
     exit 1
 }
 
-Write-Host 'PASS - No source file exceeds 200 lines.' -ForegroundColor Green
+Write-Host 'PASS - No maintained file exceeds 200 lines.' -ForegroundColor Green
 exit 0

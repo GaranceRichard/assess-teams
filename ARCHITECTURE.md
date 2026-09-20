@@ -146,7 +146,7 @@ Les fonctions et méthodes doivent :
 
 ### Taille des fichiers
 
-**Aucun fichier source ne doit dépasser 200 lignes. Cette règle est obligatoire et bloquante.**
+**Aucun fichier maintenu manuellement ne doit dépasser 200 lignes. Cette règle est obligatoire et bloquante.**
 
 Cette limite favorise la séparation des responsabilités, la modularité, la lisibilité et la maintenabilité. Elle ne doit jamais être contournée par une compression artificielle du code, la suppression de retours à la ligne utiles ou une dégradation de la lisibilité.
 
@@ -178,7 +178,7 @@ Constituent notamment des violations :
 - une dépendance du domaine vers Django ;
 - des appels HTTP depuis le domaine ;
 - des composants ou services fourre-tout ;
-- des fichiers source dépassant 200 lignes ;
+- des fichiers maintenus dépassant 200 lignes ;
 - la duplication de règles métier ;
 - des abstractions créées sans usage concret.
 

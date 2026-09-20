@@ -11,9 +11,9 @@ function Get-QualityFiles {
             ForEach-Object { $_.FullName.Substring($rootPrefix.Length) }
     }
 
-    $excludedDirectories = '(^|/)(\.git|\.venv|venv|node_modules|dist|build|coverage)(/|$)'
-    $lockFiles = '(^|/)(package-lock\.json|npm-shrinkwrap\.json|yarn\.lock|pnpm-lock\.yaml|poetry\.lock|Pipfile\.lock)$'
-    $generatedFiles = '(\.min\.(js|css)$|(^|/)migrations/[^/]+\.py$)'
+    $excludedDirectories = '(^|/)(\.git|\.venv|venv|node_modules|dist|build|coverage|htmlcov|playwright-report|test-results|__pycache__|\.pytest_cache|\.ruff_cache|\.mypy_cache|\.cache)(/|$)'
+    $lockFiles = '(^|/)(package-lock\.json|npm-shrinkwrap\.json|yarn\.lock|pnpm-lock\.yaml|poetry\.lock|Pipfile\.lock|Cargo\.lock|composer\.lock|Gemfile\.lock|uv\.lock)$'
+    $generatedFiles = '(\.min\.(js|css)$|\.map$|(^|/)migrations/[^/]+\.py$)'
 
     return $tracked |
         ForEach-Object { $_.Replace('\', '/') } |
@@ -23,18 +23,35 @@ function Get-QualityFiles {
         Sort-Object -Unique
 }
 
-function Get-SourceFiles {
+function Test-BinaryFile {
+    param([Parameter(Mandatory)][string]$Path)
+
+    $binaryExtensions = @(
+        '.7z', '.avi', '.bmp', '.class', '.dll', '.doc', '.docx', '.eot', '.exe',
+        '.gif', '.gz', '.ico', '.jar', '.jpeg', '.jpg', '.mov', '.mp3', '.mp4',
+        '.otf', '.pdf', '.png', '.pyc', '.so', '.tar', '.ttf', '.wav', '.webm',
+        '.webp', '.woff', '.woff2', '.xls', '.xlsx', '.zip'
+    )
+    if ($binaryExtensions -contains [IO.Path]::GetExtension($Path).ToLowerInvariant()) {
+        return $true
+    }
+
+    $stream = [IO.File]::OpenRead($Path)
+    try {
+        $buffer = New-Object byte[] 8192
+        $bytesRead = $stream.Read($buffer, 0, $buffer.Length)
+        if ($bytesRead -eq 0) { return $false }
+        return $buffer[0..($bytesRead - 1)] -contains 0
+    } finally {
+        $stream.Dispose()
+    }
+}
+
+function Get-MaintainedFiles {
     param([Parameter(Mandatory)][string]$Root)
 
-    $sourceExtensions = @(
-        '.py', '.pyi', '.js', '.jsx', '.mjs', '.cjs', '.ts', '.tsx',
-        '.ps1', '.psm1', '.sh', '.yml', '.yaml', '.toml', '.json', '.ini', '.cfg'
-    )
-    $configurationNames = @('.coveragerc', '.gitignore', '.gitattributes', 'Dockerfile', 'Makefile')
     return Get-QualityFiles -Root $Root | Where-Object {
-        $extension = [IO.Path]::GetExtension($_).ToLowerInvariant()
-        $name = Split-Path $_ -Leaf
-        $isHook = $_ -like '.githooks/*'
-        ($sourceExtensions -contains $extension) -or ($configurationNames -contains $name) -or $isHook
+        $path = Join-Path $Root $_
+        (Test-Path -LiteralPath $path -PathType Leaf) -and -not (Test-BinaryFile -Path $path)
     }
 }

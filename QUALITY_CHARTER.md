@@ -23,7 +23,7 @@ Les modules doivent exprimer leur intention, rester faciles à tester et évolue
 
 ## Limite non négociable de 200 lignes
 
-**Aucun fichier source ne doit dépasser 200 lignes. Cette règle est non négociable et bloquante.**
+**Aucun fichier maintenu manuellement ne doit dépasser 200 lignes. Cette règle est non négociable et bloquante.**
 
 La limite couvre les fichiers Python, TypeScript, TSX, JavaScript, les tests, les utilitaires et les configurations maintenues manuellement.
 
@@ -104,7 +104,7 @@ Le workflow de référence est : mise à jour préalable du README lorsque néce
 
 Une tâche n'est pas terminée si au moins une condition est vraie :
 
-- un fichier source dépasse 200 lignes ;
+- un fichier maintenu dépasse 200 lignes ;
 - Clean Code n'est pas respecté ou une dette est cachée ;
 - des tests obligatoires manquent, notamment le cas passant ou non passant d'un élément fonctionnel ;
 - le coverage backend ou frontend est inférieur à 90 % ;

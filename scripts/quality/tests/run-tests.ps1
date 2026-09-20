@@ -54,19 +54,31 @@ try {
     $case199 = Join-Path $testRoot 'case-199'
     Set-LineFixture (Join-Path $case199 'sample-199.py') 199
     Invoke-LineCheck '199 lignes acceptees' $case199 0 @(
-        'PASS - No source file exceeds 200 lines.'
+        'PASS - No maintained file exceeds 200 lines.'
     )
 
     $case200 = Join-Path $testRoot 'case-200'
     Set-LineFixture (Join-Path $case200 'sample-200.py') 200
     Invoke-LineCheck '200 lignes acceptees' $case200 0 @(
-        'PASS - No source file exceeds 200 lines.'
+        'PASS - No maintained file exceeds 200 lines.'
     )
 
     $case201 = Join-Path $testRoot 'case-201'
     Set-LineFixture (Join-Path $case201 'sample-201.py') 201
     Invoke-LineCheck '201 lignes refusees' $case201 1 @(
         'sample-201.py : 201 lines'
+    )
+
+    $caseMarkdown = Join-Path $testRoot 'case-markdown'
+    Set-LineFixture (Join-Path $caseMarkdown 'BACKLOG.md') 201
+    Invoke-LineCheck 'Markdown de 201 lignes refuse' $caseMarkdown 1 @(
+        'BACKLOG.md : 201 lines'
+    )
+
+    $caseAnyExtension = Join-Path $testRoot 'case-any-extension'
+    Set-LineFixture (Join-Path $caseAnyExtension 'maintained.custom') 201
+    Invoke-LineCheck 'extension arbitraire refusee' $caseAnyExtension 1 @(
+        'maintained.custom : 201 lines'
     )
 
     $caseMultiple = Join-Path $testRoot 'case-multiple'
@@ -81,8 +93,14 @@ try {
     $caseExcluded = Join-Path $testRoot 'case-excluded'
     Set-LineFixture (Join-Path $caseExcluded 'sample.py') 1
     Set-LineFixture (Join-Path $caseExcluded 'package-lock.json') 201
-    Invoke-LineCheck 'lock file exclu' $caseExcluded 0 @(
-        'PASS - No source file exceeds 200 lines.'
+    Set-LineFixture (Join-Path $caseExcluded 'node_modules/dependency.js') 201
+    Set-LineFixture (Join-Path $caseExcluded 'coverage/report.html') 201
+    Set-LineFixture (Join-Path $caseExcluded 'app/migrations/0001_initial.py') 201
+    Set-LineFixture (Join-Path $caseExcluded 'bundle.min.js') 201
+    $binary = [Text.Encoding]::UTF8.GetBytes(("binary`0data`n" * 201))
+    [IO.File]::WriteAllBytes((Join-Path $caseExcluded 'asset.bin'), $binary)
+    Invoke-LineCheck 'artefacts techniques exclus' $caseExcluded 0 @(
+        'PASS - No maintained file exceeds 200 lines.'
     )
 
     $source = Join-Path $testRoot 'sample.py'
