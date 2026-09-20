@@ -15,10 +15,10 @@ Le dépôt contient uniquement le socle technique et un health check `GET /api/h
 
 ## Travail en cours
 
-- **Périmètre :** bootstrap technique complet du backend, du frontend et de leur outillage local.
-- **Sujet :** initialisation de Django/DRF, React/Vite, SQLite, tests, coverages, Playwright et tâches VS Code.
-- **Évolution attendue :** disposer d'un environnement minimal exécutable, d'une commande `test:all` commune et de quality gates réellement appliqués au code.
-- **Hors périmètre :** aucune feature ni aucun domaine métier.
+- **Périmètre :** raffinement documentaire de l'Epic Gestion des équipes.
+- **Sujet :** découpage du cycle de vie d'une équipe en sept PBIs indépendamment développables, testables et livrables.
+- **Évolution attendue :** rendre `TEAM-001` à `TEAM-007` directement exploitables, avec critères d'acceptation, refus, dépendances et priorités explicites.
+- **Hors périmètre :** code applicatif, affectation des coachs, modèles d'évaluation, fréquences, évaluations et notifications.
 
 Ce README est mis à jour avant le début de tout développement, correction, refactoring ou changement technique afin d'annoncer le travail entrepris. L'ordre temporel ne peut pas être prouvé de manière fiable par un script ; le gate automatisé vérifie donc qu'un changement applicatif est accompagné d'une modification du README dans le même ensemble de changements.
 

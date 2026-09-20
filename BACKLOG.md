@@ -19,7 +19,7 @@ Priorités :
 **Scénario nominal :**
 
 1. Un administrateur authentifié crée et active le compte d’un coach (`FEAT-001` à `FEAT-004`).
-2. Il crée une équipe, puis lui affecte ce coach ; l’affectation est historisée (`FEAT-005`, `FEAT-007` à `FEAT-009`).
+2. Il crée une équipe, puis lui affecte ce coach ; l’affectation est historisée (`TEAM-001`, `TEAM-003`, `FEAT-008`, `FEAT-009`).
 3. Il compose, paramètre, publie et versionne un modèle d’évaluation (`FEAT-011` à `FEAT-014`).
 4. Il associe ce modèle à l’équipe et fixe la première échéance ainsi que la fréquence (`FEAT-015` à `FEAT-018`).
 5. Le coach affecté démarre l’évaluation attendue, renseigne les critères et conserve au besoin un brouillon (`FEAT-020`, `FEAT-021`).
@@ -84,46 +84,158 @@ Priorités :
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
 
-## EPIC-002 — Équipes et accompagnement
+## EPIC-002 — Gestion des équipes
 
-### FEAT-005 — Constituer une équipe
+Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’affectation des coachs, les modèles d’évaluation, les fréquences, les évaluations et les notifications restent dans leurs Epics respectifs. Les PBIs `TEAM-001`, `TEAM-003`, `TEAM-004` et `TEAM-005` remplacent respectivement les anciennes entrées `FEAT-005`, `FEAT-007`, `FEAT-006` et `FEAT-010` sans les dupliquer.
 
-- **Intention métier :** créer le collectif qui sera accompagné et évalué.
-- **Acteur concerné :** administrateur.
-- **Description :** enregistrer une équipe avec une identité métier non ambiguë et les informations nécessaires à son suivi.
-- **Critères d’acceptation principaux :**
-  - une équipe valide devient active et peut recevoir un coach ainsi que des modèles ;
-  - l’identité de l’équipe permet de la distinguer des équipes existantes ;
-  - des informations obligatoires manquantes ou une identité déjà utilisée sont refusées.
-- **Dépendances éventuelles :** `FEAT-004`.
+### TEAM-001 — Créer une équipe — PBI pilote
+
+- **Identifiant :** `TEAM-001`.
+- **Titre :** Créer une équipe.
+- **User story :** en tant qu’administrateur, je veux créer une équipe afin qu’elle puisse être suivie dans le système.
+- **Intention métier :** établir une identité durable et non ambiguë pour le collectif suivi.
+- **Description :** enregistrer une équipe à partir d’un nom obligatoire. Le système lui attribue un identifiant stable et la rend active par défaut.
+- **Critères d’acceptation :**
+  - lorsqu’un administrateur soumet un nom non vide et non utilisé, une seule équipe est créée ;
+  - l’équipe créée possède un identifiant généré par le système, distinct de son nom et immuable ;
+  - son état initial est `active`, sans choix supplémentaire demandé à l’administrateur ;
+  - après confirmation, une consultation par l’identifiant restitue le même identifiant, le nom enregistré et l’état `active` ;
+  - si la création est refusée, aucune équipe ni donnée partielle correspondant à la demande n’est conservée.
+- **Principaux cas de refus :** acteur non autorisé ; nom absent, vide après suppression des espaces périphériques ou d’un type invalide ; nom déjà porté par une équipe active ou archivée selon une comparaison insensible à la casse et aux espaces périphériques.
+- **Dépendances :** `FEAT-004` pour l’autorisation ; aucune dépendance à un autre PBI de cet Epic.
 - **Priorité :** P0.
-- **Domaine métier cible :** Équipes et coaching.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** rend une équipe identifiable et disponible pour les parcours métier ultérieurs.
+- **Notes d’implémentation :** PBI pilote du premier vertical slice. Son implémentation future doit valider le pattern complet `React → API DRF → Application → Domain → Port → Adapter de persistance → SQLite`. Cette note d’architecture n’est pas un critère d’acceptation métier.
 
-### FEAT-006 — Faire évoluer les informations d’une équipe
+### TEAM-002 — Lister les équipes
 
-- **Intention métier :** garder le dossier d’équipe fidèle à la réalité sans rompre son suivi.
-- **Acteur concerné :** administrateur.
-- **Description :** modifier les informations courantes d’une équipe en conservant son identité et ses relations historiques.
-- **Critères d’acceptation principaux :**
-  - une modification valide est visible lors des consultations suivantes ;
-  - les évaluations, associations et affectations passées restent rattachées à la même équipe ;
-  - une modification créant une ambiguïté ou portant sur une équipe archivée est refusée selon les règles établies.
-- **Dépendances éventuelles :** `FEAT-005`.
+- **Identifiant :** `TEAM-002`.
+- **Titre :** Lister les équipes.
+- **User story :** en tant qu’utilisateur autorisé, je veux consulter les équipes actives afin d’identifier celles que je peux suivre.
+- **Intention métier :** offrir une vue courante fiable des équipes en activité.
+- **Description :** afficher les équipes actives accessibles à l’utilisateur avec les seules données utiles à leur identification : identifiant, nom et état.
+- **Critères d’acceptation :**
+  - la liste contient chaque équipe active accessible une seule fois, avec son identifiant, son nom et son état ;
+  - une équipe archivée n’apparaît pas dans la liste active par défaut ;
+  - lorsqu’aucune équipe active n’est accessible, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
+  - une équipe nouvellement créée par `TEAM-001` apparaît dans la liste active lors de la consultation suivante.
+- **Principaux cas de refus :** acteur non authentifié ou non autorisé ; tentative d’accès à des équipes hors du périmètre permis par ses habilitations.
+- **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
+- **Priorité :** P0.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** permet de retrouver rapidement les équipes sur lesquelles une action courante est possible.
+- **Notes d’implémentation :** ne prévoit ni pagination, ni recherche, ni filtrage avancé à ce stade.
+
+### TEAM-003 — Consulter une équipe
+
+- **Identifiant :** `TEAM-003`.
+- **Titre :** Consulter une équipe.
+- **User story :** en tant qu’utilisateur autorisé, je veux consulter une équipe précise afin de connaître son identité et son état.
+- **Intention métier :** fournir une référence fiable pour toute action portant sur une équipe déterminée.
+- **Description :** retrouver une équipe par son identifiant et présenter son identifiant, son nom et son état courant.
+- **Critères d’acceptation :**
+  - un identifiant existant et accessible restitue exactement une équipe avec son identifiant, son nom et son état ;
+  - l’état présenté distingue explicitement une équipe active d’une équipe archivée ;
+  - un identifiant inexistant produit une erreur explicite d’équipe introuvable sans contenu d’équipe ;
+  - un utilisateur sans accès à l’équipe ne reçoit aucune donnée métier sur celle-ci.
+- **Principaux cas de refus :** identifiant absent ou mal formé ; équipe inexistante ; acteur non authentifié ou non autorisé à consulter l’équipe.
+- **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
+- **Priorité :** P0.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** donne un point d’accès stable au dossier minimal d’une équipe.
+- **Notes d’implémentation :** les coachs, modèles, fréquences, évaluations et notifications enrichiront d’autres vues ou parcours ; ils ne font pas partie de ce PBI.
+
+### TEAM-004 — Modifier une équipe
+
+- **Identifiant :** `TEAM-004`.
+- **Titre :** Modifier une équipe.
+- **User story :** en tant qu’administrateur, je veux corriger le nom d’une équipe afin que son dossier reste fidèle à la réalité.
+- **Intention métier :** faire évoluer l’information courante sans rompre l’identité ni l’historique de l’équipe.
+- **Description :** permettre la modification du nom d’une équipe active. Son identifiant et son état ne sont pas modifiables par ce PBI.
+- **Critères d’acceptation :**
+  - la modification valide du nom est visible lors de la consultation suivante ;
+  - l’identifiant de l’équipe reste inchangé après la modification ;
+  - une modification valide ne change pas l’état de l’équipe et ne rompt aucun rattachement historique ;
+  - si la modification est refusée, le nom, l’état et les rattachements existants restent inchangés.
+- **Principaux cas de refus :** acteur non administrateur ; équipe inexistante ; équipe archivée ; nom absent, vide après suppression des espaces périphériques, d’un type invalide ou déjà utilisé selon la règle de `TEAM-001` ; tentative de modifier l’identifiant ou l’état.
+- **Dépendances :** `TEAM-003` ; `FEAT-004` pour l’autorisation.
+- **Priorité :** P0.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** maintient une information exacte sans perdre la continuité de suivi.
+- **Notes d’implémentation :** la mise à jour doit être atomique ; ce point soutient les critères métier d’absence de modification partielle.
+
+### TEAM-005 — Archiver une équipe
+
+- **Identifiant :** `TEAM-005`.
+- **Titre :** Archiver une équipe.
+- **User story :** en tant qu’administrateur, je veux archiver une équipe afin de la sortir du suivi actif sans supprimer son passé.
+- **Intention métier :** arrêter les nouvelles activités d’une équipe tout en préservant les preuves et rattachements acquis.
+- **Description :** faire passer une équipe de l’état `active` à l’état `archivée`, sans suppression physique.
+- **Critères d’acceptation :**
+  - l’archivage conserve l’identifiant, le nom et les rattachements historiques de l’équipe ;
+  - après archivage, la consultation par identifiant restitue la même équipe avec l’état `archivée` ;
+  - l’équipe archivée disparaît de la liste active de `TEAM-002` ;
+  - aucune suppression physique de l’équipe ni de son historique n’est effectuée ;
+  - une seconde demande d’archivage est refusée avec l’état explicite « équipe déjà archivée » et ne crée aucune transition supplémentaire.
+- **Principaux cas de refus :** acteur non administrateur ; équipe inexistante ; équipe déjà archivée. Chaque refus laisse l’état et l’historique inchangés.
+- **Dépendances :** `TEAM-003` ; `FEAT-004` pour l’autorisation.
+- **Priorité :** P0.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** garde la liste active pertinente tout en protégeant la traçabilité du dispositif.
+- **Notes d’implémentation :** le traitement des affectations, modèles, échéances ou évaluations en cours appartient à leurs Epics respectifs et dépendra de l’état archivé exposé ici.
+
+### TEAM-006 — Consulter les équipes archivées
+
+- **Identifiant :** `TEAM-006`.
+- **Titre :** Consulter les équipes archivées.
+- **User story :** en tant qu’administrateur, je veux consulter les équipes archivées afin de retrouver les collectifs sortis du suivi actif.
+- **Intention métier :** rendre le patrimoine historique repérable sans le mélanger au portefeuille actif.
+- **Description :** afficher séparément les équipes archivées avec leur identifiant, leur nom et leur état.
+- **Critères d’acceptation :**
+  - la liste contient chaque équipe archivée une seule fois, avec son identifiant, son nom et l’état `archivée` ;
+  - aucune équipe active n’apparaît dans cette liste ;
+  - lorsqu’aucune équipe n’est archivée, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
+  - une équipe archivée par `TEAM-005` apparaît dans cette liste lors de la consultation suivante.
+- **Principaux cas de refus :** acteur non authentifié ; acteur authentifié mais non administrateur.
+- **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P1.
-- **Domaine métier cible :** Équipes et coaching.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** permet de retrouver une équipe inactive et d’accéder à son suivi conservé.
+- **Notes d’implémentation :** aucune pagination, recherche ou vue historique détaillée n’est incluse sans besoin complémentaire.
 
-### FEAT-007 — Consulter le dossier d’une équipe
+### TEAM-007 — Réactiver une équipe
 
-- **Intention métier :** donner une vue fiable du contexte d’accompagnement.
-- **Acteur concerné :** coach affecté, administrateur.
-- **Description :** présenter l’état, le coach courant, les modèles associés, les échéances et les accès vers l’historique d’une équipe.
-- **Critères d’acceptation principaux :**
-  - la vue distingue clairement les informations courantes des éléments historiques ;
-  - un coach ne consulte que les équipes auxquelles ses permissions donnent accès ;
-  - une équipe inconnue ou inaccessible ne révèle aucune donnée métier.
-- **Dépendances éventuelles :** `FEAT-004`, `FEAT-005`, puis enrichissement par `FEAT-008`, `FEAT-015`, `FEAT-017` et `FEAT-024`.
-- **Priorité :** P0.
-- **Domaine métier cible :** Équipes et coaching.
+- **Identifiant :** `TEAM-007`.
+- **Titre :** Réactiver une équipe.
+- **User story :** en tant qu’administrateur, je veux réactiver une équipe archivée afin de reprendre son suivi sans créer une nouvelle identité.
+- **Intention métier :** reprendre l’activité d’un collectif en conservant la continuité de son dossier.
+- **Description :** faire passer une équipe de l’état `archivée` à l’état `active` sans recréation.
+- **Critères d’acceptation :**
+  - une équipe archivée réactivée retrouve l’état `active` avec le même identifiant et le même nom ;
+  - tous ses rattachements et éléments historiques restent associés à cette identité ;
+  - après réactivation, l’équipe apparaît dans la liste active de `TEAM-002` et disparaît de la liste de `TEAM-006` ;
+  - si la réactivation est refusée, l’état et l’historique restent inchangés.
+- **Principaux cas de refus :** acteur non administrateur ; équipe inexistante ; équipe déjà active.
+- **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
+- **Priorité :** P1.
+- **Domaine métier cible :** Gestion des équipes.
+- **Valeur apportée :** évite les doublons d’identité et restaure le suivi avec tout son contexte historique.
+- **Notes d’implémentation :** la reprise éventuelle d’affectations, de planifications ou d’autres activités reste gouvernée par les Epics propriétaires de ces capacités.
+
+### Dépendances internes de l’Epic
+
+```text
+TEAM-001
+├── TEAM-002
+└── TEAM-003
+    ├── TEAM-004
+    └── TEAM-005
+        ├── TEAM-006
+        └── TEAM-007
+```
+
+## EPIC-002A — Accompagnement des équipes
 
 ### FEAT-008 — Affecter un coach à une équipe
 
@@ -134,7 +246,7 @@ Priorités :
   - un coach actif peut devenir responsable d’une équipe active à une date d’effet connue ;
   - un remplacement clôt l’affectation courante avant d’ouvrir la suivante, sans chevauchement incohérent ;
   - un coach inactif, une équipe inactive ou une période invalide entraîne un refus.
-- **Dépendances éventuelles :** `FEAT-003`, `FEAT-005`, `FEAT-004`.
+- **Dépendances éventuelles :** `FEAT-003`, `TEAM-001`, `FEAT-004`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Équipes et coaching.
 
@@ -149,19 +261,6 @@ Priorités :
   - une correction ne doit pas effacer silencieusement une période déjà utilisée par une évaluation.
 - **Dépendances éventuelles :** `FEAT-008`.
 - **Priorité :** P0.
-- **Domaine métier cible :** Équipes et coaching.
-
-### FEAT-010 — Désactiver ou archiver une équipe
-
-- **Intention métier :** sortir une équipe du dispositif actif tout en préservant les preuves acquises.
-- **Acteur concerné :** administrateur.
-- **Description :** empêcher de nouvelles activités pour une équipe désactivée et conserver son dossier en consultation historique.
-- **Critères d’acceptation principaux :**
-  - une équipe désactivée ne reçoit plus de nouvelle affectation, association ou passation ;
-  - ses évaluations et historiques restent consultables par les acteurs autorisés ;
-  - l’archivage signale les échéances ouvertes à traiter et requiert une décision explicite à leur sujet.
-- **Dépendances éventuelles :** `FEAT-007`, `FEAT-008`, `FEAT-015`, `FEAT-017`.
-- **Priorité :** P1.
 - **Domaine métier cible :** Équipes et coaching.
 
 ## EPIC-003 — Référentiel des modèles d’évaluation
@@ -229,7 +328,7 @@ Priorités :
   - plusieurs modèles publiés peuvent coexister pour une équipe si leurs associations sont explicites ;
   - une association identifie la version applicable ou une règle explicite de prise en compte des versions futures ;
   - une équipe inactive, un modèle non publié ou une association identique qui se chevauche est refusé.
-- **Dépendances éventuelles :** `FEAT-005`, `FEAT-013`, `FEAT-014`.
+- **Dépendances éventuelles :** `TEAM-001`, `FEAT-013`, `FEAT-014`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Planification des évaluations.
 
@@ -471,7 +570,7 @@ Priorités :
   - les équipes sans coach, sans modèle ou sans prochaine échéance sont identifiables ;
   - filtres et totaux reposent sur les états métier courants et donnent accès au dossier source ;
   - les équipes archivées sont exclues des actifs mais restent consultables séparément.
-- **Dépendances éventuelles :** `FEAT-007`, `FEAT-008`, `FEAT-010`, `FEAT-015`, `FEAT-018`.
+- **Dépendances éventuelles :** `TEAM-002`, `TEAM-003`, `TEAM-005`, `FEAT-008`, `FEAT-015`, `FEAT-018`.
 - **Priorité :** P1.
 - **Domaine métier cible :** Pilotage du dispositif.
 
@@ -503,10 +602,10 @@ Priorités :
 
 ## Ordonnancement recommandé
 
-1. **Socle du parcours P0 :** `FEAT-001` à `FEAT-005`, `FEAT-007` à `FEAT-009`.
+1. **Socle du parcours P0 :** `FEAT-001` à `FEAT-004`, `TEAM-001` à `TEAM-005`, `FEAT-008` et `FEAT-009`.
 2. **Cadre d’évaluation P0 :** `FEAT-011` à `FEAT-018`.
 3. **Passation et preuve P0 :** `FEAT-020` à `FEAT-024`, puis validation E2E de `PV-001` avec son chemin nominal et ses refus essentiels.
-4. **Maîtrise opérationnelle P1 :** cycle de vie avancé des équipes, retard, comparaison, tendances, notifications et supervision (`FEAT-006`, `FEAT-010`, `FEAT-019`, `FEAT-025` à `FEAT-034`).
+4. **Maîtrise opérationnelle P1 :** consultation et réactivation des équipes archivées, retard, comparaison, tendances, notifications et supervision (`TEAM-006`, `TEAM-007`, `FEAT-019`, `FEAT-025` à `FEAT-034`).
 5. **Synthèse P2 :** vue globale du dispositif (`FEAT-035`).
 
 Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django.
@@ -521,10 +620,10 @@ Cette cartographie est une hypothèse évolutive. Elle guide un découpage cohé
 - **Features concernées :** `FEAT-001` à `FEAT-004`.
 - **Dépendances :** fournit l’identité et les autorisations aux autres domaines ; ne porte pas leurs règles métier.
 
-### Équipes et coaching
+### Gestion des équipes et accompagnement
 
 - **Responsabilité principale :** identité et état des équipes, responsabilité courante du coach et historique des affectations.
-- **Features concernées :** `FEAT-005` à `FEAT-010`.
+- **PBIs et features concernés :** `TEAM-001` à `TEAM-007`, `FEAT-008` et `FEAT-009`.
 - **Dépendances :** reçoit les identités de coachs du domaine Identités et habilitations ; expose équipe active et affectation applicable à Planification et Passations.
 
 ### Référentiel d’évaluation
