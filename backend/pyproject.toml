@@ -1,0 +1,17 @@
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+addopts = "--strict-markers"
+testpaths = ["tests"]
+markers = [
+    "api: API-level tests",
+    "contract: frontend/backend contract tests",
+    "functional: observable behavior tests",
+    "integration: tests using real technical boundaries",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]

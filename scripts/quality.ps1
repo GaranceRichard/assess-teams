@@ -98,9 +98,6 @@ if (-not $backendPresent) {
             & $python -m pytest -m 'unit or functional' --cov=. --cov-config=$coverageConfig
         } $backendPath
     } else {
-        Invoke-QualityStep 'Backend tests complets et coverage >= 90 %' {
-            & $python -m pytest --cov=. --cov-config=$coverageConfig
-        } $backendPath
         if (Test-Path (Join-Path $backendPath 'manage.py')) {
             Invoke-QualityStep 'Coherence des migrations Django' {
                 & $python manage.py makemigrations --check --dry-run
@@ -124,13 +121,13 @@ if (-not (Test-Path $packagePath)) {
         Invoke-QualityStep 'Frontend tests rapides et coverage courant' {
             Invoke-NpmScript 'test:quick' $package
         } $frontendPath
-    } else {
-        Invoke-QualityStep 'Frontend tests complets et coverage >= 90 %' {
-            Invoke-NpmScript 'test:coverage' $package
-        } $frontendPath
-        Invoke-QualityStep 'Parcours metier E2E Playwright' {
-            Invoke-NpmScript 'test:e2e' $package
-        } $frontendPath
+    }
+}
+
+if ($Mode -eq 'full') {
+    $allTests = Join-Path $root 'scripts\test-all.ps1'
+    Invoke-QualityStep 'Suite globale test:all' {
+        & $hostExecutable -NoProfile -File $allTests
     }
 }
 

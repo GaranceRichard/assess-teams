@@ -15,9 +15,9 @@ Tout élément fonctionnel doit avoir au minimum :
 - Frontend : **Vitest** et **React Testing Library**.
 - E2E : **Playwright**.
 
-Les commandes propres aux outils applicatifs seront ajoutées avec les squelettes Django et React.
+Les commandes propres aux outils applicatifs sont actives avec les squelettes Django et React.
 
-Le socle d'orchestration existe dès maintenant. Ses commandes canoniques sont décrites dans le [README](README.md#commandes-qualité). Les commandes propres à Django et React deviennent obligatoires dès que leur squelette est détecté ; leur absence produit alors un échec plutôt qu'un faux `NON APPLICABLE`.
+La commande globale `test:all` orchestre les suites backend, frontend et E2E ainsi que leurs seuils de coverage. Elle est réutilisée par `quality:full` et documentée dans le [README](README.md#tests-et-coverages). Les commandes propres à Django et React sont obligatoires dès que leur squelette est détecté ; leur absence produit un échec plutôt qu'un faux `NON APPLICABLE`.
 
 ## Niveaux de tests
 
@@ -99,6 +99,6 @@ Le gate de commit constitue l'exception explicitement informative : `quality:qui
 
 Le pre-push et la CI exécutent `quality:full`. Côté backend, une exécution pytest unique couvre toutes les catégories collectées, active le branch coverage et applique le seuil de 90 % porté par `.coveragerc`. Côté frontend, `test:coverage` couvre les tests unitaires, fonctionnels, de composants, d'intégration, de contrat et de non-régression ; Vitest porte les seuils d'au moins 90 % pour branches, fonctions, lignes et statements. `test:e2e` exécute séparément les parcours Playwright inventoriés depuis le backlog.
 
-Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le futur coverage frontend exclura seulement les sorties générées et les fichiers déclaratifs justifiés ; il ne devra pas retirer du calcul du code applicatif testable.
+Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le coverage frontend exclut seulement les sorties générées, l'entrée de rendu et les fichiers de configuration ou de test ; il ne retire pas du calcul le code applicatif testable.
 
-Tant que Django et React ne sont pas initialisés, ces groupes sont `NON APPLICABLE`. Les contrôles du socle restent exécutés, y compris leurs scénarios positifs et négatifs, la limite de 200 lignes, la cohérence documentaire et la détection de secrets.
+Le bootstrap actuel rend applicables les groupes backend, frontend et E2E. Les niveaux sans objet réel, comme les tests unitaires backend en l'absence de logique isolée et les tests de non-régression en l'absence de bug corrigé, restent explicitement `NON APPLICABLE`.

@@ -1,0 +1,17 @@
+{
+  "name": "assess-teams",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently --kill-others --names backend,frontend --prefix-colors blue,magenta \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev-backend.ps1",
+    "dev:frontend": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev-frontend.ps1",
+    "test:all": "node ./scripts/run-powershell.mjs ./scripts/test-all.ps1",
+    "quality:quick": "node ./scripts/run-powershell.mjs ./scripts/quality.ps1 quick",
+    "quality:full": "node ./scripts/run-powershell.mjs ./scripts/quality.ps1 full"
+  },
+  "devDependencies": {
+    "concurrently": ">=9.2.0 <10"
+  }
+}

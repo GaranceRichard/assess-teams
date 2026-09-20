@@ -1,0 +1,67 @@
+:root {
+  color: #1d2633;
+  background: #edf2f5;
+  font-family: Inter, system-ui, sans-serif;
+  font-synthesis: none;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+main {
+  box-sizing: border-box;
+  width: min(720px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 15vh 0 3rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.5rem;
+  color: #28606f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #102a36;
+  font-size: clamp(2.75rem, 9vw, 5rem);
+  line-height: 1;
+}
+
+.intro {
+  margin: 1.25rem 0 2.5rem;
+  font-size: 1.2rem;
+}
+
+.status {
+  padding: 1.25rem 1.5rem;
+  border-left: 0.35rem solid #54707b;
+  border-radius: 0.25rem;
+  background: #fff;
+  box-shadow: 0 1rem 3rem rgb(31 55 66 / 10%);
+}
+
+.status--ready {
+  border-color: #16805c;
+}
+
+.status--error {
+  border-color: #b33f40;
+}
+
+.status h2,
+.status p {
+  margin: 0;
+}
+
+.status h2 {
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}

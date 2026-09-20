@@ -1,0 +1,41 @@
+{
+  "name": "assess-teams-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:quick": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": ">=19.1.1 <20",
+    "react-dom": ">=19.1.1 <20"
+  },
+  "devDependencies": {
+    "@eslint/js": ">=10.0.0 <11",
+    "@playwright/test": ">=1.55.0 <2",
+    "@testing-library/jest-dom": ">=7.0.0 <8",
+    "@testing-library/react": ">=16.3.0 <17",
+    "@types/node": ">=24.5.0 <25",
+    "@types/react": ">=19.1.0 <20",
+    "@types/react-dom": ">=19.1.0 <20",
+    "@vitejs/plugin-react": ">=6.1.0 <7",
+    "@vitest/coverage-v8": ">=5.0.0 <6",
+    "eslint": ">=10.0.0 <11",
+    "eslint-plugin-react-hooks": ">=7.1.0 <8",
+    "eslint-plugin-react-refresh": ">=0.4.0 <1",
+    "globals": ">=17.12.0 <18",
+    "jsdom": ">=29.1.0 <30",
+    "prettier": ">=3.6.0 <4",
+    "typescript": ">=5.9.0 <6",
+    "typescript-eslint": ">=8.44.0 <9",
+    "vite": ">=8.3.0 <9",
+    "vitest": ">=5.0.0 <6"
+  }
+}
