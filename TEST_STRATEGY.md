@@ -1,0 +1,94 @@
+# Stratégie de tests
+
+## Objectifs
+
+La stratégie de tests protège les comportements métier, les contrats entre couches et les parcours critiques. Elle combine des retours rapides au niveau unitaire avec des validations réalistes aux niveaux intégration et E2E.
+
+Tout élément fonctionnel doit avoir au minimum :
+
+- un test fonctionnel passant pour son comportement attendu ;
+- un test fonctionnel non passant représentant un véritable cas fonctionnel ou métier.
+
+## Outils cibles
+
+- Backend : **pytest** et **pytest-django**.
+- Frontend : **Vitest** et **React Testing Library**.
+- E2E : **Playwright**.
+
+Les commandes précises et leur exécution en intégration continue seront ajoutées avec les squelettes applicatifs.
+
+## Niveaux de tests
+
+### Tests unitaires
+
+Ils vérifient rapidement une unité de logique isolée : règles métier, services purs, transformations, hooks et composants dont les dépendances sont maîtrisées. Les doubles de test restent ciblés et ne doivent pas masquer les intégrations importantes.
+
+### Tests fonctionnels
+
+Ils expriment le comportement observable à partir d'un besoin métier. Pour chaque élément fonctionnel, un cas passant et un cas non passant réel sont obligatoires. Le cas non passant peut couvrir, par exemple, une validation refusée, un état interdit ou une permission insuffisante.
+
+### Tests API
+
+Ils couvrent les endpoints Django REST Framework : authentification, autorisation, validation, sérialisation, codes HTTP, corps de réponse, erreurs et effets persistés. Ils incluent les cas nominaux et les refus métier pertinents.
+
+### Tests d'intégration
+
+Ils vérifient les collaborations réelles significatives, en particulier :
+
+- service Django + ORM ;
+- API + base de données ;
+- authentification + permissions + endpoint ;
+- React + couche API ;
+- frontend + backend.
+
+SQLite peut être utilisée pour la base initiale lorsque son comportement est représentatif. Toute divergence avec un environnement cible futur devra être identifiée et couverte.
+
+### Tests de contrat
+
+Ils empêchent la dérive des contrats entre React et Django REST Framework. Ils vérifient des exemples valides et invalides pour :
+
+- la structure des requêtes ;
+- la structure des réponses ;
+- les champs obligatoires ;
+- les types ;
+- les codes HTTP ;
+- les formats d'erreur ;
+- les validations.
+
+Les deux côtés du contrat doivent s'appuyer sur les mêmes attentes versionnées. Toute évolution incompatible doit être explicite et accompagnée d'une stratégie de migration.
+
+### Tests de non-régression
+
+Chaque correction de bug ajoute un test qui reproduit le défaut réel. Le test doit échouer sur la version défectueuse et passer après la correction. Il est placé au niveau le plus bas capable de reproduire fidèlement le défaut, avec un test de niveau supérieur si le risque de réintégration le justifie.
+
+### Tests E2E
+
+Playwright valide les parcours métier critiques à travers l'interface et le backend réels. La sélection est fondée sur le risque : valeur métier, fréquence, permissions, persistance, erreurs critiques et dépendances entre écrans.
+
+Chaque parcours critique est inventorié avec son état de couverture. Les scénarios incluent le chemin nominal et les refus métier essentiels sans dupliquer inutilement les tests de niveaux inférieurs.
+
+## Stratégie de couverture
+
+- Coverage backend global : **>= 90 %**.
+- Coverage frontend global : **>= 90 %**.
+- Toute baisse sous un seuil bloque la livraison.
+- Tout code nouveau ou modifié doit être couvert selon son risque, même lorsque le seuil global reste atteint.
+- Les branches, erreurs et règles métier significatives doivent être exercées ; atteindre un pourcentage sans assertions pertinentes n'est pas suffisant.
+
+Le **code coverage** indique quelles lignes et branches ont été exécutées. La **couverture des parcours métier** indique quels parcours critiques ont été validés de bout en bout. Ces mesures sont distinctes : le seuil de 90 % ne prouve pas la couverture E2E, et les tests E2E ne remplacent pas le coverage du code.
+
+## Données et isolation
+
+Les tests sont déterministes, indépendants et reproductibles. Chaque test crée les données minimales nécessaires, contrôle le temps et les dépendances externes si besoin, et nettoie son état via les mécanismes du framework. Les données sensibles réelles sont interdites dans les fixtures.
+
+## Exécution et quality gates
+
+Les tests rapides sont exécutés au plus tôt ; la suite complète inclut tests backend, frontend, intégration, contrat et E2E applicables. Avant livraison :
+
+- tous les tests passent ;
+- les deux seuils de coverage sont atteints ;
+- chaque élément fonctionnel possède ses cas passant et non passant ;
+- chaque interaction, contrat et parcours critique affecté possède la couverture nécessaire ;
+- chaque bug corrigé possède son test de non-régression.
+
+Tout échec constitue un blocage, jamais une simple alerte.

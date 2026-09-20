@@ -1,0 +1,25 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+db.sqlite3
+
+# Node / frontend builds
+node_modules/
+dist/
+coverage/
+
+# Environment files (keep the public template)
+.env
+.env.*
+!.env.example
+
+# IDEs and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
