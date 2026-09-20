@@ -1,0 +1,3 @@
+#!/bin/sh
+repo_root=$(git rev-parse --show-toplevel) || exit 0
+exec "$repo_root/.githooks/run-quality" quick

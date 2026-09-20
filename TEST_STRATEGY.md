@@ -15,7 +15,9 @@ Tout élément fonctionnel doit avoir au minimum :
 - Frontend : **Vitest** et **React Testing Library**.
 - E2E : **Playwright**.
 
-Les commandes précises et leur exécution en intégration continue seront ajoutées avec les squelettes applicatifs.
+Les commandes propres aux outils applicatifs seront ajoutées avec les squelettes Django et React.
+
+Le socle d'orchestration existe dès maintenant. Ses commandes canoniques sont décrites dans le [README](README.md#commandes-qualité). Les commandes propres à Django et React deviennent obligatoires dès que leur squelette est détecté ; leur absence produit alors un échec plutôt qu'un faux `NON APPLICABLE`.
 
 ## Niveaux de tests
 
@@ -92,3 +94,11 @@ Les tests rapides sont exécutés au plus tôt ; la suite complète inclut tests
 - chaque bug corrigé possède son test de non-régression.
 
 Tout échec constitue un blocage, jamais une simple alerte.
+
+Le gate de commit constitue l'exception explicitement informative : `quality:quick` exécute les tests unitaires et fonctionnels rapides ainsi que le coverage courant, mais retourne zéro afin d'autoriser les commits intermédiaires. Les échecs restent visibles comme `FAIL informatif` et `WARNING`.
+
+Le pre-push et la CI exécutent `quality:full`. Côté backend, une exécution pytest unique couvre toutes les catégories collectées, active le branch coverage et applique le seuil de 90 % porté par `.coveragerc`. Côté frontend, `test:coverage` couvre les tests unitaires, fonctionnels, de composants, d'intégration, de contrat et de non-régression ; Vitest porte les seuils d'au moins 90 % pour branches, fonctions, lignes et statements. `test:e2e` exécute séparément les parcours Playwright inventoriés depuis le backlog.
+
+Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le futur coverage frontend exclura seulement les sorties générées et les fichiers déclaratifs justifiés ; il ne devra pas retirer du calcul du code applicatif testable.
+
+Tant que Django et React ne sont pas initialisés, ces groupes sont `NON APPLICABLE`. Les contrôles du socle restent exécutés, y compris leurs scénarios positifs et négatifs, la limite de 200 lignes, la cohérence documentaire et la détection de secrets.

@@ -6,6 +6,12 @@ Ce fichier s'applique à tout le dépôt **Assess teams** et à tout agent humai
 
 Avant toute modification, inspecter l'existant et respecter l'architecture, les conventions et les responsabilités déjà établies. Ne pas introduire de nouvelle couche, dépendance ou abstraction sans besoin démontré. Garder Django et Django REST Framework côté backend, React et TypeScript côté frontend, et SQLite comme base initiale tant qu'une décision d'architecture documentée ne les remplace pas.
 
+## Préparation obligatoire avant travail
+
+Avant tout développement, correction, refactoring ou changement technique, mettre à jour `README.md` pour annoncer le périmètre travaillé, le sujet ou la feature lorsqu'il existe, et l'évolution attendue. Cette mise à jour précède le travail ; elle ne doit pas être ajoutée a posteriori pour satisfaire le gate.
+
+L'ordre temporel ne pouvant pas être vérifié fiablement par Git, l'automatisation contrôle qu'un lot comportant un changement applicatif ou technique comporte aussi une modification de `README.md`. Ce contrôle de cohérence ne remplace pas la responsabilité de mise à jour préalable et ne justifie jamais une modification artificielle sans changement de périmètre.
+
 ## Règle bloquante des 200 lignes
 
 **Aucun fichier source ne doit dépasser 200 lignes. Cette limite est non négociable et bloquante.**
@@ -75,3 +81,7 @@ Avant de déclarer une tâche terminée :
 6. signaler explicitement tout contrôle impossible à exécuter.
 
 Une tâche reste non terminée dès qu'un quality gate est en échec.
+
+## Automatisation des quality gates
+
+Les commandes canoniques et l'installation des hooks sont documentées dans le [README](README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` et la CI GitHub exécutent le même full quality gate, exhaustif et bloquant. Contourner le hook local ne dispense jamais du contrôle distant.

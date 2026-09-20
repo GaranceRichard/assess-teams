@@ -46,6 +46,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 ## Documentation
 
+- [ ] `README.md` a été mis à jour avant le début du travail avec le périmètre, le sujet et l'évolution attendue.
 - [ ] Une revue d'impact documentaire a été effectuée avant le push.
 - [ ] `README.md`, `AGENTS.md`, `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md` et `TEST_STRATEGY.md` ont été vérifiés.
 - [ ] Les documentations d'architecture et d'API ainsi que les autres fichiers Markdown concernés ont été vérifiés.
@@ -55,5 +56,13 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 - [ ] Aucun secret, jeton, mot de passe ou identifiant sensible n'est commité.
 - [ ] Les validations, permissions, erreurs et données sensibles concernées ont été contrôlées et testées.
+
+## Gates de livraison
+
+- [ ] Le gate rapide informatif a fourni son feedback au commit sans bloquer les commits intermédiaires.
+- [ ] `quality:full` passe localement avant le push.
+- [ ] Le pre-push bloque effectivement tout résultat non conforme.
+- [ ] La CI GitHub exécute la même commande `quality:full` et passe.
+- [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.
 
 Si une case applicable n'est pas cochée, la tâche n'est pas Done.

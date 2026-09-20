@@ -87,6 +87,18 @@ Aucun secret ou identifiant sensible ne doit être commité. Les entrées sont v
 
 La documentation évolue avec le code. Avant tout push, une revue d'impact vérifie `README.md`, `AGENTS.md`, `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md`, `TEST_STRATEGY.md`, les documentations d'architecture et d'API, ainsi que les autres fichiers Markdown concernés. Tout contenu affecté doit être mis à jour dans le même changement.
 
+Avant même de commencer un développement, une correction, un refactoring ou un changement technique, `README.md` annonce le périmètre, le sujet ou la feature et l'évolution attendue. L'automatisation vérifie seulement la présence cohérente du README dans un lot de changements techniques ; elle ne prétend pas prouver l'ordre temporel. Une modification du README reste motivée par un changement réel de périmètre.
+
+## Workflow automatisé
+
+Le workflow de référence est : mise à jour préalable du README, travail, commit avec gate rapide informatif, push avec full gate bloquant, puis CI GitHub avec le même full gate bloquant. Les commandes et l'activation des hooks versionnés sont définies dans le [README](README.md#commandes-qualité).
+
+- `quality:quick` exécute les contrôles rapides applicables, affiche le coverage courant et signale les échecs sans empêcher un commit intermédiaire.
+- `quality:full` exécute tous les contrôles applicables et retourne un code d'échec si l'un d'eux n'est pas conforme.
+- `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE` distinguent explicitement les résultats.
+- Un squelette backend ou frontend absent est non applicable ; un squelette détecté mais mal configuré est en échec.
+- Les hooks ne contiennent pas la logique qualité : ils appellent la commande commune également utilisée par la CI.
+
 ## Quality gates bloquants
 
 Une tâche n'est pas terminée si au moins une condition est vraie :

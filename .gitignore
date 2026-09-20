@@ -4,6 +4,7 @@ venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.ruff_cache/
 .coverage
 htmlcov/
 db.sqlite3
@@ -11,6 +12,7 @@ db.sqlite3
 # Node / frontend builds
 node_modules/
 dist/
+build/
 coverage/
 
 # Environment files (keep the public template)

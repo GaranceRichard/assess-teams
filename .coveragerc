@@ -1,0 +1,19 @@
+[run]
+branch = True
+source = .
+omit =
+    */migrations/*
+    */tests/*
+    */settings.py
+    */asgi.py
+    */wsgi.py
+    manage.py
+
+[report]
+fail_under = 90
+show_missing = True
+skip_covered = False
+exclude_lines =
+    pragma: no cover
+    if TYPE_CHECKING:
+    if __name__ == .__main__.:

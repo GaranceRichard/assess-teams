@@ -1,0 +1,27 @@
+#!/bin/sh
+
+mode="$1"
+repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -z "$repo_root" ]; then
+  echo "[WARNING] Hook qualité: racine Git introuvable."
+  [ "$mode" = "quick" ] && exit 0 || exit 1
+fi
+
+if command -v pwsh >/dev/null 2>&1; then
+  powershell_command=pwsh
+  execution_policy=
+elif command -v powershell.exe >/dev/null 2>&1; then
+  powershell_command=powershell.exe
+  execution_policy="-ExecutionPolicy Bypass"
+else
+  echo "[WARNING] Hook qualité: PowerShell est introuvable."
+  [ "$mode" = "quick" ] && exit 0 || exit 1
+fi
+
+"$powershell_command" -NoProfile $execution_policy -File "$repo_root/scripts/quality.ps1" "$mode"
+status=$?
+if [ "$status" -ne 0 ] && [ "$mode" = "quick" ]; then
+  echo "[WARNING] Erreur technique du pre-commit; commit autorisé."
+  exit 0
+fi
+exit "$status"
