@@ -3,10 +3,12 @@ from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from health.views import HealthView
+from identities.adapters.api.views import UserCreateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/health/", HealthView.as_view(), name="health"),
+    path("api/users/", UserCreateView.as_view(), name="user-create"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",

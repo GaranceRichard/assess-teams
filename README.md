@@ -15,7 +15,16 @@ La documentation est restructurée sous `docs/` par responsabilité afin de cent
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le dépôt contient uniquement le socle technique, un health check `GET /api/health/`, le schéma OpenAPI `/api/schema/` et Swagger UI `/api/docs/`. Aucun domaine métier n'est encore implémenté. La documentation formalise aussi les arbitrages bloquants du socle Organisation et distingue la consultation authentifiée de l'accès sans compte, sans ouvrir implicitement de donnée organisationnelle.
+Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. La
+documentation formalise aussi les arbitrages du socle Organisation et distingue la consultation authentifiée de
+l'accès sans compte, sans ouvrir implicitement de donnée organisationnelle.
+
+## Périmètre livré — USER-001
+
+Le backend permet à un Superadmin ou à un Admin autorisé de créer une identité active avec
+une fonction métier unique (`Admin`, `Coach` ou `Viewer`). Ce chantier inclut uniquement l'authentification
+minimale nécessaire à l'appel, les permissions de création et le contrat OpenAPI ; aucun rattachement
+organisationnel ni gestion, consultation ou suppression d'utilisateur n'est ajouté.
 
 ## Installation
 
@@ -54,6 +63,15 @@ npm.cmd run dev:frontend
 - Le health check est disponible sur `http://127.0.0.1:8000/api/health/`.
 - Le schéma OpenAPI est disponible sur `http://127.0.0.1:8000/api/schema/`.
 - Swagger UI est disponible sur `http://127.0.0.1:8000/api/docs/`.
+- La création d'utilisateur est disponible par `POST /api/users/` avec authentification Basic ou session.
+
+Le premier Superadmin est créé exclusivement avec le bootstrap Django :
+
+```powershell
+Push-Location backend
+& .\.venv\Scripts\python.exe manage.py createsuperuser
+Pop-Location
+```
 
 Dans VS Code, `Ctrl+Shift+B` lance la tâche par défaut `Dev: all`. Elle démarre `Dev: backend` et `Dev: frontend` en parallèle dans deux terminaux identifiables. Les trois tâches versionnées utilisent `${workspaceFolder}` et les mêmes scripts PowerShell que les commandes ci-dessus.
 
@@ -82,7 +100,12 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check nominal, le refus d'une méthode non supportée, SQLite, le contrat JSON, la génération du schéma OpenAPI et l’exposition de Swagger UI. Le frontend couvre le shell, le client API, les états nominal et d'erreur. Playwright couvre le smoke technique navigateur → Vite → Django → SQLite et vérifie que le backend applique les migrations avant de servir. Les tests unitaires backend et les tests de non-régression sont actuellement `NON APPLICABLE`, faute de logique isolée ou de bug corrigé.
+Le backend couvre le health check, SQLite, le contrat OpenAPI et la création d'utilisateur : règles de
+fonction, authentification, permissions, validations, atomicité et persistance. Le frontend couvre le shell,
+le client API, les états nominal et d'erreur. Playwright couvre le smoke technique navigateur → Vite →
+Django → SQLite et vérifie que le backend applique les migrations avant de servir. Les tests unitaires
+backend couvrent la politique de création ; les tests de non-régression restent `NON APPLICABLE`, faute de
+bug corrigé.
 
 ## Approche quality-first
 
@@ -165,7 +188,7 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Les tests et les seuils de coverage backend/frontend sont actifs.
 - Le smoke test Playwright est actif.
 - Les quality gates détectent les deux applications et échouent si leur configuration est incomplète.
-- Aucun domaine ni aucune feature métier n'est implémenté.
+- `USER-001` expose la création contrôlée d'identités sans rattachement organisationnel implicite.
 
 ## Documentation
 

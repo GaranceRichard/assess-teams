@@ -6,7 +6,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 
 | PBI | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- |
-| USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | aucun ; dépend de `FEAT-001` et de la matrice de `FEAT-004` | N/A |
+| USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Réalisé | aucun ; dépend de `FEAT-001` et de la matrice de `FEAT-004` | 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | `ARB-ORG-001`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` ; dépend de `USER-001` | N/A |
 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | `ARB-ORG-001`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` ; dépend de `USER-002` | N/A |
 | USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | `ARB-ORG-001`, `ARB-ORG-008`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` ; dépend de `USER-002` | N/A |

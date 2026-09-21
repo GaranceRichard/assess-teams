@@ -6,7 +6,7 @@
 
 | Ordre | PBI | État d’entrée | Condition d’enchaînement |
 | ---: | --- | --- | --- |
-| 1 | `USER-001` — Créer un utilisateur | Ouvert | `FEAT-001` et matrice de création de `FEAT-004` disponibles |
+| 1 | `USER-001` — Créer un utilisateur | Réalisé | Livré le 2026-09-21 |
 | 2 | `USER-002` — Consulter les utilisateurs | Bloqué | `USER-001` terminé ; `ARB-ORG-001`, `ARB-ORG-012` et, si nécessaire, `ARB-ORG-011` résolus |
 | 3 | `USER-003` — Modifier un utilisateur | Bloqué | `USER-002` terminé ; mêmes arbitrages de périmètre résolus |
 | 3 | `USER-004` — Supprimer un utilisateur | Bloqué | `USER-002` terminé ; `ARB-ORG-008` résolu en plus des arbitrages précédents |

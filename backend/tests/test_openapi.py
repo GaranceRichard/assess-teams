@@ -5,6 +5,8 @@ from django.core.management import call_command
 from django.urls import reverse
 from rest_framework.test import APIClient
 
+from identities.domain.users import Role
+
 
 @pytest.fixture
 def api_client() -> APIClient:
@@ -24,6 +26,26 @@ def test_openapi_schema_is_generated_and_documents_health_contract(
     assert schema["openapi"].startswith("3.")
     assert "security" not in operation
     assert set(operation["responses"]) == {"200"}
+
+
+@pytest.mark.api
+@pytest.mark.contract
+def test_openapi_documents_authenticated_user_creation(api_client: APIClient) -> None:
+    response = api_client.get(reverse("schema"), HTTP_ACCEPT="application/json")
+
+    schema = response.json()
+    operation = schema["paths"]["/api/users/"]["post"]
+    request_schema = operation["requestBody"]["content"]["application/json"]["schema"]
+    request_component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
+    role_schema = request_component["properties"]["role"]
+    role_component = schema["components"]["schemas"][role_schema["$ref"].split("/")[-1]]
+
+    assert response.status_code == 200
+    assert {"basicAuth": []} in operation["security"]
+    assert set(operation["responses"]) == {"201", "400", "401", "403"}
+    assert set(request_component["required"]) == {"username", "password", "role"}
+    assert role_component["enum"] == list(Role.values())
+    assert "is_superuser" not in request_component["properties"]
 
 
 @pytest.mark.api

@@ -24,6 +24,17 @@ Tout endpoint backend nouveau ou modifié documente, selon ce qui s'applique :
 
 Le contrat est versionné avec l'implémentation. Le schéma complet doit rester générable, syntaxiquement valide et cohérent avec le comportement exposé. Une évolution d'API est inachevée si son contrat est absent, invalide ou incohérent.
 
-## Portée actuelle
+## Création d'utilisateur — USER-001
 
-Cette exigence s'applique au health check existant et à tout futur endpoint. Elle ne crée aucun endpoint métier et ne décide d'aucune règle d'authentification, de permission ou de publication encore soumise à arbitrage produit.
+`POST /api/users/` accepte un objet JSON contenant exactement `username`, `password` et `role`. `role` vaut
+`Admin`, `Coach` ou `Viewer`. Une création réussie retourne `201` avec l'identifiant stable, le nom
+d'utilisateur, la fonction unique et l'état actif ; le mot de passe n'est jamais retourné.
+
+L'endpoint accepte l'authentification HTTP Basic et la session Django. Il retourne `401` si l'appelant est
+anonyme, mal authentifié ou inactif, `403` si sa fonction ou la fonction demandée est interdite, et `400` si
+les données sont invalides ou l'identité existe déjà. Un Superadmin Django peut créer les trois fonctions ;
+un Admin peut créer uniquement Coach ou Viewer. Aucun autre champ d'état ou de privilège n'est accepté.
+
+Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métier. L'API ne crée ni
+superuser, ni rattachement organisationnel, et n'expose aucune opération de lecture, modification ou
+suppression d'utilisateur.

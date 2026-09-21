@@ -8,7 +8,7 @@ Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne 
 
 | Ordre | PBI | Feature porteuse | Statut |
 | ---: | --- | --- | --- |
-| 1 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Ouvert |
+| 1 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Réalisé |
 | 2 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 | 3 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 | 3 | USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
@@ -19,7 +19,7 @@ Les autorisations de ces quatre PBIs sont portées par la matrice de `FEAT-004`.
 
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
-| EPIC-001 — Identités, coachs et habilitations | 4 | 4 | 0 | 0 % |
+| EPIC-001 — Identités, coachs et habilitations | 4 | 4 | 1 | 25 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 0 | 0 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 0 | 0 | N/A |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 0 | 0 | N/A |
@@ -37,7 +37,7 @@ Les autorisations de ces quatre PBIs sont portées par la matrice de `FEAT-004`.
 | Feature | État | Nb PBI | Réalisés | Avancement |
 | --- | --- | ---: | ---: | ---: |
 | FEAT-001 — Accéder de manière authentifiée au produit | Non raffinée | 0 | 0 | N/A |
-| FEAT-002 — Administrer le cycle de vie d’une identité | Raffinée | 4 | 0 | 0 % |
+| FEAT-002 — Administrer le cycle de vie d’une identité | Raffinée | 4 | 1 | 25 % |
 | FEAT-003 — Qualifier et superviser un coach | Non raffinée | 0 | 0 | N/A |
 | FEAT-004 — Appliquer les rôles et permissions métier | Non raffinée | 0 | 0 | N/A |
 
@@ -126,7 +126,7 @@ La source détaillée est le [registre des arbitrages Organisation](source/00-ar
 
 | Périmètre bloqué | Arbitrages ouverts | Conséquence actuelle |
 | --- | --- | --- |
-| `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `ARB-ORG-001`, `ARB-ORG-008`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` | 3 PBIs raffinés au statut canonique `Bloqué` ; `USER-001` reste `Ouvert` |
+| `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `ARB-ORG-001`, `ARB-ORG-008`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` | 3 PBIs raffinés au statut canonique `Bloqué` ; `USER-001` est `Réalisé` |
 | `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-001`, `ARB-ORG-003` à `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011`, `ARB-ORG-012`, `ARB-ORG-015` | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; rattachements non raffinés |
 | `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, `ARB-ORG-015`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
@@ -152,7 +152,7 @@ Cette matrice accorde le droit d’exécuter l’action, sans décider du périm
 
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
-| USER-001 — Créer un utilisateur | M | Sol — puissance élevée | Ouvert | N/A |
+| USER-001 — Créer un utilisateur | M | Sol — puissance élevée | Réalisé | 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | M | Sol — puissance élevée | Bloqué | N/A |
 | USER-003 — Modifier un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
 | USER-004 — Supprimer un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
@@ -187,7 +187,7 @@ Cette matrice accorde le droit d’exécuter l’action, sans décider du périm
 | Features raffinées | 6 |
 | Features non raffinées | 32 |
 | Nombre total de PBIs | 15 |
-| PBIs ouverts | 15 |
+| PBIs ouverts | 14 |
 | dont PBIs bloqués | 14 |
-| PBIs réalisés | 0 |
-| Avancement global | 0 % |
+| PBIs réalisés | 1 |
+| Avancement global | 7 % |

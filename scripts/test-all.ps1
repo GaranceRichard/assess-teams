@@ -47,8 +47,8 @@ function Write-Applicability {
 $backend = Join-Path $root 'backend'
 if (Test-Path (Join-Path $backend 'manage.py')) {
     Write-Applicability `
-        -Applicable @('fonctionnel', 'API', 'integration', 'contrat') `
-        -NotApplicable @('unitaire: aucune logique isolee', 'regression: aucun bug corrige')
+        -Applicable @('unitaire', 'fonctionnel', 'API', 'integration', 'contrat') `
+        -NotApplicable @('regression: aucun bug corrige')
     $python = Get-PythonExecutable
     $coverageConfig = Join-Path $root '.coveragerc'
     Invoke-TestGroup 'Backend - tests et coverage >= 90 %' $backend {

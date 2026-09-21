@@ -104,4 +104,6 @@ Le pre-push et la CI exécutent `quality:full`. Côté backend, une exécution p
 
 Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le coverage frontend exclut seulement les sorties générées, l'entrée de rendu et les fichiers de configuration ou de test ; il ne retire pas du calcul le code applicatif testable.
 
-Le bootstrap actuel rend applicables les groupes backend, frontend et E2E. Les niveaux sans objet réel, comme les tests unitaires backend en l'absence de logique isolée et les tests de non-régression en l'absence de bug corrigé, restent explicitement `NON APPLICABLE`.
+Le bootstrap actuel rend applicables les groupes backend, frontend et E2E. Les tests unitaires backend
+couvrent désormais la politique de création d'utilisateur de `USER-001`. Les niveaux sans objet réel, comme
+les tests de non-régression en l'absence de bug corrigé, restent explicitement `NON APPLICABLE`.
