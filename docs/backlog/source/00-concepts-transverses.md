@@ -19,6 +19,8 @@ Les décisions prises, décisions `À arbitrer — bloquant` et éléments du ba
 
 Les seuls rôles métier canoniques sont `Admin`, `Coach` et `Viewer`. Ils désignent des acteurs authentifiés. Un qualificatif tel que « affecté », « responsable » ou « destinataire » précise un lien contextuel ; il ne crée pas un nouveau rôle.
 
+Le `Superadmin` désigne le superuser Django global. C’est une capacité technique réservée au bootstrap et à l’administration explicitement prévue. Il n’est ni un quatrième rôle métier, ni une valeur supplémentaire de fonction utilisateur, ni un moyen implicite d’exercer toutes les Features du produit. Le premier `Superadmin` est créé par le mécanisme de bootstrap Django. Les seules opérations métier qui lui sont ouvertes dans le backlog sont celles qui le citent explicitement.
+
 | Rôle | Capacités cumulées | Périmètre |
 | --- | --- | --- |
 | `Admin` | fonctions `Admin`, `Coach` et `Viewer` | organisation applicable à l’action selon un rattachement explicite |
@@ -27,13 +29,26 @@ Les seuls rôles métier canoniques sont `Admin`, `Coach` et `Viewer`. Ils dési
 
 Une capacité héritée ne supprime pas les préconditions métier propres à l’action. Par exemple, une fonction exigeant le `Coach` affecté à une équipe conserve cette précondition lorsqu’elle est exercée par un `Admin`.
 
-- une action d’administration est ouverte à `Admin` uniquement ;
+- parmi les rôles métier, une action d’administration est ouverte à `Admin` uniquement ; une ouverture au `Superadmin` doit rester explicite, comme dans la matrice CRUD Organisations et Équipes ci-dessous ;
 - une action de coaching est ouverte à `Coach` et `Admin`, sous réserve des liens contextuels exigés ;
 - une fonction de consultation déclarée pour `Viewer` est également ouverte à `Coach` et `Admin`, dans leur périmètre applicable ;
 - un refus de rôle ou de périmètre ne modifie aucune donnée et ne révèle aucune donnée de l’autre organisation ;
 - le présent vocabulaire décrit des capacités métier et ne prescrit aucune solution d’authentification ou de gestion technique des permissions.
 
-Le périmètre du `Viewer` authentifié et le cumul éventuel de rôles relèvent de `ARB-ORG-012`.
+Chaque utilisateur géré par `USER-001` à `USER-004` possède exactement une fonction métier parmi `Admin`, `Coach` et `Viewer`. La hiérarchie de capacités ci-dessus ne crée pas plusieurs rôles explicites sur son identité. Le `Superadmin` reste représenté séparément par sa capacité technique Django.
+
+Le périmètre du `Viewer` authentifié relève de `ARB-ORG-012`.
+
+### Matrice CRUD commune aux Organisations et aux Équipes
+
+| Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
+| --- | --- | --- | --- | --- |
+| CREATE | Oui | Oui | Non | Non |
+| READ | Oui | Oui | Oui | Oui |
+| UPDATE | Oui | Oui | Non | Non |
+| DELETE | Oui | Oui | Non | Non |
+
+Cette matrice décide uniquement si un acteur peut exercer l’action sur les Organisations et les Équipes. Elle ne décide pas quels objets lui sont accessibles. Aucun périmètre supplémentaire ne doit en être déduit : notamment, une éventuelle limitation de l’`Admin` à son organisation reste `À arbitrer` dans `ARB-ORG-015`. Un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre.
 
 ## Consultation sans compte
 

@@ -4,11 +4,22 @@ Cette page est le point d’entrée humain du suivi courant. Elle est une vue d�
 
 Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne signifie pas « prêt à implémenter » : les blocages produit sont suivis séparément ci-dessous.
 
+## Sprint 1 — Backend Utilisateurs
+
+| Ordre | PBI | Feature porteuse | Statut |
+| ---: | --- | --- | --- |
+| 1 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Ouvert |
+| 2 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
+| 3 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
+| 3 | USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
+
+Les autorisations de ces quatre PBIs sont portées par la matrice de `FEAT-004`. Le premier `Superadmin`, c’est-à-dire le superuser Django, est créé par le bootstrap et reste une capacité technique, pas un quatrième rôle métier. Le détail de l’ordre et des conditions d’entrée est dans la [planification](planning/ordonnancement.md#sprint-1--backend-utilisateurs).
+
 ## Vue d’ensemble
 
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
-| EPIC-001 — Identités, coachs et habilitations | 4 | 0 | 0 | N/A |
+| EPIC-001 — Identités, coachs et habilitations | 4 | 4 | 0 | 0 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 0 | 0 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 0 | 0 | N/A |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 0 | 0 | N/A |
@@ -17,7 +28,7 @@ Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne 
 | EPIC-006 — Suivi longitudinal | 4 | 0 | 0 | N/A |
 | EPIC-007 — Notifications du dispositif | 3 | 0 | 0 | N/A |
 | EPIC-008 — Pilotage du dispositif | 5 | 0 | 0 | N/A |
-| EPIC-009 — Gestion des organisations | 3 | 0 | 0 | N/A |
+| EPIC-009 — Gestion des organisations | 3 | 4 | 0 | 0 % |
 
 ## Détail par Epic
 
@@ -26,7 +37,7 @@ Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne 
 | Feature | État | Nb PBI | Réalisés | Avancement |
 | --- | --- | ---: | ---: | ---: |
 | FEAT-001 — Accéder de manière authentifiée au produit | Non raffinée | 0 | 0 | N/A |
-| FEAT-002 — Administrer le cycle de vie d’une identité | Non raffinée | 0 | 0 | N/A |
+| FEAT-002 — Administrer le cycle de vie d’une identité | Raffinée | 4 | 0 | 0 % |
 | FEAT-003 — Qualifier et superviser un coach | Non raffinée | 0 | 0 | N/A |
 | FEAT-004 — Appliquer les rôles et permissions métier | Non raffinée | 0 | 0 | N/A |
 
@@ -105,7 +116,7 @@ Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne 
 
 | Feature | État | Nb PBI | Réalisés | Avancement |
 | --- | --- | ---: | ---: | ---: |
-| FEAT-036 — Gérer le cycle de vie d’une organisation | Non raffinée | 0 | 0 | N/A |
+| FEAT-036 — Gérer le cycle de vie d’une organisation | Raffinée | 4 | 0 | 0 % |
 | FEAT-037 — Rattacher un Admin à une organisation | Non raffinée | 0 | 0 | N/A |
 | FEAT-038 — Rattacher un Coach à une organisation | Non raffinée | 0 | 0 | N/A |
 
@@ -115,42 +126,57 @@ La source détaillée est le [registre des arbitrages Organisation](source/00-ar
 
 | Périmètre bloqué | Arbitrages ouverts | Conséquence actuelle |
 | --- | --- | --- |
-| `FEAT-036` à `FEAT-038`, initialisation de `PV-001` | `ARB-ORG-001` à `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011` | Socle Organisation non prêt à raffiner ou implémenter |
-| `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, dépendances au socle | 7 PBIs raffinés au statut canonique `Bloqué` |
+| `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `ARB-ORG-001`, `ARB-ORG-008`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` | 3 PBIs raffinés au statut canonique `Bloqué` ; `USER-001` reste `Ouvert` |
+| `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-001`, `ARB-ORG-003` à `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011`, `ARB-ORG-012`, `ARB-ORG-015` | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; rattachements non raffinés |
+| `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, `ARB-ORG-015`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
 | Consultation authentifiée | `ARB-ORG-012` | Périmètre du `Viewer` non prêt à raffiner |
 | Consultation sans compte dans `FEAT-023` à `FEAT-027` | `ARB-ORG-014` | Accès en lecture seule non prêt à raffiner ou implémenter ; rien n’est public par défaut |
 | `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
 | Tout futur transfert d’équipe et continuités concernées | `ARB-ORG-007` | Aucun PBI de transfert créé ; capacité non prête à raffiner |
 
+## Matrice CRUD — Organisations et Équipes
+
+| Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
+| --- | --- | --- | --- | --- |
+| CREATE | Oui | Oui | Non | Non |
+| READ | Oui | Oui | Oui | Oui |
+| UPDATE | Oui | Oui | Non | Non |
+| DELETE | Oui | Oui | Non | Non |
+
+Cette matrice accorde le droit d’exécuter l’action, sans décider du périmètre accessible. Ce périmètre, notamment une éventuelle limitation de l’`Admin` à son organisation, reste `À arbitrer` dans `ARB-ORG-015`. Pour les équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`.
+
 ## PBIs raffinés
 
-### FEAT-005 — Constituer une équipe
+### FEAT-002 — Administrer le cycle de vie d’une identité
 
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
-| TEAM-001 — Créer une équipe | M | Sol — puissance élevée | Bloqué | N/A |
+| USER-001 — Créer un utilisateur | M | Sol — puissance élevée | Ouvert | N/A |
+| USER-002 — Consulter les utilisateurs | M | Sol — puissance élevée | Bloqué | N/A |
+| USER-003 — Modifier un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
+| USER-004 — Supprimer un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
 
-### FEAT-006 — Faire évoluer les informations d’une équipe
+### EPIC-009 — PBIs Organisations
 
-| PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
-| --- | --- | --- | --- | --- |
-| TEAM-004 — Modifier une équipe | M | Sol — puissance élevée | Bloqué | N/A |
+| PBI | Statut | Blocage |
+| --- | --- | --- |
+| ORG-001 — Créer une organisation | Bloqué | `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-015` |
+| ORG-002 — Consulter les organisations | Bloqué | `ORG-001`, `ARB-ORG-012`, `ARB-ORG-015` |
+| ORG-003 — Modifier une organisation | Bloqué | `ORG-002`, `ARB-ORG-004`, `ARB-ORG-015` |
+| ORG-004 — Supprimer une organisation | Bloqué | `ORG-002`, `ARB-ORG-005`, `ARB-ORG-015` |
 
-### FEAT-007 — Consulter les équipes
+### EPIC-002 — PBIs Équipes
 
-| PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
-| --- | --- | --- | --- | --- |
-| TEAM-002 — Lister les équipes | S | Sol — puissance moyenne | Bloqué | N/A |
-| TEAM-003 — Consulter une équipe | S | Sol — puissance moyenne | Bloqué | N/A |
-
-### FEAT-010 — Gérer la sortie et la reprise du suivi actif
-
-| PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
-| --- | --- | --- | --- | --- |
-| TEAM-005 — Archiver une équipe | M | Sol — puissance élevée | Bloqué | N/A |
-| TEAM-006 — Consulter les équipes archivées | S | Sol — puissance moyenne | Bloqué | N/A |
-| TEAM-007 — Réactiver une équipe | M | Sol — puissance élevée | Bloqué | N/A |
+| PBI | Statut | Blocage |
+| --- | --- | --- |
+| TEAM-001 — Créer une équipe | Bloqué | socle Organisation, `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-015` |
+| TEAM-002 — Lister les équipes | Bloqué | `TEAM-001`, `ARB-ORG-012`, `ARB-ORG-015` |
+| TEAM-003 — Consulter une équipe | Bloqué | `TEAM-001`, `ARB-ORG-012`, `ARB-ORG-015` |
+| TEAM-004 — Modifier une équipe | Bloqué | `TEAM-003`, `ARB-ORG-009`, `ARB-ORG-015` |
+| TEAM-005 — Archiver une équipe | Bloqué | `TEAM-003`, `ARB-ORG-015` |
+| TEAM-006 — Consulter les équipes archivées | Bloqué | `TEAM-005`, `ARB-ORG-012`, `ARB-ORG-015` |
+| TEAM-007 — Réactiver une équipe | Bloqué | `TEAM-005`, `ARB-ORG-015` |
 
 ## Scoring global
 
@@ -158,10 +184,10 @@ La source détaillée est le [registre des arbitrages Organisation](source/00-ar
 | --- | ---: |
 | Nombre d’Epics | 10 |
 | Nombre de Features | 38 |
-| Features raffinées | 4 |
-| Features non raffinées | 34 |
-| Nombre total de PBIs | 7 |
-| PBIs ouverts | 7 |
-| dont PBIs bloqués | 7 |
+| Features raffinées | 6 |
+| Features non raffinées | 32 |
+| Nombre total de PBIs | 15 |
+| PBIs ouverts | 15 |
+| dont PBIs bloqués | 14 |
 | PBIs réalisés | 0 |
 | Avancement global | 0 % |

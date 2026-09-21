@@ -16,7 +16,7 @@ Priorités :
 
 ## Socle organisationnel
 
-Le système est multi-organisation. Les définitions canoniques d’**Organisation**, des rôles authentifiés `Admin`, `Coach`, `Viewer`, de la consultation sans compte, de leur périmètre et des règles de cloisonnement se trouvent dans les [concepts métier transverses](source/00-concepts-transverses.md). L’[Epic de gestion des organisations](source/05-organisations.md) porte leur cycle de vie et le rattachement des acteurs.
+Le système est multi-organisation. Les définitions canoniques d’**Organisation**, du `Superadmin` technique, des rôles authentifiés `Admin`, `Coach`, `Viewer`, de la matrice CRUD des Organisations et Équipes, de leur périmètre et des règles de cloisonnement se trouvent dans les [concepts métier transverses](source/00-concepts-transverses.md). L’[Epic de gestion des organisations](source/05-organisations.md) porte leur cycle de vie et le rattachement des acteurs.
 
 Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md) distingue les décisions prises, les décisions `À arbitrer — bloquant` et le backlog bloqué. Aucune future implémentation ne devra transformer ces inconnues en règles implicites. La consultation sans compte reste en lecture seule et aucune donnée organisationnelle n’est publique par défaut.
 
@@ -24,12 +24,12 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 
 **Objectif :** prouver rapidement la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**.
 
-`TEAM-001` reste indépendant de l’implémentation technique de l’authentification et des permissions. Il ne peut toutefois être ordonnancé qu’après le raffinement du socle Organisation dont dépend son rattachement obligatoire.
+`TEAM-001` reste indépendant de l’implémentation technique de l’authentification et des permissions. Il ne peut toutefois être ordonnancé qu’après `ORG-001` et la résolution des rattachements du socle Organisation dont dépend son organisation obligatoire.
 
 **Scénario nominal :**
 
-1. Une organisation existe et son premier rattachement `Admin` a été établi selon le mécanisme d’initialisation restant à arbitrer (`FEAT-036`, `FEAT-037`).
-2. Cet `Admin` authentifié crée et active l’identité du `Coach`, puis le rattache à la même organisation (`FEAT-001` à `FEAT-004`, `FEAT-038`).
+1. Une organisation a été créée par `ORG-001` et son premier rattachement `Admin` a été établi selon le mécanisme d’initialisation restant à arbitrer (`FEAT-037`).
+2. Cet `Admin` authentifié crée et active l’identité du `Coach` selon `USER-001`, puis le rattache à la même organisation (`FEAT-001` à `FEAT-004`, `FEAT-038`).
 3. Il crée dans cette organisation une équipe, puis lui affecte ce `Coach` de la même organisation ; l’affectation est historisée (`TEAM-001`, `TEAM-003`, `FEAT-008`, `FEAT-009`).
 4. Il compose, paramètre, publie et versionne un modèle d’évaluation dans un périmètre organisationnel explicite (`FEAT-011` à `FEAT-014`).
 5. Il associe ce modèle à l’équipe et fixe la première échéance ainsi que la fréquence (`FEAT-015` à `FEAT-018`).
