@@ -30,31 +30,25 @@ organisationnel ni gestion, consultation ou suppression d'utilisateur n'est ajou
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell.
 
-Depuis PowerShell à la racine du dépôt :
-
-```powershell
-python -m venv .\backend\.venv
-& .\backend\.venv\Scripts\python.exe -m pip install -r .\backend\requirements-dev.txt
-npm.cmd ci
-npm.cmd ci --prefix frontend
-& .\frontend\node_modules\.bin\playwright.cmd install chromium
-```
+Le lancement de développement prépare automatiquement les dépendances propres au checkout. Il crée ou répare
+`backend/.venv`, synchronise `backend/requirements-dev.txt` et exécute `npm ci` dans `frontend` uniquement lorsque
+`package-lock.json` l'exige. Chaque nouveau worktree bénéficie du même mécanisme, sans lien ni installation manuelle.
 
 Le backend utilise `backend/db.sqlite3`, créé localement et ignoré par Git. Les migrations sont appliquées automatiquement par la commande de développement backend.
 
 ## Lancement en développement
 
-L'environnement complet se lance hors VS Code avec :
+Dans VS Code, le parcours nominal complet est :
 
 ```powershell
-npm.cmd run dev
+Ctrl+Shift+B
 ```
 
-Les commandes séparées sont :
+Hors VS Code, ouvrir deux terminaux à la racine et lancer respectivement :
 
 ```powershell
-npm.cmd run dev:backend
-npm.cmd run dev:frontend
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-backend.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-frontend.ps1
 ```
 
 - Django écoute sur `http://127.0.0.1:8000`.
@@ -73,7 +67,10 @@ Push-Location backend
 Pop-Location
 ```
 
-Dans VS Code, `Ctrl+Shift+B` lance la tâche par défaut `Dev: all`. Elle démarre `Dev: backend` et `Dev: frontend` en parallèle dans deux terminaux identifiables. Les trois tâches versionnées utilisent `${workspaceFolder}` et les mêmes scripts PowerShell que les commandes ci-dessus.
+`Ctrl+Shift+B` lance la tâche par défaut `Dev: all`. Elle démarre `Dev: backend` et `Dev: frontend` en parallèle dans deux terminaux identifiables. Les trois tâches versionnées utilisent `${workspaceFolder}` et les mêmes scripts PowerShell que les commandes ci-dessus.
+
+Au premier lancement, chaque terminal affiche la préparation de son runtime avant de démarrer le service. Les
+lancements suivants sont quasi immédiats ; une erreur explicite arrête uniquement le service concerné.
 
 ## Tests et coverages
 
@@ -172,6 +169,9 @@ Active les hooks versionnés une fois par clone :
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-hooks.ps1
 ```
+
+Le premier lancement backend effectue aussi cette activation. Des dispatchers physiques dans le répertoire Git
+commun permettent au `post-checkout` cible de préparer ses runtimes sans partage, junction ni lien symbolique.
 
 Le `pre-commit` lance `quality:quick` sans bloquer le commit. Pour une publication, le `pre-push` impose d'abord
 la branche et le worktree dédiés, l'état entièrement commité, la destination `main` et la resynchronisation sur

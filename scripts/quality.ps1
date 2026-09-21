@@ -83,6 +83,7 @@ Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-reposito
 Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
 Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
 Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
+Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
 
 $backendPath = Join-Path $root 'backend'
 $backendPresent = (Test-Path (Join-Path $backendPath 'manage.py')) -or

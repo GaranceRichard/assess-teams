@@ -1,18 +1,19 @@
-param([switch]$NoReload)
+param(
+    [switch]$NoReload,
+    [string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+)
 
 $ErrorActionPreference = 'Stop'
-$root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
-$backend = Join-Path $root 'backend'
+$backend = Join-Path $Root 'backend'
 $windowsPython = Join-Path $backend '.venv\Scripts\python.exe'
 $unixPython = Join-Path $backend '.venv/bin/python'
 
-if (Test-Path $windowsPython) {
-    $python = $windowsPython
-} elseif (Test-Path $unixPython) {
-    $python = $unixPython
-} else {
-    $python = 'python'
+if (Test-Path (Join-Path $Root '.git')) {
+    & (Join-Path $PSScriptRoot 'setup-hooks.ps1') -Root $Root -Quiet
 }
+& (Join-Path $PSScriptRoot 'bootstrap\backend.ps1') -Root $Root -QuietIfReady
+$python = if (Test-Path $windowsPython) { $windowsPython } else { $unixPython }
+if (-not (Test-Path $python -PathType Leaf)) { throw 'Python local prepare introuvable.' }
 
 Push-Location $backend
 try {
