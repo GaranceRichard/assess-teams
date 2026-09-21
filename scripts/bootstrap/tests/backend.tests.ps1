@@ -18,7 +18,11 @@ try {
     Set-Content (Join-Path $backend 'requirements-dev.txt') '-r requirements.txt'
 
     $first = & $bootstrap -Root $testRoot 6>&1 | Out-String
-    $python = Join-Path $backend '.venv\Scripts\python.exe'
+    $python = if ($env:OS -eq 'Windows_NT') {
+        Join-Path $backend '.venv\Scripts\python.exe'
+    } else {
+        Join-Path $backend '.venv/bin/python'
+    }
     $stamp = Join-Path $backend '.venv\.assess-teams-bootstrap.json'
     Assert-True (Test-Path $python -PathType Leaf) 'Le virtualenv backend absent n a pas ete cree.'
     Assert-True ($first.Contains('synchronisation (absent)')) 'La creation initiale n est pas explicite.'

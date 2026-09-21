@@ -30,7 +30,7 @@ printf prepared > "$repo_root/worktree-bootstrap.txt"
         $postCheckout,
         [Text.UTF8Encoding]::new($false)
     )
-    foreach ($name in @('pre-commit', 'pre-push')) {
+    foreach ($name in @('pre-commit', 'pre-push', 'run-quality')) {
         Set-Content (Join-Path $repository ".githooks\$name") "#!/bin/sh`nexit 0" -Encoding ascii
     }
     & git -C $repository init --initial-branch=main | Out-Null

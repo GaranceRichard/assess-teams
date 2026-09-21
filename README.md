@@ -28,7 +28,7 @@ organisationnel ni gestion, consultation ou suppression d'utilisateur n'est ajou
 
 ## Installation
 
-Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell.
+Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Windows, macOS ou Linux.
 
 Le lancement de développement prépare automatiquement les dépendances propres au checkout. Il crée ou répare
 `backend/.venv`, synchronise `backend/requirements-dev.txt` et exécute `npm ci` dans `frontend` uniquement lorsque

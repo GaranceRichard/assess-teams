@@ -21,8 +21,9 @@ function New-FrontendFixture {
 
 try {
     New-FrontendFixture $testRoot
-    $fakeNpm = Join-Path $testRoot 'fake-npm.cmd'
-    $batch = @'
+    if ($env:OS -eq 'Windows_NT') {
+        $fakeNpm = Join-Path $testRoot 'fake-npm.cmd'
+        $fake = @'
 @echo off
 echo %*>>npm-calls.log
 if "%1"=="ci" (
@@ -39,7 +40,30 @@ if "%1"=="ls" (
 if "%1"=="run" exit /b 0
 exit /b 3
 '@
-    Set-Content $fakeNpm $batch -Encoding ascii
+        Set-Content $fakeNpm $fake -Encoding ascii
+    } else {
+        $fakeNpm = Join-Path $testRoot 'fake-npm'
+        $fake = @'
+#!/bin/sh
+printf '%s\n' "$*" >> npm-calls.log
+if [ "$1" = "ci" ]; then
+  [ -f .fail-ci ] && exit 42
+  rm -rf node_modules
+  mkdir -p node_modules/.bin
+  : > node_modules/.bin/vite
+  chmod +x node_modules/.bin/vite
+  exit 0
+fi
+if [ "$1" = "ls" ]; then
+  [ -f node_modules/.bin/vite ] && exit 0
+  exit 1
+fi
+[ "$1" = "run" ] && exit 0
+exit 3
+'@
+        [IO.File]::WriteAllText($fakeNpm, $fake, [Text.UTF8Encoding]::new($false))
+        & chmod +x $fakeNpm
+    }
 
     $first = & $bootstrap -Root $testRoot -NpmCommand $fakeNpm 6>&1 | Out-String
     Assert-True ($first.Contains('node_modules absent')) 'node_modules absent ne declenche pas npm ci.'
@@ -66,9 +90,8 @@ exit /b 3
     $failureRoot = Join-Path $testRoot 'failure'
     New-FrontendFixture $failureRoot
     New-Item (Join-Path $failureRoot 'frontend\.fail-ci') -ItemType File | Out-Null
-    Copy-Item $fakeNpm (Join-Path $failureRoot 'fake-npm.cmd')
     $failed = $false
-    try { & $bootstrap -Root $failureRoot -NpmCommand (Join-Path $failureRoot 'fake-npm.cmd') 2>&1 | Out-Null } catch {
+    try { & $bootstrap -Root $failureRoot -NpmCommand $fakeNpm 2>&1 | Out-Null } catch {
         $failed = $_.Exception.Message.Contains('[bootstrap frontend] ECHEC')
     }
     Assert-True $failed 'Un echec npm ci ne bloque pas explicitement le bootstrap frontend.'
