@@ -1,6 +1,6 @@
 # Gouvernance du backlog
 
-Ce document est la référence unique pour créer, rattacher, suivre et synthétiser les éléments du backlog. Il gouverne leur évolution sans modifier le périmètre fonctionnel.
+Ce document est la référence unique pour créer, rattacher, suivre et synthétiser les éléments du backlog. Il gouverne leur évolution sans modifier le périmètre fonctionnel. Les [concepts métier transverses](source/00-concepts-transverses.md) sont définis une seule fois puis référencés par les Epics, Features et PBIs qui les utilisent.
 
 ## Hiérarchie et responsabilités
 
@@ -16,20 +16,34 @@ Une Feature ne devient jamais implicitement un PBI. Le code, une branche, un com
 
 L’autorité dépend de la nature de l’information :
 
-1. les [documents détaillés](source/) font autorité pour les Epics, Features, PBIs et leurs données métier ;
-2. le [registre canonique des PBIs](tracking/pbis.md) fait autorité pour leur taille, modèle Codex, statut et date de réalisation ;
-3. l’[ordonnancement](planning/ordonnancement.md) organise uniquement les priorités et dépendances déjà explicites ;
-4. les [synthèses](summaries/) sont des vues dérivées et ne font jamais autorité.
+1. les [concepts métier transverses](source/00-concepts-transverses.md) font autorité pour les concepts globaux, les rôles, les rattachements et les périmètres organisationnels ;
+2. les autres [documents détaillés](source/) font autorité pour les Epics, Features, PBIs et leurs conséquences métier spécifiques ;
+3. le [registre canonique des PBIs](tracking/pbis.md) fait autorité pour le statut et la date de réalisation ; il est le registre unique des recommandations de taille et de modèle Codex, qui ne sont pas des décisions ;
+4. l’[ordonnancement](planning/ordonnancement.md) organise uniquement les priorités et dépendances déjà explicites ;
+5. la [synthèse du backlog](synthese.md) est la vue dérivée humaine du suivi courant et ne fait jamais autorité.
 
-En cas de divergence, la source détaillée prévaut pour le fonctionnel et le registre canonique pour le suivi. La synthèse doit être corrigée ; elle ne justifie jamais de modifier une source sans décision explicite.
+En cas de divergence, la source transverse prévaut pour un concept global, la source d’Epic pour sa conséquence fonctionnelle et le registre canonique pour le suivi. La synthèse doit être corrigée ; elle ne justifie jamais de modifier une source sans décision explicite.
 
 ## Nature des données
 
-- **Donnée métier :** objectif, acteur, comportement, règle, critère d’acceptation, refus, rattachement et dépendance fonctionnelle. Elle vit dans la source détaillée.
-- **Donnée de planification :** priorité, ordre, taille et modèle Codex. La priorité et les dépendances vivent dans la source détaillée ; taille et modèle vivent dans le registre canonique.
+- **Concept métier global :** organisation, rôle, hiérarchie de capacités, règle de rattachement et périmètre commun. Il vit dans la source transverse et n’est pas redéfini dans chaque Epic.
+- **Donnée métier spécifique :** objectif, acteur, comportement, règle, critère d’acceptation, refus, rattachement et dépendance fonctionnelle propres à un Epic, une Feature ou un PBI. Elle vit dans sa source détaillée.
+- **Donnée de planification :** priorité, ordre et, après décision explicite, taille ou modèle Codex retenu. La priorité et les dépendances vivent dans la source détaillée. À ce jour, les tailles et modèles du registre sont des recommandations et ne valent ni estimation décidée ni affectation de modèle.
 - **Donnée de suivi :** statut et date de réalisation. Elle vit dans le registre canonique.
 
 Une valeur de synthèse doit pointer vers une de ces sources ou résulter d’une formule documentée.
+
+## Concepts, rôles et périmètres
+
+- une source d’Epic référence les concepts transverses au lieu d’en proposer une variante locale ;
+- les acteurs sont exprimés avec les rôles canoniques `Admin`, `Coach` et `Viewer` ; les qualificatifs décrivent seulement un contexte d’action ;
+- tout élément qui utilise une donnée organisationnelle précise son rattachement direct ou le chemin métier qui permet de déterminer son organisation ;
+- une opération portant sur plusieurs données vérifie la cohérence de leurs organisations et refuse tout croisement implicite ;
+- `À arbitrer` signale une décision produit manquante. Cette valeur ne peut être remplacée par une hypothèse dans une source, une synthèse ou une implémentation.
+
+## Recommandations de taille et de modèle Codex
+
+Les colonnes `Taille recommandée` et `Modèle Codex recommandé` du registre contiennent des recommandations de préparation. Elles sont centralisées pour éviter des variantes dans la synthèse, mais ne deviennent des décisions qu’après arbitrage explicite. Une recommandation automatique ne peut donc pas être utilisée comme engagement, estimation officielle ou affectation implicite. Si une décision intervient, sa nature et sa date doivent être enregistrées explicitement avant que les libellés de gouvernance et de registre ne la présentent comme telle.
 
 ## Identifiants et rattachements
 
@@ -84,12 +98,15 @@ Les mêmes règles s’appliquent aux agrégats par Feature, par Epic et au scor
 
 ## Mise à jour des synthèses
 
-Toute évolution suit cet ordre : source détaillée, registre canonique si nécessaire, contrôle de cohérence, puis synthèses. Chaque synthèse :
+Toute évolution suit cet ordre : source détaillée, registre canonique si nécessaire, contrôle de cohérence, puis [synthèse du backlog](synthese.md). Cette page reste l’unique vue complète du suivi courant et le point d’entrée humain. Elle :
 
 - restitue seulement des valeurs explicites ou calculables par les formules ci-dessus ;
+- accompagne toujours un identifiant d’Epic, de Feature ou de PBI de son libellé métier dans les tableaux ; le registre canonique applique aussi cette règle à ses colonnes `PBI` et `Feature parente` ;
 - affiche `À définir`, `Non raffiné` ou `N/A` au lieu de compléter implicitement une donnée ;
-- ne transforme pas une Feature en PBI et n’invente ni statut, taille, modèle, date, priorité ou dépendance ;
+- ne transforme pas une Feature en PBI et n’invente ni statut, recommandation de taille, recommandation de modèle, date, priorité ou dépendance ;
 - ne déduit jamais une réalisation de l’existence de code ;
 - est mise à jour dans le même changement que sa source.
 
-Le contrôle de cohérence recherche les identifiants absents ou dupliqués, rattachements manquants, dépendances inconnues ou circulaires, doublons fonctionnels évidents, divergences avec les synthèses et données de suivi présentes seulement dans une synthèse.
+La synthèse principale reste limitée à 200 lignes. Si la croissance des PBIs menace cette limite, elle conserve la vue globale, le scoring et les liens de navigation à son emplacement actuel. Seuls les détails nécessaires peuvent être déportés dans des fichiers secondaires explicitement liés ; ces fichiers ne deviennent jamais une synthèse concurrente ni une nouvelle source de vérité.
+
+Le contrôle de cohérence recherche les identifiants absents ou dupliqués, rattachements manquants, dépendances inconnues ou circulaires, doublons fonctionnels évidents, divergences avec la synthèse et données de suivi présentes seulement dans cette vue dérivée.

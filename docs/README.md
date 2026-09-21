@@ -15,8 +15,9 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Backlog
 
+- [Synthèse du backlog et suivi d’avancement](backlog/synthese.md)
 - [Point d’entrée du backlog](backlog/README.md)
 - [Gouvernance du backlog](backlog/governance.md)
 - [Source fonctionnelle détaillée](backlog/README.md#source-fonctionnelle-détaillée)
 - [Planification](backlog/README.md#planification)
-- [Suivi canonique et synthèses](backlog/README.md#suivi-et-synthèses)
+- [Registre canonique du suivi](backlog/tracking/pbis.md)

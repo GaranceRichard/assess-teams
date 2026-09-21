@@ -150,6 +150,7 @@ Le `pre-commit` lance `quality:quick` sans bloquer le commit. Le `pre-push` lanc
 
 L’[index de la documentation](docs/README.md) donne accès à l’ensemble des références :
 
+- [synthèse du backlog](docs/backlog/synthese.md) — point d’entrée du suivi d’avancement ;
 - [architecture](docs/architecture/fundamentals.md) ;
 - [qualité](docs/README.md#qualité) ;
 - [backlog et gouvernance](docs/backlog/README.md).
