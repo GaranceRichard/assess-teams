@@ -70,7 +70,9 @@ Un seuil global ne dispense jamais de tester les comportements modifiés, les br
 
 ## Documentation
 
-Avant tout push, effectuer une revue d'impact documentaire. Vérifier au minimum le [README racine](../../README.md), les [règles des agents](agent-rules.md), la [charte qualité](quality-charter.md), la [Definition of Done](definition-of-done.md), la [stratégie de tests](test-strategy.md), la [documentation d'architecture](../architecture/fundamentals.md), la documentation API et tout autre fichier Markdown concerné. Mettre à jour chaque document affecté dans le même changement.
+Avant tout push, effectuer une revue d'impact documentaire. Vérifier au minimum le [README racine](../../README.md), les [règles des agents](agent-rules.md), la [charte qualité](quality-charter.md), la [Definition of Done](definition-of-done.md), la [stratégie de tests](test-strategy.md), la [documentation d'architecture](../architecture/fundamentals.md), le [contrat API et OpenAPI](../architecture/backend-api.md) et tout autre fichier Markdown concerné. Mettre à jour chaque document affecté dans le même changement.
+
+Tout endpoint backend nouveau ou modifié doit être décrit par `drf-spectacular`. L’évolution reste inachevée si le schéma `/api/schema/` n’est pas générable et valide, si Swagger UI `/api/docs/` n’est plus accessible, ou si méthode, chemin, paramètres, corps, réponses, codes, erreurs, authentification ou permissions divergent de l’implémentation.
 
 ## Livraison complète par défaut
 

@@ -17,10 +17,11 @@ Une Feature ne devient jamais implicitement un PBI. Le code, une branche, un com
 L’autorité dépend de la nature de l’information :
 
 1. les [concepts métier transverses](source/00-concepts-transverses.md) font autorité pour les concepts globaux, les rôles, les rattachements et les périmètres organisationnels ;
-2. les autres [documents détaillés](source/) font autorité pour les Epics, Features, PBIs et leurs conséquences métier spécifiques ;
-3. le [registre canonique des PBIs](tracking/pbis.md) fait autorité pour le statut et la date de réalisation ; il est le registre unique des recommandations de taille et de modèle Codex, qui ne sont pas des décisions ;
-4. l’[ordonnancement](planning/ordonnancement.md) organise uniquement les priorités et dépendances déjà explicites ;
-5. la [synthèse du backlog](synthese.md) est la vue dérivée humaine du suivi courant et ne fait jamais autorité.
+2. le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md) fait autorité pour les décisions prises, décisions produit ouvertes et éléments qu’elles bloquent ;
+3. les autres [documents détaillés](source/) font autorité pour les Epics, Features, PBIs et leurs conséquences métier spécifiques ;
+4. le [registre canonique des PBIs](tracking/pbis.md) fait autorité pour le statut et la date de réalisation ; il est le registre unique des recommandations de taille et de modèle Codex, qui ne sont pas des décisions ;
+5. l’[ordonnancement](planning/ordonnancement.md) organise uniquement les priorités et dépendances déjà explicites ;
+6. la [synthèse du backlog](synthese.md) est la vue dérivée humaine du suivi courant et ne fait jamais autorité.
 
 En cas de divergence, la source transverse prévaut pour un concept global, la source d’Epic pour sa conséquence fonctionnelle et le registre canonique pour le suivi. La synthèse doit être corrigée ; elle ne justifie jamais de modifier une source sans décision explicite.
 
@@ -36,10 +37,10 @@ Une valeur de synthèse doit pointer vers une de ces sources ou résulter d’un
 ## Concepts, rôles et périmètres
 
 - une source d’Epic référence les concepts transverses au lieu d’en proposer une variante locale ;
-- les acteurs sont exprimés avec les rôles canoniques `Admin`, `Coach` et `Viewer` ; les qualificatifs décrivent seulement un contexte d’action ;
+- les acteurs authentifiés sont exprimés avec les rôles canoniques `Admin`, `Coach` et `Viewer` ; la consultation sans compte est un mode d’accès en lecture seule, jamais un rôle ;
 - tout élément qui utilise une donnée organisationnelle précise son rattachement direct ou le chemin métier qui permet de déterminer son organisation ;
 - une opération portant sur plusieurs données vérifie la cohérence de leurs organisations et refuse tout croisement implicite ;
-- `À arbitrer` signale une décision produit manquante. Cette valeur ne peut être remplacée par une hypothèse dans une source, une synthèse ou une implémentation.
+- `À arbitrer` signale une décision produit manquante. Cette valeur ne peut être remplacée par une hypothèse dans une source, une synthèse ou une implémentation ; le registre des arbitrages rend explicites ses blocages.
 
 ## Recommandations de taille et de modèle Codex
 
@@ -71,6 +72,8 @@ L’état de raffinement d’une Feature est calculé :
 - `Raffinée` dès qu’au moins un PBI détaillé lui est rattaché.
 
 Les statuts permis d’un PBI sont `Ouvert`, `En cours`, `Bloqué` et `Réalisé`. Tout changement est écrit dans le registre canonique avant la mise à jour des synthèses. Une Feature n’a pas de statut de livraison autonome : son avancement est calculé depuis ses PBIs raffinés.
+
+Un PBI dépendant d’un arbitrage produit indispensable non résolu porte le statut `Bloqué` dans le registre et ne peut être présenté comme prêt à implémenter. Ce statut ne change ni son rattachement ni l’état calculé `Raffinée` de sa Feature. Une Feature non raffinée reste une Feature : son blocage est visible sans créer artificiellement de PBI.
 
 Un PBI est `Réalisé` uniquement lorsque ses critères d’acceptation et refus sont satisfaits, les tests et contrôles applicables passent, la Definition of Done est respectée, le changement est intégré selon la procédure de livraison et une date de réalisation explicite est inscrite. L’existence de code ne suffit jamais.
 
@@ -104,6 +107,7 @@ Toute évolution suit cet ordre : source détaillée, registre canonique si néc
 - accompagne toujours un identifiant d’Epic, de Feature ou de PBI de son libellé métier dans les tableaux ; le registre canonique applique aussi cette règle à ses colonnes `PBI` et `Feature parente` ;
 - affiche `À définir`, `Non raffiné` ou `N/A` au lieu de compléter implicitement une donnée ;
 - ne transforme pas une Feature en PBI et n’invente ni statut, recommandation de taille, recommandation de modèle, date, priorité ou dépendance ;
+- rend visibles les arbitrages bloquants des Features et reprend pour les PBIs le statut canonique `Bloqué`, sans confondre blocage, raffinement et avancement ;
 - ne déduit jamais une réalisation de l’existence de code ;
 - est mise à jour dans le même changement que sa source.
 

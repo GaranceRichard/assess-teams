@@ -30,6 +30,9 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 - [ ] Les tests d'intégration nécessaires couvrent les interactions significatives : service Django + ORM, API + base de données, authentification + permissions + endpoint, React + couche API et frontend + backend.
 - [ ] Les tests de contrat nécessaires entre React et Django REST Framework couvrent requêtes, réponses, champs obligatoires, types, codes HTTP, erreurs et validations.
+- [ ] Tout endpoint backend nouveau ou modifié décrit dans OpenAPI sa méthode, son chemin, ses paramètres, son corps de requête, ses réponses, ses codes HTTP, ses erreurs et refus métier, son authentification et ses permissions applicables, ainsi que les exemples utiles.
+- [ ] Le schéma `drf-spectacular` exposé sur `/api/schema/` est générable et valide ; Swagger UI reste accessible sur `/api/docs/`.
+- [ ] Le contrat OpenAPI a été vérifié contre l’implémentation ; une absence, une invalidité ou une incohérence empêche de déclarer l’évolution d’API terminée.
 - [ ] Les parcours métier critiques concernés sont couverts par des tests E2E Playwright.
 - [ ] La couverture E2E est évaluée en parcours fonctionnels critiques, distinctement du code coverage.
 

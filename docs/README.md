@@ -4,7 +4,9 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Architecture
 
-- [Fondamentaux architecturaux](architecture/fundamentals.md) : architecture hexagonale, Clean Code et règles de dépendance.
+- [Fondamentaux architecturaux](architecture/fundamentals.md) : navigation des principes structurants.
+- [Architecture hexagonale](architecture/hexagonal-architecture.md) et [Clean Code](architecture/clean-code.md).
+- [API backend et OpenAPI](architecture/backend-api.md) : contrat DRF, schéma et Swagger UI.
 
 ## Qualité
 

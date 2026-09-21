@@ -10,12 +10,12 @@ La documentation est restructurée sous `docs/` par responsabilité afin de cent
 
 ## Socle technique
 
-- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16 et SQLite.
+- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite.
 - Frontend : React 19, TypeScript 5.9 et Vite 8.
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le dépôt contient uniquement le socle technique et un health check `GET /api/health/`. Aucun domaine métier n'est encore implémenté.
+Le dépôt contient uniquement le socle technique, un health check `GET /api/health/`, le schéma OpenAPI `/api/schema/` et Swagger UI `/api/docs/`. Aucun domaine métier n'est encore implémenté. La documentation formalise aussi les arbitrages bloquants du socle Organisation et distingue la consultation authentifiée de l'accès sans compte, sans ouvrir implicitement de donnée organisationnelle.
 
 ## Installation
 
@@ -52,6 +52,8 @@ npm.cmd run dev:frontend
 - Vite écoute sur `http://127.0.0.1:5173`.
 - Vite transmet `/api/*` à Django sur le port `8000`.
 - Le health check est disponible sur `http://127.0.0.1:8000/api/health/`.
+- Le schéma OpenAPI est disponible sur `http://127.0.0.1:8000/api/schema/`.
+- Swagger UI est disponible sur `http://127.0.0.1:8000/api/docs/`.
 
 Dans VS Code, `Ctrl+Shift+B` lance la tâche par défaut `Dev: all`. Elle démarre `Dev: backend` et `Dev: frontend` en parallèle dans deux terminaux identifiables. Les trois tâches versionnées utilisent `${workspaceFolder}` et les mêmes scripts PowerShell que les commandes ci-dessus.
 
@@ -80,7 +82,7 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check nominal, le refus d'une méthode non supportée, SQLite et le contrat JSON. Le frontend couvre le shell, le client API, les états nominal et d'erreur. Playwright couvre le smoke technique navigateur → Vite → Django → SQLite et vérifie que le backend applique les migrations avant de servir. Les tests unitaires backend et les tests de non-régression sont actuellement `NON APPLICABLE`, faute de logique isolée ou de bug corrigé.
+Le backend couvre le health check nominal, le refus d'une méthode non supportée, SQLite, le contrat JSON, la génération du schéma OpenAPI et l’exposition de Swagger UI. Le frontend couvre le shell, le client API, les états nominal et d'erreur. Playwright couvre le smoke technique navigateur → Vite → Django → SQLite et vérifie que le backend applique les migrations avant de servir. Les tests unitaires backend et les tests de non-régression sont actuellement `NON APPLICABLE`, faute de logique isolée ou de bug corrigé.
 
 ## Approche quality-first
 

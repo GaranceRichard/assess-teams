@@ -31,7 +31,7 @@ Ils expriment le comportement observable à partir d'un besoin métier. Pour cha
 
 ### Tests API
 
-Ils couvrent les endpoints Django REST Framework : authentification, autorisation, validation, sérialisation, codes HTTP, corps de réponse, erreurs et effets persistés. Ils incluent les cas nominaux et les refus métier pertinents.
+Ils couvrent les endpoints Django REST Framework : authentification, autorisation, validation, sérialisation, codes HTTP, corps de réponse, erreurs et effets persistés. Ils incluent les cas nominaux et les refus métier pertinents. Pour chaque endpoint nouveau ou modifié, ils vérifient aussi les éléments contractuels applicables documentés par OpenAPI.
 
 ### Tests d'intégration
 
@@ -58,6 +58,8 @@ Ils empêchent la dérive des contrats entre React et Django REST Framework. Ils
 - les validations.
 
 Les deux côtés du contrat doivent s'appuyer sur les mêmes attentes versionnées. Toute évolution incompatible doit être explicite et accompagnée d'une stratégie de migration.
+
+`drf-spectacular` génère le schéma de référence exposé sur `/api/schema/`, consultable avec Swagger UI sur `/api/docs/`. La suite backend doit générer et valider le schéma complet, puis vérifier sa cohérence avec les méthodes, chemins, paramètres, corps, réponses, codes HTTP, erreurs, authentification et permissions réellement exposés. Des exemples sont testés lorsqu’ils portent une règle contractuelle utile.
 
 ### Tests de non-régression
 
@@ -91,6 +93,7 @@ Les tests rapides sont exécutés au plus tôt ; la suite complète inclut tests
 - les deux seuils de coverage sont atteints ;
 - chaque élément fonctionnel possède ses cas passant et non passant ;
 - chaque interaction, contrat et parcours critique affecté possède la couverture nécessaire ;
+- le schéma OpenAPI est générable, valide et cohérent avec toute API nouvelle ou modifiée ;
 - chaque bug corrigé possède son test de non-régression.
 
 Tout échec constitue un blocage, jamais une simple alerte.

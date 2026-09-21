@@ -56,6 +56,10 @@ Ces seuils sont bloquants, mais ne remplacent pas la qualité des assertions ni 
 
 ## Intégration et contrats
 
+Le contrat HTTP du backend est décrit en permanence par OpenAPI avec Django REST Framework et `drf-spectacular`. Le schéma est exposé sur `/api/schema/` et Swagger UI sur `/api/docs/`.
+
+Tout endpoint nouveau ou modifié documente méthode, chemin, paramètres, corps de requête, schémas de réponse, codes HTTP, erreurs et refus métier, authentification et permissions applicables, ainsi que des exemples lorsque le contrat le justifie. Le schéma complet doit être générable, valide et cohérent avec l’implémentation.
+
 Les tests d'intégration couvrent toutes les interactions significatives, notamment :
 
 - service Django + ORM ;
@@ -70,6 +74,8 @@ Les tests de contrat React / Django REST Framework vérifient :
 - les champs obligatoires et les types ;
 - les codes HTTP ;
 - les erreurs et les validations.
+
+Les tests de contrat et de schéma détectent également tout endpoint absent du contrat, toute génération OpenAPI invalide et toute divergence vérifiable entre documentation et comportement.
 
 ## E2E et parcours métier
 
@@ -108,4 +114,5 @@ Une tâche n'est pas terminée si au moins une condition est vraie :
 - un test, le lint ou le formatage échoue ;
 - une migration Django requise manque ;
 - la documentation est obsolète ;
+- le contrat OpenAPI d’un endpoint nouveau ou modifié est absent, invalide ou incohérent avec l’implémentation ;
 - un secret ou identifiant sensible est commité.

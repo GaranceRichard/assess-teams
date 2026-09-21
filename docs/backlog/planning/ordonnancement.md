@@ -1,13 +1,13 @@
 ﻿## Ordonnancement recommandé
 
 1. **Socle Organisation :** arbitrer puis raffiner `FEAT-036` à `FEAT-038`, afin qu’une organisation et les rattachements nécessaires existent avant la création d’une équipe.
-2. **Premier PBI d’implémentation après ce socle :** `TEAM-001`, sans dépendance à l’implémentation technique de l’authentification ou des permissions, mais avec un rattachement organisationnel explicite.
+2. **Premier PBI d’implémentation après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-005` et `ARB-ORG-009`, sans dépendance à l’implémentation technique de l’authentification ou des permissions, mais avec un rattachement organisationnel explicite.
 3. **Suite du socle P0 :** raffiner les Features `FEAT-001` à `FEAT-004`, puis livrer les PBIs nécessaires ; poursuivre avec `TEAM-002` à `TEAM-005`, `FEAT-008` et `FEAT-009` après leur raffinement.
 4. **Cadre d’évaluation P0 :** arbitrer la portée organisationnelle des modèles et paramètres, puis raffiner et livrer `FEAT-011` à `FEAT-018`.
 5. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
 6. **Suite P1/P2 :** `TEAM-006`, `TEAM-007`, puis les autres Features après leur raffinement selon la valeur et les dépendances.
 
-Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django.
+Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django. Il ne rend aucun élément prêt tant que les décisions bloquantes du [registre des arbitrages Organisation](../source/00-arbitrages-organisations.md) ne sont pas résolues.
 
 ## Hypothèse de cartographie des domaines métier
 

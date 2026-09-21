@@ -16,9 +16,9 @@ Priorités :
 
 ## Socle organisationnel
 
-Le système est multi-organisation. Les définitions canoniques d’**Organisation**, des rôles `Admin`, `Coach`, `Viewer`, de leur hiérarchie de capacités et des règles de cloisonnement se trouvent dans les [concepts métier transverses](source/00-concepts-transverses.md). L’[Epic de gestion des organisations](source/05-organisations.md) porte leur cycle de vie et le rattachement des acteurs.
+Le système est multi-organisation. Les définitions canoniques d’**Organisation**, des rôles authentifiés `Admin`, `Coach`, `Viewer`, de la consultation sans compte, de leur périmètre et des règles de cloisonnement se trouvent dans les [concepts métier transverses](source/00-concepts-transverses.md). L’[Epic de gestion des organisations](source/05-organisations.md) porte leur cycle de vie et le rattachement des acteurs.
 
-Une capacité non encore arbitrée est indiquée `À arbitrer` dans ces sources. Aucune future implémentation ne devra transformer ces inconnues en règles implicites.
+Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md) distingue les décisions prises, les décisions `À arbitrer — bloquant` et le backlog bloqué. Aucune future implémentation ne devra transformer ces inconnues en règles implicites. La consultation sans compte reste en lecture seule et aucune donnée organisationnelle n’est publique par défaut.
 
 ## Premier parcours vertical — PV-001
 
@@ -44,8 +44,10 @@ Une capacité non encore arbitrée est indiquée `À arbitrer` dans ces sources.
 ## Source fonctionnelle détaillée
 
 - [Concepts métier transverses : Organisation, rôles et rattachements](source/00-concepts-transverses.md)
+- [Décisions et arbitrages bloquants du socle Organisation](source/00-arbitrages-organisations.md)
 - [Identités, coachs et habilitations](source/01-identites.md)
-- [Gestion et accompagnement des équipes](source/02-equipes.md)
+- [Gestion des équipes](source/02-equipes.md)
+- [Accompagnement des équipes](source/02a-accompagnement-equipes.md)
 - [Modèles, planification et passation des évaluations](source/03-evaluations.md)
 - [Suivi, notifications et pilotage](source/04-suivi-et-pilotage.md)
 - [Gestion des organisations](source/05-organisations.md)

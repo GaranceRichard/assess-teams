@@ -2,6 +2,8 @@
 
 Cette page est le point d’entrée humain du suivi courant. Elle est une vue dérivée des [sources fonctionnelles](README.md#source-fonctionnelle-détaillée) et du [registre canonique des PBIs](tracking/pbis.md), qui restent les sources faisant autorité. Les tailles et modèles Codex affichés sont des **recommandations de préparation**, pas des décisions.
 
+Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne signifie pas « prêt à implémenter » : les blocages produit sont suivis séparément ci-dessous.
+
 ## Vue d’ensemble
 
 | Epic | Features | PBI | Réalisés | Avancement |
@@ -107,34 +109,48 @@ Cette page est le point d’entrée humain du suivi courant. Elle est une vue d�
 | FEAT-037 — Rattacher un Admin à une organisation | Non raffinée | 0 | 0 | N/A |
 | FEAT-038 — Rattacher un Coach à une organisation | Non raffinée | 0 | 0 | N/A |
 
+## Décisions produit bloquantes
+
+La source détaillée est le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md). Cette vue ne transforme aucune Feature non raffinée en PBI.
+
+| Périmètre bloqué | Arbitrages ouverts | Conséquence actuelle |
+| --- | --- | --- |
+| `FEAT-036` à `FEAT-038`, initialisation de `PV-001` | `ARB-ORG-001` à `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011` | Socle Organisation non prêt à raffiner ou implémenter |
+| `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, dépendances au socle | 7 PBIs raffinés au statut canonique `Bloqué` |
+| `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
+| Consultation authentifiée | `ARB-ORG-012` | Périmètre du `Viewer` non prêt à raffiner |
+| Consultation sans compte dans `FEAT-023` à `FEAT-027` | `ARB-ORG-014` | Accès en lecture seule non prêt à raffiner ou implémenter ; rien n’est public par défaut |
+| `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
+| Tout futur transfert d’équipe et continuités concernées | `ARB-ORG-007` | Aucun PBI de transfert créé ; capacité non prête à raffiner |
+
 ## PBIs raffinés
 
 ### FEAT-005 — Constituer une équipe
 
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
-| TEAM-001 — Créer une équipe | M | Sol — puissance élevée | Ouvert | N/A |
+| TEAM-001 — Créer une équipe | M | Sol — puissance élevée | Bloqué | N/A |
 
 ### FEAT-006 — Faire évoluer les informations d’une équipe
 
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
-| TEAM-004 — Modifier une équipe | M | Sol — puissance élevée | Ouvert | N/A |
+| TEAM-004 — Modifier une équipe | M | Sol — puissance élevée | Bloqué | N/A |
 
 ### FEAT-007 — Consulter les équipes
 
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
-| TEAM-002 — Lister les équipes | S | Sol — puissance moyenne | Ouvert | N/A |
-| TEAM-003 — Consulter une équipe | S | Sol — puissance moyenne | Ouvert | N/A |
+| TEAM-002 — Lister les équipes | S | Sol — puissance moyenne | Bloqué | N/A |
+| TEAM-003 — Consulter une équipe | S | Sol — puissance moyenne | Bloqué | N/A |
 
 ### FEAT-010 — Gérer la sortie et la reprise du suivi actif
 
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
-| TEAM-005 — Archiver une équipe | M | Sol — puissance élevée | Ouvert | N/A |
-| TEAM-006 — Consulter les équipes archivées | S | Sol — puissance moyenne | Ouvert | N/A |
-| TEAM-007 — Réactiver une équipe | M | Sol — puissance élevée | Ouvert | N/A |
+| TEAM-005 — Archiver une équipe | M | Sol — puissance élevée | Bloqué | N/A |
+| TEAM-006 — Consulter les équipes archivées | S | Sol — puissance moyenne | Bloqué | N/A |
+| TEAM-007 — Réactiver une équipe | M | Sol — puissance élevée | Bloqué | N/A |
 
 ## Scoring global
 
@@ -146,5 +162,6 @@ Cette page est le point d’entrée humain du suivi courant. Elle est une vue d�
 | Features non raffinées | 34 |
 | Nombre total de PBIs | 7 |
 | PBIs ouverts | 7 |
+| dont PBIs bloqués | 7 |
 | PBIs réalisés | 0 |
 | Avancement global | 0 % |
