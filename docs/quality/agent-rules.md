@@ -6,6 +6,19 @@ Ce fichier s'applique à tout le dépôt **Assess teams** et à tout agent humai
 
 Avant toute modification, inspecter l'existant et respecter l'architecture, les conventions et les responsabilités déjà établies. Ne pas introduire de nouvelle couche, dépendance ou abstraction sans besoin démontré. Garder Django et Django REST Framework côté backend, React et TypeScript côté frontend, et SQLite comme base initiale tant qu'une décision d'architecture documentée ne les remplace pas.
 
+[`AGENTS.md`](../../AGENTS.md) est l'autorité d'entrée permanente de tout agent. Le présent document en détaille
+les règles qualité et de livraison sans affaiblir ses obligations d'isolation et d'intégration asynchrone.
+
+## Isolation obligatoire des chantiers
+
+Tout chantier part du dernier état pertinent de `origin/main`. Il utilise une branche dédiée et un worktree
+dédié créé hors du dépôt principal, puis annonce explicitement au démarrage le nom de la branche et le chemin
+physique du worktree. Aucun travail n'est réalisé directement dans le checkout principal utilisé dans VS Code.
+
+Le checkout principal reste disponible et stable pendant le travail. Les worktrees sont des espaces internes
+aux agents, annoncés uniquement pour traçabilité. Ne demander ni workspace multi-root, ni changement du dossier
+ouvert dans VS Code, ni ouverture manuelle des worktrees.
+
 ## Préparation obligatoire avant travail
 
 Avant tout développement, correction, refactoring ou changement technique, mettre à jour le [README racine](../../README.md) pour annoncer le périmètre travaillé, le sujet ou la feature lorsqu'il existe, et l'évolution attendue. Cette mise à jour précède le travail ; elle ne doit pas être ajoutée a posteriori pour satisfaire le gate.
@@ -85,19 +98,35 @@ Pour chaque tâche, Codex doit automatiquement :
 3. réaliser le travail demandé ;
 4. mettre à jour la documentation concernée ;
 5. exécuter les contrôles et tests applicables ;
-6. exécuter le full quality gate ;
-7. corriger les erreurs liées au travail réalisé et relancer les contrôles ;
-8. vérifier `git status` et les fichiers à versionner ;
-9. vérifier l'absence de secrets, credentials et artefacts indésirables ;
-10. créer un commit cohérent ne contenant que les fichiers pertinents ;
-11. pousser ce commit sans contourner les hooks ;
-12. vérifier la synchronisation de la branche locale avec sa branche distante ;
-13. vérifier que le working tree final est propre ;
-14. rendre compte du commit, du pre-push, du push et de l'état final.
+6. corriger les erreurs liées au travail réalisé et relancer les contrôles ciblés ;
+7. vérifier `git status`, les fichiers à versionner et l'absence de secrets ou d'artefacts indésirables ;
+8. créer un commit cohérent ne contenant que les fichiers pertinents ;
+9. récupérer le dernier `origin/main`, resynchroniser le commit et résoudre les conflits éventuels ;
+10. vérifier que l'état final est entièrement commité et exécuter ses validations applicables ;
+11. pousser ce commit vers `main` sans contourner le pre-push et son full quality gate ;
+12. confirmer que `main` distant contient le commit publié ;
+13. nettoyer uniquement le worktree et la branche du chantier terminé ;
+14. rendre compte du commit, du pre-push, du push et du nettoyage.
 
 Le commit ou le push ne sont omis que si le prompt l'ordonne explicitement, par exemple avec `ne pas commit`, `ne pas push`, `travail local uniquement`, `préparation uniquement` ou une formulation équivalente. L'absence de demande explicite de push n'est pas une exception.
 
-`main` reste la branche de référence tant qu'aucune autre stratégie n'est définie. Ne pas réécrire inutilement l'historique. Ne jamais utiliser `--no-verify` pour contourner le pre-push. Si un problème externe indépendant du changement empêche techniquement le push, préserver l'état local validé et signaler précisément le blocage.
+`main` est la branche d'intégration. Une branche de travail n'est pas publiée comme étape intermédiaire : son
+état final est poussé vers `main` depuis son worktree isolé. Ne pas réécrire inutilement l'historique. Ne jamais
+utiliser `--no-verify` pour contourner le pre-push. Si un problème externe indépendant du changement empêche
+techniquement le push, préserver l'état local validé et signaler précisément le blocage.
+
+## Intégration asynchrone
+
+Le premier PBI terminé n'attend pas les autres. Avant de publier, il récupère le dernier `origin/main`,
+resynchronise sa branche dessus, résout les conflits éventuels et exécute les validations sur exactement l'état
+destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
+
+Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
+antérieure à la resynchronisation ne vaut pas validation finale. Le `pre-push` applique d'abord la garde de
+contribution, puis le full quality gate existant ; la CI répète le full quality gate comme frontière distante.
+
+Après confirmation du push, supprimer uniquement le worktree et la branche de travail du PBI terminé. Ne jamais
+nettoyer, déplacer ou modifier le worktree ou la branche d'un autre chantier.
 
 ## Procédure de livraison
 
@@ -115,4 +144,4 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 
 ## Automatisation des quality gates
 
-Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` et la CI GitHub exécutent le même full quality gate, exhaustif et bloquant. Contourner le hook local ne dispense jamais du contrôle distant.
+Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le même full quality gate, exhaustif et bloquant, que la CI GitHub. Contourner le hook local ne dispense jamais du contrôle distant.

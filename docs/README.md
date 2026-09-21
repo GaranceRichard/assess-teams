@@ -10,7 +10,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Qualité
 
-- [Règles de travail des agents](quality/agent-rules.md)
+- [Règle permanente d'entrée des agents](../AGENTS.md) et [règles détaillées](quality/agent-rules.md)
 - [Charte qualité](quality/quality-charter.md)
 - [Definition of Done](quality/definition-of-done.md)
 - [Stratégie de tests](quality/test-strategy.md)

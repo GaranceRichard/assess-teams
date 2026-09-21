@@ -81,6 +81,7 @@ Invoke-QualityStep 'Limite de 200 lignes' { & npm run check:lines }
 Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
 Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
 Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
+Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
 Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
 
 $backendPath = Join-Path $root 'backend'

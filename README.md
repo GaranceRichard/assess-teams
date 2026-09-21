@@ -91,24 +91,39 @@ Le projet traite la qualité comme une condition de livraison : Clean Code, fich
 Le workflow attendu est :
 
 ```text
+Dernier origin/main
+        ↓
+Branche + worktree dédié hors du checkout principal
+        ↓
+Annonce de la branche et du chemin physique
+        ↓
 README / documentation préalable si nécessaire
         ↓
 Travail
         ↓
 Tests et contrôles
         ↓
-Full quality gate
-        ↓
 Commit → quality gate rapide et informatif
         ↓
-Pre-push → full quality gate bloquant
+Resynchronisation sur le dernier origin/main
+        ↓
+Pre-push vers main → garde de contribution + full quality gate bloquant
         ↓
 Push GitHub → CI full quality gate bloquante
         ↓
-Vérification finale
+Nettoyage du seul worktree et de la seule branche terminés
 ```
 
-Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée sur la branche distante correspondante. Les [règles de travail des agents](docs/quality/agent-rules.md) définissent la procédure complète et ses exceptions.
+Le checkout principal reste stable et ouvert dans VS Code. Chaque chantier s'exécute dans un worktree interne
+distinct, créé hors du dépôt principal et annoncé pour traçabilité ; aucun workspace multi-root, changement de
+dossier VS Code ou ouverture manuelle du worktree n'est demandé. Le premier chantier prêt publie sans attendre
+les autres. Chaque chantier retardataire repart du dernier `origin/main`, valide cet état final, pousse vers
+`main`, puis nettoie exclusivement sa propre branche et son propre worktree.
+
+Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée
+sur `main` selon ce flux asynchrone. [`AGENTS.md`](AGENTS.md) est la règle permanente d'entrée ; les
+[règles détaillées de travail des agents](docs/quality/agent-rules.md) définissent la procédure complète et ses
+exceptions.
 
 ## Commandes qualité
 
@@ -135,7 +150,11 @@ Active les hooks versionnés une fois par clone :
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-hooks.ps1
 ```
 
-Le `pre-commit` lance `quality:quick` sans bloquer le commit. Le `pre-push` lance `quality:full` et bloque le push en cas d'échec. Le workflow [GitHub Actions](.github/workflows/quality.yml) appelle exactement le même script en mode `full`, ce qui rend `--no-verify` sans effet sur le contrôle distant.
+Le `pre-commit` lance `quality:quick` sans bloquer le commit. Pour une publication, le `pre-push` impose d'abord
+la branche et le worktree dédiés, l'état entièrement commité, la destination `main` et la resynchronisation sur
+le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le push en cas d'échec. Le workflow
+[GitHub Actions](.github/workflows/quality.yml) appelle exactement le même script en mode `full`, ce qui rend
+`--no-verify` sans effet sur le contrôle distant.
 
 `quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. Le gate rapide produit réellement les coverages backend et frontend courants, tout en restant informatif. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage et migrations.
 
