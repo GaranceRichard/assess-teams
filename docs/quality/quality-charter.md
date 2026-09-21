@@ -27,7 +27,7 @@ Les modules doivent exprimer leur intention, rester faciles à tester et évolue
 
 La limite couvre les fichiers Python, TypeScript, TSX, JavaScript, les tests, les utilitaires et les configurations maintenues manuellement.
 
-`scripts/quality/files.ps1` porte l’unique définition exécutable des exclusions, décrite dans `AGENTS.md` : métadonnées Git ; dépendances et environnements locaux ; répertoires nommés de build, coverage, rapports E2E et caches ; migrations Django, fichiers minifiés et source maps ; lock files explicitement reconnus ; fichiers binaires détectés par extension ou contenu.
+`scripts/quality/files.ps1` porte l’unique définition exécutable des exclusions, décrite dans les [règles des agents](agent-rules.md) : métadonnées Git ; dépendances et environnements locaux ; répertoires nommés de build, coverage, rapports E2E et caches ; migrations Django, fichiers minifiés et source maps ; lock files explicitement reconnus ; fichiers binaires détectés par extension ou contenu.
 
 La conformité doit être obtenue par une séparation cohérente des responsabilités. Compacter artificiellement le code, retirer des retours à la ligne utiles ou dégrader la lisibilité pour rester sous la limite est interdit.
 
@@ -81,13 +81,13 @@ Aucun secret ou identifiant sensible ne doit être commité. Les entrées sont v
 
 ## Documentation
 
-La documentation évolue avec le code. Avant tout push, une revue d'impact vérifie `README.md`, `AGENTS.md`, `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md`, `TEST_STRATEGY.md`, les documentations d'architecture et d'API, ainsi que les autres fichiers Markdown concernés. Tout contenu affecté doit être mis à jour dans le même changement.
+La documentation évolue avec le code. Avant tout push, une revue d'impact vérifie le [README racine](../../README.md), les [règles des agents](agent-rules.md), la [charte qualité](quality-charter.md), la [Definition of Done](definition-of-done.md), la [stratégie de tests](test-strategy.md), les documentations d'architecture et d'API, ainsi que les autres fichiers Markdown concernés. Tout contenu affecté doit être mis à jour dans le même changement.
 
 Avant même de commencer un développement, une correction, un refactoring ou un changement technique, `README.md` annonce le périmètre, le sujet ou la feature et l'évolution attendue. L'automatisation vérifie seulement la présence cohérente du README dans un lot de changements techniques ; elle ne prétend pas prouver l'ordre temporel. Une modification du README reste motivée par un changement réel de périmètre.
 
 ## Workflow automatisé
 
-Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, full quality gate, commit avec gate rapide informatif, pre-push avec full gate bloquant, push, puis vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. `AGENTS.md` porte la règle opérationnelle complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](README.md#commandes-qualité).
+Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, full quality gate, commit avec gate rapide informatif, pre-push avec full gate bloquant, push, puis vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. Les [règles des agents](agent-rules.md) portent la procédure complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](../../README.md#commandes-qualité).
 
 - `quality:quick` exécute les contrôles rapides applicables, affiche le coverage courant et signale les échecs sans empêcher un commit intermédiaire.
 - `quality:full` exécute tous les contrôles applicables et retourne un code d'échec si l'un d'eux n'est pas conforme.

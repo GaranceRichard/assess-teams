@@ -7,6 +7,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-001 — Créer une équipe — premier PBI d’implémentation
 
 - **Identifiant :** `TEAM-001`.
+- **Feature parente :** `FEAT-005`.
 - **Titre :** Créer une équipe.
 - **User story :** en tant qu’administrateur, je veux créer une équipe afin qu’elle puisse être suivie dans le système.
 - **Intention métier :** établir une identité durable et non ambiguë pour le collectif suivi.
@@ -29,6 +30,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-002 — Lister les équipes
 
 - **Identifiant :** `TEAM-002`.
+- **Feature parente :** `FEAT-007`.
 - **Titre :** Lister les équipes.
 - **User story :** en tant qu’utilisateur autorisé, je veux consulter les équipes actives afin d’identifier celles que je peux suivre.
 - **Intention métier :** offrir une vue courante fiable des équipes en activité.
@@ -48,6 +50,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-003 — Consulter une équipe
 
 - **Identifiant :** `TEAM-003`.
+- **Feature parente :** `FEAT-007`.
 - **Titre :** Consulter une équipe.
 - **User story :** en tant qu’utilisateur autorisé, je veux consulter une équipe précise afin de connaître son identité et son état.
 - **Intention métier :** fournir une référence fiable pour toute action portant sur une équipe déterminée.
@@ -69,6 +72,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-004 — Modifier une équipe
 
 - **Identifiant :** `TEAM-004`.
+- **Feature parente :** `FEAT-006`.
 - **Titre :** Modifier une équipe.
 - **User story :** en tant qu’administrateur, je veux corriger le nom d’une équipe afin que son dossier reste fidèle à la réalité.
 - **Intention métier :** faire évoluer l’information courante sans rompre l’identité ni l’historique de l’équipe.
@@ -90,6 +94,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-005 — Archiver une équipe
 
 - **Identifiant :** `TEAM-005`.
+- **Feature parente :** `FEAT-010`.
 - **Titre :** Archiver une équipe.
 - **User story :** en tant qu’administrateur, je veux archiver une équipe afin de la sortir du suivi actif sans supprimer son passé.
 - **Intention métier :** arrêter les nouvelles activités d’une équipe tout en préservant les preuves et rattachements acquis.
@@ -110,6 +115,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-006 — Consulter les équipes archivées
 
 - **Identifiant :** `TEAM-006`.
+- **Feature parente :** `FEAT-010`.
 - **Titre :** Consulter les équipes archivées.
 - **User story :** en tant qu’administrateur, je veux consulter les équipes archivées afin de retrouver les collectifs sortis du suivi actif.
 - **Intention métier :** rendre le patrimoine historique repérable sans le mélanger au portefeuille actif.
@@ -129,6 +135,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe. L’
 #### TEAM-007 — Réactiver une équipe
 
 - **Identifiant :** `TEAM-007`.
+- **Feature parente :** `FEAT-010`.
 - **Titre :** Réactiver une équipe.
 - **User story :** en tant qu’administrateur, je veux réactiver une équipe archivée afin de reprendre son suivi sans créer une nouvelle identité.
 - **Intention métier :** reprendre l’activité d’un collectif en conservant la continuité de son dossier.

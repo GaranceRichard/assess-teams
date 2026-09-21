@@ -8,7 +8,7 @@ Avant toute modification, inspecter l'existant et respecter l'architecture, les 
 
 ## Préparation obligatoire avant travail
 
-Avant tout développement, correction, refactoring ou changement technique, mettre à jour `README.md` pour annoncer le périmètre travaillé, le sujet ou la feature lorsqu'il existe, et l'évolution attendue. Cette mise à jour précède le travail ; elle ne doit pas être ajoutée a posteriori pour satisfaire le gate.
+Avant tout développement, correction, refactoring ou changement technique, mettre à jour le [README racine](../../README.md) pour annoncer le périmètre travaillé, le sujet ou la feature lorsqu'il existe, et l'évolution attendue. Cette mise à jour précède le travail ; elle ne doit pas être ajoutée a posteriori pour satisfaire le gate.
 
 L'ordre temporel ne pouvant pas être vérifié fiablement par Git, l'automatisation contrôle qu'un lot comportant un changement applicatif ou technique comporte aussi une modification de `README.md`. Ce contrôle de cohérence ne remplace pas la responsabilité de mise à jour préalable et ne justifie jamais une modification artificielle sans changement de périmètre.
 
@@ -70,7 +70,7 @@ Un seuil global ne dispense jamais de tester les comportements modifiés, les br
 
 ## Documentation
 
-Avant tout push, effectuer une revue d'impact documentaire. Vérifier au minimum `README.md`, `AGENTS.md`, `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md`, `TEST_STRATEGY.md`, la documentation d'architecture, la documentation API et tout autre fichier Markdown concerné. Mettre à jour chaque document affecté dans le même changement.
+Avant tout push, effectuer une revue d'impact documentaire. Vérifier au minimum le [README racine](../../README.md), les [règles des agents](agent-rules.md), la [charte qualité](quality-charter.md), la [Definition of Done](definition-of-done.md), la [stratégie de tests](test-strategy.md), la [documentation d'architecture](../architecture/fundamentals.md), la documentation API et tout autre fichier Markdown concerné. Mettre à jour chaque document affecté dans le même changement.
 
 ## Livraison complète par défaut
 
@@ -101,7 +101,7 @@ Le commit ou le push ne sont omis que si le prompt l'ordonne explicitement, par 
 
 Avant de déclarer une tâche terminée :
 
-1. vérifier la conformité à `DEFINITION_OF_DONE.md` ;
+1. vérifier la conformité à la [Definition of Done](definition-of-done.md) ;
 2. contrôler la longueur de tous les fichiers maintenus concernés ;
 3. exécuter les tests, le coverage, le lint et le contrôle de formatage applicables ;
 4. vérifier les migrations, les contrats, les parcours E2E et la sécurité selon l'impact ;
@@ -113,4 +113,4 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 
 ## Automatisation des quality gates
 
-Les commandes canoniques et l'installation des hooks sont documentées dans le [README](README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` et la CI GitHub exécutent le même full quality gate, exhaustif et bloquant. Contourner le hook local ne dispense jamais du contrôle distant.
+Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` et la CI GitHub exécutent le même full quality gate, exhaustif et bloquant. Contourner le hook local ne dispense jamais du contrôle distant.

@@ -1,5 +1,9 @@
 # Assess teams
 
+## Documentation du produit
+
+La documentation est restructurée sous `docs/` par responsabilité afin de centraliser l’architecture, la qualité et le backlog. Le backlog détaillé reste la source de vérité fonctionnelle ; sa gouvernance et ses synthèses explicites n’en modifient pas le périmètre.
+
 ## Objectif
 
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le périmètre fonctionnel détaillé sera défini au fil de la conception du produit.
@@ -102,7 +106,7 @@ Push GitHub → CI full quality gate bloquante
 Vérification finale
 ```
 
-Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée sur la branche distante correspondante. `AGENTS.md` définit la règle opérationnelle complète et ses exceptions.
+Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée sur la branche distante correspondante. Les [règles de travail des agents](docs/quality/agent-rules.md) définissent la procédure complète et ses exceptions.
 
 ## Commandes qualité
 
@@ -142,10 +146,10 @@ Le `pre-commit` lance `quality:quick` sans bloquer le commit. Le `pre-push` lanc
 - Les quality gates détectent les deux applications et échouent si leur configuration est incomplète.
 - Aucun domaine ni aucune feature métier n'est implémenté.
 
-## Documents qualité
+## Documentation
 
-- [Fondamentaux architecturaux](ARCHITECTURE.md)
-- [Règles des agents](AGENTS.md)
-- [Charte qualité](QUALITY_CHARTER.md)
-- [Definition of Done](DEFINITION_OF_DONE.md)
-- [Stratégie de tests](TEST_STRATEGY.md)
+L’[index de la documentation](docs/README.md) donne accès à l’ensemble des références :
+
+- [architecture](docs/architecture/fundamentals.md) ;
+- [qualité](docs/README.md#qualité) ;
+- [backlog et gouvernance](docs/backlog/README.md).

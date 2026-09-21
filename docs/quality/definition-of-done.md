@@ -13,7 +13,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 - [ ] **Aucun fichier maintenu manuellement ne dépasse 200 lignes ; cette limite est non négociable et bloquante.**
 - [ ] Le contrôle couvre les fichiers Python, TypeScript, TSX, JavaScript, les tests, les utilitaires et les configurations maintenues manuellement.
-- [ ] Les exclusions correspondent à l’unique définition exécutable de `scripts/quality/files.ps1`, décrite dans `AGENTS.md` : métadonnées Git, dépendances et environnements locaux, sorties et caches nommés, migrations Django, fichiers minifiés, source maps, lock files explicitement reconnus et fichiers binaires détectés par extension ou contenu.
+- [ ] Les exclusions correspondent à l’unique définition exécutable de `scripts/quality/files.ps1`, décrite dans les [règles des agents](agent-rules.md) : métadonnées Git, dépendances et environnements locaux, sorties et caches nommés, migrations Django, fichiers minifiés, source maps, lock files explicitement reconnus et fichiers binaires détectés par extension ou contenu.
 - [ ] La limite n'est pas contournée par une compaction artificielle, la suppression de retours à la ligne utiles ou une dégradation de la lisibilité.
 
 ## Tests et couverture
@@ -48,7 +48,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 - [ ] `README.md` a été mis à jour avant le début du travail avec le périmètre, le sujet et l'évolution attendue.
 - [ ] Une revue d'impact documentaire a été effectuée avant le push.
-- [ ] `README.md`, `AGENTS.md`, `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md` et `TEST_STRATEGY.md` ont été vérifiés.
+- [ ] Le [README racine](../../README.md), les [règles des agents](agent-rules.md), la [charte qualité](quality-charter.md), la [Definition of Done](definition-of-done.md) et la [stratégie de tests](test-strategy.md) ont été vérifiés.
 - [ ] Les documentations d'architecture et d'API ainsi que les autres fichiers Markdown concernés ont été vérifiés.
 - [ ] Tous les documents affectés sont à jour.
 
@@ -64,7 +64,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 - [ ] Le pre-push bloque effectivement tout résultat non conforme.
 - [ ] La CI GitHub exécute la même commande `quality:full` et passe.
 - [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.
-- [ ] Sauf instruction explicite contraire du prompt, le changement est commité puis poussé conformément à la procédure de référence d'`AGENTS.md`.
+- [ ] Sauf instruction explicite contraire du prompt, le changement est commité puis poussé conformément aux [règles de référence](agent-rules.md).
 - [ ] Le commit ne contient que les fichiers pertinents et aucun secret, credential ou artefact local.
 - [ ] Le push a été vérifié, la branche locale est synchronisée avec sa branche distante et le working tree est propre.
 

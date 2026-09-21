@@ -2,9 +2,9 @@
 
 ## Finalité et principes
 
-Ce backlog décrit les premières capacités métier d’**Assess teams**. Il est ordonné par valeur utilisateur et par parcours, non par couches techniques. Les identifiants sont stables : un élément retiré n’est pas renuméroté.
+Ce backlog décrit les premières capacités métier d’**Assess teams**. Il est ordonné par valeur utilisateur et par parcours, non par couches techniques. Les identifiants sont stables : un élément retiré n’est pas renuméroté. La [gouvernance du backlog](governance.md) définit les sources faisant autorité, les métadonnées, les états et les calculs.
 
-Chaque future implémentation reste soumise à `QUALITY_CHARTER.md`, `DEFINITION_OF_DONE.md` et `TEST_STRATEGY.md`. En particulier, chaque comportement fonctionnel devra avoir un cas passant et un vrai cas de refus, et les parcours critiques devront être couverts de bout en bout. Ces exigences sont des critères de livraison, pas des fonctionnalités produit.
+Chaque future implémentation reste soumise à la [charte qualité](../quality/quality-charter.md), à la [Definition of Done](../quality/definition-of-done.md) et à la [stratégie de tests](../quality/test-strategy.md). En particulier, chaque comportement fonctionnel devra avoir un cas passant et un vrai cas de refus, et les parcours critiques devront être couverts de bout en bout. Ces exigences sont des critères de livraison, pas des fonctionnalités produit.
 
 Priorités :
 
@@ -32,11 +32,22 @@ Priorités :
 
 **Résultat attendu :** une évaluation finalisée, rattachée à la bonne équipe, au coach responsable, à son échéance et à une version immuable du modèle, est consultable dans l’historique. Ce parcours constitue le premier scénario E2E critique.
 
-## Découpage du backlog
+## Source fonctionnelle détaillée
 
-- [Identités, coachs et habilitations](backlog/01-identites.md)
-- [Gestion et accompagnement des équipes](backlog/02-equipes.md)
-- [Modèles, planification et passation des évaluations](backlog/03-evaluations.md)
-- [Suivi, notifications et pilotage](backlog/04-suivi-et-pilotage.md)
-- [Ordonnancement, domaines et garde-fous](backlog/05-ordonnancement.md)
-- [Synthèse de suivi du travail](backlog/06-synthese-suivi.md)
+- [Identités, coachs et habilitations](source/01-identites.md)
+- [Gestion et accompagnement des équipes](source/02-equipes.md)
+- [Modèles, planification et passation des évaluations](source/03-evaluations.md)
+- [Suivi, notifications et pilotage](source/04-suivi-et-pilotage.md)
+
+Ces documents détaillés constituent la source de vérité fonctionnelle des Epics, Features et PBIs.
+
+## Planification
+
+- [Ordonnancement, domaines et garde-fous](planning/ordonnancement.md)
+
+## Suivi et synthèses
+
+- [Registre canonique des métadonnées PBI](tracking/pbis.md)
+- [Vue des Epics et vue par Epic](summaries/epics.md)
+- [Vue par Feature raffinée](summaries/features.md)
+- [Scoring global et contrôle de cohérence](summaries/scoring.md)
