@@ -167,14 +167,12 @@ Cet Epic dérive l’organisation de chaque passation et évaluation de l’équ
 ### FEAT-023 — Finaliser et tracer une évaluation
 
 - **Intention métier :** transformer une passation valide en preuve durable et attribuable.
-- **Acteurs concernés :** `Coach` responsable pour la finalisation ; `Viewer` authentifié pour la consultation de la preuve ; consultation sans compte uniquement pour des résultats explicitement publiés selon `ARB-ORG-014`.
+- **Acteurs concernés :** `Coach` responsable pour la finalisation ; accès du `Viewer` authentifié à la preuve soumis à `ARB-ORG-012`.
 - **Description :** finaliser une passation, figer son contenu et conserver les faits nécessaires à son audit ; toute rectification ultérieure est explicite et traçable.
 - **Critères d’acceptation principaux :**
   - seule une passation validée peut être finalisée, avec auteur et instant de finalisation ;
   - organisation, contenu, résultats, contexte et version du modèle deviennent immuables ;
   - une nouvelle tentative de finalisation est sans double effet et une rectification ne remplace jamais silencieusement l’original.
-- **Consultation sans compte :** strictement en lecture seule ; la finalisation ne publie rien implicitement et ne rend publique aucune donnée organisationnelle.
-- **Décision produit bloquante pour cet accès :** `ARB-ORG-014` ; son périmètre, sa publication et sa protection doivent être arbitrés avant raffinement ou implémentation.
 - **Dépendances éventuelles :** `FEAT-022`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Passations d’évaluation.

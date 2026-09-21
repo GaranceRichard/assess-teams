@@ -7,8 +7,8 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision prise — cloisonnement :** le produit gère plusieurs organisations ; aucune donnée ou opération organisationnelle n’est lisible, associable, modifiable, agrégée ou révélée entre organisations sans règle de partage explicitement décidée.
 - **Décision prise — équipe :** une équipe appartient obligatoirement à exactement une organisation à un instant donné ; archivage et réactivation ne changent pas ce rattachement. Un éventuel transfert reste soumis à `ARB-ORG-007`.
 - **Décision prise — traçabilité :** les historiques conservent l’organisation qui donnait leur contexte aux faits enregistrés.
-- **Décision prise — rôles :** `Admin`, `Coach` et `Viewer` sont les seuls rôles métier canoniques. La consultation sans compte est un mode d’accès, pas un quatrième rôle.
-- **Décision prise — accès sans compte :** le besoin porte uniquement sur la consultation en lecture seule de résultats rendus accessibles par une décision de publication. Rien n’est public par défaut.
+- **Décision prise — authentification :** toute lecture de donnée métier exige une identité authentifiée ; aucun mode de consultation ne déroge à cette règle.
+- **Décision prise — rôles :** `Admin`, `Coach` et `Viewer` sont les seuls rôles métier canoniques et sont toujours authentifiés.
 - **Décision prise — Superadmin technique :** le `Superadmin` désigne le superuser Django global. Le premier est créé par le mécanisme de bootstrap Django. Cette capacité technique n’est pas un quatrième rôle métier et n’est utilisable dans le backlog fonctionnel que lorsqu’un PBI la cite explicitement.
 - **Décision prise — fonction utilisateur :** une identité gérée par `USER-001` à `USER-004` porte exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ; l’héritage de capacités n’est pas un cumul de rôles explicites.
 - **Décision prise — droits CRUD Organisations et Équipes :** `Superadmin` et `Admin` peuvent créer, lire, modifier et supprimer ; `Coach` et `Viewer` peuvent uniquement lire. Cette décision porte sur le droit d’exercer l’action, pas sur le périmètre des objets accessibles.
@@ -18,7 +18,7 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-001 — Cardinalité d’appartenance d’une identité
 
-- **Décision prise :** les capacités d’un `Admin` ou d’un `Coach` s’exercent dans un périmètre organisationnel explicite ; aucune appartenance implicite n’est admise.
+- **Décision prise :** les capacités d’un `Admin` ou d’un `Coach` s’exercent dans un périmètre organisationnel explicite ; aucune appartenance implicite n’est admise. Dans `USER-002` à `USER-004`, un `Admin` ne peut cibler que les utilisateurs de son périmètre organisationnel applicable.
 - **Décision à arbitrer — bloquante :** une identité peut-elle relever d’une seule ou de plusieurs organisations, pour chacun des rôles applicables, et avec quelles contraintes de cumul ?
 - **Backlog bloqué :** raffinement et implémentation de `FEAT-037`, `FEAT-038` et des aspects organisationnels de `FEAT-004` ; les chemins `Admin` de `USER-002` à `USER-004`, `FEAT-003` et `FEAT-008` restent dépendants de ce socle.
 
@@ -79,27 +79,21 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-011 — Périmètre actif en cas de multi-appartenance
 
-- **Décision prise :** chaque commande ou consultation possède un périmètre non ambigu et ne mélange pas implicitement plusieurs organisations.
+- **Décision prise :** chaque commande ou consultation possède un périmètre non ambigu et ne mélange pas implicitement plusieurs organisations. Cette garantie s’applique notamment au chemin `Admin` de `USER-002` à `USER-004`.
 - **Décision à arbitrer — bloquante :** si `ARB-ORG-001` autorise plusieurs appartenances, comment le périmètre actif est-il sélectionné, propagé, affiché et contrôlé ?
 - **Backlog bloqué :** aspects organisationnels de `FEAT-004`, chemins `Admin` de `USER-002` à `USER-004` et toutes les Features exécutées par une identité multi-organisation ; aucune API concernée ne peut être contractualisée définitivement.
 
-### ARB-ORG-012 — Périmètre du Viewer authentifié et cumul de rôles
+### ARB-ORG-012 — Périmètre du Viewer authentifié
 
-- **Décision prise :** le `Viewer` est authentifié, consulte uniquement son périmètre accordé et reste distinct de la consultation sans compte. Une identité possède une seule fonction métier ; la hiérarchie de capacités ne constitue pas un cumul de rôles explicites.
+- **Décision prise :** le `Viewer` est authentifié et consulte uniquement son périmètre accordé. Une identité possède une seule fonction métier ; la hiérarchie de capacités ne constitue pas un cumul de rôles explicites.
 - **Décision à arbitrer — bloquante :** mode d’attribution et de détermination du périmètre du `Viewer`.
-- **Backlog bloqué :** raffinement des consultations authentifiées de `FEAT-004`, `FEAT-007`, `FEAT-014` et `FEAT-023` à `FEAT-027`, ainsi que les chemins `Admin` de `USER-002` à `USER-004` qui ciblent un `Viewer`.
+- **Backlog bloqué :** raffinement du périmètre de consultation du `Viewer` dans `FEAT-004`, `FEAT-007`, `FEAT-014` et `FEAT-023` à `FEAT-027`. Cet arbitrage ne bloque pas `USER-002` à `USER-004`, qui n’accordent au `Viewer` aucun accès aux listes, détails ou opérations concernant d’autres utilisateurs ; le chemin `Admin` relève de son propre périmètre organisationnel.
 
 ### ARB-ORG-013 — Paramètres et vues multi-organisation
 
 - **Décision prise :** chaque paramètre, vue et indicateur expose son organisation et aucune agrégation interorganisation n’est implicite.
 - **Décision à arbitrer — bloquante :** paramètres strictement propres ou partageables, règles de partage et existence éventuelle d’une vue multi-organisation.
 - **Backlog bloqué :** raffinement de `FEAT-031` et `FEAT-035`, puis règles dépendantes de `FEAT-017` à `FEAT-019` et `FEAT-028` à `FEAT-034`.
-
-### ARB-ORG-014 — Publication de résultats pour consultation sans compte
-
-- **Décision prise :** l’accès est strictement en lecture seule, porte uniquement sur des résultats explicitement publiés et ne confère aucun rôle métier ; aucune donnée organisationnelle n’est publique par défaut.
-- **Décision à arbitrer — bloquante :** résultats publiables, granularité, auteur et révocation de la publication, mode d’accès, protection, durée, traçabilité et données masquées.
-- **Backlog bloqué :** raffinement de l’accès sans compte dans `FEAT-023` à `FEAT-027` ; aucune implémentation de publication ou d’accès anonyme ne peut commencer.
 
 ### ARB-ORG-015 — Périmètre des opérations CRUD Organisations et Équipes
 

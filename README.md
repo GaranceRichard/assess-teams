@@ -16,8 +16,8 @@ La documentation est restructurée sous `docs/` par responsabilité afin de cent
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
 Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. La
-documentation formalise aussi les arbitrages du socle Organisation et distingue la consultation authentifiée de
-l'accès sans compte, sans ouvrir implicitement de donnée organisationnelle.
+documentation formalise aussi les arbitrages du socle Organisation et exige une authentification pour toute
+lecture de donnée métier, sans franchissement implicite d’un périmètre organisationnel.
 
 ## Périmètre livré — USER-001
 

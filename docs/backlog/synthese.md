@@ -126,12 +126,13 @@ La source détaillée est le [registre des arbitrages Organisation](source/00-ar
 
 | Périmètre bloqué | Arbitrages ouverts | Conséquence actuelle |
 | --- | --- | --- |
-| `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `ARB-ORG-001`, `ARB-ORG-008`, `ARB-ORG-012` et, si applicable, `ARB-ORG-011` | 3 PBIs raffinés au statut canonique `Bloqué` ; `USER-001` est `Réalisé` |
+| `USER-002` — Consulter les utilisateurs | `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` | Reste `Bloqué` par le périmètre `Admin` ; `ARB-ORG-012` ne s’applique pas |
+| `USER-003` — Modifier un utilisateur | `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` | Reste `Bloqué` et dépend de `USER-002` |
+| `USER-004` — Supprimer un utilisateur | `ARB-ORG-001`, `ARB-ORG-008` et, si la multi-appartenance est retenue, `ARB-ORG-011` | Reste `Bloqué` et dépend de `USER-002` |
 | `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-001`, `ARB-ORG-003` à `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011`, `ARB-ORG-012`, `ARB-ORG-015` | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; rattachements non raffinés |
 | `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, `ARB-ORG-015`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
 | Consultation authentifiée | `ARB-ORG-012` | Périmètre du `Viewer` non prêt à raffiner |
-| Consultation sans compte dans `FEAT-023` à `FEAT-027` | `ARB-ORG-014` | Accès en lecture seule non prêt à raffiner ou implémenter ; rien n’est public par défaut |
 | `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
 | Tout futur transfert d’équipe et continuités concernées | `ARB-ORG-007` | Aucun PBI de transfert créé ; capacité non prête à raffiner |
 

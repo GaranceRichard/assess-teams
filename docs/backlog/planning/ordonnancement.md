@@ -7,15 +7,15 @@
 | Ordre | PBI | État d’entrée | Condition d’enchaînement |
 | ---: | --- | --- | --- |
 | 1 | `USER-001` — Créer un utilisateur | Réalisé | Livré le 2026-09-21 |
-| 2 | `USER-002` — Consulter les utilisateurs | Bloqué | `USER-001` terminé ; `ARB-ORG-001`, `ARB-ORG-012` et, si nécessaire, `ARB-ORG-011` résolus |
-| 3 | `USER-003` — Modifier un utilisateur | Bloqué | `USER-002` terminé ; mêmes arbitrages de périmètre résolus |
+| 2 | `USER-002` — Consulter les utilisateurs | Bloqué | `USER-001` terminé ; `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` résolus |
+| 3 | `USER-003` — Modifier un utilisateur | Bloqué | `USER-002` terminé ; mêmes arbitrages du périmètre `Admin` résolus |
 | 3 | `USER-004` — Supprimer un utilisateur | Bloqué | `USER-002` terminé ; `ARB-ORG-008` résolu en plus des arbitrages précédents |
 
 Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. `USER-003` et `USER-004` peuvent être enchaînés indépendamment après `USER-002`. Le Sprint 1 est planifié, mais seuls les chemins dont les arbitrages et dépendances sont levés peuvent entrer en implémentation ; aucun périmètre organisationnel ne doit être inventé pour tenir le sprint.
 
 ## Ordonnancement global recommandé
 
-1. **Sprint 1 — Backend Utilisateurs :** livrer `USER-001`, puis résoudre les arbitrages de périmètre et compléter `USER-002`, `USER-003` et `USER-004` dans l’ordre ci-dessus.
+1. **Sprint 1 — Backend Utilisateurs :** après `USER-001`, décider la cardinalité d’appartenance de l’`Admin` et, si nécessaire, la sélection de son organisation active, puis compléter `USER-002`, `USER-003` et `USER-004` dans l’ordre ci-dessus. Le périmètre propre du `Viewer` ne bloque pas ces PBIs.
 2. **CRUD backend Organisations :** résoudre `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-012` et `ARB-ORG-015`, puis livrer `ORG-001`, `ORG-002` et, en parallèle après la lecture, `ORG-003` et `ORG-004`. Le chemin `Superadmin` permet l’initialisation par `ORG-001`, sans créer de quatrième rôle métier.
 3. **Rattachements du socle Organisation :** arbitrer puis raffiner `FEAT-037` et `FEAT-038`, en cohérence avec les décisions nécessaires aux chemins `Admin` du Sprint 1, afin que les rattachements requis existent avant la création d’une équipe.
 4. **Premier PBI d’équipe après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-015` et ses dépendances au socle, sans dépendance à l’implémentation technique de l’authentification ou des permissions.

@@ -18,7 +18,7 @@ Priorités :
 
 Le système est multi-organisation. Les définitions canoniques d’**Organisation**, du `Superadmin` technique, des rôles authentifiés `Admin`, `Coach`, `Viewer`, de la matrice CRUD des Organisations et Équipes, de leur périmètre et des règles de cloisonnement se trouvent dans les [concepts métier transverses](source/00-concepts-transverses.md). L’[Epic de gestion des organisations](source/05-organisations.md) porte leur cycle de vie et le rattachement des acteurs.
 
-Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md) distingue les décisions prises, les décisions `À arbitrer — bloquant` et le backlog bloqué. Aucune future implémentation ne devra transformer ces inconnues en règles implicites. La consultation sans compte reste en lecture seule et aucune donnée organisationnelle n’est publique par défaut.
+Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md) distingue les décisions prises, les décisions `À arbitrer — bloquant` et le backlog bloqué. Aucune future implémentation ne devra transformer ces inconnues en règles implicites. Toute lecture de donnée métier exige une identité authentifiée.
 
 ## Premier parcours vertical — PV-001
 

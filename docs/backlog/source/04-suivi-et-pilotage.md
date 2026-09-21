@@ -1,17 +1,16 @@
 ﻿## EPIC-006 — Suivi longitudinal
 
-Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md). L’organisation de toute vue, comparaison, évolution ou tendance est celle de l’équipe source ; aucune donnée d’une autre organisation n’est consultée ou agrégée implicitement. Le `Viewer` authentifié relève de son périmètre accordé. La consultation sans compte peut seulement lire des résultats explicitement publiés, sous réserve de `ARB-ORG-014` ; elle ne rend publique aucune donnée par défaut.
+Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md). L’organisation de toute vue, comparaison, évolution ou tendance est celle de l’équipe source ; aucune donnée d’une autre organisation n’est consultée ou agrégée implicitement. Tous les acteurs sont authentifiés et le `Viewer` relève de son périmètre accordé.
 
 ### FEAT-024 — Parcourir l’historique des évaluations
 
 - **Intention métier :** restituer la trajectoire d’une équipe dans le temps.
-- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012` ; consultation sans compte candidate pour les seuls résultats dont l’accès sera décidé par `ARB-ORG-014`.
+- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012`.
 - **Description :** lister et consulter les évaluations finalisées d’une équipe avec leur date, cycle, modèle, version et responsable.
 - **Critères d’acceptation principaux :**
   - les évaluations sont ordonnées et filtrables sans mélanger brouillons et résultats officiels ;
   - le détail restitue les réponses et résultats selon la version historique du modèle ;
   - un acteur sans accès à l’équipe ne peut consulter ni liste ni détail.
-- **Décision produit bloquante pour la consultation sans compte :** `ARB-ORG-014` ; aucune publication ni protection n’est déduite.
 - **Dépendances éventuelles :** `FEAT-004`, `FEAT-023`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Analyse longitudinale.
@@ -19,13 +18,12 @@ Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md)
 ### FEAT-025 — Comparer des évaluations compatibles
 
 - **Intention métier :** rendre les changements observables entre deux moments.
-- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012` ; consultation sans compte candidate pour les seuls résultats dont l’accès sera décidé par `ARB-ORG-014`.
+- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012`.
 - **Description :** comparer deux évaluations d’une équipe en explicitant les critères comparables et les écarts de modèle ou de version.
 - **Critères d’acceptation principaux :**
   - les valeurs comparables sont alignées par identité de critère, pas seulement par libellé ou position ;
   - les critères ajoutés, retirés ou dont la modalité a changé sont signalés et non comparés abusivement ;
   - deux évaluations d’équipes différentes, d’organisations différentes ou non accessibles ne peuvent être comparées.
-- **Décision produit bloquante pour la consultation sans compte :** `ARB-ORG-014` ; la publication d’un résultat source ne rend pas sa comparaison implicitement publique.
 - **Dépendances éventuelles :** `FEAT-014`, `FEAT-024`.
 - **Priorité :** P1.
 - **Domaine métier cible :** Analyse longitudinale.
@@ -33,13 +31,12 @@ Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md)
 ### FEAT-026 — Mesurer l’évolution par critère et globale
 
 - **Intention métier :** aider le coach à repérer progrès, stabilité et recul.
-- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012` ; consultation sans compte candidate pour les seuls résultats dont l’accès sera décidé par `ARB-ORG-014`.
+- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012`.
 - **Description :** calculer les évolutions sur une période choisie aux niveaux des critères et du résultat global.
 - **Critères d’acceptation principaux :**
   - l’évolution indique période, évaluations sources et unité de mesure ;
   - les ruptures de comparabilité sont visibles et exclues des calculs trompeurs ;
   - l’absence de données suffisantes produit un état explicite plutôt qu’une tendance inventée.
-- **Décision produit bloquante pour la consultation sans compte :** `ARB-ORG-014` ; seuls des calculs explicitement publiés pourront être lus.
 - **Dépendances éventuelles :** `FEAT-025`.
 - **Priorité :** P1.
 - **Domaine métier cible :** Analyse longitudinale.
@@ -47,13 +44,12 @@ Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md)
 ### FEAT-027 — Visualiser les tendances
 
 - **Intention métier :** rendre l’évolution rapidement interprétable sans masquer les données sources.
-- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012` ; consultation sans compte candidate pour les seuls résultats dont l’accès sera décidé par `ARB-ORG-014`.
+- **Acteurs concernés :** `Coach` autorisé par son affectation et `Admin`, dans leur périmètre applicable ; accès du `Viewer` authentifié soumis à `ARB-ORG-012`.
 - **Description :** proposer des rendus graphiques de l’évolution globale et par critère, avec accès aux valeurs détaillées.
 - **Critères d’acceptation principaux :**
   - le graphique représente fidèlement dates, valeurs, unités et ruptures de comparabilité ;
   - les mêmes informations restent accessibles sous une forme non graphique et compréhensible ;
   - peu de données, données manquantes ou série incompatible ne produisent pas de représentation trompeuse.
-- **Décision produit bloquante pour la consultation sans compte :** `ARB-ORG-014` ; la visualisation n’est jamais publique par simple existence.
 - **Dépendances éventuelles :** `FEAT-026`.
 - **Priorité :** P1.
 - **Domaine métier cible :** Analyse longitudinale.

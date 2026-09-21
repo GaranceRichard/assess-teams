@@ -19,6 +19,8 @@ Les décisions prises, décisions `À arbitrer — bloquant` et éléments du ba
 
 Les seuls rôles métier canoniques sont `Admin`, `Coach` et `Viewer`. Ils désignent des acteurs authentifiés. Un qualificatif tel que « affecté », « responsable » ou « destinataire » précise un lien contextuel ; il ne crée pas un nouveau rôle.
 
+Toute lecture de donnée métier exige une identité authentifiée. Aucun mode de consultation ne contourne cette exigence.
+
 Le `Superadmin` désigne le superuser Django global. C’est une capacité technique réservée au bootstrap et à l’administration explicitement prévue. Il n’est ni un quatrième rôle métier, ni une valeur supplémentaire de fonction utilisateur, ni un moyen implicite d’exercer toutes les Features du produit. Le premier `Superadmin` est créé par le mécanisme de bootstrap Django. Les seules opérations métier qui lui sont ouvertes dans le backlog sont celles qui le citent explicitement.
 
 | Rôle | Capacités cumulées | Périmètre |
@@ -50,15 +52,6 @@ Le périmètre du `Viewer` authentifié relève de `ARB-ORG-012`.
 
 Cette matrice décide uniquement si un acteur peut exercer l’action sur les Organisations et les Équipes. Elle ne décide pas quels objets lui sont accessibles. Aucun périmètre supplémentaire ne doit en être déduit : notamment, une éventuelle limitation de l’`Admin` à son organisation reste `À arbitrer` dans `ARB-ORG-015`. Un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre.
 
-## Consultation sans compte
-
-La consultation sans compte répond au besoin d’une personne non inscrite de consulter uniquement des résultats explicitement rendus accessibles. Elle n’est pas un rôle métier et ne doit jamais être assimilée au `Viewer` authentifié.
-
-- elle est strictement en lecture seule et n’accorde aucune capacité `Admin`, `Coach` ou `Viewer` ;
-- elle ne donne accès ni aux brouillons, ni aux opérations, ni aux données d’une organisation par simple appartenance ou découverte d’un identifiant ;
-- aucune donnée organisationnelle, équipe, identité, modèle, réponse ou résultat ne devient implicitement publique ;
-- le périmètre exact, le mode de publication et la protection sont `À arbitrer — bloquant` dans `ARB-ORG-014`.
-
 ## Rattachements et usages
 
 | Concept ou donnée | Rattachement organisationnel canonique | Sources utilisatrices |
@@ -66,11 +59,10 @@ La consultation sans compte répond au besoin d’une personne non inscrite de c
 | `Admin` | au moins un rattachement explicite requis pour agir ; cardinalité à arbitrer | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
 | `Coach` | au moins un rattachement explicite requis pour agir ; cardinalité à arbitrer | `FEAT-003`, `FEAT-004`, `FEAT-038`, `FEAT-008` à `FEAT-009`, `FEAT-020` à `FEAT-030`, `FEAT-032` |
 | `Viewer` | périmètre de consultation applicable, modalité à arbitrer | toutes les Features de consultation |
-| Consultation sans compte | aucun rattachement ni rôle ; résultats explicitement publiés uniquement, modalités à arbitrer | `FEAT-023` à `FEAT-027` |
 | Équipe | rattachement direct et obligatoire à exactement une organisation | `FEAT-005` à `FEAT-010` et toutes les données rattachées à une équipe |
 | Modèle et paramètres | rattachement ou partage à arbitrer, mais organisation d’origine toujours déterminable | `FEAT-011` à `FEAT-019`, `FEAT-031` |
 | Passation, évaluation, échéance, notification et indicateur | organisation déterminée par l’équipe source et vérifiée avec les autres rattachements | `FEAT-018` à `FEAT-035` |
 
 ## Règle d’usage dans le backlog
 
-Une source d’Epic ou de PBI indique les acteurs avec les rôles canoniques, la consultation sans compte lorsqu’elle s’applique, les liens contextuels éventuels et les conséquences spécifiques à sa capacité. Elle renvoie au présent document pour la hiérarchie des rôles, le cloisonnement entre organisations et les rattachements communs. Une règle encore absente est référencée par son arbitrage ; une synthèse ne la complète jamais.
+Une source d’Epic ou de PBI indique les acteurs avec les rôles canoniques, les liens contextuels éventuels et les conséquences spécifiques à sa capacité. Elle renvoie au présent document pour l’exigence d’authentification, la hiérarchie des rôles, le cloisonnement entre organisations et les rattachements communs. Une règle encore absente est référencée par son arbitrage ; une synthèse ne la complète jamais.

@@ -37,7 +37,7 @@ Une valeur de synthèse doit pointer vers une de ces sources ou résulter d’un
 ## Concepts, rôles et périmètres
 
 - une source d’Epic référence les concepts transverses au lieu d’en proposer une variante locale ;
-- les acteurs métier authentifiés sont exprimés avec les rôles canoniques `Admin`, `Coach` et `Viewer` ; le `Superadmin` peut être cité lorsqu’une opération lui est explicitement ouverte, mais désigne toujours le superuser Django global et jamais un quatrième rôle métier ; la consultation sans compte est un mode d’accès en lecture seule, jamais un rôle ;
+- toute lecture de donnée métier exige une identité authentifiée ; les acteurs métier sont exprimés avec les rôles canoniques `Admin`, `Coach` et `Viewer` ; le `Superadmin` peut être cité lorsqu’une opération lui est explicitement ouverte, mais désigne toujours le superuser Django global et jamais un quatrième rôle métier ;
 - tout élément qui utilise une donnée organisationnelle précise son rattachement direct ou le chemin métier qui permet de déterminer son organisation ;
 - une opération portant sur plusieurs données vérifie la cohérence de leurs organisations et refuse tout croisement implicite ;
 - `À arbitrer` signale une décision produit manquante. Cette valeur ne peut être remplacée par une hypothèse dans une source, une synthèse ou une implémentation ; le registre des arbitrages rend explicites ses blocages.
