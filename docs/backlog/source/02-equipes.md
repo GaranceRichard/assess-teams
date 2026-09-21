@@ -1,6 +1,6 @@
 ﻿## EPIC-002 — Gestion des équipes
 
-Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi la matrice CRUD commune. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. L’affectation des `Coach`, les modèles d’évaluation, les fréquences, les évaluations et les notifications restent dans leurs Epics respectifs. Les Features `FEAT-005`, `FEAT-006`, `FEAT-007` et `FEAT-010` sont raffinées par les sept PBIs `TEAM-001` à `TEAM-007`, réutilisés ici pour le CRUD backend sans doublon. Leur raffinement est conservé, mais aucun de ces PBIs n’est prêt à implémenter tant que les blocages indiqués dans le [registre des arbitrages Organisation](00-arbitrages-organisations.md) et leurs dépendances ne sont pas levés.
+Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi les matrices CRUD. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. L’affectation des `Coach`, les modèles d’évaluation, les fréquences, les évaluations et les notifications restent dans leurs Epics respectifs. Les Features `FEAT-005`, `FEAT-006`, `FEAT-007` et `FEAT-010` sont raffinées par les sept PBIs `TEAM-001` à `TEAM-007`, réutilisés ici pour le CRUD backend sans doublon. Leur raffinement est conservé, mais aucun de ces PBIs n’est prêt à implémenter tant que les blocages indiqués dans le [registre des arbitrages Organisation](00-arbitrages-organisations.md) et leurs dépendances ne sont pas levés.
 
 ### FEAT-005 — Constituer une équipe
 
@@ -13,8 +13,8 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** établir une identité durable et non ambiguë pour le collectif suivi.
 - **Description :** exposer la création backend d’une équipe à partir d’un nom obligatoire et d’une organisation de rattachement explicite. Le système lui attribue un identifiant stable, conserve son organisation et la rend active par défaut.
 - **Critères d’acceptation :**
-  - un `Superadmin` peut créer une équipe ;
-  - un `Admin` peut créer une équipe ;
+  - un `Superadmin` peut créer une équipe dans toute organisation admissible ;
+  - un `Admin` peut créer une équipe uniquement dans son organisation ;
   - un `Coach` et un `Viewer` ne peuvent pas créer d’équipe ;
   - lorsqu’un acteur autorisé soumet un nom non vide, une organisation de rattachement valide et un nom conforme à la règle d’unicité après arbitrage, une seule équipe est créée dans cette organisation ;
   - l’équipe créée possède un identifiant généré par le système, distinct de son nom et immuable ;
@@ -23,7 +23,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
   - la confirmation de création retourne l’identifiant de l’équipe, son nom enregistré, son état `active` et l’identifiant de son organisation, sans introduire de consultation dédiée ;
   - si la création est refusée, aucune équipe ni donnée partielle correspondant à la demande n’est conservée.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; organisation absente, inexistante, hors du périmètre autorisé ou non admissible selon son état ; nom absent, vide après suppression des espaces périphériques ou d’un type invalide ; nom déjà porté par une équipe active ou archivée dans la portée qui sera arbitrée, selon une comparaison insensible à la casse et aux espaces périphériques.
-- **Décisions produit bloquantes :** `ARB-ORG-005`, `ARB-ORG-009` et `ARB-ORG-015`. Aucun de ces choix ne doit être déduit par l’implémentation ; `TEAM-001` n’est pas prêt à implémenter.
+- **Décisions produit bloquantes :** `ARB-ORG-005` et `ARB-ORG-009`. Aucun de ces choix ne doit être déduit par l’implémentation ; `TEAM-001` n’est pas prêt à implémenter. Les périmètres du `Superadmin` et de l’`Admin` sont décidés par `ARB-ORG-015`.
 - **Dépendances :** `FEAT-036`, `FEAT-037`.
 - **Indépendance technique :** `TEAM-001` ne dépend pas de l’implémentation technique de l’authentification ou des permissions portée par `FEAT-004` ; l’acteur autorisé et l’organisation requise restent des préconditions métier.
 - **Priorité :** P0.
@@ -42,14 +42,16 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** offrir une vue courante fiable des équipes en activité.
 - **Description :** exposer dans le backend la liste des équipes actives accessibles à l’acteur, avec les seules données utiles à leur identification : identifiant, nom, état et organisation.
 - **Critères d’acceptation :**
-  - le `Superadmin`, l’`Admin`, le `Coach` et le `Viewer` peuvent lister les équipes de leur périmètre autorisé ;
+  - le `Superadmin` peut lister les équipes de toutes les organisations ;
+  - l’`Admin` peut lister uniquement les équipes de son organisation ;
+  - le `Coach` et le `Viewer` peuvent lister uniquement les équipes de leur périmètre autorisé ;
   - la liste contient chaque équipe active accessible une seule fois, avec son identifiant, son nom, son état et l’identifiant de son organisation ;
   - une équipe archivée n’apparaît pas dans la liste active par défaut ;
   - lorsqu’aucune équipe active n’est accessible, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
   - une équipe nouvellement créée par `TEAM-001` apparaît dans la liste active lors de la consultation suivante ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une équipe.
 - **Principaux cas de refus :** acteur non authentifié ; périmètre absent ou tentative d’accès hors du périmètre autorisé.
-- **Décisions produit bloquantes :** `ARB-ORG-012` et `ARB-ORG-015`. Le périmètre des quatre acteurs ne doit pas être déduit de la matrice de droits.
+- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution du périmètre du `Viewer`.
 - **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -65,13 +67,15 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** fournir une référence fiable pour toute action portant sur une équipe déterminée.
 - **Description :** exposer dans le backend la consultation d’une équipe par son identifiant dans le périmètre autorisé et présenter son identifiant, son nom, son état courant et son organisation.
 - **Critères d’acceptation :**
-  - le `Superadmin`, l’`Admin`, le `Coach` et le `Viewer` peuvent consulter une équipe de leur périmètre autorisé ;
+  - le `Superadmin` peut consulter une équipe de toute organisation ;
+  - l’`Admin` peut consulter une équipe de son organisation uniquement ;
+  - le `Coach` et le `Viewer` peuvent consulter une équipe de leur périmètre autorisé ;
   - un identifiant existant et accessible restitue exactement une équipe avec son identifiant, son nom, son état et l’identifiant de son organisation ;
   - l’état présenté distingue explicitement une équipe active d’une équipe archivée ;
   - un identifiant inexistant produit une erreur explicite d’équipe introuvable sans contenu d’équipe ;
   - un acteur sans accès à l’équipe ne reçoit aucune donnée métier et aucune confirmation de son existence.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent ou mal formé ; équipe inexistante ou hors du périmètre autorisé.
-- **Décisions produit bloquantes :** `ARB-ORG-012` et `ARB-ORG-015`. Le périmètre des quatre acteurs ne doit pas être déduit de la matrice de droits.
+- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution du périmètre du `Viewer`.
 - **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -89,8 +93,8 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** faire évoluer l’information courante sans rompre l’identité ni l’historique de l’équipe.
 - **Description :** exposer dans le backend la modification du nom d’une équipe active. Son identifiant et son état ne sont pas modifiables par ce PBI.
 - **Critères d’acceptation :**
-  - un `Superadmin` peut modifier une équipe ;
-  - un `Admin` peut modifier une équipe ;
+  - un `Superadmin` peut modifier une équipe de toute organisation ;
+  - un `Admin` peut modifier une équipe de son organisation uniquement ;
   - un `Coach` et un `Viewer` ne peuvent pas modifier une équipe ;
   - la modification valide du nom est visible lors de la consultation suivante ;
   - l’identifiant de l’équipe reste inchangé après la modification ;
@@ -98,7 +102,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
   - si la modification est refusée, le nom, l’état et les rattachements existants restent inchangés.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; équipe inexistante, archivée ou hors du périmètre autorisé ; nom absent, vide après suppression des espaces périphériques, d’un type invalide ou déjà utilisé selon la règle arbitrée de `TEAM-001` ; tentative de modifier l’identifiant, l’organisation ou l’état.
 - **Dépendances :** `TEAM-003` ; `FEAT-004` pour l’autorisation.
-- **Décisions produit bloquantes :** `ARB-ORG-009` et `ARB-ORG-015`, en plus des blocages hérités de `TEAM-003` ; `TEAM-004` n’est pas prêt à implémenter.
+- **Décision produit bloquante :** `ARB-ORG-009`, en plus des blocages hérités de `TEAM-003` ; `TEAM-004` n’est pas prêt à implémenter.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
 - **Valeur apportée :** maintient une information exacte sans perdre la continuité de suivi.
@@ -115,8 +119,8 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** arrêter les nouvelles activités d’une équipe tout en préservant les preuves et rattachements acquis.
 - **Description :** exposer l’action backend `DELETE` qui fait passer une équipe de l’état `active` à l’état `archivée`, sans suppression physique. L’archivage est la sémantique métier canonique de ce `DELETE`.
 - **Critères d’acceptation :**
-  - un `Superadmin` peut supprimer, donc archiver, une équipe ;
-  - un `Admin` peut supprimer, donc archiver, une équipe ;
+  - un `Superadmin` peut supprimer, donc archiver, une équipe de toute organisation ;
+  - un `Admin` peut supprimer, donc archiver, une équipe de son organisation uniquement ;
   - un `Coach` et un `Viewer` ne peuvent pas supprimer une équipe ;
   - l’archivage conserve l’identifiant, le nom, l’organisation et les rattachements historiques de l’équipe ;
   - après archivage, la consultation par identifiant restitue la même équipe avec l’état `archivée` ;
@@ -125,7 +129,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
   - une seconde demande d’archivage est refusée avec l’état explicite « équipe déjà archivée » et ne crée aucune transition supplémentaire ;
   - toute suppression refusée ne produit aucun effet partiel.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; équipe inexistante, déjà archivée ou hors du périmètre autorisé. Chaque refus laisse l’état et l’historique inchangés.
-- **Décision produit bloquante :** `ARB-ORG-015`, en plus des blocages hérités de `TEAM-003` ; le comportement d’archivage lui-même est décidé.
+- **Blocage hérité :** `TEAM-003` ; le comportement d’archivage et les périmètres d’administration sont décidés.
 - **Dépendances :** `TEAM-003` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -141,13 +145,15 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** rendre le patrimoine historique repérable sans le mélanger au portefeuille actif.
 - **Description :** afficher séparément les équipes archivées de l’organisation applicable avec leur identifiant, leur nom, leur état et leur organisation.
 - **Critères d’acceptation :**
-  - le `Superadmin`, l’`Admin`, le `Coach` et le `Viewer` peuvent consulter les équipes archivées de leur périmètre autorisé ;
+  - le `Superadmin` peut consulter les équipes archivées de toutes les organisations ;
+  - l’`Admin` peut consulter les équipes archivées de son organisation uniquement ;
+  - le `Coach` et le `Viewer` peuvent consulter les équipes archivées de leur périmètre autorisé ;
   - la liste contient chaque équipe archivée accessible une seule fois, avec son identifiant, son nom, l’état `archivée` et l’identifiant de son organisation ;
   - aucune équipe active n’apparaît dans cette liste ;
   - lorsqu’aucune équipe n’est archivée, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
   - une équipe archivée par `TEAM-005` apparaît dans cette liste lors de la consultation suivante.
 - **Principaux cas de refus :** acteur non authentifié ; périmètre absent ou tentative de consulter une équipe archivée hors du périmètre autorisé.
-- **Décisions produit bloquantes :** `ARB-ORG-012` et `ARB-ORG-015`.
+- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution du périmètre du `Viewer`.
 - **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P1.
 - **Domaine métier cible :** Gestion des équipes.
@@ -163,15 +169,15 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
 - **Intention métier :** reprendre l’activité d’un collectif en conservant la continuité de son dossier.
 - **Description :** faire passer une équipe de l’état `archivée` à l’état `active` sans recréation.
 - **Critères d’acceptation :**
-  - un `Superadmin` peut réactiver une équipe ;
-  - un `Admin` peut réactiver une équipe ;
+  - un `Superadmin` peut réactiver une équipe de toute organisation ;
+  - un `Admin` peut réactiver une équipe de son organisation uniquement ;
   - un `Coach` et un `Viewer` ne peuvent pas réactiver une équipe ;
   - une équipe archivée réactivée retrouve l’état `active` avec le même identifiant, le même nom et la même organisation ;
   - tous ses rattachements et éléments historiques restent associés à cette identité ;
   - après réactivation, l’équipe apparaît dans la liste active de `TEAM-002` et disparaît de la liste de `TEAM-006` ;
   - si la réactivation est refusée, l’état et l’historique restent inchangés.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; équipe inexistante, déjà active ou hors du périmètre autorisé.
-- **Décision produit bloquante :** `ARB-ORG-015`, en plus des blocages hérités de `TEAM-005`.
+- **Blocage hérité :** `TEAM-005` ; les périmètres d’administration sont décidés.
 - **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P1.
 - **Domaine métier cible :** Gestion des équipes.

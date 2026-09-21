@@ -4,7 +4,7 @@ Ce document est la source fonctionnelle canonique des concepts partagés par plu
 
 ## Organisation
 
-Le système gère plusieurs organisations. Une **Organisation** est le périmètre métier auquel sont rattachés les capacités des `Admin` et des `Coach`, ainsi que les équipes. La cardinalité des appartenances d’une identité reste à arbitrer.
+Le système gère plusieurs organisations. Une **Organisation** est le périmètre métier auquel sont rattachés les capacités des `Admin` et des `Coach`, ainsi que les équipes. Elle possède un identifiant technique stable et `nom` comme seule donnée métier obligatoire. Un `Admin` appartient à exactement une organisation ; la cardinalité du `Coach` reste à arbitrer dans `ARB-ORG-001`.
 
 - toute équipe appartient à exactement une organisation à un instant donné ; son archivage ou sa réactivation ne change pas ce rattachement ;
 - toute donnée ou opération métier doit permettre de déterminer sans ambiguïté son organisation, soit par rattachement direct, soit par un rattachement métier explicite à une donnée déjà rattachée ;
@@ -19,13 +19,11 @@ Les décisions prises, décisions `À arbitrer — bloquant` et éléments du ba
 
 Les seuls rôles métier canoniques sont `Admin`, `Coach` et `Viewer`. Ils désignent des acteurs authentifiés. Un qualificatif tel que « affecté », « responsable » ou « destinataire » précise un lien contextuel ; il ne crée pas un nouveau rôle.
 
-Toute lecture de donnée métier exige une identité authentifiée. Aucun mode de consultation ne contourne cette exigence.
-
-Le `Superadmin` désigne le superuser Django global. C’est une capacité technique réservée au bootstrap et à l’administration explicitement prévue. Il n’est ni un quatrième rôle métier, ni une valeur supplémentaire de fonction utilisateur, ni un moyen implicite d’exercer toutes les Features du produit. Le premier `Superadmin` est créé par le mécanisme de bootstrap Django. Les seules opérations métier qui lui sont ouvertes dans le backlog sont celles qui le citent explicitement.
+Le `Superadmin` désigne le superuser Django global. C’est une capacité technique réservée au bootstrap et à l’administration explicitement prévue. Il n’est ni un quatrième rôle métier, ni une valeur supplémentaire de fonction utilisateur. Le premier `Superadmin` est créé par le mécanisme de bootstrap Django. Pour les Organisations et les Équipes, il peut agir sur toutes les organisations ; les autres opérations métier ne lui sont ouvertes que lorsqu’elles le citent explicitement.
 
 | Rôle | Capacités cumulées | Périmètre |
 | --- | --- | --- |
-| `Admin` | fonctions `Admin`, `Coach` et `Viewer` | organisation applicable à l’action selon un rattachement explicite |
+| `Admin` | fonctions `Admin`, `Coach` et `Viewer` | son unique organisation selon un rattachement explicite |
 | `Coach` | fonctions `Coach` et `Viewer` | organisation applicable selon un rattachement explicite, puis équipe concernée lorsque la Feature exige une affectation |
 | `Viewer` | consultation uniquement | périmètre organisationnel de consultation qui lui est accordé |
 
@@ -41,22 +39,37 @@ Chaque utilisateur géré par `USER-001` à `USER-004` possède exactement une f
 
 Le périmètre du `Viewer` authentifié relève de `ARB-ORG-012`.
 
-### Matrice CRUD commune aux Organisations et aux Équipes
+### Matrice CRUD des Organisations
 
 | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
-| CREATE | Oui | Oui | Non | Non |
-| READ | Oui | Oui | Oui | Oui |
-| UPDATE | Oui | Oui | Non | Non |
-| DELETE | Oui | Oui | Non | Non |
+| CREATE | Oui | Non | Non | Non |
+| READ | Toutes | Son organisation | Périmètre autorisé | Périmètre autorisé |
+| UPDATE | Toutes | Son organisation | Non | Non |
+| DELETE | Toutes | Son organisation | Non | Non |
 
-Cette matrice décide uniquement si un acteur peut exercer l’action sur les Organisations et les Équipes. Elle ne décide pas quels objets lui sont accessibles. Aucun périmètre supplémentaire ne doit en être déduit : notamment, une éventuelle limitation de l’`Admin` à son organisation reste `À arbitrer` dans `ARB-ORG-015`. Un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre.
+La sémantique du `DELETE` d’une Organisation reste à arbitrer dans `ARB-ORG-005`. Le mode d’attribution du périmètre du `Viewer` reste à arbitrer dans `ARB-ORG-012`.
+
+### Matrice CRUD des Équipes
+
+| Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
+| --- | --- | --- | --- | --- |
+| CREATE | Toutes les organisations | Son organisation | Non | Non |
+| READ | Toutes les organisations | Son organisation | Périmètre autorisé | Périmètre autorisé |
+| UPDATE | Toutes les organisations | Son organisation | Non | Non |
+| DELETE | Toutes les organisations | Son organisation | Non | Non |
+
+Pour les Équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`. Pour les deux matrices, un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre. Aucun accès anonyme n’est permis.
+
+## Authentification des consultations
+
+Aucune lecture anonyme n’est permise. Toute consultation exige une identité authentifiée portant une fonction `Admin`, `Coach` ou `Viewer`, ou la capacité technique `Superadmin` lorsqu’elle est explicitement prévue, et reste limitée à son périmètre autorisé.
 
 ## Rattachements et usages
 
 | Concept ou donnée | Rattachement organisationnel canonique | Sources utilisatrices |
 | --- | --- | --- |
-| `Admin` | au moins un rattachement explicite requis pour agir ; cardinalité à arbitrer | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
+| `Admin` | rattachement explicite à exactement une organisation | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
 | `Coach` | au moins un rattachement explicite requis pour agir ; cardinalité à arbitrer | `FEAT-003`, `FEAT-004`, `FEAT-038`, `FEAT-008` à `FEAT-009`, `FEAT-020` à `FEAT-030`, `FEAT-032` |
 | `Viewer` | périmètre de consultation applicable, modalité à arbitrer | toutes les Features de consultation |
 | Équipe | rattachement direct et obligatoire à exactement une organisation | `FEAT-005` à `FEAT-010` et toutes les données rattachées à une équipe |
@@ -65,4 +78,4 @@ Cette matrice décide uniquement si un acteur peut exercer l’action sur les Or
 
 ## Règle d’usage dans le backlog
 
-Une source d’Epic ou de PBI indique les acteurs avec les rôles canoniques, les liens contextuels éventuels et les conséquences spécifiques à sa capacité. Elle renvoie au présent document pour l’exigence d’authentification, la hiérarchie des rôles, le cloisonnement entre organisations et les rattachements communs. Une règle encore absente est référencée par son arbitrage ; une synthèse ne la complète jamais.
+Une source d’Epic ou de PBI indique les acteurs avec les rôles canoniques, les liens contextuels éventuels et les conséquences spécifiques à sa capacité. Elle renvoie au présent document pour la hiérarchie des rôles, le cloisonnement entre organisations et les rattachements communs. Une règle encore absente est référencée par son arbitrage ; une synthèse ne la complète jamais.

@@ -9,7 +9,7 @@ Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne 
 | Ordre | PBI | Feature porteuse | Statut |
 | ---: | --- | --- | --- |
 | 1 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Réalisé |
-| 2 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
+| 2 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | Ouvert |
 | 3 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 | 3 | USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 
@@ -126,26 +126,28 @@ La source détaillée est le [registre des arbitrages Organisation](source/00-ar
 
 | Périmètre bloqué | Arbitrages ouverts | Conséquence actuelle |
 | --- | --- | --- |
-| `USER-002` — Consulter les utilisateurs | `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` | Reste `Bloqué` par le périmètre `Admin` ; `ARB-ORG-012` ne s’applique pas |
-| `USER-003` — Modifier un utilisateur | `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` | Reste `Bloqué` et dépend de `USER-002` |
-| `USER-004` — Supprimer un utilisateur | `ARB-ORG-001`, `ARB-ORG-008` et, si la multi-appartenance est retenue, `ARB-ORG-011` | Reste `Bloqué` et dépend de `USER-002` |
-| `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-001`, `ARB-ORG-003` à `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011`, `ARB-ORG-012`, `ARB-ORG-015` | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; rattachements non raffinés |
-| `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, `ARB-ORG-015`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
+| `USER-003` et `USER-004` — Sprint 1 Backend Utilisateurs | `ARB-ORG-008` pour `USER-004` ; dépendance à `USER-002` pour les deux | `USER-002` est `Ouvert` ; `USER-003` et `USER-004` restent `Bloqué` ; `USER-001` est `Réalisé` |
+| `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-012` et dépendances pour les PBIs ; `ARB-ORG-001`, `ARB-ORG-003`, `ARB-ORG-005`, `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011` pour les rattachements | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; `ARB-ORG-015` est résolu ; rattachements non raffinés |
+| `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
 | Consultation authentifiée | `ARB-ORG-012` | Périmètre du `Viewer` non prêt à raffiner |
 | `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
 | Tout futur transfert d’équipe et continuités concernées | `ARB-ORG-007` | Aucun PBI de transfert créé ; capacité non prête à raffiner |
 
-## Matrice CRUD — Organisations et Équipes
+## Matrices CRUD — Organisations et Équipes
 
-| Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
-| --- | --- | --- | --- | --- |
-| CREATE | Oui | Oui | Non | Non |
-| READ | Oui | Oui | Oui | Oui |
-| UPDATE | Oui | Oui | Non | Non |
-| DELETE | Oui | Oui | Non | Non |
+| Objet | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
+| --- | --- | --- | --- | --- | --- |
+| Organisation | CREATE | Oui | Non | Non | Non |
+| Organisation | READ | Toutes | Son organisation | Périmètre autorisé | Périmètre autorisé |
+| Organisation | UPDATE | Toutes | Son organisation | Non | Non |
+| Organisation | DELETE | Toutes | Son organisation | Non | Non |
+| Équipe | CREATE | Toutes les organisations | Son organisation | Non | Non |
+| Équipe | READ | Toutes les organisations | Son organisation | Périmètre autorisé | Périmètre autorisé |
+| Équipe | UPDATE | Toutes les organisations | Son organisation | Non | Non |
+| Équipe | DELETE | Toutes les organisations | Son organisation | Non | Non |
 
-Cette matrice accorde le droit d’exécuter l’action, sans décider du périmètre accessible. Ce périmètre, notamment une éventuelle limitation de l’`Admin` à son organisation, reste `À arbitrer` dans `ARB-ORG-015`. Pour les équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`.
+Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-005`. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Aucune lecture anonyme n’est permise.
 
 ## PBIs raffinés
 
@@ -154,7 +156,7 @@ Cette matrice accorde le droit d’exécuter l’action, sans décider du périm
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
 | USER-001 — Créer un utilisateur | M | Sol — puissance élevée | Réalisé | 2026-09-21 |
-| USER-002 — Consulter les utilisateurs | M | Sol — puissance élevée | Bloqué | N/A |
+| USER-002 — Consulter les utilisateurs | M | Sol — puissance élevée | Ouvert | N/A |
 | USER-003 — Modifier un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
 | USER-004 — Supprimer un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
 
@@ -162,22 +164,22 @@ Cette matrice accorde le droit d’exécuter l’action, sans décider du périm
 
 | PBI | Statut | Blocage |
 | --- | --- | --- |
-| ORG-001 — Créer une organisation | Bloqué | `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-015` |
-| ORG-002 — Consulter les organisations | Bloqué | `ORG-001`, `ARB-ORG-012`, `ARB-ORG-015` |
-| ORG-003 — Modifier une organisation | Bloqué | `ORG-002`, `ARB-ORG-004`, `ARB-ORG-015` |
-| ORG-004 — Supprimer une organisation | Bloqué | `ORG-002`, `ARB-ORG-005`, `ARB-ORG-015` |
+| ORG-001 — Créer une organisation | Bloqué | `ARB-ORG-004`, `ARB-ORG-005` |
+| ORG-002 — Consulter les organisations | Bloqué | `ORG-001`, `ARB-ORG-012` |
+| ORG-003 — Modifier une organisation | Bloqué | `ORG-002`, `ARB-ORG-004` |
+| ORG-004 — Supprimer une organisation | Bloqué | `ORG-002`, `ARB-ORG-005` |
 
 ### EPIC-002 — PBIs Équipes
 
 | PBI | Statut | Blocage |
 | --- | --- | --- |
-| TEAM-001 — Créer une équipe | Bloqué | socle Organisation, `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-015` |
-| TEAM-002 — Lister les équipes | Bloqué | `TEAM-001`, `ARB-ORG-012`, `ARB-ORG-015` |
-| TEAM-003 — Consulter une équipe | Bloqué | `TEAM-001`, `ARB-ORG-012`, `ARB-ORG-015` |
-| TEAM-004 — Modifier une équipe | Bloqué | `TEAM-003`, `ARB-ORG-009`, `ARB-ORG-015` |
-| TEAM-005 — Archiver une équipe | Bloqué | `TEAM-003`, `ARB-ORG-015` |
-| TEAM-006 — Consulter les équipes archivées | Bloqué | `TEAM-005`, `ARB-ORG-012`, `ARB-ORG-015` |
-| TEAM-007 — Réactiver une équipe | Bloqué | `TEAM-005`, `ARB-ORG-015` |
+| TEAM-001 — Créer une équipe | Bloqué | socle Organisation, `ARB-ORG-005`, `ARB-ORG-009` |
+| TEAM-002 — Lister les équipes | Bloqué | `TEAM-001`, `ARB-ORG-012` |
+| TEAM-003 — Consulter une équipe | Bloqué | `TEAM-001`, `ARB-ORG-012` |
+| TEAM-004 — Modifier une équipe | Bloqué | `TEAM-003`, `ARB-ORG-009` |
+| TEAM-005 — Archiver une équipe | Bloqué | `TEAM-003` |
+| TEAM-006 — Consulter les équipes archivées | Bloqué | `TEAM-005`, `ARB-ORG-012` |
+| TEAM-007 — Réactiver une équipe | Bloqué | `TEAM-005` |
 
 ## Scoring global
 
@@ -189,6 +191,6 @@ Cette matrice accorde le droit d’exécuter l’action, sans décider du périm
 | Features non raffinées | 32 |
 | Nombre total de PBIs | 15 |
 | PBIs ouverts | 14 |
-| dont PBIs bloqués | 14 |
+| dont PBIs bloqués | 13 |
 | PBIs réalisés | 1 |
 | Avancement global | 7 % |

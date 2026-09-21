@@ -63,13 +63,13 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** proposer des listes distinctes des `Superadmin`, `Admin`, `Coach` et `Viewer`, une liste de tous les utilisateurs accessibles avec leur fonction ou capacité technique, et une consultation par identifiant. Les comptes actifs et désactivés sont distingués.
 - **Critères d’acceptation :**
   - un `Superadmin` peut consulter la liste des `Superadmin`, des `Admin`, des `Coach`, des `Viewer`, la liste globale et le détail de chacun de ces comptes ;
-  - un `Admin` peut consulter les listes et le détail des `Admin`, `Coach` et `Viewer` de son périmètre organisationnel applicable, mais ni la liste ni le détail des `Superadmin` ;
+  - un `Admin` peut consulter les listes et le détail des `Admin`, `Coach` et `Viewer` de son unique organisation, mais ni la liste ni le détail des `Superadmin` ;
   - un `Coach` ou un `Viewer` n’accède à aucune liste d’utilisateurs ni au détail d’un autre utilisateur par ce PBI ; la consultation de son propre profil n’entre pas dans ce périmètre ;
   - chaque résultat accessible expose au minimum l’identifiant stable, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
-  - la liste « tous les utilisateurs » respecte le même périmètre : globale pour un `Superadmin`, limitée aux fonctions métier et organisations accessibles pour un `Admin` ;
+  - la liste « tous les utilisateurs » respecte le même périmètre : globale pour un `Superadmin`, limitée aux fonctions métier de l’unique organisation de l’`Admin` ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
 - **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; demande d’un `Coach` ou d’un `Viewer` ; consultation d’un `Superadmin` par un `Admin` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
-- **Décisions produit bloquantes :** `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011`. Le chemin `Admin` ne peut être contractualisé définitivement tant que sa cardinalité d’appartenance et, le cas échéant, la sélection de son organisation active ne sont pas décidées. `ARB-ORG-012` ne bloque pas ce PBI : `Coach` et `Viewer` n’y consultent aucun autre utilisateur.
+- **Décisions produit bloquantes :** aucune. La mono-appartenance et le périmètre de l’`Admin` sont décidés par `ARB-ORG-001` et `ARB-ORG-015` ; `ARB-ORG-011` ne concerne plus l’`Admin` et `ARB-ORG-012` ne s’applique pas à ce PBI.
 - **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation et le périmètre.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -86,12 +86,12 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** modifier les informations utiles d’une identité. L’identifiant stable, la fonction métier, les rattachements organisationnels et les traces historiques ne sont pas modifiables par ce PBI.
 - **Critères d’acceptation :**
   - un `Superadmin` peut modifier un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
-  - un `Admin` peut modifier un `Coach` ou un `Viewer` de son périmètre applicable, mais ne peut modifier aucun `Admin` ;
+  - un `Admin` peut modifier un `Coach` ou un `Viewer` de son unique organisation, mais ne peut modifier aucun `Admin` ;
   - un `Coach` ou un `Viewer` ne peut modifier aucun autre utilisateur ; la modification de son propre profil n’entre pas dans ce PBI ;
   - une modification valide conserve l’identifiant et l’historique, et aucun refus ne produit de modification partielle ;
   - aucun utilisateur, y compris un `Superadmin`, ne peut modifier un compte `Superadmin` par ce PBI.
 - **Principaux cas de refus :** rôle demandeur interdit ; cible `Superadmin` ; `Admin` ciblant un `Admin` ou une autre organisation ; cible inexistante ; données invalides ; tentative de modifier l’identifiant, la fonction ou un rattachement organisationnel.
-- **Décisions produit bloquantes :** `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011`.
+- **Décisions produit bloquantes :** aucune ; la dépendance à `USER-002` reste nécessaire.
 - **Dépendances :** `USER-002` ; `FEAT-004` pour l’autorisation et le périmètre.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -108,14 +108,14 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** la suppression demandée est une désactivation logique : elle bloque les nouvelles connexions et opérations sans suppression physique de l’identité, de ses actions, de ses rattachements ni de son historique.
 - **Critères d’acceptation :**
   - un `Superadmin` peut désactiver un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
-  - un `Admin` peut désactiver un `Coach` ou un `Viewer` de son périmètre applicable, mais ne peut désactiver aucun `Admin` ;
+  - un `Admin` peut désactiver un `Coach` ou un `Viewer` de son unique organisation, mais ne peut désactiver aucun `Admin` ;
   - un `Coach` ou un `Viewer` ne peut supprimer ni désactiver aucun utilisateur ;
   - une désactivation valide interdit toute nouvelle connexion ou action du compte, le conserve consultable comme désactivé selon `USER-002` et préserve ses faits historiques ;
   - aucun utilisateur, y compris un `Superadmin`, ne peut supprimer ou désactiver un compte `Superadmin` par ce PBI ;
   - un compte déjà désactivé ne subit pas de nouvelle transition et tout refus laisse l’ensemble des données inchangé ;
   - le retrait du dernier `Admin` d’une organisation respecte la décision restant à prendre dans `ARB-ORG-008`.
 - **Principaux cas de refus :** rôle demandeur interdit ; cible `Superadmin` ; `Admin` ciblant un `Admin` ou une autre organisation ; cible inexistante ou déjà désactivée ; retrait du dernier `Admin` tant que `ARB-ORG-008` n’est pas résolu.
-- **Décisions produit bloquantes :** `ARB-ORG-001`, `ARB-ORG-008` et, si la multi-appartenance est retenue, `ARB-ORG-011`.
+- **Décision produit bloquante :** `ARB-ORG-008` ; la dépendance à `USER-002` reste nécessaire.
 - **Dépendances :** `USER-002` ; `FEAT-001` pour l’effet sur l’accès ; `FEAT-004` pour l’autorisation et le périmètre.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -150,12 +150,12 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
   | Opération | `Superadmin` technique | `Admin` | `Coach` | `Viewer` |
   | --- | --- | --- | --- | --- |
   | Créer | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` | refus | refus |
-  | Consulter | tous les comptes, dont les `Superadmin` | `Admin`, `Coach`, `Viewer` dans le périmètre applicable ; aucun `Superadmin` | refus | refus |
-  | Modifier | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans le périmètre applicable | refus | refus |
-  | Supprimer logiquement | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans le périmètre applicable | refus | refus |
+  | Consulter | tous les comptes, dont les `Superadmin` | `Admin`, `Coach`, `Viewer` dans son unique organisation ; aucun `Superadmin` | refus | refus |
+  | Modifier | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son unique organisation | refus | refus |
+  | Supprimer logiquement | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son unique organisation | refus | refus |
 
   Cette matrice ne permet jamais de créer, modifier ou supprimer un `Superadmin` par les PBIs fonctionnels. Toutes ses opérations exigent une identité authentifiée. Tout refus intervient avant écriture et ne produit aucun effet partiel.
-- **Décisions produit bloquantes pour la matrice Utilisateurs :** `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` pour les chemins `Admin` de `USER-002` à `USER-004` ; `ARB-ORG-008` s’ajoute pour `USER-004`. `ARB-ORG-012` ne bloque aucun de ces PBIs.
+- **Décisions produit bloquantes pour la matrice Utilisateurs :** aucune pour `USER-002` et `USER-003` ; `ARB-ORG-008` reste bloquant pour `USER-004`. `ARB-ORG-012` ne bloque aucun de ces PBIs.
 - **Dépendances éventuelles :** `FEAT-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.

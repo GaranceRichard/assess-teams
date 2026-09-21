@@ -7,18 +7,18 @@
 | Ordre | PBI | État d’entrée | Condition d’enchaînement |
 | ---: | --- | --- | --- |
 | 1 | `USER-001` — Créer un utilisateur | Réalisé | Livré le 2026-09-21 |
-| 2 | `USER-002` — Consulter les utilisateurs | Bloqué | `USER-001` terminé ; `ARB-ORG-001` et, si la multi-appartenance est retenue, `ARB-ORG-011` résolus |
-| 3 | `USER-003` — Modifier un utilisateur | Bloqué | `USER-002` terminé ; mêmes arbitrages du périmètre `Admin` résolus |
-| 3 | `USER-004` — Supprimer un utilisateur | Bloqué | `USER-002` terminé ; `ARB-ORG-008` résolu en plus des arbitrages précédents |
+| 2 | `USER-002` — Consulter les utilisateurs | Ouvert | `USER-001` terminé ; aucun arbitrage produit restant |
+| 3 | `USER-003` — Modifier un utilisateur | Bloqué | `USER-002` terminé |
+| 3 | `USER-004` — Supprimer un utilisateur | Bloqué | `USER-002` terminé ; `ARB-ORG-008` résolu |
 
 Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. `USER-003` et `USER-004` peuvent être enchaînés indépendamment après `USER-002`. Le Sprint 1 est planifié, mais seuls les chemins dont les arbitrages et dépendances sont levés peuvent entrer en implémentation ; aucun périmètre organisationnel ne doit être inventé pour tenir le sprint.
 
 ## Ordonnancement global recommandé
 
-1. **Sprint 1 — Backend Utilisateurs :** après `USER-001`, décider la cardinalité d’appartenance de l’`Admin` et, si nécessaire, la sélection de son organisation active, puis compléter `USER-002`, `USER-003` et `USER-004` dans l’ordre ci-dessus. Le périmètre propre du `Viewer` ne bloque pas ces PBIs.
-2. **CRUD backend Organisations :** résoudre `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-012` et `ARB-ORG-015`, puis livrer `ORG-001`, `ORG-002` et, en parallèle après la lecture, `ORG-003` et `ORG-004`. Le chemin `Superadmin` permet l’initialisation par `ORG-001`, sans créer de quatrième rôle métier.
+1. **Sprint 1 — Backend Utilisateurs :** `USER-001` est livré et `USER-002` est ouvert ; livrer ensuite `USER-003`, puis `USER-004` après résolution de `ARB-ORG-008`.
+2. **CRUD backend Organisations :** résoudre `ARB-ORG-004` et `ARB-ORG-005`, puis livrer `ORG-001` par le chemin `Superadmin` ; résoudre `ARB-ORG-012` avant de livrer `ORG-002`, puis enchaîner `ORG-003` et `ORG-004` en parallèle après la lecture. `ARB-ORG-015` est résolu : le `Superadmin` couvre toutes les organisations et l’`Admin` son unique organisation.
 3. **Rattachements du socle Organisation :** arbitrer puis raffiner `FEAT-037` et `FEAT-038`, en cohérence avec les décisions nécessaires aux chemins `Admin` du Sprint 1, afin que les rattachements requis existent avant la création d’une équipe.
-4. **Premier PBI d’équipe après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-015` et ses dépendances au socle, sans dépendance à l’implémentation technique de l’authentification ou des permissions.
+4. **Premier PBI d’équipe après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-005`, `ARB-ORG-009` et ses dépendances au socle, sans dépendance à l’implémentation technique de l’authentification ou des permissions.
 5. **Suite du socle P0 :** poursuivre avec `TEAM-002` à `TEAM-005`, `FEAT-003`, `FEAT-008` et `FEAT-009` après leur raffinement et la livraison des capacités d’identité nécessaires. `TEAM-002` et `TEAM-003` peuvent avancer en parallèle après `TEAM-001` ; `TEAM-004` et `TEAM-005` dépendent de `TEAM-003`.
 6. **Cadre d’évaluation P0 :** arbitrer la portée organisationnelle des modèles et paramètres, puis raffiner et livrer `FEAT-011` à `FEAT-018`.
 7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
