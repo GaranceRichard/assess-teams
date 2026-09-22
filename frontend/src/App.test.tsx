@@ -132,10 +132,12 @@ describe("product authentication journey", () => {
     );
     render(<App />);
 
-    const selector = await screen.findByLabelText("Thème");
-    expect(selector).toHaveValue("night");
+    const toggle = await screen.findByRole("button", {
+      name: "Activer le mode jour",
+    });
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
     expect(document.documentElement).toHaveAttribute("data-theme", "night");
-    fireEvent.change(selector, { target: { value: "day" } });
+    fireEvent.click(toggle);
 
     expect(document.documentElement).toHaveAttribute("data-theme", "day");
     expect(localStorage.getItem("assess-teams-theme")).toBe("day");

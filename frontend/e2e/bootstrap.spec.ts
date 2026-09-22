@@ -86,7 +86,7 @@ test("a Superadmin creates, updates and deletes an invited user", async ({
   await expect(
     page.getByText("Tableau de bord — fonctionnalité à venir"),
   ).toBeVisible();
-  await page.getByLabel("Thème").selectOption("night");
+  await page.getByRole("button", { name: "Activer le mode nuit" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "night");
   await page.getByRole("link", { name: "Utilisateurs" }).click();
   await expect(

@@ -16,4 +16,5 @@ L'architecture hexagonale organise les dépendances et les responsabilités à g
 Une architecture hexagonale avec des classes massives, des services génériques ou une forte complexité reste une mauvaise architecture. Du Clean Code fortement couplé à Django ou à l'infrastructure ne respecte pas non plus l'architecture attendue. Une API non documentée ou incohérente avec son schéma ne fournit pas un contrat exploitable. Ces principes doivent être respectés simultanément.
 
 L'interface React expose la gestion des identités Superadmin sur la route `/users`, jamais sur le tableau de
-bord. Son sélecteur jour/nuit applique le thème au document complet et mémorise le choix dans le navigateur.
+bord. Son toggle illustré soleil/lune applique le thème au document complet et mémorise le choix dans le
+navigateur.

@@ -2,7 +2,7 @@ import type { SessionUser } from "./auth";
 import { canAccess, menuFor, routeFor } from "./navigation";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 import type { Theme } from "./theme";
-import { ThemeSelector } from "./ThemeSelector";
+import { ThemeToggle } from "./ThemeToggle";
 
 type Props = {
   path: string;
@@ -55,7 +55,7 @@ export function ProductShell({
       </aside>
       <main className="workspace">
         <header>
-          <ThemeSelector theme={theme} onChange={onThemeChange} />
+          <ThemeToggle theme={theme} onChange={onThemeChange} />
           <div>
             <strong>{user.username}</strong>
             <span>{user.is_superuser ? "Superadmin · Admin" : user.role}</span>

@@ -37,8 +37,8 @@ Une identité active peut ouvrir une session produit puis accéder aux placehold
 Les menus visibles suivent exactement les espaces Admin, Coach et Viewer ; les accès directs appliquent aussi
 la hiérarchie de capacités `Admin > Coach > Viewer`. Le Superadmin Django obtient l'espace Admin sans devenir
 un rôle métier supplémentaire. La déconnexion invalide la session et ramène à l'écran de connexion.
-La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. L'interface
-propose aussi un affichage jour ou nuit, sans ajouter de quatrième rôle métier.
+La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
+soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatrième rôle métier.
 
 ## Installation
 

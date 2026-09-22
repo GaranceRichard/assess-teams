@@ -95,9 +95,7 @@ it("shows user management on Users only and changes theme", () => {
   expect(
     screen.getByText("Tableau de bord — fonctionnalité à venir"),
   ).toBeVisible();
-  fireEvent.change(screen.getByLabelText("Thème"), {
-    target: { value: "night" },
-  });
+  fireEvent.click(screen.getByRole("button", { name: "Activer le mode nuit" }));
   expect(onThemeChange).toHaveBeenCalledWith("night");
 
   rerender(<ProductShell {...props} path="/users" />);
