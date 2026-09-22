@@ -20,9 +20,10 @@ Les commandes propres aux outils applicatifs sont actives avec les squelettes Dj
 La commande globale `test:all` orchestre les suites backend, frontend et E2E ainsi que leurs seuils de coverage. Elle est réutilisée par `quality:full` et documentée dans le [README](../../README.md#tests-et-coverages). Les commandes propres à Django et React sont obligatoires dès que leur squelette est détecté ; leur absence produit un échec plutôt qu'un faux `NON APPLICABLE`.
 
 Le socle qualité exécute aussi des tests fonctionnels isolés du bootstrap local. Ils couvrent la création et la
-réutilisation du virtualenv backend, les changements de requirements, la création et la réutilisation de
-`node_modules`, les changements de lockfile, les erreurs bloquantes, l'emploi des runtimes préparés et le
-`post-checkout` d'un vrai worktree temporaire.
+réutilisation du virtualenv backend, les changements de requirements, la création et la réutilisation des
+`node_modules` racine et frontend, les changements de lockfile, les erreurs bloquantes, l'emploi des runtimes
+préparés et le `post-checkout` d'un vrai worktree temporaire. Le parcours réel `dev:all` est aussi vérifié avant
+livraison par les réponses HTTP de Django et Vite.
 
 ## Niveaux de tests
 

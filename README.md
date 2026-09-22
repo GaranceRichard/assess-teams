@@ -30,21 +30,21 @@ organisationnel ni gestion, consultation ou suppression d'utilisateur n'est ajou
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Windows, macOS ou Linux.
 
-Le lancement de développement prépare automatiquement les dépendances propres au checkout. Il crée ou répare
-`backend/.venv`, synchronise `backend/requirements-dev.txt` et exécute `npm ci` dans `frontend` uniquement lorsque
-`package-lock.json` l'exige. Chaque nouveau worktree bénéficie du même mécanisme, sans lien ni installation manuelle.
+Le lancement prépare automatiquement les dépendances propres au checkout. Il crée ou répare `backend/.venv`,
+synchronise `backend/requirements-dev.txt` et exécute `npm ci` à la racine ou dans `frontend` lorsque leur lockfile
+l'exige. Chaque nouveau worktree bénéficie du même mécanisme, sans lien ni installation manuelle.
 
 Le backend utilise `backend/db.sqlite3`, créé localement et ignoré par Git. Les migrations sont appliquées automatiquement par la commande de développement backend.
 
 ## Lancement en développement
 
-Dans VS Code, le parcours nominal complet est :
+Le parcours nominal complet hors VS Code est :
 
 ```powershell
-Ctrl+Shift+B
+npm.cmd run dev:all
 ```
 
-Hors VS Code, ouvrir deux terminaux à la racine et lancer respectivement :
+`Ctrl+Shift+B` offre le même résultat dans VS Code, avec deux terminaux dédiés. Les commandes séparées restent disponibles :
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-backend.ps1

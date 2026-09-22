@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 $hostExecutable = (Get-Process -Id $PID).Path
 $failures = @()
 
-foreach ($test in @('backend.tests.ps1', 'frontend.tests.ps1', 'worktree.tests.ps1')) {
+foreach ($test in @('root.tests.ps1', 'backend.tests.ps1', 'frontend.tests.ps1', 'worktree.tests.ps1')) {
     $path = Join-Path $PSScriptRoot $test
     & $hostExecutable -NoProfile -ExecutionPolicy Bypass -File $path -Root $Root
     if ($LASTEXITCODE -ne 0) { $failures += $test }
