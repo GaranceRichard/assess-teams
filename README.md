@@ -26,10 +26,10 @@ identités métier fictives reproductibles uniquement en développement.
 
 ## Périmètre livré — USER-001
 
-Le backend permet à un Superadmin ou à un Admin autorisé de créer une identité active avec
+L'endpoint initial permet à un Superadmin ou à un Admin autorisé de créer une identité active avec
 une fonction métier unique (`Admin`, `Coach` ou `Viewer`). Ce chantier inclut uniquement l'authentification
 minimale nécessaire à l'appel, les permissions de création et le contrat OpenAPI ; aucun rattachement
-organisationnel ni gestion, consultation ou suppression d'utilisateur n'est ajouté.
+organisationnel n'est ajouté.
 
 ## Périmètre livré — accès au produit
 
@@ -37,6 +37,8 @@ Une identité active peut ouvrir une session produit puis accéder aux placehold
 Les menus visibles suivent exactement les espaces Admin, Coach et Viewer ; les accès directs appliquent aussi
 la hiérarchie de capacités `Admin > Coach > Viewer`. Le Superadmin Django obtient l'espace Admin sans devenir
 un rôle métier supplémentaire. La déconnexion invalide la session et ramène à l'écran de connexion.
+Le tableau de bord Superadmin administre les identités et leurs invitations par e-mail, sans ajouter de
+quatrième rôle métier.
 
 ## Installation
 
@@ -112,10 +114,10 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check, SQLite, le contrat OpenAPI, la création d'utilisateur et le cycle de session :
+Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin et le cycle de session :
 règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
-Playwright couvre connexion, refus, navigation protégée et déconnexion à travers Vite, Django et SQLite, puis
+Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs et déconnexion, puis
 vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent
 `NON APPLICABLE`, faute de bug corrigé.
 

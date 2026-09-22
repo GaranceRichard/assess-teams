@@ -122,4 +122,23 @@ describe("product authentication journey", () => {
       ).toBeVisible(),
     );
   });
+
+  it("opens an invitation after initializing CSRF and returns to login", async () => {
+    window.history.replaceState({}, "", "/invitation/uid/token");
+    vi.spyOn(globalThis, "fetch")
+      .mockImplementationOnce(() => response(403))
+      .mockImplementationOnce(() => response(204));
+    render(<App />);
+
+    expect(screen.getByText("Chargement…")).toBeVisible();
+    fireEvent.change(await screen.findByLabelText("Mot de passe"), {
+      target: { value: "new-password" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Valider" }));
+
+    expect(
+      await screen.findByRole("button", { name: "Se connecter" }),
+    ).toBeVisible();
+    expect(window.location.pathname).toBe("/");
+  });
 });

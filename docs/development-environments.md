@@ -10,8 +10,12 @@ Django utilise deux modules de réglages sans détection implicite :
   jamais `development_data` ; les points d'entrée ASGI et WSGI sélectionnent ce module.
 
 `manage.py`, ASGI et WSGI utilisent par défaut `config.settings`, alias sûr vers la production. Une exécution de production doit fournir
-`DJANGO_SECRET_KEY`. Elle peut aussi définir `DJANGO_ALLOWED_HOSTS` et `DJANGO_CSRF_TRUSTED_ORIGINS` sous forme
+`DJANGO_SECRET_KEY` et `APP_BASE_URL`, URL publique utilisée dans les invitations. Elle peut aussi définir
+`DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DEFAULT_FROM_EMAIL` sous forme
 de listes séparées par des virgules. Une configuration absente ne bascule donc jamais vers le développement.
+
+En développement, les messages d'invitation et d'information utilisent le backend e-mail console : leur
+contenu et leur lien local sont affichés dans le terminal Django, sans envoi externe.
 
 ## Credentials fictifs réservés au développement local
 

@@ -43,7 +43,7 @@ it("navigates with product links and exposes the connected superadmin", () => {
   const onNavigate = vi.fn();
   render(
     <ProductShell
-      path="/dashboard"
+      path="/results"
       user={{ username: "root", role: "Admin", is_superuser: true }}
       onNavigate={onNavigate}
       onLogout={vi.fn()}

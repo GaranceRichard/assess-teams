@@ -35,9 +35,9 @@ anonyme, mal authentifié ou inactif, `403` si sa fonction ou la fonction demand
 les données sont invalides ou l'identité existe déjà. Un Superadmin Django peut créer les trois fonctions ;
 un Admin peut créer uniquement Coach ou Viewer. Aucun autre champ d'état ou de privilège n'est accepté.
 
-Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métier. L'API ne crée ni
-superuser, ni rattachement organisationnel, et n'expose aucune opération de lecture, modification ou
-suppression d'utilisateur.
+Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métier. Cet endpoint initial ne crée
+ni superuser, ni rattachement organisationnel et n'expose aucune opération de lecture, modification ou
+suppression.
 
 ## Session produit et navigation autorisée
 
@@ -56,3 +56,16 @@ avec `403`.
 Le frontend n'affiche que les menus associés à la fonction. La permission de route applique la hiérarchie de
 capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Les pages livrées dans ce parcours ne
 contiennent que des placeholders et n'exposent aucune donnée métier.
+
+## Gestion des identités par le Superadmin
+
+`GET` et `POST /api/admin/users/`, puis `PUT` et `DELETE /api/admin/users/{user_id}/`, exigent une session
+Django active, un jeton CSRF pour les écritures et le statut technique `is_superuser`. Ils listent toutes les
+identités, créent une invitation, modifient le nom et l'adresse e-mail, ou suppriment le compte ciblé. Un Admin
+métier sans ce statut reçoit `403`; masquer l'interface ne constitue pas le contrôle d'accès.
+
+Une invitation crée un compte actif portant exactement le rôle Admin, Coach ou Viewer, mais doté d'un mot de
+passe inutilisable. Le champ `pending` reste vrai jusqu'à la définition du mot de passe. Le lien signé envoyé
+par e-mail appelle `POST /api/invitations/{uid}/{token}/`; un lien invalide, expiré ou déjà consommé retourne
+`400`. En cas de changement d'adresse, l'ancienne adresse reçoit une information sans lien et la nouvelle
+reçoit un message distinct. La suppression du Superadmin connecté est refusée avec `400`.

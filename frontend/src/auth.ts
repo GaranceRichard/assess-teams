@@ -32,7 +32,7 @@ export async function login(credentials: Credentials): Promise<SessionUser> {
   return parseUser(response);
 }
 
-function csrfToken(): string {
+export function csrfToken(): string {
   const cookie = document.cookie
     .split("; ")
     .find((entry) => entry.startsWith("csrftoken="));

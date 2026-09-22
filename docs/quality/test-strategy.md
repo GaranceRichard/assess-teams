@@ -124,3 +124,7 @@ Le bootstrap de développement vérifie séparément la création et l'authentif
 fictives, leurs fonctions, l'idempotence, la préservation des comptes existants et le refus défensif en
 production. Un test de configuration garantit aussi que l'application de données locales n'est pas installée
 par les réglages de production.
+
+La gestion Superadmin est couverte par les contrats API, les permissions, les invitations signées, les
+notifications aux anciennes et nouvelles adresses, l'indicateur d'attente et les composants de dialogue.
+Playwright valide le parcours navigateur de création, modification et suppression d'une identité invitée.

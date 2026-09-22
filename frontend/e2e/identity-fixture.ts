@@ -33,3 +33,33 @@ export function seedIdentity(
     { cwd: backend },
   );
 }
+
+export function seedSuperadmin(username: string, managedEmail: string) {
+  const backend = resolve(import.meta.dirname, "../../backend");
+  const windowsPython = resolve(backend, ".venv/Scripts/python.exe");
+  const python = existsSync(windowsPython)
+    ? windowsPython
+    : resolve(backend, ".venv/bin/python");
+  const command = [
+    "from identities.models import User",
+    `user, _ = User.objects.get_or_create(username=${JSON.stringify(username)}, defaults={'is_superuser': True, 'is_staff': True, 'email': ${JSON.stringify(username)}})`,
+    "user.email = user.username",
+    "user.is_active = True",
+    "user.is_staff = True",
+    "user.is_superuser = True",
+    `user.set_password(${JSON.stringify(e2eCredential)})`,
+    "user.save()",
+    `User.objects.filter(email=${JSON.stringify(managedEmail)}).delete()`,
+  ].join("; ");
+  execFileSync(
+    python,
+    [
+      "manage.py",
+      "shell",
+      "--settings=config.settings_development",
+      "-c",
+      command,
+    ],
+    { cwd: backend },
+  );
+}

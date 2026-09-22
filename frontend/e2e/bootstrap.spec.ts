@@ -1,6 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-import { e2eCredential, seedIdentity } from "./identity-fixture";
+import {
+  e2eCredential,
+  seedIdentity,
+  seedSuperadmin,
+} from "./identity-fixture";
 
 test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
   page,
@@ -67,4 +71,37 @@ test("the Playwright backend applies Django migrations before serving", async ({
   await page.locator('input[type="submit"]').click();
 
   await expect(page.locator(".errornote")).toBeVisible();
+});
+
+test("a Superadmin creates, updates and deletes an invited user", async ({
+  page,
+}) => {
+  const managedEmail = "managed-e2e@example.com";
+  seedSuperadmin("root-e2e", managedEmail);
+  await page.goto("/");
+  await page.getByLabel("Identifiant").fill("root-e2e");
+  await page.getByLabel("Mot de passe").fill(e2eCredential);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Utilisateurs" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Ajouter un utilisateur" }).click();
+  await page.getByLabel("Nom").fill("Managed E2E");
+  await page.getByLabel("Adresse mail").fill(managedEmail);
+  await page.getByLabel("Type utilisateur").selectOption("Coach");
+  await page.getByRole("button", { name: "Valider" }).click();
+  await expect(page.getByRole("cell", { name: /Managed E2E/ })).toContainText(
+    "En attente",
+  );
+
+  const managedRow = page.getByRole("row").filter({ hasText: managedEmail });
+  await managedRow.getByRole("button", { name: "Modifier" }).click();
+  await page.getByLabel("Nom").fill("Managed Updated");
+  await page.getByRole("button", { name: "Valider" }).click();
+  await expect(page.getByText("Managed Updated")).toBeVisible();
+
+  await managedRow.getByRole("button", { name: "Supprimer" }).click();
+  await page.getByRole("button", { name: "Valider la suppression" }).click();
+  await expect(page.getByText("Managed Updated")).toHaveCount(0);
 });

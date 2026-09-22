@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, login, logout, type SessionUser } from "./auth";
 import { LoginPage } from "./LoginPage";
 import { ProductShell } from "./ProductShell";
+import { SetPasswordPage } from "./SetPasswordPage";
 import "./styles.css";
 
 type AuthState =
@@ -56,6 +57,19 @@ export function App() {
     await logout();
     setAuth({ kind: "anonymous", error: null });
     navigate("/");
+  }
+
+  const invitation = path.match(/^\/invitation\/([^/]+)\/([^/]+)$/);
+  if (invitation) {
+    if (auth.kind === "loading")
+      return <main className="loading">Chargement…</main>;
+    return (
+      <SetPasswordPage
+        uid={invitation[1]}
+        token={invitation[2]}
+        onComplete={() => navigate("/")}
+      />
+    );
   }
 
   if (auth.kind === "loading")

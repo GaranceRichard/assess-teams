@@ -1,5 +1,6 @@
 import type { SessionUser } from "./auth";
 import { canAccess, menuFor, routeFor } from "./navigation";
+import { SuperadminDashboard } from "./SuperadminDashboard";
 
 type Props = {
   path: string;
@@ -51,7 +52,9 @@ export function ProductShell({ path, user, onNavigate, onLogout }: Props) {
             Se déconnecter
           </button>
         </header>
-        {authorized ? (
+        {user.is_superuser && path === "/dashboard" ? (
+          <SuperadminDashboard />
+        ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>
             <h1>{route.title}</h1>

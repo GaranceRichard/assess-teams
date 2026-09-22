@@ -71,6 +71,25 @@ def test_openapi_documents_product_session_contract(api_client: APIClient) -> No
 
 
 @pytest.mark.api
+@pytest.mark.contract
+def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> None:
+    response = api_client.get(reverse("schema"), HTTP_ACCEPT="application/json")
+
+    schema = response.json()
+    collection = schema["paths"]["/api/admin/users/"]
+    detail = schema["paths"]["/api/admin/users/{user_id}/"]
+    invitation = schema["paths"]["/api/invitations/{uid}/{token}/"]["post"]
+
+    assert response.status_code == 200
+    assert {"cookieAuth": []} in collection["get"]["security"]
+    assert set(collection["post"]["responses"]) == {"201", "400", "403"}
+    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
+    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}
+    assert "security" not in invitation
+    assert set(invitation["responses"]) == {"204", "400", "403"}
+
+
+@pytest.mark.api
 def test_swagger_ui_is_exposed(api_client: APIClient) -> None:
     response = api_client.get(reverse("swagger-ui"))
 
