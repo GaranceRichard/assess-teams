@@ -78,7 +78,7 @@ export function SuperadminDashboard() {
         <table>
           <thead>
             <tr>
-              <th>Nom</th>
+              <th>Identifiant</th>
               <th>Mail</th>
               <th>Type utilisateur</th>
               <th>Actions</th>
@@ -88,7 +88,7 @@ export function SuperadminDashboard() {
             {users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  {user.name || "—"}
+                  {user.identifier}
                   {user.pending && <span className="pending">En attente</span>}
                 </td>
                 <td>{user.email}</td>
@@ -121,7 +121,7 @@ export function SuperadminDashboard() {
       )}
       {deleting && (
         <ConfirmDialog
-          name={deleting.name || deleting.email}
+          name={deleting.identifier}
           onCancel={() => setDeleting(null)}
           onConfirm={remove}
         />

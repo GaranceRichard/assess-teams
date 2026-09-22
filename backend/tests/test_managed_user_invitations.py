@@ -28,13 +28,13 @@ def test_superadmin_invites_user_and_user_chooses_password(
         response = csrf_post(
             client,
             reverse("managed-user-list"),
-            {"name": "Alice Martin", "email": "Alice@example.com", "role": Role.COACH.value},
+            {"identifier": "alice", "email": "Alice@example.com", "role": Role.COACH.value},
         )
 
     user = User.objects.get(email="alice@example.com")
     assert response.status_code == 201
     assert response.json()["pending"] is True
-    assert user.first_name == "Alice Martin"
+    assert user.username == "alice"
     assert user.role == Role.COACH.value
     assert user.is_active and not user.has_usable_password()
     assert len(mail.outbox) == 1
@@ -59,7 +59,7 @@ def test_invitation_rejects_invalid_token_and_short_password(
         csrf_post(
             client,
             reverse("managed-user-list"),
-            {"name": "Alice", "email": "alice@example.com", "role": Role.VIEWER.value},
+            {"identifier": "alice", "email": "alice@example.com", "role": Role.VIEWER.value},
         )
     route = invitation_route()
     client.logout()
@@ -79,7 +79,7 @@ def test_invitation_rejects_invalid_token_and_short_password(
 @pytest.mark.api
 def test_invitation_rejects_duplicate_email_and_non_superadmin() -> None:
     client, _ = authenticated_superadmin_client()
-    payload = {"name": "Alice", "email": "alice@example.com", "role": Role.ADMIN.value}
+    payload = {"identifier": "alice", "email": "alice@example.com", "role": Role.ADMIN.value}
     assert csrf_post(client, reverse("managed-user-list"), payload).status_code == 201
     assert csrf_post(client, reverse("managed-user-list"), payload).status_code == 400
 

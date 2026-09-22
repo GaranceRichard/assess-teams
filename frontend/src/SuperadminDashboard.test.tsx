@@ -14,7 +14,7 @@ vi.mock("./managedUsers", () => api);
 
 const pending = {
   id: 2,
-  name: "Alice Martin",
+  identifier: "alice",
   email: "alice@example.com",
   user_type: "Coach",
   pending: true,
@@ -28,7 +28,7 @@ beforeEach(() => {
 it("lists every field and cancels creation by clicking outside", async () => {
   const { container } = render(<SuperadminDashboard />);
 
-  expect(await screen.findByText("Alice Martin")).toBeVisible();
+  expect(await screen.findByText("alice")).toBeVisible();
   expect(screen.getByText("alice@example.com")).toBeVisible();
   expect(screen.getByText("Coach")).toBeVisible();
   expect(screen.getByText("En attente")).toBeVisible();
@@ -46,16 +46,18 @@ it("creates a user with the selected business role", async () => {
   api.inviteManagedUser.mockResolvedValue({
     ...pending,
     id: 3,
-    name: "Bob",
+    identifier: "bob",
     email: "bob@example.com",
   });
   render(<SuperadminDashboard />);
-  await screen.findByText("Alice Martin");
+  await screen.findByText("alice");
 
   fireEvent.click(
     screen.getByRole("button", { name: "Ajouter un utilisateur" }),
   );
-  fireEvent.change(screen.getByLabelText("Nom"), { target: { value: "Bob" } });
+  fireEvent.change(screen.getByLabelText("Identifiant"), {
+    target: { value: "bob" },
+  });
   fireEvent.change(screen.getByLabelText("Adresse mail"), {
     target: { value: "bob@example.com" },
   });
@@ -66,39 +68,39 @@ it("creates a user with the selected business role", async () => {
 
   await waitFor(() =>
     expect(api.inviteManagedUser).toHaveBeenCalledWith({
-      name: "Bob",
+      identifier: "bob",
       email: "bob@example.com",
       role: "Admin",
     }),
   );
-  expect(await screen.findByText("Bob")).toBeVisible();
+  expect(await screen.findByText("bob")).toBeVisible();
 });
 
 it("updates then confirms deletion", async () => {
-  const updated = { ...pending, name: "Alice M.", pending: false };
+  const updated = { ...pending, identifier: "alice-updated", pending: false };
   api.updateManagedUser.mockResolvedValue(updated);
   api.deleteManagedUser.mockResolvedValue(undefined);
   render(<SuperadminDashboard />);
-  await screen.findByText("Alice Martin");
+  await screen.findByText("alice");
 
   fireEvent.click(screen.getByRole("button", { name: "Modifier" }));
-  fireEvent.change(screen.getByLabelText("Nom"), {
-    target: { value: "Alice M." },
+  fireEvent.change(screen.getByLabelText("Identifiant"), {
+    target: { value: "alice-updated" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Valider" }));
-  expect(await screen.findByText("Alice M.")).toBeVisible();
+  expect(await screen.findByText("alice-updated")).toBeVisible();
 
   fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
   fireEvent.click(
     screen.getByRole("button", { name: "Valider la suppression" }),
   );
   await waitFor(() => expect(api.deleteManagedUser).toHaveBeenCalledWith(2));
-  expect(screen.queryByText("Alice M.")).not.toBeInTheDocument();
+  expect(screen.queryByText("alice-updated")).not.toBeInTheDocument();
 });
 
 it("cancels or reports a refused deletion", async () => {
   const { container } = render(<SuperadminDashboard />);
-  await screen.findByText("Alice Martin");
+  await screen.findByText("alice");
   fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
   fireEvent.mouseDown(container.querySelector(".dialog-backdrop")!);
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -124,7 +126,9 @@ it("shows loading and mutation failures while preserving the dialog", async () =
   fireEvent.click(
     screen.getByRole("button", { name: "Ajouter un utilisateur" }),
   );
-  fireEvent.change(screen.getByLabelText("Nom"), { target: { value: "Bob" } });
+  fireEvent.change(screen.getByLabelText("Identifiant"), {
+    target: { value: "bob" },
+  });
   fireEvent.change(screen.getByLabelText("Adresse mail"), {
     target: { value: "bob@example.com" },
   });

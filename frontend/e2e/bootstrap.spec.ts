@@ -84,24 +84,27 @@ test("a Superadmin creates, updates and deletes an invited user", async ({
   await page.getByRole("button", { name: "Se connecter" }).click();
 
   await expect(
+    page.getByText("Tableau de bord — fonctionnalité à venir"),
+  ).toBeVisible();
+  await page.getByLabel("Thème").selectOption("night");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "night");
+  await page.getByRole("link", { name: "Utilisateurs" }).click();
+  await expect(
     page.getByRole("heading", { name: "Utilisateurs" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Ajouter un utilisateur" }).click();
-  await page.getByLabel("Nom").fill("Managed E2E");
+  await page.getByLabel("Identifiant").fill("managed-e2e");
   await page.getByLabel("Adresse mail").fill(managedEmail);
   await page.getByLabel("Type utilisateur").selectOption("Coach");
   await page.getByRole("button", { name: "Valider" }).click();
-  await expect(page.getByRole("cell", { name: /Managed E2E/ })).toContainText(
-    "En attente",
-  );
-
   const managedRow = page.getByRole("row").filter({ hasText: managedEmail });
+  await expect(managedRow.getByText("En attente")).toBeVisible();
   await managedRow.getByRole("button", { name: "Modifier" }).click();
-  await page.getByLabel("Nom").fill("Managed Updated");
+  await page.getByLabel("Identifiant").fill("managed-updated");
   await page.getByRole("button", { name: "Valider" }).click();
-  await expect(page.getByText("Managed Updated")).toBeVisible();
+  await expect(page.getByText("managed-updated")).toBeVisible();
 
   await managedRow.getByRole("button", { name: "Supprimer" }).click();
   await page.getByRole("button", { name: "Valider la suppression" }).click();
-  await expect(page.getByText("Managed Updated")).toHaveCount(0);
+  await expect(page.getByText("managed-updated")).toHaveCount(0);
 });

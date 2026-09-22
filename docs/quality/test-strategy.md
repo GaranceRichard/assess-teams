@@ -126,5 +126,6 @@ production. Un test de configuration garantit aussi que l'application de donnée
 par les réglages de production.
 
 La gestion Superadmin est couverte par les contrats API, les permissions, les invitations signées, les
-notifications aux anciennes et nouvelles adresses, l'indicateur d'attente et les composants de dialogue.
+notifications aux anciennes et nouvelles adresses, l'identifiant, l'indicateur d'attente et les dialogues.
 Playwright valide le parcours navigateur de création, modification et suppression d'une identité invitée.
+Il vérifie aussi l'accès par le menu Utilisateurs et le changement de thème jour/nuit.

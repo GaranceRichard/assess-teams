@@ -4,7 +4,9 @@ import { getCurrentUser, login, logout, type SessionUser } from "./auth";
 import { LoginPage } from "./LoginPage";
 import { ProductShell } from "./ProductShell";
 import { SetPasswordPage } from "./SetPasswordPage";
+import { applyTheme, readTheme } from "./theme";
 import "./styles.css";
+import "./theme.css";
 
 type AuthState =
   | { kind: "loading" }
@@ -14,6 +16,9 @@ type AuthState =
 export function App() {
   const [auth, setAuth] = useState<AuthState>({ kind: "loading" });
   const [path, setPath] = useState(window.location.pathname);
+  const [theme, setTheme] = useState(readTheme);
+
+  useEffect(() => applyTheme(theme), [theme]);
 
   useEffect(() => {
     getCurrentUser()
@@ -82,6 +87,8 @@ export function App() {
       user={auth.user}
       onNavigate={navigate}
       onLogout={handleLogout}
+      theme={theme}
+      onThemeChange={setTheme}
     />
   );
 }

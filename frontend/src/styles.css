@@ -1,6 +1,6 @@
 :root {
-  color: #18252c;
-  background: #eef2ef;
+  color: var(--text);
+  background: var(--background);
   font-family: Inter, system-ui, sans-serif;
   font-synthesis: none;
 }
@@ -14,7 +14,8 @@ body {
   min-height: 100vh;
 }
 button,
-input {
+input,
+select {
   font: inherit;
 }
 button {
@@ -36,7 +37,7 @@ button {
   width: min(100%, 28rem);
   padding: 2.5rem;
   border-radius: 1rem;
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 1.5rem 4rem rgb(27 58 48 / 12%);
 }
 .eyebrow {
@@ -49,13 +50,13 @@ button {
 }
 h1 {
   margin: 0;
-  color: #102c2a;
+  color: var(--heading);
   font-size: clamp(2.3rem, 6vw, 4rem);
   line-height: 1;
 }
 .intro {
   margin: 1rem 0 2rem;
-  color: #536660;
+  color: var(--muted);
 }
 form {
   display: grid;
@@ -69,8 +70,10 @@ label {
 input {
   width: 100%;
   padding: 0.8rem 0.9rem;
-  border: 1px solid #aebdb8;
+  border: 1px solid var(--input-border);
   border-radius: 0.45rem;
+  color: var(--text);
+  background: var(--surface);
 }
 input:focus {
   outline: 3px solid #bce8da;
@@ -135,33 +138,33 @@ header {
   justify-content: flex-end;
   gap: 1rem;
   padding: 1rem 2rem;
-  border-bottom: 1px solid #d8e0dc;
-  background: #fff;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 header div {
   display: grid;
   text-align: right;
 }
 header span {
-  color: #687973;
+  color: var(--muted);
   font-size: 0.78rem;
 }
 .secondary {
   padding: 0.6rem 0.8rem;
-  border: 1px solid #b7c5c0;
-  color: #253a34;
-  background: #fff;
+  border: 1px solid var(--input-border);
+  color: var(--secondary-text);
+  background: var(--surface);
 }
 .placeholder {
   margin: clamp(2rem, 8vw, 7rem);
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border-radius: 1rem;
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 1rem 3rem rgb(27 58 48 / 8%);
 }
 .placeholder p:last-child {
   margin: 1.3rem 0 0;
-  color: #536660;
+  color: var(--muted);
   font-size: 1.1rem;
 }
 .denied {

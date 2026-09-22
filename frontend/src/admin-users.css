@@ -8,16 +8,19 @@
   margin-bottom: 2rem;
 }
 .add-user {
+  display: inline-grid;
   width: 3rem;
   height: 3rem;
+  padding: 0;
   border-radius: 50%;
   font-size: 1.7rem;
   line-height: 1;
+  place-items: center;
 }
 .table-wrap {
   overflow-x: auto;
   border-radius: 0.8rem;
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 1rem 3rem rgb(27 58 48 / 8%);
 }
 table {
@@ -27,11 +30,11 @@ table {
 th,
 td {
   padding: 1rem;
-  border-bottom: 1px solid #e2e9e6;
+  border-bottom: 1px solid var(--border);
   text-align: left;
 }
 th {
-  color: #536660;
+  color: var(--muted);
   font-size: 0.78rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -61,7 +64,7 @@ th {
 .danger-outline {
   border: 1px solid #c85c64;
   color: #982b33;
-  background: #fff;
+  background: var(--surface);
 }
 .dialog-backdrop {
   position: fixed;
@@ -77,18 +80,19 @@ th {
   max-height: calc(100vh - 2rem);
   padding: clamp(1.25rem, 4vh, 2rem);
   border-radius: 0.8rem;
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 2rem 5rem rgb(0 0 0 / 25%);
 }
 .dialog h2 {
   margin: 0 0 1rem;
-  color: #102c2a;
+  color: var(--heading);
 }
 .dialog select {
   padding: 0.75rem;
-  border: 1px solid #aebdb8;
+  border: 1px solid var(--input-border);
   border-radius: 0.45rem;
-  background: #fff;
+  color: var(--text);
+  background: var(--surface);
 }
 .dialog-actions {
   display: flex;

@@ -1,15 +1,26 @@
 import type { SessionUser } from "./auth";
 import { canAccess, menuFor, routeFor } from "./navigation";
 import { SuperadminDashboard } from "./SuperadminDashboard";
+import type { Theme } from "./theme";
+import { ThemeSelector } from "./ThemeSelector";
 
 type Props = {
   path: string;
   user: SessionUser;
   onNavigate: (path: string) => void;
   onLogout: () => Promise<void>;
+  theme: Theme;
+  onThemeChange: (theme: Theme) => void;
 };
 
-export function ProductShell({ path, user, onNavigate, onLogout }: Props) {
+export function ProductShell({
+  path,
+  user,
+  onNavigate,
+  onLogout,
+  theme,
+  onThemeChange,
+}: Props) {
   const route = routeFor(path);
   const authorized = route && canAccess(user.role, route);
 
@@ -44,6 +55,7 @@ export function ProductShell({ path, user, onNavigate, onLogout }: Props) {
       </aside>
       <main className="workspace">
         <header>
+          <ThemeSelector theme={theme} onChange={onThemeChange} />
           <div>
             <strong>{user.username}</strong>
             <span>{user.is_superuser ? "Superadmin · Admin" : user.role}</span>
@@ -52,7 +64,7 @@ export function ProductShell({ path, user, onNavigate, onLogout }: Props) {
             Se déconnecter
           </button>
         </header>
-        {user.is_superuser && path === "/dashboard" ? (
+        {user.is_superuser && path === "/users" ? (
           <SuperadminDashboard />
         ) : authorized ? (
           <section className="placeholder">

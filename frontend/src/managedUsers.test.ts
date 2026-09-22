@@ -10,7 +10,7 @@ import {
 
 const user = {
   id: 2,
-  name: "Alice Martin",
+  identifier: "alice",
   email: "alice@example.com",
   user_type: "Coach" as const,
   pending: true,
@@ -38,11 +38,14 @@ describe("managed users API", () => {
 
     await expect(listManagedUsers()).resolves.toEqual([user]);
     await inviteManagedUser({
-      name: user.name,
+      identifier: user.identifier,
       email: user.email,
       role: "Coach",
     });
-    await updateManagedUser(user.id, { name: "Alice M.", email: user.email });
+    await updateManagedUser(user.id, {
+      identifier: "alice-updated",
+      email: user.email,
+    });
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
@@ -50,6 +53,11 @@ describe("managed users API", () => {
       expect.objectContaining({
         method: "POST",
         headers: expect.objectContaining({ "X-CSRFToken": "admin-token" }),
+        body: JSON.stringify({
+          identifier: user.identifier,
+          email: user.email,
+          role: "Coach",
+        }),
       }),
     );
     expect(fetchMock).toHaveBeenNthCalledWith(

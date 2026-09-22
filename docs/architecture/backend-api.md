@@ -61,7 +61,9 @@ contiennent que des placeholders et n'exposent aucune donnée métier.
 
 `GET` et `POST /api/admin/users/`, puis `PUT` et `DELETE /api/admin/users/{user_id}/`, exigent une session
 Django active, un jeton CSRF pour les écritures et le statut technique `is_superuser`. Ils listent toutes les
-identités, créent une invitation, modifient le nom et l'adresse e-mail, ou suppriment le compte ciblé. Un Admin
+identités, créent une invitation, modifient l'identifiant de connexion et l'adresse e-mail, ou suppriment le
+compte ciblé. Dans cette interface, la colonne « Identifiant » correspond à `username` et reste distincte du
+mail. Un Admin
 métier sans ce statut reçoit `403`; masquer l'interface ne constitue pas le contrôle d'accès.
 
 Une invitation crée un compte actif portant exactement le rôle Admin, Coach ou Viewer, mais doté d'un mot de

@@ -4,6 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 import type { UserRole } from "./auth";
 import { ProductShell } from "./ProductShell";
 
+vi.mock("./SuperadminDashboard", () => ({
+  SuperadminDashboard: () => <div>Gestion Superadmin</div>,
+}));
+
 const expectedMenus: Record<UserRole, string[]> = {
   Admin: [
     "Tableau de bord",
@@ -30,6 +34,8 @@ describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(
           user={{ username: "member", role, is_superuser: false }}
           onNavigate={vi.fn()}
           onLogout={vi.fn()}
+          theme="day"
+          onThemeChange={vi.fn()}
         />,
       );
 
@@ -47,6 +53,8 @@ it("navigates with product links and exposes the connected superadmin", () => {
       user={{ username: "root", role: "Admin", is_superuser: true }}
       onNavigate={onNavigate}
       onLogout={vi.fn()}
+      theme="day"
+      onThemeChange={vi.fn()}
     />,
   );
 
@@ -63,9 +71,35 @@ it("calls logout from the connected-user header", () => {
       user={{ username: "lea", role: "Viewer", is_superuser: false }}
       onNavigate={vi.fn()}
       onLogout={onLogout}
+      theme="day"
+      onThemeChange={vi.fn()}
     />,
   );
 
   fireEvent.click(screen.getByRole("button", { name: "Se déconnecter" }));
   expect(onLogout).toHaveBeenCalledOnce();
+});
+
+it("shows user management on Users only and changes theme", () => {
+  const onThemeChange = vi.fn();
+  const props = {
+    user: { username: "root", role: "Admin" as const, is_superuser: true },
+    onNavigate: vi.fn(),
+    onLogout: vi.fn(),
+    theme: "day" as const,
+    onThemeChange,
+  };
+  const { rerender } = render(<ProductShell {...props} path="/dashboard" />);
+
+  expect(screen.queryByText("Gestion Superadmin")).not.toBeInTheDocument();
+  expect(
+    screen.getByText("Tableau de bord — fonctionnalité à venir"),
+  ).toBeVisible();
+  fireEvent.change(screen.getByLabelText("Thème"), {
+    target: { value: "night" },
+  });
+  expect(onThemeChange).toHaveBeenCalledWith("night");
+
+  rerender(<ProductShell {...props} path="/users" />);
+  expect(screen.getByText("Gestion Superadmin")).toBeVisible();
 });

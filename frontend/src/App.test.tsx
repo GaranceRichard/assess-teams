@@ -18,6 +18,8 @@ function response(status: number, body?: object) {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  localStorage.clear();
+  delete document.documentElement.dataset.theme;
   window.history.replaceState({}, "", "/");
 });
 
@@ -121,6 +123,22 @@ describe("product authentication journey", () => {
         screen.getByText("Résultats — fonctionnalité à venir"),
       ).toBeVisible(),
     );
+  });
+
+  it("restores and changes the day or night theme", async () => {
+    localStorage.setItem("assess-teams-theme", "night");
+    vi.spyOn(globalThis, "fetch").mockImplementationOnce(() =>
+      response(200, viewer),
+    );
+    render(<App />);
+
+    const selector = await screen.findByLabelText("Thème");
+    expect(selector).toHaveValue("night");
+    expect(document.documentElement).toHaveAttribute("data-theme", "night");
+    fireEvent.change(selector, { target: { value: "day" } });
+
+    expect(document.documentElement).toHaveAttribute("data-theme", "day");
+    expect(localStorage.getItem("assess-teams-theme")).toBe("day");
   });
 
   it("opens an invitation after initializing CSRF and returns to login", async () => {

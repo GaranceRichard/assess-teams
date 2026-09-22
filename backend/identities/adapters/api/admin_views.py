@@ -34,7 +34,7 @@ class ManagedUserListCreateView(APIView):
 
     @extend_schema(responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()})
     def get(self, request):
-        users = User.objects.order_by("first_name", "email", "pk")
+        users = User.objects.order_by("username", "email", "pk")
         return Response(ManagedUserSerializer(users, many=True).data)
 
     @extend_schema(
@@ -47,9 +47,8 @@ class ManagedUserListCreateView(APIView):
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
         user = User(
-            username=data["email"],
+            username=data["identifier"],
             email=data["email"],
-            first_name=data["name"],
             role=data["role"],
             is_active=True,
         )
@@ -84,10 +83,9 @@ class ManagedUserDetailView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         previous_email = user.email
-        user.first_name = serializer.validated_data["name"]
+        user.username = serializer.validated_data["identifier"]
         user.email = serializer.validated_data["email"]
-        user.username = user.email
-        user.save(update_fields=["first_name", "email", "username"])
+        user.save(update_fields=["email", "username"])
         transaction.on_commit(lambda: send_update_notice(user, previous_email))
         return Response(ManagedUserSerializer(user).data)
 
@@ -107,9 +105,9 @@ class ManagedUserDetailView(APIView):
                 {"detail": "Le Superadmin connecté ne peut pas supprimer son propre compte."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        name, email = user.first_name or user.username, user.email
+        identifier, email = user.username, user.email
         user.delete()
-        transaction.on_commit(lambda: send_deletion_notice(name, email))
+        transaction.on_commit(lambda: send_deletion_notice(identifier, email))
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 

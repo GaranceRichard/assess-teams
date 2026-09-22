@@ -18,7 +18,6 @@ def create_managed_user(email: str = "member@example.com") -> User:
     return User.objects.create_user(
         username=email,
         email=email,
-        first_name="Initial Name",
         role=Role.VIEWER.value,
         password=credential,
     )
@@ -33,7 +32,6 @@ def test_superadmin_lists_all_users_with_status() -> None:
     pending = User.objects.create_user(
         username="pending@example.com",
         email="pending@example.com",
-        first_name="Pending",
         role=Role.COACH.value,
     )
     pending.set_unusable_password()
@@ -61,15 +59,14 @@ def test_update_sends_notice_to_old_and_new_email(
         response = csrf_put(
             client,
             reverse("managed-user-detail", kwargs={"user_id": user.pk}),
-            {"name": "Updated Name", "email": "new@example.com"},
+            {"identifier": "updated-name", "email": "new@example.com"},
         )
 
     user.refresh_from_db()
     assert response.status_code == 200
-    assert (user.first_name, user.email, user.username) == (
-        "Updated Name",
+    assert (user.email, user.username) == (
         "new@example.com",
-        "new@example.com",
+        "updated-name",
     )
     assert len(mail.outbox) == 2
     assert {message.to[0] for message in mail.outbox} == {
@@ -90,11 +87,21 @@ def test_update_same_email_sends_one_notice_and_rejects_duplicate(
     route = reverse("managed-user-detail", kwargs={"user_id": user.pk})
 
     with django_capture_on_commit_callbacks(execute=True):
-        same = csrf_put(client, route, {"name": "Renamed", "email": user.email})
-    duplicate = csrf_put(client, route, {"name": "Renamed", "email": "other@example.com"})
+        same = csrf_put(client, route, {"identifier": "renamed", "email": user.email})
+    duplicate_identifier = csrf_put(
+        client,
+        route,
+        {"identifier": "other@example.com", "email": user.email},
+    )
+    duplicate = csrf_put(
+        client,
+        route,
+        {"identifier": "renamed", "email": "other@example.com"},
+    )
 
     assert same.status_code == 200
     assert mail.outbox[0].to == ["member@example.com"]
+    assert duplicate_identifier.status_code == 400
     assert duplicate.status_code == 400
 
 
@@ -135,6 +142,10 @@ def test_missing_managed_user_returns_not_found() -> None:
     client, _ = authenticated_superadmin_client()
     route = reverse("managed-user-detail", kwargs={"user_id": 999_999})
 
-    response = csrf_put(client, route, {"name": "Nobody", "email": "none@example.com"})
+    response = csrf_put(
+        client,
+        route,
+        {"identifier": "nobody", "email": "none@example.com"},
+    )
 
     assert response.status_code == 404

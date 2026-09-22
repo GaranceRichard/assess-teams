@@ -5,13 +5,13 @@ from identities.models import User
 
 
 class ManagedUserSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source="first_name")
+    identifier = serializers.CharField(source="username")
     user_type = serializers.SerializerMethodField()
     pending = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ("id", "name", "email", "user_type", "pending")
+        fields = ("id", "identifier", "email", "user_type", "pending")
 
     def get_user_type(self, user: User) -> str:
         return "Superadmin" if user.is_superuser else user.role
@@ -21,9 +21,15 @@ class ManagedUserSerializer(serializers.ModelSerializer):
 
 
 class InviteUserSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=150, allow_blank=False)
+    identifier = serializers.CharField(max_length=150, allow_blank=False)
     email = serializers.EmailField(max_length=254)
     role = serializers.ChoiceField(choices=Role.values())
+
+    def validate_identifier(self, value: str) -> str:
+        identifier = value.strip()
+        if User.objects.filter(username__iexact=identifier).exists():
+            raise serializers.ValidationError("Cet identifiant est déjà utilisé.")
+        return identifier
 
     def validate_email(self, value: str) -> str:
         email = value.strip().lower()
@@ -33,8 +39,15 @@ class InviteUserSerializer(serializers.Serializer):
 
 
 class UpdateManagedUserSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=150, allow_blank=False)
+    identifier = serializers.CharField(max_length=150, allow_blank=False)
     email = serializers.EmailField(max_length=254)
+
+    def validate_identifier(self, value: str) -> str:
+        identifier = value.strip()
+        user = self.context["user"]
+        if User.objects.filter(username__iexact=identifier).exclude(pk=user.pk).exists():
+            raise serializers.ValidationError("Cet identifiant est déjà utilisé.")
+        return identifier
 
     def validate_email(self, value: str) -> str:
         email = value.strip().lower()

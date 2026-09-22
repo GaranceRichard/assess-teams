@@ -79,10 +79,14 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
     collection = schema["paths"]["/api/admin/users/"]
     detail = schema["paths"]["/api/admin/users/{user_id}/"]
     invitation = schema["paths"]["/api/invitations/{uid}/{token}/"]["post"]
+    create_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
+    create_component = schema["components"]["schemas"][create_schema["$ref"].split("/")[-1]]
 
     assert response.status_code == 200
     assert {"cookieAuth": []} in collection["get"]["security"]
     assert set(collection["post"]["responses"]) == {"201", "400", "403"}
+    assert set(create_component["required"]) == {"identifier", "email", "role"}
+    assert "name" not in create_component["properties"]
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
     assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}
     assert "security" not in invitation

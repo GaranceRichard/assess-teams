@@ -18,7 +18,7 @@ def invitation_url(user: User) -> str:
 def send_invitation(user: User) -> None:
     send_mail(
         "Votre invitation Assess teams",
-        f"Bonjour {user.first_name},\n\nChoisissez votre mot de passe : {invitation_url(user)}",
+        f"Bonjour {user.username},\n\nChoisissez votre mot de passe : {invitation_url(user)}",
         settings.DEFAULT_FROM_EMAIL,
         [user.email],
     )
@@ -40,17 +40,17 @@ def send_update_notice(user: User, previous_email: str) -> None:
         )
     send_mail(
         "Modification de votre compte Assess teams",
-        f"Bonjour {user.first_name},\n\nLes informations de votre compte ont été modifiées."
+        f"Bonjour {user.username},\n\nLes informations de votre compte ont été modifiées."
         f"{pending_message}",
         settings.DEFAULT_FROM_EMAIL,
         [user.email],
     )
 
 
-def send_deletion_notice(name: str, email: str) -> None:
+def send_deletion_notice(identifier: str, email: str) -> None:
     send_mail(
         "Suppression de votre compte Assess teams",
-        f"Bonjour {name},\n\nVotre compte Assess teams a été supprimé.",
+        f"Bonjour {identifier},\n\nVotre compte Assess teams a été supprimé.",
         settings.DEFAULT_FROM_EMAIL,
         [email],
     )

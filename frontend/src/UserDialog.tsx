@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function UserDialog({ user, onCancel, onSubmit }: Props) {
-  const [name, setName] = useState(user?.name ?? "");
+  const [identifier, setIdentifier] = useState(user?.identifier ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [role, setRole] = useState<UserRole>("Viewer");
   const [saving, setSaving] = useState(false);
@@ -22,7 +22,7 @@ export function UserDialog({ user, onCancel, onSubmit }: Props) {
   async function submit(event: FormEvent) {
     event.preventDefault();
     setSaving(true);
-    await onSubmit(user ? { name, email } : { name, email, role });
+    await onSubmit(user ? { identifier, email } : { identifier, email, role });
     setSaving(false);
   }
 
@@ -38,11 +38,11 @@ export function UserDialog({ user, onCancel, onSubmit }: Props) {
           {user ? "Modifier l’utilisateur" : "Ajouter un utilisateur"}
         </h2>
         <form onSubmit={submit}>
-          <label htmlFor="managed-name">Nom</label>
+          <label htmlFor="managed-identifier">Identifiant</label>
           <input
-            id="managed-name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            id="managed-identifier"
+            value={identifier}
+            onChange={(event) => setIdentifier(event.target.value)}
             required
           />
           <label htmlFor="managed-email">Adresse mail</label>

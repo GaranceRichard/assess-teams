@@ -2,13 +2,13 @@ import { csrfToken, type UserRole } from "./auth";
 
 export type ManagedUser = {
   id: number;
-  name: string;
+  identifier: string;
   email: string;
   user_type: UserRole | "Superadmin";
   pending: boolean;
 };
 
-export type UserInput = { name: string; email: string; role?: UserRole };
+export type UserInput = { identifier: string; email: string; role?: UserRole };
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, { credentials: "same-origin", ...init });
