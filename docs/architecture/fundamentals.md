@@ -7,6 +7,7 @@ Ce dossier fixe les fondamentaux architecturaux de **Assess teams**. Ils défini
 - [Architecture hexagonale](hexagonal-architecture.md) : Domain, Application, Ports, Adapters, dépendances et organisation métier.
 - [Clean Code](clean-code.md) : lisibilité, simplicité, responsabilités, taille des fichiers et pragmatisme.
 - [API backend et OpenAPI](backend-api.md) : exposition HTTP avec Django REST Framework, contrat OpenAPI et Swagger UI.
+- [Environnements et identités locales](../development-environments.md) : réglages explicites et données locales isolées.
 
 ## Complémentarité
 

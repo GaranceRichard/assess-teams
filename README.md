@@ -21,6 +21,9 @@ Admin, Coach ou Viewer, des routes protégées et la déconnexion. La documentat
 les arbitrages du socle Organisation et exige une authentification pour toute lecture de donnée métier, sans
 franchissement implicite d’un périmètre organisationnel.
 
+Le bootstrap local distingue explicitement les réglages `development` et `production` et fournit trois
+identités métier fictives reproductibles uniquement en développement.
+
 ## Périmètre livré — USER-001
 
 Le backend permet à un Superadmin ou à un Admin autorisé de créer une identité active avec
@@ -41,7 +44,8 @@ Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Wind
 
 Le lancement prépare automatiquement les dépendances propres au checkout. Il crée ou répare `backend/.venv`,
 synchronise `backend/requirements-dev.txt` et exécute `npm ci` à la racine ou dans `frontend` lorsque leur lockfile
-l'exige. Chaque nouveau worktree bénéficie du même mécanisme, sans lien ni installation manuelle.
+l'exige. Chaque nouveau worktree bénéficie du même mécanisme, sans lien ni installation manuelle. Les
+[réglages et credentials fictifs locaux](docs/development-environments.md) sont documentés séparément.
 
 Le backend utilise `backend/db.sqlite3`, créé localement et ignoré par Git. Les migrations sont appliquées automatiquement par la commande de développement backend.
 
@@ -74,7 +78,7 @@ Le premier Superadmin est créé exclusivement avec le bootstrap Django :
 
 ```powershell
 Push-Location backend
-& .\.venv\Scripts\python.exe manage.py createsuperuser
+& .\.venv\Scripts\python.exe manage.py createsuperuser --settings=config.settings_development
 Pop-Location
 ```
 

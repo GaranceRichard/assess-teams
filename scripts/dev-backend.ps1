@@ -18,7 +18,10 @@ if (-not (Test-Path $python -PathType Leaf)) { throw 'Python local prepare intro
 
 Push-Location $backend
 try {
+    $env:DJANGO_SETTINGS_MODULE = 'config.settings_development'
     & $python manage.py migrate --noinput
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    & $python manage.py seed_development_users
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     $serverArguments = @('manage.py', 'runserver', "127.0.0.1:$Port")
     if ($NoReload) { $serverArguments += '--noreload' }

@@ -119,3 +119,8 @@ déconnexion et de contrôle CSRF. Les tests frontend vérifient les menus exact
 l'héritage des capacités, l'absence des entrées interdites et le refus des routes directes. Playwright exerce
 le parcours critique navigateur → session Django → espace Viewer → déconnexion, ainsi que les refus de
 connexion et de route Admin.
+
+Le bootstrap de développement vérifie séparément la création et l'authentification des trois identités
+fictives, leurs fonctions, l'idempotence, la préservation des comptes existants et le refus défensif en
+production. Un test de configuration garantit aussi que l'application de données locales n'est pas installée
+par les réglages de production.

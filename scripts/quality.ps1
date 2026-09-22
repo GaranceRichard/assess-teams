@@ -102,7 +102,7 @@ if (-not $backendPresent) {
     } else {
         if (Test-Path (Join-Path $backendPath 'manage.py')) {
             Invoke-QualityStep 'Coherence des migrations Django' {
-                & $python manage.py makemigrations --check --dry-run
+                & $python manage.py makemigrations --check --dry-run --settings=config.settings_development
             } $backendPath
         }
     }

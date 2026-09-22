@@ -50,7 +50,9 @@ with open(pathlib.Path(__file__).with_name("runtime-records.jsonl"), "a", encodi
     Set-Content (Join-Path $backend 'manage.py') $manage
     & $dev -Root $testRoot -NoReload
     $calls = @(Get-Content $records | ForEach-Object { $_ | ConvertFrom-Json })
-    Assert-True ($calls.Count -eq 2) 'Django ne lance pas migrate puis runserver.'
+    Assert-True ($calls.Count -eq 3) 'Django ne lance pas migrate, seed puis runserver.'
+    Assert-True ($calls[1].args[0] -eq 'seed_development_users') `
+        'Les identites de developpement ne sont pas preparees avant le serveur.'
     $expectedPrefix = [IO.Path]::GetFullPath((Join-Path $backend '.venv'))
     Assert-True (($calls | Where-Object { $_.prefix -ne $expectedPrefix }).Count -eq 0) `
         'Django a utilise un Python autre que backend/.venv.'

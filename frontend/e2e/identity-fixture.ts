@@ -21,5 +21,15 @@ export function seedIdentity(
     `user.set_password(${JSON.stringify(e2eCredential)})`,
     "user.save()",
   ].join("; ");
-  execFileSync(python, ["manage.py", "shell", "-c", command], { cwd: backend });
+  execFileSync(
+    python,
+    [
+      "manage.py",
+      "shell",
+      "--settings=config.settings_development",
+      "-c",
+      command,
+    ],
+    { cwd: backend },
+  );
 }
