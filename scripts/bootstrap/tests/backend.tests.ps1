@@ -26,11 +26,12 @@ try {
     $stamp = Join-Path $backend '.venv\.assess-teams-bootstrap.json'
     Assert-True (Test-Path $python -PathType Leaf) 'Le virtualenv backend absent n a pas ete cree.'
     Assert-True ($first.Contains('synchronisation (absent)')) 'La creation initiale n est pas explicite.'
-    $initialWrite = (Get-Item $stamp).LastWriteTimeUtc
+    $initialWrite = (Get-Item -LiteralPath $stamp -Force).LastWriteTimeUtc
 
     $second = & $bootstrap -Root $testRoot 6>&1 | Out-String
     Assert-True ($second.Contains('deja conforme')) 'Un environnement conforme n est pas reutilise.'
-    Assert-True ((Get-Item $stamp).LastWriteTimeUtc -eq $initialWrite) 'Le stamp conforme a ete reecrit.'
+    Assert-True ((Get-Item -LiteralPath $stamp -Force).LastWriteTimeUtc -eq $initialWrite) `
+        'Le stamp conforme a ete reecrit.'
 
     Add-Content (Join-Path $backend 'requirements-dev.txt') '# requirements changed'
     $changed = & $bootstrap -Root $testRoot 6>&1 | Out-String

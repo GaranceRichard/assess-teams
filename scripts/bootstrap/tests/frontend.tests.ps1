@@ -71,11 +71,12 @@ exit 3
     $ciCount = @(Get-Content $callsPath | Where-Object { $_ -like 'ci *' }).Count
     Assert-True ($ciCount -eq 1) 'Le premier bootstrap frontend doit executer un npm ci.'
     $stamp = Join-Path $testRoot 'frontend\node_modules\.assess-teams-bootstrap.json'
-    $initialWrite = (Get-Item $stamp).LastWriteTimeUtc
+    $initialWrite = (Get-Item -LiteralPath $stamp -Force).LastWriteTimeUtc
 
     $second = & $bootstrap -Root $testRoot -NpmCommand $fakeNpm 6>&1 | Out-String
     Assert-True ($second.Contains('deja conformes')) 'Le frontend conforme n est pas reutilise.'
-    Assert-True ((Get-Item $stamp).LastWriteTimeUtc -eq $initialWrite) 'Le stamp frontend a ete reecrit.'
+    Assert-True ((Get-Item -LiteralPath $stamp -Force).LastWriteTimeUtc -eq $initialWrite) `
+        'Le stamp frontend a ete reecrit.'
     $ciCount = @(Get-Content $callsPath | Where-Object { $_ -like 'ci *' }).Count
     Assert-True ($ciCount -eq 1) 'Le frontend conforme a relance npm ci.'
 

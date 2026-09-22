@@ -70,7 +70,7 @@ Pop-Location
 `Ctrl+Shift+B` lance la tâche par défaut `Dev: all`. Elle démarre `Dev: backend` et `Dev: frontend` en parallèle dans deux terminaux identifiables. Les trois tâches versionnées utilisent `${workspaceFolder}` et les mêmes scripts PowerShell que les commandes ci-dessus.
 
 Au premier lancement, chaque terminal affiche la préparation de son runtime avant de démarrer le service. Les
-lancements suivants sont quasi immédiats ; une erreur explicite arrête uniquement le service concerné.
+lancements suivants restent quasi immédiats sur chaque plateforme ; une erreur explicite arrête le service concerné.
 
 ## Tests et coverages
 
