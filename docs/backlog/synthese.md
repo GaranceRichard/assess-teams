@@ -9,7 +9,7 @@ Un état `Raffinée` indique uniquement la présence d’au moins un PBI. Il ne 
 | Ordre | PBI | Feature porteuse | Statut |
 | ---: | --- | --- | --- |
 | 1 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Réalisé |
-| 2 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | Ouvert |
+| 2 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 | 3 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 | 3 | USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | Bloqué |
 
@@ -120,13 +120,13 @@ Les autorisations de ces quatre PBIs sont portées par la matrice de `FEAT-004`.
 | FEAT-037 — Rattacher un Admin à une organisation | Non raffinée | 0 | 0 | N/A |
 | FEAT-038 — Rattacher un Coach à une organisation | Non raffinée | 0 | 0 | N/A |
 
-## Décisions produit bloquantes
+## Blocages produit et dépendances
 
-La source détaillée est le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md). Cette vue ne transforme aucune Feature non raffinée en PBI.
+Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitrages-organisations.md) et les dépendances dans les sources fonctionnelles et le registre PBI. Cette vue ne transforme aucune Feature non raffinée en PBI.
 
-| Périmètre bloqué | Arbitrages ouverts | Conséquence actuelle |
+| Périmètre bloqué | Blocages directs | Conséquence actuelle |
 | --- | --- | --- |
-| `USER-003` et `USER-004` — Sprint 1 Backend Utilisateurs | `ARB-ORG-008` pour `USER-004` ; dépendance à `USER-002` pour les deux | `USER-002` est `Ouvert` ; `USER-003` et `USER-004` restent `Bloqué` ; `USER-001` est `Réalisé` |
+| `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `FEAT-037` pour `USER-002` ; dépendance à `USER-002` pour les deux suivants ; `ARB-ORG-008` en plus pour `USER-004` | Les trois PBIs sont `Bloqué` ; `USER-001` reste historiquement `Réalisé` et son écart `nom`/`prénom`/`mail` est une évolution à raffiner |
 | `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-012` et dépendances pour les PBIs ; `ARB-ORG-001`, `ARB-ORG-003`, `ARB-ORG-005`, `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011` pour les rattachements | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; `ARB-ORG-015` est résolu ; rattachements non raffinés |
 | `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
@@ -147,7 +147,7 @@ La source détaillée est le [registre des arbitrages Organisation](source/00-ar
 | Équipe | UPDATE | Toutes les organisations | Son organisation | Non | Non |
 | Équipe | DELETE | Toutes les organisations | Son organisation | Non | Non |
 
-Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-005`. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Aucune lecture anonyme n’est permise.
+Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-005`. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Toute lecture de donnée métier exige une identité authentifiée.
 
 ## PBIs raffinés
 
@@ -156,7 +156,7 @@ Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-00
 | PBI | Taille recommandée | Modèle Codex recommandé | Statut | Date de réalisation |
 | --- | --- | --- | --- | --- |
 | USER-001 — Créer un utilisateur | M | Sol — puissance élevée | Réalisé | 2026-09-21 |
-| USER-002 — Consulter les utilisateurs | M | Sol — puissance élevée | Ouvert | N/A |
+| USER-002 — Consulter les utilisateurs | M | Sol — puissance élevée | Bloqué | N/A |
 | USER-003 — Modifier un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
 | USER-004 — Supprimer un utilisateur | M | Sol — puissance élevée | Bloqué | N/A |
 
@@ -190,7 +190,9 @@ Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-00
 | Features raffinées | 6 |
 | Features non raffinées | 32 |
 | Nombre total de PBIs | 15 |
-| PBIs ouverts | 14 |
-| dont PBIs bloqués | 13 |
+| PBIs ouverts | 0 |
+| PBIs en cours | 0 |
+| PBIs bloqués | 14 |
+| PBIs non réalisés | 14 |
 | PBIs réalisés | 1 |
 | Avancement global | 7 % |

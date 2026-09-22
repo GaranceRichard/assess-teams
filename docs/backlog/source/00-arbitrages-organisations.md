@@ -7,11 +7,12 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision prise — cloisonnement :** le produit gère plusieurs organisations ; aucune donnée ou opération organisationnelle n’est lisible, associable, modifiable, agrégée ou révélée entre organisations sans règle de partage explicitement décidée.
 - **Décision prise — équipe :** une équipe appartient obligatoirement à exactement une organisation à un instant donné ; archivage et réactivation ne changent pas ce rattachement. Un éventuel transfert reste soumis à `ARB-ORG-007`.
 - **Décision prise — traçabilité :** les historiques conservent l’organisation qui donnait leur contexte aux faits enregistrés.
-- **Décision prise — authentification :** toute lecture de donnée métier exige une identité authentifiée ; aucun accès anonyme n’est permis.
+- **Décision prise — authentification :** toute lecture de donnée métier exige une identité authentifiée.
 - **Décision prise — rôles :** `Admin`, `Coach` et `Viewer` sont les seuls rôles métier canoniques et sont toujours authentifiés.
 - **Décision prise — Organisation :** une Organisation possède un identifiant technique stable ; sa seule donnée métier obligatoire est `nom`.
 - **Décision prise — Superadmin technique :** le `Superadmin` désigne le superuser Django global. Le premier est créé par le mécanisme de bootstrap Django. Cette capacité technique n’est pas un quatrième rôle métier et n’est utilisable dans le backlog fonctionnel que lorsqu’un PBI la cite explicitement.
 - **Décision prise — fonction utilisateur :** une identité gérée par `USER-001` à `USER-004` porte exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ; l’héritage de capacités n’est pas un cumul de rôles explicites.
+- **Décision prise — données utilisateur :** une identité métier comprend explicitement `nom`, `prénom` et `mail`. La relation entre `mail` et l’éventuel identifiant technique `username` n’est pas décidée et ne doit pas être déduite de cette décision.
 - **Décision prise — périmètres CRUD Organisations et Équipes :** le `Superadmin` peut agir sur toutes les organisations. Un `Admin` appartient à exactement une organisation et ne peut administrer que celle-ci et ses équipes ; il ne peut ni créer ni administrer une autre organisation. `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé.
 - **Décision prise — suppression d’une équipe :** le `DELETE` d’une équipe réalise l’archivage métier défini par `TEAM-005` ; il ne supprime physiquement ni l’équipe ni son historique.
 
@@ -98,14 +99,9 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision à arbitrer — bloquante :** paramètres strictement propres ou partageables, règles de partage et existence éventuelle d’une vue multi-organisation.
 - **Backlog bloqué :** raffinement de `FEAT-031` et `FEAT-035`, puis règles dépendantes de `FEAT-017` à `FEAT-019` et `FEAT-028` à `FEAT-034`.
 
-### ARB-ORG-014 — Consultation sans compte
-
-- **Décision prise :** aucune lecture anonyme n’est permise. Toute consultation exige une identité authentifiée et reste limitée au périmètre autorisé de celle-ci.
-- **Arbitrage résolu :** aucun mécanisme de publication ou d’accès sans compte n’entre dans le périmètre du produit ; `ARB-ORG-014` ne bloque plus le backlog.
-
 ### ARB-ORG-015 — Périmètre des opérations CRUD Organisations et Équipes
 
 - **Décision prise :** le `Superadmin` peut créer une organisation et agir sur toutes les organisations et leurs équipes.
 - **Décision prise :** un `Admin` est limité à son unique organisation. Il peut la lire, la modifier et demander sa suppression, ainsi que créer et administrer ses équipes ; il ne peut ni créer ni administrer une autre organisation.
-- **Décision prise :** `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé. Aucun accès anonyme n’est permis. Toute lecture hors périmètre ne révèle ni l’existence ni les données de l’objet, et tout refus d’écriture est sans effet partiel.
+- **Décision prise :** `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé. Toute lecture de donnée métier exige une identité authentifiée. Toute lecture hors périmètre ne révèle ni l’existence ni les données de l’objet, et tout refus d’écriture est sans effet partiel.
 - **Arbitrage résolu :** les périmètres CRUD sont décidés ; `ARB-ORG-015` ne bloque plus `ORG-001` à `ORG-004` ni `TEAM-001` à `TEAM-007`. `ARB-ORG-001` reste applicable à la cardinalité du `Coach` et `ARB-ORG-012` au mode d’attribution du périmètre du `Viewer`.

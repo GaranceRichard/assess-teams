@@ -93,7 +93,10 @@ Une date de réalisation vaut `N/A` tant que le PBI n’est pas `Réalisé`. Un 
 - `Nombre de Features` = nombre d’identifiants Feature uniques déclarés dans cette source.
 - `Features raffinées` = nombre de Features ayant au moins un PBI détaillé rattaché ; `Features non raffinées` = Features moins Features raffinées.
 - `Nombre total de PBIs raffinés` = nombre d’identifiants PBI uniques détaillés.
-- `PBIs ouverts` = PBIs au statut `Ouvert`, `En cours` ou `Bloqué`.
+- `PBIs ouverts` = PBIs au statut exact `Ouvert`.
+- `PBIs en cours` = PBIs au statut exact `En cours`.
+- `PBIs bloqués` = PBIs au statut exact `Bloqué`.
+- `PBIs non réalisés` = somme des PBIs `Ouvert`, `En cours` et `Bloqué`.
 - `PBIs réalisés` = PBIs au statut `Réalisé`.
 - `Avancement` = `PBIs réalisés / PBIs raffinés × 100`, arrondi à l’entier le plus proche. Si le dénominateur vaut zéro, le résultat est `N/A`.
 

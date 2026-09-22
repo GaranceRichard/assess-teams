@@ -44,7 +44,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - une liste des organisations est disponible ;
   - une organisation peut être consultée par identifiant ;
   - les informations retournées sont cohérentes avec le périmètre autorisé ;
-  - aucune consultation anonyme n’est permise ;
+  - toute consultation exige une identité authentifiée ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une organisation.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent, mal formé ou inexistant ; organisation hors du périmètre autorisé.
 - **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution et de détermination du périmètre du `Viewer`. Le périmètre global du `Superadmin` et le périmètre mono-organisation de l’`Admin` sont décidés par `ARB-ORG-015`.

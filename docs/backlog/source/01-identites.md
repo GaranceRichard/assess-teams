@@ -22,7 +22,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Acteurs concernés :** `Superadmin` technique ou `Admin` autorisé selon `FEAT-004`.
 - **Description :** créer une identité, consulter et mettre à jour ses informations utiles, puis désactiver son accès lorsqu’elle doit être retirée, sans confondre ce cycle de vie avec son rattachement organisationnel.
 - **Critères d’acceptation principaux :**
-  - une identité unique et valide porte exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ;
+  - une identité unique et valide comprend `nom`, `prénom`, `mail` et exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ;
   - toute opération applique la matrice de `FEAT-004` au demandeur, à la fonction courante de la cible et, lors d’une création, à la fonction demandée ;
   - la désactivation bloque les nouvelles connexions sans supprimer les actions historiques ;
   - une identité en doublon, des données obligatoires invalides ou une opération interdite sont refusées sans effet partiel.
@@ -37,12 +37,12 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Titre :** Créer un utilisateur.
 - **User story :** en tant que `Superadmin` technique ou `Admin` autorisé, je veux créer un utilisateur avec la fonction `Admin`, `Coach` ou `Viewer` selon mes droits afin de donner accès au produit aux personnes correspondant aux fonctions attendues.
 - **Intention métier :** établir une identité authentifiable avec une fonction explicite, sans étendre implicitement son périmètre organisationnel.
-- **Description :** créer un compte utilisateur actif à partir de données d’identité valides et d’exactement une fonction métier. Le rattachement à une organisation et le périmètre du `Viewer` restent portés par leurs capacités dédiées.
+- **Description :** créer un compte utilisateur actif à partir de `nom`, `prénom`, `mail`, des données techniques d’accès nécessaires et d’exactement une fonction métier. Le rattachement à une organisation et le périmètre du `Viewer` restent portés par leurs capacités dédiées.
 - **Critères d’acceptation :**
   - un `Superadmin` peut créer un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
   - un `Admin` peut créer un utilisateur de fonction `Coach` ou `Viewer`, mais ne peut pas créer un `Admin` ;
   - un `Coach` ou un `Viewer` ne peut créer aucun utilisateur ;
-  - une création valide produit une seule identité active, munie d’un identifiant stable et de la fonction demandée ;
+  - une création valide produit une seule identité active, munie d’un identifiant stable, de `nom`, `prénom`, `mail` et de la fonction demandée ;
   - la création d’une identité ne crée aucun rattachement organisationnel implicite et ne suffit pas à autoriser des opérations exigeant un tel rattachement ;
   - le premier `Superadmin` est créé exclusivement par le mécanisme de bootstrap Django ; ni ce PBI ni son interface ne permettent de créer un superuser ;
   - une fonction absente, multiple, inconnue ou interdite, une identité en doublon ou des données obligatoires invalides sont refusées sans création partielle.
@@ -51,7 +51,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
 - **Valeur apportée :** permet d’ouvrir un accès avec une fonction contrôlée et sans privilège implicite.
-- **Notes d’implémentation :** le bootstrap Django du premier `Superadmin` est un mécanisme opératoire, pas un rôle métier ni un PBI supplémentaire.
+- **Notes d’implémentation :** le bootstrap Django du premier `Superadmin` est un mécanisme opératoire, pas un rôle métier ni un PBI supplémentaire. `USER-001` reste historiquement `Réalisé` pour le contrat livré le 2026-09-21 ; ce contrat ne couvre pas encore `nom`, `prénom` et `mail`. Cet écart produit explicite doit faire l’objet d’une évolution à raffiner sans réécrire la livraison passée. La relation entre `mail` et `username` reste une décision technique ultérieure.
 
 #### USER-002 — Consulter les utilisateurs
 
@@ -65,12 +65,13 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
   - un `Superadmin` peut consulter la liste des `Superadmin`, des `Admin`, des `Coach`, des `Viewer`, la liste globale et le détail de chacun de ces comptes ;
   - un `Admin` peut consulter les listes et le détail des `Admin`, `Coach` et `Viewer` de son unique organisation, mais ni la liste ni le détail des `Superadmin` ;
   - un `Coach` ou un `Viewer` n’accède à aucune liste d’utilisateurs ni au détail d’un autre utilisateur par ce PBI ; la consultation de son propre profil n’entre pas dans ce périmètre ;
-  - chaque résultat accessible expose au minimum l’identifiant stable, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
+  - chaque résultat accessible expose au minimum l’identifiant stable, `nom`, `prénom`, `mail`, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
   - la liste « tous les utilisateurs » respecte le même périmètre : globale pour un `Superadmin`, limitée aux fonctions métier de l’unique organisation de l’`Admin` ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
 - **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; demande d’un `Coach` ou d’un `Viewer` ; consultation d’un `Superadmin` par un `Admin` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
-- **Décisions produit bloquantes :** aucune. La mono-appartenance et le périmètre de l’`Admin` sont décidés par `ARB-ORG-001` et `ARB-ORG-015` ; `ARB-ORG-011` ne concerne plus l’`Admin` et `ARB-ORG-012` ne s’applique pas à ce PBI.
-- **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation et le périmètre.
+- **Décisions produit bloquantes :** aucune. La mono-appartenance et le périmètre de l’`Admin` sont décidés ; `ARB-ORG-001`, `ARB-ORG-011` et `ARB-ORG-012` ne bloquent pas ce PBI.
+- **Capacité prérequise manquante :** `FEAT-037` doit matérialiser le rattachement de l’`Admin` à son unique organisation avant que son périmètre de consultation puisse être implémenté. `USER-002` reste `Bloqué` jusque-là ; aucun rattachement implicite ne peut remplacer cette dépendance.
+- **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation ; `FEAT-037` pour le périmètre organisationnel de l’`Admin`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
 - **Valeur apportée :** donne une vue fiable des accès existants et de leur état.
@@ -83,12 +84,12 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Titre :** Modifier un utilisateur.
 - **User story :** en tant que `Superadmin` technique ou `Admin` autorisé, je veux modifier un utilisateur selon mes droits afin de maintenir ses informations à jour.
 - **Intention métier :** corriger les informations d’identité sans contourner la hiérarchie d’autorisation ni altérer les faits passés.
-- **Description :** modifier les informations utiles d’une identité. L’identifiant stable, la fonction métier, les rattachements organisationnels et les traces historiques ne sont pas modifiables par ce PBI.
+- **Description :** modifier `nom`, `prénom` et `mail` d’une identité. L’identifiant stable, la fonction métier, les rattachements organisationnels et les traces historiques ne sont pas modifiables par ce PBI. La relation éventuelle entre `mail` et `username` n’est pas décidée par ce PBI.
 - **Critères d’acceptation :**
   - un `Superadmin` peut modifier un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
   - un `Admin` peut modifier un `Coach` ou un `Viewer` de son unique organisation, mais ne peut modifier aucun `Admin` ;
   - un `Coach` ou un `Viewer` ne peut modifier aucun autre utilisateur ; la modification de son propre profil n’entre pas dans ce PBI ;
-  - une modification valide conserve l’identifiant et l’historique, et aucun refus ne produit de modification partielle ;
+  - une modification valide met à jour `nom`, `prénom` ou `mail`, conserve l’identifiant et l’historique, et aucun refus ne produit de modification partielle ;
   - aucun utilisateur, y compris un `Superadmin`, ne peut modifier un compte `Superadmin` par ce PBI.
 - **Principaux cas de refus :** rôle demandeur interdit ; cible `Superadmin` ; `Admin` ciblant un `Admin` ou une autre organisation ; cible inexistante ; données invalides ; tentative de modifier l’identifiant, la fonction ou un rattachement organisationnel.
 - **Décisions produit bloquantes :** aucune ; la dépendance à `USER-002` reste nécessaire.
@@ -155,7 +156,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
   | Supprimer logiquement | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son unique organisation | refus | refus |
 
   Cette matrice ne permet jamais de créer, modifier ou supprimer un `Superadmin` par les PBIs fonctionnels. Toutes ses opérations exigent une identité authentifiée. Tout refus intervient avant écriture et ne produit aucun effet partiel.
-- **Décisions produit bloquantes pour la matrice Utilisateurs :** aucune pour `USER-002` et `USER-003` ; `ARB-ORG-008` reste bloquant pour `USER-004`. `ARB-ORG-012` ne bloque aucun de ces PBIs.
+- **Décisions produit bloquantes pour la matrice Utilisateurs :** aucune pour `USER-002` et `USER-003` ; `ARB-ORG-008` reste bloquant pour `USER-004`. `ARB-ORG-001`, `ARB-ORG-011` et `ARB-ORG-012` ne bloquent pas ces chemins `Admin`. La capacité `FEAT-037` reste toutefois une dépendance d’implémentation de `USER-002`.
 - **Dépendances éventuelles :** `FEAT-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -163,7 +164,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 ### Dépendances internes du Sprint 1
 
 ```text
-USER-001
+USER-001 + FEAT-037
 └── USER-002
     ├── USER-003
     └── USER-004

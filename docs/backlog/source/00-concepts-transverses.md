@@ -15,6 +15,10 @@ Le système gère plusieurs organisations. Une **Organisation** est le périmèt
 
 Les décisions prises, décisions `À arbitrer — bloquant` et éléments du backlog bloqués sont tenus sans duplication dans le [registre des arbitrages Organisation](00-arbitrages-organisations.md).
 
+## Identité utilisateur
+
+Une identité métier comprend explicitement `nom`, `prénom`, `mail` et exactement une fonction parmi `Admin`, `Coach` et `Viewer`. La relation entre `mail` et l’éventuel identifiant technique `username` n’est pas décidée : elle devra être traitée comme une distinction technique ultérieure, sans déduire que le mail remplace l’identifiant d’authentification. La création d’une identité ne crée aucun rattachement organisationnel implicite.
+
 ## Rôles métier et capacités
 
 Les seuls rôles métier canoniques sont `Admin`, `Coach` et `Viewer`. Ils désignent des acteurs authentifiés. Un qualificatif tel que « affecté », « responsable » ou « destinataire » précise un lien contextuel ; il ne crée pas un nouveau rôle.
@@ -59,11 +63,11 @@ La sémantique du `DELETE` d’une Organisation reste à arbitrer dans `ARB-ORG-
 | UPDATE | Toutes les organisations | Son organisation | Non | Non |
 | DELETE | Toutes les organisations | Son organisation | Non | Non |
 
-Pour les Équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`. Pour les deux matrices, un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre. Aucun accès anonyme n’est permis.
+Pour les Équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`. Pour les deux matrices, un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre. Toute lecture de donnée métier exige une identité authentifiée.
 
 ## Authentification des consultations
 
-Aucune lecture anonyme n’est permise. Toute consultation exige une identité authentifiée portant une fonction `Admin`, `Coach` ou `Viewer`, ou la capacité technique `Superadmin` lorsqu’elle est explicitement prévue, et reste limitée à son périmètre autorisé.
+Toute consultation exige une identité authentifiée portant une fonction `Admin`, `Coach` ou `Viewer`, ou la capacité technique `Superadmin` lorsqu’elle est explicitement prévue, et reste limitée à son périmètre autorisé.
 
 ## Rattachements et usages
 
