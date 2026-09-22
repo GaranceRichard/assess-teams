@@ -1,43 +1,73 @@
 import { useEffect, useState } from "react";
 
-import { fetchHealth, type Health } from "./health";
+import { getCurrentUser, login, logout, type SessionUser } from "./auth";
+import { LoginPage } from "./LoginPage";
+import { ProductShell } from "./ProductShell";
 import "./styles.css";
 
-type HealthState =
-  { kind: "loading" } | { kind: "ready"; health: Health } | { kind: "error" };
+type AuthState =
+  | { kind: "loading" }
+  | { kind: "anonymous"; error: string | null }
+  | { kind: "authenticated"; user: SessionUser };
 
 export function App() {
-  const [healthState, setHealthState] = useState<HealthState>({
-    kind: "loading",
-  });
+  const [auth, setAuth] = useState<AuthState>({ kind: "loading" });
+  const [path, setPath] = useState(window.location.pathname);
 
   useEffect(() => {
-    fetchHealth()
-      .then((health) => setHealthState({ kind: "ready", health }))
-      .catch(() => setHealthState({ kind: "error" }));
+    getCurrentUser()
+      .then((user) =>
+        setAuth(
+          user
+            ? { kind: "authenticated", user }
+            : { kind: "anonymous", error: null },
+        ),
+      )
+      .catch(() =>
+        setAuth({ kind: "anonymous", error: "Le service est indisponible." }),
+      );
   }, []);
 
+  useEffect(() => {
+    const updatePath = () => setPath(window.location.pathname);
+    window.addEventListener("popstate", updatePath);
+    return () => window.removeEventListener("popstate", updatePath);
+  }, []);
+
+  function navigate(nextPath: string) {
+    window.history.pushState({}, "", nextPath);
+    setPath(nextPath);
+  }
+
+  async function handleLogin(username: string, password: string) {
+    try {
+      const user = await login({ username, password });
+      setAuth({ kind: "authenticated", user });
+      navigate("/dashboard");
+    } catch {
+      setAuth({
+        kind: "anonymous",
+        error: "Identifiant ou mot de passe invalide.",
+      });
+    }
+  }
+
+  async function handleLogout() {
+    await logout();
+    setAuth({ kind: "anonymous", error: null });
+    navigate("/");
+  }
+
+  if (auth.kind === "loading")
+    return <main className="loading">Chargement…</main>;
+  if (auth.kind === "anonymous")
+    return <LoginPage error={auth.error} onLogin={handleLogin} />;
   return (
-    <main>
-      <p className="eyebrow">Socle technique</p>
-      <h1>Assess teams</h1>
-      <p className="intro">L’environnement de développement est prêt.</p>
-      <section
-        aria-live="polite"
-        className={`status status--${healthState.kind}`}
-      >
-        <h2>État des services</h2>
-        {healthState.kind === "loading" && <p>Vérification en cours…</p>}
-        {healthState.kind === "ready" && (
-          <p>API opérationnelle · SQLite {healthState.health.database}</p>
-        )}
-        {healthState.kind === "error" && (
-          <p>
-            API indisponible. Vérifiez que le backend est démarré sur le port
-            8000.
-          </p>
-        )}
-      </section>
-    </main>
+    <ProductShell
+      path={path}
+      user={auth.user}
+      onNavigate={navigate}
+      onLogout={handleLogout}
+    />
   );
 }

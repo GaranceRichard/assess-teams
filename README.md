@@ -15,9 +15,11 @@ La documentation est restructurée sous `docs/` par responsabilité afin de cent
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. La
-documentation formalise aussi les arbitrages du socle Organisation et exige une authentification pour toute
-lecture de donnée métier, sans franchissement implicite d’un périmètre organisationnel.
+Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. Le
+premier parcours d'accès produit livre une connexion par session, une navigation filtrée selon la fonction
+Admin, Coach ou Viewer, des routes protégées et la déconnexion. La documentation formalise aussi
+les arbitrages du socle Organisation et exige une authentification pour toute lecture de donnée métier, sans
+franchissement implicite d’un périmètre organisationnel.
 
 ## Périmètre livré — USER-001
 
@@ -25,6 +27,13 @@ Le backend permet à un Superadmin ou à un Admin autorisé de créer une identi
 une fonction métier unique (`Admin`, `Coach` ou `Viewer`). Ce chantier inclut uniquement l'authentification
 minimale nécessaire à l'appel, les permissions de création et le contrat OpenAPI ; aucun rattachement
 organisationnel ni gestion, consultation ou suppression d'utilisateur n'est ajouté.
+
+## Périmètre livré — accès au produit
+
+Une identité active peut ouvrir une session produit puis accéder aux placeholders autorisés par sa fonction.
+Les menus visibles suivent exactement les espaces Admin, Coach et Viewer ; les accès directs appliquent aussi
+la hiérarchie de capacités `Admin > Coach > Viewer`. Le Superadmin Django obtient l'espace Admin sans devenir
+un rôle métier supplémentaire. La déconnexion invalide la session et ramène à l'écran de connexion.
 
 ## Installation
 
@@ -58,6 +67,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-frontend.p
 - Le schéma OpenAPI est disponible sur `http://127.0.0.1:8000/api/schema/`.
 - Swagger UI est disponible sur `http://127.0.0.1:8000/api/docs/`.
 - La création d'utilisateur est disponible par `POST /api/users/` avec authentification Basic ou session.
+- La session produit utilise `POST /api/session/login/`, `GET /api/session/` et
+  `POST /api/session/logout/` ; la déconnexion exige le jeton CSRF fourni avec la session.
 
 Le premier Superadmin est créé exclusivement avec le bootstrap Django :
 
@@ -97,42 +108,20 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check, SQLite, le contrat OpenAPI et la création d'utilisateur : règles de
-fonction, authentification, permissions, validations, atomicité et persistance. Le frontend couvre le shell,
-le client API, les états nominal et d'erreur. Playwright couvre le smoke technique navigateur → Vite →
-Django → SQLite et vérifie que le backend applique les migrations avant de servir. Les tests unitaires
-backend couvrent la politique de création ; les tests de non-régression restent `NON APPLICABLE`, faute de
-bug corrigé.
+Le backend couvre le health check, SQLite, le contrat OpenAPI, la création d'utilisateur et le cycle de session :
+règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
+couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
+Playwright couvre connexion, refus, navigation protégée et déconnexion à travers Vite, Django et SQLite, puis
+vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent
+`NON APPLICABLE`, faute de bug corrigé.
 
 ## Approche quality-first
 
 Le projet traite la qualité comme une condition de livraison : Clean Code, fichiers maintenus limités à 200 lignes, tests à plusieurs niveaux, coverage backend et frontend d'au moins 90 %, sécurité et documentation à jour.
 
-Le workflow attendu est :
-
-```text
-Dernier origin/main
-        ↓
-Branche + worktree dédié hors du checkout principal
-        ↓
-Annonce de la branche et du chemin physique
-        ↓
-README / documentation préalable si nécessaire
-        ↓
-Travail
-        ↓
-Tests et contrôles
-        ↓
-Commit → quality gate rapide et informatif
-        ↓
-Resynchronisation sur le dernier origin/main
-        ↓
-Pre-push vers main → garde de contribution + full quality gate bloquant
-        ↓
-Push GitHub → CI full quality gate bloquante
-        ↓
-Nettoyage du seul worktree et de la seule branche terminés
-```
+Le workflow attendu part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre
+dans le README, valide puis committe le changement et le resynchronise. Le Pre-push vers main exécute le gate
+complet avant la publication et le nettoyage du chantier.
 
 Le checkout principal reste stable et ouvert dans VS Code. Chaque chantier s'exécute dans un worktree interne
 distinct, créé hors du dépôt principal et annoncé pour traçabilité ; aucun workspace multi-root, changement de
@@ -189,6 +178,7 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Le smoke test Playwright est actif.
 - Les quality gates détectent les deux applications et échouent si leur configuration est incomplète.
 - `USER-001` expose la création contrôlée d'identités sans rattachement organisationnel implicite.
+- Le parcours produit authentifié applique les menus et routes correspondant à Admin, Coach et Viewer.
 
 ## Documentation
 

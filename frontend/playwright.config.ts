@@ -11,24 +11,25 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: "http://127.0.0.1:5180",
     trace: "on-first-retry",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: [
     {
       command:
-        "node ./scripts/run-powershell.mjs ./scripts/dev-backend.ps1 -NoReload",
+        "node ./scripts/run-powershell.mjs ./scripts/dev-backend.ps1 -NoReload -Port 8100",
       cwd: repositoryRoot,
-      url: "http://127.0.0.1:8000/api/health/",
-      reuseExistingServer: !process.env.CI,
+      url: "http://127.0.0.1:8100/api/health/",
+      reuseExistingServer: false,
       timeout: 30_000,
     },
     {
-      command: "npm run dev -- --host 127.0.0.1",
+      command: "npm run dev -- --host 127.0.0.1 --port 5180",
       cwd: import.meta.dirname,
-      url: "http://127.0.0.1:5173",
-      reuseExistingServer: !process.env.CI,
+      env: { ASSESS_BACKEND_URL: "http://127.0.0.1:8100" },
+      url: "http://127.0.0.1:5180",
+      reuseExistingServer: false,
       timeout: 30_000,
     },
   ],

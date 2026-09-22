@@ -38,3 +38,21 @@ un Admin peut créer uniquement Coach ou Viewer. Aucun autre champ d'état ou de
 Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métier. L'API ne crée ni
 superuser, ni rattachement organisationnel, et n'expose aucune opération de lecture, modification ou
 suppression d'utilisateur.
+
+## Session produit et navigation autorisée
+
+`POST /api/session/login/` accepte exactement un `username` et un `password` avec le jeton CSRF initialisé par
+`GET /api/session/`. Une identité active et valide
+reçoit une session Django et sa représentation produit (`username`, rôle métier effectif, indicateur technique
+de Superadmin). Un refus retourne `401` sans indiquer lequel des deux identifiants est incorrect. Un
+Superadmin est représenté avec le rôle effectif `Admin` sans modifier son identité ni définir un quatrième rôle.
+Un jeton CSRF absent ou invalide est refusé avec `403`.
+
+`GET /api/session/` restitue cette représentation pour une session active et dépose le cookie CSRF nécessaire
+aux écritures authentifiées. Une requête anonyme est refusée avec `403`. `POST /api/session/logout/` exige la
+session et son jeton CSRF, invalide la session puis retourne `204`; une session ou un jeton absent est refusé
+avec `403`.
+
+Le frontend n'affiche que les menus associés à la fonction. La permission de route applique la hiérarchie de
+capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Les pages livrées dans ce parcours ne
+contiennent que des placeholders et n'exposent aucune donnée métier.

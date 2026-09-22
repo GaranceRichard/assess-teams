@@ -113,3 +113,9 @@ Le coverage backend exclut les migrations générées, les tests, les points d'e
 Le bootstrap actuel rend applicables les groupes backend, frontend et E2E. Les tests unitaires backend
 couvrent désormais la politique de création d'utilisateur de `USER-001`. Les niveaux sans objet réel, comme
 les tests de non-régression en l'absence de bug corrigé, restent explicitement `NON APPLICABLE`.
+
+Le parcours d'accès produit ajoute des tests API de connexion valide et invalide, de session protégée, de
+déconnexion et de contrôle CSRF. Les tests frontend vérifient les menus exacts Admin, Coach et Viewer,
+l'héritage des capacités, l'absence des entrées interdites et le refus des routes directes. Playwright exerce
+le parcours critique navigateur → session Django → espace Viewer → déconnexion, ainsi que les refus de
+connexion et de route Admin.

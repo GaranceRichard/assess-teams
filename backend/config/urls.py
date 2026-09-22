@@ -3,11 +3,15 @@ from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from health.views import HealthView
+from identities.adapters.api.session_views import CurrentSessionView, LoginView, LogoutView
 from identities.adapters.api.views import UserCreateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/health/", HealthView.as_view(), name="health"),
+    path("api/session/", CurrentSessionView.as_view(), name="session-current"),
+    path("api/session/login/", LoginView.as_view(), name="session-login"),
+    path("api/session/logout/", LogoutView.as_view(), name="session-logout"),
     path("api/users/", UserCreateView.as_view(), name="user-create"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

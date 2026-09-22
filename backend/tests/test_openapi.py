@@ -49,6 +49,28 @@ def test_openapi_documents_authenticated_user_creation(api_client: APIClient) ->
 
 
 @pytest.mark.api
+@pytest.mark.contract
+def test_openapi_documents_product_session_contract(api_client: APIClient) -> None:
+    response = api_client.get(reverse("schema"), HTTP_ACCEPT="application/json")
+
+    schema = response.json()
+    login = schema["paths"]["/api/session/login/"]["post"]
+    current = schema["paths"]["/api/session/"]["get"]
+    logout = schema["paths"]["/api/session/logout/"]["post"]
+    request_schema = login["requestBody"]["content"]["application/json"]["schema"]
+    request_component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
+
+    assert response.status_code == 200
+    assert "security" not in login
+    assert set(login["responses"]) == {"200", "400", "401", "403"}
+    assert set(request_component["required"]) == {"username", "password"}
+    assert {"cookieAuth": []} in current["security"]
+    assert set(current["responses"]) == {"200", "403"}
+    assert {"cookieAuth": []} in logout["security"]
+    assert set(logout["responses"]) == {"204", "403"}
+
+
+@pytest.mark.api
 def test_swagger_ui_is_exposed(api_client: APIClient) -> None:
     response = api_client.get(reverse("swagger-ui"))
 
