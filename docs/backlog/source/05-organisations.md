@@ -4,7 +4,7 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 ### FEAT-036 — Gérer le cycle de vie d’une organisation
 
-Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et ses rattachements multiples sont livrés ; la sémantique du `DELETE` reste bloquée par les arbitrages cités dans son PBI.
+Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création, ses rattachements multiples et le renommage sont livrés ; la sémantique du `DELETE` reste bloquée par les arbitrages cités dans son PBI.
 
 #### ORG-001 — Créer une organisation
 
@@ -71,8 +71,8 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - l’identifiant technique de l’organisation reste stable ;
   - une modification invalide, interdite ou hors périmètre ne produit aucun changement partiel.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `Admin` ciblant une autre organisation ; organisation inexistante ou hors périmètre ; `nom` absent ou invalide ; tentative de modifier l’identifiant stable.
-- **Décisions produit bloquantes :** aucune ; dépend de la consultation complète `ORG-002`.
-- **Dépendances :** `ORG-002`.
+- **Décisions produit bloquantes :** aucune ; le renommage depuis la liste administrative est livré le 2026-09-24.
+- **Dépendances :** aucune pour le renommage livré ; la consultation métier complète reste portée par `ORG-002`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
 - **Valeur apportée :** maintient une information fiable tout en conservant l’identité organisationnelle.

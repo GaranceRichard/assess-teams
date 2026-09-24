@@ -9,6 +9,7 @@ from identities.adapters.api.admin_views import (
     ManagedUserListCreateView,
 )
 from identities.adapters.api.organization_views import (
+    OrganizationDetailView,
     OrganizationListCreateView,
     OrganizationMemberUpdateView,
 )
@@ -32,6 +33,11 @@ urlpatterns = [
         "api/admin/organizations/<int:organization_id>/members/",
         OrganizationMemberUpdateView.as_view(),
         name="organization-members",
+    ),
+    path(
+        "api/admin/organizations/<int:organization_id>/",
+        OrganizationDetailView.as_view(),
+        name="organization-detail",
     ),
     path(
         "api/admin/users/<int:user_id>/",

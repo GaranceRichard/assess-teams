@@ -2,9 +2,11 @@ import { type FormEvent, useEffect, useState } from "react";
 
 import { listManagedUsers, type ManagedUser } from "./managedUsers";
 import { OrganizationMembersDialog } from "./OrganizationMembersDialog";
+import { OrganizationRenameDialog } from "./OrganizationRenameDialog";
 import {
   createOrganization,
   listOrganizations,
+  renameOrganization,
   type Organization,
   updateOrganizationMembers,
 } from "./organizations";
@@ -19,6 +21,7 @@ export function OrganizationPage() {
   const [editingMembers, setEditingMembers] = useState<Organization | null>(
     null,
   );
+  const [renaming, setRenaming] = useState<Organization | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -73,6 +76,22 @@ export function OrganizationPage() {
       setError(null);
     } catch {
       setError("La modification des membres a été refusée.");
+    }
+  }
+
+  async function saveName(newName: string) {
+    if (!renaming) return;
+    try {
+      const updated = await renameOrganization(renaming.id, newName);
+      setOrganizations((current) =>
+        current.map((organization) =>
+          organization.id === updated.id ? updated : organization,
+        ),
+      );
+      setRenaming(null);
+      setError(null);
+    } catch {
+      setError("Le renommage de l’organisation a été refusé.");
     }
   }
 
@@ -134,13 +153,22 @@ export function OrganizationPage() {
                       .join(", ")}
                   </span>
                 </div>
-                <button
-                  className="secondary"
-                  onClick={() => setEditingMembers(organization)}
-                  type="button"
-                >
-                  Gérer les membres
-                </button>
+                <div className="organization-actions">
+                  <button
+                    className="secondary"
+                    onClick={() => setRenaming(organization)}
+                    type="button"
+                  >
+                    Renommer
+                  </button>
+                  <button
+                    className="secondary"
+                    onClick={() => setEditingMembers(organization)}
+                    type="button"
+                  >
+                    Gérer les membres
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
@@ -152,6 +180,13 @@ export function OrganizationPage() {
           onSubmit={saveMembers}
           organization={editingMembers}
           users={users}
+        />
+      )}
+      {renaming && (
+        <OrganizationRenameDialog
+          onCancel={() => setRenaming(null)}
+          onSubmit={saveName}
+          organization={renaming}
         />
       )}
     </section>

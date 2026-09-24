@@ -24,6 +24,18 @@ class OrganizationSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "users")
 
 
+class RenameOrganizationSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255, allow_blank=False)
+
+    def validate_name(self, value: str) -> str:
+        return value.strip()
+
+    def update(self, instance: Organization, validated_data: dict) -> Organization:
+        instance.name = validated_data["name"]
+        instance.save(update_fields=["name"])
+        return instance
+
+
 class CreateOrganizationSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255, allow_blank=False)
     user_ids = serializers.PrimaryKeyRelatedField(

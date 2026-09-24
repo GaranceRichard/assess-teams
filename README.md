@@ -40,7 +40,7 @@ et le Coach gère uniquement les Viewers sans pouvoir changer leur fonction.
 
 ## Périmètre livré — gestion des organisations
 
-Le menu Organisations est accessible aux Superadmins et aux Admins. Il permet de créer une organisation,
+Le menu Organisations est accessible aux Superadmins et aux Admins. Il permet de créer et renommer une organisation,
 d’ajouter ou retirer facilement ses membres et de conserver au moins un membre ; une identité peut appartenir à plusieurs organisations.
 
 ## Installation
@@ -78,7 +78,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-frontend.p
 - La création d'utilisateur est disponible par `POST /api/users/` avec authentification Basic ou session.
 - La session produit utilise `POST /api/session/login/`, `GET /api/session/` et
   `POST /api/session/logout/` ; la déconnexion exige le jeton CSRF fourni avec la session.
-- La gestion des organisations utilise `GET` et `POST /api/admin/organizations/` avec une session Admin.
+- La gestion des organisations utilise la collection `/api/admin/organizations/` et ses routes de modification avec une session Admin.
 
 Le premier Superadmin est créé exclusivement avec le bootstrap Django :
 
@@ -121,7 +121,7 @@ npm.cmd run test:e2e --prefix frontend
 Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session :
 règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
-Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création d’organisation et déconnexion, puis
+Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création et renommage d’organisation, puis
 vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent
 `NON APPLICABLE`, faute de bug corrigé.
 

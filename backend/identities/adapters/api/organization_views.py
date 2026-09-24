@@ -10,9 +10,17 @@ from identities.adapters.api.organization_permissions import CanManageOrganizati
 from identities.adapters.api.organization_serializers import (
     CreateOrganizationSerializer,
     OrganizationSerializer,
+    RenameOrganizationSerializer,
     UpdateOrganizationMembersSerializer,
 )
 from identities.models import Organization
+
+
+def manageable_organization(request, organization_id: int) -> Organization:
+    organizations = Organization.objects.all()
+    if not request.user.is_superuser:
+        organizations = organizations.filter(users=request.user)
+    return get_object_or_404(organizations, pk=organization_id)
 
 
 class OrganizationListCreateView(APIView):
@@ -69,14 +77,37 @@ class OrganizationMemberUpdateView(APIView):
     )
     @transaction.atomic
     def put(self, request, organization_id: int):
-        organizations = Organization.objects.all()
-        if not request.user.is_superuser:
-            organizations = organizations.filter(users=request.user)
-        organization = get_object_or_404(organizations, pk=organization_id)
+        organization = manageable_organization(request, organization_id)
         serializer = UpdateOrganizationMembersSerializer(
             organization,
             data=request.data,
         )
+        serializer.is_valid(raise_exception=True)
+        organization = serializer.save()
+        return Response(OrganizationSerializer(organization).data)
+
+
+class OrganizationDetailView(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [CanManageOrganizations]
+
+    @extend_schema(
+        description=(
+            "Renomme une organisation. Le Superadmin agit partout et un Admin "
+            "uniquement dans une organisation à laquelle il est rattaché."
+        ),
+        request=RenameOrganizationSerializer,
+        responses={
+            200: OrganizationSerializer,
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
+    )
+    @transaction.atomic
+    def put(self, request, organization_id: int):
+        organization = manageable_organization(request, organization_id)
+        serializer = RenameOrganizationSerializer(organization, data=request.data)
         serializer.is_valid(raise_exception=True)
         organization = serializer.save()
         return Response(OrganizationSerializer(organization).data)

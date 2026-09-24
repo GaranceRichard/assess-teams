@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   createOrganization,
   listOrganizations,
+  renameOrganization,
   updateOrganizationMembers,
 } from "./organizations";
 
@@ -73,6 +74,26 @@ describe("organizations API", () => {
         method: "PUT",
         body: JSON.stringify({ user_ids: [2] }),
         headers: expect.objectContaining({ "X-CSRFToken": "member-token" }),
+      }),
+    );
+  });
+
+  it("renames an organization", async () => {
+    document.cookie = "csrftoken=rename-token";
+    const renamed = { ...organization, name: "East" };
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(
+        new Response(JSON.stringify(renamed), { status: 200 }),
+      );
+
+    await expect(renameOrganization(1, "East")).resolves.toEqual(renamed);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/admin/organizations/1/",
+      expect.objectContaining({
+        method: "PUT",
+        body: JSON.stringify({ name: "East" }),
+        headers: expect.objectContaining({ "X-CSRFToken": "rename-token" }),
       }),
     );
   });

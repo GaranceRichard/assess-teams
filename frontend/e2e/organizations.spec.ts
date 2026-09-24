@@ -14,6 +14,7 @@ test("an Admin creates an organization with several users", async ({
   seedIdentity("organization-coach-e2e", "Coach");
   seedIdentity("organization-viewer-e2e", "Viewer");
   resetOrganization(organizationName);
+  resetOrganization(`${organizationName} renamed`);
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("organization-admin-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
@@ -43,4 +44,16 @@ test("an Admin creates an organization with several users", async ({
   await expect(organization).toContainText("organization-admin-e2e");
   await expect(organization).toContainText("organization-viewer-e2e");
   await expect(organization).not.toContainText("organization-coach-e2e");
+
+  await organization.getByRole("button", { name: "Renommer" }).click();
+  const renameDialog = page.getByRole("dialog");
+  await renameDialog.getByLabel("Nom").fill(`${organizationName} renamed`);
+  await renameDialog
+    .getByRole("button", { name: "Enregistrer le nom" })
+    .click();
+  await expect(
+    page.locator(".organization-list li").filter({
+      hasText: `${organizationName} renamed`,
+    }),
+  ).toBeVisible();
 });

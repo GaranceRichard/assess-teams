@@ -13,6 +13,7 @@ const api = vi.hoisted(() => ({
   createOrganization: vi.fn(),
   listManagedUsers: vi.fn(),
   listOrganizations: vi.fn(),
+  renameOrganization: vi.fn(),
   updateOrganizationMembers: vi.fn(),
 }));
 
@@ -20,6 +21,7 @@ vi.mock("./managedUsers", () => ({ listManagedUsers: api.listManagedUsers }));
 vi.mock("./organizations", () => ({
   createOrganization: api.createOrganization,
   listOrganizations: api.listOrganizations,
+  renameOrganization: api.renameOrganization,
   updateOrganizationMembers: api.updateOrganizationMembers,
 }));
 

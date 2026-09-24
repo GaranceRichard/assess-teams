@@ -82,6 +82,17 @@
   gap: 0.25rem;
 }
 
+.organization-actions,
+.organization-dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.organization-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .organization-dialog-backdrop {
   align-items: center;
   background: rgb(15 23 42 / 55%);
@@ -116,7 +127,16 @@
 }
 
 .organization-dialog-actions {
-  display: flex;
-  gap: 0.75rem;
   justify-content: flex-end;
+}
+
+.organization-rename-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.organization-rename-form input {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.7rem;
 }

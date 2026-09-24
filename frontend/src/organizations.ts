@@ -53,3 +53,17 @@ export function updateOrganizationMembers(
     body: JSON.stringify({ user_ids: userIds }),
   });
 }
+
+export function renameOrganization(
+  organizationId: number,
+  name: string,
+): Promise<Organization> {
+  return request(`/api/admin/organizations/${organizationId}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken(),
+    },
+    body: JSON.stringify({ name }),
+  });
+}
