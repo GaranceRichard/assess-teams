@@ -21,8 +21,8 @@ Admin, Coach ou Viewer, des routes protégées et la déconnexion. La documentat
 les arbitrages du socle Organisation et exige une authentification pour toute lecture de donnée métier, sans
 franchissement implicite d’un périmètre organisationnel.
 
-Le bootstrap local distingue explicitement les réglages `development` et `production` et fournit trois
-identités fictives en développement. La connexion permet d'afficher ou masquer le mot de passe sans l'altérer.
+Le bootstrap local distingue les réglages `development` et `production` et fournit en développement trois identités
+réconciliées sous `Admin`, `Coach` et `Viewer` sans doublon au redémarrage. La connexion permet d'afficher ou masquer le mot de passe sans l'altérer.
 
 ## Périmètre livré — USER-001
 

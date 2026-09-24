@@ -25,9 +25,9 @@ def test_bootstrap_creates_active_authenticatable_development_identities() -> No
     call_command("seed_development_users", verbosity=0)
 
     assert User.objects.count() == 3
-    for username, role in DEVELOPMENT_IDENTITIES:
+    for username, email, role in DEVELOPMENT_IDENTITIES:
         user = User.objects.get(username=username)
-        assert user.email == username
+        assert user.email == email
         assert user.role == role.value
         assert user.is_active
         assert not user.is_superuser
@@ -40,11 +40,40 @@ def test_bootstrap_creates_active_authenticatable_development_identities() -> No
 def test_bootstrap_is_idempotent() -> None:
     call_command("seed_development_users", verbosity=0)
     original_ids = set(User.objects.values_list("id", flat=True))
+    original_passwords = set(User.objects.values_list("password", flat=True))
 
     call_command("seed_development_users", verbosity=0)
 
     assert User.objects.count() == 3
     assert set(User.objects.values_list("id", flat=True)) == original_ids
+    assert set(User.objects.values_list("password", flat=True)) == original_passwords
+
+
+@pytest.mark.django_db
+@pytest.mark.functional
+def test_bootstrap_reconciles_legacy_and_duplicate_development_identities() -> None:
+    legacy = User.objects.create_user(
+        username="admin.dev@assess-teams.local",
+        email="admin.dev@assess-teams.local",
+        password=DEVELOPMENT_CREDENTIAL,
+        role=Role.ADMIN.value,
+    )
+    User.objects.create_user(
+        username="Admin",
+        email="changed@example.com",
+        password=TEST_CREDENTIAL,
+        role=Role.ADMIN.value,
+        is_active=False,
+    )
+
+    call_command("seed_development_users", verbosity=0)
+
+    admin = User.objects.get(username="Admin")
+    assert admin.email == "admin.dev@assess-teams.local"
+    assert admin.is_active
+    assert admin.check_password(DEVELOPMENT_CREDENTIAL)
+    assert not User.objects.filter(id=legacy.id).exists()
+    assert User.objects.count() == 3
 
 
 @pytest.mark.django_db

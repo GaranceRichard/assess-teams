@@ -24,9 +24,9 @@ Le bootstrap crée les trois identités actives suivantes avec le mot de passe c
 
 | Fonction | Identifiant |
 | --- | --- |
-| Admin | `admin.dev@assess-teams.local` |
-| Coach | `coach.dev@assess-teams.local` |
-| Viewer | `viewer.dev@assess-teams.local` |
+| Admin | `Admin` |
+| Coach | `Coach` |
+| Viewer | `Viewer` |
 
 Ces credentials sont fictifs et strictement réservés au développement local. Le Superadmin Django reste un
 compte technique séparé et n'est jamais créé par ce mécanisme.
@@ -47,9 +47,10 @@ identités. La commande peut aussi être rejouée explicitement depuis `backend`
 & .\.venv\Scripts\python.exe manage.py seed_development_users --settings=config.settings_development
 ```
 
-La commande est idempotente : elle crée uniquement une identité réservée absente, ne duplique rien et ne
-modifie aucun compte existant. Une collision incohérente avec un identifiant réservé arrête le bootstrap
-explicitement sans modification partielle.
+La commande est idempotente : elle crée uniquement une identité réservée absente et réconcilie les anciens
+identifiants locaux sans conserver de doublon. Elle restaure le rôle, l'activation et le mot de passe attendus
+des trois comptes réservés, sans modifier les autres comptes. Une collision incohérente avec un identifiant
+réservé arrête le bootstrap explicitement sans modification partielle.
 
 ## Garantie de production
 
