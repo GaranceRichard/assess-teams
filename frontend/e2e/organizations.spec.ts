@@ -4,6 +4,7 @@ import {
   e2eCredential,
   resetOrganization,
   seedIdentity,
+  seedSuperadmin,
 } from "./identity-fixture";
 
 test("an Admin creates an organization with several users", async ({
@@ -13,6 +14,7 @@ test("an Admin creates an organization with several users", async ({
   seedIdentity("organization-admin-e2e", "Admin");
   seedIdentity("organization-coach-e2e", "Coach");
   seedIdentity("organization-viewer-e2e", "Viewer");
+  seedSuperadmin("organization-root-e2e", "unused-organization@example.com");
   resetOrganization(organizationName);
   resetOrganization(`${organizationName} renamed`);
   await page.goto("/");
@@ -56,4 +58,24 @@ test("an Admin creates an organization with several users", async ({
       hasText: `${organizationName} renamed`,
     }),
   ).toBeVisible();
+
+  await expect(
+    page.getByRole("button", { name: "Supprimer", exact: true }),
+  ).not.toBeVisible();
+  await page.getByRole("button", { name: "Se déconnecter" }).click();
+  await page.getByLabel("Identifiant").fill("organization-root-e2e");
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+  await page.getByRole("link", { name: "Organisation" }).click();
+
+  const renamed = page.locator(".organization-list li").filter({
+    hasText: `${organizationName} renamed`,
+  });
+  await renamed.getByRole("button", { name: "Supprimer", exact: true }).click();
+  const deleteDialog = page.getByRole("dialog");
+  await expect(deleteDialog).toContainText("conserveront leurs comptes");
+  await deleteDialog
+    .getByRole("button", { name: "Supprimer l’organisation" })
+    .click();
+  await expect(renamed).not.toBeVisible();
 });

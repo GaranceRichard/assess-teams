@@ -8,7 +8,9 @@ vi.mock("./SuperadminDashboard", () => ({
   SuperadminDashboard: () => <div>Gestion Superadmin</div>,
 }));
 vi.mock("./OrganizationPage", () => ({
-  OrganizationPage: () => <div>Gestion des organisations</div>,
+  OrganizationPage: ({ isSuperadmin }: { isSuperadmin: boolean }) => (
+    <div data-superadmin={isSuperadmin}>Gestion des organisations</div>
+  ),
 }));
 
 const expectedMenus: Record<UserRole, string[]> = {
@@ -111,5 +113,8 @@ it("shows user management on Users only and changes theme", () => {
   expect(screen.getByText("Gestion Superadmin")).toBeVisible();
 
   rerender(<ProductShell {...props} path="/organization" />);
-  expect(screen.getByText("Gestion des organisations")).toBeVisible();
+  expect(screen.getByText("Gestion des organisations")).toHaveAttribute(
+    "data-superadmin",
+    "true",
+  );
 });

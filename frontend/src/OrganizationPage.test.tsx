@@ -11,6 +11,7 @@ import { OrganizationPage } from "./OrganizationPage";
 
 const api = vi.hoisted(() => ({
   createOrganization: vi.fn(),
+  deleteOrganization: vi.fn(),
   listManagedUsers: vi.fn(),
   listOrganizations: vi.fn(),
   renameOrganization: vi.fn(),
@@ -20,6 +21,7 @@ const api = vi.hoisted(() => ({
 vi.mock("./managedUsers", () => ({ listManagedUsers: api.listManagedUsers }));
 vi.mock("./organizations", () => ({
   createOrganization: api.createOrganization,
+  deleteOrganization: api.deleteOrganization,
   listOrganizations: api.listOrganizations,
   renameOrganization: api.renameOrganization,
   updateOrganizationMembers: api.updateOrganizationMembers,

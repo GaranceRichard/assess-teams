@@ -20,6 +20,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     ...init,
   });
   if (!response.ok) throw new Error("Organization request failed");
+  if (response.status === 204) return undefined as T;
   return (await response.json()) as T;
 }
 
@@ -65,5 +66,12 @@ export function renameOrganization(
       "X-CSRFToken": csrfToken(),
     },
     body: JSON.stringify({ name }),
+  });
+}
+
+export function deleteOrganization(organizationId: number): Promise<void> {
+  return request(`/api/admin/organizations/${organizationId}/`, {
+    method: "DELETE",
+    headers: { "X-CSRFToken": csrfToken() },
   });
 }

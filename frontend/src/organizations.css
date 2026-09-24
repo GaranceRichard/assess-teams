@@ -93,6 +93,18 @@
   justify-content: flex-end;
 }
 
+.organization-danger,
+.organization-danger-outline {
+  background: #a62f38;
+  color: #fff;
+}
+
+.organization-danger-outline {
+  background: var(--surface);
+  border: 1px solid #c85c64;
+  color: #982b33;
+}
+
 .organization-dialog-backdrop {
   align-items: center;
   background: rgb(15 23 42 / 55%);

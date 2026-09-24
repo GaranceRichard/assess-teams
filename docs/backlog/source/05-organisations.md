@@ -4,7 +4,7 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 ### FEAT-036 — Gérer le cycle de vie d’une organisation
 
-Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création, ses rattachements multiples et le renommage sont livrés ; la sémantique du `DELETE` reste bloquée par les arbitrages cités dans son PBI.
+Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création, ses rattachements multiples, le renommage et la suppression par le Superadmin sont livrés.
 
 #### ORG-001 — Créer une organisation
 
@@ -82,19 +82,18 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Identifiant :** `ORG-004`.
 - **Feature parente :** `FEAT-036`.
 - **Titre :** Supprimer une organisation.
-- **User story :** en tant que `Superadmin` ou `Admin`, je veux retirer une organisation afin d’empêcher l’utilisation future d’une organisation qui ne doit plus être active.
-- **Intention métier :** permettre la sortie contrôlée d’une organisation du dispositif actif sans inventer le traitement de son patrimoine.
-- **Description :** exposer l’action backend `DELETE` sur une organisation. Sa sémantique métier exacte — suppression physique, archivage ou désactivation — reste `À arbitrer` dans `ARB-ORG-005`.
+- **User story :** en tant que `Superadmin`, je veux supprimer une organisation afin de retirer définitivement un périmètre qui ne doit plus exister.
+- **Intention métier :** permettre au seul acteur global de retirer définitivement une organisation encore dépourvue de données métier historiques.
+- **Description :** exposer la suppression physique d’une organisation et de ses rattachements, sans supprimer les identités associées.
 - **Critères d’acceptation :**
   - un `Superadmin` peut demander la suppression de toute organisation ;
-  - un `Admin` peut demander la suppression d’une organisation à laquelle il est rattaché ;
-  - un `Coach` et un `Viewer` ne peuvent pas supprimer une organisation ;
+  - un `Admin`, un `Coach` et un `Viewer` ne peuvent pas supprimer une organisation ;
   - une suppression refusée ne produit aucun effet partiel ;
-  - la sémantique exacte de `DELETE` reste `À arbitrer` ;
-  - les conséquences sur les utilisateurs, équipes et historiques restent explicites dans l’arbitrage et ne sont pas inventées par l’implémentation.
-- **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `Admin` ciblant une autre organisation ; organisation inexistante ou hors périmètre ; précondition de cycle de vie non satisfaite une fois celle-ci arbitrée.
-- **Décision produit bloquante :** `ARB-ORG-005`. `ORG-004` n’est pas prêt à implémenter avant la décision sur la sémantique et les conséquences du `DELETE`.
-- **Dépendances :** `ORG-002`.
+  - les comptes utilisateurs survivent à la suppression et leurs autres rattachements restent intacts ;
+  - tout futur modèle historique dépendant devra protéger ses données contre une cascade silencieuse.
+- **Principaux cas de refus :** acteur non authentifié ; `Admin`, `Coach` ou `Viewer` ; organisation inexistante.
+- **Décision produit bloquante :** aucune ; `ARB-ORG-005` est résolu.
+- **Dépendances :** aucune dans le modèle courant.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
 - **Valeur apportée :** empêche l’usage futur d’une organisation selon un traitement contrôlé et explicite.

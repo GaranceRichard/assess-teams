@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -111,3 +112,22 @@ class OrganizationDetailView(APIView):
         serializer.is_valid(raise_exception=True)
         organization = serializer.save()
         return Response(OrganizationSerializer(organization).data)
+
+    @extend_schema(
+        description=(
+            "Supprime définitivement une organisation et ses rattachements sans "
+            "supprimer les identités. Action réservée au Superadmin."
+        ),
+        responses={
+            204: None,
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
+    )
+    @transaction.atomic
+    def delete(self, request, organization_id: int):
+        if not request.user.is_superuser:
+            raise PermissionDenied("Seul le Superadmin peut supprimer une organisation.")
+        organization = get_object_or_404(Organization, pk=organization_id)
+        organization.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

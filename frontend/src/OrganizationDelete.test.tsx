@@ -39,43 +39,42 @@ beforeEach(() => {
   api.listOrganizations.mockResolvedValue([organization]);
 });
 
-it("renames an organization from its list action", async () => {
-  api.renameOrganization.mockResolvedValue({ ...organization, name: "East" });
-  render(<OrganizationPage />);
-
+it("shows deletion only to a Superadmin and removes the organization", async () => {
+  api.deleteOrganization.mockResolvedValue(undefined);
+  const { rerender } = render(<OrganizationPage />);
   await screen.findByText("North");
-  fireEvent.click(screen.getByRole("button", { name: "Renommer" }));
+  expect(
+    screen.queryByRole("button", { name: "Supprimer" }),
+  ).not.toBeInTheDocument();
+
+  rerender(<OrganizationPage isSuperadmin />);
+  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
   const dialog = screen.getByRole("dialog");
-  const name = within(dialog).getByLabelText("Nom");
-  expect(name).toHaveValue("North");
-  fireEvent.change(name, { target: { value: "East" } });
+  expect(dialog).toHaveTextContent("utilisateurs conserveront leurs comptes");
   fireEvent.click(
-    within(dialog).getByRole("button", { name: "Enregistrer le nom" }),
+    within(dialog).getByRole("button", { name: "Supprimer l’organisation" }),
   );
 
-  await waitFor(() =>
-    expect(api.renameOrganization).toHaveBeenCalledWith(1, "East"),
-  );
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-  expect(screen.getByText("East")).toBeVisible();
+  await waitFor(() => expect(api.deleteOrganization).toHaveBeenCalledWith(1));
+  expect(screen.queryByText("North")).not.toBeInTheDocument();
+  expect(screen.getByText("Aucune organisation.")).toBeVisible();
 });
 
-it("keeps the rename dialog open when the API refuses", async () => {
-  api.renameOrganization.mockRejectedValue(new Error("refused"));
-  render(<OrganizationPage />);
+it("keeps the confirmation open when deletion is refused", async () => {
+  api.deleteOrganization.mockRejectedValue(new Error("refused"));
+  render(<OrganizationPage isSuperadmin />);
 
   await screen.findByText("North");
-  fireEvent.click(screen.getByRole("button", { name: "Renommer" }));
-  const dialog = screen.getByRole("dialog");
-  fireEvent.change(within(dialog).getByLabelText("Nom"), {
-    target: { value: "Blocked" },
-  });
+  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
   fireEvent.click(
-    within(dialog).getByRole("button", { name: "Enregistrer le nom" }),
+    within(screen.getByRole("dialog")).getByRole("button", {
+      name: "Supprimer l’organisation",
+    }),
   );
 
   expect(await screen.findByRole("alert")).toHaveTextContent(
-    "renommage de l’organisation a été refusé",
+    "suppression de l’organisation a été refusée",
   );
   expect(screen.getByRole("dialog")).toBeVisible();
+  expect(screen.getByText("North")).toBeVisible();
 });

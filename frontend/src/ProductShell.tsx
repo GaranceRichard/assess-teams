@@ -68,7 +68,7 @@ export function ProductShell({
         {authorized && path === "/users" ? (
           <SuperadminDashboard actor={user} />
         ) : authorized && path === "/organization" ? (
-          <OrganizationPage />
+          <OrganizationPage isSuperadmin={user.is_superuser} />
         ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>

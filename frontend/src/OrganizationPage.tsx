@@ -1,10 +1,13 @@
 import { type FormEvent, useEffect, useState } from "react";
 
 import { listManagedUsers, type ManagedUser } from "./managedUsers";
+import { OrganizationDeleteDialog } from "./OrganizationDeleteDialog";
+import { OrganizationList } from "./OrganizationList";
 import { OrganizationMembersDialog } from "./OrganizationMembersDialog";
 import { OrganizationRenameDialog } from "./OrganizationRenameDialog";
 import {
   createOrganization,
+  deleteOrganization,
   listOrganizations,
   renameOrganization,
   type Organization,
@@ -12,7 +15,9 @@ import {
 } from "./organizations";
 import "./organizations.css";
 
-export function OrganizationPage() {
+type Props = { isSuperadmin?: boolean };
+
+export function OrganizationPage({ isSuperadmin = false }: Props) {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [name, setName] = useState("");
@@ -22,6 +27,7 @@ export function OrganizationPage() {
     null,
   );
   const [renaming, setRenaming] = useState<Organization | null>(null);
+  const [deleting, setDeleting] = useState<Organization | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -95,6 +101,20 @@ export function OrganizationPage() {
     }
   }
 
+  async function confirmDelete() {
+    if (!deleting) return;
+    try {
+      await deleteOrganization(deleting.id);
+      setOrganizations((current) =>
+        current.filter((organization) => organization.id !== deleting.id),
+      );
+      setDeleting(null);
+      setError(null);
+    } catch {
+      setError("La suppression de l’organisation a été refusée.");
+    }
+  }
+
   return (
     <section className="organizations-page">
       <div>
@@ -137,43 +157,13 @@ export function OrganizationPage() {
           {saving ? "Création…" : "Créer l’organisation"}
         </button>
       </form>
-      <div className="organization-list">
-        <h2>Organisations existantes</h2>
-        {organizations.length === 0 ? (
-          <p>Aucune organisation.</p>
-        ) : (
-          <ul>
-            {organizations.map((organization) => (
-              <li key={organization.id}>
-                <div className="organization-summary">
-                  <strong>{organization.name}</strong>
-                  <span>
-                    {organization.users
-                      .map((user) => user.identifier)
-                      .join(", ")}
-                  </span>
-                </div>
-                <div className="organization-actions">
-                  <button
-                    className="secondary"
-                    onClick={() => setRenaming(organization)}
-                    type="button"
-                  >
-                    Renommer
-                  </button>
-                  <button
-                    className="secondary"
-                    onClick={() => setEditingMembers(organization)}
-                    type="button"
-                  >
-                    Gérer les membres
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <OrganizationList
+        isSuperadmin={isSuperadmin}
+        onDelete={setDeleting}
+        onEditMembers={setEditingMembers}
+        onRename={setRenaming}
+        organizations={organizations}
+      />
       {editingMembers && (
         <OrganizationMembersDialog
           onCancel={() => setEditingMembers(null)}
@@ -187,6 +177,13 @@ export function OrganizationPage() {
           onCancel={() => setRenaming(null)}
           onSubmit={saveName}
           organization={renaming}
+        />
+      )}
+      {deleting && (
+        <OrganizationDeleteDialog
+          onCancel={() => setDeleting(null)}
+          onConfirm={confirmDelete}
+          organization={deleting}
         />
       )}
     </section>

@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   createOrganization,
+  deleteOrganization,
   listOrganizations,
   renameOrganization,
   updateOrganizationMembers,
@@ -94,6 +95,22 @@ describe("organizations API", () => {
         method: "PUT",
         body: JSON.stringify({ name: "East" }),
         headers: expect.objectContaining({ "X-CSRFToken": "rename-token" }),
+      }),
+    );
+  });
+
+  it("deletes an organization without parsing the empty response", async () => {
+    document.cookie = "csrftoken=delete-token";
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(new Response(null, { status: 204 }));
+
+    await expect(deleteOrganization(1)).resolves.toBeUndefined();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/admin/organizations/1/",
+      expect.objectContaining({
+        method: "DELETE",
+        headers: { "X-CSRFToken": "delete-token" },
       }),
     );
   });

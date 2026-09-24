@@ -16,9 +16,9 @@ Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de
 ## Ordonnancement global recommandé
 
 1. **Sprint 1 — Backend Utilisateurs :** `USER-001` est livré ; `USER-002` reste bloqué par `FEAT-037`, puis `USER-003` et `USER-004` s’enchaînent après sa livraison, avec `ARB-ORG-008` à résoudre en plus pour `USER-004`.
-2. **CRUD backend Organisations :** `ORG-001` est livré pour le Superadmin et l’Admin avec les rattachements multiples initiaux ; compléter `ORG-002`, puis enchaîner `ORG-003` et `ORG-004` après les arbitrages qui leur restent propres.
+2. **CRUD backend Organisations :** `ORG-001`, `ORG-003` et `ORG-004` sont livrés ; compléter `ORG-002` pour les consultations métier par identifiant et leur périmètre multi-organisation.
 3. **Rattachements du socle Organisation :** la relation plusieurs-à-plusieurs et l’affectation initiale sont livrées ; raffiner les changements ultérieurs et le choix du périmètre actif avant les parcours qui les exigent.
-4. **Premier PBI d’équipe après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-005`, `ARB-ORG-009` et ses dépendances au socle, sans dépendance à l’implémentation technique de l’authentification ou des permissions.
+4. **Premier PBI d’équipe après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-009` et ses dépendances au socle, sans dépendance à l’implémentation technique de l’authentification ou des permissions.
 5. **Suite du socle P0 :** poursuivre avec `TEAM-002` à `TEAM-005`, `FEAT-003`, `FEAT-008` et `FEAT-009` après leur raffinement et la livraison des capacités d’identité nécessaires. `TEAM-002` et `TEAM-003` peuvent avancer en parallèle après `TEAM-001` ; `TEAM-004` et `TEAM-005` dépendent de `TEAM-003`.
 6. **Cadre d’évaluation P0 :** arbitrer la portée organisationnelle des modèles et paramètres, puis raffiner et livrer `FEAT-011` à `FEAT-018`.
 7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.

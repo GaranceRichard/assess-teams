@@ -41,7 +41,7 @@ et le Coach gère uniquement les Viewers sans pouvoir changer leur fonction.
 ## Périmètre livré — gestion des organisations
 
 Le menu Organisations est accessible aux Superadmins et aux Admins. Il permet de créer et renommer une organisation,
-d’ajouter ou retirer facilement ses membres et de conserver au moins un membre ; une identité peut appartenir à plusieurs organisations.
+d’ajouter ou retirer ses membres ; le Superadmin peut aussi la supprimer sans supprimer ses utilisateurs.
 
 ## Installation
 
@@ -121,7 +121,7 @@ npm.cmd run test:e2e --prefix frontend
 Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session :
 règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
-Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création et renommage d’organisation, puis
+Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création, renommage et suppression d’organisation, puis
 vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent
 `NON APPLICABLE`, faute de bug corrigé.
 

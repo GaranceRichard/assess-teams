@@ -76,7 +76,7 @@ par e-mail appelle `POST /api/invitations/{uid}/{token}/`; un lien invalide, exp
 reçoit un message distinct. La modification et la suppression du compte connecté du Superadmin sont refusées
 avec `403`.
 
-## Création, consultation, renommage et membres des organisations
+## Création, consultation, renommage, suppression et membres des organisations
 
 `GET /api/admin/organizations/` liste les organisations et leurs utilisateurs affectés. `POST` sur la même
 collection accepte exactement `name` et `user_ids`. Le nom est obligatoire et la liste contient au moins un
@@ -91,6 +91,12 @@ dans plusieurs organisations.
 modifier son identifiant ni ses membres. Le nom est nettoyé de ses espaces périphériques et reste obligatoire.
 Le Superadmin agit sur toute organisation ; un Admin agit uniquement sur une organisation dont il est membre.
 Une cible hors périmètre retourne `404`, tandis qu’un rôle non autorisé reçoit `403`.
+
+`DELETE /api/admin/organizations/{organization_id}/` effectue une suppression physique réservée au
+Superadmin et retourne `204`. Les rattachements plusieurs-à-plusieurs disparaissent avec l’organisation, mais
+les identités restent présentes. Un Admin, un Coach ou un Viewer reçoit `403` ; une cible inexistante retourne
+`404`. Aucun modèle métier dépendant d’une organisation n’existe encore ; tout futur modèle historique devra
+protéger explicitement ses données contre une cascade silencieuse.
 
 `PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
 Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur une organisation dont il est

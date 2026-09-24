@@ -13,7 +13,7 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision prise — Superadmin technique :** le `Superadmin` désigne le superuser Django global. Le premier est créé par le mécanisme de bootstrap Django. Cette capacité technique n’est pas un quatrième rôle métier et n’est utilisable dans le backlog fonctionnel que lorsqu’un PBI la cite explicitement.
 - **Décision prise — fonction utilisateur :** une identité gérée par `USER-001` à `USER-004` porte exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ; l’héritage de capacités n’est pas un cumul de rôles explicites.
 - **Décision prise — données utilisateur :** une identité métier comprend explicitement `nom`, `prénom` et `mail`. La relation entre `mail` et l’éventuel identifiant technique `username` n’est pas décidée et ne doit pas être déduite de cette décision.
-- **Décision prise — périmètres CRUD Organisations et Équipes :** le `Superadmin` peut agir sur toutes les organisations. Un `Admin` peut créer une organisation, consulter la liste administrative globale et administrer les organisations auxquelles il est explicitement rattaché. `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé.
+- **Décision prise — périmètres CRUD Organisations et Équipes :** le `Superadmin` peut agir sur toutes les organisations et lui seul peut en supprimer une. Un `Admin` peut créer une organisation, consulter la liste administrative globale et administrer sans suppression les organisations auxquelles il est explicitement rattaché. `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé.
 - **Décision prise — suppression d’une équipe :** le `DELETE` d’une équipe réalise l’archivage métier défini par `TEAM-005` ; il ne supprime physiquement ni l’équipe ni son historique.
 
 ## Arbitrages
@@ -46,10 +46,11 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-005 — États et cycle de vie d’une organisation
 
-- **Décision prise :** toute transition conserve l’identité et l’historique ; aucun effet partiel n’est admis.
+- **Décision prise :** `DELETE` réalise une suppression physique de l’organisation, réservée au `Superadmin`.
+- **Décision prise :** les rattachements de membres sont supprimés avec l’organisation, mais les identités sont conservées.
+- **Décision prise :** aucun modèle métier dépendant ou historique n’existe actuellement ; tout futur modèle de ce type devra empêcher une cascade silencieuse et expliciter sa propre règle avant livraison.
 - **Décision prise :** la création initiale ne porte pas d’état de cycle de vie et n’est pas bloquée par l’absence de ce concept.
-- **Décision à arbitrer — bloquante :** pour `ORG-004`, `DELETE` signifie-t-il suppression physique, archivage ou désactivation, et quelles sont ses conséquences sur les utilisateurs, équipes et historiques ?
-- **Backlog bloqué :** `ORG-004` et toute Feature qui exige un cycle de vie explicite.
+- **Arbitrage résolu :** `ORG-004` n’est plus bloqué par le cycle de vie.
 
 ### ARB-ORG-006 — Changement ou transfert d’organisation d’un acteur
 
@@ -104,7 +105,7 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-015 — Périmètre des opérations CRUD Organisations et Équipes
 
-- **Décision prise :** le `Superadmin` peut créer une organisation et agir sur toutes les organisations et leurs équipes.
-- **Décision prise :** un `Admin` peut créer une organisation et lui affecter un ou plusieurs utilisateurs. Il administre les organisations auxquelles il est explicitement rattaché.
+- **Décision prise :** le `Superadmin` peut créer une organisation, agir sur toutes les organisations et leurs équipes, et supprimer physiquement une organisation.
+- **Décision prise :** un `Admin` peut créer une organisation et lui affecter un ou plusieurs utilisateurs. Il administre sans suppression les organisations auxquelles il est explicitement rattaché.
 - **Décision prise :** `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé. Toute lecture de donnée métier exige une identité authentifiée. Toute lecture hors périmètre ne révèle ni l’existence ni les données de l’objet, et tout refus d’écriture est sans effet partiel.
 - **Arbitrage résolu :** les périmètres CRUD sont décidés ; `ARB-ORG-015` ne bloque plus `ORG-001` à `ORG-004` ni `TEAM-001` à `TEAM-007`. `ARB-ORG-011` reste applicable au choix d’un périmètre actif.

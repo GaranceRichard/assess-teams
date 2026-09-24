@@ -116,7 +116,7 @@ Les autorisations de ces quatre PBIs sont portées par la matrice de `FEAT-004`.
 
 | Feature | État | Nb PBI | Réalisés | Avancement |
 | --- | --- | ---: | ---: | ---: |
-| FEAT-036 — Gérer le cycle de vie d’une organisation | Raffinée | 4 | 2 | 50 % |
+| FEAT-036 — Gérer le cycle de vie d’une organisation | Raffinée | 4 | 3 | 75 % |
 | FEAT-037 — Rattacher un Admin à une organisation | Non raffinée | 0 | 0 | N/A |
 | FEAT-038 — Rattacher un Coach à une organisation | Non raffinée | 0 | 0 | N/A |
 
@@ -127,8 +127,8 @@ Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitra
 | Périmètre bloqué | Blocages directs | Conséquence actuelle |
 | --- | --- | --- |
 | `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `FEAT-037` pour `USER-002` ; dépendance à `USER-002` pour les deux suivants ; `ARB-ORG-008` en plus pour `USER-004` | Les trois PBIs sont `Bloqué` ; `USER-001` reste historiquement `Réalisé` et son écart `nom`/`prénom`/`mail` est une évolution à raffiner |
-| `ORG-002`, `ORG-004` et parcours dépendants | `ARB-ORG-005`, `ARB-ORG-008`, `ARB-ORG-011` et dépendances propres aux PBIs | `ORG-001`, `ORG-003`, les rattachements multiples et l’édition des membres courants sont livrés ; consultation complète et suppression restent bloquées ou à compléter |
-| `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
+| `ORG-002` et parcours dépendants | `ARB-ORG-008`, `ARB-ORG-011` et dépendances propres aux PBIs | `ORG-001`, `ORG-003`, `ORG-004`, les rattachements multiples et l’édition des membres courants sont livrés ; la consultation métier complète reste à compléter |
+| `TEAM-001` à `TEAM-007` | `ARB-ORG-009`, `ARB-ORG-012`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
 | Consultation authentifiée multi-organisation | `ARB-ORG-011` | Sélection du périmètre actif restant à arbitrer |
 | `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
@@ -141,13 +141,13 @@ Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitra
 | Organisation | CREATE | Oui | Oui | Non | Non |
 | Organisation | READ | Toutes | Toutes dans l’administration | Périmètre autorisé | Périmètre autorisé |
 | Organisation | UPDATE | Toutes | Organisations accessibles | Non | Non |
-| Organisation | DELETE | Toutes | Organisations accessibles | Non | Non |
+| Organisation | DELETE | Toutes | Non | Non | Non |
 | Équipe | CREATE | Toutes les organisations | Organisations accessibles | Non | Non |
 | Équipe | READ | Toutes les organisations | Organisations accessibles | Périmètre autorisé | Périmètre autorisé |
 | Équipe | UPDATE | Toutes les organisations | Organisations accessibles | Non | Non |
 | Équipe | DELETE | Toutes les organisations | Organisations accessibles | Non | Non |
 
-Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-005`. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Toute lecture de donnée métier exige une identité authentifiée.
+Pour une Organisation, `DELETE` réalise une suppression physique réservée au Superadmin et conserve les identités. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Toute lecture de donnée métier exige une identité authentifiée.
 
 ## PBIs raffinés
 
@@ -167,7 +167,7 @@ Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-00
 | ORG-001 — Créer une organisation | Réalisé | Aucun — livré le 2026-09-24 |
 | ORG-002 — Consulter les organisations | Bloqué | détail par identifiant et périmètre métier multi-organisation à compléter |
 | ORG-003 — Modifier une organisation | Réalisé | Aucun — renommage livré le 2026-09-24 |
-| ORG-004 — Supprimer une organisation | Bloqué | `ORG-002`, `ARB-ORG-005` |
+| ORG-004 — Supprimer une organisation | Réalisé | Aucun — suppression Superadmin livrée le 2026-09-24 |
 
 ### EPIC-002 — PBIs Équipes
 

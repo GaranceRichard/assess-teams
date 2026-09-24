@@ -113,6 +113,8 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
     detail_schema = detail["requestBody"]["content"]["application/json"]["schema"]
     detail_component = schema["components"]["schemas"][detail_schema["$ref"].split("/")[-1]]
     assert set(detail["responses"]) == {"200", "400", "403", "404"}
+    delete = schema["paths"]["/api/admin/organizations/{organization_id}/"]["delete"]
+    assert set(delete["responses"]) == {"204", "403", "404"}
     assert set(detail_component["required"]) == {"name"}
     member_schema = members["requestBody"]["content"]["application/json"]["schema"]
     member_component = schema["components"]["schemas"][member_schema["$ref"].split("/")[-1]]
