@@ -27,7 +27,7 @@ une fonction métier unique (`Admin`, `Coach` ou `Viewer`). Ce chantier inclut u
 minimale nécessaire à l'appel, les permissions de création et le contrat OpenAPI ; aucun rattachement
 organisationnel n'est ajouté.
 
-Une identité active peut ouvrir une session produit puis accéder aux placeholders autorisés par sa fonction.
+Une identité active peut ouvrir une session produit, reprendre sur le tableau de bord depuis la racine puis accéder aux placeholders autorisés par sa fonction.
 Les menus visibles suivent exactement les espaces Admin, Coach et Viewer ; les accès directs appliquent aussi
 la hiérarchie de capacités `Admin > Coach > Viewer`. Le Superadmin Django obtient l'espace Admin sans devenir
 un rôle métier supplémentaire. La déconnexion invalide la session et ramène à l'écran de connexion.

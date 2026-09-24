@@ -45,6 +45,19 @@ describe("product authentication journey", () => {
     expect(window.location.pathname).toBe("/dashboard");
   });
 
+  it("restores an authenticated session at the dashboard from the root URL", async () => {
+    vi.spyOn(globalThis, "fetch").mockImplementationOnce(() =>
+      response(200, viewer),
+    );
+    render(<App />);
+
+    expect(
+      await screen.findByText("Tableau de bord — fonctionnalité à venir"),
+    ).toBeVisible();
+    expect(window.location.pathname).toBe("/dashboard");
+    expect(screen.queryByText("Page non autorisée")).not.toBeInTheDocument();
+  });
+
   it("refuses invalid credentials and keeps the login screen", async () => {
     vi.spyOn(globalThis, "fetch")
       .mockImplementationOnce(() => response(403))

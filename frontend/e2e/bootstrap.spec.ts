@@ -37,6 +37,12 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
     "Résultats",
   ]);
 
+  await page.goto("/");
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(
+    page.getByText("Tableau de bord — fonctionnalité à venir"),
+  ).toBeVisible();
+
   await page.getByRole("button", { name: "Se déconnecter" }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(

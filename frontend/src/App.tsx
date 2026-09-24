@@ -22,13 +22,17 @@ export function App() {
 
   useEffect(() => {
     getCurrentUser()
-      .then((user) =>
+      .then((user) => {
+        if (user && window.location.pathname === "/") {
+          window.history.replaceState({}, "", "/dashboard");
+          setPath("/dashboard");
+        }
         setAuth(
           user
             ? { kind: "authenticated", user }
             : { kind: "anonymous", error: null },
-        ),
-      )
+        );
+      })
       .catch(() =>
         setAuth({ kind: "anonymous", error: "Le service est indisponible." }),
       );
