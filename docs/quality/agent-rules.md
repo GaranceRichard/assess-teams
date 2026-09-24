@@ -17,7 +17,8 @@ physique du worktree. Aucun travail n'est réalisé directement dans le checkout
 
 Le checkout principal reste disponible et stable pendant le travail. Les worktrees sont des espaces internes
 aux agents, annoncés uniquement pour traçabilité. Ne demander ni workspace multi-root, ni changement du dossier
-ouvert dans VS Code, ni ouverture manuelle des worktrees.
+ouvert dans VS Code, ni ouverture manuelle des worktrees. La seule mutation finale autorisée dans le checkout
+principal est le fast-forward sûr de sa branche locale `main` vers `origin/main` après publication.
 
 ## Préparation obligatoire avant travail
 
@@ -105,8 +106,11 @@ Pour chaque tâche, Codex doit automatiquement :
 10. vérifier que l'état final est entièrement commité et exécuter ses validations applicables ;
 11. pousser ce commit vers `main` sans contourner le pre-push et son full quality gate ;
 12. confirmer que `main` distant contient le commit publié ;
-13. nettoyer uniquement le worktree et la branche du chantier terminé ;
-14. rendre compte du commit, du pre-push, du push et du nettoyage.
+13. vérifier que le checkout principal est propre et non divergent, puis avancer son `main` local vers
+    `origin/main` exclusivement en fast-forward ;
+14. confirmer que le `main` local n'est en retard d'aucun commit sur `origin/main` ;
+15. nettoyer uniquement le worktree et la branche du chantier terminé ;
+16. rendre compte du commit, du pre-push, du rattrapage local et du nettoyage.
 
 Le commit ou le push ne sont omis que si le prompt l'ordonne explicitement, par exemple avec `ne pas commit`, `ne pas push`, `travail local uniquement`, `préparation uniquement` ou une formulation équivalente. L'absence de demande explicite de push n'est pas une exception.
 
@@ -124,6 +128,11 @@ destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
 Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
 antérieure à la resynchronisation ne vaut pas validation finale. Le `pre-push` applique d'abord la garde de
 contribution, puis le full quality gate existant ; la CI répète le full quality gate comme frontière distante.
+
+Un travail ne prend jamais fin tant que la branche locale `main` du checkout principal est en retard sur
+`origin/main`, même d'un seul commit. Après confirmation du push, la resynchroniser exclusivement par
+fast-forward. Si le checkout est sale, divergent ou impossible à avancer sans écrasement, ne modifier aucune
+donnée et considérer le travail comme non terminé jusqu'à résolution du blocage.
 
 Après confirmation du push, supprimer uniquement le worktree et la branche de travail du PBI terminé. Ne jamais
 nettoyer, déplacer ou modifier le worktree ou la branche d'un autre chantier.

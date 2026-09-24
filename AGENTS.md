@@ -10,8 +10,10 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 - Il utilise une branche dédiée et un worktree dédié créé hors du dépôt principal.
 - L'agent annonce au démarrage le nom de la branche et le chemin physique du worktree.
 - Aucun chantier ne modifie directement le checkout principal ouvert dans VS Code.
-- Le checkout principal reste stable : ne demander ni workspace multi-root, ni changement de dossier VS Code,
+- Le checkout principal reste stable pendant le chantier : ne demander ni workspace multi-root, ni changement de dossier VS Code,
   ni ouverture manuelle d'un worktree.
+- La seule mutation finale autorisée dans ce checkout principal est le fast-forward sûr de sa branche locale
+  `main` vers `origin/main` après publication.
 - Un worktree de chantier est un espace interne à l'agent ; son chemin n'est communiqué que pour traçabilité.
 
 ## Intégration asynchrone
@@ -22,6 +24,11 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 - Chaque PBI retardataire répète la même séquence depuis le nouveau `origin/main` : resynchronisation, résolution
   des conflits, validations finales, intégration et push sur `main`.
 - Le `pre-push` et la CI restent les gates bloquants d'Assess teams. Ils ne sont jamais contournés.
+- Un travail ne prend jamais fin tant que la branche locale `main` du checkout principal est en retard sur
+  `origin/main`, même d'un seul commit.
+- Après confirmation du push, l'agent vérifie que ce checkout est propre et non divergent, puis avance son
+  `main` local exclusivement en fast-forward. Si ce rattrapage sûr est impossible, il n'écrase aucune donnée et
+  le travail reste non terminé jusqu'à résolution du blocage.
 - Après confirmation du push, l'agent supprime uniquement le worktree et la branche du PBI terminé. Il ne
   nettoie, ne déplace et ne modifie jamais le worktree ou la branche d'un autre chantier.
 
