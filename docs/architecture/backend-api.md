@@ -55,7 +55,7 @@ avec `403`.
 
 Le frontend n'affiche que les menus associés à la fonction. La permission de route applique la hiérarchie de
 capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Les pages livrées dans ce parcours ne
-contiennent que des placeholders et n'exposent aucune donnée métier.
+contiennent des données métier que pour les gestions Utilisateurs et Organisations.
 
 ## Gestion hiérarchique des identités
 
@@ -75,3 +75,14 @@ par e-mail appelle `POST /api/invitations/{uid}/{token}/`; un lien invalide, exp
 `400`. En cas de changement d'adresse, l'ancienne adresse reçoit une information sans lien et la nouvelle
 reçoit un message distinct. La modification et la suppression du compte connecté du Superadmin sont refusées
 avec `403`.
+
+## Création et consultation des organisations
+
+`GET /api/admin/organizations/` liste les organisations et leurs utilisateurs affectés. `POST` sur la même
+collection accepte exactement `name` et `user_ids`. Le nom est obligatoire et la liste contient au moins un
+identifiant utilisateur existant. La création de l’organisation et de tous ses rattachements est atomique.
+
+Ces opérations exigent une session active de Superadmin ou d’Admin ; tout autre acteur reçoit `403`. Une
+réponse de création retourne `201` avec l’identifiant stable, le nom et les utilisateurs. Les données invalides
+retournent `400` sans persistance partielle. La relation est plusieurs-à-plusieurs : une identité peut figurer
+dans plusieurs organisations.

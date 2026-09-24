@@ -63,14 +63,14 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** proposer des listes distinctes des `Superadmin`, `Admin`, `Coach` et `Viewer`, une liste de tous les utilisateurs accessibles avec leur fonction ou capacité technique, et une consultation par identifiant. Les comptes actifs et désactivés sont distingués.
 - **Critères d’acceptation :**
   - un `Superadmin` peut consulter la liste des `Superadmin`, des `Admin`, des `Coach`, des `Viewer`, la liste globale et le détail de chacun de ces comptes ;
-  - un `Admin` peut consulter les listes et le détail des `Admin`, `Coach` et `Viewer` de son unique organisation, mais ni la liste ni le détail des `Superadmin` ;
+  - un `Admin` peut consulter les listes et le détail des `Admin`, `Coach` et `Viewer` de ses organisations accessibles, mais ni la liste ni le détail des `Superadmin` ;
   - un `Coach` ou un `Viewer` n’accède à aucune liste d’utilisateurs ni au détail d’un autre utilisateur par ce PBI ; la consultation de son propre profil n’entre pas dans ce périmètre ;
   - chaque résultat accessible expose au minimum l’identifiant stable, `nom`, `prénom`, `mail`, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
-  - la liste « tous les utilisateurs » respecte le même périmètre : globale pour un `Superadmin`, limitée aux fonctions métier de l’unique organisation de l’`Admin` ;
+  - la liste « tous les utilisateurs » respecte le même périmètre : globale pour un `Superadmin`, limitée aux fonctions métier des organisations accessibles à l’`Admin` ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
 - **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; demande d’un `Coach` ou d’un `Viewer` ; consultation d’un `Superadmin` par un `Admin` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
-- **Décisions produit bloquantes :** aucune. La mono-appartenance et le périmètre de l’`Admin` sont décidés ; `ARB-ORG-001`, `ARB-ORG-011` et `ARB-ORG-012` ne bloquent pas ce PBI.
-- **Capacité prérequise manquante :** `FEAT-037` doit matérialiser le rattachement de l’`Admin` à son unique organisation avant que son périmètre de consultation puisse être implémenté. `USER-002` reste `Bloqué` jusque-là ; aucun rattachement implicite ne peut remplacer cette dépendance.
+- **Décision produit bloquante :** `ARB-ORG-011` pour sélectionner le périmètre actif d’un Admin multi-organisation.
+- **Capacité prérequise :** la relation de rattachement multiple est matérialisée par `ORG-001` ; sa sélection comme périmètre actif reste à livrer avant la consultation métier cloisonnée.
 - **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation ; `FEAT-037` pour le périmètre organisationnel de l’`Admin`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -87,7 +87,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** modifier `nom`, `prénom` et `mail` d’une identité. L’identifiant stable, la fonction métier, les rattachements organisationnels et les traces historiques ne sont pas modifiables par ce PBI. La relation éventuelle entre `mail` et `username` n’est pas décidée par ce PBI.
 - **Critères d’acceptation :**
   - un `Superadmin` peut modifier un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
-  - un `Admin` peut modifier un `Coach` ou un `Viewer` de son unique organisation, mais ne peut modifier aucun `Admin` ;
+  - un `Admin` peut modifier un `Coach` ou un `Viewer` de son organisation active, mais ne peut modifier aucun `Admin` ;
   - un `Coach` ou un `Viewer` ne peut modifier aucun autre utilisateur ; la modification de son propre profil n’entre pas dans ce PBI ;
   - une modification valide met à jour `nom`, `prénom` ou `mail`, conserve l’identifiant et l’historique, et aucun refus ne produit de modification partielle ;
   - aucun utilisateur, y compris un `Superadmin`, ne peut modifier un compte `Superadmin` par ce PBI.
@@ -109,7 +109,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** la suppression demandée est une désactivation logique : elle bloque les nouvelles connexions et opérations sans suppression physique de l’identité, de ses actions, de ses rattachements ni de son historique.
 - **Critères d’acceptation :**
   - un `Superadmin` peut désactiver un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
-  - un `Admin` peut désactiver un `Coach` ou un `Viewer` de son unique organisation, mais ne peut désactiver aucun `Admin` ;
+  - un `Admin` peut désactiver un `Coach` ou un `Viewer` de son organisation active, mais ne peut désactiver aucun `Admin` ;
   - un `Coach` ou un `Viewer` ne peut supprimer ni désactiver aucun utilisateur ;
   - une désactivation valide interdit toute nouvelle connexion ou action du compte, le conserve consultable comme désactivé selon `USER-002` et préserve ses faits historiques ;
   - aucun utilisateur, y compris un `Superadmin`, ne peut supprimer ou désactiver un compte `Superadmin` par ce PBI ;
@@ -151,12 +151,12 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
   | Opération | `Superadmin` technique | `Admin` | `Coach` | `Viewer` |
   | --- | --- | --- | --- | --- |
   | Créer | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` | refus | refus |
-  | Consulter | tous les comptes, dont les `Superadmin` | `Admin`, `Coach`, `Viewer` dans son unique organisation ; aucun `Superadmin` | refus | refus |
-  | Modifier | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son unique organisation | refus | refus |
-  | Supprimer logiquement | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son unique organisation | refus | refus |
+  | Consulter | tous les comptes, dont les `Superadmin` | `Admin`, `Coach`, `Viewer` dans son organisation active ; aucun `Superadmin` | refus | refus |
+  | Modifier | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son organisation active | refus | refus |
+  | Supprimer logiquement | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son organisation active | refus | refus |
 
   Cette matrice ne permet jamais de créer, modifier ou supprimer un `Superadmin` par les PBIs fonctionnels. Toutes ses opérations exigent une identité authentifiée. Tout refus intervient avant écriture et ne produit aucun effet partiel.
-- **Décisions produit bloquantes pour la matrice Utilisateurs :** aucune pour `USER-002` et `USER-003` ; `ARB-ORG-008` reste bloquant pour `USER-004`. `ARB-ORG-001`, `ARB-ORG-011` et `ARB-ORG-012` ne bloquent pas ces chemins `Admin`. La capacité `FEAT-037` reste toutefois une dépendance d’implémentation de `USER-002`.
+- **Décisions produit bloquantes pour la matrice Utilisateurs :** `ARB-ORG-011` porte le choix du périmètre actif ; `ARB-ORG-008` reste bloquant pour `USER-004`. Le rattachement multiple initial est matérialisé par `ORG-001`.
 - **Dépendances éventuelles :** `FEAT-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.

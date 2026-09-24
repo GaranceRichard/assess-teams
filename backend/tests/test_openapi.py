@@ -94,6 +94,23 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
 
 
 @pytest.mark.api
+@pytest.mark.contract
+def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
+    response = api_client.get(reverse("schema"), HTTP_ACCEPT="application/json")
+
+    schema = response.json()
+    collection = schema["paths"]["/api/admin/organizations/"]
+    request_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
+    component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
+
+    assert response.status_code == 200
+    assert {"cookieAuth": []} in collection["get"]["security"]
+    assert set(collection["get"]["responses"]) == {"200", "403"}
+    assert set(collection["post"]["responses"]) == {"201", "400", "403"}
+    assert set(component["required"]) == {"name", "user_ids"}
+
+
+@pytest.mark.api
 def test_swagger_ui_is_exposed(api_client: APIClient) -> None:
     response = api_client.get(reverse("swagger-ui"))
 

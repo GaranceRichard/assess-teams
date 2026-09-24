@@ -76,6 +76,7 @@ Chaque correction de bug ajoute un test qui reproduit le défaut réel. Le test 
 Playwright valide les parcours métier critiques à travers l'interface et le backend réels. La sélection est fondée sur le risque : valeur métier, fréquence, permissions, persistance, erreurs critiques et dépendances entre écrans.
 
 Chaque parcours critique est inventorié avec son état de couverture. Les scénarios incluent le chemin nominal et les refus métier essentiels sans dupliquer inutilement les tests de niveaux inférieurs.
+Les parcours utilisent un seul worker tant que le backend E2E repose sur SQLite, afin de sérialiser leurs écritures et d’éviter une contention propre à cette base locale.
 
 ## Stratégie de couverture
 

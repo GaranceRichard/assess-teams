@@ -18,3 +18,6 @@ Une architecture hexagonale avec des classes massives, des services génériques
 L'interface React expose la gestion des identités Superadmin sur la route `/users`, jamais sur le tableau de
 bord. Son toggle illustré soleil/lune applique le thème au document complet et mémorise le choix dans le
 navigateur.
+
+La route `/organization`, visible pour les Superadmins et Admins, matérialise le vertical slice
+React → API DRF → ORM pour créer une organisation et ses rattachements utilisateurs multiples.

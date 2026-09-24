@@ -10,6 +10,7 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: "list",
+  workers: 1,
   use: {
     baseURL: "http://127.0.0.1:5180",
     trace: "on-first-retry",

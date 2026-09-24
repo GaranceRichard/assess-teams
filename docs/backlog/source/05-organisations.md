@@ -4,26 +4,28 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 ### FEAT-036 — Gérer le cycle de vie d’une organisation
 
-Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. Les droits et périmètres sont décidés ; l’unicité du nom, les états et la sémantique du `DELETE` restent bloqués par les arbitrages cités dans chaque PBI.
+Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et ses rattachements multiples sont livrés ; la sémantique du `DELETE` reste bloquée par les arbitrages cités dans son PBI.
 
 #### ORG-001 — Créer une organisation
 
 - **Identifiant :** `ORG-001`.
 - **Feature parente :** `FEAT-036`.
 - **Titre :** Créer une organisation.
-- **User story :** en tant que `Superadmin`, je veux créer une organisation afin de créer le périmètre dans lequel seront rattachés les utilisateurs, équipes et données métier.
+- **User story :** en tant que `Superadmin` ou `Admin`, je veux créer une organisation et y affecter des utilisateurs afin d’établir leur périmètre métier.
 - **Intention métier :** établir un périmètre organisationnel identifiable et durable.
-- **Description :** exposer la création backend d’une organisation à partir de son `nom`, seule donnée métier obligatoire. Le système lui attribue un identifiant technique stable. La règle d’unicité du nom reste `À arbitrer` dans `ARB-ORG-004` et l’état initial dans `ARB-ORG-005`.
+- **Description :** exposer la création d’une organisation à partir de son `nom` et d’au moins un utilisateur existant. Le système lui attribue un identifiant technique stable et persiste atomiquement tous les rattachements. Une identité peut appartenir à plusieurs organisations.
 - **Critères d’acceptation :**
-  - un `Superadmin` peut créer une organisation ;
-  - un `Admin`, un `Coach` ou un `Viewer` ne peut pas créer d’organisation ;
+  - un `Superadmin` ou un `Admin` peut créer une organisation depuis le menu Organisation ;
+  - un `Coach` ou un `Viewer` ne peut pas créer d’organisation ;
   - `nom` est la seule donnée métier obligatoire à la création ;
   - une organisation valide reçoit un identifiant technique stable ;
+  - un ou plusieurs utilisateurs existants sont affectés dans la même transaction ;
+  - un utilisateur peut appartenir à plusieurs organisations ;
   - le `Superadmin` peut créer la première organisation avant qu’un `Admin` rattaché existe ;
   - une création refusée ne persiste aucune donnée partielle ;
-  - la règle d’unicité du nom et l’état initial restent `À arbitrer`.
-- **Principaux cas de refus :** acteur non authentifié ; `Admin`, `Coach` ou `Viewer` ; `nom` absent ou invalide ; données invalides selon la règle d’unicité restant à arbitrer.
-- **Décisions produit bloquantes :** `ARB-ORG-004` pour l’unicité du nom et `ARB-ORG-005` pour l’état initial. Aucune règle d’unicité ni aucun état ne doit être inventé.
+  - deux organisations distinctes peuvent porter le même nom.
+- **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `nom` absent ou invalide ; aucun utilisateur ; identifiant utilisateur inexistant.
+- **Décisions produit bloquantes :** aucune pour la création.
 - **Dépendances :** aucune.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -39,7 +41,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Description :** exposer dans le backend une liste des organisations accessibles et la consultation d’une organisation par son identifiant stable.
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter toutes les organisations ;
-  - l’`Admin` peut consulter uniquement son organisation ;
+  - l’`Admin` peut consulter la liste administrative globale ;
   - le `Coach` et le `Viewer` peuvent consulter uniquement les organisations de leur périmètre autorisé ;
   - une liste des organisations est disponible ;
   - une organisation peut être consultée par identifiant ;
@@ -47,7 +49,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - toute consultation exige une identité authentifiée ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une organisation.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent, mal formé ou inexistant ; organisation hors du périmètre autorisé.
-- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution et de détermination du périmètre du `Viewer`. Le périmètre global du `Superadmin` et le périmètre mono-organisation de l’`Admin` sont décidés par `ARB-ORG-015`.
+- **Décision produit bloquante :** `ARB-ORG-011` pour le choix du périmètre actif lors des consultations métier multi-organisation. La liste administrative du Superadmin et de l’Admin est déjà livrée avec `ORG-001`.
 - **Dépendances :** `ORG-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -60,16 +62,16 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Titre :** Modifier une organisation.
 - **User story :** en tant que `Superadmin` ou `Admin`, je veux modifier les informations d’une organisation afin de maintenir son information à jour.
 - **Intention métier :** faire évoluer les informations courantes sans rompre l’identité de l’organisation.
-- **Description :** exposer la modification backend des informations d’une organisation sans changer son identifiant technique stable. `nom` reste la seule donnée métier obligatoire ; sa règle d’unicité reste conditionnée par `ARB-ORG-004`. Aucun autre champ n’est rendu obligatoire implicitement.
+- **Description :** exposer la modification backend des informations d’une organisation sans changer son identifiant technique stable. `nom` reste la seule donnée métier obligatoire et n’est pas soumis à une contrainte d’unicité.
 - **Critères d’acceptation :**
   - un `Superadmin` peut modifier toute organisation ;
-  - un `Admin` peut modifier uniquement son organisation ;
+  - un `Admin` peut modifier une organisation à laquelle il est rattaché ;
   - un `Coach` et un `Viewer` ne peuvent pas modifier une organisation ;
   - `nom` reste renseigné après la modification ;
   - l’identifiant technique de l’organisation reste stable ;
   - une modification invalide, interdite ou hors périmètre ne produit aucun changement partiel.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `Admin` ciblant une autre organisation ; organisation inexistante ou hors périmètre ; `nom` absent ou invalide ; tentative de modifier l’identifiant stable.
-- **Décision produit bloquante :** `ARB-ORG-004` pour la règle d’unicité du nom. Le périmètre de l’`Admin` est décidé par `ARB-ORG-015`.
+- **Décisions produit bloquantes :** aucune ; dépend de la consultation complète `ORG-002`.
 - **Dépendances :** `ORG-002`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -85,7 +87,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Description :** exposer l’action backend `DELETE` sur une organisation. Sa sémantique métier exacte — suppression physique, archivage ou désactivation — reste `À arbitrer` dans `ARB-ORG-005`.
 - **Critères d’acceptation :**
   - un `Superadmin` peut demander la suppression de toute organisation ;
-  - un `Admin` peut demander la suppression de son organisation uniquement ;
+  - un `Admin` peut demander la suppression d’une organisation à laquelle il est rattaché ;
   - un `Coach` et un `Viewer` ne peuvent pas supprimer une organisation ;
   - une suppression refusée ne produit aucun effet partiel ;
   - la sémantique exacte de `DELETE` reste `À arbitrer` ;
@@ -100,14 +102,14 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 ### FEAT-037 — Rattacher un Admin à une organisation
 
 - **Intention métier :** rendre explicite le périmètre dans lequel un `Admin` peut administrer le dispositif.
-- **Acteur concerné :** `Admin` habilité à gérer ce rattachement ; l’autorité d’initialisation n’est pas décidée.
-- **Description :** créer, faire évoluer et retracer le rattachement d’un `Admin` à une organisation existante.
+- **Acteur concerné :** `Superadmin` ou `Admin` pour le rattachement initial ; l’autorité des évolutions ultérieures reste à décider.
+- **Description :** créer, faire évoluer et retracer les rattachements d’un `Admin` à des organisations existantes.
 - **Critères d’acceptation principaux :**
-  - un `Admin` est rattaché à exactement une organisation et toute fonction `Admin` y est exercée ;
+  - un `Admin` peut être rattaché à une ou plusieurs organisations ;
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
-  - un `Admin` ne peut consulter ou administrer aucune autre organisation que celle de son rattachement ;
+  - une opération métier d’un `Admin` est limitée au rattachement actif applicable ;
   - l’historique permet de déterminer le rattachement applicable à une action passée.
-- **Décisions produit bloquantes :** `ARB-ORG-003`, `ARB-ORG-005`, `ARB-ORG-006` et `ARB-ORG-008`. La cardinalité de l’`Admin` est décidée ; cette Feature reste non prête à raffiner ou implémenter pour les autres arbitrages cités.
+- **Décisions produit bloquantes :** `ARB-ORG-006`, `ARB-ORG-008` et `ARB-ORG-011` pour les évolutions ultérieures et le périmètre actif. Le rattachement initial multiple est livré avec `ORG-001`.
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -122,7 +124,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
   - un changement ne réécrit pas l’organisation des affectations et évaluations historiques ;
   - aucune affectation interorganisation implicite n’est possible.
-- **Décisions produit bloquantes :** `ARB-ORG-001`, `ARB-ORG-005`, `ARB-ORG-006` et, si la multi-appartenance du `Coach` est retenue, `ARB-ORG-011`. Cette Feature n’est pas prête à être raffinée ni implémentée.
+- **Décisions produit bloquantes :** `ARB-ORG-006` et `ARB-ORG-011` pour les évolutions ultérieures et le périmètre actif. Le rattachement initial multiple est livré avec `ORG-001`.
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.

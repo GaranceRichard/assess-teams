@@ -1,9 +1,5 @@
 # Assess teams
 
-## Documentation du produit
-
-La documentation est restructurée sous `docs/` par responsabilité afin de centraliser l’architecture, la qualité et le backlog. Le backlog détaillé reste la source de vérité fonctionnelle ; sa gouvernance et ses synthèses explicites n’en modifient pas le périmètre.
-
 ## Objectif
 
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le périmètre fonctionnel détaillé sera défini au fil de la conception du produit.
@@ -24,14 +20,12 @@ franchissement implicite d’un périmètre organisationnel.
 Le bootstrap local distingue les réglages `development` et `production` et fournit en développement trois identités
 réconciliées sous `Admin`, `Coach` et `Viewer` sans doublon au redémarrage. La connexion permet d'afficher ou masquer le mot de passe sans l'altérer.
 
-## Périmètre livré — USER-001
+## Périmètres livrés — identités et accès
 
 L'endpoint initial permet à un Superadmin ou à un Admin autorisé de créer une identité active avec
 une fonction métier unique (`Admin`, `Coach` ou `Viewer`). Ce chantier inclut uniquement l'authentification
 minimale nécessaire à l'appel, les permissions de création et le contrat OpenAPI ; aucun rattachement
 organisationnel n'est ajouté.
-
-## Périmètre livré — accès au produit
 
 Une identité active peut ouvrir une session produit puis accéder aux placeholders autorisés par sa fonction.
 Les menus visibles suivent exactement les espaces Admin, Coach et Viewer ; les accès directs appliquent aussi
@@ -43,6 +37,11 @@ soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatriè
 La gestion des utilisateurs suit la hiérarchie des fonctions : le Superadmin
 gère les autres comptes sans modifier ni supprimer le sien, l'Admin gère uniquement les Coachs et Viewers,
 et le Coach gère uniquement les Viewers sans pouvoir changer leur fonction.
+
+## Périmètre livré — gestion des organisations
+
+Le menu Organisations est accessible aux Superadmins et aux Admins. Il permet de créer une organisation et
+d'y affecter un ou plusieurs utilisateurs ; une même identité peut appartenir à plusieurs organisations.
 
 ## Installation
 
@@ -79,6 +78,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-frontend.p
 - La création d'utilisateur est disponible par `POST /api/users/` avec authentification Basic ou session.
 - La session produit utilise `POST /api/session/login/`, `GET /api/session/` et
   `POST /api/session/logout/` ; la déconnexion exige le jeton CSRF fourni avec la session.
+- La gestion des organisations utilise `GET` et `POST /api/admin/organizations/` avec une session Admin.
 
 Le premier Superadmin est créé exclusivement avec le bootstrap Django :
 
@@ -118,10 +118,10 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin et le cycle de session :
+Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session :
 règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
-Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs et déconnexion, puis
+Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création d’organisation et déconnexion, puis
 vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent
 `NON APPLICABLE`, faute de bug corrigé.
 
@@ -185,10 +185,10 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Le backend Django/DRF et SQLite sont opérationnels.
 - Le frontend React/Vite consomme le health check via le proxy local.
 - Les tests et les seuils de coverage backend/frontend sont actifs.
-- Le smoke test Playwright est actif.
 - Les quality gates détectent les deux applications et échouent si leur configuration est incomplète.
 - `USER-001` expose la création contrôlée d'identités sans rattachement organisationnel implicite.
 - Le parcours produit authentifié applique les menus et routes correspondant à Admin, Coach et Viewer.
+- La page Organisations permet aux Superadmins et Admins de créer un périmètre avec plusieurs utilisateurs.
 
 ## Documentation
 

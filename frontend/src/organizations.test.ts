@@ -1,0 +1,54 @@
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+import { createOrganization, listOrganizations } from "./organizations";
+
+const organization = {
+  id: 1,
+  name: "North",
+  users: [{ id: 2, identifier: "alice", user_type: "Coach" as const }],
+};
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  document.cookie = "csrftoken=; Max-Age=0";
+});
+
+describe("organizations API", () => {
+  it("lists organizations and serializes creation", async () => {
+    document.cookie = "csrftoken=organization-token";
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify([organization]), { status: 200 }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(organization), { status: 201 }),
+      );
+
+    await expect(listOrganizations()).resolves.toEqual([organization]);
+    await expect(
+      createOrganization({ name: "North", user_ids: [2] }),
+    ).resolves.toEqual(organization);
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      "/api/admin/organizations/",
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({ name: "North", user_ids: [2] }),
+        headers: expect.objectContaining({
+          "X-CSRFToken": "organization-token",
+        }),
+      }),
+    );
+  });
+
+  it("rejects an API error", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(null, { status: 403 }),
+    );
+
+    await expect(listOrganizations()).rejects.toThrow(
+      "Organization request failed",
+    );
+  });
+});

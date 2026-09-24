@@ -127,10 +127,10 @@ Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitra
 | Périmètre bloqué | Blocages directs | Conséquence actuelle |
 | --- | --- | --- |
 | `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `FEAT-037` pour `USER-002` ; dépendance à `USER-002` pour les deux suivants ; `ARB-ORG-008` en plus pour `USER-004` | Les trois PBIs sont `Bloqué` ; `USER-001` reste historiquement `Réalisé` et son écart `nom`/`prénom`/`mail` est une évolution à raffiner |
-| `ORG-001` à `ORG-004` ; initialisation de `FEAT-037`–`FEAT-038` et `PV-001` | `ARB-ORG-004`, `ARB-ORG-005`, `ARB-ORG-012` et dépendances pour les PBIs ; `ARB-ORG-001`, `ARB-ORG-003`, `ARB-ORG-005`, `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011` pour les rattachements | 4 PBIs Organisations raffinés au statut canonique `Bloqué` ; `ARB-ORG-015` est résolu ; rattachements non raffinés |
+| `ORG-002` à `ORG-004` et parcours dépendants | `ARB-ORG-005`, `ARB-ORG-006`, `ARB-ORG-008`, `ARB-ORG-011` et dépendances propres aux PBIs | `ORG-001` et les rattachements multiples initiaux sont livrés ; les 3 autres PBIs Organisations restent bloqués ou à compléter |
 | `TEAM-001` à `TEAM-007` | `ARB-ORG-005`, `ARB-ORG-009`, `ARB-ORG-012`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
-| Consultation authentifiée | `ARB-ORG-012` | Périmètre du `Viewer` non prêt à raffiner |
+| Consultation authentifiée multi-organisation | `ARB-ORG-011` | Sélection du périmètre actif restant à arbitrer |
 | `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
 | Tout futur transfert d’équipe et continuités concernées | `ARB-ORG-007` | Aucun PBI de transfert créé ; capacité non prête à raffiner |
 
@@ -138,14 +138,14 @@ Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitra
 
 | Objet | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- | --- |
-| Organisation | CREATE | Oui | Non | Non | Non |
-| Organisation | READ | Toutes | Son organisation | Périmètre autorisé | Périmètre autorisé |
-| Organisation | UPDATE | Toutes | Son organisation | Non | Non |
-| Organisation | DELETE | Toutes | Son organisation | Non | Non |
-| Équipe | CREATE | Toutes les organisations | Son organisation | Non | Non |
-| Équipe | READ | Toutes les organisations | Son organisation | Périmètre autorisé | Périmètre autorisé |
-| Équipe | UPDATE | Toutes les organisations | Son organisation | Non | Non |
-| Équipe | DELETE | Toutes les organisations | Son organisation | Non | Non |
+| Organisation | CREATE | Oui | Oui | Non | Non |
+| Organisation | READ | Toutes | Toutes dans l’administration | Périmètre autorisé | Périmètre autorisé |
+| Organisation | UPDATE | Toutes | Organisations accessibles | Non | Non |
+| Organisation | DELETE | Toutes | Organisations accessibles | Non | Non |
+| Équipe | CREATE | Toutes les organisations | Organisations accessibles | Non | Non |
+| Équipe | READ | Toutes les organisations | Organisations accessibles | Périmètre autorisé | Périmètre autorisé |
+| Équipe | UPDATE | Toutes les organisations | Organisations accessibles | Non | Non |
+| Équipe | DELETE | Toutes les organisations | Organisations accessibles | Non | Non |
 
 Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-005`. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Toute lecture de donnée métier exige une identité authentifiée.
 
@@ -164,9 +164,9 @@ Pour une Organisation, la sémantique de `DELETE` reste ouverte dans `ARB-ORG-00
 
 | PBI | Statut | Blocage |
 | --- | --- | --- |
-| ORG-001 — Créer une organisation | Bloqué | `ARB-ORG-004`, `ARB-ORG-005` |
-| ORG-002 — Consulter les organisations | Bloqué | `ORG-001`, `ARB-ORG-012` |
-| ORG-003 — Modifier une organisation | Bloqué | `ORG-002`, `ARB-ORG-004` |
+| ORG-001 — Créer une organisation | Réalisé | Aucun — livré le 2026-09-24 |
+| ORG-002 — Consulter les organisations | Bloqué | détail par identifiant et périmètre métier multi-organisation à compléter |
+| ORG-003 — Modifier une organisation | Bloqué | `ORG-002` |
 | ORG-004 — Supprimer une organisation | Bloqué | `ORG-002`, `ARB-ORG-005` |
 
 ### EPIC-002 — PBIs Équipes

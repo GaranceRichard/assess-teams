@@ -23,3 +23,11 @@ class User(AbstractUser):
                 name="identity_has_one_business_role_or_is_superuser",
             )
         ]
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    users = models.ManyToManyField(User, related_name="organizations")
+
+    class Meta:
+        ordering = ("name", "pk")

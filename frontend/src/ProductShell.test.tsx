@@ -7,6 +7,9 @@ import { ProductShell } from "./ProductShell";
 vi.mock("./SuperadminDashboard", () => ({
   SuperadminDashboard: () => <div>Gestion Superadmin</div>,
 }));
+vi.mock("./OrganizationPage", () => ({
+  OrganizationPage: () => <div>Gestion des organisations</div>,
+}));
 
 const expectedMenus: Record<UserRole, string[]> = {
   Admin: [
@@ -106,4 +109,7 @@ it("shows user management on Users only and changes theme", () => {
 
   rerender(<ProductShell {...props} path="/users" />);
   expect(screen.getByText("Gestion Superadmin")).toBeVisible();
+
+  rerender(<ProductShell {...props} path="/organization" />);
+  expect(screen.getByText("Gestion des organisations")).toBeVisible();
 });

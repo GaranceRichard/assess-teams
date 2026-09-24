@@ -10,9 +10,9 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | dépend de `FEAT-037` ; `USER-001` est réalisé | N/A |
 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | dépend de `USER-002` | N/A |
 | USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | `ARB-ORG-008` ; dépend de `USER-002` | N/A |
-| ORG-001 — Créer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | `ARB-ORG-004`, `ARB-ORG-005` | N/A |
-| ORG-002 — Consulter les organisations | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | dépend de `ORG-001` ; `ARB-ORG-012` | N/A |
-| ORG-003 — Modifier une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | dépend de `ORG-002` ; `ARB-ORG-004` | N/A |
+| ORG-001 — Créer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |
+| ORG-002 — Consulter les organisations | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | détail par identifiant et périmètre métier multi-organisation à compléter | N/A |
+| ORG-003 — Modifier une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | dépend de `ORG-002` | N/A |
 | ORG-004 — Supprimer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | dépend de `ORG-002` ; `ARB-ORG-005` | N/A |
 | TEAM-001 — Créer une équipe | FEAT-005 — Constituer une équipe | M | Sol — puissance élevée | Bloqué | `ARB-ORG-005`, `ARB-ORG-009` et socle `FEAT-036`–`FEAT-037` | N/A |
 | TEAM-002 — Lister les équipes | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Bloqué | dépend de `TEAM-001` ; `ARB-ORG-012` | N/A |
