@@ -20,4 +20,4 @@ bord. Son toggle illustré soleil/lune applique le thème au document complet et
 navigateur.
 
 La route `/organization`, visible pour les Superadmins et Admins, matérialise le vertical slice
-React → API DRF → ORM pour créer une organisation et ses rattachements utilisateurs multiples.
+React → API DRF → ORM pour créer une organisation, puis ajouter ou retirer ses membres depuis sa fiche.

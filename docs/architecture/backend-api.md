@@ -76,7 +76,7 @@ par e-mail appelle `POST /api/invitations/{uid}/{token}/`; un lien invalide, exp
 reçoit un message distinct. La modification et la suppression du compte connecté du Superadmin sont refusées
 avec `403`.
 
-## Création et consultation des organisations
+## Création, consultation et membres des organisations
 
 `GET /api/admin/organizations/` liste les organisations et leurs utilisateurs affectés. `POST` sur la même
 collection accepte exactement `name` et `user_ids`. Le nom est obligatoire et la liste contient au moins un
@@ -86,3 +86,8 @@ Ces opérations exigent une session active de Superadmin ou d’Admin ; tout aut
 réponse de création retourne `201` avec l’identifiant stable, le nom et les utilisateurs. Les données invalides
 retournent `400` sans persistance partielle. La relation est plusieurs-à-plusieurs : une identité peut figurer
 dans plusieurs organisations.
+
+`PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
+Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur une organisation dont il est
+membre. La liste doit contenir au moins une identité et ne peut pas retirer le dernier Admin existant. Un refus,
+un utilisateur inconnu ou une organisation hors périmètre ne modifie aucun rattachement.

@@ -100,6 +100,7 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
 
     schema = response.json()
     collection = schema["paths"]["/api/admin/organizations/"]
+    members = schema["paths"]["/api/admin/organizations/{organization_id}/members/"]["put"]
     request_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
     component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
 
@@ -108,6 +109,11 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
     assert set(collection["get"]["responses"]) == {"200", "403"}
     assert set(collection["post"]["responses"]) == {"201", "400", "403"}
     assert set(component["required"]) == {"name", "user_ids"}
+    member_schema = members["requestBody"]["content"]["application/json"]["schema"]
+    member_component = schema["components"]["schemas"][member_schema["$ref"].split("/")[-1]]
+    assert {"cookieAuth": []} in members["security"]
+    assert set(members["responses"]) == {"200", "400", "403", "404"}
+    assert set(member_component["required"]) == {"user_ids"}
 
 
 @pytest.mark.api

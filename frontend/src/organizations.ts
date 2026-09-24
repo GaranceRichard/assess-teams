@@ -14,8 +14,8 @@ export type Organization = {
 
 type OrganizationInput = { name: string; user_ids: number[] };
 
-async function request<T>(init?: RequestInit): Promise<T> {
-  const response = await fetch("/api/admin/organizations/", {
+async function request<T>(url: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(url, {
     credentials: "same-origin",
     ...init,
   });
@@ -24,18 +24,32 @@ async function request<T>(init?: RequestInit): Promise<T> {
 }
 
 export function listOrganizations(): Promise<Organization[]> {
-  return request();
+  return request("/api/admin/organizations/");
 }
 
 export function createOrganization(
   input: OrganizationInput,
 ): Promise<Organization> {
-  return request({
+  return request("/api/admin/organizations/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-CSRFToken": csrfToken(),
     },
     body: JSON.stringify(input),
+  });
+}
+
+export function updateOrganizationMembers(
+  organizationId: number,
+  userIds: number[],
+): Promise<Organization> {
+  return request(`/api/admin/organizations/${organizationId}/members/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken(),
+    },
+    body: JSON.stringify({ user_ids: userIds }),
   });
 }

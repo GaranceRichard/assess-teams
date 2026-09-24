@@ -54,8 +54,9 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 ### ARB-ORG-006 — Changement ou transfert d’organisation d’un acteur
 
 - **Décision prise :** aucun changement ne réécrit le contexte organisationnel des faits, affectations ou évaluations historiques ; aucun transfert implicite n’est permis.
-- **Décision à arbitrer — bloquante :** ajout ou retrait ultérieur d’un rattachement, autorité requise, date d’effet et traitement des liens courants.
-- **Backlog bloqué :** raffinement et implémentation des évolutions de rattachement de `FEAT-037` et `FEAT-038` ; règles dépendantes de `FEAT-003`, `FEAT-008` et `FEAT-009`.
+- **Décision prise :** le `Superadmin` peut ajouter ou retirer les membres courants de toute organisation ; un `Admin` le peut pour une organisation à laquelle il est rattaché. La nouvelle liste est appliquée atomiquement et conserve au moins un membre.
+- **Décision prise :** cette gestion du rattachement courant ne date pas les changements et ne réécrit aucun fait historique.
+- **Backlog restant bloqué :** les règles exigeant une date d’effet ou le traitement de liens métier courants dans `FEAT-003`, `FEAT-008` et `FEAT-009`.
 
 ### ARB-ORG-007 — Changement ou transfert d’organisation d’une équipe
 
@@ -67,7 +68,8 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 - **Décision prise :** une organisation ne doit pas perdre silencieusement son administration ni la traçabilité des actions passées.
 - **Décision à arbitrer — bloquante :** peut-on retirer, désactiver ou transférer le dernier `Admin`, sous quelles préconditions et avec quel mécanisme de reprise ?
-- **Backlog bloqué :** raffinement et implémentation des retraits ou changements de rattachement dans `FEAT-037`, ainsi que le retrait d’un `Admin` par `USER-004` lorsqu’il est le dernier `Admin` de son organisation.
+- **Décision conservatoire livrée :** l’édition des membres refuse de retirer le dernier `Admin` existant.
+- **Backlog bloqué :** toute levée de cette protection dans `FEAT-037`, ainsi que le retrait d’un `Admin` par `USER-004` lorsqu’il est le dernier `Admin` de son organisation.
 
 ### ARB-ORG-009 — Portée de l’unicité du nom d’une équipe
 

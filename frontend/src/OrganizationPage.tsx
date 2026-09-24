@@ -1,10 +1,12 @@
 import { type FormEvent, useEffect, useState } from "react";
 
 import { listManagedUsers, type ManagedUser } from "./managedUsers";
+import { OrganizationMembersDialog } from "./OrganizationMembersDialog";
 import {
   createOrganization,
   listOrganizations,
   type Organization,
+  updateOrganizationMembers,
 } from "./organizations";
 import "./organizations.css";
 
@@ -14,6 +16,9 @@ export function OrganizationPage() {
   const [name, setName] = useState("");
   const [userIds, setUserIds] = useState<number[]>([]);
   const [saving, setSaving] = useState(false);
+  const [editingMembers, setEditingMembers] = useState<Organization | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,6 +54,25 @@ export function OrganizationPage() {
       setError("La création de l’organisation a été refusée.");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function saveMembers(selectedUserIds: number[]) {
+    if (!editingMembers) return;
+    try {
+      const updated = await updateOrganizationMembers(
+        editingMembers.id,
+        selectedUserIds,
+      );
+      setOrganizations((current) =>
+        current.map((organization) =>
+          organization.id === updated.id ? updated : organization,
+        ),
+      );
+      setEditingMembers(null);
+      setError(null);
+    } catch {
+      setError("La modification des membres a été refusée.");
     }
   }
 
@@ -102,15 +126,34 @@ export function OrganizationPage() {
           <ul>
             {organizations.map((organization) => (
               <li key={organization.id}>
-                <strong>{organization.name}</strong>
-                <span>
-                  {organization.users.map((user) => user.identifier).join(", ")}
-                </span>
+                <div className="organization-summary">
+                  <strong>{organization.name}</strong>
+                  <span>
+                    {organization.users
+                      .map((user) => user.identifier)
+                      .join(", ")}
+                  </span>
+                </div>
+                <button
+                  className="secondary"
+                  onClick={() => setEditingMembers(organization)}
+                  type="button"
+                >
+                  Gérer les membres
+                </button>
               </li>
             ))}
           </ul>
         )}
       </div>
+      {editingMembers && (
+        <OrganizationMembersDialog
+          onCancel={() => setEditingMembers(null)}
+          onSubmit={saveMembers}
+          organization={editingMembers}
+          users={users}
+        />
+      )}
     </section>
   );
 }

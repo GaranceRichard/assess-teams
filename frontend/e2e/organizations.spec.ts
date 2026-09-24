@@ -12,6 +12,7 @@ test("an Admin creates an organization with several users", async ({
   const organizationName = "Organization E2E";
   seedIdentity("organization-admin-e2e", "Admin");
   seedIdentity("organization-coach-e2e", "Coach");
+  seedIdentity("organization-viewer-e2e", "Viewer");
   resetOrganization(organizationName);
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("organization-admin-e2e");
@@ -32,4 +33,14 @@ test("an Admin creates an organization with several users", async ({
   });
   await expect(organization).toContainText("organization-admin-e2e");
   await expect(organization).toContainText("organization-coach-e2e");
+
+  await organization.getByRole("button", { name: "Gérer les membres" }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByLabel(/organization-coach-e2e/).uncheck();
+  await dialog.getByLabel(/organization-viewer-e2e/).check();
+  await dialog.getByRole("button", { name: "Enregistrer les membres" }).click();
+
+  await expect(organization).toContainText("organization-admin-e2e");
+  await expect(organization).toContainText("organization-viewer-e2e");
+  await expect(organization).not.toContainText("organization-coach-e2e");
 });

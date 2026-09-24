@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { beforeEach, expect, it, vi } from "vitest";
 
 import { OrganizationPage } from "./OrganizationPage";
@@ -7,12 +13,14 @@ const api = vi.hoisted(() => ({
   createOrganization: vi.fn(),
   listManagedUsers: vi.fn(),
   listOrganizations: vi.fn(),
+  updateOrganizationMembers: vi.fn(),
 }));
 
 vi.mock("./managedUsers", () => ({ listManagedUsers: api.listManagedUsers }));
 vi.mock("./organizations", () => ({
   createOrganization: api.createOrganization,
   listOrganizations: api.listOrganizations,
+  updateOrganizationMembers: api.updateOrganizationMembers,
 }));
 
 const users = [
@@ -89,6 +97,68 @@ it("loads existing organizations and can unselect a user", async () => {
   expect(
     screen.getByRole("button", { name: "Créer l’organisation" }),
   ).toBeDisabled();
+});
+
+it("adds and removes members from an existing organization", async () => {
+  api.listOrganizations.mockResolvedValue([
+    {
+      id: 1,
+      name: "Existing",
+      users: [{ id: 1, identifier: "alice", user_type: "Admin" }],
+    },
+  ]);
+  api.updateOrganizationMembers.mockResolvedValue({
+    id: 1,
+    name: "Existing",
+    users: [{ id: 2, identifier: "bob", user_type: "Coach" }],
+  });
+  render(<OrganizationPage />);
+
+  await screen.findByText("Existing");
+  fireEvent.click(screen.getByRole("button", { name: "Gérer les membres" }));
+  const dialog = screen.getByRole("dialog");
+  const alice = within(dialog).getByLabelText(/alice/);
+  const bob = within(dialog).getByLabelText(/bob/);
+  expect(alice).toBeChecked();
+  expect(bob).not.toBeChecked();
+  fireEvent.click(alice);
+  fireEvent.click(bob);
+  fireEvent.click(
+    within(dialog).getByRole("button", { name: "Enregistrer les membres" }),
+  );
+
+  await waitFor(() =>
+    expect(api.updateOrganizationMembers).toHaveBeenCalledWith(1, [2]),
+  );
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  const organizationEntry = screen.getByText("Existing").closest("li");
+  expect(organizationEntry).not.toBeNull();
+  expect(within(organizationEntry!).getByText("bob")).toBeVisible();
+});
+
+it("keeps the member dialog open after a rejected update", async () => {
+  api.listOrganizations.mockResolvedValue([
+    {
+      id: 1,
+      name: "Existing",
+      users: [{ id: 1, identifier: "alice", user_type: "Admin" }],
+    },
+  ]);
+  api.updateOrganizationMembers.mockRejectedValue(new Error("refused"));
+  render(<OrganizationPage />);
+
+  await screen.findByText("Existing");
+  fireEvent.click(screen.getByRole("button", { name: "Gérer les membres" }));
+  const dialog = screen.getByRole("dialog");
+  fireEvent.click(within(dialog).getByLabelText(/bob/));
+  fireEvent.click(
+    within(dialog).getByRole("button", { name: "Enregistrer les membres" }),
+  );
+
+  expect(await screen.findByRole("alert")).toHaveTextContent(
+    "modification des membres a été refusée",
+  );
+  expect(screen.getByRole("dialog")).toBeVisible();
 });
 
 it("reports loading and creation failures", async () => {

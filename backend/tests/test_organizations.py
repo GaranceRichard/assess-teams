@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 from identities.domain.users import Role
 from identities.models import Organization
 from tests.identity_helpers import create_superuser, create_user
-from tests.managed_user_helpers import csrf_post
+from tests.managed_user_helpers import csrf_post, csrf_put
 
 
 def logged_in_client(user) -> APIClient:
@@ -78,3 +78,66 @@ def test_organization_creation_refuses_unauthorized_or_invalid_requests() -> Non
     assert missing_users.status_code == 400
     assert unknown_user.status_code == 400
     assert not Organization.objects.exists()
+
+
+@pytest.mark.django_db
+@pytest.mark.functional
+@pytest.mark.api
+def test_admin_adds_and_removes_organization_members() -> None:
+    admin = create_user("admin", Role.ADMIN)
+    coach = create_user("coach", Role.COACH)
+    viewer = create_user("viewer", Role.VIEWER)
+    organization = Organization.objects.create(name="North")
+    organization.users.set([admin, coach])
+    other = Organization.objects.create(name="Other")
+    other.users.add(coach)
+    client = logged_in_client(admin)
+
+    response = csrf_put(
+        client,
+        reverse("organization-members", kwargs={"organization_id": organization.pk}),
+        {"user_ids": [admin.pk, viewer.pk]},
+    )
+
+    assert response.status_code == 200
+    assert {user["id"] for user in response.json()["users"]} == {admin.pk, viewer.pk}
+    assert set(organization.users.all()) == {admin, viewer}
+    assert set(other.users.all()) == {coach}
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_member_update_refuses_invalid_or_unauthorized_requests() -> None:
+    admin = create_user("admin", Role.ADMIN)
+    other_admin = create_user("other-admin", Role.ADMIN)
+    coach = create_user("coach", Role.COACH)
+    organization = Organization.objects.create(name="North")
+    organization.users.add(admin)
+    route = reverse(
+        "organization-members",
+        kwargs={"organization_id": organization.pk},
+    )
+
+    forbidden = csrf_put(logged_in_client(coach), route, {"user_ids": [coach.pk]})
+    admin_client = logged_in_client(admin)
+    empty = csrf_put(admin_client, route, {"user_ids": []})
+    unknown = csrf_put(admin_client, route, {"user_ids": [99999]})
+    last_admin = csrf_put(admin_client, route, {"user_ids": [coach.pk]})
+    missing = csrf_put(
+        admin_client,
+        reverse("organization-members", kwargs={"organization_id": 99999}),
+        {"user_ids": [admin.pk]},
+    )
+    outside_scope = csrf_put(
+        logged_in_client(other_admin),
+        route,
+        {"user_ids": [other_admin.pk]},
+    )
+
+    assert forbidden.status_code == 403
+    assert empty.status_code == 400
+    assert unknown.status_code == 400
+    assert last_admin.status_code == 400
+    assert missing.status_code == 404
+    assert outside_scope.status_code == 404
+    assert set(organization.users.all()) == {admin}

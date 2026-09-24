@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from identities.domain.users import Role
 from identities.models import Organization, User
 
 
@@ -40,3 +41,25 @@ class CreateOrganizationSerializer(serializers.Serializer):
         organization = Organization.objects.create(**validated_data)
         organization.users.set(users)
         return organization
+
+
+class UpdateOrganizationMembersSerializer(serializers.Serializer):
+    user_ids = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        many=True,
+        allow_empty=False,
+        source="users",
+    )
+
+    def validate(self, attrs: dict) -> dict:
+        had_admin = self.instance.users.filter(role=Role.ADMIN).exists()
+        keeps_admin = any(user.role == Role.ADMIN for user in attrs["users"])
+        if had_admin and not keeps_admin:
+            raise serializers.ValidationError(
+                {"user_ids": "L'organisation doit conserver au moins un Admin."}
+            )
+        return attrs
+
+    def update(self, instance: Organization, validated_data: dict) -> Organization:
+        instance.users.set(validated_data["users"])
+        return instance

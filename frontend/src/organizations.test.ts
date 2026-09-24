@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { createOrganization, listOrganizations } from "./organizations";
+import {
+  createOrganization,
+  listOrganizations,
+  updateOrganizationMembers,
+} from "./organizations";
 
 const organization = {
   id: 1,
@@ -49,6 +53,27 @@ describe("organizations API", () => {
 
     await expect(listOrganizations()).rejects.toThrow(
       "Organization request failed",
+    );
+  });
+
+  it("replaces an organization's members", async () => {
+    document.cookie = "csrftoken=member-token";
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(
+        new Response(JSON.stringify(organization), { status: 200 }),
+      );
+
+    await expect(updateOrganizationMembers(1, [2])).resolves.toEqual(
+      organization,
+    );
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/admin/organizations/1/members/",
+      expect.objectContaining({
+        method: "PUT",
+        body: JSON.stringify({ user_ids: [2] }),
+        headers: expect.objectContaining({ "X-CSRFToken": "member-token" }),
+      }),
     );
   });
 });

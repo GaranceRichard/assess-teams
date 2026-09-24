@@ -102,14 +102,16 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 ### FEAT-037 — Rattacher un Admin à une organisation
 
 - **Intention métier :** rendre explicite le périmètre dans lequel un `Admin` peut administrer le dispositif.
-- **Acteur concerné :** `Superadmin` ou `Admin` pour le rattachement initial ; l’autorité des évolutions ultérieures reste à décider.
+- **Acteur concerné :** `Superadmin` pour toute organisation ; `Admin` pour une organisation à laquelle il est rattaché.
 - **Description :** créer, faire évoluer et retracer les rattachements d’un `Admin` à des organisations existantes.
 - **Critères d’acceptation principaux :**
   - un `Admin` peut être rattaché à une ou plusieurs organisations ;
+  - les membres courants peuvent être ajoutés ou retirés atomiquement depuis le menu Organisation ;
+  - le dernier `Admin` existant d’une organisation ne peut pas être retiré ;
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
   - une opération métier d’un `Admin` est limitée au rattachement actif applicable ;
   - l’historique permet de déterminer le rattachement applicable à une action passée.
-- **Décisions produit bloquantes :** `ARB-ORG-006`, `ARB-ORG-008` et `ARB-ORG-011` pour les évolutions ultérieures et le périmètre actif. Le rattachement initial multiple est livré avec `ORG-001`.
+- **Décisions produit bloquantes :** `ARB-ORG-008` et `ARB-ORG-011` pour la levée éventuelle de la protection du dernier Admin, l’historisation et le périmètre actif. Le rattachement initial multiple et l’édition du rattachement courant sont livrés.
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -121,10 +123,11 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Description :** créer, faire évoluer et retracer le rattachement d’un `Coach` à une organisation existante.
 - **Critères d’acceptation principaux :**
   - un `Coach` n’est proposé pour une affectation qu’à une équipe de la même organisation ;
+  - le rattachement courant peut être ajouté ou retiré atomiquement depuis le menu Organisation ;
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
   - un changement ne réécrit pas l’organisation des affectations et évaluations historiques ;
   - aucune affectation interorganisation implicite n’est possible.
-- **Décisions produit bloquantes :** `ARB-ORG-006` et `ARB-ORG-011` pour les évolutions ultérieures et le périmètre actif. Le rattachement initial multiple est livré avec `ORG-001`.
+- **Décisions produit bloquantes :** `ARB-ORG-006` et `ARB-ORG-011` pour les changements datés, leurs effets sur les liens métier et le périmètre actif. Le rattachement initial multiple et l’édition du rattachement courant sont livrés.
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
