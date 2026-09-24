@@ -20,13 +20,19 @@ const pending = {
   pending: true,
 };
 
+const actor = {
+  username: "root",
+  role: "Admin" as const,
+  is_superuser: true,
+};
+
 beforeEach(() => {
   vi.clearAllMocks();
   api.listManagedUsers.mockResolvedValue([pending]);
 });
 
 it("lists every field and cancels creation by clicking outside", async () => {
-  const { container } = render(<SuperadminDashboard />);
+  const { container } = render(<SuperadminDashboard actor={actor} />);
 
   expect(await screen.findByText("alice")).toBeVisible();
   expect(screen.getByText("alice@example.com")).toBeVisible();
@@ -49,7 +55,7 @@ it("creates a user with the selected business role", async () => {
     identifier: "bob",
     email: "bob@example.com",
   });
-  render(<SuperadminDashboard />);
+  render(<SuperadminDashboard actor={actor} />);
   await screen.findByText("alice");
 
   fireEvent.click(
@@ -80,7 +86,7 @@ it("updates then confirms deletion", async () => {
   const updated = { ...pending, identifier: "alice-updated", pending: false };
   api.updateManagedUser.mockResolvedValue(updated);
   api.deleteManagedUser.mockResolvedValue(undefined);
-  render(<SuperadminDashboard />);
+  render(<SuperadminDashboard actor={actor} />);
   await screen.findByText("alice");
 
   fireEvent.click(screen.getByRole("button", { name: "Modifier" }));
@@ -99,7 +105,7 @@ it("updates then confirms deletion", async () => {
 });
 
 it("cancels or reports a refused deletion", async () => {
-  const { container } = render(<SuperadminDashboard />);
+  const { container } = render(<SuperadminDashboard actor={actor} />);
   await screen.findByText("alice");
   fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
   fireEvent.mouseDown(container.querySelector(".dialog-backdrop")!);
@@ -117,7 +123,7 @@ it("cancels or reports a refused deletion", async () => {
 
 it("shows loading and mutation failures while preserving the dialog", async () => {
   api.listManagedUsers.mockRejectedValue(new Error("offline"));
-  render(<SuperadminDashboard />);
+  render(<SuperadminDashboard actor={actor} />);
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger",
   );

@@ -5,14 +5,17 @@ import type { ManagedUser, UserInput } from "./managedUsers";
 
 type Props = {
   user?: ManagedUser;
+  allowedRoles: UserRole[];
   onCancel: () => void;
   onSubmit: (input: UserInput) => Promise<void>;
 };
 
-export function UserDialog({ user, onCancel, onSubmit }: Props) {
+export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
   const [identifier, setIdentifier] = useState(user?.identifier ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
-  const [role, setRole] = useState<UserRole>("Viewer");
+  const initialRole =
+    user && user.user_type !== "Superadmin" ? user.user_type : allowedRoles[0];
+  const [role, setRole] = useState<UserRole | undefined>(initialRole);
   const [saving, setSaving] = useState(false);
 
   function closeBackdrop(event: MouseEvent<HTMLDivElement>) {
@@ -22,7 +25,8 @@ export function UserDialog({ user, onCancel, onSubmit }: Props) {
   async function submit(event: FormEvent) {
     event.preventDefault();
     setSaving(true);
-    await onSubmit(user ? { identifier, email } : { identifier, email, role });
+    const roleInput = allowedRoles.length > 0 ? { role } : {};
+    await onSubmit({ identifier, email, ...roleInput });
     setSaving(false);
   }
 
@@ -53,7 +57,7 @@ export function UserDialog({ user, onCancel, onSubmit }: Props) {
             onChange={(event) => setEmail(event.target.value)}
             required
           />
-          {!user && (
+          {allowedRoles.length > 0 && (
             <>
               <label htmlFor="managed-role">Type utilisateur</label>
               <select
@@ -61,9 +65,9 @@ export function UserDialog({ user, onCancel, onSubmit }: Props) {
                 value={role}
                 onChange={(event) => setRole(event.target.value as UserRole)}
               >
-                <option>Admin</option>
-                <option>Coach</option>
-                <option>Viewer</option>
+                {allowedRoles.map((allowedRole) => (
+                  <option key={allowedRole}>{allowedRole}</option>
+                ))}
               </select>
             </>
           )}

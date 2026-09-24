@@ -64,8 +64,8 @@ export function ProductShell({
             Se déconnecter
           </button>
         </header>
-        {user.is_superuser && path === "/users" ? (
-          <SuperadminDashboard />
+        {authorized && path === "/users" ? (
+          <SuperadminDashboard actor={user} />
         ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>

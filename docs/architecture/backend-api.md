@@ -57,17 +57,21 @@ Le frontend n'affiche que les menus associés à la fonction. La permission de r
 capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Les pages livrées dans ce parcours ne
 contiennent que des placeholders et n'exposent aucune donnée métier.
 
-## Gestion des identités par le Superadmin
+## Gestion hiérarchique des identités
 
-`GET` et `POST /api/admin/users/`, puis `PUT` et `DELETE /api/admin/users/{user_id}/`, exigent une session
-Django active, un jeton CSRF pour les écritures et le statut technique `is_superuser`. Ils listent toutes les
-identités, créent une invitation, modifient l'identifiant de connexion et l'adresse e-mail, ou suppriment le
-compte ciblé. Dans cette interface, la colonne « Identifiant » correspond à `username` et reste distincte du
-mail. Un Admin
-métier sans ce statut reçoit `403`; masquer l'interface ne constitue pas le contrôle d'accès.
+`GET /api/admin/users/` exige une session active et autorise le Superadmin, l'Admin et le Coach à consulter la
+même liste complète. `POST` sur cette collection, puis `PUT` et `DELETE /api/admin/users/{user_id}/`, exigent
+en plus le jeton CSRF et appliquent les autorisations côté serveur ; masquer un bouton ne constitue jamais le
+contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
+
+Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite,
+modifie et supprime uniquement des Coachs ou Viewers ; lors d'une modification, il peut choisir l'une de ces
+deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer, sans changer
+sa fonction. Toute tentative hors de cette hiérarchie retourne `403`.
 
 Une invitation crée un compte actif portant exactement le rôle Admin, Coach ou Viewer, mais doté d'un mot de
 passe inutilisable. Le champ `pending` reste vrai jusqu'à la définition du mot de passe. Le lien signé envoyé
 par e-mail appelle `POST /api/invitations/{uid}/{token}/`; un lien invalide, expiré ou déjà consommé retourne
 `400`. En cas de changement d'adresse, l'ancienne adresse reçoit une information sans lien et la nouvelle
-reçoit un message distinct. La suppression du Superadmin connecté est refusée avec `400`.
+reçoit un message distinct. La modification et la suppression du compte connecté du Superadmin sont refusées
+avec `403`.

@@ -8,9 +8,10 @@ describe("role capabilities", () => {
     expect(canAccess("Admin", routeFor("/teams")!)).toBe(true);
   });
 
-  it("lets Coach inherit Viewer routes but not Admin routes", () => {
+  it("lets Coach access user management and inherit Viewer routes", () => {
     expect(canAccess("Coach", routeFor("/teams")!)).toBe(true);
-    expect(canAccess("Coach", routeFor("/users")!)).toBe(false);
+    expect(canAccess("Coach", routeFor("/users")!)).toBe(true);
+    expect(canAccess("Coach", routeFor("/organization")!)).toBe(false);
   });
 
   it("limits Viewer to consultation routes", () => {

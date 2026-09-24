@@ -88,7 +88,7 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
     assert set(create_component["required"]) == {"identifier", "email", "role"}
     assert "name" not in create_component["properties"]
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}
+    assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
     assert "security" not in invitation
     assert set(invitation["responses"]) == {"204", "400", "403"}
 

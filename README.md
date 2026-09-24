@@ -40,6 +40,10 @@ un rôle métier supplémentaire. La déconnexion invalide la session et ramène
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
 soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatrième rôle métier.
 
+La gestion des utilisateurs suit la hiérarchie des fonctions : le Superadmin
+gère les autres comptes sans modifier ni supprimer le sien, l'Admin gère uniquement les Coachs et Viewers,
+et le Coach gère uniquement les Viewers sans pouvoir changer leur fonction.
+
 ## Installation
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Windows, macOS ou Linux.

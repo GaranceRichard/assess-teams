@@ -8,11 +8,12 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from identities.adapters.api.admin_permissions import IsSuperadmin
+from identities.adapters.api.admin_permissions import CanViewManagedUsers, actor_for
 from identities.adapters.api.admin_serializers import (
     ChoosePasswordSerializer,
     InviteUserSerializer,
@@ -25,19 +26,28 @@ from identities.application.invitations import (
     send_invitation,
     send_update_notice,
 )
+from identities.domain.managed_users import can_invite_managed_user, can_manage_user
+from identities.domain.users import Role
 from identities.models import User
 
 
 class ManagedUserListCreateView(APIView):
     authentication_classes = [SessionAuthentication]
-    permission_classes = [IsSuperadmin]
+    permission_classes = [CanViewManagedUsers]
 
-    @extend_schema(responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()})
+    @extend_schema(
+        description="Liste les identités pour un Superadmin, un Admin ou un Coach actif.",
+        responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
+    )
     def get(self, request):
         users = User.objects.order_by("username", "email", "pk")
         return Response(ManagedUserSerializer(users, many=True).data)
 
     @extend_schema(
+        description=(
+            "Invite un utilisateur. Le Superadmin choisit toute fonction métier ; "
+            "l'Admin choisit uniquement Coach ou Viewer."
+        ),
         request=InviteUserSerializer,
         responses={201: ManagedUserSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
     )
@@ -46,6 +56,8 @@ class ManagedUserListCreateView(APIView):
         serializer = InviteUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
+        if not can_invite_managed_user(actor_for(request.user), Role(data["role"])):
+            raise PermissionDenied("Cette fonction ne peut pas être créée.")
         user = User(
             username=data["identifier"],
             email=data["email"],
@@ -60,12 +72,16 @@ class ManagedUserListCreateView(APIView):
 
 class ManagedUserDetailView(APIView):
     authentication_classes = [SessionAuthentication]
-    permission_classes = [IsSuperadmin]
+    permission_classes = [CanViewManagedUsers]
 
     def _user(self, user_id: int) -> User:
         return get_object_or_404(User, pk=user_id)
 
     @extend_schema(
+        description=(
+            "Modifie une identité autorisée et, selon la fonction de l'appelant, "
+            "sa fonction métier."
+        ),
         request=UpdateManagedUserSerializer,
         responses={
             200: ManagedUserSerializer,
@@ -82,33 +98,47 @@ class ManagedUserDetailView(APIView):
             context={"user": user},
         )
         serializer.is_valid(raise_exception=True)
+        role_value = serializer.validated_data.get("role", user.role)
+        requested_role = Role(role_value) if role_value else None
+        if not self._can_manage(request, user, requested_role):
+            raise PermissionDenied("Vous ne pouvez pas modifier cet utilisateur.")
         previous_email = user.email
         user.username = serializer.validated_data["identifier"]
         user.email = serializer.validated_data["email"]
-        user.save(update_fields=["email", "username"])
+        if not user.is_superuser:
+            user.role = requested_role.value
+        user.save(update_fields=["email", "role", "username"])
         transaction.on_commit(lambda: send_update_notice(user, previous_email))
         return Response(ManagedUserSerializer(user).data)
 
     @extend_schema(
+        description="Supprime une identité que la fonction de l'appelant peut administrer.",
         responses={
             204: None,
-            400: OpenApiResponse(),
             403: OpenApiResponse(),
             404: OpenApiResponse(),
-        }
+        },
     )
     @transaction.atomic
     def delete(self, request, user_id: int):
         user = self._user(user_id)
-        if user.pk == request.user.pk:
-            return Response(
-                {"detail": "Le Superadmin connecté ne peut pas supprimer son propre compte."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        if not self._can_manage(request, user):
+            raise PermissionDenied("Vous ne pouvez pas supprimer cet utilisateur.")
         identifier, email = user.username, user.email
         user.delete()
         transaction.on_commit(lambda: send_deletion_notice(identifier, email))
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @staticmethod
+    def _can_manage(request, user: User, requested_role: Role | None = None) -> bool:
+        target_role = Role(user.role) if user.role else None
+        return can_manage_user(
+            actor_for(request.user),
+            target_is_self=user.pk == request.user.pk,
+            target_is_superuser=user.is_superuser,
+            target_role=target_role,
+            requested_role=requested_role,
+        )
 
 
 @method_decorator(csrf_protect, name="dispatch")

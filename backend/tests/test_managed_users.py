@@ -132,7 +132,7 @@ def test_superadmin_cannot_delete_self() -> None:
 
     response = client.delete(route, HTTP_X_CSRFTOKEN=client.cookies["csrftoken"].value)
 
-    assert response.status_code == 400
+    assert response.status_code == 403
     assert User.objects.filter(pk=root.pk).exists()
 
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import type { SessionUser } from "./auth";
 import { ConfirmDialog } from "./ConfirmDialog";
 import {
   deleteManagedUser,
@@ -10,13 +11,21 @@ import {
   updateManagedUser,
 } from "./managedUsers";
 import { UserDialog } from "./UserDialog";
+import {
+  canManageTarget,
+  creationRoles,
+  editableRoles,
+} from "./userManagementPermissions";
 import "./admin-users.css";
 
-export function SuperadminDashboard() {
+type Props = { actor: SessionUser };
+
+export function SuperadminDashboard({ actor }: Props) {
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [editing, setEditing] = useState<ManagedUser | "new" | null>(null);
   const [deleting, setDeleting] = useState<ManagedUser | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const allowedCreationRoles = creationRoles(actor);
 
   useEffect(() => {
     listManagedUsers()
@@ -61,13 +70,15 @@ export function SuperadminDashboard() {
           <p className="eyebrow">Administration</p>
           <h1>Utilisateurs</h1>
         </div>
-        <button
-          aria-label="Ajouter un utilisateur"
-          className="add-user"
-          onClick={() => setEditing("new")}
-        >
-          +
-        </button>
+        {allowedCreationRoles.length > 0 && (
+          <button
+            aria-label="Ajouter un utilisateur"
+            className="add-user"
+            onClick={() => setEditing("new")}
+          >
+            +
+          </button>
+        )}
       </div>
       {error && (
         <p className="form-error" role="alert">
@@ -94,18 +105,22 @@ export function SuperadminDashboard() {
                 <td>{user.email}</td>
                 <td>{user.user_type}</td>
                 <td className="row-actions">
-                  <button
-                    className="secondary"
-                    onClick={() => setEditing(user)}
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    className="danger-outline"
-                    onClick={() => setDeleting(user)}
-                  >
-                    Supprimer
-                  </button>
+                  {canManageTarget(actor, user) && (
+                    <>
+                      <button
+                        className="secondary"
+                        onClick={() => setEditing(user)}
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        className="danger-outline"
+                        onClick={() => setDeleting(user)}
+                      >
+                        Supprimer
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
@@ -115,6 +130,11 @@ export function SuperadminDashboard() {
       {editing && (
         <UserDialog
           user={editing === "new" ? undefined : editing}
+          allowedRoles={
+            editing === "new"
+              ? allowedCreationRoles
+              : editableRoles(actor, editing)
+          }
           onCancel={() => setEditing(null)}
           onSubmit={save}
         />

@@ -41,6 +41,7 @@ class InviteUserSerializer(serializers.Serializer):
 class UpdateManagedUserSerializer(serializers.Serializer):
     identifier = serializers.CharField(max_length=150, allow_blank=False)
     email = serializers.EmailField(max_length=254)
+    role = serializers.ChoiceField(choices=Role.values(), required=False)
 
     def validate_identifier(self, value: str) -> str:
         identifier = value.strip()
