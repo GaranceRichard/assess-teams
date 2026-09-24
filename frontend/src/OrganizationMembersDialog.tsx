@@ -6,6 +6,7 @@ import type { Organization } from "./organizations";
 type Props = {
   organization: Organization;
   users: ManagedUser[];
+  unavailableUserIds: Set<number>;
   onCancel: () => void;
   onSubmit: (userIds: number[]) => Promise<void>;
 };
@@ -13,6 +14,7 @@ type Props = {
 export function OrganizationMembersDialog({
   organization,
   users,
+  unavailableUserIds,
   onCancel,
   onSubmit,
 }: Props) {
@@ -48,17 +50,25 @@ export function OrganizationMembersDialog({
         <h2 id="organization-members-title">Membres de {organization.name}</h2>
         <p>Sélectionnez au moins un membre.</p>
         <div className="organization-users">
-          {users.map((user) => (
-            <label key={user.id}>
-              <input
-                checked={userIds.includes(user.id)}
-                onChange={() => toggleUser(user.id)}
-                type="checkbox"
-              />
-              <span>{user.identifier}</span>
-              <small>{user.user_type}</small>
-            </label>
-          ))}
+          {users.map((user) => {
+            const selected = userIds.includes(user.id);
+            const unavailable = unavailableUserIds.has(user.id) && !selected;
+            return (
+              <label key={user.id}>
+                <input
+                  checked={selected}
+                  disabled={unavailable}
+                  onChange={() => toggleUser(user.id)}
+                  type="checkbox"
+                />
+                <span>{user.identifier}</span>
+                <small>
+                  {user.user_type}
+                  {unavailable ? " · déjà affecté" : ""}
+                </small>
+              </label>
+            );
+          })}
         </div>
         <div className="organization-dialog-actions">
           <button className="secondary" onClick={onCancel} type="button">

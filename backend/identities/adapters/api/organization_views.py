@@ -39,7 +39,8 @@ class OrganizationListCreateView(APIView):
     @extend_schema(
         description=(
             "Crée une organisation et l'affecte à un ou plusieurs utilisateurs. "
-            "Un utilisateur peut appartenir à plusieurs organisations."
+            "Un Admin peut appartenir à plusieurs organisations ; un Coach ou "
+            "un Viewer appartient au plus à une organisation."
         ),
         request=CreateOrganizationSerializer,
         responses={
@@ -66,7 +67,8 @@ class OrganizationMemberUpdateView(APIView):
     @extend_schema(
         description=(
             "Remplace les membres d'une organisation pour un Superadmin ou un "
-            "Admin actif. Au moins un membre et tout dernier Admin sont conservés."
+            "Admin actif. Au moins un membre et tout dernier Admin sont conservés ; "
+            "un Coach ou Viewer déjà rattaché ailleurs est refusé."
         ),
         request=UpdateOrganizationMembersSerializer,
         responses={

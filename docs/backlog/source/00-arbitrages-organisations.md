@@ -20,8 +20,9 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-001 — Cardinalité d’appartenance d’une identité
 
-- **Décision prise :** toute identité peut appartenir explicitement à une ou plusieurs organisations.
+- **Décision prise :** un `Admin` peut appartenir explicitement à une ou plusieurs organisations ; un `Coach` ou un `Viewer` appartient au plus à une organisation.
 - **Décision prise :** une création d’organisation accepte un ou plusieurs utilisateurs et crée tous ces rattachements atomiquement.
+- **Décision prise :** l’ajout dans une seconde organisation d’un `Coach` ou d’un `Viewer`, ainsi que la conversion d’un `Admin` multi-organisation vers l’un de ces rôles, sont refusés atomiquement.
 - **Arbitrage résolu :** la cardinalité ne bloque plus `FEAT-037`, `FEAT-038` ni leurs parcours dépendants ; le choix d’un périmètre actif reste traité par `ARB-ORG-011`.
 
 ### ARB-ORG-002 — Création de la première organisation

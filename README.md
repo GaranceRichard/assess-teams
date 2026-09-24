@@ -41,7 +41,7 @@ et le Coach gère uniquement les Viewers sans pouvoir changer leur fonction.
 ## Périmètre livré — gestion des organisations
 
 Le menu Organisations est accessible aux Superadmins et aux Admins. Il permet de créer et renommer une organisation,
-d’ajouter ou retirer ses membres ; le Superadmin peut aussi la supprimer sans supprimer ses utilisateurs.
+d’ajouter ou retirer ses membres ; le Superadmin peut la supprimer, un Admin être multi-organisation, un Coach ou Viewer appartenir au plus à une organisation.
 
 ## Installation
 

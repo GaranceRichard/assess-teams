@@ -12,7 +12,7 @@ export type Organization = {
   users: OrganizationMember[];
 };
 
-type OrganizationInput = { name: string; user_ids: number[] };
+export type OrganizationInput = { name: string; user_ids: number[] };
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {

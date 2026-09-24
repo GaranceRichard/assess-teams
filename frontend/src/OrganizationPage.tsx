@@ -1,9 +1,11 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { listManagedUsers, type ManagedUser } from "./managedUsers";
+import { OrganizationCreateForm } from "./OrganizationCreateForm";
 import { OrganizationDeleteDialog } from "./OrganizationDeleteDialog";
 import { OrganizationList } from "./OrganizationList";
 import { OrganizationMembersDialog } from "./OrganizationMembersDialog";
+import { unavailableSingleOrganizationUserIds } from "./organizationMemberships";
 import { OrganizationRenameDialog } from "./OrganizationRenameDialog";
 import {
   createOrganization,
@@ -11,6 +13,7 @@ import {
   listOrganizations,
   renameOrganization,
   type Organization,
+  type OrganizationInput,
   updateOrganizationMembers,
 } from "./organizations";
 import "./organizations.css";
@@ -20,9 +23,6 @@ type Props = { isSuperadmin?: boolean };
 export function OrganizationPage({ isSuperadmin = false }: Props) {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [users, setUsers] = useState<ManagedUser[]>([]);
-  const [name, setName] = useState("");
-  const [userIds, setUserIds] = useState<number[]>([]);
-  const [saving, setSaving] = useState(false);
   const [editingMembers, setEditingMembers] = useState<Organization | null>(
     null,
   );
@@ -39,30 +39,15 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
       .catch(() => setError("Impossible de charger les organisations."));
   }, []);
 
-  function toggleUser(id: number) {
-    setUserIds((current) =>
-      current.includes(id)
-        ? current.filter((currentId) => currentId !== id)
-        : [...current, id],
-    );
-  }
-
-  async function submit(event: FormEvent) {
-    event.preventDefault();
-    setSaving(true);
+  async function create(input: OrganizationInput): Promise<boolean> {
     try {
-      const organization = await createOrganization({
-        name,
-        user_ids: userIds,
-      });
+      const organization = await createOrganization(input);
       setOrganizations((current) => [...current, organization]);
-      setName("");
-      setUserIds([]);
       setError(null);
+      return true;
     } catch {
       setError("La création de l’organisation a été refusée.");
-    } finally {
-      setSaving(false);
+      return false;
     }
   }
 
@@ -126,37 +111,11 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
           {error}
         </p>
       )}
-      <form className="organization-form" onSubmit={submit}>
-        <h2>Créer une organisation</h2>
-        <label htmlFor="organization-name">Nom</label>
-        <input
-          id="organization-name"
-          maxLength={255}
-          onChange={(event) => setName(event.target.value)}
-          required
-          value={name}
-        />
-        <fieldset>
-          <legend>Utilisateurs</legend>
-          <p>Sélectionnez au moins un utilisateur.</p>
-          <div className="organization-users">
-            {users.map((user) => (
-              <label key={user.id}>
-                <input
-                  checked={userIds.includes(user.id)}
-                  onChange={() => toggleUser(user.id)}
-                  type="checkbox"
-                />
-                <span>{user.identifier}</span>
-                <small>{user.user_type}</small>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <button disabled={saving || !name.trim() || userIds.length === 0}>
-          {saving ? "Création…" : "Créer l’organisation"}
-        </button>
-      </form>
+      <OrganizationCreateForm
+        onSubmit={create}
+        unavailableUserIds={unavailableSingleOrganizationUserIds(organizations)}
+        users={users}
+      />
       <OrganizationList
         isSuperadmin={isSuperadmin}
         onDelete={setDeleting}
@@ -169,6 +128,10 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
           onCancel={() => setEditingMembers(null)}
           onSubmit={saveMembers}
           organization={editingMembers}
+          unavailableUserIds={unavailableSingleOrganizationUserIds(
+            organizations,
+            editingMembers.id,
+          )}
           users={users}
         />
       )}

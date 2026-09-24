@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from identities.domain.users import Role
-from identities.models import User
+from identities.models import Organization, User
 from tests.identity_helpers import create_superuser, create_user
 from tests.managed_user_helpers import csrf_post, csrf_put
 
@@ -137,6 +137,26 @@ def test_superadmin_cannot_update_or_delete_self() -> None:
     assert update(client, root).status_code == 403
     assert delete(client, root).status_code == 403
     assert User.objects.filter(pk=root.pk).exists()
+
+
+@pytest.mark.django_db
+@pytest.mark.functional
+@pytest.mark.api
+@pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
+def test_role_change_refuses_multi_organization_coach_or_viewer(role) -> None:
+    root = create_superuser()
+    admin = create_user("admin", Role.ADMIN)
+    first = Organization.objects.create(name="First")
+    second = Organization.objects.create(name="Second")
+    first.users.add(admin)
+    second.users.add(admin)
+
+    response = update(logged_in_client(root), admin, role)
+
+    admin.refresh_from_db()
+    assert response.status_code == 400
+    assert admin.role == Role.ADMIN.value
+    assert admin.organizations.count() == 2
 
 
 @pytest.mark.django_db

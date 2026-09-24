@@ -40,21 +40,46 @@ def test_superadmin_creates_an_organization_with_several_users() -> None:
 @pytest.mark.django_db
 @pytest.mark.functional
 @pytest.mark.api
-def test_admin_creates_organizations_with_a_shared_user_and_lists_them() -> None:
+def test_admin_creates_organizations_with_a_shared_admin_and_lists_them() -> None:
     admin = create_user("admin", Role.ADMIN)
     viewer = create_user("viewer", Role.VIEWER)
     client = logged_in_client(admin)
     route = reverse("organization-list")
 
-    first = csrf_post(client, route, {"name": "East", "user_ids": [viewer.pk]})
-    second = csrf_post(client, route, {"name": "West", "user_ids": [viewer.pk]})
+    first = csrf_post(
+        client,
+        route,
+        {"name": "East", "user_ids": [admin.pk, viewer.pk]},
+    )
+    second = csrf_post(client, route, {"name": "West", "user_ids": [admin.pk]})
     listed = client.get(route)
 
     assert first.status_code == 201
     assert second.status_code == 201
     assert listed.status_code == 200
     assert [entry["name"] for entry in listed.json()] == ["East", "West"]
-    assert viewer.organizations.count() == 2
+    assert admin.organizations.count() == 2
+    assert viewer.organizations.count() == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+@pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
+def test_creation_refuses_a_second_organization_for_coach_or_viewer(role) -> None:
+    root = create_superuser()
+    member = create_user("member", role)
+    existing = Organization.objects.create(name="Existing")
+    existing.users.add(member)
+
+    response = csrf_post(
+        logged_in_client(root),
+        reverse("organization-list"),
+        {"name": "Blocked", "user_ids": [member.pk]},
+    )
+
+    assert response.status_code == 400
+    assert list(member.organizations.all()) == [existing]
+    assert not Organization.objects.filter(name="Blocked").exists()
 
 
 @pytest.mark.django_db
@@ -113,6 +138,8 @@ def test_member_update_refuses_invalid_or_unauthorized_requests() -> None:
     coach = create_user("coach", Role.COACH)
     organization = Organization.objects.create(name="North")
     organization.users.add(admin)
+    other = Organization.objects.create(name="Other")
+    other.users.add(coach)
     route = reverse(
         "organization-members",
         kwargs={"organization_id": organization.pk},
@@ -123,6 +150,11 @@ def test_member_update_refuses_invalid_or_unauthorized_requests() -> None:
     empty = csrf_put(admin_client, route, {"user_ids": []})
     unknown = csrf_put(admin_client, route, {"user_ids": [99999]})
     last_admin = csrf_put(admin_client, route, {"user_ids": [coach.pk]})
+    duplicate_membership = csrf_put(
+        admin_client,
+        route,
+        {"user_ids": [admin.pk, coach.pk]},
+    )
     missing = csrf_put(
         admin_client,
         reverse("organization-members", kwargs={"organization_id": 99999}),
@@ -138,6 +170,7 @@ def test_member_update_refuses_invalid_or_unauthorized_requests() -> None:
     assert empty.status_code == 400
     assert unknown.status_code == 400
     assert last_admin.status_code == 400
+    assert duplicate_membership.status_code == 400
     assert missing.status_code == 404
     assert outside_scope.status_code == 404
     assert set(organization.users.all()) == {admin}

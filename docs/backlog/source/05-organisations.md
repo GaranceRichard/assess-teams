@@ -13,18 +13,19 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Titre :** Créer une organisation.
 - **User story :** en tant que `Superadmin` ou `Admin`, je veux créer une organisation et y affecter des utilisateurs afin d’établir leur périmètre métier.
 - **Intention métier :** établir un périmètre organisationnel identifiable et durable.
-- **Description :** exposer la création d’une organisation à partir de son `nom` et d’au moins un utilisateur existant. Le système lui attribue un identifiant technique stable et persiste atomiquement tous les rattachements. Une identité peut appartenir à plusieurs organisations.
+- **Description :** exposer la création d’une organisation à partir de son `nom` et d’au moins un utilisateur existant. Le système lui attribue un identifiant technique stable et persiste atomiquement tous les rattachements. Un `Admin` peut appartenir à plusieurs organisations ; un `Coach` ou un `Viewer` appartient au plus à une organisation.
 - **Critères d’acceptation :**
   - un `Superadmin` ou un `Admin` peut créer une organisation depuis le menu Organisation ;
   - un `Coach` ou un `Viewer` ne peut pas créer d’organisation ;
   - `nom` est la seule donnée métier obligatoire à la création ;
   - une organisation valide reçoit un identifiant technique stable ;
   - un ou plusieurs utilisateurs existants sont affectés dans la même transaction ;
-  - un utilisateur peut appartenir à plusieurs organisations ;
+  - un `Admin` peut appartenir à plusieurs organisations ;
+  - un `Coach` ou un `Viewer` déjà rattaché à une organisation ne peut pas être affecté à une seconde ;
   - le `Superadmin` peut créer la première organisation avant qu’un `Admin` rattaché existe ;
   - une création refusée ne persiste aucune donnée partielle ;
   - deux organisations distinctes peuvent porter le même nom.
-- **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `nom` absent ou invalide ; aucun utilisateur ; identifiant utilisateur inexistant.
+- **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `nom` absent ou invalide ; aucun utilisateur ; identifiant utilisateur inexistant ; `Coach` ou `Viewer` déjà rattaché à une autre organisation.
 - **Décisions produit bloquantes :** aucune pour la création.
 - **Dépendances :** aucune.
 - **Priorité :** P0.
@@ -122,11 +123,12 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Description :** créer, faire évoluer et retracer le rattachement d’un `Coach` à une organisation existante.
 - **Critères d’acceptation principaux :**
   - un `Coach` n’est proposé pour une affectation qu’à une équipe de la même organisation ;
+  - un `Coach` appartient au plus à une organisation et ne peut pas être ajouté à une seconde ;
   - le rattachement courant peut être ajouté ou retiré atomiquement depuis le menu Organisation ;
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
   - un changement ne réécrit pas l’organisation des affectations et évaluations historiques ;
   - aucune affectation interorganisation implicite n’est possible.
-- **Décisions produit bloquantes :** `ARB-ORG-006` et `ARB-ORG-011` pour les changements datés, leurs effets sur les liens métier et le périmètre actif. Le rattachement initial multiple et l’édition du rattachement courant sont livrés.
+- **Décisions produit bloquantes :** `ARB-ORG-006` pour les changements datés et leurs effets sur les liens métier. Le rattachement unique courant et son édition sont livrés.
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.

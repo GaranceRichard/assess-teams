@@ -84,8 +84,8 @@ identifiant utilisateur existant. La création de l’organisation et de tous se
 
 Ces opérations exigent une session active de Superadmin ou d’Admin ; tout autre acteur reçoit `403`. Une
 réponse de création retourne `201` avec l’identifiant stable, le nom et les utilisateurs. Les données invalides
-retournent `400` sans persistance partielle. La relation est plusieurs-à-plusieurs : une identité peut figurer
-dans plusieurs organisations.
+retournent `400` sans persistance partielle. Un Admin peut figurer dans plusieurs organisations ; un Coach ou
+un Viewer appartient au plus à une organisation. Une création qui enfreint cette cardinalité retourne `400`.
 
 `PUT /api/admin/organizations/{organization_id}/` accepte exactement `name` et renomme l’organisation sans
 modifier son identifiant ni ses membres. Le nom est nettoyé de ses espaces périphériques et reste obligatoire.
@@ -100,5 +100,10 @@ protéger explicitement ses données contre une cascade silencieuse.
 
 `PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
 Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur une organisation dont il est
-membre. La liste doit contenir au moins une identité et ne peut pas retirer le dernier Admin existant. Un refus,
-un utilisateur inconnu ou une organisation hors périmètre ne modifie aucun rattachement.
+membre. La liste doit contenir au moins une identité, ne peut pas retirer le dernier Admin existant et refuse
+un Coach ou Viewer déjà membre d’une autre organisation. Un refus, un utilisateur inconnu ou une organisation
+hors périmètre ne modifie aucun rattachement.
+
+`PUT /api/admin/users/{user_id}/` refuse également avec `400` la conversion d’un Admin rattaché à plusieurs
+organisations en Coach ou Viewer. Les éventuels rattachements historiques déjà incohérents ne sont jamais
+supprimés arbitrairement : ils peuvent être retirés explicitement depuis le menu Organisation.

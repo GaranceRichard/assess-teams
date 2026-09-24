@@ -4,7 +4,7 @@ Ce document est la source fonctionnelle canonique des concepts partagés par plu
 
 ## Organisation
 
-Le système gère plusieurs organisations. Une **Organisation** est le périmètre métier auquel sont rattachés les utilisateurs et les équipes. Elle possède un identifiant technique stable et `nom` comme seule donnée métier obligatoire. Toute identité peut appartenir explicitement à une ou plusieurs organisations.
+Le système gère plusieurs organisations. Une **Organisation** est le périmètre métier auquel sont rattachés les utilisateurs et les équipes. Elle possède un identifiant technique stable et `nom` comme seule donnée métier obligatoire. Un `Admin` peut appartenir explicitement à une ou plusieurs organisations ; un `Coach` ou un `Viewer` appartient au plus à une organisation.
 
 - toute équipe appartient à exactement une organisation à un instant donné ; son archivage ou sa réactivation ne change pas ce rattachement ;
 - toute donnée ou opération métier doit permettre de déterminer sans ambiguïté son organisation, soit par rattachement direct, soit par un rattachement métier explicite à une donnée déjà rattachée ;
@@ -28,8 +28,8 @@ Le `Superadmin` désigne le superuser Django global. C’est une capacité techn
 | Rôle | Capacités cumulées | Périmètre |
 | --- | --- | --- |
 | `Admin` | fonctions `Admin`, `Coach` et `Viewer` | organisations rattachées ou organisation qu’il crée explicitement |
-| `Coach` | fonctions `Coach` et `Viewer` | organisation applicable parmi ses rattachements, puis équipe concernée lorsque la Feature exige une affectation |
-| `Viewer` | consultation uniquement | organisation applicable parmi ses rattachements |
+| `Coach` | fonctions `Coach` et `Viewer` | unique organisation de rattachement, puis équipe concernée lorsque la Feature exige une affectation |
+| `Viewer` | consultation uniquement | unique organisation de rattachement |
 
 Une capacité héritée ne supprime pas les préconditions métier propres à l’action. Par exemple, une fonction exigeant le `Coach` affecté à une équipe conserve cette précondition lorsqu’elle est exercée par un `Admin`.
 
@@ -41,7 +41,7 @@ Une capacité héritée ne supprime pas les préconditions métier propres à l�
 
 Chaque utilisateur géré par `USER-001` à `USER-004` possède exactement une fonction métier parmi `Admin`, `Coach` et `Viewer`. La hiérarchie de capacités ci-dessus ne crée pas plusieurs rôles explicites sur son identité. Le `Superadmin` reste représenté séparément par sa capacité technique Django.
 
-Le choix du périmètre actif d’une identité multi-organisation relève de `ARB-ORG-011`.
+Le choix du périmètre actif d’un `Admin` multi-organisation relève de `ARB-ORG-011`.
 
 ### Matrice CRUD des Organisations
 
@@ -74,8 +74,8 @@ Toute consultation exige une identité authentifiée portant une fonction `Admin
 | Concept ou donnée | Rattachement organisationnel canonique | Sources utilisatrices |
 | --- | --- | --- |
 | `Admin` | un ou plusieurs rattachements explicites | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
-| `Coach` | un ou plusieurs rattachements explicites | `FEAT-003`, `FEAT-004`, `FEAT-038`, `FEAT-008` à `FEAT-009`, `FEAT-020` à `FEAT-030`, `FEAT-032` |
-| `Viewer` | un ou plusieurs rattachements explicites | toutes les Features de consultation |
+| `Coach` | zéro ou un rattachement explicite | `FEAT-003`, `FEAT-004`, `FEAT-038`, `FEAT-008` à `FEAT-009`, `FEAT-020` à `FEAT-030`, `FEAT-032` |
+| `Viewer` | zéro ou un rattachement explicite | toutes les Features de consultation |
 | Équipe | rattachement direct et obligatoire à exactement une organisation | `FEAT-005` à `FEAT-010` et toutes les données rattachées à une équipe |
 | Modèle et paramètres | rattachement ou partage à arbitrer, mais organisation d’origine toujours déterminable | `FEAT-011` à `FEAT-019`, `FEAT-031` |
 | Passation, évaluation, échéance, notification et indicateur | organisation déterminée par l’équipe source et vérifiée avec les autres rattachements | `FEAT-018` à `FEAT-035` |

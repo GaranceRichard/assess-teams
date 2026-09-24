@@ -8,7 +8,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,6 +27,7 @@ from identities.application.invitations import (
     send_update_notice,
 )
 from identities.domain.managed_users import can_invite_managed_user, can_manage_user
+from identities.domain.organizations import requires_single_organization
 from identities.domain.users import Role
 from identities.models import User
 
@@ -80,7 +81,8 @@ class ManagedUserDetailView(APIView):
     @extend_schema(
         description=(
             "Modifie une identité autorisée et, selon la fonction de l'appelant, "
-            "sa fonction métier."
+            "sa fonction métier. Un Admin multi-organisation ne peut pas devenir "
+            "Coach ou Viewer."
         ),
         request=UpdateManagedUserSerializer,
         responses={
@@ -92,7 +94,7 @@ class ManagedUserDetailView(APIView):
     )
     @transaction.atomic
     def put(self, request, user_id: int):
-        user = self._user(user_id)
+        user = get_object_or_404(User.objects.select_for_update(), pk=user_id)
         serializer = UpdateManagedUserSerializer(
             data=request.data,
             context={"user": user},
@@ -102,6 +104,10 @@ class ManagedUserDetailView(APIView):
         requested_role = Role(role_value) if role_value else None
         if not self._can_manage(request, user, requested_role):
             raise PermissionDenied("Vous ne pouvez pas modifier cet utilisateur.")
+        if requires_single_organization(requested_role) and user.organizations.count() > 1:
+            raise ValidationError(
+                {"role": "Un Coach ou un Viewer appartient au plus à une organisation."}
+            )
         previous_email = user.email
         user.username = serializer.validated_data["identifier"]
         user.email = serializer.validated_data["email"]

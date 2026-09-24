@@ -36,6 +36,8 @@ test("an Admin creates an organization with several users", async ({
   });
   await expect(organization).toContainText("organization-admin-e2e");
   await expect(organization).toContainText("organization-coach-e2e");
+  await expect(page.getByLabel(/organization-admin-e2e/)).toBeEnabled();
+  await expect(page.getByLabel(/organization-coach-e2e/)).toBeDisabled();
 
   await organization.getByRole("button", { name: "Gérer les membres" }).click();
   const dialog = page.getByRole("dialog");
