@@ -1,0 +1,23 @@
+.password-field {
+  display: flex;
+  align-items: stretch;
+}
+
+.password-field input {
+  min-width: 0;
+  flex: 1;
+  border-radius: 0.45rem 0 0 0.45rem;
+}
+
+.password-visibility {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--input-border);
+  border-left: 0;
+  border-radius: 0 0.45rem 0.45rem 0;
+  color: var(--secondary-text);
+  background: var(--surface);
+}
+
+.password-visibility:focus-visible {
+  outline: 3px solid #bce8da;
+}

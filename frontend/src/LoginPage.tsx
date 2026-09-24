@@ -1,5 +1,7 @@
 import { type FormEvent, useState } from "react";
 
+import "./login.css";
+
 type Props = {
   error: string | null;
   onLogin: (username: string, password: string) => Promise<void>;
@@ -8,6 +10,7 @@ type Props = {
 export function LoginPage({ error, onLogin }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   async function submit(event: FormEvent) {
@@ -32,13 +35,28 @@ export function LoginPage({ error, onLogin }: Props) {
             required
           />
           <label htmlFor="password">Mot de passe</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="password"
+              type={passwordVisible ? "text" : "password"}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+            <button
+              aria-label={
+                passwordVisible
+                  ? "Masquer le mot de passe"
+                  : "Afficher le mot de passe"
+              }
+              aria-pressed={passwordVisible}
+              className="password-visibility"
+              onClick={() => setPasswordVisible((visible) => !visible)}
+              type="button"
+            >
+              {passwordVisible ? "Masquer" : "Afficher"}
+            </button>
+          </div>
           {error && (
             <p className="form-error" role="alert">
               {error}

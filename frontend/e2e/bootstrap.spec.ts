@@ -16,7 +16,15 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
     page.getByRole("button", { name: "Se connecter" }),
   ).toBeVisible();
   await page.getByLabel("Identifiant").fill("viewer-e2e");
-  await page.getByLabel("Mot de passe").fill(e2eCredential);
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
+  await expect(
+    page.getByLabel("Mot de passe", { exact: true }),
+  ).toHaveAttribute("type", "password");
+  await page.getByRole("button", { name: "Afficher le mot de passe" }).click();
+  await expect(
+    page.getByLabel("Mot de passe", { exact: true }),
+  ).toHaveAttribute("type", "text");
+  await page.getByRole("button", { name: "Masquer le mot de passe" }).click();
   await page.getByRole("button", { name: "Se connecter" }).click();
 
   await expect(page).toHaveURL(/\/dashboard$/);
@@ -40,7 +48,7 @@ test("a Viewer cannot open an Admin route directly", async ({ page }) => {
   seedIdentity("restricted-viewer-e2e", "Viewer");
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("restricted-viewer-e2e");
-  await page.getByLabel("Mot de passe").fill(e2eCredential);
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
 
@@ -53,7 +61,9 @@ test("a Viewer cannot open an Admin route directly", async ({ page }) => {
 test("invalid credentials never open the product shell", async ({ page }) => {
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("missing-user");
-  await page.getByLabel("Mot de passe").fill("invalid-password");
+  await page
+    .getByLabel("Mot de passe", { exact: true })
+    .fill("invalid-password");
   await page.getByRole("button", { name: "Se connecter" }).click();
 
   await expect(page.getByRole("alert")).toContainText(
@@ -80,7 +90,7 @@ test("a Superadmin creates, updates and deletes an invited user", async ({
   seedSuperadmin("root-e2e", managedEmail);
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("root-e2e");
-  await page.getByLabel("Mot de passe").fill(e2eCredential);
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
 
   await expect(
@@ -117,7 +127,7 @@ test("Admin and Coach see only the user actions allowed to them", async ({
   seedIdentity("permissions-viewer-e2e", "Viewer");
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("permissions-admin-e2e");
-  await page.getByLabel("Mot de passe").fill(e2eCredential);
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Utilisateurs" }).click();
 
@@ -141,7 +151,7 @@ test("Admin and Coach see only the user actions allowed to them", async ({
   await page.getByRole("button", { name: "Se déconnecter" }).click();
 
   await page.getByLabel("Identifiant").fill("permissions-coach-e2e");
-  await page.getByLabel("Mot de passe").fill(e2eCredential);
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Utilisateurs" }).click();
   await expect(

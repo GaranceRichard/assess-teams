@@ -22,7 +22,7 @@ les arbitrages du socle Organisation et exige une authentification pour toute le
 franchissement implicite d’un périmètre organisationnel.
 
 Le bootstrap local distingue explicitement les réglages `development` et `production` et fournit trois
-identités métier fictives reproductibles uniquement en développement.
+identités fictives en développement. La connexion permet d'afficher ou masquer le mot de passe sans l'altérer.
 
 ## Périmètre livré — USER-001
 
