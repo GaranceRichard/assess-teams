@@ -8,6 +8,7 @@ const viewer: SessionUser = {
   username: "lea",
   role: "Viewer",
   is_superuser: false,
+  organization_name: "North",
 };
 
 function response(status: number, body?: object) {
@@ -42,6 +43,9 @@ describe("product authentication journey", () => {
       await screen.findByText("Tableau de bord — fonctionnalité à venir"),
     ).toBeVisible();
     expect(screen.getByText("lea")).toBeVisible();
+    expect(screen.getByText(/Vous êtes affectés à/)).toHaveTextContent(
+      "Vous êtes affectés à : North",
+    );
     expect(window.location.pathname).toBe("/dashboard");
   });
 

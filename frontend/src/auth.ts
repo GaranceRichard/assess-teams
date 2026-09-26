@@ -4,6 +4,7 @@ export type SessionUser = {
   username: string;
   role: UserRole;
   is_superuser: boolean;
+  organization_name: string | null;
 };
 
 type Credentials = { username: string; password: string };

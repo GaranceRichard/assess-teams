@@ -24,6 +24,7 @@ const actor = {
   username: "root",
   role: "Admin" as const,
   is_superuser: true,
+  organization_name: null,
 };
 
 beforeEach(() => {

@@ -42,7 +42,12 @@ describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(
       render(
         <ProductShell
           path="/dashboard"
-          user={{ username: "member", role, is_superuser: false }}
+          user={{
+            username: "member",
+            role,
+            is_superuser: false,
+            organization_name: null,
+          }}
           onNavigate={vi.fn()}
           onLogout={vi.fn()}
           theme="day"
@@ -61,7 +66,12 @@ it("navigates with product links and exposes the connected superadmin", () => {
   render(
     <ProductShell
       path="/results"
-      user={{ username: "root", role: "Admin", is_superuser: true }}
+      user={{
+        username: "root",
+        role: "Admin",
+        is_superuser: true,
+        organization_name: null,
+      }}
       onNavigate={onNavigate}
       onLogout={vi.fn()}
       theme="day"
@@ -79,7 +89,12 @@ it("calls logout from the connected-user header", () => {
   render(
     <ProductShell
       path="/dashboard"
-      user={{ username: "lea", role: "Viewer", is_superuser: false }}
+      user={{
+        username: "lea",
+        role: "Viewer",
+        is_superuser: false,
+        organization_name: null,
+      }}
       onNavigate={vi.fn()}
       onLogout={onLogout}
       theme="day"
@@ -94,7 +109,12 @@ it("calls logout from the connected-user header", () => {
 it("shows user management on Users only and changes theme", () => {
   const onThemeChange = vi.fn();
   const props = {
-    user: { username: "root", role: "Admin" as const, is_superuser: true },
+    user: {
+      username: "root",
+      role: "Admin" as const,
+      is_superuser: true,
+      organization_name: null,
+    },
     onNavigate: vi.fn(),
     onLogout: vi.fn(),
     theme: "day" as const,
@@ -117,4 +137,49 @@ it("shows user management on Users only and changes theme", () => {
     "data-superadmin",
     "true",
   );
+});
+
+it.each(["Coach", "Viewer"] as const)(
+  "shows the assigned organization on the %s dashboard",
+  (role) => {
+    render(
+      <ProductShell
+        path="/dashboard"
+        user={{
+          username: "member",
+          role,
+          is_superuser: false,
+          organization_name: "North",
+        }}
+        onNavigate={vi.fn()}
+        onLogout={vi.fn()}
+        theme="day"
+        onThemeChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText(/Vous êtes affectés à/)).toHaveTextContent(
+      "Vous êtes affectés à : North",
+    );
+  },
+);
+
+it("does not show an organization when the Viewer is not assigned", () => {
+  render(
+    <ProductShell
+      path="/dashboard"
+      user={{
+        username: "member",
+        role: "Viewer",
+        is_superuser: false,
+        organization_name: null,
+      }}
+      onNavigate={vi.fn()}
+      onLogout={vi.fn()}
+      theme="day"
+      onThemeChange={vi.fn()}
+    />,
+  );
+
+  expect(screen.queryByText(/Vous êtes affectés à/)).not.toBeInTheDocument();
 });

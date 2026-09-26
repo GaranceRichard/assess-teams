@@ -22,6 +22,7 @@ describe("session API", () => {
       username: "sam",
       role: "Coach",
       is_superuser: false,
+      organization_name: "North",
     } as const;
     const fetchMock = vi
       .spyOn(globalThis, "fetch")

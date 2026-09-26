@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.test import APIClient
 
 from identities.domain.users import Role
+from identities.models import Organization
 from tests.identity_helpers import TEST_CREDENTIAL, create_superuser, create_user
 
 
@@ -48,6 +49,7 @@ def test_valid_business_user_opens_and_reads_session(
         "username": "member",
         "role": role.value,
         "is_superuser": False,
+        "organization_name": None,
     }
     assert current_response.json() == login_response.json()
 
@@ -64,7 +66,26 @@ def test_superadmin_uses_admin_product_role(api_client: APIClient) -> None:
         "username": "root",
         "role": Role.ADMIN.value,
         "is_superuser": True,
+        "organization_name": None,
     }
+
+
+@pytest.mark.django_db
+@pytest.mark.functional
+@pytest.mark.api
+@pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
+def test_coach_or_viewer_session_exposes_its_organization(
+    api_client: APIClient,
+    role: Role,
+) -> None:
+    member = create_user("member", role)
+    organization = Organization.objects.create(name="North")
+    organization.users.add(member)
+
+    response = open_session(api_client, "member")
+
+    assert response.status_code == 200
+    assert response.json()["organization_name"] == "North"
 
 
 @pytest.mark.django_db

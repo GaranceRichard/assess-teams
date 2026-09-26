@@ -22,7 +22,10 @@ class LoginView(APIView):
 
     @extend_schema(
         operation_id="session_login",
-        description="Ouvre une session produit pour une identité active.",
+        description=(
+            "Ouvre une session produit pour une identité active et restitue "
+            "l'organisation d'un Coach ou Viewer lorsqu'il est rattaché."
+        ),
         request=LoginSerializer,
         responses={
             200: SessionUserSerializer,
@@ -52,7 +55,10 @@ class CurrentSessionView(APIView):
 
     @extend_schema(
         operation_id="session_current",
-        description="Retourne l'identité et la fonction de la session produit active.",
+        description=(
+            "Retourne l'identité, la fonction et l'éventuelle organisation de "
+            "la session produit active."
+        ),
         responses={
             200: SessionUserSerializer,
             403: OpenApiResponse(description="Aucune session produit active."),

@@ -73,6 +73,14 @@ export function ProductShell({
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>
             <h1>{route.title}</h1>
+            {path === "/dashboard" &&
+              user.role !== "Admin" &&
+              user.organization_name && (
+                <p>
+                  Vous êtes affectés à :{" "}
+                  <strong>{user.organization_name}</strong>
+                </p>
+              )}
             <p>{route.title} — fonctionnalité à venir</p>
           </section>
         ) : (

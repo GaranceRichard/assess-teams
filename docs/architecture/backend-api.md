@@ -48,6 +48,10 @@ de Superadmin). Un refus retourne `401` sans indiquer lequel des deux identifian
 Superadmin est représenté avec le rôle effectif `Admin` sans modifier son identité ni définir un quatrième rôle.
 Un jeton CSRF absent ou invalide est refusé avec `403`.
 
+Les réponses de session contiennent aussi `organization_name` : le nom de l’unique organisation du Coach ou
+Viewer rattaché, et `null` pour un utilisateur sans rattachement, un Admin ou un Superadmin. Le tableau de bord
+affiche ce nom uniquement au Coach ou Viewer concerné.
+
 `GET /api/session/` restitue cette représentation pour une session active et dépose le cookie CSRF nécessaire
 aux écritures authentifiées. Une requête anonyme est refusée avec `403`. `POST /api/session/logout/` exige la
 session et son jeton CSRF, invalide la session puis retourne `204`; une session ou un jeton absent est refusé

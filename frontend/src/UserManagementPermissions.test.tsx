@@ -58,7 +58,12 @@ beforeEach(() => {
 });
 
 it("hides every action on the connected superadmin row", async () => {
-  renderFor({ username: "root", role: "Admin", is_superuser: true });
+  renderFor({
+    username: "root",
+    role: "Admin",
+    is_superuser: true,
+    organization_name: null,
+  });
 
   await screen.findByText("root@example.com");
   expect(within(rowFor("root")).queryByRole("button")).not.toBeInTheDocument();
@@ -66,7 +71,12 @@ it("hides every action on the connected superadmin row", async () => {
 });
 
 it("lets an admin act only on coaches and viewers with subordinate roles", async () => {
-  renderFor({ username: "admin", role: "Admin", is_superuser: false });
+  renderFor({
+    username: "admin",
+    role: "Admin",
+    is_superuser: false,
+    organization_name: null,
+  });
 
   await screen.findByText("root@example.com");
   expect(within(rowFor("root")).queryByRole("button")).not.toBeInTheDocument();
@@ -83,7 +93,12 @@ it("lets an admin act only on coaches and viewers with subordinate roles", async
 });
 
 it("lets a coach edit only viewers without exposing a role selector", async () => {
-  renderFor({ username: "coach", role: "Coach", is_superuser: false });
+  renderFor({
+    username: "coach",
+    role: "Coach",
+    is_superuser: false,
+    organization_name: "North",
+  });
 
   await screen.findByText("root@example.com");
   expect(

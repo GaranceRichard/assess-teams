@@ -38,6 +38,17 @@ export function seedIdentity(
   runDjangoShell(command);
 }
 
+export function assignOrganization(username: string, organizationName: string) {
+  runDjangoShell([
+    "from identities.models import Organization, User",
+    `Organization.objects.filter(name=${JSON.stringify(organizationName)}).delete()`,
+    `organization = Organization.objects.create(name=${JSON.stringify(organizationName)})`,
+    `user = User.objects.get(username=${JSON.stringify(username)})`,
+    "user.organizations.clear()",
+    "organization.users.add(user)",
+  ]);
+}
+
 export function seedSuperadmin(username: string, managedEmail: string) {
   const command = [
     "from identities.models import User",
