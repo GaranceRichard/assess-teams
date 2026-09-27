@@ -12,6 +12,9 @@ vi.mock("./OrganizationPage", () => ({
     <div data-superadmin={isSuperadmin}>Gestion des organisations</div>
   ),
 }));
+vi.mock("./TeamPage", () => ({
+  TeamPage: () => <div>Gestion des équipes</div>,
+}));
 
 const expectedMenus: Record<UserRole, string[]> = {
   Admin: [
@@ -137,6 +140,9 @@ it("shows user management on Users only and changes theme", () => {
     "data-superadmin",
     "true",
   );
+
+  rerender(<ProductShell {...props} path="/teams" />);
+  expect(screen.getByText("Gestion des équipes")).toBeVisible();
 });
 
 it.each(["Coach", "Viewer"] as const)(

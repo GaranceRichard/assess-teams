@@ -75,9 +75,9 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-009 — Portée de l’unicité du nom d’une équipe
 
-- **Décision prise :** le nom est obligatoire, comparé sans tenir compte de la casse ni des espaces périphériques, et les équipes actives et archivées participent à la règle.
-- **Décision à arbitrer — bloquante :** l’unicité s’applique-t-elle dans une organisation ou dans l’ensemble du système ?
-- **Backlog bloqué :** implémentation de `TEAM-001` et `TEAM-004` ; les PBIs qui en dépendent ne sont pas prêts à être ordonnancés en aval.
+- **Décision prise :** le nom est obligatoire et unique dans une organisation, comparé sans tenir compte de la casse ni des espaces périphériques ; les équipes actives et archivées participent à la règle.
+- **Portée :** deux organisations distinctes peuvent porter des équipes de même nom.
+- **Backlog débloqué :** `TEAM-001` et `TEAM-004` peuvent appliquer cette règle sans arbitrage supplémentaire.
 
 ### ARB-ORG-010 — Rattachement ou partage des modèles d’évaluation
 

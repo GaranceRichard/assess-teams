@@ -132,6 +132,25 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
 
 
 @pytest.mark.api
+@pytest.mark.contract
+def test_openapi_documents_team_management(api_client: APIClient) -> None:
+    response = api_client.get(reverse("schema"), HTTP_ACCEPT="application/json")
+
+    schema = response.json()
+    collection = schema["paths"]["/api/admin/organizations/{organization_id}/teams/"]
+    detail = schema["paths"]["/api/admin/teams/{team_id}/"]
+    request_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
+    component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
+
+    assert response.status_code == 200
+    assert set(collection["get"]["responses"]) == {"200", "403", "404"}
+    assert set(collection["post"]["responses"]) == {"201", "400", "403", "404"}
+    assert set(component["required"]) == {"name", "coach_ids"}
+    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
+    assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
+
+
+@pytest.mark.api
 def test_swagger_ui_is_exposed(api_client: APIClient) -> None:
     response = api_client.get(reverse("swagger-ui"))
 

@@ -15,6 +15,7 @@ from identities.adapters.api.organization_views import (
 )
 from identities.adapters.api.session_views import CurrentSessionView, LoginView, LogoutView
 from identities.adapters.api.views import UserCreateView
+from teams.adapters.api.views import TeamDetailView, TeamListCreateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -38,6 +39,16 @@ urlpatterns = [
         "api/admin/organizations/<int:organization_id>/",
         OrganizationDetailView.as_view(),
         name="organization-detail",
+    ),
+    path(
+        "api/admin/organizations/<int:organization_id>/teams/",
+        TeamListCreateView.as_view(),
+        name="team-list",
+    ),
+    path(
+        "api/admin/teams/<int:team_id>/",
+        TeamDetailView.as_view(),
+        name="team-detail",
     ),
     path(
         "api/admin/users/<int:user_id>/",

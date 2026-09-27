@@ -38,10 +38,10 @@ La gestion des utilisateurs suit la hiérarchie : le Superadmin gère les autres
 gère les Coachs et Viewers, le Coach gère les Viewers de son organisation, et le Viewer consulte ses membres. Le menu Utilisateurs des Admins et Superadmins indique les organisations de chaque compte ; un Superadmin y est présenté comme affecté à toutes les organisations.
 Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne peut jamais changer une fonction.
 
-## Périmètre livré — gestion des organisations
+## Périmètre livré — gestion des organisations et équipes
 
-Le menu Organisations est accessible aux Superadmins et aux Admins. Il permet de créer et renommer une organisation,
-d’ajouter ou retirer ses membres ; le Superadmin peut la supprimer, un Admin être multi-organisation, un Coach ou Viewer appartenir au plus à une organisation.
+Le menu Organisations permet aux Superadmins et Admins de créer, renommer et gérer les membres ; seul le Superadmin supprime une organisation.
+Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation.
 
 ## Installation
 

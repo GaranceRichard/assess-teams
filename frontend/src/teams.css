@@ -1,0 +1,115 @@
+.teams-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.teams-heading,
+.team-list li,
+.team-actions,
+.team-dialog-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.organization-selector,
+.team-dialog form,
+.team-list li > div:first-child {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.organization-selector {
+  max-width: 28rem;
+}
+
+.organization-selector select,
+.team-dialog input {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.team-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0 1.5rem;
+}
+
+.team-list li {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.team-list li:last-child {
+  border-bottom: 0;
+}
+
+.team-list span,
+.team-empty {
+  color: var(--muted);
+}
+
+.team-actions {
+  justify-content: flex-end;
+}
+
+.team-danger {
+  background: #a62f38;
+  color: #fff;
+}
+
+.team-dialog-backdrop {
+  align-items: center;
+  background: rgb(15 23 42 / 55%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 10;
+}
+
+.team-dialog {
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: 0 1.5rem 4rem rgb(15 23 42 / 25%);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: 1.5rem;
+  width: min(100%, 36rem);
+}
+
+.team-dialog fieldset {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.team-coaches {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.team-coaches label {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.team-dialog-actions {
+  justify-content: flex-end;
+}
+
+@media (max-width: 700px) {
+  .teams-heading,
+  .team-list li {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

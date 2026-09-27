@@ -115,3 +115,19 @@ hors périmètre ne modifie aucun rattachement.
 `PUT /api/admin/users/{user_id}/` refuse également avec `400` la conversion d’un Admin rattaché à plusieurs
 organisations en Coach ou Viewer. Les éventuels rattachements historiques déjà incohérents ne sont jamais
 supprimés arbitrairement : ils peuvent être retirés explicitement depuis le menu Organisation.
+
+## Gestion des équipes d’une organisation
+
+`GET /api/admin/organizations/{organization_id}/teams/` liste les équipes actives de l’organisation sélectionnée.
+`POST` sur la même route accepte exactement `name` et `coach_ids`, crée une équipe rattachée à cette seule
+organisation et peut lui affecter plusieurs Coachs. Le nom nettoyé est obligatoire et unique sans tenir compte
+de la casse dans l’organisation, y compris parmi les équipes archivées ; une autre organisation peut réutiliser
+ce nom. Chaque Coach sélectionné doit être actif et membre de l’organisation, sinon la requête retourne `400`.
+
+`PUT /api/admin/teams/{team_id}/` remplace le nom et la liste courante des Coachs sans changer l’organisation.
+`DELETE` archive l’équipe et retourne `204` : elle disparaît de la liste active sans suppression physique. Les
+deux opérations retournent `404` pour une équipe inexistante, archivée ou hors périmètre.
+
+Ces routes exigent une session active de Superadmin ou d’Admin. Le Superadmin agit dans toute organisation ;
+l’Admin agit uniquement dans une organisation dont il est membre. Un Coach ou Viewer reçoit `403`. Le sélecteur
+du menu Équipes fournit explicitement `organization_id` et ne mélange jamais plusieurs organisations.

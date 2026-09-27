@@ -1,6 +1,6 @@
 ﻿## EPIC-002 — Gestion des équipes
 
-Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi les matrices CRUD. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. L’affectation des `Coach`, les modèles d’évaluation, les fréquences, les évaluations et les notifications restent dans leurs Epics respectifs. Les Features `FEAT-005`, `FEAT-006`, `FEAT-007` et `FEAT-010` sont raffinées par les sept PBIs `TEAM-001` à `TEAM-007`, réutilisés ici pour le CRUD backend sans doublon. Leur raffinement est conservé, mais aucun de ces PBIs n’est prêt à implémenter tant que les blocages indiqués dans le [registre des arbitrages Organisation](00-arbitrages-organisations.md) et leurs dépendances ne sont pas levés.
+Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi les matrices CRUD. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. Le vertical slice livré permet aux Superadmins et Admins de sélectionner une organisation accessible, lister, créer, renommer et archiver ses équipes ; l’affectation courante de plusieurs Coachs est exposée dans le même écran, tandis que son historique reste dans l’Epic Accompagnement. Les autres parcours restent gouvernés par leurs dépendances et arbitrages propres.
 
 ### FEAT-005 — Constituer une équipe
 
@@ -23,7 +23,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
   - la confirmation de création retourne l’identifiant de l’équipe, son nom enregistré, son état `active` et l’identifiant de son organisation, sans introduire de consultation dédiée ;
   - si la création est refusée, aucune équipe ni donnée partielle correspondant à la demande n’est conservée.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; organisation absente, inexistante, hors du périmètre autorisé ou non admissible selon son état ; nom absent, vide après suppression des espaces périphériques ou d’un type invalide ; nom déjà porté par une équipe active ou archivée dans la portée qui sera arbitrée, selon une comparaison insensible à la casse et aux espaces périphériques.
-- **Décisions produit bloquantes :** `ARB-ORG-005` et `ARB-ORG-009`. Aucun de ces choix ne doit être déduit par l’implémentation ; `TEAM-001` n’est pas prêt à implémenter. Les périmètres du `Superadmin` et de l’`Admin` sont décidés par `ARB-ORG-015`.
+- **Décisions produit :** `ARB-ORG-009` fixe l’unicité du nom dans l’organisation et `ARB-ORG-015` fixe les périmètres du `Superadmin` et de l’`Admin` ; le sélecteur du menu fournit le périmètre actif explicite.
 - **Dépendances :** `FEAT-036`, `FEAT-037`.
 - **Indépendance technique :** `TEAM-001` ne dépend pas de l’implémentation technique de l’authentification ou des permissions portée par `FEAT-004` ; l’acteur autorisé et l’organisation requise restent des préconditions métier.
 - **Priorité :** P0.
@@ -102,7 +102,7 @@ Cet Epic porte uniquement l’identité et le cycle de vie d’une équipe dans 
   - si la modification est refusée, le nom, l’état et les rattachements existants restent inchangés.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; équipe inexistante, archivée ou hors du périmètre autorisé ; nom absent, vide après suppression des espaces périphériques, d’un type invalide ou déjà utilisé selon la règle arbitrée de `TEAM-001` ; tentative de modifier l’identifiant, l’organisation ou l’état.
 - **Dépendances :** `TEAM-003` ; `FEAT-004` pour l’autorisation.
-- **Décision produit bloquante :** `ARB-ORG-009`, en plus des blocages hérités de `TEAM-003` ; `TEAM-004` n’est pas prêt à implémenter.
+- **Décision produit :** `ARB-ORG-009` fixe l’unicité du nom dans l’organisation ; le vertical slice Admin modifie directement l’équipe sélectionnée sans permettre son transfert.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
 - **Valeur apportée :** maintient une information exacte sans perdre la continuité de suivi.

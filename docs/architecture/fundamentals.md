@@ -21,3 +21,6 @@ navigateur.
 
 La route `/organization`, visible pour les Superadmins et Admins, matérialise le vertical slice
 React → API DRF → ORM pour créer ou renommer une organisation, puis ajouter ou retirer ses membres depuis sa fiche.
+
+La route `/teams` confie au domaine Django `teams` le cycle de vie des équipes. Son sélecteur fixe explicitement
+l’organisation administrée avant toute lecture ou écriture et l’API revalide systématiquement ce périmètre.

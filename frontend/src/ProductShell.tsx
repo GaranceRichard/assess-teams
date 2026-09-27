@@ -2,6 +2,7 @@ import type { SessionUser } from "./auth";
 import { canAccess, menuFor, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
 import { SuperadminDashboard } from "./SuperadminDashboard";
+import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -69,6 +70,8 @@ export function ProductShell({
           <SuperadminDashboard actor={user} />
         ) : authorized && path === "/organization" ? (
           <OrganizationPage isSuperadmin={user.is_superuser} />
+        ) : authorized && path === "/teams" && user.role === "Admin" ? (
+          <TeamPage actor={user} />
         ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>
