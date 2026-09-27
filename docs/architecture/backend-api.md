@@ -65,6 +65,8 @@ contiennent des données métier que pour les gestions Utilisateurs et Organisat
 
 `GET /api/admin/users/` exige une session active. Le Superadmin et l’Admin consultent la liste complète ; un
 Coach ou Viewer consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement.
+Chaque résultat expose `organizations`, soit les rattachements du compte, soit toutes les organisations existantes
+pour un Superadmin. Le menu Utilisateurs affiche cette liste à ses visiteurs Admin et Superadmin.
 Le Viewer dispose d’un écran en lecture seule. `POST` sur la collection, puis `PUT` et `DELETE` sur
 `/api/admin/users/{user_id}/`, exigent le jeton CSRF et restent interdits au Viewer. Masquer un bouton ne
 constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.

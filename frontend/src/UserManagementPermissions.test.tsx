@@ -20,6 +20,7 @@ const users = [
     email: "root@example.com",
     user_type: "Superadmin",
     pending: false,
+    organizations: ["North", "South"],
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const users = [
     email: "admin@example.com",
     user_type: "Admin",
     pending: false,
+    organizations: [],
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ const users = [
     email: "coach@example.com",
     user_type: "Coach",
     pending: false,
+    organizations: ["North"],
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ const users = [
     email: "viewer@example.com",
     user_type: "Viewer",
     pending: false,
+    organizations: ["North"],
   },
 ] as const;
 
@@ -66,6 +70,13 @@ it("hides every action on the connected superadmin row", async () => {
   });
 
   await screen.findByText("root@example.com");
+  expect(within(rowFor("root")).getByText("North, South")).toBeVisible();
+  expect(
+    screen.getByRole("columnheader", { name: "Organisations" }),
+  ).toBeVisible();
+  expect(
+    within(rowFor("admin")).getByText("Aucune organisation"),
+  ).toBeVisible();
   expect(within(rowFor("root")).queryByRole("button")).not.toBeInTheDocument();
   expect(within(rowFor("admin")).getByText("Modifier")).toBeVisible();
 });
@@ -79,6 +90,9 @@ it("lets an admin act only on coaches and viewers with subordinate roles", async
   });
 
   await screen.findByText("root@example.com");
+  expect(
+    screen.getByRole("columnheader", { name: "Organisations" }),
+  ).toBeVisible();
   expect(within(rowFor("root")).queryByRole("button")).not.toBeInTheDocument();
   expect(within(rowFor("admin")).queryByRole("button")).not.toBeInTheDocument();
   expect(within(rowFor("coach")).getByText("Modifier")).toBeVisible();
@@ -101,6 +115,9 @@ it("lets a coach edit only viewers without exposing a role selector", async () =
   });
 
   await screen.findByText("root@example.com");
+  expect(
+    screen.queryByRole("columnheader", { name: "Organisations" }),
+  ).toBeNull();
   expect(
     screen.queryByRole("button", { name: "Ajouter un utilisateur" }),
   ).not.toBeInTheDocument();

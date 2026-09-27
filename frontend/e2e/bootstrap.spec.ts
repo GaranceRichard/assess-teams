@@ -166,13 +166,13 @@ test("Admin, Coach and Viewer see only allowed organization users", async ({
   await expect(adminRow.getByRole("button")).toHaveCount(0);
   await expect(coachRow.getByRole("button")).toHaveCount(2);
   await expect(viewerRow.getByRole("button")).toHaveCount(2);
+  await expect(coachRow).toContainText("Permissions E2E");
   await page.getByRole("button", { name: "Ajouter un utilisateur" }).click();
   await expect(
     page.getByLabel("Type utilisateur").getByRole("option"),
   ).toHaveText(["Coach", "Viewer"]);
   await page.getByRole("button", { name: "Annuler" }).click();
   await page.getByRole("button", { name: "Se déconnecter" }).click();
-
   await page.getByLabel("Identifiant").fill("permissions-coach-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();

@@ -18,6 +18,7 @@ const pending = {
   email: "alice@example.com",
   user_type: "Coach",
   pending: true,
+  organizations: ["North", "West"],
 };
 
 const actor = {
@@ -38,6 +39,10 @@ it("lists every field and cancels creation by clicking outside", async () => {
   expect(await screen.findByText("alice")).toBeVisible();
   expect(screen.getByText("alice@example.com")).toBeVisible();
   expect(screen.getByText("Coach")).toBeVisible();
+  expect(screen.getByText("North, West")).toBeVisible();
+  expect(
+    screen.getByRole("columnheader", { name: "Organisations" }),
+  ).toBeVisible();
   expect(screen.getByText("En attente")).toBeVisible();
   fireEvent.click(
     screen.getByRole("button", { name: "Ajouter un utilisateur" }),

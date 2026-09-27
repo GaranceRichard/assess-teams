@@ -41,7 +41,8 @@ class ManagedUserListCreateView(APIView):
         description=(
             "Liste toutes les identités pour un Superadmin ou Admin. Un Coach ou "
             "Viewer ne voit que les membres de son organisation, ou une liste vide "
-            "sans rattachement."
+            "sans rattachement. Chaque identité expose ses organisations ; un "
+            "Superadmin expose toutes les organisations existantes."
         ),
         responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
     )

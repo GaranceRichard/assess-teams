@@ -3,7 +3,7 @@ from django.core import mail
 from django.urls import reverse
 
 from identities.domain.users import Role
-from identities.models import User
+from identities.models import Organization, User
 from tests.managed_user_helpers import authenticated_superadmin_client, csrf_put
 
 
@@ -36,12 +36,21 @@ def test_superadmin_lists_all_users_with_status() -> None:
     )
     pending.set_unusable_password()
     pending.save()
+    unassigned = create_managed_user("unassigned@example.com")
+    north = Organization.objects.create(name="North")
+    south = Organization.objects.create(name="South")
+    north.users.add(active)
+    south.users.add(pending)
 
     response = client.get(reverse("managed-user-list"))
 
     assert response.status_code == 200
     users = {entry["id"]: entry for entry in response.json()}
     assert users[root.pk]["user_type"] == "Superadmin"
+    assert users[root.pk]["organizations"] == ["North", "South"]
+    assert users[active.pk]["organizations"] == ["North"]
+    assert users[pending.pk]["organizations"] == ["South"]
+    assert users[unassigned.pk]["organizations"] == []
     assert users[active.pk]["pending"] is False
     assert users[pending.pk]["pending"] is True
 

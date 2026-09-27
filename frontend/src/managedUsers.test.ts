@@ -14,6 +14,7 @@ const user = {
   email: "alice@example.com",
   user_type: "Coach" as const,
   pending: true,
+  organizations: ["North"],
 };
 
 afterEach(() => {

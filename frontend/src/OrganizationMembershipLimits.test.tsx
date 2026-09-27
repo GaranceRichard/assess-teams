@@ -28,6 +28,7 @@ const users = [
     email: "admin@example.com",
     user_type: "Admin",
     pending: false,
+    organizations: ["Existing"],
   },
   {
     id: 2,
@@ -35,6 +36,7 @@ const users = [
     email: "coach@example.com",
     user_type: "Coach",
     pending: false,
+    organizations: ["Existing"],
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const users = [
     email: "viewer@example.com",
     user_type: "Viewer",
     pending: false,
+    organizations: ["Target"],
   },
 ];
 

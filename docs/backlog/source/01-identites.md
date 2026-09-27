@@ -67,6 +67,7 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
   - un `Coach` ou un `Viewer` consulte uniquement les utilisateurs rattachés à son organisation ;
   - sans organisation, un `Coach` ou un `Viewer` reçoit une liste vide ;
   - le `Viewer` ne peut créer, modifier ni supprimer un utilisateur ;
+  - le menu des `Admin` et `Superadmin` indique les organisations de chaque utilisateur ; un `Superadmin` est présenté comme affecté à toutes les organisations existantes ;
   - chaque résultat accessible expose au minimum l’identifiant stable, `nom`, `prénom`, `mail`, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
   - la liste « tous les utilisateurs » est globale pour un `Superadmin` ou un `Admin` et cloisonnée pour un `Coach` ou un `Viewer` ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.

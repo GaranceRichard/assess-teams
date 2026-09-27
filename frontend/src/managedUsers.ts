@@ -6,6 +6,7 @@ export type ManagedUser = {
   email: string;
   user_type: UserRole | "Superadmin";
   pending: boolean;
+  organizations: string[];
 };
 
 export type UserInput = { identifier: string; email: string; role?: UserRole };

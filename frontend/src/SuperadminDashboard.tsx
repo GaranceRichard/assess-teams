@@ -26,6 +26,7 @@ export function SuperadminDashboard({ actor }: Props) {
   const [deleting, setDeleting] = useState<ManagedUser | null>(null);
   const [error, setError] = useState<string | null>(null);
   const allowedCreationRoles = creationRoles(actor);
+  const showsOrganizations = actor.is_superuser || actor.role === "Admin";
 
   useEffect(() => {
     listManagedUsers()
@@ -92,6 +93,7 @@ export function SuperadminDashboard({ actor }: Props) {
               <th>Identifiant</th>
               <th>Mail</th>
               <th>Type utilisateur</th>
+              {showsOrganizations && <th>Organisations</th>}
               <th>Actions</th>
             </tr>
           </thead>
@@ -104,6 +106,13 @@ export function SuperadminDashboard({ actor }: Props) {
                 </td>
                 <td>{user.email}</td>
                 <td>{user.user_type}</td>
+                {showsOrganizations && (
+                  <td>
+                    {user.organizations.length > 0
+                      ? user.organizations.join(", ")
+                      : "Aucune organisation"}
+                  </td>
+                )}
                 <td className="row-actions">
                   {canManageTarget(actor, user) && (
                     <>

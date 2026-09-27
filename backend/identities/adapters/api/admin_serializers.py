@@ -1,23 +1,32 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from identities.domain.users import Role
-from identities.models import User
+from identities.models import Organization, User
 
 
 class ManagedUserSerializer(serializers.ModelSerializer):
     identifier = serializers.CharField(source="username")
     user_type = serializers.SerializerMethodField()
     pending = serializers.SerializerMethodField()
+    organizations = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ("id", "identifier", "email", "user_type", "pending")
+        fields = ("id", "identifier", "email", "user_type", "pending", "organizations")
 
     def get_user_type(self, user: User) -> str:
         return "Superadmin" if user.is_superuser else user.role
 
     def get_pending(self, user: User) -> bool:
         return not user.has_usable_password()
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_organizations(self, user: User) -> list[str]:
+        organizations = (
+            Organization.objects.all() if user.is_superuser else user.organizations.all()
+        )
+        return [organization.name for organization in organizations]
 
 
 class InviteUserSerializer(serializers.Serializer):
