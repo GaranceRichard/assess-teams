@@ -24,3 +24,6 @@ React → API DRF → ORM pour créer ou renommer une organisation, puis ajouter
 
 La route `/teams` confie au domaine Django `teams` le cycle de vie des équipes. Son sélecteur fixe explicitement
 l’organisation administrée avant toute lecture ou écriture et l’API revalide systématiquement ce périmètre.
+
+La route `/templates` confie au domaine Django `assessments` le référentiel administratif des modèles
+d’évaluation et de leurs questions ordonnées. Cette première verticale reste indépendante des passations.

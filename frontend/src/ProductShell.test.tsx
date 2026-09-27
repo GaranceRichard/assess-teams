@@ -15,6 +15,9 @@ vi.mock("./OrganizationPage", () => ({
 vi.mock("./TeamPage", () => ({
   TeamPage: () => <div>Gestion des équipes</div>,
 }));
+vi.mock("./EvaluationPage", () => ({
+  EvaluationPage: () => <div>Gestion des évaluations</div>,
+}));
 
 const expectedMenus: Record<UserRole, string[]> = {
   Admin: [
@@ -131,6 +134,9 @@ it("shows user management on Users only and changes theme", () => {
 
   rerender(<ProductShell {...props} path="/teams" />);
   expect(screen.getByText("Gestion des équipes")).toBeVisible();
+
+  rerender(<ProductShell {...props} path="/templates" />);
+  expect(screen.getByText("Gestion des évaluations")).toBeVisible();
 });
 
 it.each(["Coach", "Viewer"] as const)(

@@ -132,3 +132,18 @@ deux opérations retournent `404` pour une équipe inexistante, archivée ou hor
 Ces routes exigent une session active de Superadmin ou d’Admin. Le Superadmin agit dans toute organisation ;
 l’Admin agit uniquement dans une organisation dont il est membre. Un Coach ou Viewer reçoit `403`. Le sélecteur
 du menu Équipes fournit explicitement `organization_id` et ne mélange jamais plusieurs organisations.
+
+## Gestion des modèles d’évaluation et de leurs questions
+
+`GET` et `POST /api/admin/evaluations/` listent et créent les modèles. `PUT` et `DELETE`
+`/api/admin/evaluations/{evaluation_id}/` modifient ou suppriment physiquement un modèle après confirmation
+dans l’interface. Une suppression entraîne celle de ses questions. Un modèle expose un identifiant technique,
+un `index` entier positif unique et un `name` obligatoire ; la collection est triée par index.
+
+`GET` et `POST /api/admin/evaluations/{evaluation_id}/questions/` listent et ajoutent les questions du modèle.
+`PUT` et `DELETE /api/admin/questions/{question_id}/` modifient ou suppriment une question. Chaque question
+possède un index positif unique dans son modèle et un nom obligatoire ; sa liste est triée par index.
+
+Toutes ces routes exigent une session active de Superadmin ou d’Admin et un jeton CSRF pour les écritures.
+Les Coachs et Viewers reçoivent `403`. Ce premier référentiel administratif ne porte pas encore d’organisation,
+de publication, de notation ni de version : ces extensions restent soumises aux arbitrages du backlog.

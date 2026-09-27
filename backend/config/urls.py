@@ -2,6 +2,12 @@ from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from assessments.adapters.api.views import (
+    EvaluationDetailView,
+    EvaluationListCreateView,
+    QuestionDetailView,
+    QuestionListCreateView,
+)
 from health.views import HealthView
 from identities.adapters.api.admin_views import (
     AcceptInvitationView,
@@ -24,6 +30,26 @@ urlpatterns = [
     path("api/session/login/", LoginView.as_view(), name="session-login"),
     path("api/session/logout/", LogoutView.as_view(), name="session-logout"),
     path("api/users/", UserCreateView.as_view(), name="user-create"),
+    path(
+        "api/admin/evaluations/",
+        EvaluationListCreateView.as_view(),
+        name="evaluation-list",
+    ),
+    path(
+        "api/admin/evaluations/<int:evaluation_id>/",
+        EvaluationDetailView.as_view(),
+        name="evaluation-detail",
+    ),
+    path(
+        "api/admin/evaluations/<int:evaluation_id>/questions/",
+        QuestionListCreateView.as_view(),
+        name="question-list",
+    ),
+    path(
+        "api/admin/questions/<int:question_id>/",
+        QuestionDetailView.as_view(),
+        name="question-detail",
+    ),
     path("api/admin/users/", ManagedUserListCreateView.as_view(), name="managed-user-list"),
     path(
         "api/admin/organizations/",

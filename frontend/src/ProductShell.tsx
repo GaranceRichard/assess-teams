@@ -1,4 +1,5 @@
 import type { SessionUser } from "./auth";
+import { EvaluationPage } from "./EvaluationPage";
 import { canAccess, menuFor, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
 import { SuperadminDashboard } from "./SuperadminDashboard";
@@ -72,6 +73,8 @@ export function ProductShell({
           <OrganizationPage isSuperadmin={user.is_superuser} />
         ) : authorized && path === "/teams" && user.role === "Admin" ? (
           <TeamPage actor={user} />
+        ) : authorized && path === "/templates" && user.role === "Admin" ? (
+          <EvaluationPage />
         ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>

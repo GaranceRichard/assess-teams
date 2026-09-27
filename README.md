@@ -11,14 +11,12 @@
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. Le
-premier parcours d'accès produit livre une connexion par session, une navigation filtrée selon la fonction
-Admin, Coach ou Viewer, des routes protégées et la déconnexion. La documentation formalise aussi
-les arbitrages du socle Organisation et exige une authentification pour toute lecture de donnée métier, sans
-franchissement implicite d’un périmètre organisationnel.
+Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. Le premier
+parcours d'accès produit livre une session, une navigation filtrée selon la fonction Admin, Coach ou Viewer,
+des routes protégées et la déconnexion. La documentation formalise les arbitrages du socle Organisation et
+exige une authentification pour toute lecture métier, sans franchissement implicite de périmètre.
 
-Le bootstrap local distingue les réglages `development` et `production` et fournit en développement trois identités
-réconciliées sous `Admin`, `Coach` et `Viewer` sans doublon au redémarrage. La connexion permet d'afficher ou masquer le mot de passe sans l'altérer.
+Le bootstrap local distingue `development` et `production`, réconcilie les identités `Admin`, `Coach` et `Viewer` sans doublon, et permet d'afficher ou masquer le mot de passe sans l'altérer.
 
 ## Périmètres livrés — identités et accès
 
@@ -43,14 +41,18 @@ Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne pe
 Le menu Organisations permet aux Superadmins et Admins de créer, renommer et gérer les membres ; seul le Superadmin supprime une organisation.
 Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation.
 
+## Périmètre livré — modèle d’évaluation
+
+Les Superadmins et Admins créent, consultent, modifient et suppriment après confirmation des évaluations.
+Chaque évaluation possède un index, un nom et des questions ordonnées, elles-mêmes administrables.
+
 ## Installation
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Windows, macOS ou Linux.
 
-Le lancement prépare automatiquement les dépendances propres au checkout. Il crée ou répare `backend/.venv`,
-synchronise `backend/requirements-dev.txt` et exécute `npm ci` à la racine ou dans `frontend` lorsque leur lockfile
-l'exige. Chaque nouveau worktree bénéficie du même mécanisme, sans lien ni installation manuelle. Les
-[réglages et credentials fictifs locaux](docs/development-environments.md) sont documentés séparément.
+Le lancement prépare les dépendances du checkout : il crée ou répare `backend/.venv`, synchronise les requirements
+et exécute `npm ci` lorsque le lockfile l'exige. Chaque worktree bénéficie de ce mécanisme sans installation
+manuelle. Les [réglages et credentials fictifs locaux](docs/development-environments.md) sont documentés séparément.
 
 Le backend utilise `backend/db.sqlite3`, créé localement et ignoré par Git. Les migrations sont appliquées automatiquement par la commande de développement backend.
 
@@ -79,6 +81,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-frontend.p
 - La session produit utilise `POST /api/session/login/`, `GET /api/session/` et
   `POST /api/session/logout/` ; la déconnexion exige le jeton CSRF fourni avec la session.
 - La gestion des organisations utilise la collection `/api/admin/organizations/` et ses routes de modification avec une session Admin.
+- Les modèles d’évaluation utilisent `/api/admin/evaluations/` et les questions leurs routes imbriquées.
 
 Le premier Superadmin est créé exclusivement avec le bootstrap Django :
 
@@ -182,13 +185,10 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 
 ## État actuel
 
-- Le backend Django/DRF et SQLite sont opérationnels.
-- Le frontend React/Vite consomme le health check via le proxy local.
-- Les tests et les seuils de coverage backend/frontend sont actifs.
-- Les quality gates détectent les deux applications et échouent si leur configuration est incomplète.
-- `USER-001` expose la création contrôlée d'identités sans rattachement organisationnel implicite.
-- Le parcours produit authentifié applique les menus et routes correspondant à Admin, Coach et Viewer.
-- La page Organisations permet aux Superadmins et Admins de créer un périmètre avec plusieurs utilisateurs.
+- Le backend Django/DRF avec SQLite et le frontend React/Vite sont opérationnels.
+- Les tests, seuils de coverage et quality gates bloquants couvrent les deux applications.
+- `USER-001` expose la création contrôlée d'identités ; le parcours authentifié applique les accès par fonction.
+- Les Admins et Superadmins gèrent organisations, équipes et modèles d’évaluation avec leurs questions.
 
 ## Documentation
 

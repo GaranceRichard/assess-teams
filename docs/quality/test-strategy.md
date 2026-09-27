@@ -130,3 +130,7 @@ La gestion Superadmin est couverte par les contrats API, les permissions, les in
 notifications aux anciennes et nouvelles adresses, l'identifiant, l'indicateur d'attente et les dialogues.
 Playwright valide le parcours navigateur de création, modification et suppression d'une identité invitée.
 Il vérifie aussi l'accès par le menu Utilisateurs et le changement de thème jour/nuit.
+
+Le référentiel d’évaluation couvre le tri et l’unicité des index, les validations, les permissions, le contrat
+OpenAPI et la cascade des questions. Playwright valide le CRUD complet d’un modèle et de ses questions avec
+les confirmations de suppression à travers React, DRF et SQLite.

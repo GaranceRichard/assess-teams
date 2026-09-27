@@ -1,0 +1,133 @@
+.evaluations-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.evaluation-heading,
+.evaluation-actions,
+.evaluation-list li,
+.question-list li,
+.evaluation-dialog-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.evaluation-heading h2 {
+  margin: 0;
+}
+
+.evaluation-workspace {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(18rem, 2fr) minmax(22rem, 3fr);
+}
+
+.evaluation-list,
+.question-panel,
+.question-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+}
+
+.evaluation-list li,
+.question-list li {
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem;
+}
+
+.evaluation-list li:last-child,
+.question-list li:last-child {
+  border-bottom: 0;
+}
+
+.evaluation-list li.selected {
+  background: var(--background);
+  border-radius: 0.75rem;
+}
+
+.evaluation-select {
+  align-items: center;
+  background: transparent;
+  color: var(--text);
+  display: flex;
+  gap: 0.75rem;
+  padding: 0;
+  text-align: left;
+}
+
+.evaluation-select span,
+.question-list > li > span {
+  color: var(--muted);
+  min-width: 2rem;
+}
+
+.question-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.question-list {
+  border: 0;
+  padding: 0;
+}
+
+.evaluation-empty {
+  color: var(--muted);
+}
+
+.evaluation-danger {
+  background: #a62f38;
+  color: #fff;
+}
+
+.evaluation-dialog-backdrop {
+  align-items: center;
+  background: rgb(15 23 42 / 55%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 10;
+}
+
+.evaluation-dialog {
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: 0 1.5rem 4rem rgb(15 23 42 / 25%);
+  padding: 1.5rem;
+  width: min(100%, 34rem);
+}
+
+.evaluation-dialog form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.evaluation-dialog input {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.evaluation-dialog-actions {
+  justify-content: flex-end;
+}
+
+@media (max-width: 850px) {
+  .evaluation-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .evaluation-list li,
+  .question-list li {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
