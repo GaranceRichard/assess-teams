@@ -33,12 +33,6 @@ export const routes: ProductRoute[] = [
     minimumRole: "Viewer",
   },
   {
-    path: "/my-teams",
-    title: "Mes équipes",
-    menuRoles: ["Coach"],
-    minimumRole: "Coach",
-  },
-  {
     path: "/templates",
     title: "Modèles d’évaluation",
     menuRoles: ["Admin"],

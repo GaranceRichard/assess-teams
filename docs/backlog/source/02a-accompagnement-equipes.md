@@ -7,7 +7,7 @@ Cet Epic porte la responsabilité courante du `Coach` et l’historique des affe
 - **Intention métier :** rendre explicite la responsabilité d’accompagnement d’une équipe.
 - **Acteur concerné :** `Admin` de l’organisation de l’équipe.
 - **Description :** démarrer, remplacer ou terminer l’affectation du coach responsable selon une période déterminée.
-- **Socle livré :** le menu Équipes permet au Superadmin ou à l’Admin d’affecter directement un ou plusieurs Coachs actifs de la même organisation ; l’historisation temporelle reste à livrer.
+- **Socle livré :** le menu Équipes permet au Superadmin ou à l’Admin d’affecter directement un ou plusieurs Coachs actifs de la même organisation. Sans menu Équipes propre, le Coach voit ses équipes actives sur son tableau de bord ; l’historisation temporelle reste à livrer.
 - **Critères d’acceptation principaux :**
   - un ou plusieurs `Coach` actifs peuvent accompagner une équipe active de la même organisation ;
   - un remplacement clôt l’affectation courante avant d’ouvrir la suivante, sans chevauchement incohérent ;

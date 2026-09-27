@@ -29,8 +29,8 @@ organisationnel n'est ajouté.
 
 Une identité active peut ouvrir une session produit, reprendre sur le tableau de bord depuis la racine puis accéder aux placeholders autorisés par sa fonction.
 Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. Le Superadmin Django obtient
-l'espace Admin sans devenir un rôle métier supplémentaire. Le tableau de bord indique au Coach ou Viewer
-rattaché son organisation ; la déconnexion invalide la session et ramène à l'écran de connexion.
+l'espace Admin sans devenir un rôle métier supplémentaire. Sans menu Équipes, le Coach retrouve sur son tableau
+de bord son organisation et ses équipes actives ; le Viewer y retrouve son organisation. La déconnexion invalide la session.
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
 soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatrième rôle métier.
 

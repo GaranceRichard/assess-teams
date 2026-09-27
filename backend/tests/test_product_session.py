@@ -5,6 +5,7 @@ from rest_framework.test import APIClient
 
 from identities.domain.users import Role
 from identities.models import Organization
+from teams.models import Team
 from tests.identity_helpers import TEST_CREDENTIAL, create_superuser, create_user
 
 
@@ -50,6 +51,7 @@ def test_valid_business_user_opens_and_reads_session(
         "role": role.value,
         "is_superuser": False,
         "organization_name": None,
+        "team_names": [],
     }
     assert current_response.json() == login_response.json()
 
@@ -67,6 +69,7 @@ def test_superadmin_uses_admin_product_role(api_client: APIClient) -> None:
         "role": Role.ADMIN.value,
         "is_superuser": True,
         "organization_name": None,
+        "team_names": [],
     }
 
 
@@ -86,6 +89,26 @@ def test_coach_or_viewer_session_exposes_its_organization(
 
     assert response.status_code == 200
     assert response.json()["organization_name"] == "North"
+
+
+@pytest.mark.django_db
+@pytest.mark.functional
+@pytest.mark.api
+def test_coach_session_exposes_only_active_assigned_teams(api_client: APIClient) -> None:
+    coach = create_user("coach", Role.COACH)
+    organization = Organization.objects.create(name="North")
+    organization.users.add(coach)
+    for name, active in [("Charlie", True), ("Alpha", True), ("Archived", False)]:
+        team = Team.objects.create(
+            organization=organization,
+            name=name,
+            is_active=active,
+        )
+        team.coaches.add(coach)
+
+    response = open_session(api_client, "coach")
+
+    assert response.json()["team_names"] == ["Alpha", "Charlie"]
 
 
 @pytest.mark.django_db

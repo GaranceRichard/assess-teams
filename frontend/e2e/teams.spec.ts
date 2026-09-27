@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 import {
   assignOrganization,
   e2eCredential,
+  seedCoachTeams,
   seedIdentity,
 } from "./identity-fixture";
 
@@ -46,4 +47,34 @@ test("an Admin manages an organization's team and its coaches", async ({
   await expect(
     page.getByText("Aucune équipe active pour cette organisation."),
   ).toBeVisible();
+});
+
+test("a Coach sees assigned teams on the dashboard without a teams menu", async ({
+  page,
+}) => {
+  seedIdentity("dashboard-coach-e2e", "Coach");
+  assignOrganization(["dashboard-coach-e2e"], "Coach dashboard E2E");
+  seedCoachTeams("dashboard-coach-e2e", "Coach dashboard E2E", [
+    "Équipe A",
+    "Équipe B",
+    "Équipe C",
+  ]);
+
+  await page.goto("/");
+  await page.getByLabel("Identifiant").fill("dashboard-coach-e2e");
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+
+  await expect(page.getByText(/Vous êtes affecté à/)).toContainText(
+    "Vous êtes affecté à : Coach dashboard E2E",
+  );
+  await expect(page.getByText(/^Équipes :/)).toContainText(
+    "Équipes : Équipe A, Équipe B, Équipe C",
+  );
+  await expect(page.getByRole("navigation").getByRole("link")).toHaveText([
+    "Tableau de bord",
+    "Utilisateurs",
+    "Évaluations",
+    "Résultats",
+  ]);
 });

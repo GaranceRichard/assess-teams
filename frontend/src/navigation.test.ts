@@ -4,7 +4,7 @@ import { canAccess, menuFor, routeFor } from "./navigation";
 
 describe("role capabilities", () => {
   it("lets Admin inherit Coach and Viewer routes", () => {
-    expect(canAccess("Admin", routeFor("/my-teams")!)).toBe(true);
+    expect(canAccess("Admin", routeFor("/evaluations")!)).toBe(true);
     expect(canAccess("Admin", routeFor("/teams")!)).toBe(true);
   });
 
@@ -28,5 +28,6 @@ describe("role capabilities", () => {
       "Résultats",
     ]);
     expect(routeFor("/missing")).toBeUndefined();
+    expect(routeFor("/my-teams")).toBeUndefined();
   });
 });

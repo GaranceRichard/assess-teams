@@ -49,15 +49,16 @@ Superadmin est représenté avec le rôle effectif `Admin` sans modifier son ide
 Un jeton CSRF absent ou invalide est refusé avec `403`.
 
 Les réponses de session contiennent aussi `organization_name` : le nom de l’unique organisation du Coach ou
-Viewer rattaché, et `null` pour un utilisateur sans rattachement, un Admin ou un Superadmin. Le tableau de bord
-affiche ce nom uniquement au Coach ou Viewer concerné.
+Viewer rattaché, et `null` pour un utilisateur sans rattachement, un Admin ou un Superadmin. `team_names`
+contient, pour un Coach, les noms triés de ses équipes actives et vaut `[]` pour les autres cas. Le tableau de
+bord affiche l’organisation du Coach ou Viewer et, uniquement pour le Coach, ses équipes affectées.
 
 `GET /api/session/` restitue cette représentation pour une session active et dépose le cookie CSRF nécessaire
 aux écritures authentifiées. Une requête anonyme est refusée avec `403`. `POST /api/session/logout/` exige la
 session et son jeton CSRF, invalide la session puis retourne `204`; une session ou un jeton absent est refusé
 avec `403`.
 
-Le frontend n'affiche que les menus associés à la fonction. La permission de route applique la hiérarchie de
+Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
 capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Les pages livrées dans ce parcours ne
 contiennent des données métier que pour les gestions Utilisateurs et Organisations.
 

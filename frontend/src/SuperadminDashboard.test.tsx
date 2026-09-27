@@ -26,6 +26,7 @@ const actor = {
   role: "Admin" as const,
   is_superuser: true,
   organization_name: null,
+  team_names: [],
 };
 
 beforeEach(() => {

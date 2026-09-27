@@ -80,8 +80,15 @@ export function ProductShell({
               user.role !== "Admin" &&
               user.organization_name && (
                 <p>
-                  Vous êtes affectés à :{" "}
+                  Vous êtes affecté à :{" "}
                   <strong>{user.organization_name}</strong>
+                </p>
+              )}
+            {path === "/dashboard" &&
+              user.role === "Coach" &&
+              user.team_names.length > 0 && (
+                <p>
+                  Équipes : <strong>{user.team_names.join(", ")}</strong>
                 </p>
               )}
             <p>{route.title} — fonctionnalité à venir</p>

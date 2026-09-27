@@ -52,6 +52,22 @@ export function assignOrganization(
   ]);
 }
 
+export function seedCoachTeams(
+  coachUsername: string,
+  organizationName: string,
+  teamNames: string[],
+) {
+  runDjangoShell([
+    "from identities.models import Organization, User",
+    "from teams.models import Team",
+    `organization = Organization.objects.get(name=${JSON.stringify(organizationName)})`,
+    `coach = User.objects.get(username=${JSON.stringify(coachUsername)})`,
+    `names = ${JSON.stringify(teamNames)}`,
+    "teams = [Team.objects.create(organization=organization, name=name) for name in names]",
+    "[team.coaches.add(coach) for team in teams]",
+  ]);
+}
+
 export function seedSuperadmin(username: string, managedEmail: string) {
   const command = [
     "from identities.models import User",

@@ -33,8 +33,8 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
   await expect(
     page.getByText("Tableau de bord — fonctionnalité à venir"),
   ).toBeVisible();
-  await expect(page.getByText(/Vous êtes affectés à/)).toContainText(
-    "Vous êtes affectés à : North E2E",
+  await expect(page.getByText(/Vous êtes affecté à/)).toContainText(
+    "Vous êtes affecté à : North E2E",
   );
   await expect(page.getByRole("navigation").getByRole("link")).toHaveText([
     "Tableau de bord",
@@ -67,7 +67,7 @@ test("a Viewer cannot open an Admin route directly", async ({ page }) => {
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByText(/Vous êtes affectés à/)).toHaveCount(0);
+  await expect(page.getByText(/Vous êtes affecté à/)).toHaveCount(0);
   await page.getByRole("link", { name: "Utilisateurs" }).click();
   await expect(page.locator("tbody tr")).toHaveCount(0);
 

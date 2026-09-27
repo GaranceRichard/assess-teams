@@ -67,6 +67,7 @@ it("hides every action on the connected superadmin row", async () => {
     role: "Admin",
     is_superuser: true,
     organization_name: null,
+    team_names: [],
   });
 
   await screen.findByText("root@example.com");
@@ -87,6 +88,7 @@ it("lets an admin act only on coaches and viewers with subordinate roles", async
     role: "Admin",
     is_superuser: false,
     organization_name: null,
+    team_names: [],
   });
 
   await screen.findByText("root@example.com");
@@ -112,6 +114,7 @@ it("lets a coach edit only viewers without exposing a role selector", async () =
     role: "Coach",
     is_superuser: false,
     organization_name: "North",
+    team_names: [],
   });
 
   await screen.findByText("root@example.com");
@@ -135,6 +138,7 @@ it("gives a viewer a read-only user list", async () => {
     role: "Viewer",
     is_superuser: false,
     organization_name: "North",
+    team_names: [],
   });
 
   await screen.findByText("root@example.com");

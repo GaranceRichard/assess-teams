@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import type { UserRole } from "./auth";
+import type { SessionUser, UserRole } from "./auth";
 import { ProductShell } from "./ProductShell";
 
 vi.mock("./SuperadminDashboard", () => ({
@@ -28,15 +28,23 @@ const expectedMenus: Record<UserRole, string[]> = {
     "Résultats",
     "Pilotage",
   ],
-  Coach: [
-    "Tableau de bord",
-    "Utilisateurs",
-    "Mes équipes",
-    "Évaluations",
-    "Résultats",
-  ],
+  Coach: ["Tableau de bord", "Utilisateurs", "Évaluations", "Résultats"],
   Viewer: ["Tableau de bord", "Utilisateurs", "Équipes", "Résultats"],
 };
+
+function sessionUser(
+  role: UserRole,
+  overrides: Partial<SessionUser> = {},
+): SessionUser {
+  return {
+    username: "member",
+    role,
+    is_superuser: false,
+    organization_name: null,
+    team_names: [],
+    ...overrides,
+  };
+}
 
 describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(
   "%s workspace",
@@ -45,12 +53,7 @@ describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(
       render(
         <ProductShell
           path="/dashboard"
-          user={{
-            username: "member",
-            role,
-            is_superuser: false,
-            organization_name: null,
-          }}
+          user={sessionUser(role)}
           onNavigate={vi.fn()}
           onLogout={vi.fn()}
           theme="day"
@@ -69,12 +72,7 @@ it("navigates with product links and exposes the connected superadmin", () => {
   render(
     <ProductShell
       path="/results"
-      user={{
-        username: "root",
-        role: "Admin",
-        is_superuser: true,
-        organization_name: null,
-      }}
+      user={sessionUser("Admin", { username: "root", is_superuser: true })}
       onNavigate={onNavigate}
       onLogout={vi.fn()}
       theme="day"
@@ -92,12 +90,7 @@ it("calls logout from the connected-user header", () => {
   render(
     <ProductShell
       path="/dashboard"
-      user={{
-        username: "lea",
-        role: "Viewer",
-        is_superuser: false,
-        organization_name: null,
-      }}
+      user={sessionUser("Viewer", { username: "lea" })}
       onNavigate={vi.fn()}
       onLogout={onLogout}
       theme="day"
@@ -112,12 +105,7 @@ it("calls logout from the connected-user header", () => {
 it("shows user management on Users only and changes theme", () => {
   const onThemeChange = vi.fn();
   const props = {
-    user: {
-      username: "root",
-      role: "Admin" as const,
-      is_superuser: true,
-      organization_name: null,
-    },
+    user: sessionUser("Admin", { username: "root", is_superuser: true }),
     onNavigate: vi.fn(),
     onLogout: vi.fn(),
     theme: "day" as const,
@@ -151,12 +139,7 @@ it.each(["Coach", "Viewer"] as const)(
     render(
       <ProductShell
         path="/dashboard"
-        user={{
-          username: "member",
-          role,
-          is_superuser: false,
-          organization_name: "North",
-        }}
+        user={sessionUser(role, { organization_name: "North" })}
         onNavigate={vi.fn()}
         onLogout={vi.fn()}
         theme="day"
@@ -164,22 +147,20 @@ it.each(["Coach", "Viewer"] as const)(
       />,
     );
 
-    expect(screen.getByText(/Vous êtes affectés à/)).toHaveTextContent(
-      "Vous êtes affectés à : North",
+    expect(screen.getByText(/Vous êtes affecté à/)).toHaveTextContent(
+      "Vous êtes affecté à : North",
     );
   },
 );
 
-it("does not show an organization when the Viewer is not assigned", () => {
+it("shows every assigned team on the Coach dashboard", () => {
   render(
     <ProductShell
       path="/dashboard"
-      user={{
-        username: "member",
-        role: "Viewer",
-        is_superuser: false,
-        organization_name: null,
-      }}
+      user={sessionUser("Coach", {
+        organization_name: "North",
+        team_names: ["Équipe A", "Équipe B", "Équipe C"],
+      })}
       onNavigate={vi.fn()}
       onLogout={vi.fn()}
       theme="day"
@@ -187,5 +168,22 @@ it("does not show an organization when the Viewer is not assigned", () => {
     />,
   );
 
-  expect(screen.queryByText(/Vous êtes affectés à/)).not.toBeInTheDocument();
+  expect(screen.getByText(/^Équipes :/)).toHaveTextContent(
+    "Équipes : Équipe A, Équipe B, Équipe C",
+  );
+});
+
+it("does not show an organization when the Viewer is not assigned", () => {
+  render(
+    <ProductShell
+      path="/dashboard"
+      user={sessionUser("Viewer")}
+      onNavigate={vi.fn()}
+      onLogout={vi.fn()}
+      theme="day"
+      onThemeChange={vi.fn()}
+    />,
+  );
+
+  expect(screen.queryByText(/Vous êtes affecté à/)).not.toBeInTheDocument();
 });

@@ -68,6 +68,7 @@ def test_openapi_documents_product_session_contract(api_client: APIClient) -> No
     assert set(request_component["required"]) == {"username", "password"}
     assert "organization_name" in response_component["properties"]
     assert response_component["properties"]["organization_name"]["nullable"]
+    assert response_component["properties"]["team_names"]["items"]["type"] == "string"
     assert {"cookieAuth": []} in current["security"]
     assert set(current["responses"]) == {"200", "403"}
     assert {"cookieAuth": []} in logout["security"]

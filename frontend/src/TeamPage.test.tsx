@@ -58,6 +58,7 @@ const admin = {
   role: "Admin" as const,
   is_superuser: false,
   organization_name: null,
+  team_names: [],
 };
 
 beforeEach(() => {
