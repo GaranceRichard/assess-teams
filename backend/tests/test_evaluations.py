@@ -26,27 +26,31 @@ def csrf_delete(client: APIClient, route: str):
 def test_superadmin_manages_ordered_evaluations_and_questions() -> None:
     client = logged_in_client(create_superuser())
     evaluations = reverse("evaluation-list")
-    second = csrf_post(client, evaluations, {"index": 2, "name": "Second"}).json()
-    first = csrf_post(client, evaluations, {"index": 1, "name": " First "}).json()
+    first = csrf_post(client, evaluations, {"name": " First "}).json()
+    second = csrf_post(client, evaluations, {"name": "Second"}).json()
 
     assert [item["name"] for item in client.get(evaluations).json()] == ["First", "Second"]
+    assert "index" not in first
+    assert list(Evaluation.objects.values_list("index", flat=True)) == [1, 2]
 
     updated = csrf_put(
         client,
         reverse("evaluation-detail", kwargs={"evaluation_id": first["id"]}),
-        {"index": 1, "name": "Fondamentaux"},
+        {"name": "Fondamentaux"},
     )
     questions = reverse("question-list", kwargs={"evaluation_id": first["id"]})
-    later = csrf_post(client, questions, {"index": 2, "name": "Plus tard"}).json()
-    earlier = csrf_post(client, questions, {"index": 1, "name": "Au début"}).json()
+    earlier = csrf_post(client, questions, {"name": "Au début"}).json()
+    later = csrf_post(client, questions, {"name": "Plus tard"}).json()
     renamed = csrf_put(
         client,
         reverse("question-detail", kwargs={"question_id": earlier["id"]}),
-        {"index": 1, "name": "Question initiale"},
+        {"name": "Question initiale"},
     )
 
     assert updated.json()["name"] == "Fondamentaux"
+    assert "index" not in updated.json()
     assert [item["id"] for item in client.get(questions).json()] == [earlier["id"], later["id"]]
+    assert list(Question.objects.values_list("index", flat=True)) == [1, 2]
     assert renamed.json()["name"] == "Question initiale"
     assert (
         csrf_delete(
@@ -74,7 +78,7 @@ def test_admin_can_manage_evaluations() -> None:
     response = csrf_post(
         client,
         reverse("evaluation-list"),
-        {"index": 1, "name": "Référentiel"},
+        {"name": "Référentiel"},
     )
 
     assert response.status_code == 201
@@ -108,18 +112,16 @@ def test_evaluation_management_requires_an_active_session() -> None:
 def test_evaluation_and_question_validation_rejects_invalid_values() -> None:
     client = logged_in_client(create_superuser())
     evaluations = reverse("evaluation-list")
-    created = csrf_post(client, evaluations, {"index": 1, "name": "Valid"}).json()
+    created = csrf_post(client, evaluations, {"index": 99, "name": "Valid"}).json()
 
-    duplicate = csrf_post(client, evaluations, {"index": 1, "name": "Duplicate"})
-    blank = csrf_post(client, evaluations, {"index": 2, "name": "   "})
-    invalid_index = csrf_post(client, evaluations, {"index": 0, "name": "Invalid"})
+    blank = csrf_post(client, evaluations, {"name": "   "})
     questions = reverse("question-list", kwargs={"evaluation_id": created["id"]})
-    csrf_post(client, questions, {"index": 1, "name": "Valid question"})
-    duplicate_question = csrf_post(client, questions, {"index": 1, "name": "Duplicate"})
+    csrf_post(client, questions, {"index": 99, "name": "Valid question"})
+    blank_question = csrf_post(client, questions, {"name": "   "})
 
-    assert duplicate.status_code == 400
     assert blank.status_code == 400
-    assert invalid_index.status_code == 400
-    assert duplicate_question.status_code == 400
+    assert blank_question.status_code == 400
+    assert Evaluation.objects.get().index == 1
+    assert Question.objects.get().index == 1
     assert Evaluation.objects.count() == 1
     assert Question.objects.count() == 1

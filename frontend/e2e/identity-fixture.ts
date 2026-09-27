@@ -90,9 +90,9 @@ export function resetOrganization(name: string) {
   ]);
 }
 
-export function resetEvaluationIndexes(indexes: number[]) {
+export function resetEvaluations(names: string[]) {
   runDjangoShell([
     "from assessments.models import Evaluation",
-    `Evaluation.objects.filter(index__in=${JSON.stringify(indexes)}).delete()`,
+    `Evaluation.objects.filter(name__in=${JSON.stringify(names)}).delete()`,
   ]);
 }

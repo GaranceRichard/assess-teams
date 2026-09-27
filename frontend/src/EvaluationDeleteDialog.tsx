@@ -1,8 +1,8 @@
-import type { OrderedName } from "./evaluations";
+import type { NamedEntity } from "./evaluations";
 
 type Props = {
   kind: "évaluation" | "question";
-  value: OrderedName;
+  value: NamedEntity;
   onCancel: () => void;
   onConfirm: () => Promise<void>;
 };

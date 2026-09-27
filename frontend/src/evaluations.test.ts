@@ -11,8 +11,9 @@ import {
   updateQuestion,
 } from "./evaluations";
 
-const entity = { id: 4, index: 1, name: "Référentiel" };
-const input = { index: 1, name: "Référentiel" };
+const entity = { id: 4, name: "Référentiel" };
+const evaluationInput = { name: "Référentiel" };
+const questionInput = { name: "Question" };
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -33,12 +34,12 @@ it("calls every evaluation and question endpoint with CSRF", async () => {
   }
 
   await listEvaluations();
-  await createEvaluation(input);
-  await updateEvaluation(4, input);
+  await createEvaluation(evaluationInput);
+  await updateEvaluation(4, evaluationInput);
   await deleteEvaluation(4);
   await listQuestions(4);
-  await createQuestion(4, input);
-  await updateQuestion(7, input);
+  await createQuestion(4, questionInput);
+  await updateQuestion(7, questionInput);
   await deleteQuestion(7);
 
   expect(fetchMock).toHaveBeenNthCalledWith(
@@ -46,14 +47,17 @@ it("calls every evaluation and question endpoint with CSRF", async () => {
     "/api/admin/evaluations/",
     expect.objectContaining({
       method: "POST",
-      body: JSON.stringify(input),
+      body: JSON.stringify(evaluationInput),
       headers: expect.objectContaining({ "X-CSRFToken": "evaluation-token" }),
     }),
   );
   expect(fetchMock).toHaveBeenNthCalledWith(
     6,
     "/api/admin/evaluations/4/questions/",
-    expect.objectContaining({ method: "POST" }),
+    expect.objectContaining({
+      method: "POST",
+      body: JSON.stringify(questionInput),
+    }),
   );
   expect(fetchMock).toHaveBeenNthCalledWith(
     8,

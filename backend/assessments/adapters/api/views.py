@@ -20,14 +20,14 @@ class EvaluationListCreateView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Liste les modèles d’évaluation dans l’ordre de leur index.",
+        description="Liste les modèles d’évaluation selon leur ordre interne invisible.",
         responses={200: EvaluationSerializer(many=True), 403: OpenApiResponse()},
     )
     def get(self, request):
         return Response(EvaluationSerializer(Evaluation.objects.all(), many=True).data)
 
     @extend_schema(
-        description="Crée un modèle d’évaluation ordonné.",
+        description="Crée un modèle et lui attribue automatiquement un ordre interne invisible.",
         request=EvaluationInputSerializer,
         responses={201: EvaluationSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
     )
@@ -43,7 +43,7 @@ class EvaluationDetailView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Modifie l’index et le nom d’un modèle d’évaluation.",
+        description="Modifie uniquement le nom d’un modèle d’évaluation.",
         request=EvaluationInputSerializer,
         responses={
             200: EvaluationSerializer,
@@ -87,7 +87,7 @@ class QuestionListCreateView(APIView):
         return Response(QuestionSerializer(questions, many=True).data)
 
     @extend_schema(
-        description="Ajoute une question ordonnée à un modèle d’évaluation.",
+        description="Ajoute une question et lui attribue automatiquement son ordre interne.",
         request=QuestionInputSerializer,
         responses={
             201: QuestionSerializer,
@@ -109,7 +109,7 @@ class QuestionDetailView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Modifie l’index et le nom d’une question.",
+        description="Modifie uniquement le nom d’une question.",
         request=QuestionInputSerializer,
         responses={
             200: QuestionSerializer,

@@ -138,11 +138,13 @@ du menu Équipes fournit explicitement `organization_id` et ne mélange jamais p
 `GET` et `POST /api/admin/evaluations/` listent et créent les modèles. `PUT` et `DELETE`
 `/api/admin/evaluations/{evaluation_id}/` modifient ou suppriment physiquement un modèle après confirmation
 dans l’interface. Une suppression entraîne celle de ses questions. Un modèle expose un identifiant technique,
-un `index` entier positif unique et un `name` obligatoire ; la collection est triée par index.
+et un `name` obligatoire. Son `index` positif unique est attribué automatiquement, détermine l’ordre de la
+collection et reste absent des requêtes comme des réponses afin d’être invisible à l’utilisateur.
 
 `GET` et `POST /api/admin/evaluations/{evaluation_id}/questions/` listent et ajoutent les questions du modèle.
 `PUT` et `DELETE /api/admin/questions/{question_id}/` modifient ou suppriment une question. Chaque question
-possède un index positif unique dans son modèle et un nom obligatoire ; sa liste est triée par index.
+possède un index positif unique attribué automatiquement dans son modèle et un nom obligatoire. L’index reste
+absent des écritures, mais numérote la liste triée renvoyée en lecture.
 
 Toutes ces routes exigent une session active de Superadmin ou d’Admin et un jeton CSRF pour les écritures.
 Les Coachs et Viewers reçoivent `403`. Ce premier référentiel administratif ne porte pas encore d’organisation,

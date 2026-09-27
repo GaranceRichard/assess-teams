@@ -44,7 +44,7 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 ## Périmètre livré — modèle d’évaluation
 
 Les Superadmins et Admins créent, consultent, modifient et suppriment après confirmation des évaluations.
-Chaque évaluation possède un index, un nom et des questions ordonnées, elles-mêmes administrables.
+Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
 
 ## Installation
 

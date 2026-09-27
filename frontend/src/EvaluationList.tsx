@@ -29,7 +29,6 @@ export function EvaluationList({
             className="evaluation-select"
             onClick={() => onSelect(evaluation)}
           >
-            <span>{evaluation.index}</span>
             <strong>{evaluation.name}</strong>
           </button>
           <div className="evaluation-actions">

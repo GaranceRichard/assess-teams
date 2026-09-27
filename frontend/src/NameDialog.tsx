@@ -1,16 +1,15 @@
 import { type FormEvent, useState } from "react";
 
-import type { OrderedName, OrderedNameInput } from "./evaluations";
+import type { NameInput, NamedEntity } from "./evaluations";
 
 type Props = {
   kind: "évaluation" | "question";
-  value?: OrderedName;
+  value?: NamedEntity;
   onCancel: () => void;
-  onSubmit: (input: OrderedNameInput) => Promise<void>;
+  onSubmit: (input: NameInput) => Promise<void>;
 };
 
-export function IndexedNameDialog({ kind, value, onCancel, onSubmit }: Props) {
-  const [index, setIndex] = useState(value?.index ?? 1);
+export function NameDialog({ kind, value, onCancel, onSubmit }: Props) {
   const [name, setName] = useState(value?.name ?? "");
   const [saving, setSaving] = useState(false);
   const definiteKind = kind === "question" ? "la question" : "l’évaluation";
@@ -19,7 +18,7 @@ export function IndexedNameDialog({ kind, value, onCancel, onSubmit }: Props) {
     event.preventDefault();
     setSaving(true);
     try {
-      await onSubmit({ index, name });
+      await onSubmit({ name });
     } finally {
       setSaving(false);
     }
@@ -28,28 +27,19 @@ export function IndexedNameDialog({ kind, value, onCancel, onSubmit }: Props) {
   return (
     <div className="evaluation-dialog-backdrop">
       <section
-        aria-labelledby="indexed-name-title"
+        aria-labelledby="name-dialog-title"
         aria-modal="true"
         className="evaluation-dialog"
         role="dialog"
       >
-        <h2 id="indexed-name-title">
+        <h2 id="name-dialog-title">
           {value ? `Modifier l’${kind}` : `Créer une ${kind}`}
         </h2>
         <form onSubmit={submit}>
-          <label htmlFor="indexed-name-index">Index de {definiteKind}</label>
-          <input
-            id="indexed-name-index"
-            min="1"
-            onChange={(event) => setIndex(Number(event.target.value))}
-            required
-            type="number"
-            value={index}
-          />
-          <label htmlFor="indexed-name-value">Nom de {definiteKind}</label>
+          <label htmlFor="entity-name">Nom de {definiteKind}</label>
           <input
             autoFocus
-            id="indexed-name-value"
+            id="entity-name"
             maxLength={255}
             onChange={(event) => setName(event.target.value)}
             required
@@ -59,10 +49,7 @@ export function IndexedNameDialog({ kind, value, onCancel, onSubmit }: Props) {
             <button className="secondary" onClick={onCancel} type="button">
               Annuler
             </button>
-            <button
-              disabled={saving || index < 1 || !name.trim()}
-              type="submit"
-            >
+            <button disabled={saving || !name.trim()} type="submit">
               {saving ? "Enregistrement…" : "Enregistrer"}
             </button>
           </div>

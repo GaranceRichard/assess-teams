@@ -10,21 +10,23 @@ import {
   type Evaluation,
   listEvaluations,
   listQuestions,
-  type OrderedName,
-  type OrderedNameInput,
+  type NameInput,
   type Question,
   updateEvaluation,
   updateQuestion,
 } from "./evaluations";
-import { IndexedNameDialog } from "./IndexedNameDialog";
+import { NameDialog } from "./NameDialog";
 import { QuestionPanel } from "./QuestionPanel";
 import "./evaluations.css";
 
-type Kind = "évaluation" | "question";
-type EditTarget = { kind: Kind; value?: OrderedName };
-type DeleteTarget = { kind: Kind; value: OrderedName };
+type EditTarget =
+  | { kind: "évaluation"; value?: Evaluation }
+  | { kind: "question"; value?: Question };
+type DeleteTarget =
+  | { kind: "évaluation"; value: Evaluation }
+  | { kind: "question"; value: Question };
 
-function ordered<T extends OrderedName>(items: T[]): T[] {
+function ordered(items: Question[]): Question[] {
   return [...items].sort(
     (left, right) => left.index - right.index || left.id - right.id,
   );
@@ -56,19 +58,18 @@ export function EvaluationPage() {
       .catch(() => setError("Impossible de charger les questions."));
   }, [selectedId]);
 
-  async function save(input: OrderedNameInput) {
+  async function save(input: NameInput) {
     if (!editing) return;
     try {
       if (editing.kind === "évaluation") {
+        const evaluationInput = { name: input.name };
         const saved = editing.value
-          ? await updateEvaluation(editing.value.id, input)
-          : await createEvaluation(input);
+          ? await updateEvaluation(editing.value.id, evaluationInput)
+          : await createEvaluation(evaluationInput);
         setEvaluations((current) =>
-          ordered(
-            editing.value
-              ? current.map((item) => (item.id === saved.id ? saved : item))
-              : [...current, saved],
-          ),
+          editing.value
+            ? current.map((item) => (item.id === saved.id ? saved : item))
+            : [...current, saved],
         );
       } else if (selectedId !== null) {
         const saved = editing.value
@@ -147,7 +148,7 @@ export function EvaluationPage() {
         />
       </div>
       {editing && (
-        <IndexedNameDialog
+        <NameDialog
           kind={editing.kind}
           value={editing.value}
           onCancel={() => setEditing(null)}

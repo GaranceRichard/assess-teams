@@ -1,9 +1,9 @@
 import { csrfToken } from "./auth";
 
-export type OrderedName = { id: number; index: number; name: string };
-export type Evaluation = OrderedName;
-export type Question = OrderedName;
-export type OrderedNameInput = { index: number; name: string };
+export type NamedEntity = { id: number; name: string };
+export type Evaluation = NamedEntity;
+export type Question = NamedEntity & { index: number };
+export type NameInput = { name: string };
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, { credentials: "same-origin", ...init });
@@ -11,7 +11,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   return (response.status === 204 ? undefined : await response.json()) as T;
 }
 
-function writeOptions(method: string, input?: OrderedNameInput): RequestInit {
+function writeOptions(method: string, input?: NameInput): RequestInit {
   return {
     method,
     headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken() },
@@ -23,13 +23,13 @@ export function listEvaluations(): Promise<Evaluation[]> {
   return request("/api/admin/evaluations/");
 }
 
-export function createEvaluation(input: OrderedNameInput): Promise<Evaluation> {
+export function createEvaluation(input: NameInput): Promise<Evaluation> {
   return request("/api/admin/evaluations/", writeOptions("POST", input));
 }
 
 export function updateEvaluation(
   id: number,
-  input: OrderedNameInput,
+  input: NameInput,
 ): Promise<Evaluation> {
   return request(`/api/admin/evaluations/${id}/`, writeOptions("PUT", input));
 }
@@ -44,7 +44,7 @@ export function listQuestions(evaluationId: number): Promise<Question[]> {
 
 export function createQuestion(
   evaluationId: number,
-  input: OrderedNameInput,
+  input: NameInput,
 ): Promise<Question> {
   return request(
     `/api/admin/evaluations/${evaluationId}/questions/`,
@@ -54,7 +54,7 @@ export function createQuestion(
 
 export function updateQuestion(
   id: number,
-  input: OrderedNameInput,
+  input: NameInput,
 ): Promise<Question> {
   return request(`/api/admin/questions/${id}/`, writeOptions("PUT", input));
 }

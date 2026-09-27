@@ -61,7 +61,6 @@
   text-align: left;
 }
 
-.evaluation-select span,
 .question-list > li > span {
   color: var(--muted);
   min-width: 2rem;

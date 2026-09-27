@@ -22,7 +22,7 @@ const api = vi.hoisted(() => ({
 
 vi.mock("./evaluations", () => api);
 
-const evaluation = { id: 1, index: 1, name: "Initial" };
+const evaluation = { id: 1, name: "Initial" };
 const question = { id: 10, index: 1, name: "Question initiale" };
 
 beforeEach(() => {
@@ -31,23 +31,25 @@ beforeEach(() => {
   api.listQuestions.mockResolvedValue([question]);
 });
 
-it("creates and updates evaluations, then opens their questions", async () => {
-  api.createEvaluation.mockResolvedValue({ id: 2, index: 2, name: "Second" });
+it("keeps the evaluation index hidden while creating and updating", async () => {
+  api.createEvaluation.mockResolvedValue({ id: 2, name: "Second" });
   api.updateEvaluation.mockResolvedValue({ ...evaluation, name: "Renommée" });
   render(<EvaluationPage />);
   const initial = (await screen.findByText("Initial")).closest("li")!;
 
   fireEvent.click(screen.getByRole("button", { name: "Créer une évaluation" }));
-  fireEvent.change(screen.getByLabelText("Index de l’évaluation"), {
-    target: { value: "2" },
-  });
+  expect(screen.queryByLabelText("Index de l’évaluation")).toBeNull();
   fireEvent.change(screen.getByLabelText("Nom de l’évaluation"), {
     target: { value: "Second" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Enregistrer" }));
-  expect(await screen.findByText("Second")).toBeVisible();
+  const second = (await screen.findByText("Second")).closest("li")!;
+  fireEvent.click(within(second).getByRole("button", { name: "Second" }));
+  await waitFor(() => expect(api.listQuestions).toHaveBeenCalledWith(2));
+  expect(screen.getByRole("heading", { name: "Second" })).toBeVisible();
 
   fireEvent.click(within(initial).getByRole("button", { name: "Modifier" }));
+  expect(screen.queryByLabelText("Index de l’évaluation")).toBeNull();
   fireEvent.change(screen.getByLabelText("Nom de l’évaluation"), {
     target: { value: "Renommée" },
   });
@@ -57,9 +59,9 @@ it("creates and updates evaluations, then opens their questions", async () => {
 
   expect(await screen.findByText("Question initiale")).toBeVisible();
   expect(api.updateEvaluation).toHaveBeenCalledWith(1, {
-    index: 1,
     name: "Renommée",
   });
+  expect(api.createEvaluation).toHaveBeenCalledWith({ name: "Second" });
 });
 
 it("creates, updates and deletes questions after confirmation", async () => {
@@ -72,9 +74,7 @@ it("creates, updates and deletes questions after confirmation", async () => {
   const current = (await screen.findByText("Question initiale")).closest("li")!;
 
   fireEvent.click(screen.getByRole("button", { name: "Ajouter une question" }));
-  fireEvent.change(screen.getByLabelText("Index de la question"), {
-    target: { value: "2" },
-  });
+  expect(screen.queryByLabelText("Index de la question")).toBeNull();
   fireEvent.change(screen.getByLabelText("Nom de la question"), {
     target: { value: "Nouvelle" },
   });
@@ -82,6 +82,7 @@ it("creates, updates and deletes questions after confirmation", async () => {
   expect(await screen.findByText("Nouvelle")).toBeVisible();
 
   fireEvent.click(within(current).getByRole("button", { name: "Modifier" }));
+  expect(screen.queryByLabelText("Index de la question")).toBeNull();
   fireEvent.change(screen.getByLabelText("Nom de la question"), {
     target: { value: "Modifiée" },
   });
@@ -93,6 +94,8 @@ it("creates, updates and deletes questions after confirmation", async () => {
   );
 
   await waitFor(() => expect(api.deleteQuestion).toHaveBeenCalledWith(10));
+  expect(api.createQuestion).toHaveBeenCalledWith(1, { name: "Nouvelle" });
+  expect(api.updateQuestion).toHaveBeenCalledWith(10, { name: "Modifiée" });
   expect(screen.queryByText("Modifiée")).toBeNull();
 });
 
