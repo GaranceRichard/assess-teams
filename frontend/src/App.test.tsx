@@ -100,7 +100,7 @@ describe("product authentication journey", () => {
   });
 
   it("refuses a direct route outside the connected role", async () => {
-    window.history.replaceState({}, "", "/users");
+    window.history.replaceState({}, "", "/organization");
     vi.spyOn(globalThis, "fetch").mockImplementationOnce(() =>
       response(200, viewer),
     );
@@ -110,7 +110,7 @@ describe("product authentication journey", () => {
       "Page non autorisée",
     );
     expect(
-      screen.queryByRole("link", { name: "Utilisateurs" }),
+      screen.queryByRole("link", { name: "Organisation" }),
     ).not.toBeInTheDocument();
   });
 

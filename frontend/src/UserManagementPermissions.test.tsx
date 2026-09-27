@@ -111,3 +111,19 @@ it("lets a coach edit only viewers without exposing a role selector", async () =
   expect(screen.getByRole("dialog")).toBeVisible();
   expect(screen.queryByLabelText("Type utilisateur")).not.toBeInTheDocument();
 });
+
+it("gives a viewer a read-only user list", async () => {
+  renderFor({
+    username: "viewer",
+    role: "Viewer",
+    is_superuser: false,
+    organization_name: "North",
+  });
+
+  await screen.findByText("root@example.com");
+  expect(
+    screen.queryByRole("button", { name: "Ajouter un utilisateur" }),
+  ).toBeNull();
+  expect(screen.queryByText("Modifier")).toBeNull();
+  expect(screen.queryByText("Supprimer")).toBeNull();
+});

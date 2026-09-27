@@ -63,15 +63,17 @@ contiennent des données métier que pour les gestions Utilisateurs et Organisat
 
 ## Gestion hiérarchique des identités
 
-`GET /api/admin/users/` exige une session active et autorise le Superadmin, l'Admin et le Coach à consulter la
-même liste complète. `POST` sur cette collection, puis `PUT` et `DELETE /api/admin/users/{user_id}/`, exigent
-en plus le jeton CSRF et appliquent les autorisations côté serveur ; masquer un bouton ne constitue jamais le
-contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
+`GET /api/admin/users/` exige une session active. Le Superadmin et l’Admin consultent la liste complète ; un
+Coach ou Viewer consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement.
+Le Viewer dispose d’un écran en lecture seule. `POST` sur la collection, puis `PUT` et `DELETE` sur
+`/api/admin/users/{user_id}/`, exigent le jeton CSRF et restent interdits au Viewer. Masquer un bouton ne
+constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
 
 Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite,
 modifie et supprime uniquement des Coachs ou Viewers ; lors d'une modification, il peut choisir l'une de ces
-deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer, sans changer
-sa fonction. Toute tentative hors de cette hiérarchie retourne `403`.
+deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer de sa propre
+organisation, sans changer sa fonction. Une cible hors organisation retourne `404` sans révéler son existence ;
+toute autre tentative hors de cette hiérarchie retourne `403`.
 
 Une invitation crée un compte actif portant exactement le rôle Admin, Coach ou Viewer, mais doté d'un mot de
 passe inutilisable. Le champ `pending` reste vrai jusqu'à la définition du mot de passe. Le lien signé envoyé

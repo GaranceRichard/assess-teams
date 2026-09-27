@@ -58,17 +58,19 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Identifiant :** `USER-002`.
 - **Feature parente :** `FEAT-002`.
 - **Titre :** Consulter les utilisateurs.
-- **User story :** en tant que `Superadmin` technique ou `Admin` autorisé, je veux lister et consulter les utilisateurs par fonction afin de connaître les comptes présents dans le dispositif et leur fonction.
+- **User story :** en tant qu’utilisateur authentifié, je veux lister les utilisateurs visibles dans mon périmètre afin de connaître les comptes avec lesquels je collabore.
 - **Intention métier :** rendre le parc de comptes lisible sans exposer de secrets ni franchir un périmètre d’autorisation.
 - **Description :** proposer des listes distinctes des `Superadmin`, `Admin`, `Coach` et `Viewer`, une liste de tous les utilisateurs accessibles avec leur fonction ou capacité technique, et une consultation par identifiant. Les comptes actifs et désactivés sont distingués.
 - **Critères d’acceptation :**
   - un `Superadmin` peut consulter la liste des `Superadmin`, des `Admin`, des `Coach`, des `Viewer`, la liste globale et le détail de chacun de ces comptes ;
-  - un `Admin` peut consulter les listes et le détail des `Admin`, `Coach` et `Viewer` de ses organisations accessibles, mais ni la liste ni le détail des `Superadmin` ;
-  - un `Coach` ou un `Viewer` n’accède à aucune liste d’utilisateurs ni au détail d’un autre utilisateur par ce PBI ; la consultation de son propre profil n’entre pas dans ce périmètre ;
+  - un `Admin` dispose de la liste administrative globale des identités ;
+  - un `Coach` ou un `Viewer` consulte uniquement les utilisateurs rattachés à son organisation ;
+  - sans organisation, un `Coach` ou un `Viewer` reçoit une liste vide ;
+  - le `Viewer` ne peut créer, modifier ni supprimer un utilisateur ;
   - chaque résultat accessible expose au minimum l’identifiant stable, `nom`, `prénom`, `mail`, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
-  - la liste « tous les utilisateurs » respecte le même périmètre : globale pour un `Superadmin`, limitée aux fonctions métier des organisations accessibles à l’`Admin` ;
+  - la liste « tous les utilisateurs » est globale pour un `Superadmin` ou un `Admin` et cloisonnée pour un `Coach` ou un `Viewer` ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
-- **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; demande d’un `Coach` ou d’un `Viewer` ; consultation d’un `Superadmin` par un `Admin` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
+- **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; écriture demandée par un `Viewer` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
 - **Décision produit bloquante :** `ARB-ORG-011` pour sélectionner le périmètre actif d’un Admin multi-organisation.
 - **Capacité prérequise :** la relation de rattachement multiple est matérialisée par `ORG-001` ; sa sélection comme périmètre actif reste à livrer avant la consultation métier cloisonnée.
 - **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation ; `FEAT-037` pour le périmètre organisationnel de l’`Admin`.

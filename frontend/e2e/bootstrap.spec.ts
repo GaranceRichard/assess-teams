@@ -11,7 +11,7 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
   page,
 }) => {
   seedIdentity("viewer-e2e", "Viewer");
-  assignOrganization("viewer-e2e", "North E2E");
+  assignOrganization(["viewer-e2e"], "North E2E");
   await page.goto("/");
 
   await expect(
@@ -38,9 +38,14 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
   );
   await expect(page.getByRole("navigation").getByRole("link")).toHaveText([
     "Tableau de bord",
+    "Utilisateurs",
     "Équipes",
     "Résultats",
   ]);
+  await page.getByRole("link", { name: "Utilisateurs" }).click();
+  await expect(
+    page.getByRole("row").filter({ hasText: "viewer-e2e" }),
+  ).toBeVisible();
 
   await page.goto("/");
   await expect(page).toHaveURL(/\/dashboard$/);
@@ -63,11 +68,13 @@ test("a Viewer cannot open an Admin route directly", async ({ page }) => {
   await page.getByRole("button", { name: "Se connecter" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByText(/Vous êtes affectés à/)).toHaveCount(0);
+  await page.getByRole("link", { name: "Utilisateurs" }).click();
+  await expect(page.locator("tbody tr")).toHaveCount(0);
 
-  await page.goto("/users");
+  await page.goto("/organization");
 
   await expect(page.getByRole("alert")).toContainText("Page non autorisée");
-  await expect(page.getByRole("link", { name: "Utilisateurs" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Organisation" })).toHaveCount(0);
 });
 
 test("invalid credentials never open the product shell", async ({ page }) => {
@@ -131,12 +138,16 @@ test("a Superadmin creates, updates and deletes an invited user", async ({
   await expect(page.getByText("managed-updated")).toHaveCount(0);
 });
 
-test("Admin and Coach see only the user actions allowed to them", async ({
+test("Admin, Coach and Viewer see only allowed organization users", async ({
   page,
 }) => {
   seedIdentity("permissions-admin-e2e", "Admin");
   seedIdentity("permissions-coach-e2e", "Coach");
   seedIdentity("permissions-viewer-e2e", "Viewer");
+  assignOrganization(
+    ["permissions-coach-e2e", "permissions-viewer-e2e"],
+    "Permissions E2E",
+  );
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("permissions-admin-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
@@ -173,4 +184,15 @@ test("Admin and Coach see only the user actions allowed to them", async ({
   await expect(viewerRow.getByRole("button")).toHaveCount(2);
   await viewerRow.getByRole("button", { name: "Modifier" }).click();
   await expect(page.getByLabel("Type utilisateur")).toHaveCount(0);
+  await page.getByRole("button", { name: "Annuler" }).click();
+  await page.getByRole("button", { name: "Se déconnecter" }).click();
+
+  await page.getByLabel("Identifiant").fill("permissions-viewer-e2e");
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+  await page.getByRole("link", { name: "Utilisateurs" }).click();
+  await expect(coachRow).toBeVisible();
+  await expect(viewerRow).toBeVisible();
+  await expect(adminRow).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Modifier" })).toHaveCount(0);
 });

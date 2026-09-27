@@ -1,6 +1,9 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
-from identities.domain.managed_users import can_view_managed_users
+from identities.domain.managed_users import (
+    can_change_managed_users,
+    can_view_managed_users,
+)
 from identities.domain.users import Actor, Role
 
 
@@ -14,4 +17,9 @@ class CanViewManagedUsers(BasePermission):
 
     def has_permission(self, request, view) -> bool:
         user = request.user
-        return bool(user.is_authenticated and can_view_managed_users(actor_for(user)))
+        if not user.is_authenticated:
+            return False
+        actor = actor_for(user)
+        if request.method in SAFE_METHODS:
+            return can_view_managed_users(actor)
+        return can_change_managed_users(actor)

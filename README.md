@@ -34,9 +34,9 @@ rattaché son organisation ; la déconnexion invalide la session et ramène à l
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
 soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatrième rôle métier.
 
-La gestion des utilisateurs suit la hiérarchie des fonctions : le Superadmin
-gère les autres comptes sans modifier ni supprimer le sien, l'Admin gère uniquement les Coachs et Viewers,
-et le Coach gère uniquement les Viewers sans pouvoir changer leur fonction.
+La gestion des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
+l'Admin gère les Coachs et Viewers, le Coach gère les Viewers de son organisation, et le Viewer consulte ses membres.
+Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne peut jamais changer une fonction.
 
 ## Périmètre livré — gestion des organisations
 

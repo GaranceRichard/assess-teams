@@ -36,12 +36,16 @@ def update(client: APIClient, user: User, role: Role | None = None):
     )
 
 
+def attach_to_organization(*users: User) -> None:
+    organization = Organization.objects.create(name="Shared")
+    organization.users.add(*users)
+
+
 @pytest.mark.django_db
 @pytest.mark.api
-@pytest.mark.parametrize("role", [Role.ADMIN, Role.COACH])
-def test_admin_and_coach_list_every_user(role: Role) -> None:
+def test_admin_lists_every_user() -> None:
     create_superuser()
-    actor = create_user("actor", role)
+    actor = create_user("actor", Role.ADMIN)
     viewer = create_user("viewer", Role.VIEWER)
 
     response = logged_in_client(actor).get(reverse("managed-user-list"))
@@ -103,6 +107,7 @@ def test_admin_cannot_manage_admin_or_promote_viewer() -> None:
 def test_coach_updates_and_deletes_viewer_without_changing_role() -> None:
     coach = create_user("coach", Role.COACH)
     viewer = create_user("viewer", Role.VIEWER)
+    attach_to_organization(coach, viewer)
     client = logged_in_client(coach)
 
     changed = update(client, viewer)
@@ -121,6 +126,7 @@ def test_coach_cannot_promote_viewer_or_manage_coach() -> None:
     actor = create_user("actor", Role.COACH)
     other_coach = create_user("other-coach", Role.COACH)
     viewer = create_user("viewer", Role.VIEWER)
+    attach_to_organization(actor, other_coach, viewer)
     client = logged_in_client(actor)
 
     assert update(client, viewer, Role.COACH).status_code == 403
@@ -157,13 +163,3 @@ def test_role_change_refuses_multi_organization_coach_or_viewer(role) -> None:
     assert response.status_code == 400
     assert admin.role == Role.ADMIN.value
     assert admin.organizations.count() == 2
-
-
-@pytest.mark.django_db
-@pytest.mark.api
-def test_viewer_cannot_open_user_management() -> None:
-    viewer = create_user("viewer", Role.VIEWER)
-
-    response = logged_in_client(viewer).get(reverse("managed-user-list"))
-
-    assert response.status_code == 403

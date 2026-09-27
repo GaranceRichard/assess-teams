@@ -32,7 +32,7 @@ const expectedMenus: Record<UserRole, string[]> = {
     "Évaluations",
     "Résultats",
   ],
-  Viewer: ["Tableau de bord", "Équipes", "Résultats"],
+  Viewer: ["Tableau de bord", "Utilisateurs", "Équipes", "Résultats"],
 };
 
 describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(

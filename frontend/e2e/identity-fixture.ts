@@ -34,18 +34,21 @@ export function seedIdentity(
     "user.is_active = True",
     `user.set_password(${JSON.stringify(e2eCredential)})`,
     "user.save()",
+    "user.organizations.clear()",
   ];
   runDjangoShell(command);
 }
 
-export function assignOrganization(username: string, organizationName: string) {
+export function assignOrganization(
+  usernames: string[],
+  organizationName: string,
+) {
   runDjangoShell([
     "from identities.models import Organization, User",
     `Organization.objects.filter(name=${JSON.stringify(organizationName)}).delete()`,
     `organization = Organization.objects.create(name=${JSON.stringify(organizationName)})`,
-    `user = User.objects.get(username=${JSON.stringify(username)})`,
-    "user.organizations.clear()",
-    "organization.users.add(user)",
+    `users = User.objects.filter(username__in=${JSON.stringify(usernames)})`,
+    "organization.users.set(users)",
   ]);
 }
 

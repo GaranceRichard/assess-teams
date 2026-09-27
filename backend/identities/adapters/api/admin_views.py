@@ -20,6 +20,7 @@ from identities.adapters.api.admin_serializers import (
     ManagedUserSerializer,
     UpdateManagedUserSerializer,
 )
+from identities.adapters.api.managed_user_scope import visible_managed_users
 from identities.application.invitations import (
     invitation_is_valid,
     send_deletion_notice,
@@ -37,11 +38,15 @@ class ManagedUserListCreateView(APIView):
     permission_classes = [CanViewManagedUsers]
 
     @extend_schema(
-        description="Liste les identités pour un Superadmin, un Admin ou un Coach actif.",
+        description=(
+            "Liste toutes les identités pour un Superadmin ou Admin. Un Coach ou "
+            "Viewer ne voit que les membres de son organisation, ou une liste vide "
+            "sans rattachement."
+        ),
         responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
     )
     def get(self, request):
-        users = User.objects.order_by("username", "email", "pk")
+        users = visible_managed_users(request.user).order_by("username", "email", "pk")
         return Response(ManagedUserSerializer(users, many=True).data)
 
     @extend_schema(
@@ -75,14 +80,12 @@ class ManagedUserDetailView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [CanViewManagedUsers]
 
-    def _user(self, user_id: int) -> User:
-        return get_object_or_404(User, pk=user_id)
-
     @extend_schema(
         description=(
             "Modifie une identité autorisée et, selon la fonction de l'appelant, "
             "sa fonction métier. Un Admin multi-organisation ne peut pas devenir "
-            "Coach ou Viewer."
+            "Coach ou Viewer. Un Coach agit uniquement sur un Viewer de son "
+            "organisation."
         ),
         request=UpdateManagedUserSerializer,
         responses={
@@ -94,7 +97,8 @@ class ManagedUserDetailView(APIView):
     )
     @transaction.atomic
     def put(self, request, user_id: int):
-        user = get_object_or_404(User.objects.select_for_update(), pk=user_id)
+        users = visible_managed_users(request.user).select_for_update()
+        user = get_object_or_404(users, pk=user_id)
         serializer = UpdateManagedUserSerializer(
             data=request.data,
             context={"user": user},
@@ -118,7 +122,10 @@ class ManagedUserDetailView(APIView):
         return Response(ManagedUserSerializer(user).data)
 
     @extend_schema(
-        description="Supprime une identité que la fonction de l'appelant peut administrer.",
+        description=(
+            "Supprime une identité que la fonction de l'appelant peut administrer. "
+            "Un Coach agit uniquement sur un Viewer de son organisation."
+        ),
         responses={
             204: None,
             403: OpenApiResponse(),
@@ -127,7 +134,7 @@ class ManagedUserDetailView(APIView):
     )
     @transaction.atomic
     def delete(self, request, user_id: int):
-        user = self._user(user_id)
+        user = get_object_or_404(visible_managed_users(request.user), pk=user_id)
         if not self._can_manage(request, user):
             raise PermissionDenied("Vous ne pouvez pas supprimer cet utilisateur.")
         identifier, email = user.username, user.email
