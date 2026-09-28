@@ -62,6 +62,18 @@ export const routes: ProductRoute[] = [
     menuRoles: ["Admin"],
     minimumRole: "Admin",
   },
+  {
+    path: "/activity-journal",
+    title: "Journal d’activité",
+    menuRoles: ["Admin"],
+    minimumRole: "Admin",
+  },
+  {
+    path: "/error-journal",
+    title: "Journal des erreurs",
+    menuRoles: ["Admin"],
+    minimumRole: "Admin",
+  },
 ];
 
 const rank: Record<UserRole, number> = { Viewer: 1, Coach: 2, Admin: 3 };

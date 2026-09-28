@@ -1,29 +1,27 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
-from django.views.decorators.csrf import csrf_protect
-from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import PermissionDenied, ValidationError
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from identities.adapters.api.admin_permissions import CanViewManagedUsers, actor_for
 from identities.adapters.api.admin_serializers import (
-    ChoosePasswordSerializer,
     InviteUserSerializer,
     ManagedUserSerializer,
     UpdateManagedUserSerializer,
 )
 from identities.adapters.api.managed_user_scope import visible_managed_users
 from identities.adapters.api.organization_scope import assigned_admin_organization
+from identities.adapters.api.user_activity import (
+    UserSnapshot,
+    record_invitation,
+    record_user_changes,
+    record_user_deletion,
+)
 from identities.application.invitations import (
-    invitation_is_valid,
     send_deletion_notice,
     send_invitation,
     send_update_notice,
@@ -32,6 +30,7 @@ from identities.domain.managed_users import can_invite_managed_user, can_manage_
 from identities.domain.organizations import requires_single_organization
 from identities.domain.users import Role
 from identities.models import User
+from journals.error_context import describe_attempt
 
 
 class ManagedUserListCreateView(APIView):
@@ -60,6 +59,7 @@ class ManagedUserListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
+        describe_attempt(request, "Échec d’envoi de l’invitation")
         serializer = InviteUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -68,6 +68,11 @@ class ManagedUserListCreateView(APIView):
         organization = None
         if not request.user.is_superuser:
             organization = assigned_admin_organization(request.user)
+            describe_attempt(
+                request,
+                "Échec d’envoi de l’invitation",
+                organization=organization,
+            )
         user = User(
             username=data["identifier"],
             email=data["email"],
@@ -78,6 +83,7 @@ class ManagedUserListCreateView(APIView):
         user.save()
         if organization:
             organization.users.add(user)
+        record_invitation(request.user, user, organization)
         transaction.on_commit(lambda: send_invitation(user))
         return Response(ManagedUserSerializer(user).data, status=status.HTTP_201_CREATED)
 
@@ -104,6 +110,12 @@ class ManagedUserDetailView(APIView):
     def put(self, request, user_id: int):
         users = visible_managed_users(request.user).select_for_update()
         user = get_object_or_404(users, pk=user_id)
+        previous = UserSnapshot.capture(user)
+        describe_attempt(
+            request,
+            "Échec de modification de l’utilisateur",
+            organization=previous.organization,
+        )
         serializer = UpdateManagedUserSerializer(
             data=request.data,
             context={"user": user},
@@ -124,6 +136,7 @@ class ManagedUserDetailView(APIView):
             user.role = requested_role.value
         user.is_active = serializer.validated_data.get("is_active", user.is_active)
         user.save(update_fields=["email", "is_active", "role", "username"])
+        record_user_changes(request.user, user, previous)
         transaction.on_commit(lambda: send_update_notice(user, previous_email))
         return Response(ManagedUserSerializer(user).data)
 
@@ -141,9 +154,16 @@ class ManagedUserDetailView(APIView):
     @transaction.atomic
     def delete(self, request, user_id: int):
         user = get_object_or_404(visible_managed_users(request.user), pk=user_id)
+        organization = user.organizations.first()
+        describe_attempt(
+            request,
+            "Échec de suppression de l’utilisateur",
+            organization=organization,
+        )
         if not self._can_manage(request, user):
             raise PermissionDenied("Vous ne pouvez pas supprimer cet utilisateur.")
         identifier, email = user.username, user.email
+        record_user_deletion(request.user, user, organization)
         user.delete()
         transaction.on_commit(lambda: send_deletion_notice(identifier, email))
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -158,34 +178,3 @@ class ManagedUserDetailView(APIView):
             target_role=target_role,
             requested_role=requested_role,
         )
-
-
-@method_decorator(csrf_protect, name="dispatch")
-class AcceptInvitationView(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
-
-    @extend_schema(
-        request=ChoosePasswordSerializer,
-        responses={
-            204: None,
-            400: OpenApiResponse(OpenApiTypes.OBJECT),
-            403: OpenApiResponse(),
-        },
-        auth=[],
-    )
-    def post(self, request, uid: str, token: str):
-        serializer = ChoosePasswordSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        try:
-            user = User.objects.get(pk=force_str(urlsafe_base64_decode(uid)))
-        except (User.DoesNotExist, ValueError, TypeError, OverflowError):
-            user = None
-        if user is None or not invitation_is_valid(user, token):
-            return Response(
-                {"detail": "Cette invitation est invalide ou expirée."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        user.set_password(serializer.validated_data["password"])
-        user.save(update_fields=["password"])
-        return Response(status=status.HTTP_204_NO_CONTENT)

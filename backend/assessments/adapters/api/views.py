@@ -1,3 +1,4 @@
+from django.db import transaction
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
@@ -7,17 +8,16 @@ from rest_framework.views import APIView
 from assessments.adapters.api.permissions import CanManageEvaluations
 from assessments.adapters.api.scope import (
     manageable_evaluation,
-    manageable_question,
     visible_evaluations,
 )
 from assessments.adapters.api.serializers import (
     CreateEvaluationInputSerializer,
     EvaluationInputSerializer,
     EvaluationSerializer,
-    QuestionInputSerializer,
-    QuestionSerializer,
 )
-from assessments.models import Evaluation
+from journals.activity_records import evaluation_activity
+from journals.error_context import describe_attempt
+from journals.models import ActivityAction
 
 
 class EvaluationListCreateView(APIView):
@@ -48,13 +48,26 @@ class EvaluationListCreateView(APIView):
             404: OpenApiResponse(),
         },
     )
+    @transaction.atomic
     def post(self, request):
+        describe_attempt(request, "Échec de création de l’évaluation")
         serializer = CreateEvaluationInputSerializer(
             data=request.data,
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
         evaluation = serializer.save()
+        describe_attempt(
+            request,
+            "Échec de création de l’évaluation",
+            organization=evaluation.organization,
+        )
+        evaluation_activity(
+            request.user,
+            evaluation,
+            ActivityAction.EVALUATION_CREATED,
+            f"Création de l’évaluation {evaluation.name}",
+        )
         return Response(EvaluationSerializer(evaluation).data, status=status.HTTP_201_CREATED)
 
 
@@ -72,90 +85,48 @@ class EvaluationDetailView(APIView):
             404: OpenApiResponse(),
         },
     )
+    @transaction.atomic
     def put(self, request, evaluation_id: int):
         evaluation = manageable_evaluation(request.user, evaluation_id)
+        describe_attempt(
+            request,
+            "Échec de modification de l’évaluation",
+            organization=evaluation.organization,
+        )
+        previous_name = evaluation.name
         serializer = EvaluationInputSerializer(
             evaluation,
             data=request.data,
             context={"organization": evaluation.organization},
         )
         serializer.is_valid(raise_exception=True)
-        return Response(EvaluationSerializer(serializer.save()).data)
+        evaluation = serializer.save()
+        if previous_name != evaluation.name:
+            evaluation_activity(
+                request.user,
+                evaluation,
+                ActivityAction.EVALUATION_RENAMED,
+                f"Renommage de l’évaluation {evaluation.name}",
+            )
+        return Response(EvaluationSerializer(evaluation).data)
 
     @extend_schema(
         description="Supprime un modèle d’évaluation et ses questions.",
         responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
     )
+    @transaction.atomic
     def delete(self, request, evaluation_id: int):
-        manageable_evaluation(request.user, evaluation_id).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class QuestionListCreateView(APIView):
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [CanManageEvaluations]
-
-    def evaluation(self, user, evaluation_id: int) -> Evaluation:
-        return manageable_evaluation(user, evaluation_id)
-
-    @extend_schema(
-        description="Liste dans l’ordre les questions d’un modèle d’évaluation.",
-        responses={
-            200: QuestionSerializer(many=True),
-            403: OpenApiResponse(),
-            404: OpenApiResponse(),
-        },
-    )
-    def get(self, request, evaluation_id: int):
-        questions = self.evaluation(request.user, evaluation_id).questions.all()
-        return Response(QuestionSerializer(questions, many=True).data)
-
-    @extend_schema(
-        description="Ajoute une question et lui attribue automatiquement son ordre interne.",
-        request=QuestionInputSerializer,
-        responses={
-            201: QuestionSerializer,
-            400: OpenApiResponse(),
-            403: OpenApiResponse(),
-            404: OpenApiResponse(),
-        },
-    )
-    def post(self, request, evaluation_id: int):
-        evaluation = self.evaluation(request.user, evaluation_id)
-        serializer = QuestionInputSerializer(data=request.data, context={"evaluation": evaluation})
-        serializer.is_valid(raise_exception=True)
-        question = serializer.save()
-        return Response(QuestionSerializer(question).data, status=status.HTTP_201_CREATED)
-
-
-class QuestionDetailView(APIView):
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [CanManageEvaluations]
-
-    @extend_schema(
-        description="Modifie uniquement le nom d’une question.",
-        request=QuestionInputSerializer,
-        responses={
-            200: QuestionSerializer,
-            400: OpenApiResponse(),
-            403: OpenApiResponse(),
-            404: OpenApiResponse(),
-        },
-    )
-    def put(self, request, question_id: int):
-        question = manageable_question(request.user, question_id)
-        serializer = QuestionInputSerializer(
-            question,
-            data=request.data,
-            context={"evaluation": question.evaluation},
+        evaluation = manageable_evaluation(request.user, evaluation_id)
+        describe_attempt(
+            request,
+            "Échec de suppression de l’évaluation",
+            organization=evaluation.organization,
         )
-        serializer.is_valid(raise_exception=True)
-        return Response(QuestionSerializer(serializer.save()).data)
-
-    @extend_schema(
-        description="Supprime une question d’un modèle d’évaluation.",
-        responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
-    )
-    def delete(self, request, question_id: int):
-        manageable_question(request.user, question_id).delete()
+        evaluation_activity(
+            request.user,
+            evaluation,
+            ActivityAction.EVALUATION_DELETED,
+            f"Suppression de l’évaluation {evaluation.name}",
+        )
+        evaluation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

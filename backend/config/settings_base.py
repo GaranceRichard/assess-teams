@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "identities",
     "teams",
     "assessments",
+    "journals",
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "identities.User"
 
-REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "journals.exceptions.journal_exception_handler",
+}
 SPECTACULAR_SETTINGS = {
     "TITLE": "Assess teams API",
     "DESCRIPTION": "Contrat HTTP du backend Assess teams.",

@@ -134,3 +134,8 @@ Il vérifie aussi l'accès par le menu Utilisateurs et le changement de thème j
 Le référentiel d’évaluation couvre l’attribution automatique des index de modèles et de questions, les
 validations, les permissions, le contrat OpenAPI et la cascade. Playwright valide le CRUD complet sans champ
 d’index, ainsi que la sélection immédiate d’un modèle nouvellement créé.
+
+Les journaux sont couverts séparément : création après succès, absence de succès après refus ou échec,
+snapshots historiques, tri, filtres, pagination et lecture seule. Les tests directs des endpoints prouvent les
+scopes Admin/Superadmin et l'exclusion des erreurs système pour l'Admin. Le contrat du Journal des erreurs
+vérifie aussi l'absence de corps de requête, traceback, secret, token, cookie ou credential exposé.

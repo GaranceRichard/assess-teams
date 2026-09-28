@@ -27,3 +27,8 @@ l’organisation administrée avant toute lecture ou écriture et l’API revali
 
 La route `/templates` confie au domaine Django `assessments` le référentiel administratif des modèles
 d’évaluation et de leurs questions ordonnées. Cette première verticale reste indépendante des passations.
+
+Les routes `/activity-journal` et `/error-journal` restent deux verticales de lecture distinctes. Le backend
+produit les activités après succès métier et les erreurs depuis un contexte d'opération nettoyé ; React ne
+déclare jamais le résultat d'une mutation. Les deux modèles conservent leurs snapshots historiques sans former
+un framework d'audit, d'Event Sourcing ou d'observabilité.

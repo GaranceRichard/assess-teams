@@ -96,3 +96,15 @@ export function resetEvaluations(names: string[]) {
     `Evaluation.objects.filter(name__in=${JSON.stringify(names)}).delete()`,
   ]);
 }
+
+export function seedJournalEntries(username: string, organizationName: string) {
+  runDjangoShell([
+    "from identities.models import Organization, User",
+    "from journals.models import ActivityAction",
+    "from journals.services import record_activity, record_error",
+    `user = User.objects.get(username=${JSON.stringify(username)})`,
+    `organization = Organization.objects.get(name=${JSON.stringify(organizationName)})`,
+    "record_activity(actor=user, organization=organization, action=ActivityAction.TEAM_CREATED, description='Création de l’équipe')",
+    "record_error(actor=user, organization=organization, operation='Échec de création de l’évaluation', category='ValidationError', message='Les données sont invalides.')",
+  ]);
+}

@@ -4,8 +4,9 @@
 
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le périmètre fonctionnel détaillé sera défini au fil de la conception du produit.
 
-Le chantier en cours fait de l'Organisation la frontière d'administration : le Superadmin reste global ; un Admin
-unique à une organisation administre ses membres non-Admin, ses équipes et ses évaluations, jamais les Admins.
+Le chantier fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin unique à une organisation administre ses membres non-Admin, ses équipes et ses évaluations, jamais les Admins.
+
+Il ajoute deux journaux distincts en lecture seule : actions métier réussies et opérations en échec nettoyées. Le Superadmin est global ; l'Admin reste limité à son organisation, hors erreurs système.
 
 ## Socle technique
 
@@ -14,7 +15,7 @@ unique à une organisation administre ses membres non-Admin, ses équipes et ses
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le bootstrap local distingue `development` et `production`, réconcilie les identités `Admin`, `Coach` et `Viewer` sans doublon, et permet d'afficher ou masquer le mot de passe sans l'altérer.
+Le bootstrap distingue `development` et `production`, réconcilie les identités sans doublon et permet d'afficher ou masquer le mot de passe sans l'altérer.
 
 ## Périmètres livrés — identités et accès
 
@@ -121,8 +122,7 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session :
-règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
+Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session : règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
 Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création, renommage et suppression d’organisation, puis
 vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent

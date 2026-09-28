@@ -2,18 +2,14 @@ from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-from assessments.adapters.api.views import (
-    EvaluationDetailView,
-    EvaluationListCreateView,
-    QuestionDetailView,
-    QuestionListCreateView,
-)
+from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
+from assessments.adapters.api.views import EvaluationDetailView, EvaluationListCreateView
 from health.views import HealthView
 from identities.adapters.api.admin_views import (
-    AcceptInvitationView,
     ManagedUserDetailView,
     ManagedUserListCreateView,
 )
+from identities.adapters.api.invitation_views import AcceptInvitationView
 from identities.adapters.api.organization_views import (
     OrganizationDetailView,
     OrganizationListCreateView,
@@ -21,6 +17,7 @@ from identities.adapters.api.organization_views import (
 )
 from identities.adapters.api.session_views import CurrentSessionView, LoginView, LogoutView
 from identities.adapters.api.views import UserCreateView
+from journals.adapters.api.views import ActivityJournalView, ErrorJournalView
 from teams.adapters.api.views import TeamDetailView, TeamListCreateView
 
 urlpatterns = [
@@ -49,6 +46,16 @@ urlpatterns = [
         "api/admin/questions/<int:question_id>/",
         QuestionDetailView.as_view(),
         name="question-detail",
+    ),
+    path(
+        "api/admin/activity-journal/",
+        ActivityJournalView.as_view(),
+        name="activity-journal",
+    ),
+    path(
+        "api/admin/error-journal/",
+        ErrorJournalView.as_view(),
+        name="error-journal",
     ),
     path("api/admin/users/", ManagedUserListCreateView.as_view(), name="managed-user-list"),
     path(

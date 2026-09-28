@@ -1,4 +1,6 @@
 import type { SessionUser } from "./auth";
+import { ActivityJournalPage } from "./ActivityJournalPage";
+import { ErrorJournalPage } from "./ErrorJournalPage";
 import { EvaluationPage } from "./EvaluationPage";
 import { canAccess, menuFor, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
@@ -75,6 +77,10 @@ export function ProductShell({
           <TeamPage actor={user} />
         ) : authorized && path === "/templates" && user.role === "Admin" ? (
           <EvaluationPage />
+        ) : authorized && path === "/activity-journal" ? (
+          <ActivityJournalPage actor={user} />
+        ) : authorized && path === "/error-journal" ? (
+          <ErrorJournalPage actor={user} />
         ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>

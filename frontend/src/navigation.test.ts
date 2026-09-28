@@ -30,4 +30,12 @@ describe("role capabilities", () => {
     expect(routeFor("/missing")).toBeUndefined();
     expect(routeFor("/my-teams")).toBeUndefined();
   });
+
+  it("reserves both journal routes to Admin", () => {
+    for (const path of ["/activity-journal", "/error-journal"]) {
+      expect(canAccess("Admin", routeFor(path)!)).toBe(true);
+      expect(canAccess("Coach", routeFor(path)!)).toBe(false);
+      expect(canAccess("Viewer", routeFor(path)!)).toBe(false);
+    }
+  });
 });

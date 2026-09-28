@@ -30,6 +30,8 @@ const expectedMenus: Record<UserRole, string[]> = {
     "Évaluations",
     "Résultats",
     "Pilotage",
+    "Journal d’activité",
+    "Journal des erreurs",
   ],
   Coach: ["Tableau de bord", "Utilisateurs", "Évaluations", "Résultats"],
   Viewer: ["Tableau de bord", "Utilisateurs", "Équipes", "Résultats"],

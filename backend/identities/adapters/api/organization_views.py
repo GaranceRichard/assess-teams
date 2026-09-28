@@ -21,6 +21,13 @@ from identities.adapters.api.organization_serializers import (
 )
 from identities.domain.organizations import can_create_organizations
 from identities.models import Organization
+from journals.activity_records import (
+    organization_created,
+    organization_deleted,
+    organization_members_changed,
+    organization_renamed,
+)
+from journals.error_context import describe_attempt
 
 
 class OrganizationListCreateView(APIView):
@@ -53,11 +60,13 @@ class OrganizationListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
+        describe_attempt(request, "Échec de création de l’organisation")
         if not can_create_organizations(actor_for(request.user)):
             raise PermissionDenied("Seul le Superadmin peut créer une organisation.")
         serializer = CreateOrganizationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         organization = serializer.save()
+        organization_created(request.user, organization)
         return Response(
             OrganizationSerializer(organization).data,
             status=status.HTTP_201_CREATED,
@@ -85,6 +94,12 @@ class OrganizationMemberUpdateView(APIView):
     @transaction.atomic
     def put(self, request, organization_id: int):
         organization = manageable_organization(request.user, organization_id)
+        describe_attempt(
+            request,
+            "Échec de modification des membres de l’organisation",
+            organization=organization,
+        )
+        previous = {user.pk: user.username for user in organization.users.all()}
         serializer = UpdateOrganizationMembersSerializer(
             organization,
             data=request.data,
@@ -92,6 +107,8 @@ class OrganizationMemberUpdateView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         organization = serializer.save()
+        current = {user.pk: user.username for user in organization.users.all()}
+        organization_members_changed(request.user, organization, previous, current)
         return Response(OrganizationSerializer(organization).data)
 
 
@@ -130,9 +147,17 @@ class OrganizationDetailView(APIView):
     @transaction.atomic
     def put(self, request, organization_id: int):
         organization = manageable_organization(request.user, organization_id)
+        describe_attempt(
+            request,
+            "Échec de renommage de l’organisation",
+            organization=organization,
+        )
+        previous_name = organization.name
         serializer = RenameOrganizationSerializer(organization, data=request.data)
         serializer.is_valid(raise_exception=True)
         organization = serializer.save()
+        if previous_name != organization.name:
+            organization_renamed(request.user, organization)
         return Response(OrganizationSerializer(organization).data)
 
     @extend_schema(
@@ -151,5 +176,11 @@ class OrganizationDetailView(APIView):
         if not request.user.is_superuser:
             raise PermissionDenied("Seul le Superadmin peut supprimer une organisation.")
         organization = get_object_or_404(Organization, pk=organization_id)
+        describe_attempt(
+            request,
+            "Échec de suppression de l’organisation",
+            organization=organization,
+        )
+        organization_deleted(request.user, organization)
         organization.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

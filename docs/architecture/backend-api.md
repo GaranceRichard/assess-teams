@@ -156,3 +156,23 @@ une résolution explicite.
 Toute future ressource métier, y compris le journal d'activité, porte ou hérite d'une organisation et applique
 les mêmes scopes backend : vue globale pour le Superadmin, organisation unique pour l'Admin. Un identifiant
 fourni dans une URL ou un corps JSON ne remplace jamais cette vérification.
+
+## Journaux d'activité et des erreurs
+
+`GET /api/admin/activity-journal/` expose uniquement les actions métier réussies. `GET
+/api/admin/error-journal/` expose séparément les opérations en échec. Les deux collections sont antéchronologiques,
+paginées par 20 et filtrables avec `date`, `organization_id`, `player` et `team`. Aucun `POST`, `PUT`, `PATCH`
+ou `DELETE` fonctionnel n'est exposé.
+
+Chaque entrée conserve la date complète et des snapshots de l'organisation, de l'auteur et de l'équipe, en
+plus de ses relations optionnelles. Une suppression ultérieure ne rend donc pas l'historique illisible. Le
+Journal d'activité stocke aussi un code d'action structuré et une description fonctionnelle. Une activité est
+créée dans la transaction de la mutation réussie ; tout refus ou rollback exclut l'entrée de succès.
+
+Le Journal des erreurs conserve l'opération, une catégorie, un message nettoyé et un identifiant de corrélation.
+Il ne persiste ni corps de requête, traceback, secret, mot de passe, token, cookie ou credential. Les logs
+techniques serveur restent distincts.
+
+Le Superadmin reçoit toutes les entrées. L'Admin est limité par le queryset backend à son organisation unique,
+même si un autre `organization_id` est envoyé. Une activité ou erreur sans organisation, notamment une erreur
+système, reste visible du seul Superadmin. Les Coachs, Viewers et visiteurs anonymes reçoivent `403`.
