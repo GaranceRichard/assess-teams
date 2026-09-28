@@ -135,6 +135,10 @@ Le référentiel d’évaluation couvre l’attribution automatique des index de
 validations, les permissions, le contrat OpenAPI et la cascade. Playwright valide le CRUD complet sans champ
 d’index, ainsi que la sélection immédiate d’un modèle nouvellement créé.
 
+La planification couvre les quatre cadences, la première échéance, l’unicité équipe–modèle, l’équipe active et
+le cloisonnement organisationnel. Les tests React vérifient les formulaires immédiat et récurrent, et
+Playwright traverse la session Admin, les sélections organisation–équipe–modèle et la persistance mensuelle.
+
 Les journaux sont couverts séparément : création après succès, absence de succès après refus ou échec,
 snapshots historiques, tri, filtres, pagination et lecture seule. Les tests directs des endpoints prouvent les
 scopes Admin/Superadmin et l'exclusion des erreurs système pour l'Admin. Le contrat du Journal des erreurs

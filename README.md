@@ -42,9 +42,9 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 
 ## Périmètre livré — modèle d’évaluation
 
-Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement
-celles de leur organisation. Les index des évaluations et questions sont attribués automatiquement dans leur
-périmètre, sans champ de saisie pour l’utilisateur.
+Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
+Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
+Ils planifient aussi une évaluation pour une équipe, immédiatement, à date fixe, mensuellement ou trimestriellement.
 
 ## Installation
 

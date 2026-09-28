@@ -97,6 +97,25 @@ export function resetEvaluations(names: string[]) {
   ]);
 }
 
+export function seedPlanningContext(
+  organizationName: string,
+  teamName: string,
+  evaluationName: string,
+) {
+  runDjangoShell([
+    "from django.db.models import Max",
+    "from assessments.models import Evaluation",
+    "from identities.models import Organization",
+    "from teams.models import Team",
+    `organization = Organization.objects.get(name=${JSON.stringify(organizationName)})`,
+    `Team.objects.filter(organization=organization, name=${JSON.stringify(teamName)}).delete()`,
+    `Evaluation.objects.filter(organization=organization, name=${JSON.stringify(evaluationName)}).delete()`,
+    `team = Team.objects.create(organization=organization, name=${JSON.stringify(teamName)})`,
+    "index = (Evaluation.objects.filter(organization=organization).aggregate(Max('index'))['index__max'] or 0) + 1",
+    `Evaluation.objects.create(organization=organization, index=index, name=${JSON.stringify(evaluationName)})`,
+  ]);
+}
+
 export function seedJournalEntries(username: string, organizationName: string) {
   runDjangoShell([
     "from identities.models import Organization, User",

@@ -1,4 +1,4 @@
-from assessments.models import Evaluation, Question
+from assessments.models import Evaluation, EvaluationSchedule, Question
 from identities.models import Organization, User
 from journals.models import ActivityAction
 from journals.services import record_activity
@@ -153,3 +153,13 @@ def question_activity(
     description: str,
 ) -> None:
     evaluation_activity(actor, question.evaluation, action, description)
+
+
+def evaluation_scheduled(actor: User, schedule: EvaluationSchedule) -> None:
+    record_activity(
+        actor=actor,
+        organization=schedule.team.organization,
+        team=schedule.team,
+        action=ActivityAction.EVALUATION_SCHEDULED,
+        description=f"Planification de l’évaluation {schedule.evaluation.name}",
+    )

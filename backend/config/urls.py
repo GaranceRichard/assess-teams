@@ -3,6 +3,7 @@ from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
+from assessments.adapters.api.schedule_views import EvaluationScheduleListCreateView
 from assessments.adapters.api.views import EvaluationDetailView, EvaluationListCreateView
 from health.views import HealthView
 from identities.adapters.api.admin_views import (
@@ -31,6 +32,11 @@ urlpatterns = [
         "api/admin/evaluations/",
         EvaluationListCreateView.as_view(),
         name="evaluation-list",
+    ),
+    path(
+        "api/admin/planning/",
+        EvaluationScheduleListCreateView.as_view(),
+        name="evaluation-schedule-list",
     ),
     path(
         "api/admin/evaluations/<int:evaluation_id>/",

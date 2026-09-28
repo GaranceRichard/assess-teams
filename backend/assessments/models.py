@@ -39,3 +39,35 @@ class Question(models.Model):
                 name="question_index_unique_per_evaluation",
             ),
         ]
+
+
+class ScheduleMode(models.TextChoices):
+    IMMEDIATE = "immediate", "Tout de suite"
+    FIXED = "fixed", "À date fixe"
+    MONTHLY = "monthly", "Mensuelle"
+    QUARTERLY = "quarterly", "Trimestrielle"
+
+
+class EvaluationSchedule(models.Model):
+    team = models.ForeignKey(
+        "teams.Team",
+        on_delete=models.CASCADE,
+        related_name="evaluation_schedules",
+    )
+    evaluation = models.ForeignKey(
+        Evaluation,
+        on_delete=models.CASCADE,
+        related_name="schedules",
+    )
+    mode = models.CharField(max_length=12, choices=ScheduleMode.choices)
+    first_due_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("first_due_date", "pk")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("team", "evaluation"),
+                name="schedule_unique_per_team_evaluation",
+            )
+        ]

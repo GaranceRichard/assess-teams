@@ -1,0 +1,87 @@
+.planning-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.planning-organization,
+.planning-form,
+.planning-form label,
+.schedule-list li > div {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.planning-organization {
+  max-width: 28rem;
+}
+
+.planning-page select,
+.planning-page input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text);
+  padding: 0.75rem;
+}
+
+.planning-workspace {
+  align-items: start;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(24rem, 1.2fr);
+}
+
+.planning-form,
+.planning-workspace > section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.planning-workspace h2 {
+  margin-top: 0;
+}
+
+.schedule-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.schedule-list li {
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.schedule-list li:last-child {
+  border-bottom: 0;
+}
+
+.schedule-list span,
+.planning-empty {
+  color: var(--muted);
+}
+
+.schedule-cadence {
+  text-align: right;
+}
+
+@media (max-width: 850px) {
+  .planning-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-list li {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .schedule-cadence {
+    text-align: left;
+  }
+}

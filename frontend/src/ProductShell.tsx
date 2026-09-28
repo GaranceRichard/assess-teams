@@ -4,6 +4,7 @@ import { ErrorJournalPage } from "./ErrorJournalPage";
 import { EvaluationPage } from "./EvaluationPage";
 import { canAccess, menuFor, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
+import { PlanningPage } from "./PlanningPage";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
@@ -77,6 +78,8 @@ export function ProductShell({
           <TeamPage actor={user} />
         ) : authorized && path === "/templates" && user.role === "Admin" ? (
           <EvaluationPage />
+        ) : authorized && path === "/planning" && user.role === "Admin" ? (
+          <PlanningPage />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
         ) : authorized && path === "/error-journal" ? (
