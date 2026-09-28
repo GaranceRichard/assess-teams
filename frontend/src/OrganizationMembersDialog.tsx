@@ -7,6 +7,7 @@ type Props = {
   organization: Organization;
   users: ManagedUser[];
   unavailableUserIds: Set<number>;
+  canManageAdmins: boolean;
   onCancel: () => void;
   onSubmit: (userIds: number[]) => Promise<void>;
 };
@@ -15,6 +16,7 @@ export function OrganizationMembersDialog({
   organization,
   users,
   unavailableUserIds,
+  canManageAdmins,
   onCancel,
   onSubmit,
 }: Props) {
@@ -53,11 +55,13 @@ export function OrganizationMembersDialog({
           {users.map((user) => {
             const selected = userIds.includes(user.id);
             const unavailable = unavailableUserIds.has(user.id) && !selected;
+            const protectedAdmin =
+              user.user_type === "Admin" && !canManageAdmins;
             return (
               <label key={user.id}>
                 <input
                   checked={selected}
-                  disabled={unavailable}
+                  disabled={unavailable || protectedAdmin}
                   onChange={() => toggleUser(user.id)}
                   type="checkbox"
                 />
@@ -65,6 +69,7 @@ export function OrganizationMembersDialog({
                 <small>
                   {user.user_type}
                   {unavailable ? " · déjà affecté" : ""}
+                  {protectedAdmin ? " · protégé" : ""}
                 </small>
               </label>
             );

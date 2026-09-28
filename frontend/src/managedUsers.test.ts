@@ -13,6 +13,7 @@ const user = {
   identifier: "alice",
   email: "alice@example.com",
   user_type: "Coach" as const,
+  is_active: true,
   pending: true,
   organizations: ["North"],
 };

@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from identities.adapters.api.organization_permissions import CanManageOrganizations
-from teams.adapters.api.scope import manageable_organization, manageable_team
+from identities.adapters.api.organization_scope import manageable_organization
+from teams.adapters.api.scope import manageable_team
 from teams.adapters.api.serializers import TeamInputSerializer, TeamSerializer
 
 

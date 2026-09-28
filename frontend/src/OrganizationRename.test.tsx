@@ -53,10 +53,10 @@ it("renames an organization from its list action", async () => {
     within(dialog).getByRole("button", { name: "Enregistrer le nom" }),
   );
 
-  await waitFor(() =>
-    expect(api.renameOrganization).toHaveBeenCalledWith(1, "East"),
-  );
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(api.renameOrganization).toHaveBeenCalledWith(1, "East");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
   expect(screen.getByText("East")).toBeVisible();
 });
 

@@ -17,6 +17,7 @@ const pending = {
   identifier: "alice",
   email: "alice@example.com",
   user_type: "Coach",
+  is_active: true,
   pending: true,
   organizations: ["North", "West"],
 };
@@ -100,7 +101,16 @@ it("updates then confirms deletion", async () => {
   fireEvent.change(screen.getByLabelText("Identifiant"), {
     target: { value: "alice-updated" },
   });
+  fireEvent.click(screen.getByLabelText("Compte actif"));
   fireEvent.click(screen.getByRole("button", { name: "Valider" }));
+  await waitFor(() =>
+    expect(api.updateManagedUser).toHaveBeenCalledWith(2, {
+      identifier: "alice-updated",
+      email: "alice@example.com",
+      role: "Coach",
+      is_active: false,
+    }),
+  );
   expect(await screen.findByText("alice-updated")).toBeVisible();
 
   fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));

@@ -29,7 +29,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 **Scénario nominal :**
 
 1. Une organisation a été créée par `ORG-001` et son premier rattachement `Admin` a été établi selon le mécanisme d’initialisation restant à arbitrer (`FEAT-037`).
-2. Cet `Admin` authentifié crée et active l’identité du `Coach` selon `USER-001`, puis le rattache à la même organisation (`FEAT-001` à `FEAT-004`, `FEAT-038`).
+2. Cet `Admin` authentifié invite le `Coach`, automatiquement rattaché à la même organisation (`FEAT-001` à `FEAT-004`, `FEAT-038`).
 3. Il crée dans cette organisation une équipe, puis lui affecte ce `Coach` de la même organisation ; l’affectation est historisée (`TEAM-001`, `TEAM-003`, `FEAT-008`, `FEAT-009`).
 4. Il compose, paramètre, publie et versionne un modèle d’évaluation dans un périmètre organisationnel explicite (`FEAT-011` à `FEAT-014`).
 5. Il associe ce modèle à l’équipe et fixe la première échéance ainsi que la fréquence (`FEAT-015` à `FEAT-018`).

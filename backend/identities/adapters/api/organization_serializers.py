@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import serializers
 
 from identities.domain.organizations import requires_single_organization
@@ -20,7 +21,12 @@ def validate_membership_limit(
         memberships = memberships.exclude(organization_id=current_organization.pk)
     if memberships.exists():
         raise serializers.ValidationError(
-            {"user_ids": ("Un Coach ou un Viewer ne peut appartenir qu'à une seule organisation.")}
+            {
+                "user_ids": (
+                    "Un Admin, un Coach ou un Viewer ne peut appartenir "
+                    "qu'à une seule organisation."
+                )
+            }
         )
 
 
@@ -63,10 +69,7 @@ class CreateOrganizationSerializer(serializers.Serializer):
         many=True,
         allow_empty=False,
         source="users",
-        help_text=(
-            "Un Admin peut appartenir à plusieurs organisations ; un Coach ou "
-            "un Viewer appartient au plus à une organisation."
-        ),
+        help_text=("Un Admin, un Coach ou un Viewer appartient au plus à une organisation."),
     )
 
     def validate_name(self, value: str) -> str:
@@ -89,14 +92,26 @@ class UpdateOrganizationMembersSerializer(serializers.Serializer):
         many=True,
         allow_empty=False,
         source="users",
-        help_text=(
-            "Un Admin peut appartenir à plusieurs organisations ; un Coach ou "
-            "un Viewer appartient au plus à une organisation."
-        ),
+        help_text=("Un Admin, un Coach ou un Viewer appartient au plus à une organisation."),
     )
 
     def validate(self, attrs: dict) -> dict:
         validate_membership_limit(attrs["users"], self.instance)
+        current_protected_ids = set(
+            self.instance.users.filter(Q(role=Role.ADMIN) | Q(is_superuser=True)).values_list(
+                "pk", flat=True
+            )
+        )
+        requested_protected_ids = {
+            user.pk for user in attrs["users"] if user.is_superuser or user.role == Role.ADMIN.value
+        }
+        if (
+            not self.context["actor"].is_superuser
+            and requested_protected_ids != current_protected_ids
+        ):
+            raise serializers.ValidationError(
+                {"user_ids": "Seul le Superadmin peut modifier les Admin de l'organisation."}
+            )
         had_admin = self.instance.users.filter(role=Role.ADMIN).exists()
         keeps_admin = any(user.role == Role.ADMIN for user in attrs["users"])
         if had_admin and not keeps_admin:

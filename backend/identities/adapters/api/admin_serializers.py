@@ -13,7 +13,15 @@ class ManagedUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "identifier", "email", "user_type", "pending", "organizations")
+        fields = (
+            "id",
+            "identifier",
+            "email",
+            "user_type",
+            "is_active",
+            "pending",
+            "organizations",
+        )
 
     def get_user_type(self, user: User) -> str:
         return "Superadmin" if user.is_superuser else user.role
@@ -51,6 +59,7 @@ class UpdateManagedUserSerializer(serializers.Serializer):
     identifier = serializers.CharField(max_length=150, allow_blank=False)
     email = serializers.EmailField(max_length=254)
     role = serializers.ChoiceField(choices=Role.values(), required=False)
+    is_active = serializers.BooleanField(required=False)
 
     def validate_identifier(self, value: str) -> str:
         identifier = value.strip()

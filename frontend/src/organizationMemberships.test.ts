@@ -2,7 +2,7 @@ import { expect, it } from "vitest";
 
 import { unavailableSingleOrganizationUserIds } from "./organizationMemberships";
 
-it("marks only Coachs and Viewers attached to another organization", () => {
+it("marks every business user attached to another organization", () => {
   const organizations = [
     {
       id: 1,
@@ -20,9 +20,9 @@ it("marks only Coachs and Viewers attached to another organization", () => {
   ];
 
   expect([...unavailableSingleOrganizationUserIds(organizations)]).toEqual([
-    2, 3,
+    1, 2, 3,
   ]);
   expect([...unavailableSingleOrganizationUserIds(organizations, 2)]).toEqual([
-    2,
+    1, 2,
   ]);
 });

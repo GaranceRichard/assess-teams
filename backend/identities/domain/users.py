@@ -32,10 +32,6 @@ class UserCreationForbidden(Exception):
 
 
 def ensure_user_creation_allowed(actor: Actor, requested_role: Role) -> None:
-    if not actor.is_active:
-        raise UserCreationForbidden
-    if actor.is_superuser:
-        return
-    if actor.role is Role.ADMIN and requested_role in {Role.COACH, Role.VIEWER}:
+    if actor.is_active and actor.is_superuser:
         return
     raise UserCreationForbidden

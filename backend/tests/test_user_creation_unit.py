@@ -31,13 +31,14 @@ def test_superadmin_creation_policy_accepts_every_business_role(role: Role) -> N
 
 
 @pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
-def test_admin_creation_policy_accepts_non_admin_roles(role: Role) -> None:
+def test_admin_creation_policy_requires_the_scoped_invitation_flow(role: Role) -> None:
     repository = FakeRepository()
     actor = Actor(is_active=True, is_superuser=False, role=Role.ADMIN)
 
-    create_user(command(actor, role), repository)
+    with pytest.raises(UserCreationForbidden):
+        create_user(command(actor, role), repository)
 
-    assert repository.created_roles == [role]
+    assert repository.created_roles == []
 
 
 @pytest.mark.parametrize(

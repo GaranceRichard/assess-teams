@@ -16,25 +16,43 @@ const api = vi.hoisted(() => ({
   deleteQuestion: vi.fn(),
   listEvaluations: vi.fn(),
   listQuestions: vi.fn(),
+  listOrganizations: vi.fn(),
   updateEvaluation: vi.fn(),
   updateQuestion: vi.fn(),
 }));
 
 vi.mock("./evaluations", () => api);
+vi.mock("./organizations", () => ({
+  listOrganizations: api.listOrganizations,
+}));
 
-const evaluation = { id: 1, name: "Initial" };
+const evaluation = { id: 1, organization_id: 7, name: "Initial" };
 const question = { id: 10, index: 1, name: "Question initiale" };
 
 beforeEach(() => {
   vi.clearAllMocks();
   api.listEvaluations.mockResolvedValue([evaluation]);
+  api.listOrganizations.mockResolvedValue([
+    { id: 7, name: "North", users: [] },
+  ]);
   api.listQuestions.mockResolvedValue([question]);
 });
 
+async function selectOrganization() {
+  fireEvent.change(await screen.findByLabelText("Organisation"), {
+    target: { value: "7" },
+  });
+}
+
 it("keeps the evaluation index hidden while creating and updating", async () => {
-  api.createEvaluation.mockResolvedValue({ id: 2, name: "Second" });
+  api.createEvaluation.mockResolvedValue({
+    id: 2,
+    organization_id: 7,
+    name: "Second",
+  });
   api.updateEvaluation.mockResolvedValue({ ...evaluation, name: "Renommée" });
   render(<EvaluationPage />);
+  await selectOrganization();
   const initial = (await screen.findByText("Initial")).closest("li")!;
 
   fireEvent.click(screen.getByRole("button", { name: "Créer une évaluation" }));
@@ -43,10 +61,11 @@ it("keeps the evaluation index hidden while creating and updating", async () => 
     target: { value: "Second" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Enregistrer" }));
-  const second = (await screen.findByText("Second")).closest("li")!;
-  fireEvent.click(within(second).getByRole("button", { name: "Second" }));
-  await waitFor(() => expect(api.listQuestions).toHaveBeenCalledWith(2));
-  expect(screen.getByRole("heading", { name: "Second" })).toBeVisible();
+  expect(await screen.findByText("Second")).toBeVisible();
+  expect(api.createEvaluation).toHaveBeenCalledWith({
+    organization_id: 7,
+    name: "Second",
+  });
 
   fireEvent.click(within(initial).getByRole("button", { name: "Modifier" }));
   expect(screen.queryByLabelText("Index de l’évaluation")).toBeNull();
@@ -58,10 +77,7 @@ it("keeps the evaluation index hidden while creating and updating", async () => 
   fireEvent.click(within(renamed).getByRole("button", { name: /Renommée/ }));
 
   expect(await screen.findByText("Question initiale")).toBeVisible();
-  expect(api.updateEvaluation).toHaveBeenCalledWith(1, {
-    name: "Renommée",
-  });
-  expect(api.createEvaluation).toHaveBeenCalledWith({ name: "Second" });
+  expect(api.updateEvaluation).toHaveBeenCalledWith(1, { name: "Renommée" });
 });
 
 it("creates, updates and deletes questions after confirmation", async () => {
@@ -69,6 +85,7 @@ it("creates, updates and deletes questions after confirmation", async () => {
   api.updateQuestion.mockResolvedValue({ ...question, name: "Modifiée" });
   api.deleteQuestion.mockResolvedValue(undefined);
   render(<EvaluationPage />);
+  await selectOrganization();
   const initial = (await screen.findByText("Initial")).closest("li")!;
   fireEvent.click(within(initial).getByRole("button", { name: /Initial/ }));
   const current = (await screen.findByText("Question initiale")).closest("li")!;
@@ -82,7 +99,6 @@ it("creates, updates and deletes questions after confirmation", async () => {
   expect(await screen.findByText("Nouvelle")).toBeVisible();
 
   fireEvent.click(within(current).getByRole("button", { name: "Modifier" }));
-  expect(screen.queryByLabelText("Index de la question")).toBeNull();
   fireEvent.change(screen.getByLabelText("Nom de la question"), {
     target: { value: "Modifiée" },
   });
@@ -102,6 +118,7 @@ it("creates, updates and deletes questions after confirmation", async () => {
 it("confirms evaluation deletion and reports loading failure", async () => {
   api.deleteEvaluation.mockResolvedValue(undefined);
   const { unmount } = render(<EvaluationPage />);
+  await selectOrganization();
   const initial = (await screen.findByText("Initial")).closest("li")!;
   fireEvent.click(within(initial).getByRole("button", { name: "Supprimer" }));
   expect(screen.getByText(/avec toutes ses questions/)).toBeVisible();

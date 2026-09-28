@@ -5,11 +5,21 @@ export type ManagedUser = {
   identifier: string;
   email: string;
   user_type: UserRole | "Superadmin";
+  is_active: boolean;
   pending: boolean;
   organizations: string[];
 };
 
-export type UserInput = { identifier: string; email: string; role?: UserRole };
+export type UserInput = {
+  identifier: string;
+  email: string;
+  role?: UserRole;
+  is_active?: boolean;
+};
+
+export type InviteUserInput = Required<
+  Pick<UserInput, "identifier" | "email" | "role">
+>;
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, { credentials: "same-origin", ...init });
@@ -30,7 +40,7 @@ export function listManagedUsers(): Promise<ManagedUser[]> {
 }
 
 export function inviteManagedUser(
-  input: Required<UserInput>,
+  input: InviteUserInput,
 ): Promise<ManagedUser> {
   return request("/api/admin/users/", writeOptions("POST", input));
 }

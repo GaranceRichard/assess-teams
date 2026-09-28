@@ -21,6 +21,7 @@ from identities.adapters.api.admin_serializers import (
     UpdateManagedUserSerializer,
 )
 from identities.adapters.api.managed_user_scope import visible_managed_users
+from identities.adapters.api.organization_scope import assigned_admin_organization
 from identities.application.invitations import (
     invitation_is_valid,
     send_deletion_notice,
@@ -39,10 +40,9 @@ class ManagedUserListCreateView(APIView):
 
     @extend_schema(
         description=(
-            "Liste toutes les identités pour un Superadmin ou Admin. Un Coach ou "
+            "Liste toutes les identités pour un Superadmin. Un Admin, Coach ou "
             "Viewer ne voit que les membres de son organisation, ou une liste vide "
-            "sans rattachement. Chaque identité expose ses organisations ; un "
-            "Superadmin expose toutes les organisations existantes."
+            "sans rattachement."
         ),
         responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
     )
@@ -65,6 +65,9 @@ class ManagedUserListCreateView(APIView):
         data = serializer.validated_data
         if not can_invite_managed_user(actor_for(request.user), Role(data["role"])):
             raise PermissionDenied("Cette fonction ne peut pas être créée.")
+        organization = None
+        if not request.user.is_superuser:
+            organization = assigned_admin_organization(request.user)
         user = User(
             username=data["identifier"],
             email=data["email"],
@@ -73,6 +76,8 @@ class ManagedUserListCreateView(APIView):
         )
         user.set_unusable_password()
         user.save()
+        if organization:
+            organization.users.add(user)
         transaction.on_commit(lambda: send_invitation(user))
         return Response(ManagedUserSerializer(user).data, status=status.HTTP_201_CREATED)
 
@@ -84,9 +89,8 @@ class ManagedUserDetailView(APIView):
     @extend_schema(
         description=(
             "Modifie une identité autorisée et, selon la fonction de l'appelant, "
-            "sa fonction métier. Un Admin multi-organisation ne peut pas devenir "
-            "Coach ou Viewer. Un Coach agit uniquement sur un Viewer de son "
-            "organisation."
+            "sa fonction métier ou son activation. Seul le Superadmin administre "
+            "un Admin. Un Coach agit uniquement sur un Viewer de son organisation."
         ),
         request=UpdateManagedUserSerializer,
         responses={
@@ -111,14 +115,15 @@ class ManagedUserDetailView(APIView):
             raise PermissionDenied("Vous ne pouvez pas modifier cet utilisateur.")
         if requires_single_organization(requested_role) and user.organizations.count() > 1:
             raise ValidationError(
-                {"role": "Un Coach ou un Viewer appartient au plus à une organisation."}
+                {"role": ("Un Admin, un Coach ou un Viewer appartient au plus à une organisation.")}
             )
         previous_email = user.email
         user.username = serializer.validated_data["identifier"]
         user.email = serializer.validated_data["email"]
         if not user.is_superuser:
             user.role = requested_role.value
-        user.save(update_fields=["email", "role", "username"])
+        user.is_active = serializer.validated_data.get("is_active", user.is_active)
+        user.save(update_fields=["email", "is_active", "role", "username"])
         transaction.on_commit(lambda: send_update_notice(user, previous_email))
         return Response(ManagedUserSerializer(user).data)
 

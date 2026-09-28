@@ -43,19 +43,23 @@ def attach_to_organization(*users: User) -> None:
 
 @pytest.mark.django_db
 @pytest.mark.api
-def test_admin_lists_every_user() -> None:
-    create_superuser()
+def test_admin_lists_only_users_from_its_organization() -> None:
+    root = create_superuser()
     actor = create_user("actor", Role.ADMIN)
+    peer = create_user("peer", Role.ADMIN)
     viewer = create_user("viewer", Role.VIEWER)
+    outsider = create_user("outsider", Role.VIEWER)
+    attach_to_organization(actor, peer, viewer)
 
     response = logged_in_client(actor).get(reverse("managed-user-list"))
 
     assert response.status_code == 200
     assert {entry["id"] for entry in response.json()} == {
         actor.pk,
+        peer.pk,
         viewer.pk,
-        User.objects.get(is_superuser=True).pk,
     }
+    assert {root.pk, outsider.pk}.isdisjoint({entry["id"] for entry in response.json()})
 
 
 @pytest.mark.django_db
@@ -63,6 +67,8 @@ def test_admin_lists_every_user() -> None:
 @pytest.mark.api
 def test_admin_invites_and_changes_only_coach_or_viewer() -> None:
     admin = create_user("admin", Role.ADMIN)
+    organization = Organization.objects.create(name="North")
+    organization.users.add(admin)
     client = logged_in_client(admin)
     route = reverse("managed-user-list")
     coach_payload = {
@@ -85,6 +91,7 @@ def test_admin_invites_and_changes_only_coach_or_viewer() -> None:
     assert forbidden.status_code == 403
     assert changed.status_code == 200
     assert coach.role == Role.VIEWER.value
+    assert list(coach.organizations.all()) == [organization]
 
 
 @pytest.mark.django_db
@@ -93,6 +100,7 @@ def test_admin_cannot_manage_admin_or_promote_viewer() -> None:
     actor = create_user("actor", Role.ADMIN)
     other_admin = create_user("other-admin", Role.ADMIN)
     viewer = create_user("viewer", Role.VIEWER)
+    attach_to_organization(actor, other_admin, viewer)
     client = logged_in_client(actor)
 
     assert update(client, other_admin).status_code == 403

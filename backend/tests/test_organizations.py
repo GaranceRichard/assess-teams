@@ -40,32 +40,40 @@ def test_superadmin_creates_an_organization_with_several_users() -> None:
 @pytest.mark.django_db
 @pytest.mark.functional
 @pytest.mark.api
-def test_admin_creates_organizations_with_a_shared_admin_and_lists_them() -> None:
+def test_admin_lists_only_its_organization_and_cannot_create_another() -> None:
     admin = create_user("admin", Role.ADMIN)
-    viewer = create_user("viewer", Role.VIEWER)
-    client = logged_in_client(admin)
+    peer = create_user("peer", Role.ADMIN)
+    client = logged_in_client(create_superuser())
     route = reverse("organization-list")
 
     first = csrf_post(
         client,
         route,
-        {"name": "East", "user_ids": [admin.pk, viewer.pk]},
+        {"name": "East", "user_ids": [admin.pk, peer.pk]},
     )
-    second = csrf_post(client, route, {"name": "West", "user_ids": [admin.pk]})
-    listed = client.get(route)
+    outsider = create_user("outsider", Role.ADMIN)
+    second = csrf_post(client, route, {"name": "West", "user_ids": [outsider.pk]})
+    admin_client = logged_in_client(admin)
+    forbidden = csrf_post(admin_client, route, {"name": "Blocked", "user_ids": [admin.pk]})
+    listed = admin_client.get(route)
+    hidden_detail = admin_client.get(
+        reverse("organization-detail", kwargs={"organization_id": second.json()["id"]})
+    )
 
     assert first.status_code == 201
     assert second.status_code == 201
+    assert forbidden.status_code == 403
     assert listed.status_code == 200
-    assert [entry["name"] for entry in listed.json()] == ["East", "West"]
-    assert admin.organizations.count() == 2
-    assert viewer.organizations.count() == 1
+    assert [entry["name"] for entry in listed.json()] == ["East"]
+    assert hidden_detail.status_code == 404
+    assert admin.organizations.count() == 1
+    assert peer.organizations.count() == 1
 
 
 @pytest.mark.django_db
 @pytest.mark.api
-@pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
-def test_creation_refuses_a_second_organization_for_coach_or_viewer(role) -> None:
+@pytest.mark.parametrize("role", [Role.ADMIN, Role.COACH, Role.VIEWER])
+def test_creation_refuses_a_second_organization_for_every_business_role(role) -> None:
     root = create_superuser()
     member = create_user("member", role)
     existing = Organization.objects.create(name="Existing")
@@ -93,10 +101,9 @@ def test_organization_creation_refuses_unauthorized_or_invalid_requests() -> Non
     client.logout()
     anonymous = client.get(route)
 
-    admin = create_user("admin", Role.ADMIN)
-    admin_client = logged_in_client(admin)
-    missing_users = csrf_post(admin_client, route, {"name": "Empty", "user_ids": []})
-    unknown_user = csrf_post(admin_client, route, {"name": "Unknown", "user_ids": [99999]})
+    root_client = logged_in_client(create_superuser())
+    missing_users = csrf_post(root_client, route, {"name": "Empty", "user_ids": []})
+    unknown_user = csrf_post(root_client, route, {"name": "Unknown", "user_ids": [99999]})
 
     assert forbidden.status_code == 403
     assert anonymous.status_code == 403
@@ -110,24 +117,34 @@ def test_organization_creation_refuses_unauthorized_or_invalid_requests() -> Non
 @pytest.mark.api
 def test_admin_adds_and_removes_organization_members() -> None:
     admin = create_user("admin", Role.ADMIN)
+    peer = create_user("peer", Role.ADMIN)
     coach = create_user("coach", Role.COACH)
     viewer = create_user("viewer", Role.VIEWER)
     organization = Organization.objects.create(name="North")
-    organization.users.set([admin, coach])
-    other = Organization.objects.create(name="Other")
-    other.users.add(coach)
+    organization.users.set([admin, peer, coach])
     client = logged_in_client(admin)
 
     response = csrf_put(
         client,
         reverse("organization-members", kwargs={"organization_id": organization.pk}),
-        {"user_ids": [admin.pk, viewer.pk]},
+        {"user_ids": [admin.pk, peer.pk, viewer.pk]},
     )
 
     assert response.status_code == 200
-    assert {user["id"] for user in response.json()["users"]} == {admin.pk, viewer.pk}
-    assert set(organization.users.all()) == {admin, viewer}
-    assert set(other.users.all()) == {coach}
+    assert {user["id"] for user in response.json()["users"]} == {
+        admin.pk,
+        peer.pk,
+        viewer.pk,
+    }
+    assert set(organization.users.all()) == {admin, peer, viewer}
+
+    blocked = csrf_put(
+        client,
+        reverse("organization-members", kwargs={"organization_id": organization.pk}),
+        {"user_ids": [admin.pk, viewer.pk]},
+    )
+    assert blocked.status_code == 400
+    assert peer in organization.users.all()
 
 
 @pytest.mark.django_db

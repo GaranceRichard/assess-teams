@@ -24,10 +24,11 @@ def test_openapi_documents_evaluation_and_question_management() -> None:
     assert response.status_code == 200
     assert {"cookieAuth": []} in evaluations["get"]["security"]
     assert set(evaluations["get"]["responses"]) == {"200", "403"}
-    assert set(evaluations["post"]["responses"]) == {"201", "400", "403"}
-    assert set(component["required"]) == {"name"}
+    assert set(evaluations["post"]["responses"]) == {"201", "400", "403", "404"}
+    assert set(component["required"]) == {"organization_id", "name"}
     assert "index" not in component["properties"]
     assert "index" not in response_component["properties"]
+    assert "organization_id" in response_component["properties"]
     assert set(evaluation["put"]["responses"]) == {"200", "400", "403", "404"}
     assert set(evaluation["delete"]["responses"]) == {"204", "403", "404"}
     assert set(questions["get"]["responses"]) == {"200", "403", "404"}

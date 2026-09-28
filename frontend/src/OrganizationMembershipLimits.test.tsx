@@ -27,6 +27,7 @@ const users = [
     identifier: "admin-one",
     email: "admin@example.com",
     user_type: "Admin",
+    is_active: true,
     pending: false,
     organizations: ["Existing"],
   },
@@ -35,6 +36,7 @@ const users = [
     identifier: "coach-one",
     email: "coach@example.com",
     user_type: "Coach",
+    is_active: true,
     pending: false,
     organizations: ["Existing"],
   },
@@ -43,6 +45,7 @@ const users = [
     identifier: "viewer-one",
     email: "viewer@example.com",
     user_type: "Viewer",
+    is_active: true,
     pending: false,
     organizations: ["Target"],
   },
@@ -68,13 +71,13 @@ beforeEach(() => {
   ]);
 });
 
-it("keeps Admins reusable and blocks Coachs or Viewers attached elsewhere", async () => {
-  render(<OrganizationPage />);
+it("blocks every business role already attached to another organization", async () => {
+  render(<OrganizationPage isSuperadmin />);
 
   const creationForm = await screen.findByRole("form", {
     name: "Créer une organisation",
   });
-  expect(within(creationForm).getByLabelText(/admin-one/)).toBeEnabled();
+  expect(within(creationForm).getByLabelText(/admin-one/)).toBeDisabled();
   expect(within(creationForm).getByLabelText(/coach-one/)).toBeDisabled();
   expect(within(creationForm).getByLabelText(/viewer-one/)).toBeDisabled();
 
@@ -84,7 +87,7 @@ it("keeps Admins reusable and blocks Coachs or Viewers attached elsewhere", asyn
     within(target!).getByRole("button", { name: "Gérer les membres" }),
   );
   const dialog = screen.getByRole("dialog");
-  expect(within(dialog).getByLabelText(/admin-one/)).toBeEnabled();
+  expect(within(dialog).getByLabelText(/admin-one/)).toBeDisabled();
   expect(within(dialog).getByLabelText(/coach-one/)).toBeDisabled();
   expect(within(dialog).getByLabelText(/viewer-one/)).toBeEnabled();
   expect(within(dialog).getByLabelText(/viewer-one/)).toBeChecked();

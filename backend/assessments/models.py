@@ -2,13 +2,22 @@ from django.db import models
 
 
 class Evaluation(models.Model):
-    index = models.PositiveIntegerField(unique=True)
+    organization = models.ForeignKey(
+        "identities.Organization",
+        on_delete=models.CASCADE,
+        related_name="evaluations",
+    )
+    index = models.PositiveIntegerField()
     name = models.CharField(max_length=255)
 
     class Meta:
         ordering = ("index", "pk")
         constraints = [
-            models.CheckConstraint(condition=models.Q(index__gte=1), name="evaluation_index_gte_1")
+            models.CheckConstraint(condition=models.Q(index__gte=1), name="evaluation_index_gte_1"),
+            models.UniqueConstraint(
+                fields=("organization", "index"),
+                name="evaluation_index_unique_per_organization",
+            ),
         ]
 
 

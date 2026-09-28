@@ -11,21 +11,21 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Identifiant :** `ORG-001`.
 - **Feature parente :** `FEAT-036`.
 - **Titre :** Créer une organisation.
-- **User story :** en tant que `Superadmin` ou `Admin`, je veux créer une organisation et y affecter des utilisateurs afin d’établir leur périmètre métier.
+- **User story :** en tant que `Superadmin`, je veux créer une organisation et y affecter des utilisateurs afin d’établir leur périmètre métier.
 - **Intention métier :** établir un périmètre organisationnel identifiable et durable.
-- **Description :** exposer la création d’une organisation à partir de son `nom` et d’au moins un utilisateur existant. Le système lui attribue un identifiant technique stable et persiste atomiquement tous les rattachements. Un `Admin` peut appartenir à plusieurs organisations ; un `Coach` ou un `Viewer` appartient au plus à une organisation.
+- **Description :** exposer au Superadmin la création d’une organisation à partir de son `nom` et d’au moins un utilisateur existant. Le système lui attribue un identifiant technique stable et persiste atomiquement tous les rattachements. Chaque rôle métier appartient au plus à une organisation.
 - **Critères d’acceptation :**
-  - un `Superadmin` ou un `Admin` peut créer une organisation depuis le menu Organisation ;
-  - un `Coach` ou un `Viewer` ne peut pas créer d’organisation ;
+  - un `Superadmin` peut créer une organisation depuis le menu Organisation ;
+  - un `Admin`, `Coach` ou `Viewer` ne peut pas créer d’organisation ;
   - `nom` est la seule donnée métier obligatoire à la création ;
   - une organisation valide reçoit un identifiant technique stable ;
   - un ou plusieurs utilisateurs existants sont affectés dans la même transaction ;
-  - un `Admin` peut appartenir à plusieurs organisations ;
-  - un `Coach` ou un `Viewer` déjà rattaché à une organisation ne peut pas être affecté à une seconde ;
+  - plusieurs Admins peuvent appartenir à une même organisation ;
+  - un `Admin`, `Coach` ou `Viewer` déjà rattaché ne peut pas être affecté à une seconde organisation ;
   - le `Superadmin` peut créer la première organisation avant qu’un `Admin` rattaché existe ;
   - une création refusée ne persiste aucune donnée partielle ;
   - deux organisations distinctes peuvent porter le même nom.
-- **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; `nom` absent ou invalide ; aucun utilisateur ; identifiant utilisateur inexistant ; `Coach` ou `Viewer` déjà rattaché à une autre organisation.
+- **Principaux cas de refus :** acteur non authentifié ou non-Superadmin ; `nom` absent ou invalide ; aucun utilisateur ; identifiant utilisateur inexistant ; utilisateur déjà rattaché à une autre organisation.
 - **Décisions produit bloquantes :** aucune pour la création.
 - **Dépendances :** aucune.
 - **Priorité :** P0.
@@ -42,7 +42,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Description :** exposer dans le backend une liste des organisations accessibles et la consultation d’une organisation par son identifiant stable.
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter toutes les organisations ;
-  - l’`Admin` peut consulter la liste administrative globale ;
+  - l’`Admin` peut consulter uniquement son organisation d'affectation ;
   - le `Coach` et le `Viewer` peuvent consulter uniquement les organisations de leur périmètre autorisé ;
   - une liste des organisations est disponible ;
   - une organisation peut être consultée par identifiant ;
@@ -50,7 +50,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - toute consultation exige une identité authentifiée ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une organisation.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent, mal formé ou inexistant ; organisation hors du périmètre autorisé.
-- **Décision produit bloquante :** `ARB-ORG-011` pour le choix du périmètre actif lors des consultations métier multi-organisation. La liste administrative du Superadmin et de l’Admin est déjà livrée avec `ORG-001`.
+- **Décision produit bloquante :** aucune ; le rattachement unique de l'Admin détermine son périmètre.
 - **Dépendances :** `ORG-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -102,12 +102,12 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 ### FEAT-037 — Rattacher un Admin à une organisation
 
 - **Intention métier :** rendre explicite le périmètre dans lequel un `Admin` peut administrer le dispositif.
-- **Acteur concerné :** `Superadmin` pour toute organisation ; `Admin` pour une organisation à laquelle il est rattaché.
+- **Acteur concerné :** `Superadmin` exclusivement.
 - **Description :** créer, faire évoluer et retracer les rattachements d’un `Admin` à des organisations existantes.
 - **Critères d’acceptation principaux :**
-  - un `Admin` peut être rattaché à une ou plusieurs organisations ;
+  - un `Admin` peut être rattaché à une seule organisation et plusieurs Admins peuvent y être pairs ;
   - les membres courants peuvent être ajoutés ou retirés atomiquement depuis le menu Organisation ;
-  - le dernier `Admin` existant d’une organisation ne peut pas être retiré ;
+  - seul le Superadmin peut ajouter, retirer, déplacer ou modifier un Admin ;
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
   - une opération métier d’un `Admin` est limitée au rattachement actif applicable ;
   - l’historique permet de déterminer le rattachement applicable à une action passée.

@@ -4,7 +4,7 @@ Ce document est la source fonctionnelle canonique des concepts partagés par plu
 
 ## Organisation
 
-Le système gère plusieurs organisations. Une **Organisation** est le périmètre métier auquel sont rattachés les utilisateurs et les équipes. Elle possède un identifiant technique stable et `nom` comme seule donnée métier obligatoire. Un `Admin` peut appartenir explicitement à une ou plusieurs organisations ; un `Coach` ou un `Viewer` appartient au plus à une organisation.
+Le système gère plusieurs organisations. Une **Organisation** est la frontière d'autorisation des utilisateurs, équipes et ressources métier. Elle possède un identifiant technique stable et `nom` comme seule donnée métier obligatoire. Un `Admin`, `Coach` ou `Viewer` appartient au plus à une organisation ; un Admin affecté administre exclusivement celle-ci.
 
 - toute équipe appartient à exactement une organisation à un instant donné ; son archivage ou sa réactivation ne change pas ce rattachement ;
 - toute donnée ou opération métier doit permettre de déterminer sans ambiguïté son organisation, soit par rattachement direct, soit par un rattachement métier explicite à une donnée déjà rattachée ;
@@ -27,7 +27,7 @@ Le `Superadmin` désigne le superuser Django global. C’est une capacité techn
 
 | Rôle | Capacités cumulées | Périmètre |
 | --- | --- | --- |
-| `Admin` | fonctions `Admin`, `Coach` et `Viewer` | organisations rattachées ou organisation qu’il crée explicitement |
+| `Admin` | administration des ressources et membres non-Admin | unique organisation d'affectation |
 | `Coach` | fonctions `Coach` et `Viewer` | unique organisation de rattachement, puis équipe concernée lorsque la Feature exige une affectation |
 | `Viewer` | consultation uniquement | unique organisation de rattachement |
 
@@ -41,16 +41,16 @@ Une capacité héritée ne supprime pas les préconditions métier propres à l�
 
 Chaque utilisateur géré par `USER-001` à `USER-004` possède exactement une fonction métier parmi `Admin`, `Coach` et `Viewer`. La hiérarchie de capacités ci-dessus ne crée pas plusieurs rôles explicites sur son identité. Le `Superadmin` reste représenté séparément par sa capacité technique Django.
 
-Le choix du périmètre actif d’un `Admin` multi-organisation relève de `ARB-ORG-011`.
+Le périmètre actif d’un `Admin` est toujours son unique organisation d'affectation.
 
 ### Matrice CRUD des Organisations
 
 | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
-| CREATE | Oui | Oui | Non | Non |
-| READ | Toutes | Toutes dans l’écran d’administration | Périmètre autorisé | Périmètre autorisé |
-| UPDATE | Toutes | Organisations accessibles | Non | Non |
-| DELETE | Toutes | Organisations accessibles | Non | Non |
+| CREATE | Oui | Non | Non | Non |
+| READ | Toutes | Organisation d'affectation | Périmètre autorisé | Périmètre autorisé |
+| UPDATE | Toutes | Organisation d'affectation | Non | Non |
+| DELETE | Toutes | Non | Non | Non |
 
 La sémantique du `DELETE` d’une Organisation reste à arbitrer dans `ARB-ORG-005`. Le choix du périmètre actif reste à arbitrer dans `ARB-ORG-011`.
 
@@ -58,10 +58,10 @@ La sémantique du `DELETE` d’une Organisation reste à arbitrer dans `ARB-ORG-
 
 | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
-| CREATE | Toutes les organisations | Organisations accessibles | Non | Non |
-| READ | Toutes les organisations | Organisations accessibles | Périmètre autorisé | Périmètre autorisé |
-| UPDATE | Toutes les organisations | Organisations accessibles | Non | Non |
-| DELETE | Toutes les organisations | Organisations accessibles | Non | Non |
+| CREATE | Toutes les organisations | Organisation d'affectation | Non | Non |
+| READ | Toutes les organisations | Organisation d'affectation | Périmètre autorisé | Périmètre autorisé |
+| UPDATE | Toutes les organisations | Organisation d'affectation | Non | Non |
+| DELETE | Toutes les organisations | Organisation d'affectation | Non | Non |
 
 Pour les Équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`. Pour les deux matrices, un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre. Toute lecture de donnée métier exige une identité authentifiée.
 

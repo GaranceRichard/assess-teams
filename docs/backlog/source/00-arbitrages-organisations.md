@@ -13,22 +13,22 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision prise — Superadmin technique :** le `Superadmin` désigne le superuser Django global. Le premier est créé par le mécanisme de bootstrap Django. Cette capacité technique n’est pas un quatrième rôle métier et n’est utilisable dans le backlog fonctionnel que lorsqu’un PBI la cite explicitement.
 - **Décision prise — fonction utilisateur :** une identité gérée par `USER-001` à `USER-004` porte exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ; l’héritage de capacités n’est pas un cumul de rôles explicites.
 - **Décision prise — données utilisateur :** une identité métier comprend explicitement `nom`, `prénom` et `mail`. La relation entre `mail` et l’éventuel identifiant technique `username` n’est pas décidée et ne doit pas être déduite de cette décision.
-- **Décision prise — périmètres CRUD Organisations et Équipes :** le `Superadmin` peut agir sur toutes les organisations et lui seul peut en supprimer une. Un `Admin` peut créer une organisation, consulter la liste administrative globale et administrer sans suppression les organisations auxquelles il est explicitement rattaché. `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé.
+- **Décision prise — périmètres CRUD Organisations et Équipes :** le `Superadmin` agit globalement et lui seul crée ou supprime une organisation. Un `Admin` administre sans suppression son unique organisation d'affectation. `Coach` et `Viewer` conservent leur périmètre autorisé.
 - **Décision prise — suppression d’une équipe :** le `DELETE` d’une équipe réalise l’archivage métier défini par `TEAM-005` ; il ne supprime physiquement ni l’équipe ni son historique.
 
 ## Arbitrages
 
 ### ARB-ORG-001 — Cardinalité d’appartenance d’une identité
 
-- **Décision prise :** un `Admin` peut appartenir explicitement à une ou plusieurs organisations ; un `Coach` ou un `Viewer` appartient au plus à une organisation.
+- **Décision prise :** un `Admin`, un `Coach` ou un `Viewer` appartient au plus à une organisation. Une organisation peut compter plusieurs Admins pairs.
 - **Décision prise :** une création d’organisation accepte un ou plusieurs utilisateurs et crée tous ces rattachements atomiquement.
-- **Décision prise :** l’ajout dans une seconde organisation d’un `Coach` ou d’un `Viewer`, ainsi que la conversion d’un `Admin` multi-organisation vers l’un de ces rôles, sont refusés atomiquement.
+- **Décision prise :** l’ajout de tout rôle métier dans une seconde organisation est refusé atomiquement ; une migration ne supprime jamais arbitrairement un rattachement historique.
 - **Arbitrage résolu :** la cardinalité ne bloque plus `FEAT-037`, `FEAT-038` ni leurs parcours dépendants ; le choix d’un périmètre actif reste traité par `ARB-ORG-011`.
 
 ### ARB-ORG-002 — Création de la première organisation
 
 - **Décision prise :** toute organisation possède un identifiant technique stable.
-- **Décision prise :** le `Superadmin` ou un `Admin` peut créer une organisation par `ORG-001` et lui affecter immédiatement des utilisateurs.
+- **Décision prise :** seul le `Superadmin` crée une organisation et lui affecte immédiatement des utilisateurs.
 - **Arbitrage résolu :** l’autorité de création et le rattachement initial sont décidés ; `ARB-ORG-002` ne bloque plus `ORG-001`.
 
 ### ARB-ORG-003 — Création et rattachement du premier Admin
@@ -88,9 +88,8 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 ### ARB-ORG-011 — Périmètre actif en cas de multi-appartenance
 
 - **Décision prise :** chaque commande ou consultation possède un périmètre non ambigu et ne mélange pas implicitement plusieurs organisations.
-- **Décision prise :** la multi-appartenance est autorisée pour toutes les identités, sans mélange implicite des périmètres.
-- **Décision à arbitrer — bloquante :** comment le périmètre actif est-il sélectionné, propagé, affiché et contrôlé pour les opérations qui en exigent un ?
-- **Backlog bloqué :** toutes les Features multi-organisation qui exigent un périmètre actif ; la création d’une organisation et de ses rattachements n’en exige pas.
+- **Décision prise :** le périmètre actif d'un Admin est son unique organisation d'affectation ; aucun sélecteur multi-organisation n'est nécessaire.
+- **Arbitrage résolu :** les Features organisationnelles appliquent directement ce rattachement unique.
 
 ### ARB-ORG-012 — Périmètre du Viewer authentifié
 
@@ -107,6 +106,6 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 ### ARB-ORG-015 — Périmètre des opérations CRUD Organisations et Équipes
 
 - **Décision prise :** le `Superadmin` peut créer une organisation, agir sur toutes les organisations et leurs équipes, et supprimer physiquement une organisation.
-- **Décision prise :** un `Admin` peut créer une organisation et lui affecter un ou plusieurs utilisateurs. Il administre sans suppression les organisations auxquelles il est explicitement rattaché.
+- **Décision prise :** un `Admin` administre sans suppression son unique organisation et ne peut jamais modifier ses Admins. Seul le Superadmin crée une organisation et administre les comptes Admin.
 - **Décision prise :** `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé. Toute lecture de donnée métier exige une identité authentifiée. Toute lecture hors périmètre ne révèle ni l’existence ni les données de l’objet, et tout refus d’écriture est sans effet partiel.
 - **Arbitrage résolu :** les périmètres CRUD sont décidés ; `ARB-ORG-015` ne bloque plus `ORG-001` à `ORG-004` ni `TEAM-001` à `TEAM-007`. `ARB-ORG-011` reste applicable au choix d’un périmètre actif.

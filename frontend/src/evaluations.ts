@@ -1,9 +1,10 @@
 import { csrfToken } from "./auth";
 
 export type NamedEntity = { id: number; name: string };
-export type Evaluation = NamedEntity;
+export type Evaluation = NamedEntity & { organization_id: number };
 export type Question = NamedEntity & { index: number };
 export type NameInput = { name: string };
+export type EvaluationInput = NameInput & { organization_id: number };
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, { credentials: "same-origin", ...init });
@@ -11,7 +12,10 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   return (response.status === 204 ? undefined : await response.json()) as T;
 }
 
-function writeOptions(method: string, input?: NameInput): RequestInit {
+function writeOptions(
+  method: string,
+  input?: NameInput | EvaluationInput,
+): RequestInit {
   return {
     method,
     headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken() },
@@ -23,7 +27,7 @@ export function listEvaluations(): Promise<Evaluation[]> {
   return request("/api/admin/evaluations/");
 }
 
-export function createEvaluation(input: NameInput): Promise<Evaluation> {
+export function createEvaluation(input: EvaluationInput): Promise<Evaluation> {
   return request("/api/admin/evaluations/", writeOptions("POST", input));
 }
 

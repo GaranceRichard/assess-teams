@@ -9,7 +9,7 @@ export function unavailableSingleOrganizationUserIds(
   organizations
     .filter((organization) => organization.id !== exceptOrganizationId)
     .flatMap((organization) => organization.users)
-    .filter((user) => user.user_type === "Coach" || user.user_type === "Viewer")
+    .filter((user) => user.user_type !== "Superadmin")
     .forEach((user) => unavailableIds.add(user.id));
 
   return unavailableIds;

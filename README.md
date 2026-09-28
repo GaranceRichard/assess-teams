@@ -4,6 +4,9 @@
 
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le périmètre fonctionnel détaillé sera défini au fil de la conception du produit.
 
+Le chantier en cours fait de l'Organisation la frontière d'administration : le Superadmin reste global ; un Admin
+unique à une organisation administre ses membres non-Admin, ses équipes et ses évaluations, jamais les Admins.
+
 ## Socle technique
 
 - Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite.
@@ -11,19 +14,12 @@
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le dépôt contient le socle technique, `USER-001`, le health check, le schéma OpenAPI et Swagger UI. Le premier
-parcours d'accès produit livre une session, une navigation filtrée selon la fonction Admin, Coach ou Viewer,
-des routes protégées et la déconnexion. La documentation formalise les arbitrages du socle Organisation et
-exige une authentification pour toute lecture métier, sans franchissement implicite de périmètre.
-
 Le bootstrap local distingue `development` et `production`, réconcilie les identités `Admin`, `Coach` et `Viewer` sans doublon, et permet d'afficher ou masquer le mot de passe sans l'altérer.
 
 ## Périmètres livrés — identités et accès
 
-L'endpoint initial permet à un Superadmin ou à un Admin autorisé de créer une identité active avec
-une fonction métier unique (`Admin`, `Coach` ou `Viewer`). Ce chantier inclut uniquement l'authentification
-minimale nécessaire à l'appel, les permissions de création et le contrat OpenAPI ; aucun rattachement
-organisationnel n'est ajouté.
+L'endpoint initial de création d'identité est réservé au Superadmin. Dans l'espace produit, un Admin invite
+uniquement des Coachs ou Viewers, automatiquement rattachés à son organisation unique.
 
 Une identité active peut ouvrir une session produit, reprendre sur le tableau de bord depuis la racine puis accéder aux placeholders autorisés par sa fonction.
 Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. Le Superadmin Django obtient
@@ -32,19 +28,22 @@ de bord son organisation et ses équipes actives ; le Viewer y retrouve son orga
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
 soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatrième rôle métier.
 
-La gestion des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien, l'Admin
-gère les Coachs et Viewers, le Coach gère les Viewers de son organisation, et le Viewer consulte ses membres. Le menu Utilisateurs des Admins et Superadmins indique les organisations de chaque compte ; un Superadmin y est présenté comme affecté à toutes les organisations.
+La gestion des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
+l'Admin gère uniquement les Coachs et Viewers de son organisation, le Coach gère les Viewers de son
+organisation, et le Viewer consulte ses membres. Seul le Superadmin crée, affecte, modifie ou supprime un Admin.
 Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne peut jamais changer une fonction.
 
 ## Périmètre livré — gestion des organisations et équipes
 
-Le menu Organisations permet aux Superadmins et Admins de créer, renommer et gérer les membres ; seul le Superadmin supprime une organisation.
+Le Superadmin crée et supprime les organisations. Un Admin consulte et renomme uniquement son organisation,
+et peut en gérer les Coachs et Viewers sans jamais modifier les Admin qui y sont rattachés.
 Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation.
 
 ## Périmètre livré — modèle d’évaluation
 
-Les Superadmins et Admins créent, consultent, modifient et suppriment après confirmation des évaluations.
-Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
+Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement
+celles de leur organisation. Les index des évaluations et questions sont attribués automatiquement dans leur
+périmètre, sans champ de saisie pour l’utilisateur.
 
 ## Installation
 
@@ -77,10 +76,11 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\dev-frontend.p
 - Le health check est disponible sur `http://127.0.0.1:8000/api/health/`.
 - Le schéma OpenAPI est disponible sur `http://127.0.0.1:8000/api/schema/`.
 - Swagger UI est disponible sur `http://127.0.0.1:8000/api/docs/`.
-- La création d'utilisateur est disponible par `POST /api/users/` avec authentification Basic ou session.
+- La création technique d'utilisateur est disponible au seul Superadmin par `POST /api/users/`.
 - La session produit utilise `POST /api/session/login/`, `GET /api/session/` et
   `POST /api/session/logout/` ; la déconnexion exige le jeton CSRF fourni avec la session.
-- La gestion des organisations utilise la collection `/api/admin/organizations/` et ses routes de modification avec une session Admin.
+- La gestion des organisations utilise `/api/admin/organizations/` : collection globale pour le Superadmin,
+  organisation unique pour l'Admin.
 - Les modèles d’évaluation utilisent `/api/admin/evaluations/` et les questions leurs routes imbriquées.
 
 Le premier Superadmin est créé exclusivement avec le bootstrap Django :

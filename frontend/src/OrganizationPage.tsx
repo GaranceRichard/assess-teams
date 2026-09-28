@@ -111,11 +111,15 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
           {error}
         </p>
       )}
-      <OrganizationCreateForm
-        onSubmit={create}
-        unavailableUserIds={unavailableSingleOrganizationUserIds(organizations)}
-        users={users}
-      />
+      {isSuperadmin && (
+        <OrganizationCreateForm
+          onSubmit={create}
+          unavailableUserIds={unavailableSingleOrganizationUserIds(
+            organizations,
+          )}
+          users={users}
+        />
+      )}
       <OrganizationList
         isSuperadmin={isSuperadmin}
         onDelete={setDeleting}
@@ -128,6 +132,7 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
           onCancel={() => setEditingMembers(null)}
           onSubmit={saveMembers}
           organization={editingMembers}
+          canManageAdmins={isSuperadmin}
           unavailableUserIds={unavailableSingleOrganizationUserIds(
             organizations,
             editingMembers.id,

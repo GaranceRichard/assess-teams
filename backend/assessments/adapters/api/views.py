@@ -1,18 +1,23 @@
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from assessments.adapters.api.permissions import CanManageEvaluations
+from assessments.adapters.api.scope import (
+    manageable_evaluation,
+    manageable_question,
+    visible_evaluations,
+)
 from assessments.adapters.api.serializers import (
+    CreateEvaluationInputSerializer,
     EvaluationInputSerializer,
     EvaluationSerializer,
     QuestionInputSerializer,
     QuestionSerializer,
 )
-from assessments.models import Evaluation, Question
+from assessments.models import Evaluation
 
 
 class EvaluationListCreateView(APIView):
@@ -20,19 +25,34 @@ class EvaluationListCreateView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Liste les modèles d’évaluation selon leur ordre interne invisible.",
+        description=(
+            "Liste, selon leur ordre interne invisible, tous les modèles d’évaluation "
+            "pour un Superadmin et ceux de l’organisation d’un Admin."
+        ),
         responses={200: EvaluationSerializer(many=True), 403: OpenApiResponse()},
     )
     def get(self, request):
-        return Response(EvaluationSerializer(Evaluation.objects.all(), many=True).data)
+        evaluations = visible_evaluations(request.user)
+        return Response(EvaluationSerializer(evaluations, many=True).data)
 
     @extend_schema(
-        description="Crée un modèle et lui attribue automatiquement un ordre interne invisible.",
-        request=EvaluationInputSerializer,
-        responses={201: EvaluationSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
+        description=(
+            "Crée un modèle dans une organisation accessible et lui attribue "
+            "automatiquement un ordre interne invisible."
+        ),
+        request=CreateEvaluationInputSerializer,
+        responses={
+            201: EvaluationSerializer,
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     def post(self, request):
-        serializer = EvaluationInputSerializer(data=request.data)
+        serializer = CreateEvaluationInputSerializer(
+            data=request.data,
+            context={"request": request},
+        )
         serializer.is_valid(raise_exception=True)
         evaluation = serializer.save()
         return Response(EvaluationSerializer(evaluation).data, status=status.HTTP_201_CREATED)
@@ -53,8 +73,12 @@ class EvaluationDetailView(APIView):
         },
     )
     def put(self, request, evaluation_id: int):
-        evaluation = get_object_or_404(Evaluation, pk=evaluation_id)
-        serializer = EvaluationInputSerializer(evaluation, data=request.data)
+        evaluation = manageable_evaluation(request.user, evaluation_id)
+        serializer = EvaluationInputSerializer(
+            evaluation,
+            data=request.data,
+            context={"organization": evaluation.organization},
+        )
         serializer.is_valid(raise_exception=True)
         return Response(EvaluationSerializer(serializer.save()).data)
 
@@ -63,7 +87,7 @@ class EvaluationDetailView(APIView):
         responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
     )
     def delete(self, request, evaluation_id: int):
-        get_object_or_404(Evaluation, pk=evaluation_id).delete()
+        manageable_evaluation(request.user, evaluation_id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -71,8 +95,8 @@ class QuestionListCreateView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [CanManageEvaluations]
 
-    def evaluation(self, evaluation_id: int) -> Evaluation:
-        return get_object_or_404(Evaluation, pk=evaluation_id)
+    def evaluation(self, user, evaluation_id: int) -> Evaluation:
+        return manageable_evaluation(user, evaluation_id)
 
     @extend_schema(
         description="Liste dans l’ordre les questions d’un modèle d’évaluation.",
@@ -83,7 +107,7 @@ class QuestionListCreateView(APIView):
         },
     )
     def get(self, request, evaluation_id: int):
-        questions = self.evaluation(evaluation_id).questions.all()
+        questions = self.evaluation(request.user, evaluation_id).questions.all()
         return Response(QuestionSerializer(questions, many=True).data)
 
     @extend_schema(
@@ -97,7 +121,7 @@ class QuestionListCreateView(APIView):
         },
     )
     def post(self, request, evaluation_id: int):
-        evaluation = self.evaluation(evaluation_id)
+        evaluation = self.evaluation(request.user, evaluation_id)
         serializer = QuestionInputSerializer(data=request.data, context={"evaluation": evaluation})
         serializer.is_valid(raise_exception=True)
         question = serializer.save()
@@ -119,7 +143,7 @@ class QuestionDetailView(APIView):
         },
     )
     def put(self, request, question_id: int):
-        question = get_object_or_404(Question.objects.select_related("evaluation"), pk=question_id)
+        question = manageable_question(request.user, question_id)
         serializer = QuestionInputSerializer(
             question,
             data=request.data,
@@ -133,5 +157,5 @@ class QuestionDetailView(APIView):
         responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
     )
     def delete(self, request, question_id: int):
-        get_object_or_404(Question, pk=question_id).delete()
+        manageable_question(request.user, question_id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -127,10 +127,10 @@ Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitra
 | Périmètre bloqué | Blocages directs | Conséquence actuelle |
 | --- | --- | --- |
 | `USER-002` à `USER-004` — Sprint 1 Backend Utilisateurs | `FEAT-037` pour `USER-002` ; dépendance à `USER-002` pour les deux suivants ; `ARB-ORG-008` en plus pour `USER-004` | Les trois PBIs sont `Bloqué` ; `USER-001` reste historiquement `Réalisé` et son écart `nom`/`prénom`/`mail` est une évolution à raffiner |
-| `ORG-002` et parcours dépendants | `ARB-ORG-008`, `ARB-ORG-011` et dépendances propres aux PBIs | `ORG-001`, `ORG-003`, `ORG-004`, les rattachements multiples et l’édition des membres courants sont livrés ; la consultation métier complète reste à compléter |
+| `ORG-002` et parcours dépendants | dépendances propres aux PBIs | La liste et le détail sont cloisonnés par l'organisation unique de l'Admin |
 | `TEAM-001` à `TEAM-007` | `ARB-ORG-009`, `ARB-ORG-012`, dépendances au socle | 7 PBIs Équipes raffinés au statut canonique `Bloqué` |
 | `FEAT-011` à `FEAT-016`, puis parcours dépendants | `ARB-ORG-010` | Portée des modèles non prête à raffiner ou implémenter |
-| Consultation authentifiée multi-organisation | `ARB-ORG-011` | Sélection du périmètre actif restant à arbitrer |
+| Consultation authentifiée | `ARB-ORG-011` résolu | Le rattachement unique de l'Admin fixe son périmètre actif |
 | `FEAT-031`, `FEAT-035` et règles dépendantes | `ARB-ORG-013` | Partage de paramètres et vues multi-organisation non prêts à raffiner |
 | Tout futur transfert d’équipe et continuités concernées | `ARB-ORG-007` | Aucun PBI de transfert créé ; capacité non prête à raffiner |
 
@@ -138,14 +138,14 @@ Les arbitrages sont détaillés dans leur [registre canonique](source/00-arbitra
 
 | Objet | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- | --- |
-| Organisation | CREATE | Oui | Oui | Non | Non |
-| Organisation | READ | Toutes | Toutes dans l’administration | Périmètre autorisé | Périmètre autorisé |
-| Organisation | UPDATE | Toutes | Organisations accessibles | Non | Non |
+| Organisation | CREATE | Oui | Non | Non | Non |
+| Organisation | READ | Toutes | Organisation d'affectation | Périmètre autorisé | Périmètre autorisé |
+| Organisation | UPDATE | Toutes | Organisation d'affectation | Non | Non |
 | Organisation | DELETE | Toutes | Non | Non | Non |
-| Équipe | CREATE | Toutes les organisations | Organisations accessibles | Non | Non |
-| Équipe | READ | Toutes les organisations | Organisations accessibles | Périmètre autorisé | Périmètre autorisé |
-| Équipe | UPDATE | Toutes les organisations | Organisations accessibles | Non | Non |
-| Équipe | DELETE | Toutes les organisations | Organisations accessibles | Non | Non |
+| Équipe | CREATE | Toutes les organisations | Organisation d'affectation | Non | Non |
+| Équipe | READ | Toutes les organisations | Organisation d'affectation | Périmètre autorisé | Périmètre autorisé |
+| Équipe | UPDATE | Toutes les organisations | Organisation d'affectation | Non | Non |
+| Équipe | DELETE | Toutes les organisations | Organisation d'affectation | Non | Non |
 
 Pour une Organisation, `DELETE` réalise une suppression physique réservée au Superadmin et conserve les identités. Pour une Équipe, `DELETE` réalise l’archivage canonique de `TEAM-005`. Toute lecture de donnée métier exige une identité authentifiée.
 

@@ -7,6 +7,7 @@ import {
   inviteManagedUser,
   listManagedUsers,
   type ManagedUser,
+  type InviteUserInput,
   type UserInput,
   updateManagedUser,
 } from "./managedUsers";
@@ -38,7 +39,7 @@ export function SuperadminDashboard({ actor }: Props) {
     try {
       const saved =
         editing === "new"
-          ? await inviteManagedUser(input as Required<UserInput>)
+          ? await inviteManagedUser(input as InviteUserInput)
           : await updateManagedUser((editing as ManagedUser).id, input);
       setUsers((current) =>
         editing === "new"
@@ -114,6 +115,7 @@ export function SuperadminDashboard({ actor }: Props) {
                   </td>
                 )}
                 <td className="row-actions">
+                  {!user.is_active && <span className="pending">Inactif</span>}
                   {canManageTarget(actor, user) && (
                     <>
                       <button

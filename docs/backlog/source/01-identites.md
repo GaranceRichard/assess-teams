@@ -35,18 +35,18 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Identifiant :** `USER-001`.
 - **Feature parente :** `FEAT-002`.
 - **Titre :** Créer un utilisateur.
-- **User story :** en tant que `Superadmin` technique ou `Admin` autorisé, je veux créer un utilisateur avec la fonction `Admin`, `Coach` ou `Viewer` selon mes droits afin de donner accès au produit aux personnes correspondant aux fonctions attendues.
+- **User story :** en tant que `Superadmin` technique, je veux créer un utilisateur avec la fonction `Admin`, `Coach` ou `Viewer` afin de donner accès au produit aux personnes correspondant aux fonctions attendues.
 - **Intention métier :** établir une identité authentifiable avec une fonction explicite, sans étendre implicitement son périmètre organisationnel.
 - **Description :** créer un compte utilisateur actif à partir de `nom`, `prénom`, `mail`, des données techniques d’accès nécessaires et d’exactement une fonction métier. Le rattachement à une organisation et le périmètre du `Viewer` restent portés par leurs capacités dédiées.
 - **Critères d’acceptation :**
   - un `Superadmin` peut créer un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
-  - un `Admin` peut créer un utilisateur de fonction `Coach` ou `Viewer`, mais ne peut pas créer un `Admin` ;
+  - un `Admin` invite uniquement un `Coach` ou `Viewer` par le parcours qui le rattache automatiquement à son organisation ;
   - un `Coach` ou un `Viewer` ne peut créer aucun utilisateur ;
   - une création valide produit une seule identité active, munie d’un identifiant stable, de `nom`, `prénom`, `mail` et de la fonction demandée ;
   - la création d’une identité ne crée aucun rattachement organisationnel implicite et ne suffit pas à autoriser des opérations exigeant un tel rattachement ;
   - le premier `Superadmin` est créé exclusivement par le mécanisme de bootstrap Django ; ni ce PBI ni son interface ne permettent de créer un superuser ;
   - une fonction absente, multiple, inconnue ou interdite, une identité en doublon ou des données obligatoires invalides sont refusées sans création partielle.
-- **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; `Admin` demandant la fonction `Admin` ; demande d’un `Coach` ou d’un `Viewer` ; tentative de créer un superuser ; données invalides ou identité déjà existante.
+- **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; appel de création technique par un rôle métier ; tentative de créer un superuser ; données invalides ou identité déjà existante.
 - **Dépendances :** `FEAT-001` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -63,17 +63,17 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Description :** proposer des listes distinctes des `Superadmin`, `Admin`, `Coach` et `Viewer`, une liste de tous les utilisateurs accessibles avec leur fonction ou capacité technique, et une consultation par identifiant. Les comptes actifs et désactivés sont distingués.
 - **Critères d’acceptation :**
   - un `Superadmin` peut consulter la liste des `Superadmin`, des `Admin`, des `Coach`, des `Viewer`, la liste globale et le détail de chacun de ces comptes ;
-  - un `Admin` dispose de la liste administrative globale des identités ;
+  - un `Admin` consulte uniquement les identités de son organisation d'affectation ;
   - un `Coach` ou un `Viewer` consulte uniquement les utilisateurs rattachés à son organisation ;
   - sans organisation, un `Coach` ou un `Viewer` reçoit une liste vide ;
   - le `Viewer` ne peut créer, modifier ni supprimer un utilisateur ;
   - le menu des `Admin` et `Superadmin` indique les organisations de chaque utilisateur ; un `Superadmin` est présenté comme affecté à toutes les organisations existantes ;
   - chaque résultat accessible expose au minimum l’identifiant stable, `nom`, `prénom`, `mail`, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
-  - la liste « tous les utilisateurs » est globale pour un `Superadmin` ou un `Admin` et cloisonnée pour un `Coach` ou un `Viewer` ;
+  - la liste « tous les utilisateurs » est globale pour un `Superadmin` et cloisonnée par organisation pour tous les rôles métier ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
 - **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; écriture demandée par un `Viewer` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
-- **Décision produit bloquante :** `ARB-ORG-011` pour sélectionner le périmètre actif d’un Admin multi-organisation.
-- **Capacité prérequise :** la relation de rattachement multiple est matérialisée par `ORG-001` ; sa sélection comme périmètre actif reste à livrer avant la consultation métier cloisonnée.
+- **Décision produit bloquante :** aucune ; l'organisation unique de l'Admin détermine son périmètre.
+- **Capacité prérequise :** le rattachement organisationnel unique est matérialisé par `ORG-001`.
 - **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation ; `FEAT-037` pour le périmètre organisationnel de l’`Admin`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.

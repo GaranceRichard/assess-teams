@@ -7,18 +7,19 @@ import {
   seedSuperadmin,
 } from "./identity-fixture";
 
-test("an Admin creates an organization with several users", async ({
+test("a Superadmin creates an organization that its Admin manages in scope", async ({
   page,
 }) => {
   const organizationName = "Organization E2E";
   seedIdentity("organization-admin-e2e", "Admin");
+  seedIdentity("organization-peer-admin-e2e", "Admin");
   seedIdentity("organization-coach-e2e", "Coach");
   seedIdentity("organization-viewer-e2e", "Viewer");
   seedSuperadmin("organization-root-e2e", "unused-organization@example.com");
   resetOrganization(organizationName);
   resetOrganization(`${organizationName} renamed`);
   await page.goto("/");
-  await page.getByLabel("Identifiant").fill("organization-admin-e2e");
+  await page.getByLabel("Identifiant").fill("organization-root-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
 
@@ -28,21 +29,30 @@ test("an Admin creates an organization with several users", async ({
   ).toBeVisible();
   await page.getByLabel("Nom").fill(organizationName);
   await page.getByLabel(/organization-admin-e2e/).check();
+  await page.getByLabel(/organization-peer-admin-e2e/).check();
   await page.getByLabel(/organization-coach-e2e/).check();
+  await page.getByLabel(/organization-viewer-e2e/).check();
   await page.getByRole("button", { name: "Créer l’organisation" }).click();
 
   const organization = page.locator(".organization-list li").filter({
     hasText: organizationName,
   });
   await expect(organization).toContainText("organization-admin-e2e");
+  await expect(organization).toContainText("organization-peer-admin-e2e");
   await expect(organization).toContainText("organization-coach-e2e");
-  await expect(page.getByLabel(/organization-admin-e2e/)).toBeEnabled();
-  await expect(page.getByLabel(/organization-coach-e2e/)).toBeDisabled();
+  await page.getByRole("button", { name: "Se déconnecter" }).click();
+  await page.getByLabel("Identifiant").fill("organization-admin-e2e");
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+  await page.getByRole("link", { name: "Organisation" }).click();
+  await expect(page.getByLabel("Nom")).toHaveCount(0);
+  await expect(page.getByLabel(/organization-coach-e2e/)).toHaveCount(0);
 
   await organization.getByRole("button", { name: "Gérer les membres" }).click();
   const dialog = page.getByRole("dialog");
+  await expect(dialog.getByLabel(/organization-peer-admin-e2e/)).toBeDisabled();
   await dialog.getByLabel(/organization-coach-e2e/).uncheck();
-  await dialog.getByLabel(/organization-viewer-e2e/).check();
+  await expect(dialog.getByLabel(/organization-viewer-e2e/)).toBeChecked();
   await dialog.getByRole("button", { name: "Enregistrer les membres" }).click();
 
   await expect(organization).toContainText("organization-admin-e2e");

@@ -33,6 +33,7 @@ const users = [
     identifier: "alice",
     email: "alice@example.com",
     user_type: "Admin",
+    is_active: true,
     pending: false,
     organizations: [],
   },
@@ -41,6 +42,7 @@ const users = [
     identifier: "bob",
     email: "bob@example.com",
     user_type: "Coach",
+    is_active: true,
     pending: false,
     organizations: [],
   },
@@ -62,7 +64,7 @@ it("creates an organization with several selected users", async () => {
       user_type,
     })),
   });
-  render(<OrganizationPage />);
+  render(<OrganizationPage isSuperadmin />);
 
   expect(await screen.findByText("Aucune organisation.")).toBeVisible();
   fireEvent.change(screen.getByLabelText("Nom"), {
@@ -87,7 +89,7 @@ it("loads existing organizations and can unselect a user", async () => {
   api.listOrganizations.mockResolvedValue([
     { id: 1, name: "Existing", users: [{ id: 1, identifier: "alice" }] },
   ]);
-  render(<OrganizationPage />);
+  render(<OrganizationPage isSuperadmin />);
 
   expect(await screen.findByText("Existing")).toBeVisible();
   const alice = screen.getByLabelText(/alice/);
@@ -116,7 +118,10 @@ it("adds and removes members from an existing organization", async () => {
   api.updateOrganizationMembers.mockResolvedValue({
     id: 1,
     name: "Existing",
-    users: [{ id: 2, identifier: "bob", user_type: "Coach" }],
+    users: [
+      { id: 1, identifier: "alice", user_type: "Admin" },
+      { id: 2, identifier: "bob", user_type: "Coach" },
+    ],
   });
   render(<OrganizationPage />);
 
@@ -127,19 +132,19 @@ it("adds and removes members from an existing organization", async () => {
   const bob = within(dialog).getByLabelText(/bob/);
   expect(alice).toBeChecked();
   expect(bob).not.toBeChecked();
-  fireEvent.click(alice);
+  expect(alice).toBeDisabled();
   fireEvent.click(bob);
   fireEvent.click(
     within(dialog).getByRole("button", { name: "Enregistrer les membres" }),
   );
 
   await waitFor(() =>
-    expect(api.updateOrganizationMembers).toHaveBeenCalledWith(1, [2]),
+    expect(api.updateOrganizationMembers).toHaveBeenCalledWith(1, [1, 2]),
   );
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   const organizationEntry = screen.getByText("Existing").closest("li");
   expect(organizationEntry).not.toBeNull();
-  expect(within(organizationEntry!).getByText("bob")).toBeVisible();
+  expect(within(organizationEntry!).getByText("alice, bob")).toBeVisible();
 });
 
 it("keeps the member dialog open after a rejected update", async () => {
@@ -177,7 +182,7 @@ it("reports loading and creation failures", async () => {
   unmount();
   api.listOrganizations.mockResolvedValue([]);
   api.createOrganization.mockRejectedValue(new Error("refused"));
-  render(<OrganizationPage />);
+  render(<OrganizationPage isSuperadmin />);
   await screen.findByText("Aucune organisation.");
   fireEvent.change(screen.getByLabelText("Nom"), {
     target: { value: "Blocked" },

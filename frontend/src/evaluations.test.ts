@@ -12,8 +12,8 @@ import {
 } from "./evaluations";
 
 const entity = { id: 4, name: "Référentiel" };
-const evaluationInput = { name: "Référentiel" };
-const questionInput = { name: "Question" };
+const evaluationInput = { name: "Référentiel", organization_id: 3 };
+const nameInput = { name: "Question" };
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -35,11 +35,11 @@ it("calls every evaluation and question endpoint with CSRF", async () => {
 
   await listEvaluations();
   await createEvaluation(evaluationInput);
-  await updateEvaluation(4, evaluationInput);
+  await updateEvaluation(4, nameInput);
   await deleteEvaluation(4);
   await listQuestions(4);
-  await createQuestion(4, questionInput);
-  await updateQuestion(7, questionInput);
+  await createQuestion(4, nameInput);
+  await updateQuestion(7, nameInput);
   await deleteQuestion(7);
 
   expect(fetchMock).toHaveBeenNthCalledWith(
@@ -56,7 +56,7 @@ it("calls every evaluation and question endpoint with CSRF", async () => {
     "/api/admin/evaluations/4/questions/",
     expect.objectContaining({
       method: "POST",
-      body: JSON.stringify(questionInput),
+      body: JSON.stringify(nameInput),
     }),
   );
   expect(fetchMock).toHaveBeenNthCalledWith(

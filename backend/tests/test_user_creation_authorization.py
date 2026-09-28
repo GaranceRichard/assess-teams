@@ -44,14 +44,17 @@ def test_superadmin_can_create_each_business_role(api_client: APIClient, role: R
 @pytest.mark.functional
 @pytest.mark.api
 @pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
-def test_admin_can_create_coach_or_viewer(api_client: APIClient, role: Role) -> None:
+def test_admin_must_use_scoped_invitation_for_coach_or_viewer(
+    api_client: APIClient,
+    role: Role,
+) -> None:
     create_user("admin", Role.ADMIN)
     authenticate(api_client, "admin")
 
     response = api_client.post(reverse("user-create"), valid_payload(role=role.value))
 
-    assert response.status_code == 201
-    assert User.objects.get(username="new-user").role == role.value
+    assert response.status_code == 403
+    assert not User.objects.filter(username="new-user").exists()
 
 
 @pytest.mark.django_db

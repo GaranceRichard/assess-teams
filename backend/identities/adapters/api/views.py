@@ -21,9 +21,9 @@ class UserCreateView(APIView):
     @extend_schema(
         operation_id="users_create",
         description=(
-            "Crée une identité active avec une fonction métier unique. Un Superadmin peut "
-            "créer Admin, Coach ou Viewer ; un Admin peut créer Coach ou Viewer. "
-            "Aucun superuser ni rattachement organisationnel n'est créé."
+            "Crée une identité active avec une fonction métier unique. Action "
+            "réservée au Superadmin ; aucun superuser ni rattachement "
+            "organisationnel n'est créé."
         ),
         request=CreateUserSerializer,
         responses={

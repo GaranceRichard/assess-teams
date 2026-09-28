@@ -95,6 +95,7 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
     assert set(collection["post"]["responses"]) == {"201", "400", "403"}
     assert set(create_component["required"]) == {"identifier", "email", "role"}
     assert user_component["properties"]["organizations"]["items"]["type"] == "string"
+    assert user_component["properties"]["is_active"]["type"] == "boolean"
     assert "name" not in create_component["properties"]
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
     assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
@@ -110,6 +111,7 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
     schema = response.json()
     collection = schema["paths"]["/api/admin/organizations/"]
     detail = schema["paths"]["/api/admin/organizations/{organization_id}/"]["put"]
+    detail_get = schema["paths"]["/api/admin/organizations/{organization_id}/"]["get"]
     members = schema["paths"]["/api/admin/organizations/{organization_id}/members/"]["put"]
     request_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
     component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
@@ -122,6 +124,7 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
     detail_schema = detail["requestBody"]["content"]["application/json"]["schema"]
     detail_component = schema["components"]["schemas"][detail_schema["$ref"].split("/")[-1]]
     assert set(detail["responses"]) == {"200", "400", "403", "404"}
+    assert set(detail_get["responses"]) == {"200", "403", "404"}
     delete = schema["paths"]["/api/admin/organizations/{organization_id}/"]["delete"]
     assert set(delete["responses"]) == {"204", "403", "404"}
     assert set(detail_component["required"]) == {"name"}

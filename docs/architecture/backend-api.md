@@ -32,8 +32,8 @@ d'utilisateur, la fonction unique et l'état actif ; le mot de passe n'est jamai
 
 L'endpoint accepte l'authentification HTTP Basic et la session Django. Il retourne `401` si l'appelant est
 anonyme, mal authentifié ou inactif, `403` si sa fonction ou la fonction demandée est interdite, et `400` si
-les données sont invalides ou l'identité existe déjà. Un Superadmin Django peut créer les trois fonctions ;
-un Admin peut créer uniquement Coach ou Viewer. Aucun autre champ d'état ou de privilège n'est accepté.
+les données sont invalides ou l'identité existe déjà. Seul un Superadmin Django peut utiliser cet endpoint
+pour créer les trois fonctions. L'Admin utilise l'invitation organisationnelle des Coachs et Viewers.
 
 Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métier. Cet endpoint initial ne crée
 ni superuser, ni rattachement organisationnel et n'expose aucune opération de lecture, modification ou
@@ -64,17 +64,17 @@ contiennent des données métier que pour les gestions Utilisateurs et Organisat
 
 ## Gestion hiérarchique des identités
 
-`GET /api/admin/users/` exige une session active. Le Superadmin et l’Admin consultent la liste complète ; un
-Coach ou Viewer consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement.
+`GET /api/admin/users/` exige une session active. Le Superadmin consulte la liste complète ; un Admin, Coach
+ou Viewer consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement.
 Chaque résultat expose `organizations`, soit les rattachements du compte, soit toutes les organisations existantes
 pour un Superadmin. Le menu Utilisateurs affiche cette liste à ses visiteurs Admin et Superadmin.
 Le Viewer dispose d’un écran en lecture seule. `POST` sur la collection, puis `PUT` et `DELETE` sur
 `/api/admin/users/{user_id}/`, exigent le jeton CSRF et restent interdits au Viewer. Masquer un bouton ne
 constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
 
-Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite,
-modifie et supprime uniquement des Coachs ou Viewers ; lors d'une modification, il peut choisir l'une de ces
-deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer de sa propre
+Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite
+des Coachs ou Viewers automatiquement rattachés à son organisation, puis modifie, désactive ou supprime
+uniquement ces deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer de sa propre
 organisation, sans changer sa fonction. Une cible hors organisation retourne `404` sans révéler son existence ;
 toute autre tentative hors de cette hiérarchie retourne `403`.
 
@@ -91,12 +91,12 @@ avec `403`.
 collection accepte exactement `name` et `user_ids`. Le nom est obligatoire et la liste contient au moins un
 identifiant utilisateur existant. La création de l’organisation et de tous ses rattachements est atomique.
 
-Ces opérations exigent une session active de Superadmin ou d’Admin ; tout autre acteur reçoit `403`. Une
-réponse de création retourne `201` avec l’identifiant stable, le nom et les utilisateurs. Les données invalides
-retournent `400` sans persistance partielle. Un Admin peut figurer dans plusieurs organisations ; un Coach ou
-un Viewer appartient au plus à une organisation. Une création qui enfreint cette cardinalité retourne `400`.
+La lecture exige une session active de Superadmin ou d’Admin ; l'Admin ne reçoit que son organisation. La
+création est réservée au Superadmin et retourne `201`. Un Admin, Coach ou Viewer appartient au plus à une
+organisation ; une création qui enfreint cette cardinalité retourne `400` sans persistance partielle.
 
-`PUT /api/admin/organizations/{organization_id}/` accepte exactement `name` et renomme l’organisation sans
+`GET /api/admin/organizations/{organization_id}/` applique le même scope que la collection. `PUT` accepte
+exactement `name` et renomme l’organisation sans
 modifier son identifiant ni ses membres. Le nom est nettoyé de ses espaces périphériques et reste obligatoire.
 Le Superadmin agit sur toute organisation ; un Admin agit uniquement sur une organisation dont il est membre.
 Une cible hors périmètre retourne `404`, tandis qu’un rôle non autorisé reçoit `403`.
@@ -108,14 +108,13 @@ les identités restent présentes. Un Admin, un Coach ou un Viewer reçoit `403`
 protéger explicitement ses données contre une cascade silencieuse.
 
 `PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
-Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur une organisation dont il est
-membre. La liste doit contenir au moins une identité, ne peut pas retirer le dernier Admin existant et refuse
-un Coach ou Viewer déjà membre d’une autre organisation. Un refus, un utilisateur inconnu ou une organisation
+Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur son organisation. La liste doit
+contenir au moins une identité et refuse tout membre déjà rattaché ailleurs. Pour un Admin, l'ensemble des Admin
+de l'organisation est immuable : tout ajout ou retrait est refusé. Un refus, un utilisateur inconnu ou une organisation
 hors périmètre ne modifie aucun rattachement.
 
-`PUT /api/admin/users/{user_id}/` refuse également avec `400` la conversion d’un Admin rattaché à plusieurs
-organisations en Coach ou Viewer. Les éventuels rattachements historiques déjà incohérents ne sont jamais
-supprimés arbitrairement : ils peuvent être retirés explicitement depuis le menu Organisation.
+La migration d'invariant s'interrompt en listant les Admins historiquement rattachés à plusieurs organisations.
+Elle ne choisit ni ne supprime aucun rattachement. Ces conflits doivent être résolus explicitement avant reprise.
 
 ## Gestion des équipes d’une organisation
 
@@ -135,10 +134,12 @@ du menu Équipes fournit explicitement `organization_id` et ne mélange jamais p
 
 ## Gestion des modèles d’évaluation et de leurs questions
 
-`GET` et `POST /api/admin/evaluations/` listent et créent les modèles. `PUT` et `DELETE`
+`GET` et `POST /api/admin/evaluations/` listent et créent les modèles. La création exige
+`organization_id`; une cible hors périmètre retourne `404`. `PUT` et `DELETE`
 `/api/admin/evaluations/{evaluation_id}/` modifient ou suppriment physiquement un modèle après confirmation
 dans l’interface. Une suppression entraîne celle de ses questions. Un modèle expose un identifiant technique,
-et un `name` obligatoire. Son `index` positif unique est attribué automatiquement, détermine l’ordre de la
+`organization_id` et un `name` obligatoire. Son `index` positif unique dans l’organisation est attribué
+automatiquement, détermine l’ordre de la
 collection et reste absent des requêtes comme des réponses afin d’être invisible à l’utilisateur.
 
 `GET` et `POST /api/admin/evaluations/{evaluation_id}/questions/` listent et ajoutent les questions du modèle.
@@ -147,5 +148,11 @@ possède un index positif unique attribué automatiquement dans son modèle et u
 absent des écritures, mais numérote la liste triée renvoyée en lecture.
 
 Toutes ces routes exigent une session active de Superadmin ou d’Admin et un jeton CSRF pour les écritures.
-Les Coachs et Viewers reçoivent `403`. Ce premier référentiel administratif ne porte pas encore d’organisation,
-de publication, de notation ni de version : ces extensions restent soumises aux arbitrages du backlog.
+Le Superadmin voit toutes les organisations ; l'Admin ne voit que les évaluations et questions de son
+organisation. Pour les évaluations historiques, une seule organisation constitue l'unique affectation possible ;
+la migration la renseigne automatiquement. Avec zéro ou plusieurs organisations, elle s'interrompt pour exiger
+une résolution explicite.
+
+Toute future ressource métier, y compris le journal d'activité, porte ou hérite d'une organisation et applique
+les mêmes scopes backend : vue globale pour le Superadmin, organisation unique pour l'Admin. Un identifiant
+fourni dans une URL ou un corps JSON ne remplace jamais cette vérification.

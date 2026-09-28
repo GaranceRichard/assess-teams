@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { EvaluationDeleteDialog } from "./EvaluationDeleteDialog";
 import { EvaluationList } from "./EvaluationList";
+import { EvaluationOrganizationSelect } from "./EvaluationOrganizationSelect";
 import {
   createEvaluation,
   createQuestion,
@@ -16,6 +17,7 @@ import {
   updateQuestion,
 } from "./evaluations";
 import { NameDialog } from "./NameDialog";
+import { listOrganizations, type Organization } from "./organizations";
 import { QuestionPanel } from "./QuestionPanel";
 import "./evaluations.css";
 
@@ -34,6 +36,8 @@ function ordered(items: Question[]): Question[] {
 
 export function EvaluationPage() {
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [organizationId, setOrganizationId] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [editing, setEditing] = useState<EditTarget | null>(null);
@@ -41,10 +45,16 @@ export function EvaluationPage() {
   const [error, setError] = useState<string | null>(null);
   const selected =
     evaluations.find((evaluation) => evaluation.id === selectedId) ?? null;
+  const visibleEvaluations = evaluations.filter(
+    (evaluation) => evaluation.organization_id === organizationId,
+  );
 
   useEffect(() => {
-    listEvaluations()
-      .then(setEvaluations)
+    Promise.all([listEvaluations(), listOrganizations()])
+      .then(([loadedEvaluations, loadedOrganizations]) => {
+        setEvaluations(loadedEvaluations);
+        setOrganizations(loadedOrganizations);
+      })
       .catch(() => setError("Impossible de charger les évaluations."));
   }, []);
 
@@ -62,10 +72,12 @@ export function EvaluationPage() {
     if (!editing) return;
     try {
       if (editing.kind === "évaluation") {
-        const evaluationInput = { name: input.name };
         const saved = editing.value
-          ? await updateEvaluation(editing.value.id, evaluationInput)
-          : await createEvaluation(evaluationInput);
+          ? await updateEvaluation(editing.value.id, input)
+          : await createEvaluation({
+              ...input,
+              organization_id: organizationId!,
+            });
         setEvaluations((current) =>
           editing.value
             ? current.map((item) => (item.id === saved.id ? saved : item))
@@ -126,14 +138,25 @@ export function EvaluationPage() {
           <p className="eyebrow">Administration</p>
           <h1>Modèles d’évaluation</h1>
         </div>
-        <button onClick={() => setEditing({ kind: "évaluation" })}>
-          Créer une évaluation
-        </button>
+        {organizationId !== null && (
+          <button onClick={() => setEditing({ kind: "évaluation" })}>
+            Créer une évaluation
+          </button>
+        )}
       </div>
       {error && <p role="alert">{error}</p>}
+      <EvaluationOrganizationSelect
+        organizations={organizations}
+        value={organizationId}
+        onChange={(value) => {
+          setOrganizationId(value);
+          setSelectedId(null);
+          setQuestions([]);
+        }}
+      />
       <div className="evaluation-workspace">
         <EvaluationList
-          evaluations={evaluations}
+          evaluations={visibleEvaluations}
           selectedId={selectedId}
           onDelete={(value) => setDeleting({ kind: "évaluation", value })}
           onEdit={(value) => setEditing({ kind: "évaluation", value })}
