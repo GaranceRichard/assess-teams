@@ -160,14 +160,22 @@ fourni dans une URL ou un corps JSON ne remplace jamais cette vérification.
 ## Planification des évaluations
 
 `GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de
-l’organisation de l’Admin. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `mode` et, sauf pour
-le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
+l’organisation de l’Admin. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `mode`, éventuellement
+`coach_id` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`,
+`monthly` et `quarterly`.
 
 Le mode immédiat fixe la première échéance à la date locale du serveur et refuse une date fournie. Les trois
 autres modes exigent une date présente ou future. L’équipe doit être active ; l’équipe et le modèle doivent
-appartenir à l’organisation accessible. Une même paire équipe–modèle ne peut posséder qu’une planification.
-Les incohérences retournent `400`, les ressources absentes ou hors périmètre `404`, et un Coach, Viewer ou
-visiteur non autorisé reçoit `403`.
+appartenir à l’organisation accessible. L’équipe doit avoir un Coach actif de cette organisation avec une
+adresse e-mail ; si elle n’en a pas, `coach_id` permet à l’Admin ou au Superadmin d’en rattacher un dans la même
+transaction. Une même paire équipe–modèle ne peut posséder qu’une planification. Les incohérences retournent
+`400`, les ressources absentes ou hors périmètre `404`, et un Coach, Viewer ou visiteur reçoit `403`.
+
+Une planification future envoie au Coach une confirmation précisant équipe, modèle, cadence et prochaine date.
+À l’échéance, ou immédiatement, chaque Coach concerné reçoit un lien vers `${FRONTEND_URL}/evaluations`.
+La commande idempotente `send_due_evaluation_notifications` traite les échéances dues ; après envoi, une
+cadence mensuelle ou trimestrielle avance sans dérive calendaire, tandis qu’une échéance ponctuelle est close.
+Après authentification, ce lien conserve `/evaluations` au lieu de renvoyer le Coach vers le tableau de bord.
 
 ## Journaux d'activité et des erreurs
 

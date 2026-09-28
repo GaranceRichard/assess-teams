@@ -27,3 +27,4 @@ def test_openapi_documents_evaluation_planning() -> None:
         "mode",
     }
     assert mode_component["enum"] == list(ScheduleMode.values)
+    assert "coach_id" in component["properties"]

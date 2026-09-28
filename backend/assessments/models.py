@@ -61,6 +61,7 @@ class EvaluationSchedule(models.Model):
     )
     mode = models.CharField(max_length=12, choices=ScheduleMode.choices)
     first_due_date = models.DateField()
+    next_due_date = models.DateField(null=True, blank=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

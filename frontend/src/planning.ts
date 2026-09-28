@@ -26,6 +26,7 @@ export type ScheduleInput = {
   evaluation_id: number;
   mode: ScheduleMode;
   first_due_date?: string;
+  coach_id?: number;
 };
 
 async function request<T>(init?: RequestInit): Promise<T> {

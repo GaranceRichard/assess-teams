@@ -8,6 +8,7 @@ const input: ScheduleInput = {
   evaluation_id: 4,
   mode: "monthly",
   first_due_date: "2026-10-05",
+  coach_id: 7,
 };
 
 afterEach(() => {

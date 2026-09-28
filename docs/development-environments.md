@@ -15,7 +15,15 @@ Django utilise deux modules de réglages sans détection implicite :
 de listes séparées par des virgules. Une configuration absente ne bascule donc jamais vers le développement.
 
 En développement, les messages d'invitation et d'information utilisent le backend e-mail console : leur
-contenu et leur lien local sont affichés dans le terminal Django, sans envoi externe.
+contenu et leur lien local sont affichés dans le terminal Django, sans envoi externe. Les notifications
+d’évaluation arrivées à échéance peuvent être déclenchées manuellement avec :
+
+```powershell
+& .\.venv\Scripts\python.exe manage.py send_due_evaluation_notifications --settings=config.settings_development
+```
+
+En production, cette même commande doit être planifiée au moins quotidiennement par l’ordonnanceur de la
+plateforme ; elle ignore les échéances futures et avance les récurrences uniquement après un envoi réussi.
 
 ## Credentials fictifs réservés au développement local
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { getCurrentUser, login, logout, type SessionUser } from "./auth";
 import { LoginPage } from "./LoginPage";
+import { canAccess, routeFor } from "./navigation";
 import { ProductShell } from "./ProductShell";
 import { SetPasswordPage } from "./SetPasswordPage";
 import { applyTheme, readTheme } from "./theme";
@@ -53,7 +54,12 @@ export function App() {
     try {
       const user = await login({ username, password });
       setAuth({ kind: "authenticated", user });
-      navigate("/dashboard");
+      const intendedRoute = routeFor(path);
+      navigate(
+        intendedRoute && canAccess(user.role, intendedRoute)
+          ? intendedRoute.path
+          : "/dashboard",
+      );
     } catch {
       setAuth({
         kind: "anonymous",

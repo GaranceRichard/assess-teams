@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from assessments.models import Evaluation, EvaluationSchedule, ScheduleMode
 from identities.adapters.api.organization_scope import manageable_organization
+from identities.domain.users import Role
 from teams.models import Team
 
 
@@ -25,6 +26,7 @@ class EvaluationScheduleSerializer(serializers.ModelSerializer):
             "evaluation_name",
             "mode",
             "first_due_date",
+            "next_due_date",
         )
 
 
@@ -34,6 +36,31 @@ class CreateEvaluationScheduleSerializer(serializers.Serializer):
     evaluation_id = serializers.IntegerField(min_value=1, write_only=True)
     mode = serializers.ChoiceField(choices=ScheduleMode.choices)
     first_due_date = serializers.DateField(required=False, allow_null=True)
+    coach_id = serializers.IntegerField(min_value=1, required=False, write_only=True)
+
+    def _coach_to_attach(self, attrs: dict, organization, team):
+        coach_id = attrs.pop("coach_id", None)
+        assigned = team.coaches.filter(
+            role=Role.COACH.value,
+            is_active=True,
+            email__gt="",
+            organizations=organization,
+        )
+        if assigned.exists() and coach_id is None:
+            return None
+        if coach_id is None:
+            raise serializers.ValidationError(
+                {"coach_id": "L’équipe doit avoir un Coach actif avec une adresse e-mail."}
+            )
+        coach = get_object_or_404(
+            organization.users.filter(role=Role.COACH.value, is_active=True),
+            pk=coach_id,
+        )
+        if not coach.email:
+            raise serializers.ValidationError(
+                {"coach_id": "Le Coach doit avoir une adresse e-mail."}
+            )
+        return coach
 
     def validate(self, attrs: dict) -> dict:
         organization = manageable_organization(
@@ -48,6 +75,7 @@ class CreateEvaluationScheduleSerializer(serializers.Serializer):
             Evaluation.objects.filter(organization=organization),
             pk=attrs.pop("evaluation_id"),
         )
+        coach = self._coach_to_attach(attrs, organization, team)
         first_due_date = attrs.get("first_due_date")
         if attrs["mode"] == ScheduleMode.IMMEDIATE:
             if first_due_date is not None:
@@ -67,8 +95,13 @@ class CreateEvaluationScheduleSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "Cette évaluation est déjà planifiée pour cette équipe."
             )
-        attrs.update(team=team, evaluation=evaluation)
+        attrs.update(team=team, evaluation=evaluation, coach=coach)
         return attrs
 
     def create(self, validated_data: dict) -> EvaluationSchedule:
-        return EvaluationSchedule.objects.create(**validated_data)
+        coach = validated_data.pop("coach")
+        validated_data["next_due_date"] = validated_data["first_due_date"]
+        schedule = EvaluationSchedule.objects.create(**validated_data)
+        if coach is not None:
+            schedule.team.coaches.add(coach)
+        return schedule

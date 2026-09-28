@@ -24,6 +24,11 @@ def logged_in_client(user: User) -> APIClient:
 def planning_context(name: str = "North") -> tuple[Organization, Team, Evaluation]:
     organization = Organization.objects.create(name=name)
     team = Team.objects.create(organization=organization, name=f"{name} Team")
+    coach = create_user(f"{name}-coach", Role.COACH)
+    coach.email = f"{coach.username}@example.com"
+    coach.save(update_fields=["email"])
+    organization.users.add(coach)
+    team.coaches.add(coach)
     evaluation = Evaluation.objects.create(
         organization=organization,
         index=1,

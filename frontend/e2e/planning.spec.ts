@@ -11,7 +11,11 @@ test("an Admin plans a monthly evaluation in its organization", async ({
   page,
 }) => {
   seedIdentity("planning-admin-e2e", "Admin");
-  assignOrganization(["planning-admin-e2e"], "Planning E2E");
+  seedIdentity("planning-coach-e2e", "Coach");
+  assignOrganization(
+    ["planning-admin-e2e", "planning-coach-e2e"],
+    "Planning E2E",
+  );
   seedPlanningContext("Planning E2E", "Team E2E", "Evaluation E2E");
 
   await page.goto("/");
@@ -21,6 +25,9 @@ test("an Admin plans a monthly evaluation in its organization", async ({
   await page.getByRole("link", { name: "Planification" }).click();
 
   await page.getByLabel("Équipe").selectOption({ label: "Team E2E" });
+  await page
+    .getByLabel("Coach à rattacher")
+    .selectOption({ label: "planning-coach-e2e" });
   await page
     .getByLabel("Modèle d’évaluation")
     .selectOption({ label: "Evaluation E2E" });

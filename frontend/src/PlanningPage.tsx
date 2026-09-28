@@ -44,6 +44,26 @@ export function PlanningPage() {
     try {
       const saved = await createSchedule(input);
       setSchedules((current) => [...current, saved]);
+      if (input.coach_id) {
+        const coach = organizations
+          .find((organization) => organization.id === input.organization_id)
+          ?.users.find((member) => member.id === input.coach_id);
+        if (coach) {
+          setTeams((current) =>
+            current.map((team) =>
+              team.id === input.team_id
+                ? {
+                    ...team,
+                    coaches: [
+                      ...team.coaches,
+                      { id: coach.id, identifier: coach.identifier },
+                    ],
+                  }
+                : team,
+            ),
+          );
+        }
+      }
       setError(null);
     } catch (saveError) {
       setError("La planification de l’évaluation a été refusée.");
@@ -57,6 +77,10 @@ export function PlanningPage() {
   const organizationSchedules = schedules.filter(
     (schedule) => schedule.organization_id === organizationId,
   );
+  const organizationCoaches =
+    organizations
+      .find((organization) => organization.id === organizationId)
+      ?.users.filter((member) => member.user_type === "Coach") ?? [];
 
   return (
     <section className="planning-page">
@@ -93,6 +117,7 @@ export function PlanningPage() {
             organizationId={organizationId}
             teams={teams}
             evaluations={organizationEvaluations}
+            coaches={organizationCoaches}
             onSubmit={save}
           />
           <section aria-labelledby="planned-evaluations-title">

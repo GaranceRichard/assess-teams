@@ -31,6 +31,7 @@ export function seedIdentity(
     "from identities.models import User",
     `user, _ = User.objects.get_or_create(username=${JSON.stringify(username)}, defaults={'role': '${role}'})`,
     `user.role = '${role}'`,
+    `user.email = ${JSON.stringify(`${username}@example.com`)}`,
     "user.is_active = True",
     `user.set_password(${JSON.stringify(e2eCredential)})`,
     "user.save()",

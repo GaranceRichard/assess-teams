@@ -136,8 +136,10 @@ validations, les permissions, le contrat OpenAPI et la cascade. Playwright valid
 d’index, ainsi que la sélection immédiate d’un modèle nouvellement créé.
 
 La planification couvre les quatre cadences, la première échéance, l’unicité équipe–modèle, l’équipe active et
-le cloisonnement organisationnel. Les tests React vérifient les formulaires immédiat et récurrent, et
-Playwright traverse la session Admin, les sélections organisation–équipe–modèle et la persistance mensuelle.
+le cloisonnement organisationnel. Elle couvre aussi le Coach obligatoire, son rattachement atomique, les
+courriels de confirmation et d’échéance, le lien produit et l’avancement calendaire des récurrences. Les tests
+React vérifient les formulaires immédiat et récurrent ; Playwright traverse la session Admin, le rattachement
+du Coach, les sélections organisation–équipe–modèle et la persistance mensuelle.
 
 Les journaux sont couverts séparément : création après succès, absence de succès après refus ou échec,
 snapshots historiques, tri, filtres, pagination et lecture seule. Les tests directs des endpoints prouvent les

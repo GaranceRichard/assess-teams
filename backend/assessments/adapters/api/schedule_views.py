@@ -11,6 +11,7 @@ from assessments.adapters.api.schedule_serializers import (
     CreateEvaluationScheduleSerializer,
     EvaluationScheduleSerializer,
 )
+from assessments.application.schedule_notifications import notify_schedule_created
 from journals.activity_records import evaluation_scheduled
 from journals.error_context import describe_attempt
 
@@ -60,6 +61,7 @@ class EvaluationScheduleListCreateView(APIView):
             team=schedule.team,
         )
         evaluation_scheduled(request.user, schedule)
+        transaction.on_commit(lambda: notify_schedule_created(schedule.pk))
         return Response(
             EvaluationScheduleSerializer(schedule).data,
             status=status.HTTP_201_CREATED,

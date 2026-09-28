@@ -27,7 +27,11 @@ vi.mock("./planning", () => ({
 }));
 vi.mock("./teams", () => ({ listTeams: api.listTeams }));
 
-const organization = { id: 1, name: "North", users: [] };
+const organization = {
+  id: 1,
+  name: "North",
+  users: [{ id: 9, identifier: "coach", user_type: "Coach" }],
+};
 const evaluation = { id: 2, name: "Maturité", organization_id: 1 };
 const team = {
   id: 3,
@@ -56,8 +60,12 @@ beforeEach(() => {
 });
 
 async function completeSelection() {
-  fireEvent.change(await screen.findByLabelText("Équipe"), {
+  await screen.findByRole("option", { name: "Alpha" });
+  fireEvent.change(screen.getByLabelText("Équipe"), {
     target: { value: "3" },
+  });
+  fireEvent.change(await screen.findByLabelText("Coach à rattacher"), {
+    target: { value: "9" },
   });
   fireEvent.change(screen.getByLabelText("Modèle d’évaluation"), {
     target: { value: "2" },
@@ -90,6 +98,7 @@ it("preselects the admin organization and plans immediately", async () => {
       team_id: 3,
       evaluation_id: 2,
       mode: "immediate",
+      coach_id: 9,
     }),
   );
 });

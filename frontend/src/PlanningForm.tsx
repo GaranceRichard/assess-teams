@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import type { Evaluation } from "./evaluations";
+import type { OrganizationMember } from "./organizations";
 import {
   scheduleLabels,
   type ScheduleInput,
@@ -12,6 +13,7 @@ type Props = {
   organizationId: number;
   teams: Team[];
   evaluations: Evaluation[];
+  coaches: OrganizationMember[];
   onSubmit: (input: ScheduleInput) => Promise<void>;
 };
 
@@ -19,13 +21,16 @@ export function PlanningForm({
   organizationId,
   teams,
   evaluations,
+  coaches,
   onSubmit,
 }: Props) {
   const [teamId, setTeamId] = useState("");
   const [evaluationId, setEvaluationId] = useState("");
   const [mode, setMode] = useState<ScheduleMode>("immediate");
   const [firstDueDate, setFirstDueDate] = useState("");
+  const [coachId, setCoachId] = useState("");
   const [saving, setSaving] = useState(false);
+  const selectedTeam = teams.find((team) => team.id === Number(teamId));
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -36,12 +41,14 @@ export function PlanningForm({
         team_id: Number(teamId),
         evaluation_id: Number(evaluationId),
         mode,
+        ...(coachId ? { coach_id: Number(coachId) } : {}),
         ...(mode === "immediate" ? {} : { first_due_date: firstDueDate }),
       });
       setTeamId("");
       setEvaluationId("");
       setMode("immediate");
       setFirstDueDate("");
+      setCoachId("");
     } catch {
       // The page owns and displays the API error.
     } finally {
@@ -55,7 +62,10 @@ export function PlanningForm({
         Équipe
         <select
           value={teamId}
-          onChange={(event) => setTeamId(event.target.value)}
+          onChange={(event) => {
+            setTeamId(event.target.value);
+            setCoachId("");
+          }}
           required
         >
           <option value="">Choisir une équipe</option>
@@ -66,6 +76,25 @@ export function PlanningForm({
           ))}
         </select>
       </label>
+      {selectedTeam && (
+        <label>
+          {selectedTeam.coaches.length === 0
+            ? "Coach à rattacher"
+            : "Ajouter un Coach (facultatif)"}
+          <select
+            value={coachId}
+            onChange={(event) => setCoachId(event.target.value)}
+            required={selectedTeam.coaches.length === 0}
+          >
+            <option value="">Choisir un Coach</option>
+            {coaches.map((coach) => (
+              <option key={coach.id} value={coach.id}>
+                {coach.identifier}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <label>
         Modèle d’évaluation
         <select
