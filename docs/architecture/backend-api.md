@@ -43,7 +43,7 @@ suppression.
 
 `POST /api/session/login/` accepte exactement un `username` et un `password` avec le jeton CSRF initialisé par
 `GET /api/session/`. Une identité active et valide
-reçoit une session Django et sa représentation produit (`username`, rôle métier effectif, indicateur technique
+reçoit une session Django et sa représentation produit (`id`, `username`, rôle effectif, indicateur technique
 de Superadmin). Un refus retourne `401` sans indiquer lequel des deux identifiants est incorrect. Un
 Superadmin est représenté avec le rôle effectif `Admin` sans modifier son identité ni définir un quatrième rôle.
 Un jeton CSRF absent ou invalide est refusé avec `403`.
@@ -159,20 +159,21 @@ fourni dans une URL ou un corps JSON ne remplace jamais cette vérification.
 
 ## Planification des évaluations
 
-`GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de
-l’organisation de l’Admin. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `mode`, éventuellement
-`coach_id` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`,
-`monthly` et `quarterly`.
+`GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de l’organisation de l’Admin. Chaque ligne restitue l’organisation, l’équipe, le modèle, le responsable, la cadence et les dates. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `assignee_id`, `mode` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
 
 Le mode immédiat fixe la première échéance à la date locale du serveur et refuse une date fournie. Les trois
 autres modes exigent une date présente ou future. L’équipe doit être active ; l’équipe et le modèle doivent
-appartenir à l’organisation accessible. L’équipe doit avoir un Coach actif de cette organisation avec une
-adresse e-mail ; si elle n’en a pas, `coach_id` permet à l’Admin ou au Superadmin d’en rattacher un dans la même
-transaction. Une même paire équipe–modèle ne peut posséder qu’une planification. Les incohérences retournent
-`400`, les ressources absentes ou hors périmètre `404`, et un Coach, Viewer ou visiteur reçoit `403`.
+appartenir à l’organisation accessible. Le responsable doit être un Coach ou un Admin actif de cette même
+organisation et posséder une adresse e-mail. Le Superadmin peut également désigner un Superadmin actif ; un
+Admin ne peut jamais le faire. Un Coach choisi est rattaché à l’équipe dans la même transaction ; un Admin peut
+être choisi même si l’équipe possède déjà un Coach, sans devenir Coach de l’équipe. Une même paire
+équipe–modèle ne peut posséder qu’une planification. Les incohérences retournent `400`, les ressources absentes
+ou hors périmètre `404`, et un Coach, Viewer ou visiteur reçoit `403`.
 
-Une planification future envoie au Coach une confirmation précisant équipe, modèle, cadence et prochaine date.
-À l’échéance, ou immédiatement, chaque Coach concerné reçoit un lien vers `${FRONTEND_URL}/evaluations`.
+`PUT` et `DELETE /api/admin/planning/{schedule_id}/` permettent respectivement de remplacer l’équipe, le modèle, le responsable, la cadence et la date, ou de supprimer la planification. Le Superadmin agit globalement ; un Admin reste limité à son organisation. Une modification réapplique toutes les validations de création.
+
+Une planification future envoie au responsable une confirmation précisant équipe, modèle, cadence et prochaine
+date. À l’échéance, ou immédiatement, le responsable reçoit un lien vers `${FRONTEND_URL}/evaluations`.
 La commande idempotente `send_due_evaluation_notifications` traite les échéances dues ; après envoi, une
 cadence mensuelle ou trimestrielle avance sans dérive calendaire, tandis qu’une échéance ponctuelle est close.
 Après authentification, ce lien conserve `/evaluations` au lieu de renvoyer le Coach vers le tableau de bord.

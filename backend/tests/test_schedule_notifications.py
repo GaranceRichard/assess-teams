@@ -45,10 +45,12 @@ def logged_in_client() -> APIClient:
 
 
 def payload(organization, team, evaluation, mode=ScheduleMode.MONTHLY):
+    assignee = organization.users.filter(email__gt="").first()
     data = {
         "organization_id": organization.pk,
         "team_id": team.pk,
         "evaluation_id": evaluation.pk,
+        "assignee_id": assignee.pk if assignee else None,
         "mode": mode,
     }
     if mode != ScheduleMode.IMMEDIATE:
@@ -63,7 +65,7 @@ def test_admin_attaches_coach_and_sends_future_planning_email(
     django_capture_on_commit_callbacks,
 ) -> None:
     organization, team, evaluation, coach = planning_context()
-    data = {**payload(organization, team, evaluation), "coach_id": coach.pk}
+    data = {**payload(organization, team, evaluation), "assignee_id": coach.pk}
 
     with django_capture_on_commit_callbacks(execute=True):
         response = csrf_post(logged_in_client(), reverse("evaluation-schedule-list"), data)
@@ -88,14 +90,14 @@ def test_planning_refuses_team_without_deliverable_coach() -> None:
     missing = csrf_post(
         client,
         reverse("evaluation-schedule-list"),
-        payload(organization, team, evaluation),
+        {**payload(organization, team, evaluation), "assignee_id": None},
     )
     coach.email = ""
     coach.save(update_fields=["email"])
     undeliverable = csrf_post(
         client,
         reverse("evaluation-schedule-list"),
-        {**payload(organization, team, evaluation), "coach_id": coach.pk},
+        {**payload(organization, team, evaluation), "assignee_id": coach.pk},
     )
 
     assert missing.status_code == 400

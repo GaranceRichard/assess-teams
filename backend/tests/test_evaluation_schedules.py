@@ -47,6 +47,7 @@ def payload(
         "organization_id": organization.pk,
         "team_id": team.pk,
         "evaluation_id": evaluation.pk,
+        "assignee_id": team.coaches.get().pk,
         "mode": mode,
     }
     if mode != ScheduleMode.IMMEDIATE:

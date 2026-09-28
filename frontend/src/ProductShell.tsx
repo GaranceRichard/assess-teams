@@ -79,7 +79,7 @@ export function ProductShell({
         ) : authorized && path === "/templates" && user.role === "Admin" ? (
           <EvaluationPage />
         ) : authorized && path === "/planning" && user.role === "Admin" ? (
-          <PlanningPage />
+          <PlanningPage actor={user} />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
         ) : authorized && path === "/error-journal" ? (

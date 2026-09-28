@@ -59,6 +59,13 @@ class EvaluationSchedule(models.Model):
         on_delete=models.CASCADE,
         related_name="schedules",
     )
+    assignee = models.ForeignKey(
+        "identities.User",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="assigned_evaluation_schedules",
+    )
     mode = models.CharField(max_length=12, choices=ScheduleMode.choices)
     first_due_date = models.DateField()
     next_due_date = models.DateField(null=True, blank=True, db_index=True)

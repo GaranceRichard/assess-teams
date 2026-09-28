@@ -30,9 +30,10 @@ d’évaluation et de leurs questions ordonnées. Cette première verticale rest
 
 La route `/planning` associe une équipe active à un modèle de sa propre organisation et fixe une première
 échéance immédiate, ponctuelle, mensuelle ou trimestrielle. Le backend demeure l’autorité du périmètre : le
-Superadmin agit globalement et l’Admin uniquement dans son organisation. Un Coach actif avec e-mail est requis
-et peut être rattaché pendant la planification. Les notifications différées utilisent une commande Django
-quotidienne et conservent la première échéance comme ancre des récurrences calendaires.
+Superadmin agit globalement et l’Admin uniquement dans son organisation. Un Coach ou Admin actif avec e-mail
+est désigné comme responsable ; seul le Superadmin peut désigner un Superadmin. Un Coach peut être rattaché
+pendant la planification, tandis qu’un Admin reste distinct des Coachs de l’équipe. Les notifications différées
+utilisent une commande Django quotidienne et conservent la première échéance comme ancre des récurrences.
 
 Les routes `/activity-journal` et `/error-journal` restent deux verticales de lecture distinctes. Le backend
 produit les activités après succès métier et les erreurs depuis un contexte d'opération nettoyé ; React ne

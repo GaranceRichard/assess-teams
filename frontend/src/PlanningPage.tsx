@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 
+import type { SessionUser } from "./auth";
 import { listEvaluations, type Evaluation } from "./evaluations";
 import { listOrganizations, type Organization } from "./organizations";
 import { PlanningForm } from "./PlanningForm";
 import {
   createSchedule,
+  deleteSchedule,
   type EvaluationSchedule,
   listSchedules,
   type ScheduleInput,
+  updateSchedule,
 } from "./planning";
+import { ScheduleDeleteDialog, ScheduleEditDialog } from "./ScheduleDialogs";
 import { ScheduleList } from "./ScheduleList";
 import { listTeams, type Team } from "./teams";
 import "./planning.css";
 
-export function PlanningPage() {
+type Props = { actor: SessionUser };
+
+export function PlanningPage({ actor }: Props) {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
   const [schedules, setSchedules] = useState<EvaluationSchedule[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [organizationId, setOrganizationId] = useState<number | null>(null);
+  const [editing, setEditing] = useState<EvaluationSchedule | null>(null);
+  const [deleting, setDeleting] = useState<EvaluationSchedule | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,34 +48,45 @@ export function PlanningPage() {
       .catch(() => setError("Impossible de charger les équipes."));
   }, [organizationId]);
 
-  async function save(input: ScheduleInput) {
+  async function create(input: ScheduleInput) {
     try {
       const saved = await createSchedule(input);
       setSchedules((current) => [...current, saved]);
-      if (input.coach_id) {
-        const coach = organizations
-          .find((organization) => organization.id === input.organization_id)
-          ?.users.find((member) => member.id === input.coach_id);
-        if (coach) {
-          setTeams((current) =>
-            current.map((team) =>
-              team.id === input.team_id
-                ? {
-                    ...team,
-                    coaches: [
-                      ...team.coaches,
-                      { id: coach.id, identifier: coach.identifier },
-                    ],
-                  }
-                : team,
-            ),
-          );
-        }
-      }
       setError(null);
     } catch (saveError) {
       setError("La planification de l’évaluation a été refusée.");
       throw saveError;
+    }
+  }
+
+  async function update(input: ScheduleInput) {
+    if (!editing) return;
+    try {
+      const saved = await updateSchedule(editing.id, input);
+      setSchedules((current) =>
+        current.map((schedule) =>
+          schedule.id === saved.id ? saved : schedule,
+        ),
+      );
+      setEditing(null);
+      setError(null);
+    } catch (saveError) {
+      setError("La modification de la planification a été refusée.");
+      throw saveError;
+    }
+  }
+
+  async function remove() {
+    if (!deleting) return;
+    try {
+      await deleteSchedule(deleting.id);
+      setSchedules((current) =>
+        current.filter((schedule) => schedule.id !== deleting.id),
+      );
+      setDeleting(null);
+      setError(null);
+    } catch {
+      setError("La suppression de la planification a été refusée.");
     }
   }
 
@@ -77,10 +96,24 @@ export function PlanningPage() {
   const organizationSchedules = schedules.filter(
     (schedule) => schedule.organization_id === organizationId,
   );
-  const organizationCoaches =
+  const organizationMembers =
     organizations
       .find((organization) => organization.id === organizationId)
-      ?.users.filter((member) => member.user_type === "Coach") ?? [];
+      ?.users.filter(
+        (member) =>
+          member.user_type === "Coach" || member.user_type === "Admin",
+      ) ?? [];
+  const organizationAssignees =
+    actor.is_superuser && actor.id
+      ? [
+          {
+            id: actor.id,
+            identifier: actor.username,
+            user_type: "Superadmin" as const,
+          },
+          ...organizationMembers.filter((member) => member.id !== actor.id),
+        ]
+      : organizationMembers;
 
   return (
     <section className="planning-page">
@@ -114,17 +147,38 @@ export function PlanningPage() {
       ) : (
         <div className="planning-workspace">
           <PlanningForm
+            assignees={organizationAssignees}
             organizationId={organizationId}
             teams={teams}
             evaluations={organizationEvaluations}
-            coaches={organizationCoaches}
-            onSubmit={save}
+            onSubmit={create}
           />
           <section aria-labelledby="planned-evaluations-title">
             <h2 id="planned-evaluations-title">Évaluations planifiées</h2>
-            <ScheduleList schedules={organizationSchedules} />
+            <ScheduleList
+              onDelete={setDeleting}
+              onEdit={setEditing}
+              schedules={organizationSchedules}
+            />
           </section>
         </div>
+      )}
+      {editing && (
+        <ScheduleEditDialog
+          assignees={organizationAssignees}
+          evaluations={organizationEvaluations}
+          onCancel={() => setEditing(null)}
+          onSubmit={update}
+          schedule={editing}
+          teams={teams}
+        />
+      )}
+      {deleting && (
+        <ScheduleDeleteDialog
+          onCancel={() => setDeleting(null)}
+          onConfirm={remove}
+          schedule={deleting}
+        />
       )}
     </section>
   );

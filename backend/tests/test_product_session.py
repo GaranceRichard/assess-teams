@@ -40,13 +40,14 @@ def test_valid_business_user_opens_and_reads_session(
     api_client: APIClient,
     role: Role,
 ) -> None:
-    create_user("member", role)
+    member = create_user("member", role)
 
     login_response = open_session(api_client, "member")
     current_response = api_client.get(reverse("session-current"))
 
     assert login_response.status_code == 200
     assert login_response.json() == {
+        "id": member.pk,
         "username": "member",
         "role": role.value,
         "is_superuser": False,
@@ -60,11 +61,12 @@ def test_valid_business_user_opens_and_reads_session(
 @pytest.mark.functional
 @pytest.mark.api
 def test_superadmin_uses_admin_product_role(api_client: APIClient) -> None:
-    create_superuser()
+    root = create_superuser()
 
     response = open_session(api_client, "root")
 
     assert response.json() == {
+        "id": root.pk,
         "username": "root",
         "role": Role.ADMIN.value,
         "is_superuser": True,

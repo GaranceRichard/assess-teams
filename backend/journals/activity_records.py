@@ -163,3 +163,23 @@ def evaluation_scheduled(actor: User, schedule: EvaluationSchedule) -> None:
         action=ActivityAction.EVALUATION_SCHEDULED,
         description=f"Planification de l’évaluation {schedule.evaluation.name}",
     )
+
+
+def evaluation_schedule_updated(actor: User, schedule: EvaluationSchedule) -> None:
+    record_activity(
+        actor=actor,
+        organization=schedule.team.organization,
+        team=schedule.team,
+        action=ActivityAction.EVALUATION_SCHEDULE_UPDATED,
+        description=f"Modification de la planification {schedule.evaluation.name}",
+    )
+
+
+def evaluation_schedule_deleted(actor: User, schedule: EvaluationSchedule) -> None:
+    record_activity(
+        actor=actor,
+        organization=schedule.team.organization,
+        team=schedule.team,
+        action=ActivityAction.EVALUATION_SCHEDULE_DELETED,
+        description=f"Suppression de la planification {schedule.evaluation.name}",
+    )

@@ -5,11 +5,22 @@ import { PlanningPage } from "./PlanningPage";
 
 const api = vi.hoisted(() => ({
   createSchedule: vi.fn(),
+  deleteSchedule: vi.fn(),
   listEvaluations: vi.fn(),
   listOrganizations: vi.fn(),
   listSchedules: vi.fn(),
   listTeams: vi.fn(),
+  updateSchedule: vi.fn(),
 }));
+
+const actor = {
+  id: 10,
+  username: "admin",
+  role: "Admin" as const,
+  is_superuser: false,
+  organization_name: null,
+  team_names: [],
+};
 
 vi.mock("./organizations", () => ({
   listOrganizations: api.listOrganizations,
@@ -17,7 +28,9 @@ vi.mock("./organizations", () => ({
 vi.mock("./evaluations", () => ({ listEvaluations: api.listEvaluations }));
 vi.mock("./planning", () => ({
   createSchedule: api.createSchedule,
+  deleteSchedule: api.deleteSchedule,
   listSchedules: api.listSchedules,
+  updateSchedule: api.updateSchedule,
   scheduleLabels: {
     immediate: "Tout de suite",
     fixed: "À date fixe",
@@ -30,13 +43,17 @@ vi.mock("./teams", () => ({ listTeams: api.listTeams }));
 const organization = {
   id: 1,
   name: "North",
-  users: [{ id: 9, identifier: "coach", user_type: "Coach" }],
+  users: [
+    { id: 9, identifier: "coach", user_type: "Coach" },
+    { id: 10, identifier: "admin", user_type: "Admin" },
+  ],
 };
 const evaluation = { id: 2, name: "Maturité", organization_id: 1 };
 const team = {
   id: 3,
   name: "Alpha",
   organization_id: 1,
+  organization_name: "North",
   is_active: true,
   coaches: [],
 };
@@ -47,6 +64,9 @@ const existing = {
   team_name: "Alpha",
   evaluation_id: 2,
   evaluation_name: "Maturité",
+  assignee_id: 9,
+  assignee_identifier: "coach",
+  assignee_role: "Coach" as const,
   mode: "quarterly" as const,
   first_due_date: "2026-10-05",
 };
@@ -64,9 +84,12 @@ async function completeSelection() {
   fireEvent.change(screen.getByLabelText("Équipe"), {
     target: { value: "3" },
   });
-  fireEvent.change(await screen.findByLabelText("Coach à rattacher"), {
-    target: { value: "9" },
-  });
+  fireEvent.change(
+    await screen.findByLabelText("Responsable de l’évaluation"),
+    {
+      target: { value: "10" },
+    },
+  );
   fireEvent.change(screen.getByLabelText("Modèle d’évaluation"), {
     target: { value: "2" },
   });
@@ -78,7 +101,7 @@ it("preselects the admin organization and plans immediately", async () => {
     id: 5,
     mode: "immediate",
   });
-  render(<PlanningPage />);
+  render(<PlanningPage actor={actor} />);
 
   expect(
     (await screen.findAllByText("Tous les trimestres")).at(-1),
@@ -98,14 +121,14 @@ it("preselects the admin organization and plans immediately", async () => {
       team_id: 3,
       evaluation_id: 2,
       mode: "immediate",
-      coach_id: 9,
+      assignee_id: 10,
     }),
   );
 });
 
 it("requires a first date for a monthly schedule", async () => {
   api.createSchedule.mockResolvedValue({ ...existing, id: 5, mode: "monthly" });
-  render(<PlanningPage />);
+  render(<PlanningPage actor={actor} />);
   await completeSelection();
   fireEvent.change(screen.getByLabelText("Planifier"), {
     target: { value: "monthly" },
@@ -129,9 +152,25 @@ it("requires a first date for a monthly schedule", async () => {
   );
 });
 
+it("offers the connected Superadmin as a responsible person", async () => {
+  render(
+    <PlanningPage
+      actor={{ ...actor, id: 99, username: "root", is_superuser: true }}
+    />,
+  );
+  await screen.findByRole("option", { name: "Alpha" });
+  fireEvent.change(screen.getByLabelText("Équipe"), {
+    target: { value: "3" },
+  });
+
+  expect(
+    screen.getByRole("option", { name: "root — Superadmin" }),
+  ).toBeVisible();
+});
+
 it("reports loading and save failures", async () => {
   api.listSchedules.mockRejectedValueOnce(new Error("offline"));
-  const { unmount } = render(<PlanningPage />);
+  const { unmount } = render(<PlanningPage actor={actor} />);
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger la planification.",
   );
@@ -139,7 +178,7 @@ it("reports loading and save failures", async () => {
 
   api.listSchedules.mockResolvedValue([]);
   api.createSchedule.mockRejectedValue(new Error("refused"));
-  render(<PlanningPage />);
+  render(<PlanningPage actor={actor} />);
   await completeSelection();
   fireEvent.submit(
     screen

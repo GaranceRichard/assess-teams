@@ -10,6 +10,7 @@ class LoginSerializer(serializers.Serializer):
 
 
 class SessionUserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     username = serializers.CharField()
     role = serializers.SerializerMethodField()
     is_superuser = serializers.BooleanField()

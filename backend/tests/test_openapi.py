@@ -66,6 +66,7 @@ def test_openapi_documents_product_session_contract(api_client: APIClient) -> No
     assert "security" not in login
     assert set(login["responses"]) == {"200", "400", "401", "403"}
     assert set(request_component["required"]) == {"username", "password"}
+    assert response_component["properties"]["id"]["readOnly"]
     assert "organization_name" in response_component["properties"]
     assert response_component["properties"]["organization_name"]["nullable"]
     assert response_component["properties"]["team_names"]["items"]["type"] == "string"

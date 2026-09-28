@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { Evaluation } from "./evaluations";
 import type { OrganizationMember } from "./organizations";
 import {
+  type EvaluationSchedule,
   scheduleLabels,
   type ScheduleInput,
   type ScheduleMode,
@@ -13,7 +14,8 @@ type Props = {
   organizationId: number;
   teams: Team[];
   evaluations: Evaluation[];
-  coaches: OrganizationMember[];
+  assignees: OrganizationMember[];
+  schedule?: EvaluationSchedule;
   onSubmit: (input: ScheduleInput) => Promise<void>;
 };
 
@@ -21,14 +23,21 @@ export function PlanningForm({
   organizationId,
   teams,
   evaluations,
-  coaches,
+  assignees,
+  schedule,
   onSubmit,
 }: Props) {
-  const [teamId, setTeamId] = useState("");
-  const [evaluationId, setEvaluationId] = useState("");
-  const [mode, setMode] = useState<ScheduleMode>("immediate");
-  const [firstDueDate, setFirstDueDate] = useState("");
-  const [coachId, setCoachId] = useState("");
+  const [teamId, setTeamId] = useState(String(schedule?.team_id ?? ""));
+  const [evaluationId, setEvaluationId] = useState(
+    String(schedule?.evaluation_id ?? ""),
+  );
+  const [mode, setMode] = useState<ScheduleMode>(schedule?.mode ?? "immediate");
+  const [firstDueDate, setFirstDueDate] = useState(
+    schedule?.mode === "immediate" ? "" : (schedule?.first_due_date ?? ""),
+  );
+  const [assigneeId, setAssigneeId] = useState(
+    String(schedule?.assignee_id ?? ""),
+  );
   const [saving, setSaving] = useState(false);
   const selectedTeam = teams.find((team) => team.id === Number(teamId));
 
@@ -40,15 +49,15 @@ export function PlanningForm({
         organization_id: organizationId,
         team_id: Number(teamId),
         evaluation_id: Number(evaluationId),
+        assignee_id: Number(assigneeId),
         mode,
-        ...(coachId ? { coach_id: Number(coachId) } : {}),
         ...(mode === "immediate" ? {} : { first_due_date: firstDueDate }),
       });
       setTeamId("");
       setEvaluationId("");
       setMode("immediate");
       setFirstDueDate("");
-      setCoachId("");
+      setAssigneeId("");
     } catch {
       // The page owns and displays the API error.
     } finally {
@@ -64,7 +73,6 @@ export function PlanningForm({
           value={teamId}
           onChange={(event) => {
             setTeamId(event.target.value);
-            setCoachId("");
           }}
           required
         >
@@ -78,18 +86,16 @@ export function PlanningForm({
       </label>
       {selectedTeam && (
         <label>
-          {selectedTeam.coaches.length === 0
-            ? "Coach à rattacher"
-            : "Ajouter un Coach (facultatif)"}
+          Responsable de l’évaluation
           <select
-            value={coachId}
-            onChange={(event) => setCoachId(event.target.value)}
-            required={selectedTeam.coaches.length === 0}
+            value={assigneeId}
+            onChange={(event) => setAssigneeId(event.target.value)}
+            required
           >
-            <option value="">Choisir un Coach</option>
-            {coaches.map((coach) => (
-              <option key={coach.id} value={coach.id}>
-                {coach.identifier}
+            <option value="">Choisir un responsable</option>
+            {assignees.map((assignee) => (
+              <option key={assignee.id} value={assignee.id}>
+                {assignee.identifier} — {assignee.user_type}
               </option>
             ))}
           </select>
@@ -136,7 +142,11 @@ export function PlanningForm({
         </label>
       )}
       <button disabled={saving} type="submit">
-        {saving ? "Planification…" : "Planifier l’évaluation"}
+        {saving
+          ? "Enregistrement…"
+          : schedule
+            ? "Enregistrer les modifications"
+            : "Planifier l’évaluation"}
       </button>
     </form>
   );

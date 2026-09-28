@@ -1,6 +1,12 @@
 import { afterEach, expect, it, vi } from "vitest";
 
-import { createSchedule, listSchedules, type ScheduleInput } from "./planning";
+import {
+  createSchedule,
+  deleteSchedule,
+  listSchedules,
+  type ScheduleInput,
+  updateSchedule,
+} from "./planning";
 
 const input: ScheduleInput = {
   organization_id: 2,
@@ -8,7 +14,7 @@ const input: ScheduleInput = {
   evaluation_id: 4,
   mode: "monthly",
   first_due_date: "2026-10-05",
-  coach_id: 7,
+  assignee_id: 7,
 };
 
 afterEach(() => {
@@ -49,5 +55,29 @@ it("rejects an unsuccessful planning request", async () => {
 
   await expect(createSchedule(input)).rejects.toThrow(
     "Planning request failed",
+  );
+});
+
+it("updates and deletes a schedule with CSRF", async () => {
+  document.cookie = "csrftoken=planning-token";
+  const fetchMock = vi
+    .spyOn(globalThis, "fetch")
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ id: 9, ...input }), { status: 200 }),
+    )
+    .mockResolvedValueOnce(new Response(null, { status: 204 }));
+
+  await updateSchedule(9, input);
+  await deleteSchedule(9);
+
+  expect(fetchMock).toHaveBeenNthCalledWith(
+    1,
+    "/api/admin/planning/9/",
+    expect.objectContaining({ method: "PUT", body: JSON.stringify(input) }),
+  );
+  expect(fetchMock).toHaveBeenNthCalledWith(
+    2,
+    "/api/admin/planning/9/",
+    expect.objectContaining({ method: "DELETE" }),
   );
 });

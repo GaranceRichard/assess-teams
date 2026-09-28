@@ -1,6 +1,7 @@
 export type UserRole = "Admin" | "Coach" | "Viewer";
 
 export type SessionUser = {
+  id?: number;
   username: string;
   role: UserRole;
   is_superuser: boolean;

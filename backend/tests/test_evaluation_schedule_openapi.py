@@ -11,6 +11,7 @@ def test_openapi_documents_evaluation_planning() -> None:
     response = APIClient().get(reverse("schema"), HTTP_ACCEPT="application/json")
     schema = response.json()
     collection = schema["paths"]["/api/admin/planning/"]
+    detail = schema["paths"]["/api/admin/planning/{schedule_id}/"]
     request_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
     component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
     mode_schema = component["properties"]["mode"]
@@ -20,11 +21,14 @@ def test_openapi_documents_evaluation_planning() -> None:
     assert {"cookieAuth": []} in collection["get"]["security"]
     assert set(collection["get"]["responses"]) == {"200", "403"}
     assert set(collection["post"]["responses"]) == {"201", "400", "403", "404"}
+    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
+    assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
     assert set(component["required"]) == {
         "organization_id",
         "team_id",
         "evaluation_id",
+        "assignee_id",
         "mode",
     }
     assert mode_component["enum"] == list(ScheduleMode.values)
-    assert "coach_id" in component["properties"]
+    assert "assignee_id" in component["properties"]

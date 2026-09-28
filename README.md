@@ -44,7 +44,7 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
-Ils planifient pour une équipe avec Coach une évaluation immédiate, fixe, mensuelle ou trimestrielle, notifiée par e-mail.
+Ils planifient pour une équipe avec Coach une évaluation immédiate, fixe, mensuelle ou trimestrielle, notifiée par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation, y compris lorsqu’un Coach accompagne déjà l’équipe ; le Superadmin peut aussi se désigner lui-même, ce qu’un Admin ne peut jamais faire. La liste restitue l’organisation, l’équipe, le modèle, le responsable, la fréquence et la date ; un Admin autorisé ou le Superadmin peut modifier ces paramètres ou supprimer la planification.
 
 ## Installation
 

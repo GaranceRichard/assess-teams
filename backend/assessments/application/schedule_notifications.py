@@ -17,16 +17,31 @@ def _recipient_coaches(schedule: EvaluationSchedule):
     ).distinct()
 
 
-def _send_to_coaches(schedule: EvaluationSchedule, subject: str, body: str) -> int:
-    coaches = list(_recipient_coaches(schedule))
-    for coach in coaches:
+def _recipients(schedule: EvaluationSchedule):
+    assignee = schedule.assignee
+    if (
+        assignee
+        and assignee.is_active
+        and assignee.email
+        and (
+            assignee.is_superuser
+            or schedule.team.organization.users.filter(pk=assignee.pk).exists()
+        )
+    ):
+        return [assignee]
+    return list(_recipient_coaches(schedule))
+
+
+def _send_to_recipients(schedule: EvaluationSchedule, subject: str, body: str) -> int:
+    recipients = _recipients(schedule)
+    for recipient in recipients:
         send_mail(
             subject,
-            f"Bonjour {coach.username},\n\n{body}",
+            f"Bonjour {recipient.username},\n\n{body}",
             settings.DEFAULT_FROM_EMAIL,
-            [coach.email],
+            [recipient.email],
         )
-    return len(coaches)
+    return len(recipients)
 
 
 def _evaluation_link() -> str:
@@ -40,7 +55,7 @@ def send_planning_confirmation(schedule: EvaluationSchedule) -> int:
         f"Fréquence : {schedule.get_mode_display()}\n"
         f"Prochaine évaluation : {schedule.next_due_date:%Y-%m-%d}"
     )
-    return _send_to_coaches(schedule, "Évaluation planifiée", body)
+    return _send_to_recipients(schedule, "Évaluation planifiée", body)
 
 
 def send_due_notification(schedule: EvaluationSchedule) -> int:
@@ -50,7 +65,7 @@ def send_due_notification(schedule: EvaluationSchedule) -> int:
         f"Évaluation : {schedule.evaluation.name}\n"
         f"Accéder à l’évaluation : {_evaluation_link()}"
     )
-    return _send_to_coaches(schedule, "Votre évaluation est disponible", body)
+    return _send_to_recipients(schedule, "Votre évaluation est disponible", body)
 
 
 def _add_months(value: date, months: int, anchor_day: int) -> date:
@@ -97,6 +112,7 @@ def notify_schedule_created(schedule_id: int) -> None:
     schedule = EvaluationSchedule.objects.select_related(
         "team__organization",
         "evaluation",
+        "assignee",
     ).get(pk=schedule_id)
     today = timezone.localdate()
     if schedule.next_due_date and schedule.next_due_date <= today:
@@ -109,5 +125,5 @@ def deliver_due_schedules(reference_date: date | None = None) -> int:
     today = reference_date or timezone.localdate()
     schedules = EvaluationSchedule.objects.filter(
         next_due_date__lte=today,
-    ).select_related("team__organization", "evaluation")
+    ).select_related("team__organization", "evaluation", "assignee")
     return sum(deliver_due_schedule(schedule, today) for schedule in schedules)

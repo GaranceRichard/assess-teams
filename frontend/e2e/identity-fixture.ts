@@ -102,6 +102,7 @@ export function seedPlanningContext(
   organizationName: string,
   teamName: string,
   evaluationName: string,
+  coachUsername?: string,
 ) {
   runDjangoShell([
     "from django.db.models import Max",
@@ -112,6 +113,12 @@ export function seedPlanningContext(
     `Team.objects.filter(organization=organization, name=${JSON.stringify(teamName)}).delete()`,
     `Evaluation.objects.filter(organization=organization, name=${JSON.stringify(evaluationName)}).delete()`,
     `team = Team.objects.create(organization=organization, name=${JSON.stringify(teamName)})`,
+    ...(coachUsername
+      ? [
+          "from identities.models import User",
+          `team.coaches.add(User.objects.get(username=${JSON.stringify(coachUsername)}))`,
+        ]
+      : []),
     "index = (Evaluation.objects.filter(organization=organization).aggregate(Max('index'))['index__max'] or 0) + 1",
     `Evaluation.objects.create(organization=organization, index=index, name=${JSON.stringify(evaluationName)})`,
   ]);

@@ -71,6 +71,43 @@
   text-align: right;
 }
 
+.schedule-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.schedule-danger {
+  background: var(--danger);
+}
+
+.planning-dialog-backdrop {
+  align-items: center;
+  background: rgb(0 0 0 / 55%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 10;
+}
+
+.planning-dialog {
+  background: var(--surface);
+  border-radius: 1rem;
+  max-height: 90vh;
+  max-width: 38rem;
+  overflow: auto;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.planning-dialog .planning-form {
+  border: 0;
+  padding: 0;
+}
+
 @media (max-width: 850px) {
   .planning-workspace {
     grid-template-columns: 1fr;

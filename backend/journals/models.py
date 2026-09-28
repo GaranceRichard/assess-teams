@@ -28,6 +28,8 @@ class ActivityAction(models.TextChoices):
     QUESTION_UPDATED = "question_updated", "Question modifiée"
     QUESTION_DELETED = "question_deleted", "Question supprimée"
     EVALUATION_SCHEDULED = "evaluation_scheduled", "Évaluation planifiée"
+    EVALUATION_SCHEDULE_UPDATED = "evaluation_schedule_updated", "Planification modifiée"
+    EVALUATION_SCHEDULE_DELETED = "evaluation_schedule_deleted", "Planification supprimée"
 
 
 class JournalEntryFields(models.Model):
