@@ -47,6 +47,8 @@ describe("ProductSidebar", () => {
     const { onCollapsedChange } = renderSidebar();
 
     const button = screen.getByRole("button", { name: "Replier le menu" });
+    const navigation = screen.getByRole("navigation");
+    expect(button.previousElementSibling).toBe(navigation);
     expect(button).toHaveAttribute("aria-expanded", "true");
     fireEvent.click(button);
 

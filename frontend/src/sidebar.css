@@ -21,7 +21,6 @@
 .sidebar-heading {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   margin-bottom: 2rem;
 }
 
@@ -60,7 +59,7 @@
   padding: 0;
   border: 1px solid #467068;
   border-radius: 50%;
-  margin-left: auto;
+  margin: 1rem 0 0 auto;
   color: #fff;
   background: #183d38;
   place-items: center;
@@ -113,18 +112,13 @@
   padding-inline: 1.1rem;
 }
 
-.product-sidebar--collapsed .sidebar-heading {
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .product-sidebar--collapsed .brand-label,
 .product-sidebar--collapsed .sidebar-label {
   display: none;
 }
 
 .product-sidebar--collapsed .sidebar-toggle {
-  margin-left: 0;
+  margin-inline: auto;
 }
 
 .product-sidebar--collapsed nav a {

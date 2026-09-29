@@ -52,17 +52,6 @@ export function ProductSidebar({
           <ProductMark />
           <span className="brand-label">Assess teams</span>
         </a>
-        <button
-          aria-controls="product-navigation"
-          aria-expanded={!collapsed}
-          aria-label={toggleLabel}
-          className="sidebar-toggle"
-          onClick={() => onCollapsedChange(!collapsed)}
-          title={toggleLabel}
-          type="button"
-        >
-          <ToggleIcon collapsed={collapsed} />
-        </button>
       </div>
       <nav aria-label="Navigation principale" id="product-navigation">
         {menuFor(role).map((item) => (
@@ -82,6 +71,17 @@ export function ProductSidebar({
           </a>
         ))}
       </nav>
+      <button
+        aria-controls="product-navigation"
+        aria-expanded={!collapsed}
+        aria-label={toggleLabel}
+        className="sidebar-toggle"
+        onClick={() => onCollapsedChange(!collapsed)}
+        title={toggleLabel}
+        type="button"
+      >
+        <ToggleIcon collapsed={collapsed} />
+      </button>
     </aside>
   );
 }
