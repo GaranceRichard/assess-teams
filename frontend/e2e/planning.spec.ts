@@ -47,15 +47,24 @@ test("an Admin plans a monthly evaluation in its organization", async ({
   await page.getByRole("button", { name: "Planifier l’évaluation" }).click();
 
   const planned = page.getByRole("region", { name: "Évaluations planifiées" });
-  await expect(planned).toContainText("Team E2E");
-  await expect(planned).toContainText("Evaluation E2E");
-  await expect(planned).toContainText("planning-admin-e2e — Admin");
-  await expect(planned).toContainText("Planning E2E");
-  await expect(planned).toContainText("Tous les mois");
-  await expect(planned).toContainText("2099-10-05");
+  const row = planned.getByRole("button", {
+    name: "Planning E2E - Evaluation E2E - Team E2E - planning-admin-e2e",
+  });
+  await expect(row).toBeVisible();
+  const backgroundBeforeHover = await row.evaluate(
+    (element) => getComputedStyle(element).backgroundColor,
+  );
+  await row.hover();
+  await expect
+    .poll(() =>
+      row.evaluate((element) => getComputedStyle(element).backgroundColor),
+    )
+    .not.toBe(backgroundBeforeHover);
 
-  await planned.getByRole("button", { name: "Modifier" }).click();
+  await row.click();
   const dialog = page.getByRole("dialog");
+  await expect(dialog.getByLabel("Planifier")).toHaveValue("monthly");
+  await expect(dialog.getByLabel("Première date")).toHaveValue("2099-10-05");
   await dialog
     .getByLabel("Responsable de l’évaluation")
     .selectOption({ label: "planning-coach-e2e — Coach" });
@@ -64,14 +73,22 @@ test("an Admin plans a monthly evaluation in its organization", async ({
   await dialog
     .getByRole("button", { name: "Enregistrer les modifications" })
     .click();
-  await expect(planned).toContainText("planning-coach-e2e — Coach");
-  await expect(planned).toContainText("À date fixe");
-  await expect(planned).toContainText("2099-11-05");
+  const updatedRow = planned.getByRole("button", {
+    name: "Planning E2E - Evaluation E2E - Team E2E - planning-coach-e2e",
+  });
+  await expect(updatedRow).toBeVisible();
 
-  await planned.getByRole("button", { name: "Supprimer" }).click();
+  await updatedRow.click();
+  await expect(page.getByRole("dialog").getByLabel("Planifier")).toHaveValue(
+    "fixed",
+  );
+  await expect(
+    page.getByRole("dialog").getByLabel("Première date"),
+  ).toHaveValue("2099-11-05");
   await page
     .getByRole("dialog")
-    .getByRole("button", { name: "Confirmer la suppression" })
+    .getByRole("button", { name: "Supprimer" })
     .click();
+  await page.getByRole("button", { name: "Confirmer la suppression" }).click();
   await expect(planned).toContainText("Aucune évaluation planifiée.");
 });

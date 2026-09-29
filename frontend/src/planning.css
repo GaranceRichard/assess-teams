@@ -5,8 +5,7 @@
 
 .planning-organization,
 .planning-form,
-.planning-form label,
-.schedule-list li > div {
+.planning-form label {
   display: grid;
   gap: 0.5rem;
 }
@@ -50,25 +49,39 @@
 }
 
 .schedule-list li {
-  align-items: center;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-  padding: 1rem 0;
 }
 
 .schedule-list li:last-child {
   border-bottom: 0;
 }
 
-.schedule-list span,
 .planning-empty {
   color: var(--muted);
 }
 
-.schedule-cadence {
-  text-align: right;
+.schedule-row {
+  background: transparent;
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--text);
+  display: block;
+  overflow-x: auto;
+  padding: 1rem;
+  text-align: left;
+  transition: background 150ms ease;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.schedule-row:hover,
+.schedule-row:focus-visible {
+  background: var(--background);
+}
+
+.schedule-row:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
 }
 
 .schedule-actions {
@@ -111,14 +124,5 @@
 @media (max-width: 850px) {
   .planning-workspace {
     grid-template-columns: 1fr;
-  }
-
-  .schedule-list li {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .schedule-cadence {
-    text-align: left;
   }
 }

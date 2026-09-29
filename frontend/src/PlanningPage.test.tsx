@@ -60,6 +60,7 @@ const team = {
 const existing = {
   id: 4,
   organization_id: 1,
+  organization_name: "North",
   team_id: 3,
   team_name: "Alpha",
   evaluation_id: 2,
@@ -104,9 +105,10 @@ it("preselects the admin organization and plans immediately", async () => {
   render(<PlanningPage actor={actor} />);
 
   expect(
-    (await screen.findAllByText("Tous les trimestres")).at(-1),
+    await screen.findByRole("button", {
+      name: "North - Maturité - Alpha - coach",
+    }),
   ).toBeVisible();
-  expect(screen.getByText("Première date : 2026-10-05")).toBeVisible();
   await completeSelection();
   expect(screen.queryByLabelText("Première date")).not.toBeInTheDocument();
   fireEvent.submit(

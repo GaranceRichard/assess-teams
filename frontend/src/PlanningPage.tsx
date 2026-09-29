@@ -12,7 +12,7 @@ import {
   type ScheduleInput,
   updateSchedule,
 } from "./planning";
-import { ScheduleDeleteDialog, ScheduleEditDialog } from "./ScheduleDialogs";
+import { ScheduleEditDialog } from "./ScheduleDialogs";
 import { ScheduleList } from "./ScheduleList";
 import { listTeams, type Team } from "./teams";
 import "./planning.css";
@@ -26,7 +26,6 @@ export function PlanningPage({ actor }: Props) {
   const [teams, setTeams] = useState<Team[]>([]);
   const [organizationId, setOrganizationId] = useState<number | null>(null);
   const [editing, setEditing] = useState<EvaluationSchedule | null>(null);
-  const [deleting, setDeleting] = useState<EvaluationSchedule | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -77,13 +76,13 @@ export function PlanningPage({ actor }: Props) {
   }
 
   async function remove() {
-    if (!deleting) return;
+    if (!editing) return;
     try {
-      await deleteSchedule(deleting.id);
+      await deleteSchedule(editing.id);
       setSchedules((current) =>
-        current.filter((schedule) => schedule.id !== deleting.id),
+        current.filter((schedule) => schedule.id !== editing.id),
       );
-      setDeleting(null);
+      setEditing(null);
       setError(null);
     } catch {
       setError("La suppression de la planification a été refusée.");
@@ -156,8 +155,7 @@ export function PlanningPage({ actor }: Props) {
           <section aria-labelledby="planned-evaluations-title">
             <h2 id="planned-evaluations-title">Évaluations planifiées</h2>
             <ScheduleList
-              onDelete={setDeleting}
-              onEdit={setEditing}
+              onOpen={setEditing}
               schedules={organizationSchedules}
             />
           </section>
@@ -168,16 +166,10 @@ export function PlanningPage({ actor }: Props) {
           assignees={organizationAssignees}
           evaluations={organizationEvaluations}
           onCancel={() => setEditing(null)}
+          onDelete={remove}
           onSubmit={update}
           schedule={editing}
           teams={teams}
-        />
-      )}
-      {deleting && (
-        <ScheduleDeleteDialog
-          onCancel={() => setDeleting(null)}
-          onConfirm={remove}
-          schedule={deleting}
         />
       )}
     </section>

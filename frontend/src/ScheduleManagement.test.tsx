@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 
-import { ScheduleDeleteDialog, ScheduleEditDialog } from "./ScheduleDialogs";
+import { ScheduleEditDialog } from "./ScheduleDialogs";
 import { ScheduleList } from "./ScheduleList";
 import type { EvaluationSchedule } from "./planning";
 
@@ -20,29 +20,23 @@ const schedule: EvaluationSchedule = {
   first_due_date: "2026-10-05",
 };
 
-it("shows every planning field and exposes edit and delete actions", () => {
-  const onEdit = vi.fn();
-  const onDelete = vi.fn();
-  render(
-    <ScheduleList onDelete={onDelete} onEdit={onEdit} schedules={[schedule]} />,
-  );
+it("shows one structured clickable line", () => {
+  const onOpen = vi.fn();
+  render(<ScheduleList onOpen={onOpen} schedules={[schedule]} />);
 
-  expect(screen.getByText("North")).toBeVisible();
-  expect(screen.getByText("Alpha")).toBeVisible();
-  expect(screen.getByText("Maturité")).toBeVisible();
-  expect(screen.getByText("Responsable : admin — Admin")).toBeVisible();
-  fireEvent.click(screen.getByRole("button", { name: "Modifier" }));
-  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  const row = screen.getByRole("button", {
+    name: "North - Maturité - Alpha - admin",
+  });
+  fireEvent.click(row);
 
-  expect(onEdit).toHaveBeenCalledWith(schedule);
-  expect(onDelete).toHaveBeenCalledWith(schedule);
+  expect(row).toHaveClass("schedule-row");
+  expect(onOpen).toHaveBeenCalledWith(schedule);
 });
 
 it("identifies a legacy planning without an assignee", () => {
   render(
     <ScheduleList
-      onDelete={vi.fn()}
-      onEdit={vi.fn()}
+      onOpen={vi.fn()}
       schedules={[
         {
           ...schedule,
@@ -54,17 +48,23 @@ it("identifies a legacy planning without an assignee", () => {
     />,
   );
 
-  expect(screen.getByText("Responsable : Non attribué")).toBeVisible();
+  expect(
+    screen.getByRole("button", {
+      name: "North - Maturité - Alpha - Non attribué",
+    }),
+  ).toBeVisible();
 });
 
-it("edits and confirms deletion through dedicated dialogs", async () => {
+it("edits and confirms deletion in the same dialog", async () => {
   const onCancel = vi.fn();
+  const onDelete = vi.fn().mockResolvedValue(undefined);
   const onSubmit = vi.fn().mockResolvedValue(undefined);
-  const { unmount } = render(
+  render(
     <ScheduleEditDialog
       assignees={[{ id: 5, identifier: "admin", user_type: "Admin" }]}
       evaluations={[{ id: 3, name: "Maturité", organization_id: 1 }]}
       onCancel={onCancel}
+      onDelete={onDelete}
       onSubmit={onSubmit}
       schedule={schedule}
       teams={[
@@ -94,18 +94,12 @@ it("edits and confirms deletion through dedicated dialogs", async () => {
     mode: "monthly",
     first_due_date: "2026-10-05",
   });
-  unmount();
-
-  const onConfirm = vi.fn().mockResolvedValue(undefined);
-  render(
-    <ScheduleDeleteDialog
-      onCancel={onCancel}
-      onConfirm={onConfirm}
-      schedule={schedule}
-    />,
+  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  expect(screen.getByRole("alert")).toHaveTextContent(
+    "Supprimer définitivement Maturité pour Alpha ?",
   );
   fireEvent.click(
     screen.getByRole("button", { name: "Confirmer la suppression" }),
   );
-  expect(onConfirm).toHaveBeenCalledOnce();
+  expect(onDelete).toHaveBeenCalledOnce();
 });

@@ -140,8 +140,8 @@ le cloisonnement organisationnel. Elle couvre aussi le responsable Coach ou Admi
 Superadmin et son refus à un Admin, le rattachement atomique d’un Coach, le refus d’un responsable hors
 organisation, les modifications et suppressions, les courriels de
 confirmation et d’échéance, le lien produit et l’avancement calendaire des récurrences. Les tests React vérifient
-les formulaires immédiat et récurrent ; Playwright traverse la session Admin, la sélection d’un responsable,
-l’affichage complet, la modification et la suppression d’une planification.
+les formulaires immédiat et récurrent, la ligne structurée et la suppression dans la modale ; Playwright
+traverse la session Admin, le changement de fond au survol, l’ouverture de la ligne, la modification et la suppression.
 
 Les journaux sont couverts séparément : création après succès, absence de succès après refus ou échec,
 snapshots historiques, tri, filtres, pagination et lecture seule. Les tests directs des endpoints prouvent les

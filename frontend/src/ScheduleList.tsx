@@ -1,12 +1,20 @@
-import { type EvaluationSchedule, scheduleLabels } from "./planning";
+import type { EvaluationSchedule } from "./planning";
 
 type Props = {
   schedules: EvaluationSchedule[];
-  onDelete: (schedule: EvaluationSchedule) => void;
-  onEdit: (schedule: EvaluationSchedule) => void;
+  onOpen: (schedule: EvaluationSchedule) => void;
 };
 
-export function ScheduleList({ schedules, onDelete, onEdit }: Props) {
+function scheduleLabel(schedule: EvaluationSchedule): string {
+  return [
+    schedule.organization_name,
+    schedule.evaluation_name,
+    schedule.team_name,
+    schedule.assignee_identifier ?? "Non attribué",
+  ].join(" - ");
+}
+
+export function ScheduleList({ schedules, onOpen }: Props) {
   if (schedules.length === 0) {
     return <p className="planning-empty">Aucune évaluation planifiée.</p>;
   }
@@ -15,30 +23,13 @@ export function ScheduleList({ schedules, onDelete, onEdit }: Props) {
     <ul className="schedule-list">
       {schedules.map((schedule) => (
         <li key={schedule.id}>
-          <div>
-            <span>{schedule.organization_name}</span>
-            <strong>{schedule.team_name}</strong>
-            <span>{schedule.evaluation_name}</span>
-            <span>
-              Responsable : {schedule.assignee_identifier ?? "Non attribué"}
-              {schedule.assignee_role ? ` — ${schedule.assignee_role}` : ""}
-            </span>
-          </div>
-          <div className="schedule-cadence">
-            <strong>{scheduleLabels[schedule.mode]}</strong>
-            <span>Première date : {schedule.first_due_date}</span>
-            <div className="schedule-actions">
-              <button className="secondary" onClick={() => onEdit(schedule)}>
-                Modifier
-              </button>
-              <button
-                className="schedule-danger"
-                onClick={() => onDelete(schedule)}
-              >
-                Supprimer
-              </button>
-            </div>
-          </div>
+          <button
+            className="schedule-row"
+            onClick={() => onOpen(schedule)}
+            type="button"
+          >
+            {scheduleLabel(schedule)}
+          </button>
         </li>
       ))}
     </ul>

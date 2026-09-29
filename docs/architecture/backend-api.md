@@ -159,7 +159,7 @@ fourni dans une URL ou un corps JSON ne remplace jamais cette vérification.
 
 ## Planification des évaluations
 
-`GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de l’organisation de l’Admin. Chaque ligne restitue l’organisation, l’équipe, le modèle, le responsable, la cadence et les dates. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `assignee_id`, `mode` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
+`GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de l’organisation de l’Admin. React les présente sur une ligne cliquable `ORGANISATION - ÉVALUATION - ÉQUIPE - JOUEUR`, surlignée au survol, qui ouvre la modification et la suppression dans une même modale. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `assignee_id`, `mode` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
 
 Le mode immédiat fixe la première échéance à la date locale du serveur et refuse une date fournie. Les trois
 autres modes exigent une date présente ou future. L’équipe doit être active ; l’équipe et le modèle doivent
