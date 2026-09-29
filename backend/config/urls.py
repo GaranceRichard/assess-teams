@@ -21,7 +21,7 @@ from identities.adapters.api.organization_views import (
 )
 from identities.adapters.api.session_views import CurrentSessionView, LoginView, LogoutView
 from identities.adapters.api.views import UserCreateView
-from journals.adapters.api.views import ActivityJournalView, ErrorJournalView
+from journals.adapters.api.views import ActivityJournalView, LogsView
 from teams.adapters.api.views import TeamDetailView, TeamListCreateView
 
 urlpatterns = [
@@ -67,9 +67,9 @@ urlpatterns = [
         name="activity-journal",
     ),
     path(
-        "api/admin/error-journal/",
-        ErrorJournalView.as_view(),
-        name="error-journal",
+        "api/admin/logs/",
+        LogsView.as_view(),
+        name="logs",
     ),
     path("api/admin/users/", ManagedUserListCreateView.as_view(), name="managed-user-list"),
     path(

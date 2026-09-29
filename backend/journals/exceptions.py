@@ -2,8 +2,9 @@ import logging
 
 from rest_framework.views import exception_handler
 
-from journals.error_context import ErrorContext
-from journals.services import record_error
+from journals.log_context import LogContext
+from journals.models import LogLevel, LogSource
+from journals.services import record_log
 
 logger = logging.getLogger(__name__)
 
@@ -35,20 +36,31 @@ def _must_record(request, response) -> bool:
 
 
 def _record_safely(request, exc, response) -> None:
-    details = getattr(request, "journal_error_context", None)
+    details = getattr(request, "journal_log_context", None)
     if not details:
-        details = ErrorContext(operation="Échec d’une opération administrative")
+        details = LogContext(
+            operation="Échec d’une opération administrative",
+            source=LogSource.SYSTEM,
+        )
     status_code = response.status_code if response else 500
     message = SAFE_MESSAGES.get(status_code, "Une erreur interne est survenue.")
     actor = request.user if getattr(request.user, "is_authenticated", False) else None
     try:
-        record_error(
+        entry = record_log(
+            level=LogLevel.ERROR,
+            source=details.source,
+            message=message,
             actor=actor,
             organization=details.organization,
             operation=details.operation,
             category=type(exc).__name__,
-            message=message,
             team=details.team,
         )
+        if response is None or status_code >= 500:
+            logger.error(
+                "Erreur applicative correlation_id=%s",
+                entry.correlation_id,
+                exc_info=(type(exc), exc, exc.__traceback__),
+            )
     except Exception:
-        logger.exception("Impossible d’enregistrer une entrée du Journal des erreurs")
+        logger.exception("Impossible d’enregistrer un log applicatif")

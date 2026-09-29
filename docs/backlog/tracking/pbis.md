@@ -29,7 +29,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | PLAN-001 — Planifier un modèle local pour une équipe | FEAT-017 — Configurer la fréquence et la première échéance | L | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-29 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | FEAT-030 — Remettre une notification sans coupler le métier au canal | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courriel | 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | FEAT-039 — Consulter le Journal d’activité | M | Sol — puissance moyenne | Réalisé | aucun | 2026-09-28 |
-| JOURNAL-002 — Consulter les opérations en erreur | FEAT-040 — Consulter le Journal des erreurs | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-28 |
+| JOURNAL-002 — Consulter les logs applicatifs | FEAT-040 — Consulter les Logs | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-29 |
 
 `USER-001` conserve son statut historique `Réalisé`. L’ajout canonique de `nom`, `prénom` et `mail` révèle un écart avec le contrat livré, consigné dans sa source détaillée et à traiter par une évolution distincte.
 

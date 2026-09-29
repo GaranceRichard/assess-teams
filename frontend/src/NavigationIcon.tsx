@@ -65,7 +65,7 @@ const icons: Record<string, ReactNode> = {
       <path d="M8 13h3M8 17h6" />
     </>
   ),
-  "/error-journal": (
+  "/logs": (
     <>
       <path d="M10.3 3.7 2.4 18a2 2 0 0 0 1.8 3h15.6a2 2 0 0 0 1.8-3L13.7 3.7a2 2 0 0 0-3.4 0Z" />
       <path d="M12 9v4M12 17h.01" />

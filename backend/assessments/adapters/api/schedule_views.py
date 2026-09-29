@@ -17,7 +17,8 @@ from journals.activity_records import (
     evaluation_schedule_updated,
     evaluation_scheduled,
 )
-from journals.error_context import describe_attempt
+from journals.log_context import describe_log_attempt
+from journals.models import LogSource
 
 
 class EvaluationScheduleListCreateView(APIView):
@@ -51,16 +52,21 @@ class EvaluationScheduleListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
-        describe_attempt(request, "Échec de planification de l’évaluation")
+        describe_log_attempt(
+            request,
+            "Échec de planification de l’évaluation",
+            LogSource.PLANNING,
+        )
         serializer = EvaluationScheduleInputSerializer(
             data=request.data,
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
         schedule = serializer.save()
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de planification de l’évaluation",
+            LogSource.PLANNING,
             organization=schedule.team.organization,
             team=schedule.team,
         )
@@ -92,9 +98,10 @@ class EvaluationScheduleDetailView(APIView):
     @transaction.atomic
     def put(self, request, schedule_id: int):
         schedule = manageable_schedule(request.user, schedule_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de modification de la planification",
+            LogSource.PLANNING,
             organization=schedule.team.organization,
             team=schedule.team,
         )
@@ -116,9 +123,10 @@ class EvaluationScheduleDetailView(APIView):
     @transaction.atomic
     def delete(self, request, schedule_id: int):
         schedule = manageable_schedule(request.user, schedule_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de suppression de la planification",
+            LogSource.PLANNING,
             organization=schedule.team.organization,
             team=schedule.team,
         )

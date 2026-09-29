@@ -127,11 +127,11 @@ export function seedPlanningContext(
 export function seedJournalEntries(username: string, organizationName: string) {
   runDjangoShell([
     "from identities.models import Organization, User",
-    "from journals.models import ActivityAction",
-    "from journals.services import record_activity, record_error",
+    "from journals.models import ActivityAction, LogLevel, LogSource",
+    "from journals.services import record_activity, record_log",
     `user = User.objects.get(username=${JSON.stringify(username)})`,
     `organization = Organization.objects.get(name=${JSON.stringify(organizationName)})`,
     "record_activity(actor=user, organization=organization, action=ActivityAction.TEAM_CREATED, description='Création de l’équipe')",
-    "record_error(actor=user, organization=organization, operation='Échec de création de l’évaluation', category='ValidationError', message='Les données sont invalides.')",
+    "record_log(actor=user, organization=organization, level=LogLevel.ERROR, source=LogSource.ASSESSMENTS, operation='Échec de création de l’évaluation', category='ValidationError', message='Les données sont invalides.')",
   ]);
 }

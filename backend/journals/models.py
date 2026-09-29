@@ -32,6 +32,22 @@ class ActivityAction(models.TextChoices):
     EVALUATION_SCHEDULE_DELETED = "evaluation_schedule_deleted", "Planification supprimée"
 
 
+class LogLevel(models.TextChoices):
+    INFO = "INFO", "Info"
+    WARNING = "WARNING", "Avertissement"
+    ERROR = "ERROR", "Erreur"
+
+
+class LogSource(models.TextChoices):
+    TEAMS = "teams", "Équipes"
+    ASSESSMENTS = "assessments", "Évaluations"
+    PLANNING = "planning", "Planification"
+    NOTIFICATIONS = "notifications", "Notifications"
+    IDENTITIES = "identities", "Identités"
+    ORGANIZATIONS = "organizations", "Organisations"
+    SYSTEM = "system", "Système"
+
+
 class JournalEntryFields(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     organization = models.ForeignKey(
@@ -71,11 +87,19 @@ class ActivityEntry(JournalEntryFields):
         ordering = ("-created_at", "-pk")
 
 
-class ErrorEntry(JournalEntryFields):
-    operation = models.CharField(max_length=255)
-    category = models.CharField(max_length=100)
+class LogEntry(JournalEntryFields):
+    level = models.CharField(max_length=7, choices=LogLevel.choices)
+    source = models.CharField(max_length=40, choices=LogSource.choices)
+    operation = models.CharField(max_length=255, blank=True, default="")
+    category = models.CharField(max_length=100, blank=True, default="")
     message = models.CharField(max_length=500)
     correlation_id = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
 
     class Meta:
         ordering = ("-created_at", "-pk")
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(level__in=LogLevel.values),
+                name="journals_log_level_valid",
+            )
+        ]

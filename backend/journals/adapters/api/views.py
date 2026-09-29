@@ -3,14 +3,18 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 
-from journals.adapters.api.filters import JournalFilterSerializer, filter_entries
+from journals.adapters.api.filters import (
+    JournalFilterSerializer,
+    LogFilterSerializer,
+    filter_entries,
+)
 from journals.adapters.api.permissions import CanViewJournals
-from journals.adapters.api.scope import visible_activity_entries, visible_error_entries
+from journals.adapters.api.scope import visible_activity_entries, visible_log_entries
 from journals.adapters.api.serializers import (
     ActivityEntrySerializer,
     ActivityPageSerializer,
-    ErrorEntrySerializer,
-    ErrorPageSerializer,
+    LogEntrySerializer,
+    LogPageSerializer,
 )
 
 
@@ -38,21 +42,25 @@ class ActivityJournalView(APIView):
         return paginator.get_paginated_response(data)
 
 
-class ErrorJournalView(APIView):
+class LogsView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [CanViewJournals]
 
     @extend_schema(
         description=(
-            "Liste les erreurs applicatives nettoyées. Les erreurs système sans organisation "
-            "sont réservées au Superadmin."
+            "Liste les événements applicatifs nettoyés. Les logs système sans organisation "
+            "sont réservés au Superadmin."
         ),
-        parameters=[JournalFilterSerializer],
-        responses={200: ErrorPageSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
+        parameters=[LogFilterSerializer],
+        responses={200: LogPageSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
     )
     def get(self, request):
-        entries = filter_entries(visible_error_entries(request.user), request.query_params)
+        entries = filter_entries(
+            visible_log_entries(request.user),
+            request.query_params,
+            LogFilterSerializer,
+        )
         paginator = JournalPagination()
         page = paginator.paginate_queryset(entries, request, view=self)
-        data = ErrorEntrySerializer(page, many=True).data
+        data = LogEntrySerializer(page, many=True).data
         return paginator.get_paginated_response(data)

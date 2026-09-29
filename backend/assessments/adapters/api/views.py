@@ -16,8 +16,8 @@ from assessments.adapters.api.serializers import (
     EvaluationSerializer,
 )
 from journals.activity_records import evaluation_activity
-from journals.error_context import describe_attempt
-from journals.models import ActivityAction
+from journals.log_context import describe_log_attempt
+from journals.models import ActivityAction, LogSource
 
 
 class EvaluationListCreateView(APIView):
@@ -50,16 +50,21 @@ class EvaluationListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
-        describe_attempt(request, "Échec de création de l’évaluation")
+        describe_log_attempt(
+            request,
+            "Échec de création de l’évaluation",
+            LogSource.ASSESSMENTS,
+        )
         serializer = CreateEvaluationInputSerializer(
             data=request.data,
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
         evaluation = serializer.save()
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de création de l’évaluation",
+            LogSource.ASSESSMENTS,
             organization=evaluation.organization,
         )
         evaluation_activity(
@@ -88,9 +93,10 @@ class EvaluationDetailView(APIView):
     @transaction.atomic
     def put(self, request, evaluation_id: int):
         evaluation = manageable_evaluation(request.user, evaluation_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de modification de l’évaluation",
+            LogSource.ASSESSMENTS,
             organization=evaluation.organization,
         )
         previous_name = evaluation.name
@@ -117,9 +123,10 @@ class EvaluationDetailView(APIView):
     @transaction.atomic
     def delete(self, request, evaluation_id: int):
         evaluation = manageable_evaluation(request.user, evaluation_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de suppression de l’évaluation",
+            LogSource.ASSESSMENTS,
             organization=evaluation.organization,
         )
         evaluation_activity(

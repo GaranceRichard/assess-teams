@@ -6,6 +6,8 @@ from django.core.mail import send_mail
 from django.utils import timezone
 
 from assessments.models import EvaluationSchedule, ScheduleMode
+from journals.models import LogLevel, LogSource
+from journals.services import record_log
 
 
 def _recipient_coaches(schedule: EvaluationSchedule):
@@ -41,7 +43,21 @@ def _send_to_recipients(schedule: EvaluationSchedule, subject: str, body: str) -
             settings.DEFAULT_FROM_EMAIL,
             [recipient.email],
         )
-    return len(recipients)
+    count = len(recipients)
+    record_log(
+        level=LogLevel.INFO if count else LogLevel.WARNING,
+        source=LogSource.NOTIFICATIONS,
+        actor=schedule.assignee,
+        organization=schedule.team.organization,
+        team=schedule.team,
+        operation="Envoi d’une notification d’évaluation",
+        message=(
+            "Notification d’évaluation envoyée."
+            if count
+            else "Notification d’évaluation non envoyée : aucun destinataire éligible."
+        ),
+    )
+    return count
 
 
 def _evaluation_link() -> str:

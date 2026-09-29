@@ -145,5 +145,7 @@ traverse la session Admin, le changement de fond au survol, l’ouverture de la 
 
 Les journaux sont couverts séparément : création après succès, absence de succès après refus ou échec,
 snapshots historiques, tri, filtres, pagination et lecture seule. Les tests directs des endpoints prouvent les
-scopes Admin/Superadmin et l'exclusion des erreurs système pour l'Admin. Le contrat du Journal des erreurs
-vérifie aussi l'absence de corps de requête, traceback, secret, token, cookie ou credential exposé.
+scopes Admin/Superadmin et l’exclusion des logs système pour l’Admin. Le contrat des Logs couvre les niveaux,
+les sources, la migration des erreurs historiques, le filtre de niveau et l’absence de corps de requête,
+traceback, secret, token, cookie ou credential exposé. Les tests React vérifient en plus que INFO reste discret,
+WARNING identifiable et que toute ligne ERROR reçoit le traitement rouge accessible en modes jour et nuit.

@@ -7,8 +7,8 @@ import { ProductShell } from "./ProductShell";
 vi.mock("./ActivityJournalPage", () => ({
   ActivityJournalPage: () => <div>Activités journalisées</div>,
 }));
-vi.mock("./ErrorJournalPage", () => ({
-  ErrorJournalPage: () => <div>Erreurs journalisées</div>,
+vi.mock("./LogsPage", () => ({
+  LogsPage: () => <div>Logs applicatifs</div>,
 }));
 
 const admin: SessionUser = {
@@ -37,6 +37,6 @@ it("routes each journal to its distinct page", () => {
   expect(screen.getByText("Activités journalisées")).toBeVisible();
   unmount();
 
-  renderRoute("/error-journal");
-  expect(screen.getByText("Erreurs journalisées")).toBeVisible();
+  renderRoute("/logs");
+  expect(screen.getByText("Logs applicatifs")).toBeVisible();
 });

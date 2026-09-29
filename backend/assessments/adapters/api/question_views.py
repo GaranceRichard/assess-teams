@@ -10,8 +10,8 @@ from assessments.adapters.api.scope import manageable_evaluation, manageable_que
 from assessments.adapters.api.serializers import QuestionInputSerializer, QuestionSerializer
 from assessments.models import Evaluation
 from journals.activity_records import question_activity
-from journals.error_context import describe_attempt
-from journals.models import ActivityAction
+from journals.log_context import describe_log_attempt
+from journals.models import ActivityAction, LogSource
 
 
 class QuestionListCreateView(APIView):
@@ -46,9 +46,10 @@ class QuestionListCreateView(APIView):
     @transaction.atomic
     def post(self, request, evaluation_id: int):
         evaluation = self.evaluation(request.user, evaluation_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec d’ajout d’une question",
+            LogSource.ASSESSMENTS,
             organization=evaluation.organization,
         )
         serializer = QuestionInputSerializer(data=request.data, context={"evaluation": evaluation})
@@ -80,9 +81,10 @@ class QuestionDetailView(APIView):
     @transaction.atomic
     def put(self, request, question_id: int):
         question = manageable_question(request.user, question_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de modification de la question",
+            LogSource.ASSESSMENTS,
             organization=question.evaluation.organization,
         )
         previous_name = question.name
@@ -109,9 +111,10 @@ class QuestionDetailView(APIView):
     @transaction.atomic
     def delete(self, request, question_id: int):
         question = manageable_question(request.user, question_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de suppression de la question",
+            LogSource.ASSESSMENTS,
             organization=question.evaluation.organization,
         )
         question_activity(

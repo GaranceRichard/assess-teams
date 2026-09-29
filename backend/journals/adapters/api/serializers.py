@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from journals.models import ActivityEntry, ErrorEntry
+from journals.models import ActivityEntry, LogEntry
 
 
 class JournalEntrySerializer(serializers.ModelSerializer):
@@ -23,10 +23,12 @@ class ActivityEntrySerializer(JournalEntrySerializer):
         fields = JournalEntrySerializer.Meta.fields + ("action", "description")
 
 
-class ErrorEntrySerializer(JournalEntrySerializer):
+class LogEntrySerializer(JournalEntrySerializer):
     class Meta(JournalEntrySerializer.Meta):
-        model = ErrorEntry
+        model = LogEntry
         fields = JournalEntrySerializer.Meta.fields + (
+            "level",
+            "source",
             "operation",
             "category",
             "message",
@@ -41,8 +43,8 @@ class ActivityPageSerializer(serializers.Serializer):
     results = ActivityEntrySerializer(many=True)
 
 
-class ErrorPageSerializer(serializers.Serializer):
+class LogPageSerializer(serializers.Serializer):
     count = serializers.IntegerField()
     next = serializers.URLField(allow_null=True)
     previous = serializers.URLField(allow_null=True)
-    results = ErrorEntrySerializer(many=True)
+    results = LogEntrySerializer(many=True)

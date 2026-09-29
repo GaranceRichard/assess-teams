@@ -69,8 +69,8 @@ export const routes: ProductRoute[] = [
     minimumRole: "Admin",
   },
   {
-    path: "/error-journal",
-    title: "Journal des erreurs",
+    path: "/logs",
+    title: "Logs",
     menuRoles: ["Admin"],
     minimumRole: "Admin",
   },

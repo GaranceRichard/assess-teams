@@ -3,7 +3,11 @@ export type JournalFilters = {
   organizationId: string;
   player: string;
   team: string;
+  level: string;
+  source: string;
 };
+
+export type LogLevel = "INFO" | "WARNING" | "ERROR";
 
 export type JournalEntry = {
   id: number;
@@ -19,7 +23,9 @@ export type ActivityEntry = JournalEntry & {
   description: string;
 };
 
-export type ErrorEntry = JournalEntry & {
+export type LogEntry = JournalEntry & {
+  level: LogLevel;
+  source: string;
   operation: string;
   category: string;
   message: string;
@@ -40,6 +46,8 @@ function query(filters: JournalFilters, page: number): string {
     params.set("organization_id", filters.organizationId);
   if (filters.player) params.set("player", filters.player);
   if (filters.team) params.set("team", filters.team);
+  if (filters.level) params.set("level", filters.level);
+  if (filters.source) params.set("source", filters.source);
   return params.toString();
 }
 
@@ -59,6 +67,6 @@ export function listActivityEntries(filters: JournalFilters, page: number) {
   return list<ActivityEntry>("/api/admin/activity-journal/", filters, page);
 }
 
-export function listErrorEntries(filters: JournalFilters, page: number) {
-  return list<ErrorEntry>("/api/admin/error-journal/", filters, page);
+export function listLogEntries(filters: JournalFilters, page: number) {
+  return list<LogEntry>("/api/admin/logs/", filters, page);
 }

@@ -27,7 +27,8 @@ from journals.activity_records import (
     organization_members_changed,
     organization_renamed,
 )
-from journals.error_context import describe_attempt
+from journals.log_context import describe_log_attempt
+from journals.models import LogSource
 
 
 class OrganizationListCreateView(APIView):
@@ -60,7 +61,11 @@ class OrganizationListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
-        describe_attempt(request, "Échec de création de l’organisation")
+        describe_log_attempt(
+            request,
+            "Échec de création de l’organisation",
+            LogSource.ORGANIZATIONS,
+        )
         if not can_create_organizations(actor_for(request.user)):
             raise PermissionDenied("Seul le Superadmin peut créer une organisation.")
         serializer = CreateOrganizationSerializer(data=request.data)
@@ -94,9 +99,10 @@ class OrganizationMemberUpdateView(APIView):
     @transaction.atomic
     def put(self, request, organization_id: int):
         organization = manageable_organization(request.user, organization_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de modification des membres de l’organisation",
+            LogSource.ORGANIZATIONS,
             organization=organization,
         )
         previous = {user.pk: user.username for user in organization.users.all()}
@@ -147,9 +153,10 @@ class OrganizationDetailView(APIView):
     @transaction.atomic
     def put(self, request, organization_id: int):
         organization = manageable_organization(request.user, organization_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de renommage de l’organisation",
+            LogSource.ORGANIZATIONS,
             organization=organization,
         )
         previous_name = organization.name
@@ -176,9 +183,10 @@ class OrganizationDetailView(APIView):
         if not request.user.is_superuser:
             raise PermissionDenied("Seul le Superadmin peut supprimer une organisation.")
         organization = get_object_or_404(Organization, pk=organization_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de suppression de l’organisation",
+            LogSource.ORGANIZATIONS,
             organization=organization,
         )
         organization_deleted(request.user, organization)

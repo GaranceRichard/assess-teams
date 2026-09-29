@@ -31,7 +31,7 @@ const expectedMenus: Record<UserRole, string[]> = {
     "Résultats",
     "Pilotage",
     "Journal d’activité",
-    "Journal des erreurs",
+    "Logs",
   ],
   Coach: ["Tableau de bord", "Utilisateurs", "Évaluations", "Résultats"],
   Viewer: ["Tableau de bord", "Utilisateurs", "Équipes", "Résultats"],
@@ -68,6 +68,7 @@ describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(
 
       const links = screen.getByRole("navigation").querySelectorAll("a");
       expect(Array.from(links, (link) => link.textContent)).toEqual(labels);
+      expect(screen.queryByText("Journal des erreurs")).not.toBeInTheDocument();
     });
   },
 );

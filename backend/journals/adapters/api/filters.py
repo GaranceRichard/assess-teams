@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from journals.models import LogLevel, LogSource
+
 
 class JournalFilterSerializer(serializers.Serializer):
     date = serializers.DateField(required=False)
@@ -9,8 +11,13 @@ class JournalFilterSerializer(serializers.Serializer):
     page = serializers.IntegerField(required=False, min_value=1)
 
 
-def filter_entries(queryset, params):
-    serializer = JournalFilterSerializer(data=params)
+class LogFilterSerializer(JournalFilterSerializer):
+    level = serializers.ChoiceField(required=False, choices=LogLevel.choices)
+    source = serializers.ChoiceField(required=False, choices=LogSource.choices)
+
+
+def filter_entries(queryset, params, serializer_class=JournalFilterSerializer):
+    serializer = serializer_class(data=params)
     serializer.is_valid(raise_exception=True)
     filters = serializer.validated_data
     if "date" in filters:
@@ -21,4 +28,8 @@ def filter_entries(queryset, params):
         queryset = queryset.filter(actor_name__icontains=filters["player"])
     if "team" in filters:
         queryset = queryset.filter(team_name__icontains=filters["team"])
+    if "level" in filters:
+        queryset = queryset.filter(level=filters["level"])
+    if "source" in filters:
+        queryset = queryset.filter(source=filters["source"])
     return queryset

@@ -30,7 +30,8 @@ from identities.domain.managed_users import can_invite_managed_user, can_manage_
 from identities.domain.organizations import requires_single_organization
 from identities.domain.users import Role
 from identities.models import User
-from journals.error_context import describe_attempt
+from journals.log_context import describe_log_attempt
+from journals.models import LogSource
 
 
 class ManagedUserListCreateView(APIView):
@@ -59,7 +60,11 @@ class ManagedUserListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
-        describe_attempt(request, "Échec d’envoi de l’invitation")
+        describe_log_attempt(
+            request,
+            "Échec d’envoi de l’invitation",
+            LogSource.IDENTITIES,
+        )
         serializer = InviteUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -68,9 +73,10 @@ class ManagedUserListCreateView(APIView):
         organization = None
         if not request.user.is_superuser:
             organization = assigned_admin_organization(request.user)
-            describe_attempt(
+            describe_log_attempt(
                 request,
                 "Échec d’envoi de l’invitation",
+                LogSource.IDENTITIES,
                 organization=organization,
             )
         user = User(
@@ -111,9 +117,10 @@ class ManagedUserDetailView(APIView):
         users = visible_managed_users(request.user).select_for_update()
         user = get_object_or_404(users, pk=user_id)
         previous = UserSnapshot.capture(user)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de modification de l’utilisateur",
+            LogSource.IDENTITIES,
             organization=previous.organization,
         )
         serializer = UpdateManagedUserSerializer(
@@ -155,9 +162,10 @@ class ManagedUserDetailView(APIView):
     def delete(self, request, user_id: int):
         user = get_object_or_404(visible_managed_users(request.user), pk=user_id)
         organization = user.organizations.first()
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de suppression de l’utilisateur",
+            LogSource.IDENTITIES,
             organization=organization,
         )
         if not self._can_manage(request, user):

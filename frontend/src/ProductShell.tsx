@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import type { SessionUser } from "./auth";
 import { ActivityJournalPage } from "./ActivityJournalPage";
-import { ErrorJournalPage } from "./ErrorJournalPage";
+import { LogsPage } from "./LogsPage";
 import { EvaluationPage } from "./EvaluationPage";
 import { canAccess, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
@@ -68,8 +68,8 @@ export function ProductShell({
           <PlanningPage actor={user} />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
-        ) : authorized && path === "/error-journal" ? (
-          <ErrorJournalPage actor={user} />
+        ) : authorized && path === "/logs" ? (
+          <LogsPage actor={user} />
         ) : authorized ? (
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>

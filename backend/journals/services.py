@@ -1,5 +1,12 @@
 from identities.models import Organization, User
-from journals.models import ActivityAction, ActivityEntry, ErrorEntry
+from journals.models import (
+    ActivityAction,
+    ActivityEntry,
+    LogEntry,
+    LogLevel,
+    LogSource,
+)
+from journals.sanitization import sanitize_log_text
 from teams.models import Team
 
 
@@ -29,23 +36,31 @@ def record_activity(
     )
 
 
-def record_error(
+def record_log(
     *,
-    actor: User | None,
-    organization: Organization | None,
-    operation: str,
-    category: str,
+    level: LogLevel | str,
+    source: LogSource | str,
     message: str,
+    actor: User | None = None,
+    organization: Organization | None = None,
     team: Team | None = None,
-) -> ErrorEntry:
-    return ErrorEntry.objects.create(
+    operation: str = "",
+    category: str = "",
+) -> LogEntry:
+    if level not in LogLevel.values:
+        raise ValueError("Niveau de log invalide.")
+    if source not in LogSource.values:
+        raise ValueError("Source de log invalide.")
+    return LogEntry.objects.create(
         organization=organization,
         organization_name=organization.name if organization else "",
         actor=actor,
         actor_name=actor_snapshot(actor),
         team=team,
         team_name=team.name if team else "",
-        operation=operation,
-        category=category[:100],
-        message=message[:500],
+        level=level,
+        source=source,
+        operation=sanitize_log_text(operation, 255),
+        category=sanitize_log_text(category, 100),
+        message=sanitize_log_text(message, 500, "Détail applicatif indisponible."),
     )

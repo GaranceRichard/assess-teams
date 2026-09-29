@@ -8,7 +8,8 @@ from rest_framework.views import APIView
 from identities.adapters.api.organization_permissions import CanManageOrganizations
 from identities.adapters.api.organization_scope import manageable_organization
 from journals.activity_records import team_archived, team_changed, team_created
-from journals.error_context import describe_attempt
+from journals.log_context import describe_log_attempt
+from journals.models import LogSource
 from teams.adapters.api.scope import manageable_team
 from teams.adapters.api.serializers import TeamInputSerializer, TeamSerializer
 
@@ -45,7 +46,12 @@ class TeamListCreateView(APIView):
     @transaction.atomic
     def post(self, request, organization_id: int):
         organization = manageable_organization(request.user, organization_id)
-        describe_attempt(request, "Échec de création de l’équipe", organization=organization)
+        describe_log_attempt(
+            request,
+            "Échec de création de l’équipe",
+            LogSource.TEAMS,
+            organization=organization,
+        )
         serializer = TeamInputSerializer(
             data=request.data,
             context={"organization": organization},
@@ -75,9 +81,10 @@ class TeamDetailView(APIView):
     @transaction.atomic
     def put(self, request, team_id: int):
         team = manageable_team(request.user, team_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec de modification de l’équipe",
+            LogSource.TEAMS,
             organization=team.organization,
             team=team,
         )
@@ -100,9 +107,10 @@ class TeamDetailView(APIView):
     @transaction.atomic
     def delete(self, request, team_id: int):
         team = manageable_team(request.user, team_id)
-        describe_attempt(
+        describe_log_attempt(
             request,
             "Échec d’archivage de l’équipe",
+            LogSource.TEAMS,
             organization=team.organization,
             team=team,
         )

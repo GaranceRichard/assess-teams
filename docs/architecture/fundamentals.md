@@ -39,10 +39,11 @@ La route `/evaluations` ne contient encore aucune passation : après authentific
 placeholder, comme `/results`, `/steering` et le tableau de bord générique. Les modèles administrés par
 `/templates` ne portent ni modalité, publication, version, réponse ni résultat.
 
-Les routes `/activity-journal` et `/error-journal` restent deux verticales de lecture distinctes. Le backend
-produit les activités après succès métier et les erreurs depuis un contexte d'opération nettoyé ; React ne
-déclare jamais le résultat d'une mutation. Les deux modèles conservent leurs snapshots historiques sans former
-un framework d'audit, d'Event Sourcing ou d'observabilité.
+Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
+répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des
+événements applicatifs INFO, WARNING et ERROR nettoyés ; React ne déclare jamais le résultat d’une mutation.
+Les deux modèles conservent leurs snapshots historiques sans former un framework d’audit, d’Event Sourcing ou
+une plateforme d’observabilité.
 
 La suppression physique d’une organisation cascade actuellement vers ses équipes, modèles et planifications.
 Cette réalité technique n’est pas encore une règle produit validée et reste suivie par `ARB-ORG-005`.

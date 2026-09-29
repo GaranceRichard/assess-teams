@@ -5,6 +5,7 @@ type Props = {
   value: FilterValues;
   organizations: Organization[];
   showOrganizations: boolean;
+  showLogFilters?: boolean;
   onChange: (value: FilterValues) => void;
   onApply: () => void;
   onClear: () => void;
@@ -14,6 +15,7 @@ export function JournalFilters({
   value,
   organizations,
   showOrganizations,
+  showLogFilters = false,
   onChange,
   onApply,
   onClear,
@@ -53,6 +55,38 @@ export function JournalFilters({
             ))}
           </select>
         </label>
+      )}
+      {showLogFilters && (
+        <>
+          <label>
+            Niveau
+            <select
+              value={value.level}
+              onChange={(event) => field("level", event.target.value)}
+            >
+              <option value="">Tous</option>
+              <option value="INFO">INFO</option>
+              <option value="WARNING">WARNING</option>
+              <option value="ERROR">ERROR</option>
+            </select>
+          </label>
+          <label>
+            Source
+            <select
+              value={value.source}
+              onChange={(event) => field("source", event.target.value)}
+            >
+              <option value="">Toutes</option>
+              <option value="teams">teams</option>
+              <option value="assessments">assessments</option>
+              <option value="planning">planning</option>
+              <option value="notifications">notifications</option>
+              <option value="identities">identities</option>
+              <option value="organizations">organizations</option>
+              <option value="system">system</option>
+            </select>
+          </label>
+        </>
       )}
       <label>
         Joueur

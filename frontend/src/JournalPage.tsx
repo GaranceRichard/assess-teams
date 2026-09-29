@@ -15,6 +15,8 @@ const emptyFilters: FilterValues = {
   organizationId: "",
   player: "",
   team: "",
+  level: "",
+  source: "",
 };
 
 type Props<T extends JournalEntry> = {
@@ -25,6 +27,8 @@ type Props<T extends JournalEntry> = {
   load: (filters: FilterValues, page: number) => Promise<PageData<T>>;
   actionFor: (entry: T) => string;
   detailsFor?: (entry: T) => ReactNode;
+  renderEntries?: (entries: T[]) => ReactNode;
+  showLogFilters?: boolean;
 };
 
 export function JournalPage<T extends JournalEntry>({
@@ -35,6 +39,8 @@ export function JournalPage<T extends JournalEntry>({
   load,
   actionFor,
   detailsFor,
+  renderEntries,
+  showLogFilters = false,
 }: Props<T>) {
   const [draft, setDraft] = useState(emptyFilters);
   const [filters, setFilters] = useState(emptyFilters);
@@ -80,6 +86,7 @@ export function JournalPage<T extends JournalEntry>({
         value={draft}
         organizations={organizations}
         showOrganizations={isSuperadmin}
+        showLogFilters={showLogFilters}
         onChange={setDraft}
         onApply={applyFilters}
         onClear={clearFilters}
@@ -90,11 +97,15 @@ export function JournalPage<T extends JournalEntry>({
         </p>
       ) : data ? (
         <>
-          <JournalEntries
-            entries={data.results}
-            actionFor={actionFor}
-            detailsFor={detailsFor}
-          />
+          {renderEntries ? (
+            renderEntries(data.results)
+          ) : (
+            <JournalEntries
+              entries={data.results}
+              actionFor={actionFor}
+              detailsFor={detailsFor}
+            />
+          )}
           <nav
             className="journal-pagination"
             aria-label="Pagination du journal"

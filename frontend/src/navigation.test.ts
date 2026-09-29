@@ -32,7 +32,7 @@ describe("role capabilities", () => {
   });
 
   it("reserves both journal routes to Admin", () => {
-    for (const path of ["/activity-journal", "/error-journal"]) {
+    for (const path of ["/activity-journal", "/logs"]) {
       expect(canAccess("Admin", routeFor(path)!)).toBe(true);
       expect(canAccess("Coach", routeFor(path)!)).toBe(false);
       expect(canAccess("Viewer", routeFor(path)!)).toBe(false);

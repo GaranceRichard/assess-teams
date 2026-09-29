@@ -14,7 +14,7 @@ const adminLabels = [
   "Résultats",
   "Pilotage",
   "Journal d’activité",
-  "Journal des erreurs",
+  "Logs",
 ];
 
 function renderSidebar(collapsed = false) {

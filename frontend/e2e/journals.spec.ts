@@ -7,7 +7,7 @@ import {
   seedJournalEntries,
 } from "./identity-fixture";
 
-test("an Admin consults distinct activity and error journals", async ({
+test("an Admin consults the distinct activity journal and logs", async ({
   page,
 }) => {
   seedIdentity("journal-admin-e2e", "Admin");
@@ -26,14 +26,17 @@ test("an Admin consults distinct activity and error journals", async ({
   await expect(page.getByText("Création de l’équipe")).toBeVisible();
   await expect(page.getByText("Journals E2E")).toBeVisible();
 
-  await page.getByRole("link", { name: "Journal des erreurs" }).click();
+  await page.getByRole("link", { name: "Logs" }).click();
+  await expect(page.getByRole("heading", { name: "Logs" })).toBeVisible();
+  const errorLevel = page.locator("strong.log-level", { hasText: "ERROR" });
+  const errorRow = errorLevel.locator("xpath=ancestor::tr");
   await expect(
-    page.getByRole("heading", { name: "Journal des erreurs" }),
+    errorRow.locator("td > span", { hasText: "Les données sont invalides." }),
   ).toBeVisible();
-  await expect(
-    page.getByText("Échec de création de l’évaluation"),
-  ).toBeVisible();
-  await page.getByText("Détails").click();
+  await expect(errorRow).toHaveClass(/log-row--error/);
+  await page.getByLabel("Niveau").selectOption("ERROR");
+  await page.getByRole("button", { name: "Filtrer" }).click();
+  await expect(errorLevel).toBeVisible();
+  await page.getByText("Détails", { exact: true }).click();
   await expect(page.getByText("ValidationError")).toBeVisible();
-  await expect(page.getByText("Les données sont invalides.")).toBeVisible();
 });

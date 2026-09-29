@@ -87,22 +87,6 @@
   color: var(--muted);
 }
 
-.error-details {
-  margin: 0.7rem 0 0 4.75rem;
-  color: var(--muted);
-}
-
-.error-details dl {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.3rem 0.8rem;
-}
-
-.error-details dd {
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-
 .journal-pagination {
   display: flex;
   justify-content: center;
@@ -132,8 +116,5 @@
   }
   .journal-page {
     margin: 1rem;
-  }
-  .error-details {
-    margin-left: 0;
   }
 }

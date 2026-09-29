@@ -1,7 +1,8 @@
 ## EPIC-010 — Traçabilité opérationnelle
 
 Cet Epic régularise deux verticales déjà livrées. Dans `main`, elles restent distinctes sous les noms
-**Journal d’activité** et **Journal des erreurs** ; la transformation éventuelle en « Logs » n’est pas livrée.
+**Journal d’activité** et **Logs** : le premier retrace les actions métier réussies, le second les événements
+applicatifs nettoyés utiles à l’exploitation et au diagnostic.
 
 ### FEAT-039 — Consulter le Journal d’activité
 
@@ -20,19 +21,19 @@ Cet Epic régularise deux verticales déjà livrées. Dans `main`, elles restent
 - **Valeur apportée :** explique les changements réussis sans dépendre de l’état courant des objets.
 - **Dépendances / preuves :** `FEAT-004` ; modèle, API `/api/admin/activity-journal/`, UI `/activity-journal`, OpenAPI et tests backend/React/E2E.
 
-### FEAT-040 — Consulter le Journal des erreurs
+### FEAT-040 — Consulter les Logs
 
-- **Intention métier :** diagnostiquer les opérations refusées ou échouées sans exposer de donnée sensible.
+- **Intention métier :** comprendre les événements applicatifs utiles sans exposer de donnée sensible.
 - **Acteurs concernés :** `Superadmin` global et `Admin` dans son organisation.
-- **Description :** consulter séparément les erreurs fonctionnelles nettoyées et leur identifiant de corrélation.
+- **Description :** consulter séparément les logs `INFO`, `WARNING` et `ERROR`, nettoyés et corrélables.
 - **Priorité :** P1.
 
-#### JOURNAL-002 — Consulter les opérations en erreur
+#### JOURNAL-002 — Consulter les logs applicatifs
 
 - **Identifiant / Feature parente :** `JOURNAL-002` / `FEAT-040`.
-- **Nature :** régularisation documentaire du comportement livré le 2026-09-28.
-- **User story :** en tant qu’administrateur autorisé, je veux filtrer les erreurs nettoyées afin de diagnostiquer un échec sans divulguer de secret.
-- **Critères d’acceptation :** lecture seule distincte des activités, ordre antéchronologique, pagination et mêmes filtres ; opération, catégorie, message nettoyé et corrélation ; absence de corps, traceback, token, cookie ou credential ; Admin cloisonné, erreurs système réservées au Superadmin.
+- **Nature :** évolution du journal d’erreurs livrée le 2026-09-29, avec conservation de l’historique.
+- **User story :** en tant qu’administrateur autorisé, je veux filtrer les logs nettoyés afin de diagnostiquer un événement sans divulguer de secret.
+- **Critères d’acceptation :** lecture seule distincte des activités, ordre antéchronologique, pagination et filtres niveau/source/organisation ; message nettoyé et corrélation ; absence de corps, traceback, token, cookie ou credential ; Admin cloisonné, logs système réservés au Superadmin.
 - **Principaux refus :** anonyme, Coach, Viewer, écriture, organisation hors périmètre.
 - **Valeur apportée :** facilite le diagnostic fonctionnel sans exposer les données techniques sensibles.
-- **Dépendances / preuves :** `FEAT-004` ; modèle, API `/api/admin/error-journal/`, UI `/error-journal`, OpenAPI et tests backend/React/E2E.
+- **Dépendances / preuves :** `FEAT-004` ; modèle, API `/api/admin/logs/`, UI `/logs`, OpenAPI et tests backend/React/E2E.

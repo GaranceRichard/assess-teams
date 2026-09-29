@@ -14,7 +14,7 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 - modèles locaux : CRUD des modèles et questions à ordre d’ajout automatique, sans publication ni version ;
 - planification locale : équipe, modèle, responsable, immédiat/ponctuel/mensuel/trimestriel et échéances ;
 - courriels de confirmation et d’échéance, avec commande de traitement différé ;
-- Journal d’activité et Journal des erreurs distincts, filtrables, paginés et en lecture seule ;
+- Journal d’activité et Logs distincts, filtrables, paginés et en lecture seule ;
 - health check, réglages development/production, OpenAPI, CI et quality gates documentés techniquement.
 
 La passation `/evaluations`, les résultats `/results`, le pilotage `/steering` et le tableau de bord générique
@@ -82,7 +82,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | PLAN-001 — Planifier un modèle local pour une équipe | Réalisé | quatre modes, responsable et CRUD ; 2026-09-29 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | Réalisé | confirmation, échéance et récurrence ; 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
-| JOURNAL-002 — Consulter les opérations en erreur | Réalisé | erreurs nettoyées et cloisonnées ; 2026-09-28 |
+| JOURNAL-002 — Consulter les logs applicatifs | Réalisé | niveaux, nettoyage et cloisonnement ; 2026-09-29 |
 
 ## Écarts et décisions encore ouverts
 
