@@ -42,6 +42,22 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
     "Équipes",
     "Résultats",
   ]);
+  await page.getByRole("button", { name: "Replier le menu" }).click();
+  await expect(page.locator(".product-sidebar")).toHaveClass(
+    /product-sidebar--collapsed/,
+  );
+  const dashboardLink = page.getByRole("link", { name: "Tableau de bord" });
+  await expect(dashboardLink.locator(".sidebar-label")).toBeHidden();
+  await dashboardLink.hover();
+  await expect
+    .poll(() =>
+      dashboardLink.evaluate((link) =>
+        getComputedStyle(link, "::after").getPropertyValue("opacity"),
+      ),
+    )
+    .toBe("1");
+  await page.getByRole("button", { name: "Déplier le menu" }).click();
+  await expect(dashboardLink.locator(".sidebar-label")).toBeVisible();
   await page.getByRole("link", { name: "Utilisateurs" }).click();
   await expect(
     page.getByRole("row").filter({ hasText: "viewer-e2e" }),

@@ -1,10 +1,13 @@
+import { useState } from "react";
+
 import type { SessionUser } from "./auth";
 import { ActivityJournalPage } from "./ActivityJournalPage";
 import { ErrorJournalPage } from "./ErrorJournalPage";
 import { EvaluationPage } from "./EvaluationPage";
-import { canAccess, menuFor, routeFor } from "./navigation";
+import { canAccess, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
 import { PlanningPage } from "./PlanningPage";
+import { ProductSidebar } from "./ProductSidebar";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
@@ -29,36 +32,19 @@ export function ProductShell({
 }: Props) {
   const route = routeFor(path);
   const authorized = route && canAccess(user.role, route);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="app-shell">
-      <aside>
-        <a
-          className="brand"
-          href="/dashboard"
-          onClick={(event) => {
-            event.preventDefault();
-            onNavigate("/dashboard");
-          }}
-        >
-          Assess teams
-        </a>
-        <nav aria-label="Navigation principale">
-          {menuFor(user.role).map((item) => (
-            <a
-              key={item.path}
-              aria-current={path === item.path ? "page" : undefined}
-              href={item.path}
-              onClick={(event) => {
-                event.preventDefault();
-                onNavigate(item.path);
-              }}
-            >
-              {item.title}
-            </a>
-          ))}
-        </nav>
-      </aside>
+    <div
+      className={`app-shell${sidebarCollapsed ? " app-shell--sidebar-collapsed" : ""}`}
+    >
+      <ProductSidebar
+        collapsed={sidebarCollapsed}
+        onCollapsedChange={setSidebarCollapsed}
+        onNavigate={onNavigate}
+        path={path}
+        role={user.role}
+      />
       <main className="workspace">
         <header>
           <ThemeToggle theme={theme} onChange={onThemeChange} />

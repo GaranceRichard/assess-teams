@@ -96,39 +96,6 @@ button:disabled {
   color: #a42e35;
 }
 
-.app-shell {
-  display: grid;
-  min-height: 100vh;
-  grid-template-columns: 17rem 1fr;
-}
-aside {
-  padding: 2rem 1.25rem;
-  color: #fff;
-  background: #102c2a;
-}
-.brand {
-  display: block;
-  margin: 0 0 2.5rem 0.6rem;
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 850;
-  text-decoration: none;
-}
-nav {
-  display: grid;
-  gap: 0.25rem;
-}
-nav a {
-  padding: 0.7rem 0.8rem;
-  border-radius: 0.45rem;
-  color: #cfe2dc;
-  text-decoration: none;
-}
-nav a:hover,
-nav a[aria-current="page"] {
-  color: #fff;
-  background: #24534b;
-}
 .workspace {
   min-width: 0;
 }
@@ -175,22 +142,6 @@ header span {
 }
 
 @media (max-width: 760px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-  }
-  aside {
-    padding: 1.2rem;
-  }
-  .brand {
-    margin-bottom: 1rem;
-  }
-  nav {
-    display: flex;
-    overflow-x: auto;
-  }
-  nav a {
-    flex: 0 0 auto;
-  }
   header {
     padding: 0.8rem 1rem;
   }

@@ -5,7 +5,7 @@
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le périmètre fonctionnel détaillé sera défini au fil de la conception du produit.
 
 Le chantier fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin unique à une organisation administre ses membres non-Admin, ses équipes et ses évaluations, jamais les Admins.
-
+Le bandeau de navigation vertical associe une icône explicite à chaque entrée et peut être replié pour ne conserver que ces icônes. Un contrôle permet de le déplier à nouveau et, dans l'état replié, chaque icône révèle son libellé au survol.
 Il ajoute deux journaux distincts en lecture seule : actions métier réussies et opérations en échec nettoyées. Le Superadmin est global ; l'Admin reste limité à son organisation, hors erreurs système.
 
 ## Socle technique
