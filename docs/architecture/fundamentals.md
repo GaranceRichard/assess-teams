@@ -35,7 +35,14 @@ est désigné comme responsable ; seul le Superadmin peut désigner un Superadmi
 pendant la planification, tandis qu’un Admin reste distinct des Coachs de l’équipe. Les notifications différées
 utilisent une commande Django quotidienne et conservent la première échéance comme ancre des récurrences.
 
+La route `/evaluations` ne contient encore aucune passation : après authentification elle affiche un
+placeholder, comme `/results`, `/steering` et le tableau de bord générique. Les modèles administrés par
+`/templates` ne portent ni modalité, publication, version, réponse ni résultat.
+
 Les routes `/activity-journal` et `/error-journal` restent deux verticales de lecture distinctes. Le backend
 produit les activités après succès métier et les erreurs depuis un contexte d'opération nettoyé ; React ne
 déclare jamais le résultat d'une mutation. Les deux modèles conservent leurs snapshots historiques sans former
 un framework d'audit, d'Event Sourcing ou d'observabilité.
+
+La suppression physique d’une organisation cascade actuellement vers ses équipes, modèles et planifications.
+Cette réalité technique n’est pas encore une règle produit validée et reste suivie par `ARB-ORG-005`.

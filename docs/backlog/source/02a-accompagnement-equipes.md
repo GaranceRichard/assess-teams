@@ -16,6 +16,18 @@ Cet Epic porte la responsabilité courante du `Coach` et l’historique des affe
 - **Priorité :** P0.
 - **Domaine métier cible :** Équipes et coaching.
 
+#### COACH-001 — Affecter les Coachs courants d’une équipe
+
+- **Identifiant / Feature parente :** `COACH-001` / `FEAT-008`.
+- **Nature :** régularisation documentaire du socle livré le 2026-09-27.
+- **User story :** en tant que `Superadmin` ou `Admin`, je veux choisir les Coachs courants d’une équipe afin de rendre ses responsables visibles.
+- **Périmètre livré :** affectation et retrait de plusieurs Coachs actifs de la même organisation lors de la création ou modification d’une équipe ; restitution des équipes actives au Coach connecté.
+- **Critères d’acceptation :** les sélections valides sont atomiques ; un Viewer, un compte inactif ou un Coach d’une autre organisation est refusé ; l’Admin reste limité à son organisation.
+- **Limite explicite :** aucune période, date d’effet ou chronologie d’affectation n’est conservée ; `FEAT-008` et `FEAT-009` restent donc fonctionnellement incomplètes au-delà de ce socle courant.
+- **Dépendances / priorité :** `TEAM-001`, `FEAT-038`, `FEAT-004` / P0.
+- **Valeur apportée :** rend visibles les responsables courants sans autoriser d’affectation interorganisation.
+- **Preuves :** modèle `Team.coaches`, API et écran Équipes, tests backend, React et Playwright.
+
 ### FEAT-009 — Retracer les affectations de coachs
 
 - **Intention métier :** savoir qui était responsable d’une équipe à tout moment.

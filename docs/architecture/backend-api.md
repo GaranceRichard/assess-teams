@@ -59,8 +59,8 @@ session et son jeton CSRF, invalide la session puis retourne `204`; une session 
 avec `403`.
 
 Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
-capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Les pages livrées dans ce parcours ne
-contiennent des données métier que pour les gestions Utilisateurs et Organisations.
+capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Utilisateurs, Organisations, Équipes,
+Modèles, Planification et Journaux ont des pages réelles ; tableau de bord générique, passation, résultats et pilotage restent des placeholders.
 
 ## Gestion hiérarchique des identités
 
@@ -73,7 +73,7 @@ Le Viewer dispose d’un écran en lecture seule. `POST` sur la collection, puis
 constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
 
 Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite
-des Coachs ou Viewers automatiquement rattachés à son organisation, puis modifie, désactive ou supprime
+des Coachs ou Viewers automatiquement rattachés à son organisation, puis modifie, active/désactive ou supprime physiquement
 uniquement ces deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer de sa propre
 organisation, sans changer sa fonction. Une cible hors organisation retourne `404` sans révéler son existence ;
 toute autre tentative hors de cette hiérarchie retourne `403`.
@@ -104,8 +104,8 @@ Une cible hors périmètre retourne `404`, tandis qu’un rôle non autorisé re
 `DELETE /api/admin/organizations/{organization_id}/` effectue une suppression physique réservée au
 Superadmin et retourne `204`. Les rattachements plusieurs-à-plusieurs disparaissent avec l’organisation, mais
 les identités restent présentes. Un Admin, un Coach ou un Viewer reçoit `403` ; une cible inexistante retourne
-`404`. Aucun modèle métier dépendant d’une organisation n’existe encore ; tout futur modèle historique devra
-protéger explicitement ses données contre une cascade silencieuse.
+`404`. Les équipes, modèles et planifications dépendants sont actuellement supprimés par cascade ; ce
+comportement n’est pas encore couvert par une décision produit et maintient `ORG-004` bloqué via `ARB-ORG-005`.
 
 `PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
 Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur son organisation. La liste doit

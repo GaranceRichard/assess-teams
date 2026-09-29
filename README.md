@@ -2,10 +2,8 @@
 
 ## Objectif
 
-**Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le périmètre fonctionnel détaillé sera défini au fil de la conception du produit.
-
-Le chantier fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin unique à une organisation administre ses membres non-Admin, ses équipes et ses évaluations, jamais les Admins.
-Le bandeau de navigation vertical associe une icône explicite à chaque entrée et peut être replié pour ne conserver que ces icônes. Placé après les menus, un contrôle permet de le déplier à nouveau et, dans l'état replié, chaque icône révèle son libellé au survol.
+**Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
+Le contrôle placé après les menus permet de déplier de nouveau la navigation.
 Il ajoute deux journaux distincts en lecture seule : actions métier réussies et opérations en échec nettoyées. Le Superadmin est global ; l'Admin reste limité à son organisation, hors erreurs système.
 
 ## Socle technique
@@ -29,22 +27,22 @@ de bord son organisation et ses équipes actives ; le Viewer y retrouve son orga
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
 soleil/lune permet de choisir l'affichage jour ou nuit, sans ajouter de quatrième rôle métier.
 
-La gestion des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
+La gestion actuelle des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
 l'Admin gère uniquement les Coachs et Viewers de son organisation, le Coach gère les Viewers de son
 organisation, et le Viewer consulte ses membres. Seul le Superadmin crée, affecte, modifie ou supprime un Admin.
-Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne peut jamais changer une fonction.
+Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne peut jamais changer une fonction. Les écrans manipulent encore `username`/e-mail plutôt que `nom`/`prénom`, et `DELETE` supprime physiquement le compte : les PBIs complets restent donc ouverts ou bloqués.
 
 ## Périmètre livré — gestion des organisations et équipes
 
-Le Superadmin crée et supprime les organisations. Un Admin consulte et renomme uniquement son organisation,
+Le Superadmin crée et supprime physiquement les organisations. Un Admin consulte et renomme uniquement son organisation,
 et peut en gérer les Coachs et Viewers sans jamais modifier les Admin qui y sont rattachés.
-Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation.
+Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation. Les archives ne sont pas encore consultables ou réactivables ; supprimer une organisation cascade actuellement vers ses données dépendantes, sans décision produit finalisée.
 
 ## Périmètre livré — modèle d’évaluation
 
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
-Ils planifient pour une équipe avec Coach une évaluation immédiate, fixe, mensuelle ou trimestrielle, notifiée par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation, y compris lorsqu’un Coach accompagne déjà l’équipe ; le Superadmin peut aussi se désigner lui-même, ce qu’un Admin ne peut jamais faire. Chaque ligne cliquable suit `ORGANISATION - ÉVALUATION - ÉQUIPE - JOUEUR` et ouvre la modification complète, avec suppression dans la même modale.
+Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation, y compris lorsqu’un Coach accompagne déjà l’équipe ; le Superadmin peut aussi se désigner lui-même, ce qu’un Admin ne peut jamais faire. Chaque ligne cliquable suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification complète, avec suppression dans la même modale. Publication, versioning, passation, résultats et pilotage ne sont pas livrés ; leurs routes frontend restent des placeholders.
 
 ## Installation
 
@@ -188,7 +186,8 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Le backend Django/DRF avec SQLite et le frontend React/Vite sont opérationnels.
 - Les tests, seuils de coverage et quality gates bloquants couvrent les deux applications.
 - `USER-001` expose la création contrôlée d'identités ; le parcours authentifié applique les accès par fonction.
-- Les Admins et Superadmins gèrent organisations, équipes et modèles d’évaluation avec leurs questions.
+- Les Admins et Superadmins gèrent organisations, équipes, modèles/questions et planifications ; les deux journaux administratifs sont consultables en lecture seule.
+- La passation, les résultats et le pilotage restent non réalisés malgré leurs routes de navigation.
 
 ## Documentation
 

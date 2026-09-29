@@ -97,6 +97,18 @@ Cet Epic rattache chaque intention et remise de notification à l’organisation
 - **Priorité :** P1.
 - **Domaine métier cible :** Notifications.
 
+#### NOTIF-001 — Remettre les notifications de planification par courriel
+
+- **Identifiant / Feature parente :** `NOTIF-001` / `FEAT-030`.
+- **Nature :** régularisation documentaire du comportement livré le 2026-09-28.
+- **User story :** en tant que responsable désigné, je veux recevoir la confirmation puis l’échéance d’une planification afin de savoir quand agir.
+- **Périmètre livré :** confirmation d’une échéance future, notification immédiate ou arrivée à échéance, lien `/evaluations`, destinataire explicite, commande Django quotidienne et avancement calendaire mensuel/trimestriel après remise.
+- **Critères d’acceptation :** aucun envoi sans responsable actif et joignable ; le destinataire appartient à l’organisation ou est le Superadmin explicitement assigné ; une remise réussie clôt le ponctuel ou avance la récurrence sans dérive.
+- **Limites explicites :** courriel directement couplé, pas de préférence de canal, d’état durable de remise, de fenêtre de rappel ni de passation derrière le lien ; `FEAT-028` à `FEAT-030` restent incomplètes au-delà de ce PBI.
+- **Dépendances / priorité :** `PLAN-001` / P1.
+- **Valeur apportée :** informe le responsable des échéances réellement planifiées sans supposer une passation livrée.
+- **Preuves :** service de notification, commande `send_due_evaluation_notifications` et tests de remise/récurrence.
+
 ## EPIC-008 — Pilotage du dispositif
 
 Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md). Chaque paramètre, vue et indicateur expose son organisation et n’agrège jamais plusieurs organisations sans règle explicitement arbitrée. Les paramètres partageables et l’éventuelle vue multi-organisation relèvent de la décision produit bloquante `ARB-ORG-013`.

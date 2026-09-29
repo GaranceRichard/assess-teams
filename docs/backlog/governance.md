@@ -12,6 +12,12 @@ La hiérarchie obligatoire est `Epic → Feature → PBI`.
 
 Une Feature ne devient jamais implicitement un PBI. Le code, une branche, un commit ou une synthèse ne crée aucun élément de backlog.
 
+Un PBI peut toutefois être ajouté lors d’une réconciliation documentaire pour décrire un comportement déjà
+livré sans entrée de backlog correspondante. Sa source indique alors explicitement sa nature de
+`régularisation documentaire`, son périmètre limité au comportement prouvé et une date tirée de l’historique
+Git. Cette régularisation rend le backlog fidèle ; elle ne prétend pas que le PBI avait été planifié avant sa
+livraison et ne permet pas d’élargir son périmètre aux capacités voisines encore absentes.
+
 ## Sources faisant autorité
 
 L’autorité dépend de la nature de l’information :

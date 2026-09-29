@@ -52,7 +52,9 @@ Le périmètre actif d’un `Admin` est toujours son unique organisation d'affec
 | UPDATE | Toutes | Organisation d'affectation | Non | Non |
 | DELETE | Toutes | Non | Non | Non |
 
-La sémantique du `DELETE` d’une Organisation reste à arbitrer dans `ARB-ORG-005`. Le choix du périmètre actif reste à arbitrer dans `ARB-ORG-011`.
+Le `DELETE` d’une Organisation est une suppression physique réservée au `Superadmin`. Depuis l’ajout des
+équipes, modèles et planifications, la règle à appliquer à ces dépendances doit de nouveau être arbitrée dans
+`ARB-ORG-005`. Le périmètre actif d’un Admin est son unique organisation selon `ARB-ORG-011`.
 
 ### Matrice CRUD des Équipes
 
@@ -73,11 +75,11 @@ Toute consultation exige une identité authentifiée portant une fonction `Admin
 
 | Concept ou donnée | Rattachement organisationnel canonique | Sources utilisatrices |
 | --- | --- | --- |
-| `Admin` | un ou plusieurs rattachements explicites | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
+| `Admin` | zéro ou un rattachement explicite | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
 | `Coach` | zéro ou un rattachement explicite | `FEAT-003`, `FEAT-004`, `FEAT-038`, `FEAT-008` à `FEAT-009`, `FEAT-020` à `FEAT-030`, `FEAT-032` |
 | `Viewer` | zéro ou un rattachement explicite | toutes les Features de consultation |
 | Équipe | rattachement direct et obligatoire à exactement une organisation | `FEAT-005` à `FEAT-010` et toutes les données rattachées à une équipe |
-| Modèle et paramètres | rattachement ou partage à arbitrer, mais organisation d’origine toujours déterminable | `FEAT-011` à `FEAT-019`, `FEAT-031` |
+| Modèle et paramètres | modèle actuellement propre à son organisation ; partage futur à arbitrer | `FEAT-011` à `FEAT-019`, `FEAT-031` |
 | Passation, évaluation, échéance, notification et indicateur | organisation déterminée par l’équipe source et vérifiée avec les autres rattachements | `FEAT-018` à `FEAT-035` |
 
 ## Règle d’usage dans le backlog

@@ -4,7 +4,7 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 ### FEAT-036 — Gérer le cycle de vie d’une organisation
 
-Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création, ses rattachements multiples, le renommage et la suppression par le Superadmin sont livrés.
+Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et le renommage sont livrés ; la consultation reste limitée aux Admins/Superadmins et la suppression doit être réconciliée avec les dépendances apparues depuis sa livraison initiale.
 
 #### ORG-001 — Créer une organisation
 
@@ -93,7 +93,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - les comptes utilisateurs survivent à la suppression et leurs autres rattachements restent intacts ;
   - tout futur modèle historique dépendant devra protéger ses données contre une cascade silencieuse.
 - **Principaux cas de refus :** acteur non authentifié ; `Admin`, `Coach` ou `Viewer` ; organisation inexistante.
-- **Décision produit bloquante :** aucune ; `ARB-ORG-005` est résolu.
+- **Décision produit bloquante :** `ARB-ORG-005` est rouvert pour le traitement des équipes, modèles et planifications désormais dépendants.
 - **Dépendances :** aucune dans le modèle courant.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -116,6 +116,16 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
 
+#### ORG-005 — Gérer le rattachement courant des Admins
+
+- **Identifiant / Feature parente :** `ORG-005` / `FEAT-037`.
+- **Nature :** régularisation documentaire du socle finalisé le 2026-09-28.
+- **User story :** en tant que `Superadmin`, je veux gérer les Admins courants d’une organisation sans qu’un Admin pair puisse les administrer.
+- **Critères livrés :** rattachement atomique, une seule organisation par Admin, plusieurs Admins pairs permis, modification des Admins réservée au Superadmin, refus de retirer le dernier Admin via l’édition des membres.
+- **Limites :** pas de date d’effet ni d’historique ; la suppression physique du compte contourne encore la protection du dernier Admin portée par `ARB-ORG-008`.
+- **Valeur apportée :** matérialise le périmètre administratif courant et protège les Admins pairs.
+- **Dépendances / priorité / preuves :** `FEAT-002`, `FEAT-036` / P0 / migration d’invariant, API et tests de scope des Admins pairs.
+
 ### FEAT-038 — Rattacher un Coach à une organisation
 
 - **Intention métier :** garantir qu’un `Coach` et les équipes qu’il accompagne relèvent du même périmètre organisationnel.
@@ -132,3 +142,13 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
+
+#### ORG-006 — Gérer le rattachement courant d’un Coach
+
+- **Identifiant / Feature parente :** `ORG-006` / `FEAT-038`.
+- **Nature :** régularisation documentaire du socle finalisé le 2026-09-28.
+- **User story :** en tant que `Superadmin` ou `Admin`, je veux ajouter ou retirer un Coach courant dans mon périmètre afin de l’utiliser dans les équipes et planifications.
+- **Critères livrés :** mise à jour atomique, une seule organisation par Coach, Admin limité à son organisation, refus d’un membre déjà rattaché ailleurs et contrôle de cohérence lors des affectations d’équipe.
+- **Limites :** aucun changement daté ni historique des rattachements ; `ARB-ORG-006` reste ouvert pour ces effets.
+- **Valeur apportée :** fournit un Coach organisationnel cohérent aux équipes et aux planifications.
+- **Dépendances / priorité / preuves :** `FEAT-002`, `FEAT-036` / P0 / API Organisations, tests de cardinalité, de scope et d’affectation.

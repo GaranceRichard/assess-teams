@@ -7,22 +7,22 @@
 | Ordre | PBI | État d’entrée | Condition d’enchaînement |
 | ---: | --- | --- | --- |
 | 1 | `USER-001` — Créer un utilisateur | Réalisé | Livré le 2026-09-21 |
-| 2 | `USER-002` — Consulter les utilisateurs | Bloqué | `USER-001` terminé ; `FEAT-037` livré |
-| 3 | `USER-003` — Modifier un utilisateur | Bloqué | `USER-002` terminé |
-| 3 | `USER-004` — Supprimer un utilisateur | Bloqué | `USER-002` terminé ; `ARB-ORG-008` résolu |
+| 2 | `USER-002` — Consulter les utilisateurs | Ouvert | compléter le détail et `nom`/`prénom` |
+| 3 | `USER-003` — Modifier un utilisateur | Ouvert | aligner les champs modifiables sur le contrat |
+| 3 | `USER-004` — Supprimer un utilisateur | Bloqué | décider `ARB-ORG-008` et remplacer la suppression physique |
 
-Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. `USER-003` et `USER-004` peuvent être enchaînés indépendamment après `USER-002`. Le Sprint 1 est planifié, mais seuls les chemins dont les arbitrages et dépendances sont levés peuvent entrer en implémentation ; aucun périmètre organisationnel ne doit être inventé pour tenir le sprint.
+Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. Le socle technique de liste, édition et suppression existe, mais `USER-002` à `USER-004` ne sont pas déclarés réalisés tant que leurs contrats fonctionnels divergent. `USER-003` peut être complété après `USER-002`; `USER-004` reste bloqué indépendamment par `ARB-ORG-008`.
 
 ## Ordonnancement global recommandé
 
-1. **Sprint 1 — Backend Utilisateurs :** `USER-001` est livré ; `USER-002` reste bloqué par `FEAT-037`, puis `USER-003` et `USER-004` s’enchaînent après sa livraison, avec `ARB-ORG-008` à résoudre en plus pour `USER-004`.
-2. **CRUD backend Organisations :** `ORG-001`, `ORG-003` et `ORG-004` sont livrés ; compléter `ORG-002` pour les consultations métier par identifiant et leur périmètre multi-organisation.
-3. **Rattachements du socle Organisation :** la relation plusieurs-à-plusieurs et l’affectation initiale sont livrées ; raffiner les changements ultérieurs et le choix du périmètre actif avant les parcours qui les exigent.
-4. **Premier PBI d’équipe après ce socle :** `TEAM-001`, aujourd’hui `Bloqué` par `ARB-ORG-009` et ses dépendances au socle, sans dépendance à l’implémentation technique de l’authentification ou des permissions.
-5. **Suite du socle P0 :** poursuivre avec `TEAM-002` à `TEAM-005`, `FEAT-003`, `FEAT-008` et `FEAT-009` après leur raffinement et la livraison des capacités d’identité nécessaires. `TEAM-002` et `TEAM-003` peuvent avancer en parallèle après `TEAM-001` ; `TEAM-004` et `TEAM-005` dépendent de `TEAM-003`.
-6. **Cadre d’évaluation P0 :** arbitrer la portée organisationnelle des modèles et paramètres, puis raffiner et livrer `FEAT-011` à `FEAT-018`.
+1. **Contrats Utilisateurs :** compléter `USER-002` et `USER-003`; conserver `USER-004` bloqué jusqu’à `ARB-ORG-008` et à une désactivation logique.
+2. **Cycle Organisation :** compléter `ORG-002`; décider avec `ARB-ORG-005` le sort des données dépendantes avant de reprendre `ORG-004`.
+3. **Cycle Équipes :** `TEAM-001` et `TEAM-004` sont livrés ; compléter `TEAM-002`, `TEAM-003` et `TEAM-005`, puis `TEAM-006` et `TEAM-007`.
+4. **Rattachements historiques :** les états courants `ORG-005`, `ORG-006` et `COACH-001` sont livrés ; l’historisation de `FEAT-008`, `FEAT-009`, `FEAT-037` et `FEAT-038` reste à raffiner.
+5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local ; publication, modalités, versions et partage éventuel restent à arbitrer/raffiner dans `FEAT-012` à `FEAT-014` et `ARB-ORG-010`.
+6. **Planification :** `PLAN-001` livre le planning courant ; périodes d’association, historique et calcul piloté par les finalisations restent dans `FEAT-015`, `FEAT-016` et `FEAT-018`.
 7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
-8. **Suite P1/P2 :** `TEAM-006`, `TEAM-007`, puis les autres Features après leur raffinement selon la valeur et les dépendances.
+8. **Suite P1/P2 :** retards, rappels avancés, résultats et pilotage après leurs dépendances et arbitrages explicites.
 
 Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django. Il ne rend aucun élément prêt tant que les décisions bloquantes du [registre des arbitrages Organisation](../source/00-arbitrages-organisations.md) ne sont pas résolues.
 
@@ -83,6 +83,12 @@ Cette cartographie est une hypothèse évolutive. Elle guide un découpage cohé
 - **Responsabilité principale :** paramètres transverses autorisés et vues de supervision explicables du programme.
 - **Features concernées :** `FEAT-031` à `FEAT-035`.
 - **Dépendances :** consolide des informations des autres domaines sans devenir leur propriétaire ; les indicateurs restent reliés aux données sources.
+
+### Traçabilité opérationnelle
+
+- **Responsabilité principale :** lecture cloisonnée des activités réussies et erreurs fonctionnelles nettoyées.
+- **Features concernées :** `FEAT-039`, `FEAT-040`, livrées par `JOURNAL-001` et `JOURNAL-002`.
+- **Dépendances :** reçoit les faits des autres domaines sans devenir leur source métier ; les logs techniques serveur restent distincts.
 
 ## Garde-fous pour l’architecture future
 

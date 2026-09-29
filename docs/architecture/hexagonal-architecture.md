@@ -63,9 +63,21 @@ La direction autorisée des dépendances est :
 
 Les dépendances pointent toujours vers le cœur. Une dépendance du domaine vers Django, Django REST Framework, l'ORM, HTTP ou toute infrastructure constitue une violation architecturale.
 
+## État actuel
+
+Le backend est organisé par capacités Django : `identities`, `teams`, `assessments`, `journals` et `health`.
+`identities` et `assessments` possèdent quelques règles pures dans `domain/` et quelques orchestrations dans
+`application/`; les endpoints vivent dans `adapters/api/`. Cette séparation reste partielle : les modèles ORM,
+serializers et views portent encore plusieurs validations et transactions métier. L’architecture hexagonale
+est donc une direction de dépendance et d’extraction progressive, pas une conformité déjà totale du code.
+
+Le frontend React est organisé par verticales d’écran et clients HTTP. Aucun port frontend générique ni couche
+globale supplémentaire n’est imposé. Les écarts constatés doivent être traités lors des évolutions concernées,
+sans lancer de refactoring fonctionnel dans une réconciliation documentaire.
+
 ## Organisation par domaine métier
 
-Les futures applications Django représentent des domaines ou des capacités métier. Les notions techniques restent dans le domaine qu'elles servent.
+Les applications Django représentent des domaines ou des capacités métier. Les notions techniques restent dans le domaine qu'elles servent.
 
 Il ne faut pas créer de modules globaux techniques tels que :
 

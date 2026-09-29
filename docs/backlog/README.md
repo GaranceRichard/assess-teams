@@ -1,4 +1,4 @@
-# Backlog produit initial
+# Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
 
@@ -22,7 +22,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 
 ## Premier parcours vertical — PV-001
 
-**Objectif :** prouver rapidement la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**.
+**Objectif :** prouver la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**. Au 2026-09-29, le produit s’arrête à la planification et aux notifications ; passation, résultats et historique restent à livrer.
 
 `TEAM-001` reste indépendant de l’implémentation technique de l’authentification et des permissions. Il ne peut toutefois être ordonnancé qu’après `ORG-001` et la résolution des rattachements du socle Organisation dont dépend son organisation obligatoire.
 
@@ -51,6 +51,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 - [Modèles, planification et passation des évaluations](source/03-evaluations.md)
 - [Suivi, notifications et pilotage](source/04-suivi-et-pilotage.md)
 - [Gestion des organisations](source/05-organisations.md)
+- [Journaux opérationnels](source/06-journaux.md)
 
 Ces documents détaillés constituent la source de vérité fonctionnelle des Epics, Features et PBIs.
 

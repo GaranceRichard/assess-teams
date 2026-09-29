@@ -16,6 +16,19 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Dépendances éventuelles :** aucune.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
+
+#### AUTH-001 — Ouvrir et fermer une session produit
+
+- **Identifiant / Feature parente :** `AUTH-001` / `FEAT-001`.
+- **Nature :** régularisation documentaire du parcours livré le 2026-09-22.
+- **User story :** en tant qu’utilisateur actif, je veux ouvrir, reprendre et fermer ma session afin d’accéder uniquement aux routes autorisées à ma fonction.
+- **Périmètre livré :** login, session courante, logout avec CSRF, refus des identifiants invalides ou comptes inactifs, menus et accès directs par rôle, invitation signée et choix initial du mot de passe.
+- **Critères d’acceptation :** une session valide restitue l’identité et la fonction effectives ; la déconnexion invalide la session ; une invitation valide permet de définir un mot de passe une seule fois ; aucun refus n’ouvre le produit.
+- **Principaux cas de refus :** session absente, CSRF absent, identifiants invalides, compte inactif, invitation expirée ou déjà consommée, route interdite.
+- **Dépendances / priorité :** aucune / P0.
+- **Valeur apportée :** attribue les actions à une identité et ferme l’accès après déconnexion ou refus.
+- **Preuves :** endpoints `/api/session/*` et `/api/invitations/*`, tests API, React et E2E du parcours authentifié.
+
 ### FEAT-002 — Administrer le cycle de vie d’une identité
 
 - **Intention métier :** maîtriser qui peut participer au dispositif sans effacer son passé.

@@ -49,9 +49,10 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 - **Décision prise :** `DELETE` réalise une suppression physique de l’organisation, réservée au `Superadmin`.
 - **Décision prise :** les rattachements de membres sont supprimés avec l’organisation, mais les identités sont conservées.
-- **Décision prise :** aucun modèle métier dépendant ou historique n’existe actuellement ; tout futur modèle de ce type devra empêcher une cascade silencieuse et expliciter sa propre règle avant livraison.
+- **État réel :** des équipes, modèles d’évaluation et planifications dépendent désormais de l’organisation ; leur suppression en cascade est actuellement possible et n’est pas couverte par la décision historique.
+- **Décision à arbitrer — bloquante :** refus de suppression, archivage ou suppression explicite des données dépendantes, avec règle propre pour les historiques et journaux.
 - **Décision prise :** la création initiale ne porte pas d’état de cycle de vie et n’est pas bloquée par l’absence de ce concept.
-- **Arbitrage résolu :** `ORG-004` n’est plus bloqué par le cycle de vie.
+- **Backlog bloqué :** `ORG-004` tant que le comportement avec dépendances n’est pas décidé et protégé ; la suppression d’une organisation vide livrée le 2026-09-24 reste un socle partiel.
 
 ### ARB-ORG-006 — Changement ou transfert d’organisation d’un acteur
 
@@ -71,6 +72,7 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision prise :** une organisation ne doit pas perdre silencieusement son administration ni la traçabilité des actions passées.
 - **Décision à arbitrer — bloquante :** peut-on retirer, désactiver ou transférer le dernier `Admin`, sous quelles préconditions et avec quel mécanisme de reprise ?
 - **Décision conservatoire livrée :** l’édition des membres refuse de retirer le dernier `Admin` existant.
+- **Écart constaté :** la suppression physique d’un compte par le `Superadmin` ne réapplique pas cette protection.
 - **Backlog bloqué :** toute levée de cette protection dans `FEAT-037`, ainsi que le retrait d’un `Admin` par `USER-004` lorsqu’il est le dernier `Admin` de son organisation.
 
 ### ARB-ORG-009 — Portée de l’unicité du nom d’une équipe
@@ -81,9 +83,9 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-010 — Rattachement ou partage des modèles d’évaluation
 
-- **Décision prise :** l’organisation d’origine d’un modèle reste déterminable et aucune association interorganisation n’est implicite.
+- **Socle livré :** chaque modèle appartient actuellement à une seule organisation et une planification refuse tout croisement équipe–modèle interorganisation.
 - **Décision à arbitrer — bloquante :** un modèle est-il propre à son organisation ou partageable ; si partageable, par qui, vers qui, dans quels états et avec quels effets sur versions et retraits ?
-- **Backlog bloqué :** raffinement et implémentation de `FEAT-011` à `FEAT-016`, puis parcours dépendants `FEAT-020` à `FEAT-027`.
+- **Backlog restant bloqué :** tout partage futur, la publication/versioning et les parcours dépendants qui exigent ces décisions ; le CRUD local régularisé par `EVAL-001` et la planification locale de `PLAN-001` ne tranchent pas ce partage.
 
 ### ARB-ORG-011 — Périmètre actif en cas de multi-appartenance
 
