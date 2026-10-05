@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 
+from assessments.application.expected_evaluations import ensure_expected_evaluation
 from assessments.models import EvaluationSchedule, ScheduleMode
 from journals.models import LogLevel, LogSource
 from journals.services import record_log
@@ -112,6 +113,7 @@ def following_due_date(
 
 
 def deliver_due_schedule(schedule: EvaluationSchedule, reference_date: date) -> bool:
+    ensure_expected_evaluation(schedule, schedule.next_due_date)
     if send_due_notification(schedule) == 0:
         return False
     schedule.next_due_date = following_due_date(

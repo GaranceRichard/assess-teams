@@ -153,3 +153,13 @@ scopes Admin/Superadmin et l’exclusion des logs système pour l’Admin. Le co
 les sources, la migration des erreurs historiques, le filtre de niveau et l’absence de corps de requête,
 traceback, secret, token, cookie ou credential exposé. Les tests React vérifient en plus que INFO reste discret,
 WARNING identifiable et que toute ligne ERROR reçoit le traitement rouge accessible en modes jour et nuit.
+
+La passation couvre accès assigné/Admin/Superadmin, refus Viewer et hors organisation, ordre et snapshot des
+questions, notes entières `0..10`, contraintes SQLite, sauvegarde/reprise, complétude, verrouillage après
+validation, auteur/date initiaux et dernière révision. Les payloads forgés et les révisions invalides sont
+refusés sans mutation partielle ni activité de succès. Les migrations reprennent les attentes existantes.
+React vérifie le tableau, la modale, les bornes et notes affichées, la file de sauvegardes, les erreurs et
+la révision. Playwright traverse Coach → reprise après rechargement → finalisation → consultation verrouillée
+→ révision Admin → complétion à la place de l’assigné → Journal d’activité, en utilisant le range au clavier.
+La passation vérifie aussi le prérequis `VALIDATED`, le refus des nouveaux démarrages sur brouillon/archive
+et la reprise, complétion et révision de passations commencées avant l’archivage du modèle.

@@ -1,4 +1,4 @@
-from assessments.models import Evaluation, EvaluationSchedule, Question
+from assessments.models import Evaluation, EvaluationRun, EvaluationSchedule, Question
 from identities.models import Organization, User
 from journals.models import ActivityAction
 from journals.services import record_activity
@@ -182,4 +182,19 @@ def evaluation_schedule_deleted(actor: User, schedule: EvaluationSchedule) -> No
         team=schedule.team,
         action=ActivityAction.EVALUATION_SCHEDULE_DELETED,
         description=f"Suppression de la planification {schedule.evaluation.name}",
+    )
+
+
+def evaluation_run_activity(
+    actor: User,
+    run: EvaluationRun,
+    action: ActivityAction,
+    description: str,
+) -> None:
+    record_activity(
+        actor=actor,
+        organization=run.organization,
+        team=run.team,
+        action=action,
+        description=description,
     )

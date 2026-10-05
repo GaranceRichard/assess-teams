@@ -35,7 +35,7 @@ Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne pe
 
 Le Superadmin crée et supprime physiquement les organisations. Un Admin consulte et renomme uniquement son organisation,
 et peut en gérer les Coachs et Viewers sans jamais modifier les Admin qui y sont rattachés.
-Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation. Les archives ne sont pas encore consultables ou réactivables ; supprimer une organisation cascade actuellement vers ses données dépendantes, sans décision produit finalisée.
+Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation. Les archives ne sont pas encore consultables ou réactivables. Une organisation utilisée par une passation commencée est protégée contre la suppression ; les autres dépendances restent soumises à l’arbitrage produit.
 
 ## Périmètre livré — modèle d’évaluation
 
@@ -43,7 +43,11 @@ Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` :
 immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
-Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Versioning, passation, résultats et pilotage restent à livrer.
+Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Versioning, résultats et pilotage restent à livrer.
+
+## Périmètre livré — passation des évaluations planifiées
+
+La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant.
 
 ## Installation
 
@@ -106,20 +110,7 @@ npm.cmd run test:all
 
 Elle délègue à `scripts/test-all.ps1`, exécute successivement backend, frontend et E2E, affiche leur résultat séparément et retourne `0` uniquement si tout ce qui est applicable passe. Elle contrôle les seuils backend et frontend de 90 % et indique explicitement les niveaux non applicables. En CI ou avec PowerShell 7, le même orchestrateur peut être appelé par `pwsh ./scripts/test-all.ps1`.
 
-Tests backend seuls, avec coverage :
-
-```powershell
-Push-Location backend
-& .\.venv\Scripts\python.exe -m pytest --cov=. --cov-config=../.coveragerc --cov-report=term-missing
-Pop-Location
-```
-
-Tests frontend seuls, avec coverage, puis E2E :
-
-```powershell
-npm.cmd run test:coverage --prefix frontend
-npm.cmd run test:e2e --prefix frontend
-```
+Les [commandes ciblées backend, frontend et E2E](docs/quality/test-commands.md) complètent cette suite.
 
 Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session : règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
@@ -188,7 +179,7 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Les tests, seuils de coverage et quality gates bloquants couvrent les deux applications.
 - `USER-001` expose la création contrôlée d'identités ; le parcours authentifié applique les accès par fonction.
 - Les Admins et Superadmins gèrent organisations, équipes, modèles/questions et planifications ; les deux journaux administratifs sont consultables en lecture seule.
-- La passation, les résultats et le pilotage restent non réalisés malgré leurs routes de navigation.
+- La passation persistante, son tableau et la révision Admin sont livrés ; résultats et pilotage restent à venir.
 
 ## Documentation
 

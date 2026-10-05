@@ -8,6 +8,13 @@ from assessments.adapters.api.schedule_views import (
     EvaluationScheduleDetailView,
     EvaluationScheduleListCreateView,
 )
+from assessments.adapters.api.taking_views import (
+    EvaluationFinalizeView,
+    EvaluationRevisionView,
+    EvaluationRunListView,
+    EvaluationRunView,
+    EvaluationScoreView,
+)
 from assessments.adapters.api.views import EvaluationDetailView, EvaluationListCreateView
 from health.views import HealthView
 from identities.adapters.api.admin_views import (
@@ -32,6 +39,27 @@ urlpatterns = [
     path("api/session/login/", LoginView.as_view(), name="session-login"),
     path("api/session/logout/", LogoutView.as_view(), name="session-logout"),
     path("api/users/", UserCreateView.as_view(), name="user-create"),
+    path("api/evaluations/", EvaluationRunListView.as_view(), name="evaluation-run-list"),
+    path(
+        "api/evaluations/<int:run_id>/",
+        EvaluationRunView.as_view(),
+        name="evaluation-run-detail",
+    ),
+    path(
+        "api/evaluations/<int:run_id>/responses/<int:question_id>/",
+        EvaluationScoreView.as_view(),
+        name="evaluation-run-score",
+    ),
+    path(
+        "api/evaluations/<int:run_id>/finalize/",
+        EvaluationFinalizeView.as_view(),
+        name="evaluation-run-finalize",
+    ),
+    path(
+        "api/evaluations/<int:run_id>/revision/",
+        EvaluationRevisionView.as_view(),
+        name="evaluation-run-revision",
+    ),
     path(
         "api/admin/evaluations/",
         EvaluationListCreateView.as_view(),

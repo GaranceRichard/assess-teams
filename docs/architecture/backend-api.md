@@ -60,7 +60,7 @@ avec `403`.
 
 Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
 capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Utilisateurs, Organisations, Équipes,
-Modèles, Planification et Journaux ont des pages réelles ; tableau de bord générique, passation, résultats et pilotage restent des placeholders.
+Modèles, Planification, Évaluations et Journaux ont des pages réelles ; tableau de bord générique, résultats et pilotage restent des placeholders.
 
 ## Gestion hiérarchique des identités
 
@@ -104,8 +104,8 @@ Une cible hors périmètre retourne `404`, tandis qu’un rôle non autorisé re
 `DELETE /api/admin/organizations/{organization_id}/` effectue une suppression physique réservée au
 Superadmin et retourne `204`. Les rattachements plusieurs-à-plusieurs disparaissent avec l’organisation, mais
 les identités restent présentes. Un Admin, un Coach ou un Viewer reçoit `403` ; une cible inexistante retourne
-`404`. Les équipes, modèles et planifications dépendants sont actuellement supprimés par cascade ; ce
-comportement n’est pas encore couvert par une décision produit et maintient `ORG-004` bloqué via `ARB-ORG-005`.
+`404`. Les dépendances sans passation commencée sont supprimées par cascade. Une passation commencée protège
+son organisation et ses références : leur suppression retourne `400`. `ARB-ORG-005` reste ouvert pour les autres dépendances.
 
 `PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
 Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur son organisation. La liste doit
@@ -136,23 +136,11 @@ du menu Équipes fournit explicitement `organization_id` et ne mélange jamais p
 
 Le [contrat des évaluations et planifications](evaluations-api.md) décrit les brouillons, la validation,
 l’immutabilité, l’archivage logique et les planifications réservées aux modèles validés.
+
+## Passation des évaluations planifiées
+
+Le [contrat de passation](evaluation-taking.md) décrit `/api/evaluations/`, la reprise, les notes, la finalisation et la révision Admin, avec provenance durable et scopes backend.
+
 ## Journal d’activité et Logs
 
-`GET /api/admin/activity-journal/` expose les actions métier réussies ; `GET /api/admin/logs/` expose les
-événements applicatifs utiles à l’exploitation. Les deux collections sont antéchronologiques, paginées par 20
-et filtrables avec `date`, `organization_id`, `player` et `team`; les Logs acceptent aussi `level` et `source`.
-Aucun `POST`, `PUT`, `PATCH` ou `DELETE` fonctionnel n’est exposé.
-
-Chaque entrée conserve la date complète et des snapshots de l'organisation, de l'auteur et de l'équipe, en
-plus de ses relations optionnelles. Une suppression ultérieure ne rend donc pas l'historique illisible. Le
-Journal d'activité stocke aussi un code d'action structuré et une description fonctionnelle. Une activité est
-créée dans la transaction de la mutation réussie ; tout refus ou rollback exclut l'entrée de succès.
-
-Chaque Log conserve son niveau INFO, WARNING ou ERROR, sa source fonctionnelle, son message nettoyé et son
-`correlation_id`; opération et catégorie restent disponibles si pertinentes. Les anciennes erreurs sont
-migrées sans perte en ERROR. Aucun corps de requête, traceback, secret, mot de passe, token, cookie ou
-credential n’est persisté. Les logs techniques restent distincts et reliables par le `correlation_id`.
-
-Le Superadmin reçoit toutes les entrées. L'Admin est limité par le queryset backend à son organisation unique,
-même si un autre `organization_id` est envoyé. Une activité ou un log sans organisation, notamment un log
-système, reste visible du seul Superadmin. Les Coachs, Viewers et visiteurs anonymes reçoivent `403`.
+Le [contrat des journaux](journals-api.md) décrit les deux collections administratives, leurs filtres et la journalisation commune.

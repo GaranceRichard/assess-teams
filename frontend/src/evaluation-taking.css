@@ -1,0 +1,53 @@
+.taking-page {
+  display: grid;
+  gap: 1rem;
+  margin: clamp(1rem, 4vw, 3rem);
+}
+
+.taking-page h2,
+.taking-page p {
+  margin: 0;
+}
+
+.taking-page caption {
+  font-weight: 700;
+  padding: 1rem;
+  text-align: left;
+}
+
+.taking-page .run-revision {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.taking-dialog {
+  border: 1px solid var(--border);
+  color: var(--text);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+}
+
+.taking-dialog::backdrop {
+  background: rgb(15 23 42 / 55%);
+}
+
+.taking-dialog input[type="range"] {
+  accent-color: #25735e;
+  cursor: pointer;
+  padding: 1rem 0;
+}
+
+.taking-dialog output {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 750;
+}
+
+.taking-dialog .evaluation-dialog-actions {
+  margin-top: 1.5rem;
+}
+
+.taking-close {
+  margin-top: 1rem;
+}

@@ -4,6 +4,7 @@ import type { SessionUser } from "./auth";
 import { ActivityJournalPage } from "./ActivityJournalPage";
 import { LogsPage } from "./LogsPage";
 import { EvaluationPage } from "./EvaluationPage";
+import { EvaluationTakingPage } from "./EvaluationTakingPage";
 import { canAccess, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
 import { PlanningPage } from "./PlanningPage";
@@ -66,6 +67,8 @@ export function ProductShell({
           <EvaluationPage />
         ) : authorized && path === "/planning" && user.role === "Admin" ? (
           <PlanningPage actor={user} />
+        ) : authorized && path === "/evaluations" ? (
+          <EvaluationTakingPage actor={user} />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
         ) : authorized && path === "/logs" ? (

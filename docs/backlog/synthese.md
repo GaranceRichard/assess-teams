@@ -14,10 +14,11 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 - modèles locaux : brouillon modifiable, validation immuable et archivage logique, sans version ;
 - planification locale : équipe, modèle, responsable, immédiat/ponctuel/mensuel/trimestriel et échéances ;
 - courriels de confirmation et d’échéance, avec commande de traitement différé ;
+- passation locale persistante, tableau et révision Admin avec provenance conservée ;
 - Journal d’activité et Logs distincts, filtrables, paginés et en lecture seule ;
 - health check, réglages development/production, OpenAPI, CI et quality gates documentés techniquement.
 
-La passation `/evaluations`, les résultats `/results`, le pilotage `/steering` et le tableau de bord générique
+Les résultats `/results`, le pilotage `/steering` et le tableau de bord générique
 restent des placeholders. La présence de leurs routes ne constitue pas une livraison fonctionnelle.
 
 ## Vue d’ensemble
@@ -29,7 +30,7 @@ restent des placeholders. La présence de leurs routes ne constitue pas une livr
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 2 | 2 | 100 % |
 | EPIC-004 — Affectations et planification des évaluations | 5 | 1 | 1 | 100 % |
-| EPIC-005 — Passation et preuve d’évaluation | 4 | 0 | 0 | N/A |
+| EPIC-005 — Passation et preuve d’évaluation | 4 | 1 | 1 | 100 % |
 | EPIC-006 — Suivi longitudinal | 4 | 0 | 0 | N/A |
 | EPIC-007 — Notifications du dispositif | 3 | 1 | 1 | 100 % |
 | EPIC-008 — Pilotage du dispositif | 5 | 0 | 0 | N/A |
@@ -48,7 +49,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EPIC-002A | `FEAT-008` | `FEAT-009` |
 | EPIC-003 | `FEAT-011`, `FEAT-013` (partielle) | `FEAT-012`, `FEAT-014` |
 | EPIC-004 | `FEAT-017` | `FEAT-015`, `FEAT-016`, `FEAT-018`, `FEAT-019` |
-| EPIC-005 | aucune | `FEAT-020` à `FEAT-023` |
+| EPIC-005 | `FEAT-023` | `FEAT-020` à `FEAT-022` |
 | EPIC-006 | aucune | `FEAT-024` à `FEAT-027` |
 | EPIC-007 | `FEAT-030` | `FEAT-028`, `FEAT-029` |
 | EPIC-008 | aucune | `FEAT-031` à `FEAT-035` |
@@ -81,6 +82,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | Réalisé | CRUD local sans publication/version ; 2026-09-28 |
 | PLAN-001 — Planifier un modèle local pour une équipe | Réalisé | quatre modes, responsable et CRUD ; 2026-09-29 |
 | EVAL-002 — Sécuriser le cycle de vie des modèles locaux | Réalisé | validation/archivage audités, immutabilité et planification validée ; 2026-10-05 |
+| PASS-001 — Passer et réviser les évaluations planifiées | Réalisé | reprise, finalisation, provenance, révision Admin et tableau ; modèle validé ; 2026-10-05 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | Réalisé | confirmation, échéance et récurrence ; 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | niveaux, nettoyage et cloisonnement ; 2026-09-29 |
@@ -91,7 +93,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 - `ARB-ORG-008` reste nécessaire pour le dernier Admin ; le `DELETE` utilisateur actuel contourne la protection.
 - `ARB-ORG-010` reste ouvert pour un éventuel partage de modèles ; le code ne livre qu’un périmètre strictement local.
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
-- partage/versionnement, passations, résultats, suivi longitudinal, retards et pilotage restent non réalisés.
+- partage/versionnement, résultats, suivi longitudinal, retards et pilotage restent non réalisés.
 - la notification livrée est un courriel direct sans état durable de remise, préférence de canal ni déduplication métier historisée.
 
 ## Matrices CRUD réellement protégées par le backend
@@ -102,6 +104,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | Équipe | création/liste/mise à jour/archivage global | mêmes actions dans son organisation | aucune lecture d’équipe par API | aucune lecture d’équipe par API |
 | Utilisateur | liste et gestion hors soi-même | membres non-Admin de son organisation | liste et gestion des Viewers de son organisation | liste seule de son organisation |
 | Modèle/planification | gestion globale | gestion dans son organisation | aucune gestion | aucune gestion |
+| Passation | accès global, complétion et révision | mêmes actions dans son organisation | ses assignations dans son organisation ; complétions read-only | refus |
 | Journaux | lecture globale | lecture de son organisation | refus | refus |
 
 ## Scoring global
@@ -110,12 +113,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | --- | ---: |
 | Nombre d’Epics | 11 |
 | Nombre de Features | 40 |
-| Features raffinées | 16 |
-| Features non raffinées | 24 |
-| Nombre total de PBIs | 25 |
+| Features raffinées | 17 |
+| Features non raffinées | 23 |
+| Nombre total de PBIs | 26 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 2 |
 | PBIs non réalisés | 10 |
-| PBIs réalisés | 15 |
-| Avancement global | 60 % |
+| PBIs réalisés | 16 |
+| Avancement global | 62 % |

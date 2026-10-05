@@ -1,5 +1,7 @@
 import logging
 
+from django.db.models.deletion import ProtectedError
+from rest_framework.exceptions import ValidationError
 from rest_framework.views import exception_handler
 
 from journals.log_context import LogContext
@@ -19,6 +21,8 @@ SAFE_MESSAGES = {
 
 
 def journal_exception_handler(exc, context):
+    if isinstance(exc, ProtectedError):
+        exc = ValidationError("Cette ressource est utilisée par une passation conservée.")
     response = exception_handler(exc, context)
     request = context.get("request")
     if _must_record(request, response):
@@ -30,7 +34,7 @@ def _must_record(request, response) -> bool:
     return bool(
         request
         and request.method in {"POST", "PUT", "PATCH", "DELETE"}
-        and request.path.startswith("/api/admin/")
+        and request.path.startswith(("/api/admin/", "/api/evaluations/"))
         and (response is None or response.status_code >= 400)
     )
 

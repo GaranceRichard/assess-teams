@@ -32,6 +32,12 @@ class ActivityAction(models.TextChoices):
     EVALUATION_SCHEDULED = "evaluation_scheduled", "Évaluation planifiée"
     EVALUATION_SCHEDULE_UPDATED = "evaluation_schedule_updated", "Planification modifiée"
     EVALUATION_SCHEDULE_DELETED = "evaluation_schedule_deleted", "Planification supprimée"
+    EVALUATION_COMPLETED = "evaluation_completed", "Évaluation complétée"
+    EVALUATION_COMPLETED_BY_ADMIN = (
+        "evaluation_completed_by_admin",
+        "Évaluation complétée par un Admin",
+    )
+    EVALUATION_REVISED = "evaluation_revised", "Évaluation révisée"
 
 
 class LogLevel(models.TextChoices):

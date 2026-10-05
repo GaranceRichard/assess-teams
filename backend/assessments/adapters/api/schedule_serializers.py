@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import serializers
 
+from assessments.application.expected_evaluations import ensure_expected_evaluation
 from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.adapters.api.organization_scope import manageable_organization
 from identities.domain.users import Role
@@ -133,6 +134,7 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
     def create(self, validated_data: dict) -> EvaluationSchedule:
         validated_data["next_due_date"] = validated_data["first_due_date"]
         schedule = EvaluationSchedule.objects.create(**validated_data)
+        ensure_expected_evaluation(schedule)
         self._attach_coach(schedule.team, schedule.assignee)
         return schedule
 
@@ -141,5 +143,6 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
             setattr(instance, field, value)
         instance.next_due_date = instance.first_due_date
         instance.save()
+        ensure_expected_evaluation(instance)
         self._attach_coach(instance.team, instance.assignee)
         return instance

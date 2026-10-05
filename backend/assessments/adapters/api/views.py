@@ -15,6 +15,7 @@ from assessments.adapters.api.serializers import (
     EvaluationInputSerializer,
     EvaluationSerializer,
 )
+from assessments.models import EvaluationRun, EvaluationRunState
 from journals.activity_records import evaluation_activity
 from journals.log_context import describe_log_attempt
 from journals.models import ActivityAction, LogSource
@@ -144,5 +145,8 @@ class EvaluationDetailView(APIView):
             ActivityAction.EVALUATION_DELETED,
             f"Suppression de l’évaluation {evaluation.name}",
         )
+        EvaluationRun.objects.filter(
+            evaluation=evaluation, state=EvaluationRunState.NOT_STARTED
+        ).delete()
         evaluation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

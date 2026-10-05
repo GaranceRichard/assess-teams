@@ -7,6 +7,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from assessments.models import EvaluationRun, EvaluationRunState
 from identities.adapters.api.admin_permissions import actor_for
 from identities.adapters.api.organization_permissions import CanManageOrganizations
 from identities.adapters.api.organization_scope import (
@@ -174,6 +175,7 @@ class OrganizationDetailView(APIView):
         ),
         responses={
             204: None,
+            400: OpenApiResponse(),
             403: OpenApiResponse(),
             404: OpenApiResponse(),
         },
@@ -190,5 +192,8 @@ class OrganizationDetailView(APIView):
             organization=organization,
         )
         organization_deleted(request.user, organization)
+        EvaluationRun.objects.filter(
+            organization=organization, state=EvaluationRunState.NOT_STARTED
+        ).delete()
         organization.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

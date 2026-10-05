@@ -26,7 +26,8 @@ it("returns a Coach to the evaluation link after login", async () => {
         organization_name: "North",
         team_names: ["Alpha"],
       }),
-    );
+    )
+    .mockImplementationOnce(() => response(200, []));
   render(<App />);
 
   fireEvent.change(await screen.findByLabelText("Identifiant"), {
@@ -38,7 +39,7 @@ it("returns a Coach to the evaluation link after login", async () => {
   fireEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
   expect(
-    await screen.findByText("Évaluations — fonctionnalité à venir"),
+    await screen.findByRole("heading", { name: "Évaluations à passer" }),
   ).toBeVisible();
   expect(window.location.pathname).toBe("/evaluations");
 });

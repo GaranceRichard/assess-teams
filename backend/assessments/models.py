@@ -1,5 +1,11 @@
 from django.db import models
 
+from assessments.run_models import (  # noqa: F401
+    EvaluationRun,
+    EvaluationRunQuestion,
+    EvaluationRunState,
+)
+
 
 class EvaluationStatus(models.TextChoices):
     DRAFT = "DRAFT", "Brouillon"

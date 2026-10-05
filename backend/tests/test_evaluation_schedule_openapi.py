@@ -22,7 +22,7 @@ def test_openapi_documents_evaluation_planning() -> None:
     assert set(collection["get"]["responses"]) == {"200", "403"}
     assert set(collection["post"]["responses"]) == {"201", "400", "403", "404"}
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
+    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}
     assert set(component["required"]) == {
         "organization_id",
         "team_id",

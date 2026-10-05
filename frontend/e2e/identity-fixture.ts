@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 
 export const e2eCredential = "Playwright-test-credential";
 
-function runDjangoShell(command: string[]) {
+export function runDjangoShell(command: string[]) {
   const backend = resolve(import.meta.dirname, "../../backend");
   const windowsPython = resolve(backend, ".venv/Scripts/python.exe");
   const python = existsSync(windowsPython)

@@ -36,10 +36,11 @@ est désigné comme responsable ; seul le Superadmin peut désigner un Superadmi
 pendant la planification, tandis qu’un Admin reste distinct des Coachs de l’équipe. Les notifications différées
 utilisent une commande Django quotidienne et conservent la première échéance comme ancre des récurrences.
 
-La route `/evaluations` ne contient encore aucune passation : après authentification elle affiche un
-placeholder, comme `/results`, `/steering` et le tableau de bord générique. Les modèles administrés par
-`/templates` portent un état explicite, mais ni modalité, version, réponse ni résultat. Un modèle archivé
-et ses questions restent lisibles, comme les références des planifications déjà créées.
+La route `/evaluations` utilise le domaine `assessments` pour les passations planifiées : brouillon persistant,
+questions figées, finalisation et révision Admin avec provenance initiale conservée. Le [contrat de passation](evaluation-taking.md)
+décrit les données, contraintes et scopes. Le démarrage exige un modèle validé ; une passation déjà commencée
+reste reprenable après archivage du modèle. Le référentiel n’est pas versionné et les résultats,
+le pilotage et le tableau de bord générique restent des placeholders.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
 répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des
@@ -47,5 +48,5 @@ répond à « qui a fait quoi ? » après un succès métier. Les Logs réponden
 Les deux modèles conservent leurs snapshots historiques sans former un framework d’audit, d’Event Sourcing ou
 une plateforme d’observabilité.
 
-La suppression physique d’une organisation cascade actuellement vers ses équipes, modèles et planifications.
-Cette réalité technique n’est pas encore une règle produit validée et reste suivie par `ARB-ORG-005`.
+Une passation commencée protège ses références de la suppression physique. Les autres dépendances d’une
+organisation restent supprimées par cascade ; leur arbitrage produit reste suivi par `ARB-ORG-005`.

@@ -12,6 +12,7 @@ from assessments.adapters.api.schedule_serializers import (
     EvaluationScheduleSerializer,
 )
 from assessments.application.schedule_notifications import notify_schedule_created
+from assessments.models import EvaluationRunState
 from journals.activity_records import (
     evaluation_schedule_deleted,
     evaluation_schedule_updated,
@@ -120,7 +121,12 @@ class EvaluationScheduleDetailView(APIView):
 
     @extend_schema(
         description="Supprime une planification accessible.",
-        responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
+        responses={
+            204: None,
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     @transaction.atomic
     def delete(self, request, schedule_id: int):
@@ -133,5 +139,6 @@ class EvaluationScheduleDetailView(APIView):
             team=schedule.team,
         )
         evaluation_schedule_deleted(request.user, schedule)
+        schedule.runs.filter(state=EvaluationRunState.NOT_STARTED).delete()
         schedule.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
