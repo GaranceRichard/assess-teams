@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APIClient
 
-from assessments.models import Evaluation, EvaluationSchedule, ScheduleMode
+from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.domain.users import Role
 from identities.models import Organization, User
 from journals.models import ActivityAction, ActivityEntry
@@ -33,6 +33,7 @@ def planning_context(name: str = "North") -> tuple[Organization, Team, Evaluatio
         organization=organization,
         index=1,
         name=f"{name} Evaluation",
+        status=EvaluationStatus.VALIDATED,
     )
     return organization, team, evaluation
 

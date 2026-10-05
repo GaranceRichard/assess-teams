@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from assessments.adapters.api.permissions import CanManageEvaluations
 from assessments.adapters.api.scope import (
-    manageable_evaluation,
+    mutable_evaluation,
     visible_evaluations,
 )
 from assessments.adapters.api.serializers import (
@@ -37,7 +37,7 @@ class EvaluationListCreateView(APIView):
 
     @extend_schema(
         description=(
-            "Crée un modèle dans une organisation accessible et lui attribue "
+            "Crée un brouillon dans une organisation accessible et lui attribue "
             "automatiquement un ordre interne invisible."
         ),
         request=CreateEvaluationInputSerializer,
@@ -81,7 +81,9 @@ class EvaluationDetailView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Modifie uniquement le nom d’un modèle d’évaluation.",
+        description=(
+            "Modifie uniquement le nom d’un brouillon. Un modèle validé ou archivé retourne 400."
+        ),
         request=EvaluationInputSerializer,
         responses={
             200: EvaluationSerializer,
@@ -92,7 +94,7 @@ class EvaluationDetailView(APIView):
     )
     @transaction.atomic
     def put(self, request, evaluation_id: int):
-        evaluation = manageable_evaluation(request.user, evaluation_id)
+        evaluation = mutable_evaluation(request.user, evaluation_id)
         describe_log_attempt(
             request,
             "Échec de modification de l’évaluation",
@@ -117,12 +119,19 @@ class EvaluationDetailView(APIView):
         return Response(EvaluationSerializer(evaluation).data)
 
     @extend_schema(
-        description="Supprime un modèle d’évaluation et ses questions.",
-        responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
+        description=(
+            "Supprime physiquement un brouillon et ses questions ; refuse un modèle immuable."
+        ),
+        responses={
+            204: None,
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     @transaction.atomic
     def delete(self, request, evaluation_id: int):
-        evaluation = manageable_evaluation(request.user, evaluation_id)
+        evaluation = mutable_evaluation(request.user, evaluation_id)
         describe_log_attempt(
             request,
             "Échec de suppression de l’évaluation",

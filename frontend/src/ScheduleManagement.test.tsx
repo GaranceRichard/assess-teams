@@ -62,7 +62,9 @@ it("edits and confirms deletion in the same dialog", async () => {
   render(
     <ScheduleEditDialog
       assignees={[{ id: 5, identifier: "admin", user_type: "Admin" }]}
-      evaluations={[{ id: 3, name: "Maturité", organization_id: 1 }]}
+      evaluations={[
+        { id: 3, name: "Maturité", organization_id: 1, status: "VALIDATED" },
+      ]}
       onCancel={onCancel}
       onDelete={onDelete}
       onSubmit={onSubmit}

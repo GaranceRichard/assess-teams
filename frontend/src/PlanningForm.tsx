@@ -40,6 +40,12 @@ export function PlanningForm({
   );
   const [saving, setSaving] = useState(false);
   const selectedTeam = teams.find((team) => team.id === Number(teamId));
+  const selectedEvaluation = evaluations.find(
+    (evaluation) => evaluation.id === Number(evaluationId),
+  );
+  const historicalEvaluation =
+    selectedEvaluation !== undefined &&
+    selectedEvaluation.status !== "VALIDATED";
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -110,8 +116,15 @@ export function PlanningForm({
         >
           <option value="">Choisir un modèle</option>
           {evaluations.map((evaluation) => (
-            <option key={evaluation.id} value={evaluation.id}>
+            <option
+              disabled={evaluation.status !== "VALIDATED"}
+              key={evaluation.id}
+              value={evaluation.id}
+            >
               {evaluation.name}
+              {evaluation.status === "ARCHIVED"
+                ? " — Archivé (historique)"
+                : ""}
             </option>
           ))}
         </select>
@@ -141,7 +154,13 @@ export function PlanningForm({
           />
         </label>
       )}
-      <button disabled={saving} type="submit">
+      {historicalEvaluation && (
+        <p>
+          Référence historique : choisissez un modèle validé pour enregistrer
+          des modifications.
+        </p>
+      )}
+      <button disabled={saving || historicalEvaluation} type="submit">
         {saving
           ? "Enregistrement…"
           : schedule

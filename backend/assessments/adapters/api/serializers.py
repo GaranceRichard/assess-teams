@@ -10,7 +10,8 @@ class EvaluationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Evaluation
-        fields = ("id", "organization_id", "name")
+        fields = ("id", "organization_id", "name", "status")
+        read_only_fields = ("status",)
 
 
 class EvaluationInputSerializer(serializers.Serializer):

@@ -6,7 +6,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from assessments.adapters.api.permissions import CanManageEvaluations
-from assessments.adapters.api.scope import manageable_evaluation, manageable_question
+from assessments.adapters.api.scope import (
+    manageable_evaluation,
+    mutable_evaluation,
+    mutable_question,
+)
 from assessments.adapters.api.serializers import QuestionInputSerializer, QuestionSerializer
 from assessments.models import Evaluation
 from journals.activity_records import question_activity
@@ -34,7 +38,9 @@ class QuestionListCreateView(APIView):
         return Response(QuestionSerializer(questions, many=True).data)
 
     @extend_schema(
-        description="Ajoute une question et lui attribue automatiquement son ordre interne.",
+        description=(
+            "Ajoute une question à un brouillon ; refuse un modèle validé ou archivé (400)."
+        ),
         request=QuestionInputSerializer,
         responses={
             201: QuestionSerializer,
@@ -45,7 +51,7 @@ class QuestionListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request, evaluation_id: int):
-        evaluation = self.evaluation(request.user, evaluation_id)
+        evaluation = mutable_evaluation(request.user, evaluation_id)
         describe_log_attempt(
             request,
             "Échec d’ajout d’une question",
@@ -69,7 +75,7 @@ class QuestionDetailView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Modifie uniquement le nom d’une question.",
+        description="Modifie uniquement le nom d’une question de brouillon ; sinon retourne 400.",
         request=QuestionInputSerializer,
         responses={
             200: QuestionSerializer,
@@ -80,7 +86,7 @@ class QuestionDetailView(APIView):
     )
     @transaction.atomic
     def put(self, request, question_id: int):
-        question = manageable_question(request.user, question_id)
+        question = mutable_question(request.user, question_id)
         describe_log_attempt(
             request,
             "Échec de modification de la question",
@@ -105,12 +111,19 @@ class QuestionDetailView(APIView):
         return Response(QuestionSerializer(question).data)
 
     @extend_schema(
-        description="Supprime une question d’un modèle d’évaluation.",
-        responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
+        description=(
+            "Supprime une question de brouillon ; refuse un modèle validé ou archivé (400)."
+        ),
+        responses={
+            204: None,
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     @transaction.atomic
     def delete(self, request, question_id: int):
-        question = manageable_question(request.user, question_id)
+        question = mutable_question(request.user, question_id)
         describe_log_attempt(
             request,
             "Échec de suppression de la question",

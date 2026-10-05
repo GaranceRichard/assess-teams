@@ -3,7 +3,6 @@
 ## Objectif
 
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
-Le contrôle placé après les menus permet de déplier de nouveau la navigation.
 Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO, WARNING et ERROR restent read-only et cloisonnés, avec les logs système globaux réservés au Superadmin.
 
 ## Socle technique
@@ -40,9 +39,11 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 
 ## Périmètre livré — modèle d’évaluation
 
+Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` : validation et archivage explicites,
+immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
-Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation, y compris lorsqu’un Coach accompagne déjà l’équipe ; le Superadmin peut aussi se désigner lui-même, ce qu’un Admin ne peut jamais faire. Chaque ligne cliquable suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification complète, avec suppression dans la même modale. Publication, versioning, passation, résultats et pilotage ne sont pas livrés ; leurs routes frontend restent des placeholders.
+Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Versioning, passation, résultats et pilotage restent à livrer.
 
 ## Installation
 

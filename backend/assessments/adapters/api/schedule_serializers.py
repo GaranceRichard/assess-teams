@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import serializers
 
-from assessments.models import Evaluation, EvaluationSchedule, ScheduleMode
+from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.adapters.api.organization_scope import manageable_organization
 from identities.domain.users import Role
 from identities.models import User
@@ -66,7 +66,10 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
             pk=attrs.pop("team_id"),
         )
         evaluation = get_object_or_404(
-            Evaluation.objects.filter(organization=organization),
+            Evaluation.objects.select_for_update().filter(
+                organization=organization,
+                status=EvaluationStatus.VALIDATED,
+            ),
             pk=attrs.pop("evaluation_id"),
         )
         assignee_id = attrs.pop("assignee_id")

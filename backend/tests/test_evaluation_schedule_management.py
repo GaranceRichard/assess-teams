@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APIClient
 
-from assessments.models import Evaluation, EvaluationSchedule, ScheduleMode
+from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.domain.users import Role
 from identities.models import Organization
 from journals.models import ActivityAction, ActivityEntry
@@ -59,6 +59,7 @@ def test_admin_assigns_planning_to_admin_while_team_has_coach(
         organization=organization,
         index=1,
         name="Maturité",
+        status=EvaluationStatus.VALIDATED,
     )
 
     with django_capture_on_commit_callbacks(execute=True):
@@ -92,11 +93,13 @@ def test_admin_or_superadmin_updates_and_deletes_every_planning_parameter(
         organization=organization,
         index=1,
         name="Initiale",
+        status=EvaluationStatus.VALIDATED,
     )
     second_evaluation = Evaluation.objects.create(
         organization=organization,
         index=2,
         name="Cible",
+        status=EvaluationStatus.VALIDATED,
     )
     schedule = EvaluationSchedule.objects.create(
         team=first_team,
@@ -142,7 +145,9 @@ def test_update_refuses_assignee_from_another_organization() -> None:
     organization.users.add(actor, coach)
     other.users.add(outsider)
     team = Team.objects.create(organization=organization, name="Alpha")
-    evaluation = Evaluation.objects.create(organization=organization, index=1, name="Eval")
+    evaluation = Evaluation.objects.create(
+        organization=organization, index=1, name="Eval", status=EvaluationStatus.VALIDATED
+    )
     schedule = EvaluationSchedule.objects.create(
         team=team,
         evaluation=evaluation,

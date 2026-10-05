@@ -1,6 +1,12 @@
 from django.db import models
 
 
+class EvaluationStatus(models.TextChoices):
+    DRAFT = "DRAFT", "Brouillon"
+    VALIDATED = "VALIDATED", "Validée"
+    ARCHIVED = "ARCHIVED", "Archivée"
+
+
 class Evaluation(models.Model):
     organization = models.ForeignKey(
         "identities.Organization",
@@ -9,6 +15,11 @@ class Evaluation(models.Model):
     )
     index = models.PositiveIntegerField()
     name = models.CharField(max_length=255)
+    status = models.CharField(
+        max_length=10,
+        choices=EvaluationStatus.choices,
+        default=EvaluationStatus.DRAFT,
+    )
 
     class Meta:
         ordering = ("index", "pk")

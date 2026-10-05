@@ -19,7 +19,7 @@ Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de
 2. **Cycle Organisation :** compléter `ORG-002`; décider avec `ARB-ORG-005` le sort des données dépendantes avant de reprendre `ORG-004`.
 3. **Cycle Équipes :** `TEAM-001` et `TEAM-004` sont livrés ; compléter `TEAM-002`, `TEAM-003` et `TEAM-005`, puis `TEAM-006` et `TEAM-007`.
 4. **Rattachements historiques :** les états courants `ORG-005`, `ORG-006` et `COACH-001` sont livrés ; l’historisation de `FEAT-008`, `FEAT-009`, `FEAT-037` et `FEAT-038` reste à raffiner.
-5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local ; publication, modalités, versions et partage éventuel restent à arbitrer/raffiner dans `FEAT-012` à `FEAT-014` et `ARB-ORG-010`.
+5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local et `EVAL-002` la validation immuable et l’archivage ; modalités, versions et partage éventuel restent à raffiner/arbitrer.
 6. **Planification :** `PLAN-001` livre le planning courant ; périodes d’association, historique et calcul piloté par les finalisations restent dans `FEAT-015`, `FEAT-016` et `FEAT-018`.
 7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
 8. **Suite P1/P2 :** retards, rappels avancés, résultats et pilotage après leurs dépendances et arbitrages explicites.

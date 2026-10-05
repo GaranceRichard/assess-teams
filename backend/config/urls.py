@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from assessments.adapters.api.lifecycle_views import ArchiveEvaluationView, ValidateEvaluationView
 from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
 from assessments.adapters.api.schedule_views import (
     EvaluationScheduleDetailView,
@@ -50,6 +51,16 @@ urlpatterns = [
         "api/admin/evaluations/<int:evaluation_id>/",
         EvaluationDetailView.as_view(),
         name="evaluation-detail",
+    ),
+    path(
+        "api/admin/evaluations/<int:evaluation_id>/validate/",
+        ValidateEvaluationView.as_view(),
+        name="evaluation-validate",
+    ),
+    path(
+        "api/admin/evaluations/<int:evaluation_id>/archive/",
+        ArchiveEvaluationView.as_view(),
+        name="evaluation-archive",
     ),
     path(
         "api/admin/evaluations/<int:evaluation_id>/questions/",

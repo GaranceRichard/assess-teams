@@ -8,7 +8,7 @@ from django.utils import timezone
 from rest_framework.test import APIClient
 
 from assessments.application.schedule_notifications import following_due_date
-from assessments.models import Evaluation, EvaluationSchedule, ScheduleMode
+from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.domain.users import Role
 from identities.models import Organization
 from teams.models import Team
@@ -29,6 +29,7 @@ def planning_context():
         organization=organization,
         index=1,
         name="Maturité",
+        status=EvaluationStatus.VALIDATED,
     )
     coach = create_user("coach", Role.COACH)
     coach.email = "coach@example.com"

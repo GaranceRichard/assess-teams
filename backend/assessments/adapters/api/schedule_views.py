@@ -40,7 +40,8 @@ class EvaluationScheduleListCreateView(APIView):
     @extend_schema(
         description=(
             "Planifie une évaluation immédiate, fixe, mensuelle ou trimestrielle "
-            "pour une équipe active de la même organisation."
+            "pour une équipe active de la même organisation. Le modèle doit être VALIDATED ; "
+            "un brouillon ou modèle archivé retourne 404."
         ),
         request=EvaluationScheduleInputSerializer,
         responses={
@@ -85,7 +86,8 @@ class EvaluationScheduleDetailView(APIView):
     @extend_schema(
         description=(
             "Modifie l’équipe, le modèle, le responsable, la fréquence et la date "
-            "d’une planification accessible."
+            "d’une planification accessible. Le modèle doit être VALIDATED (sinon 404), "
+            "même si la référence historique archivée reste consultable en lecture."
         ),
         request=EvaluationScheduleInputSerializer,
         responses={

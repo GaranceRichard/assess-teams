@@ -90,8 +90,18 @@ export function PlanningPage({ actor }: Props) {
   }
 
   const organizationEvaluations = evaluations.filter(
-    (evaluation) => evaluation.organization_id === organizationId,
+    (evaluation) =>
+      evaluation.organization_id === organizationId &&
+      evaluation.status === "VALIDATED",
   );
+  const editingEvaluations = editing
+    ? evaluations.filter(
+        (evaluation) =>
+          evaluation.organization_id === editing.organization_id &&
+          (evaluation.status === "VALIDATED" ||
+            evaluation.id === editing.evaluation_id),
+      )
+    : [];
   const organizationSchedules = schedules.filter(
     (schedule) => schedule.organization_id === organizationId,
   );
@@ -164,7 +174,7 @@ export function PlanningPage({ actor }: Props) {
       {editing && (
         <ScheduleEditDialog
           assignees={organizationAssignees}
-          evaluations={organizationEvaluations}
+          evaluations={editingEvaluations}
           onCancel={() => setEditing(null)}
           onDelete={remove}
           onSubmit={update}

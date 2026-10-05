@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APIClient
 
-from assessments.models import Evaluation, ScheduleMode
+from assessments.models import Evaluation, EvaluationStatus, ScheduleMode
 from identities.domain.users import Role
 from identities.models import Organization
 from teams.models import Team
@@ -34,6 +34,7 @@ def context():
         organization=organization,
         index=1,
         name="Maturité",
+        status=EvaluationStatus.VALIDATED,
     )
     return organization, admin, team, evaluation
 

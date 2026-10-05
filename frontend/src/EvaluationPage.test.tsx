@@ -19,14 +19,24 @@ const api = vi.hoisted(() => ({
   listOrganizations: vi.fn(),
   updateEvaluation: vi.fn(),
   updateQuestion: vi.fn(),
+  validateEvaluation: vi.fn(),
+  archiveEvaluation: vi.fn(),
 }));
 
-vi.mock("./evaluations", () => api);
+vi.mock("./evaluations", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./evaluations")>()),
+  ...api,
+}));
 vi.mock("./organizations", () => ({
   listOrganizations: api.listOrganizations,
 }));
 
-const evaluation = { id: 1, organization_id: 7, name: "Initial" };
+const evaluation = {
+  id: 1,
+  organization_id: 7,
+  name: "Initial",
+  status: "DRAFT",
+};
 const question = { id: 10, index: 1, name: "Question initiale" };
 
 beforeEach(() => {
@@ -49,6 +59,7 @@ it("keeps the evaluation index hidden while creating and updating", async () => 
     id: 2,
     organization_id: 7,
     name: "Second",
+    status: "DRAFT",
   });
   api.updateEvaluation.mockResolvedValue({ ...evaluation, name: "Renommée" });
   render(<EvaluationPage />);

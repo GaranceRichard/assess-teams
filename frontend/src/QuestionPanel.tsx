@@ -29,7 +29,11 @@ export function QuestionPanel({
           <p className="eyebrow">Questions</p>
           <h2>{evaluation.name}</h2>
         </div>
-        <button onClick={onCreate}>Ajouter une question</button>
+        {evaluation.status === "DRAFT" ? (
+          <button onClick={onCreate}>Ajouter une question</button>
+        ) : (
+          <span className="evaluation-readonly">Lecture seule</span>
+        )}
       </div>
       {questions.length === 0 ? (
         <p className="evaluation-empty">
@@ -41,17 +45,22 @@ export function QuestionPanel({
             <li key={question.id}>
               <span>{question.index}</span>
               <strong>{question.name}</strong>
-              <div className="evaluation-actions">
-                <button className="secondary" onClick={() => onEdit(question)}>
-                  Modifier
-                </button>
-                <button
-                  className="evaluation-danger"
-                  onClick={() => onDelete(question)}
-                >
-                  Supprimer
-                </button>
-              </div>
+              {evaluation.status === "DRAFT" && (
+                <div className="evaluation-actions">
+                  <button
+                    className="secondary"
+                    onClick={() => onEdit(question)}
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    className="evaluation-danger"
+                    onClick={() => onDelete(question)}
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>

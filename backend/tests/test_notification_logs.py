@@ -4,7 +4,7 @@ import pytest
 from django.core import mail
 
 from assessments.application.schedule_notifications import send_due_notification
-from assessments.models import Evaluation, EvaluationSchedule, ScheduleMode
+from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.domain.users import Role
 from identities.models import Organization
 from journals.models import LogEntry, LogLevel, LogSource
@@ -24,6 +24,7 @@ def schedule_context(with_assignee: bool) -> EvaluationSchedule:
         organization=organization,
         index=1,
         name="Maturité",
+        status=EvaluationStatus.VALIDATED,
     )
     assignee = None
     if with_assignee:

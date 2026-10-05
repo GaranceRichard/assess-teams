@@ -2,6 +2,7 @@ import { afterEach, expect, it, vi } from "vitest";
 
 import {
   createEvaluation,
+  archiveEvaluation,
   createQuestion,
   deleteEvaluation,
   deleteQuestion,
@@ -9,6 +10,8 @@ import {
   listQuestions,
   updateEvaluation,
   updateQuestion,
+  validateEvaluation,
+  orderQuestions,
 } from "./evaluations";
 
 const entity = { id: 4, name: "Référentiel" };
@@ -72,4 +75,37 @@ it("rejects an API error", async () => {
   );
 
   await expect(listEvaluations()).rejects.toThrow("Evaluation request failed");
+});
+
+it("calls explicit lifecycle actions with CSRF and no status mutation body", async () => {
+  document.cookie = "csrftoken=lifecycle-token";
+  const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(
+    async () =>
+      new Response(JSON.stringify({ ...entity, status: "VALIDATED" }), {
+        status: 200,
+      }),
+  );
+  await validateEvaluation(4);
+  await archiveEvaluation(4);
+  for (const [index, action] of ["validate", "archive"].entries()) {
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      index + 1,
+      `/api/admin/evaluations/4/${action}/`,
+      expect.objectContaining({
+        method: "POST",
+        body: undefined,
+        headers: expect.objectContaining({ "X-CSRFToken": "lifecycle-token" }),
+      }),
+    );
+  }
+});
+
+it("orders questions by index then identity without changing input", () => {
+  const items = [
+    { id: 4, index: 2, name: "Later" },
+    { id: 2, index: 1, name: "Second" },
+    { id: 1, index: 1, name: "First" },
+  ];
+  expect(orderQuestions(items).map((item) => item.id)).toEqual([1, 2, 4]);
+  expect(items[0].id).toBe(4);
 });

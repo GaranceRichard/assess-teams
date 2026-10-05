@@ -120,7 +120,7 @@ export function seedPlanningContext(
         ]
       : []),
     "index = (Evaluation.objects.filter(organization=organization).aggregate(Max('index'))['index__max'] or 0) + 1",
-    `Evaluation.objects.create(organization=organization, index=index, name=${JSON.stringify(evaluationName)})`,
+    `Evaluation.objects.create(organization=organization, index=index, name=${JSON.stringify(evaluationName)}, status='VALIDATED')`,
   ]);
 }
 

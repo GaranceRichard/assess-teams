@@ -133,7 +133,11 @@ Il vérifie aussi l'accès par le menu Utilisateurs et le changement de thème j
 
 Le référentiel d’évaluation couvre l’attribution automatique des index de modèles et de questions, les
 validations, les permissions, le contrat OpenAPI et la cascade. Playwright valide le CRUD complet sans champ
-d’index, ainsi que la sélection immédiate d’un modèle nouvellement créé.
+d’index, ainsi que la sélection immédiate d’un modèle nouvellement créé. Le cycle de vie couvre aussi la migration
+des modèles planifiés, création en brouillon, validation complète/incomplète, états et transitions interdits,
+immutabilité des modèles/questions, archivage logique et audit. React et Playwright vérifient les confirmations,
+le filtrage des modèles planifiables et les références historiques après archivage ; l’API teste les requêtes
+forgées, permissions Admin/Superadmin et refus inter-organisations.
 
 La planification couvre les quatre cadences, la première échéance, l’unicité équipe–modèle, l’équipe active et
 le cloisonnement organisationnel. Elle couvre aussi le responsable Coach ou Admin, l’auto-affectation du

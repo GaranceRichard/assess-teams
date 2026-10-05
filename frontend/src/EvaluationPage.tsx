@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { EvaluationDeleteDialog } from "./EvaluationDeleteDialog";
 import { EvaluationList } from "./EvaluationList";
 import { EvaluationOrganizationSelect } from "./EvaluationOrganizationSelect";
 import {
@@ -12,27 +11,20 @@ import {
   listEvaluations,
   listQuestions,
   type NameInput,
+  orderQuestions,
   type Question,
   updateEvaluation,
   updateQuestion,
 } from "./evaluations";
-import { NameDialog } from "./NameDialog";
+import {
+  type DeleteTarget,
+  type EditTarget,
+  EvaluationPageDialogs,
+} from "./EvaluationPageDialogs";
 import { listOrganizations, type Organization } from "./organizations";
 import { QuestionPanel } from "./QuestionPanel";
+import { useEvaluationLifecycle } from "./useEvaluationLifecycle";
 import "./evaluations.css";
-
-type EditTarget =
-  | { kind: "évaluation"; value?: Evaluation }
-  | { kind: "question"; value?: Question };
-type DeleteTarget =
-  | { kind: "évaluation"; value: Evaluation }
-  | { kind: "question"; value: Question };
-
-function ordered(items: Question[]): Question[] {
-  return [...items].sort(
-    (left, right) => left.index - right.index || left.id - right.id,
-  );
-}
 
 export function EvaluationPage() {
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
@@ -43,6 +35,13 @@ export function EvaluationPage() {
   const [editing, setEditing] = useState<EditTarget | null>(null);
   const [deleting, setDeleting] = useState<DeleteTarget | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const lifecycle = useEvaluationLifecycle(
+    (saved) =>
+      setEvaluations((current) =>
+        current.map((item) => (item.id === saved.id ? saved : item)),
+      ),
+    setError,
+  );
   const selected =
     evaluations.find((evaluation) => evaluation.id === selectedId) ?? null;
   const visibleEvaluations = evaluations.filter(
@@ -88,7 +87,7 @@ export function EvaluationPage() {
           ? await updateQuestion(editing.value.id, input)
           : await createQuestion(selectedId, input);
         setQuestions((current) =>
-          ordered(
+          orderQuestions(
             editing.value
               ? current.map((item) => (item.id === saved.id ? saved : item))
               : [...current, saved],
@@ -158,9 +157,15 @@ export function EvaluationPage() {
         <EvaluationList
           evaluations={visibleEvaluations}
           selectedId={selectedId}
+          onArchive={(value) =>
+            lifecycle.setTarget({ action: "archive", value })
+          }
           onDelete={(value) => setDeleting({ kind: "évaluation", value })}
           onEdit={(value) => setEditing({ kind: "évaluation", value })}
           onSelect={(value) => setSelectedId(value.id)}
+          onValidate={(value) =>
+            lifecycle.setTarget({ action: "validate", value })
+          }
         />
         <QuestionPanel
           evaluation={selected}
@@ -170,22 +175,17 @@ export function EvaluationPage() {
           onEdit={(value) => setEditing({ kind: "question", value })}
         />
       </div>
-      {editing && (
-        <NameDialog
-          kind={editing.kind}
-          value={editing.value}
-          onCancel={() => setEditing(null)}
-          onSubmit={save}
-        />
-      )}
-      {deleting && (
-        <EvaluationDeleteDialog
-          kind={deleting.kind}
-          value={deleting.value}
-          onCancel={() => setDeleting(null)}
-          onConfirm={remove}
-        />
-      )}
+      <EvaluationPageDialogs
+        deleting={deleting}
+        editing={editing}
+        lifecycle={lifecycle.target}
+        onCloseDelete={() => setDeleting(null)}
+        onCloseEdit={() => setEditing(null)}
+        onCloseLifecycle={() => lifecycle.setTarget(null)}
+        onDelete={remove}
+        onSave={save}
+        onTransition={lifecycle.confirm}
+      />
     </section>
   );
 }

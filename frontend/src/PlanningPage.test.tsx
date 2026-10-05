@@ -48,7 +48,12 @@ const organization = {
     { id: 10, identifier: "admin", user_type: "Admin" },
   ],
 };
-const evaluation = { id: 2, name: "Maturité", organization_id: 1 };
+const evaluation = {
+  id: 2,
+  name: "Maturité",
+  organization_id: 1,
+  status: "VALIDATED",
+};
 const team = {
   id: 3,
   name: "Alpha",

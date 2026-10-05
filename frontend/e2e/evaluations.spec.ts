@@ -30,7 +30,7 @@ test("an Admin manages an evaluation and its ordered questions", async ({
   const evaluation = page
     .getByRole("listitem")
     .filter({ hasText: "Référentiel E2E" });
-  await expect(evaluation.locator("span")).toHaveCount(0);
+  await expect(evaluation).toContainText("Brouillon");
   await evaluation.getByRole("button", { name: "Modifier" }).click();
   await page.getByLabel("Nom de l’évaluation").fill("Référentiel E2E modifié");
   await page.getByRole("button", { name: "Enregistrer" }).click();

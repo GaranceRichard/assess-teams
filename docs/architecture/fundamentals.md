@@ -26,9 +26,10 @@ La route `/teams` confie au domaine Django `teams` le cycle de vie des équipes.
 l’organisation administrée avant toute lecture ou écriture et l’API revalide systématiquement ce périmètre.
 
 La route `/templates` confie au domaine Django `assessments` le référentiel administratif des modèles
-d’évaluation et de leurs questions ordonnées. Cette première verticale reste indépendante des passations.
+d’évaluation et de leurs questions ordonnées. Le cycle `DRAFT → VALIDATED → ARCHIVED` est irréversible :
+seuls les brouillons sont modifiables ou supprimables ; validation et archivage sont des actions auditées.
 
-La route `/planning` associe une équipe active à un modèle de sa propre organisation et fixe une première
+La route `/planning` associe une équipe active à un modèle validé de sa propre organisation et fixe une première
 échéance immédiate, ponctuelle, mensuelle ou trimestrielle. Le backend demeure l’autorité du périmètre : le
 Superadmin agit globalement et l’Admin uniquement dans son organisation. Un Coach ou Admin actif avec e-mail
 est désigné comme responsable ; seul le Superadmin peut désigner un Superadmin. Un Coach peut être rattaché
@@ -37,7 +38,8 @@ utilisent une commande Django quotidienne et conservent la première échéance 
 
 La route `/evaluations` ne contient encore aucune passation : après authentification elle affiche un
 placeholder, comme `/results`, `/steering` et le tableau de bord générique. Les modèles administrés par
-`/templates` ne portent ni modalité, publication, version, réponse ni résultat.
+`/templates` portent un état explicite, mais ni modalité, version, réponse ni résultat. Un modèle archivé
+et ses questions restent lisibles, comme les références des planifications déjà créées.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
 répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des
