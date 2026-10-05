@@ -2,6 +2,10 @@
 
 Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [README racine](../README.md) reste le point d’entrée du projet.
 
+## Produit
+
+- [Vision produit](product/vision.md) : finalité, publics, valeur, principes d’arbitrage et non-objectifs.
+
 ## Architecture
 
 - [Fondamentaux architecturaux](architecture/fundamentals.md) : navigation des principes structurants.

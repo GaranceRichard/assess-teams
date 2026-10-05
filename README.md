@@ -1,8 +1,13 @@
 # Assess teams
 
-## Objectif
+## Vision produit
 
-**Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
+**Assess Teams** vise à transformer l’évaluation ponctuelle des équipes en un dispositif continu d’évaluation, d’accompagnement et de pilotage de leur progression dans le temps.
+Des modèles maîtrisés et versionnés, des évaluations planifiées et traçables et un historique fiable doivent aider les Coachs et chaque Organisation à agir sur des résultats observables, sans réduire une équipe à un score. La [Vision produit](docs/product/vision.md) fixe cette direction et la distingue du socle livré.
+
+## Cadre actuel
+
+Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
 Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO, WARNING et ERROR restent read-only et cloisonnés, avec les logs système globaux réservés au Superadmin.
 
 Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DELETE et proposent dix filtres structurés, avec contexte sûr et isolation par organisation. Les données sensibles restent exclues ; le Journal métier reste séparé.
@@ -50,9 +55,6 @@ Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestri
 ## Périmètre livré — passation des évaluations planifiées
 
 La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant.
-
-Le chantier de vérification de cette passation renforce la sauvegarde lors du changement de question
-et le contrôle du périmètre au moment des mutations, avec des tests de non-régression ciblés.
 
 ## Installation
 

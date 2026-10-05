@@ -2,6 +2,15 @@
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
 
+## Direction et sources de référence
+
+- La [Vision produit](../product/vision.md) donne la direction et les principes d’arbitrage.
+- Les [sources fonctionnelles](#source-fonctionnelle-détaillée), concepts et arbitrages définissent le périmètre et les règles détaillées.
+- Le [registre PBI](tracking/pbis.md) porte le suivi d’exécution : statuts et dates de réalisation.
+- La [synthèse](synthese.md) est une vue dérivée de ces sources, sans autorité propre.
+
+La vision ne porte ni statuts ni spécifications détaillées ; elle ne remplace aucune source définie par la [gouvernance](governance.md) et ne tranche pas les arbitrages ouverts.
+
 ## Finalité et principes
 
 Ce backlog décrit les premières capacités métier d’**Assess teams**. Il est ordonné par valeur utilisateur et par parcours, non par couches techniques. Les identifiants sont stables : un élément retiré n’est pas renuméroté. La [gouvernance du backlog](governance.md) définit les sources faisant autorité, les métadonnées, les états et les calculs.
