@@ -115,8 +115,8 @@ Les [commandes ciblées backend, frontend et E2E](docs/quality/test-commands.md)
 Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session : règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
 couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
 Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création, renommage et suppression d’organisation, puis
-vérifie que le backend applique les migrations avant de servir. Les tests de non-régression restent
-`NON APPLICABLE`, faute de bug corrigé.
+vérifie que le backend applique les migrations avant de servir. La non-régression des fixtures E2E vérifie
+leur réinitialisation avec des passations protégées, sans affecter une autre organisation de test.
 
 ## Approche quality-first
 

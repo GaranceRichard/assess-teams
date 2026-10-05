@@ -7,10 +7,6 @@ import {
 export function seedTakingContext() {
   seedIdentity("taking-coach-e2e", "Coach");
   seedIdentity("taking-admin-e2e", "Admin");
-  runDjangoShell([
-    "from assessments.models import EvaluationRun",
-    "EvaluationRun.objects.filter(organization_name='Taking E2E').delete()",
-  ]);
   assignOrganization(["taking-coach-e2e", "taking-admin-e2e"], "Taking E2E");
   runDjangoShell([
     "from django.utils import timezone",

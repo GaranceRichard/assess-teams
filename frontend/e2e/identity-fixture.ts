@@ -44,9 +44,9 @@ export function assignOrganization(
   usernames: string[],
   organizationName: string,
 ) {
+  resetOrganization(organizationName);
   runDjangoShell([
     "from identities.models import Organization, User",
-    `Organization.objects.filter(name=${JSON.stringify(organizationName)}).delete()`,
     `organization = Organization.objects.create(name=${JSON.stringify(organizationName)})`,
     `users = User.objects.filter(username__in=${JSON.stringify(usernames)})`,
     "organization.users.set(users)",
@@ -87,6 +87,8 @@ export function seedSuperadmin(username: string, managedEmail: string) {
 export function resetOrganization(name: string) {
   runDjangoShell([
     "from identities.models import Organization",
+    "from assessments.models import EvaluationRun",
+    `EvaluationRun.objects.filter(organization__name=${JSON.stringify(name)}).delete()`,
     `Organization.objects.filter(name=${JSON.stringify(name)}).delete()`,
   ]);
 }

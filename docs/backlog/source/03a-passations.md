@@ -65,4 +65,4 @@ Cet Epic dérive l’organisation de chaque passation et évaluation de l’équ
 - **Cycle de vie :** le démarrage exige un modèle local `VALIDATED`, non vide et de la même organisation ; après archivage, une passation déjà commencée reste reprenable, consultable et révisable dans son périmètre.
 - **Limites explicites :** les questions exactes sont figées sans introduire de versionnement (`FEAT-014` reste distincte). Aucun scoring, agrégation, export ou historique exhaustif de notes.
 - **Preuves :** contraintes et migrations de passations/réponses, OpenAPI, tests API/permissions/reprise/provenance, React et Playwright de passation → reprise → finalisation → révision/proxy Admin.
-- **Vérification de livraison :** intégration avec `EVAL-002`, validation complète du schéma et quality gate commun ; 233 tests backend, 120 frontend et 14 scénarios Playwright passent.
+- **Vérification de livraison :** intégration avec `EVAL-002`, validation complète du schéma et quality gate commun ; 233 tests backend, 120 frontend et 15 scénarios Playwright, dont la non-régression du nettoyage cloisonné des fixtures.

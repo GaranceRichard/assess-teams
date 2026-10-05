@@ -163,3 +163,5 @@ la révision. Playwright traverse Coach → reprise après rechargement → fina
 → révision Admin → complétion à la place de l’assigné → Journal d’activité, en utilisant le range au clavier.
 La passation vérifie aussi le prérequis `VALIDATED`, le refus des nouveaux démarrages sur brouillon/archive
 et la reprise, complétion et révision de passations commencées avant l’archivage du modèle.
+Une non-régression E2E vérifie aussi la réinitialisation répétée des fixtures avec passations protégées,
+sans supprimer les données d’une autre organisation de test.
