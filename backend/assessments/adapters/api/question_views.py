@@ -34,7 +34,15 @@ class QuestionListCreateView(APIView):
         },
     )
     def get(self, request, evaluation_id: int):
-        questions = self.evaluation(request.user, evaluation_id).questions.all()
+        evaluation = self.evaluation(request.user, evaluation_id)
+        describe_log_attempt(
+            request,
+            "question-list",
+            LogSource.ASSESSMENTS,
+            organization=evaluation.organization,
+            evaluation=evaluation,
+        )
+        questions = evaluation.questions.all()
         return Response(QuestionSerializer(questions, many=True).data)
 
     @extend_schema(
@@ -57,6 +65,7 @@ class QuestionListCreateView(APIView):
             "Échec d’ajout d’une question",
             LogSource.ASSESSMENTS,
             organization=evaluation.organization,
+            evaluation=evaluation,
         )
         serializer = QuestionInputSerializer(data=request.data, context={"evaluation": evaluation})
         serializer.is_valid(raise_exception=True)

@@ -119,6 +119,8 @@ Elle ne choisit ni ne supprime aucun rattachement. Ces conflits doivent être r�
 ## Gestion des équipes d’une organisation
 
 `GET /api/admin/organizations/{organization_id}/teams/` liste les équipes actives de l’organisation sélectionnée.
+Le paramètre optionnel `include_archived=true` inclut aussi les équipes archivées pour les sélecteurs des Logs,
+sans modifier la liste active par défaut ni son scope. Une valeur invalide retourne `400`.
 `POST` sur la même route accepte exactement `name` et `coach_ids`, crée une équipe rattachée à cette seule
 organisation et peut lui affecter plusieurs Coachs. Le nom nettoyé est obligatoire et unique sans tenir compte
 de la casse dans l’organisation, y compris parmi les équipes archivées ; une autre organisation peut réutiliser
@@ -144,4 +146,4 @@ Le [contrat de passation](evaluation-taking.md) décrit `/api/evaluations/`, la 
 
 ## Journal d’activité et Logs
 
-Le [contrat des journaux](journals-api.md) décrit les deux collections administratives, leurs filtres et la journalisation commune.
+Le [contrat des journaux](journals-api.md) décrit les deux collections administratives, leurs filtres distincts, la capture HTTP exhaustive et le contexte sûr des Logs.

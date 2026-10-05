@@ -52,3 +52,6 @@ une plateforme d’observabilité.
 
 Une passation commencée protège ses références de la suppression physique. Les autres dépendances d’une
 organisation restent supprimées par cascade ; leur arbitrage produit reste suivi par `ARB-ORG-005`.
+
+La [traçabilité HTTP](journals-api.md) est un adapter transverse Django : elle centralise la réponse HTTP
+et reçoit uniquement le contexte autorisé des vues, indépendamment des activités métier transactionnelles.

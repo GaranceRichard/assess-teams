@@ -71,6 +71,7 @@ class EvaluationScheduleListCreateView(APIView):
             LogSource.PLANNING,
             organization=schedule.team.organization,
             team=schedule.team,
+            evaluation=schedule.evaluation,
         )
         evaluation_scheduled(request.user, schedule)
         transaction.on_commit(lambda: notify_schedule_created(schedule.pk))
@@ -107,6 +108,7 @@ class EvaluationScheduleDetailView(APIView):
             LogSource.PLANNING,
             organization=schedule.team.organization,
             team=schedule.team,
+            evaluation=schedule.evaluation,
         )
         serializer = EvaluationScheduleInputSerializer(
             schedule,
@@ -137,6 +139,7 @@ class EvaluationScheduleDetailView(APIView):
             LogSource.PLANNING,
             organization=schedule.team.organization,
             team=schedule.team,
+            evaluation=schedule.evaluation,
         )
         evaluation_schedule_deleted(request.user, schedule)
         schedule.runs.filter(state=EvaluationRunState.NOT_STARTED).delete()

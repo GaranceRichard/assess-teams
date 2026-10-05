@@ -7,7 +7,7 @@ function dateTime(value: string, full = false): string {
   }).format(new Date(value));
 }
 
-function shown(value: string): string {
+function shown(value: string | undefined): string {
   return value || "—";
 }
 
@@ -53,12 +53,15 @@ export function LogEntries({ entries }: { entries: LogEntry[] }) {
         <thead>
           <tr>
             <th>Date/heure</th>
+            <th>Méthode</th>
+            <th>Statut</th>
             <th>Niveau</th>
             <th>Source</th>
             <th>Organisation</th>
             <th>Utilisateur</th>
             <th>Équipe</th>
-            <th>Message</th>
+            <th>Évaluation</th>
+            <th>Opération/message</th>
           </tr>
         </thead>
         <tbody>
@@ -72,6 +75,8 @@ export function LogEntries({ entries }: { entries: LogEntry[] }) {
                   {dateTime(entry.created_at)}
                 </time>
               </td>
+              <td>{shown(entry.method)}</td>
+              <td>{entry.status_code ?? "—"}</td>
               <td>
                 <strong className="log-level">{entry.level}</strong>
               </td>
@@ -79,8 +84,10 @@ export function LogEntries({ entries }: { entries: LogEntry[] }) {
               <td>{shown(entry.organization_name)}</td>
               <td>{shown(entry.actor_name)}</td>
               <td>{shown(entry.team_name)}</td>
+              <td>{shown(entry.evaluation_name)}</td>
               <td>
                 <span>{entry.message}</span>
+                <p>{shown(entry.operation)}</p>
                 <LogDetails entry={entry} />
               </td>
             </tr>

@@ -40,6 +40,7 @@ class ValidateEvaluationView(APIView):
             "Échec de validation de l’évaluation",
             LogSource.ASSESSMENTS,
             organization=evaluation.organization,
+            evaluation=evaluation,
         )
         if evaluation.status != EvaluationStatus.DRAFT:
             raise ValidationError("Seul un brouillon peut être validé.")
@@ -97,6 +98,7 @@ class ArchiveEvaluationView(APIView):
             "Échec d’archivage de l’évaluation",
             LogSource.ASSESSMENTS,
             organization=evaluation.organization,
+            evaluation=evaluation,
         )
         if evaluation.status != EvaluationStatus.VALIDATED:
             raise ValidationError("Seule une évaluation validée peut être archivée.")

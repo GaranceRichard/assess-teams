@@ -27,6 +27,12 @@ class LogEntrySerializer(JournalEntrySerializer):
     class Meta(JournalEntrySerializer.Meta):
         model = LogEntry
         fields = JournalEntrySerializer.Meta.fields + (
+            "actor_id",
+            "team_id",
+            "evaluation_id",
+            "evaluation_name",
+            "method",
+            "status_code",
             "level",
             "source",
             "operation",

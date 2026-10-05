@@ -11,7 +11,11 @@ from journals.activity_records import team_archived, team_changed, team_created
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
 from teams.adapters.api.scope import manageable_team
-from teams.adapters.api.serializers import TeamInputSerializer, TeamSerializer
+from teams.adapters.api.serializers import (
+    TeamInputSerializer,
+    TeamListFilterSerializer,
+    TeamSerializer,
+)
 
 
 class TeamListCreateView(APIView):
@@ -21,13 +25,25 @@ class TeamListCreateView(APIView):
     @extend_schema(
         description=(
             "Liste les équipes actives d'une organisation accessible au Superadmin "
-            "ou à un Admin qui en est membre."
+            "ou à un Admin qui en est membre. "
+            "include_archived inclut les archives pour les filtres Logs."
         ),
-        responses={200: TeamSerializer(many=True), 403: OpenApiResponse(), 404: OpenApiResponse()},
+        parameters=[TeamListFilterSerializer],
+        responses={
+            200: TeamSerializer(many=True),
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     def get(self, request, organization_id: int):
         organization = manageable_organization(request.user, organization_id)
-        teams = organization.teams.filter(is_active=True).prefetch_related("coaches")
+        describe_log_attempt(request, "team-list", LogSource.TEAMS, organization=organization)
+        filters = TeamListFilterSerializer(data=request.query_params)
+        filters.is_valid(raise_exception=True)
+        teams = organization.teams.prefetch_related("coaches")
+        if not filters.validated_data["include_archived"]:
+            teams = teams.filter(is_active=True)
         return Response(TeamSerializer(teams, many=True).data)
 
     @extend_schema(
@@ -58,6 +74,13 @@ class TeamListCreateView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         team = serializer.save()
+        describe_log_attempt(
+            request,
+            "team-create",
+            LogSource.TEAMS,
+            organization=organization,
+            team=team,
+        )
         team_created(request.user, team)
         return Response(TeamSerializer(team).data, status=status.HTTP_201_CREATED)
 

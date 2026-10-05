@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { listActivityEntries, listLogEntries } from "./journals";
+import { listActivityEntries } from "./journals";
+import { emptyLogFilters, listHttpLogs } from "./logsApi";
 
 const filters = {
   date: "2026-09-28",
@@ -28,8 +29,6 @@ describe("journal APIs", () => {
     expect(url).toContain("organization_id=7");
     expect(url).toContain("player=Marie+Martin");
     expect(url).toContain("team=Architecture");
-    expect(url).toContain("level=ERROR");
-    expect(url).toContain("source=assessments");
   });
 
   it("omits empty filters and rejects an error response", async () => {
@@ -37,19 +36,9 @@ describe("journal APIs", () => {
       .spyOn(globalThis, "fetch")
       .mockResolvedValue(new Response(null, { status: 403 }));
 
-    await expect(
-      listLogEntries(
-        {
-          date: "",
-          organizationId: "",
-          player: "",
-          team: "",
-          level: "",
-          source: "",
-        },
-        1,
-      ),
-    ).rejects.toThrow("Journal request failed");
+    await expect(listHttpLogs(emptyLogFilters, 1)).rejects.toThrow(
+      "Log request failed",
+    );
     expect(fetchMock).toHaveBeenCalledWith("/api/admin/logs/?page=1", {
       credentials: "same-origin",
     });

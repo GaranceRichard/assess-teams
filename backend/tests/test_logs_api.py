@@ -15,6 +15,7 @@ def client_for(user) -> APIClient:
     client = APIClient(enforce_csrf_checks=True)
     client.force_login(user)
     client.get(reverse("session-current"))
+    LogEntry.objects.filter(method="GET", operation="session-current").delete()
     return client
 
 
@@ -43,17 +44,15 @@ def test_log_scope_separates_organizations_and_system_logs() -> None:
     add_log(admin_a, organization_a, LogLevel.INFO, "Log A")
     add_log(admin_b, organization_b, LogLevel.WARNING, "Log B")
     add_log(None, None, LogLevel.ERROR, "Log système")
-
     entries_a = client_for(admin_a).get(reverse("logs")).json()
     entries_b = client_for(admin_b).get(reverse("logs")).json()
     all_entries = client_for(root).get(reverse("logs")).json()
     forced = client_for(admin_a).get(reverse("logs"), {"organization_id": organization_b.pk}).json()
-
     assert [entry["message"] for entry in entries_a["results"]] == ["Log A"]
     assert [entry["message"] for entry in entries_b["results"]] == ["Log B"]
     assert forced["count"] == 0
-    assert all_entries["count"] == 3
-    assert all_entries["results"][0]["organization_name"] == ""
+    assert all_entries["count"] == 5
+    assert any(entry["organization_name"] == "" for entry in all_entries["results"])
 
 
 @pytest.mark.django_db
@@ -65,17 +64,15 @@ def test_failed_operation_records_sanitized_error_for_its_organization() -> None
     organization.users.add(admin)
     client = client_for(admin)
     secret = "password=private-token; cookie=session-secret"
-
     response = csrf_post(
         client,
         reverse("team-list", kwargs={"organization_id": organization.pk}),
         {"name": secret, "coach_ids": [99999]},
     )
-    entry = LogEntry.objects.get()
+    entry = LogEntry.objects.get(method="POST")
     payload = client.get(reverse("logs")).json()["results"][0]
-
     assert response.status_code == 400
-    assert entry.level == LogLevel.ERROR
+    assert entry.level == LogLevel.WARNING
     assert entry.source == LogSource.TEAMS
     assert entry.organization == organization
     assert entry.actor == admin
@@ -90,6 +87,12 @@ def test_failed_operation_records_sanitized_error_for_its_organization() -> None
         "organization_name",
         "actor_name",
         "team_name",
+        "actor_id",
+        "team_id",
+        "evaluation_id",
+        "evaluation_name",
+        "method",
+        "status_code",
         "level",
         "source",
         "operation",
@@ -115,12 +118,10 @@ def test_logs_are_ordered_paginated_filtered_and_read_only() -> None:
         )
     client = client_for(admin)
     route = reverse("logs")
-
     first = client.get(route).json()
-    second = client.get(route, {"page": 2}).json()
+    second = client.get(route, {"page": 2, "source": LogSource.ASSESSMENTS}).json()
     filtered = client.get(route, {"level": LogLevel.ERROR, "source": LogSource.ASSESSMENTS}).json()
     csrf = client.cookies["csrftoken"].value
-
     assert first["count"] == 21
     assert first["results"][0]["message"] == "Événement 20"
     assert second["results"][0]["message"] == "Événement 0"
@@ -136,7 +137,6 @@ def test_logs_are_ordered_paginated_filtered_and_read_only() -> None:
 @pytest.mark.api
 def test_logs_refuse_non_admin() -> None:
     viewer = create_user("viewer", Role.VIEWER)
-
     assert client_for(viewer).get(reverse("logs")).status_code == 403
 
 
@@ -156,13 +156,11 @@ def test_log_snapshots_survive_related_objects_deletion() -> None:
     )
     root.delete()
     organization.delete()
-
     entry.refresh_from_db()
     response = client_for(create_superuser("new-root")).get(
         reverse("logs"),
-        {"player": "Superadmin", "team": "BI"},
+        {"level": LogLevel.WARNING},
     )
-
     assert entry.actor is None
     assert entry.organization is None
     assert entry.team is None

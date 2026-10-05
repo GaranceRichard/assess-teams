@@ -148,7 +148,7 @@ def test_openapi_documents_team_management(api_client: APIClient) -> None:
     component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
 
     assert response.status_code == 200
-    assert set(collection["get"]["responses"]) == {"200", "403", "404"}
+    assert set(collection["get"]["responses"]) == {"200", "400", "403", "404"}
     assert set(collection["post"]["responses"]) == {"201", "400", "403", "404"}
     assert set(component["required"]) == {"name", "coach_ids"}
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}

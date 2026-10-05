@@ -76,7 +76,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | TEAM-003 — Consulter une équipe | Ouvert | détail par identifiant absent |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
 | TEAM-005 — Archiver une équipe | Ouvert | archivage livré ; restitution archivée et second refus absents |
-| TEAM-006 — Consulter les équipes archivées | Ouvert | absent |
+| TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
 | TEAM-007 — Réactiver une équipe | Ouvert | absent |
 | COACH-001 — Affecter les Coachs courants d’une équipe | Réalisé | affectation locale multi-Coachs ; 2026-09-27 |
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | Réalisé | CRUD local sans publication/version ; 2026-09-28 |
@@ -86,7 +86,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | PASS-001 — Passer et réviser les évaluations planifiées | Réalisé | reprise, finalisation, provenance, révision Admin et tableau ; scope revérifié à la mutation, sauvegarde avant navigation ; 2026-10-05 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | Réalisé | confirmation, échéance et récurrence ; 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
-| JOURNAL-002 — Consulter les logs applicatifs | Réalisé | niveaux, nettoyage et cloisonnement ; 2026-09-29 |
+| JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
 ## Écarts et décisions encore ouverts
 

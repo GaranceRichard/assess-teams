@@ -22,7 +22,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | TEAM-003 — Consulter une équipe | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | endpoint de détail absent | N/A |
 | TEAM-004 — Modifier une équipe | FEAT-006 — Faire évoluer les informations d’une équipe | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-27 |
 | TEAM-005 — Archiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | archivage livré ; détail archivé et second refus explicite absents | N/A |
-| TEAM-006 — Consulter les équipes archivées | FEAT-010 — Gérer la sortie et la reprise du suivi actif | S | Sol — puissance moyenne | Ouvert | capacité absente | N/A |
+| TEAM-006 — Consulter les équipes archivées | FEAT-010 — Gérer la sortie et la reprise du suivi actif | S | Sol — puissance moyenne | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent | N/A |
 | TEAM-007 — Réactiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | capacité absente | N/A |
 | COACH-001 — Affecter les Coachs courants d’une équipe | FEAT-008 — Affecter un coach à une équipe | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-27 |
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | FEAT-011 — Composer un modèle d’évaluation ordonné | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre local | 2026-09-28 |
@@ -39,3 +39,6 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 `AUTH-001`, `ORG-005`, `ORG-006`, `COACH-001`, `EVAL-001`, `PLAN-001`, `NOTIF-001`,
 `JOURNAL-001` et `JOURNAL-002` sont des régularisations documentaires de comportements déjà livrés. Leurs
 sources limitent explicitement leur portée ; elles ne déclarent pas réalisées les Features plus larges.
+
+`JOURNAL-002` conserve sa date initiale ; son extension du 2026-10-05 ajoute la capture HTTP exhaustive,
+les dix filtres structurés, le contexte Évaluation et les preuves de confidentialité et d’isolation.

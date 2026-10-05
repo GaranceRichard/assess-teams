@@ -23,8 +23,8 @@ from identities.adapters.api.admin_views import (
     ManagedUserListCreateView,
 )
 from identities.adapters.api.invitation_views import AcceptInvitationView
+from identities.adapters.api.organization_detail_views import OrganizationDetailView
 from identities.adapters.api.organization_views import (
-    OrganizationDetailView,
     OrganizationListCreateView,
     OrganizationMemberUpdateView,
 )

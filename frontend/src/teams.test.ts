@@ -66,3 +66,18 @@ describe("teams API", () => {
     await expect(listTeams(1)).rejects.toThrow("Team request failed");
   });
 });
+
+it("includes archived teams for structured Logs filters", async () => {
+  const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+    new Response(JSON.stringify([{ ...team, is_active: false }]), {
+      status: 200,
+    }),
+  );
+  await expect(listTeams(1, true)).resolves.toEqual([
+    { ...team, is_active: false },
+  ]);
+  expect(fetchMock).toHaveBeenCalledWith(
+    "/api/admin/organizations/1/teams/?include_archived=true",
+    { credentials: "same-origin" },
+  );
+});

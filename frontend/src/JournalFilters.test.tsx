@@ -8,8 +8,6 @@ const empty = {
   organizationId: "",
   player: "",
   team: "",
-  level: "",
-  source: "",
 };
 
 it("edits and applies every journal filter", () => {
@@ -20,7 +18,6 @@ it("edits and applies every journal filter", () => {
       value={empty}
       organizations={[{ id: 7, name: "DEDN", users: [] }]}
       showOrganizations
-      showLogFilters
       onChange={onChange}
       onApply={onApply}
       onClear={vi.fn()}
@@ -39,15 +36,9 @@ it("edits and applies every journal filter", () => {
   fireEvent.change(screen.getByLabelText("Équipe"), {
     target: { value: "Architecture" },
   });
-  fireEvent.change(screen.getByLabelText("Niveau"), {
-    target: { value: "ERROR" },
-  });
-  fireEvent.change(screen.getByLabelText("Source"), {
-    target: { value: "assessments" },
-  });
   fireEvent.submit(screen.getByRole("button", { name: "Filtrer" }));
 
-  expect(onChange).toHaveBeenCalledTimes(6);
+  expect(onChange).toHaveBeenCalledTimes(4);
   expect(onApply).toHaveBeenCalledOnce();
 });
 

@@ -67,6 +67,7 @@ class EvaluationListCreateView(APIView):
             "Échec de création de l’évaluation",
             LogSource.ASSESSMENTS,
             organization=evaluation.organization,
+            evaluation=evaluation,
         )
         evaluation_activity(
             request.user,
@@ -101,6 +102,7 @@ class EvaluationDetailView(APIView):
             "Échec de modification de l’évaluation",
             LogSource.ASSESSMENTS,
             organization=evaluation.organization,
+            evaluation=evaluation,
         )
         previous_name = evaluation.name
         serializer = EvaluationInputSerializer(
@@ -138,6 +140,7 @@ class EvaluationDetailView(APIView):
             "Échec de suppression de l’évaluation",
             LogSource.ASSESSMENTS,
             organization=evaluation.organization,
+            evaluation=evaluation,
         )
         evaluation_activity(
             request.user,

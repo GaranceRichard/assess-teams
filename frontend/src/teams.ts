@@ -26,8 +26,12 @@ function writeOptions(method: string, input?: TeamInput): RequestInit {
   };
 }
 
-export function listTeams(organizationId: number): Promise<Team[]> {
-  return request(`/api/admin/organizations/${organizationId}/teams/`);
+export function listTeams(
+  organizationId: number,
+  includeArchived = false,
+): Promise<Team[]> {
+  const query = includeArchived ? "?include_archived=true" : "";
+  return request(`/api/admin/organizations/${organizationId}/teams/${query}`);
 }
 
 export function createTeam(

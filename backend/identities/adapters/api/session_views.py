@@ -82,5 +82,6 @@ class LogoutView(APIView):
         },
     )
     def post(self, request):
+        request._request.journal_actor = request.user
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)

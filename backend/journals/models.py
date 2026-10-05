@@ -97,8 +97,18 @@ class ActivityEntry(JournalEntryFields):
 
 
 class LogEntry(JournalEntryFields):
-    level = models.CharField(max_length=7, choices=LogLevel.choices)
-    source = models.CharField(max_length=40, choices=LogSource.choices)
+    method = models.CharField(max_length=6, blank=True, default="", db_index=True)
+    status_code = models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
+    evaluation = models.ForeignKey(
+        "assessments.Evaluation",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    evaluation_name = models.CharField(max_length=255, blank=True, default="")
+    level = models.CharField(max_length=7, choices=LogLevel.choices, db_index=True)
+    source = models.CharField(max_length=40, choices=LogSource.choices, db_index=True)
     operation = models.CharField(max_length=255, blank=True, default="")
     category = models.CharField(max_length=100, blank=True, default="")
     message = models.CharField(max_length=500)

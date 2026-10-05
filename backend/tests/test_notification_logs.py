@@ -53,6 +53,8 @@ def test_sent_evaluation_notification_records_info() -> None:
     assert log.source == LogSource.NOTIFICATIONS
     assert log.organization == schedule.team.organization
     assert log.team == schedule.team
+    assert log.evaluation == schedule.evaluation
+    assert log.evaluation_name == schedule.evaluation.name
     assert log.actor == schedule.assignee
     assert log.message == "Notification d’évaluation envoyée."
     assert len(mail.outbox) == 1

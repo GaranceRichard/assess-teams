@@ -171,3 +171,7 @@ Une non-régression E2E vérifie aussi la réinitialisation répétée des fixtu
 sans supprimer les données d’une autre organisation de test.
 Les mutations revérifient l’accès après changement d’assignation, d’organisation ou de rattachement entre
 lecture et verrouillage. React et Playwright vérifient que « Suivant » attend sa sauvegarde avant de naviguer.
+
+L’extension HTTP des Logs couvre les succès CRUD, les refus PATCH, 4xx/5xx, la corrélation, le contexte sûr,
+les filtres seuls/combinés, les bornes inclusives et les tentatives inter-organisations. React vérifie les dix
+filtres, dépendances/reset, scopes et pagination ; Playwright crée les événements HTTP avant de les filtrer.

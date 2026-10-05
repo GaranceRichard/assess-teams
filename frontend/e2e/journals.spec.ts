@@ -28,15 +28,16 @@ test("an Admin consults the distinct activity journal and logs", async ({
 
   await page.getByRole("link", { name: "Logs" }).click();
   await expect(page.getByRole("heading", { name: "Logs" })).toBeVisible();
+  await page.getByLabel("Niveau").selectOption("ERROR");
+  await page.getByRole("button", { name: "Filtrer" }).click();
+  await expect(page.locator(".log-table tbody tr")).toHaveCount(1);
   const errorLevel = page.locator("strong.log-level", { hasText: "ERROR" });
   const errorRow = errorLevel.locator("xpath=ancestor::tr");
   await expect(
     errorRow.locator("td > span", { hasText: "Les données sont invalides." }),
   ).toBeVisible();
   await expect(errorRow).toHaveClass(/log-row--error/);
-  await page.getByLabel("Niveau").selectOption("ERROR");
-  await page.getByRole("button", { name: "Filtrer" }).click();
   await expect(errorLevel).toBeVisible();
-  await page.getByText("Détails", { exact: true }).click();
+  await errorRow.getByText("Détails", { exact: true }).click();
   await expect(page.getByText("ValidationError")).toBeVisible();
 });

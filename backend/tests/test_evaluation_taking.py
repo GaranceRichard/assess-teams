@@ -45,8 +45,8 @@ def test_backend_rejects_invalid_scores_without_losing_the_previous_answer(inval
     assert save(client, run, question_id, invalid).status_code == 400
     assert run.questions.get(source_question_id=question_id).score == 7
     assert not ActivityEntry.objects.exists()
-    assert LogEntry.objects.count() == 1
-    assert LogEntry.objects.get().organization_id == run.organization_id
+    assert LogEntry.objects.filter(status_code=400).count() == 1
+    assert LogEntry.objects.get(status_code=400).organization_id == run.organization_id
 
 
 def test_completion_requires_every_answer_and_records_immutable_initial_provenance():

@@ -22,6 +22,10 @@ class TeamSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "organization_id", "is_active", "coaches")
 
 
+class TeamListFilterSerializer(serializers.Serializer):
+    include_archived = serializers.BooleanField(required=False, default=False)
+
+
 class TeamInputSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255, allow_blank=False)
     coach_ids = serializers.PrimaryKeyRelatedField(

@@ -51,6 +51,7 @@ def _send_to_recipients(schedule: EvaluationSchedule, subject: str, body: str) -
         actor=schedule.assignee,
         organization=schedule.team.organization,
         team=schedule.team,
+        evaluation=schedule.evaluation,
         operation="Envoi d’une notification d’évaluation",
         message=(
             "Notification d’évaluation envoyée."

@@ -31,9 +31,9 @@ applicatifs nettoyés utiles à l’exploitation et au diagnostic.
 #### JOURNAL-002 — Consulter les logs applicatifs
 
 - **Identifiant / Feature parente :** `JOURNAL-002` / `FEAT-040`.
-- **Nature :** évolution du journal d’erreurs livrée le 2026-09-29, avec conservation de l’historique.
+- **Nature :** évolution du journal d’erreurs livrée le 2026-09-29, avec conservation de l’historique ; extension HTTP exhaustive le 2026-10-05.
 - **User story :** en tant qu’administrateur autorisé, je veux filtrer les logs nettoyés afin de diagnostiquer un événement sans divulguer de secret.
-- **Critères d’acceptation :** lecture seule distincte des activités, ordre antéchronologique, pagination et filtres niveau/source/organisation ; message nettoyé et corrélation ; absence de corps, traceback, token, cookie ou credential ; Admin cloisonné, logs système réservés au Superadmin.
+- **Critères d’acceptation :** lecture seule distincte des activités, ordre antéchronologique, pagination et filtres organisation/utilisateur/équipe/évaluation/du/au/méthode/niveau/source/statut ; capture GET/POST/PUT/PATCH/DELETE succès et erreurs sur API applicative, sans récursion ; message nettoyé et corrélation ; absence de corps, headers/query sensibles, IP/User-Agent/fingerprint, traceback, token, cookie ou credential ; Admin cloisonné, logs système réservés au Superadmin.
 - **Principaux refus :** anonyme, Coach, Viewer, écriture, organisation hors périmètre.
 - **Valeur apportée :** facilite le diagnostic fonctionnel sans exposer les données techniques sensibles.
 - **Dépendances / preuves :** `FEAT-004` ; modèle, API `/api/admin/logs/`, UI `/logs`, OpenAPI et tests backend/React/E2E.

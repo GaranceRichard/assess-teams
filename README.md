@@ -5,6 +5,8 @@
 **Assess teams** est une application destinée à soutenir l'évaluation des équipes. Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
 Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO, WARNING et ERROR restent read-only et cloisonnés, avec les logs système globaux réservés au Superadmin.
 
+Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DELETE et proposent dix filtres structurés, avec contexte sûr et isolation par organisation. Les données sensibles restent exclues ; le Journal métier reste séparé.
+
 ## Socle technique
 
 - Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite.

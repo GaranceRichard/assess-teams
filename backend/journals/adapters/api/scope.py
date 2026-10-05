@@ -13,7 +13,7 @@ def visible_activity_entries(user: User) -> QuerySet[ActivityEntry]:
 
 
 def visible_log_entries(user: User) -> QuerySet[LogEntry]:
-    entries = LogEntry.objects.select_related("organization", "actor", "team")
+    entries = LogEntry.objects.select_related("organization", "actor", "team", "evaluation")
     if user.is_superuser:
         return entries
     return entries.filter(organization=assigned_admin_organization(user))

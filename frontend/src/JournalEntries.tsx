@@ -1,11 +1,8 @@
-import type { ReactNode } from "react";
-
 import type { JournalEntry } from "./journals";
 
 type Props<T extends JournalEntry> = {
   entries: T[];
   actionFor: (entry: T) => string;
-  detailsFor?: (entry: T) => ReactNode;
 };
 
 function dayKey(value: string): string {
@@ -30,7 +27,6 @@ function timeLabel(value: string): string {
 export function JournalEntries<T extends JournalEntry>({
   entries,
   actionFor,
-  detailsFor,
 }: Props<T>) {
   if (entries.length === 0) {
     return (
@@ -64,7 +60,6 @@ export function JournalEntries<T extends JournalEntry>({
                   <span>{entry.team_name || "—"}</span>
                   <strong>{actionFor(entry)}</strong>
                 </div>
-                {detailsFor?.(entry)}
               </li>
             ))}
           </ol>

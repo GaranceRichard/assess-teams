@@ -34,6 +34,7 @@ def scoped_run(request, run_id: int):
         LogSource.ASSESSMENTS,
         organization=run.organization,
         team=run.team,
+        evaluation=run.evaluation,
     )
     return run
 

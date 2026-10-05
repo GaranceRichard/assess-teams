@@ -1,4 +1,4 @@
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
@@ -7,6 +7,7 @@ from journals.adapters.api.filters import (
     JournalFilterSerializer,
     LogFilterSerializer,
     filter_entries,
+    filter_logs,
 )
 from journals.adapters.api.permissions import CanViewJournals
 from journals.adapters.api.scope import visible_activity_entries, visible_log_entries
@@ -51,15 +52,25 @@ class LogsView(APIView):
             "Liste les événements applicatifs nettoyés. Les logs système sans organisation "
             "sont réservés au Superadmin."
         ),
-        parameters=[LogFilterSerializer],
-        responses={200: LogPageSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
+        parameters=[
+            LogFilterSerializer,
+            OpenApiParameter(
+                "X-Correlation-ID",
+                str,
+                OpenApiParameter.HEADER,
+                description="UUID interne de cette consultation HTTP.",
+                response=[200, 400, 403, 404],
+            ),
+        ],
+        responses={
+            200: LogPageSerializer,
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(description="Page inexistante."),
+        },
     )
     def get(self, request):
-        entries = filter_entries(
-            visible_log_entries(request.user),
-            request.query_params,
-            LogFilterSerializer,
-        )
+        entries = filter_logs(visible_log_entries(request.user), request.query_params)
         paginator = JournalPagination()
         page = paginator.paginate_queryset(entries, request, view=self)
         data = LogEntrySerializer(page, many=True).data

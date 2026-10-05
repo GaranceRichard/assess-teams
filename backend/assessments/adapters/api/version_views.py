@@ -33,6 +33,14 @@ class CreateEvaluationVersionView(APIView):
             "Échec de création d’une version",
             LogSource.ASSESSMENTS,
             organization=source.organization,
+            evaluation=source,
         )
         created = create_next_version(source.pk, request.user)
+        describe_log_attempt(
+            request,
+            "evaluation-version-create",
+            LogSource.ASSESSMENTS,
+            organization=created.organization,
+            evaluation=created,
+        )
         return Response(EvaluationSerializer(created).data, status=status.HTTP_201_CREATED)
