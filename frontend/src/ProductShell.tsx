@@ -9,6 +9,7 @@ import { canAccess, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
 import { PlanningPage } from "./PlanningPage";
 import { ProductSidebar } from "./ProductSidebar";
+import { ResultsPage } from "./ResultsPage";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
@@ -69,6 +70,8 @@ export function ProductShell({
           <PlanningPage actor={user} />
         ) : authorized && path === "/evaluations" ? (
           <EvaluationTakingPage actor={user} />
+        ) : authorized && path === "/results" ? (
+          <ResultsPage theme={theme} />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
         ) : authorized && path === "/logs" ? (

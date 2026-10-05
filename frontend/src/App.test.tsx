@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { App } from "./App";
@@ -127,20 +127,19 @@ describe("product authentication journey", () => {
   });
 
   it("follows browser history navigation", async () => {
-    vi.spyOn(globalThis, "fetch").mockImplementationOnce(() =>
-      response(200, viewer),
-    );
+    vi.spyOn(globalThis, "fetch")
+      .mockImplementationOnce(() => response(200, viewer))
+      .mockImplementationOnce(() => response(200, []));
     render(<App />);
     await screen.findByRole("navigation");
 
     window.history.pushState({}, "", "/results");
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    fireEvent(window, new PopStateEvent("popstate"));
 
-    await waitFor(() =>
-      expect(
-        screen.getByText("Résultats — fonctionnalité à venir"),
-      ).toBeVisible(),
-    );
+    expect(
+      await screen.findByText("Aucune passation complétée accessible."),
+    ).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Résultats" })).toBeVisible();
   });
 
   it("restores and changes the day or night theme", async () => {

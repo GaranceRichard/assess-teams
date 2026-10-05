@@ -4,6 +4,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from assessments.adapters.api.lifecycle_views import ArchiveEvaluationView, ValidateEvaluationView
 from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
+from assessments.adapters.api.results_views import ResultComparisonView, ResultVersionListView
 from assessments.adapters.api.schedule_views import (
     EvaluationScheduleDetailView,
     EvaluationScheduleListCreateView,
@@ -40,6 +41,12 @@ urlpatterns = [
     path("api/session/login/", LoginView.as_view(), name="session-login"),
     path("api/session/logout/", LogoutView.as_view(), name="session-logout"),
     path("api/users/", UserCreateView.as_view(), name="user-create"),
+    path("api/results/versions/", ResultVersionListView.as_view(), name="result-versions"),
+    path(
+        "api/results/versions/<int:evaluation_id>/",
+        ResultComparisonView.as_view(),
+        name="result-comparison",
+    ),
     path("api/evaluations/", EvaluationRunListView.as_view(), name="evaluation-run-list"),
     path(
         "api/evaluations/<int:run_id>/",

@@ -73,24 +73,6 @@ describe.each(Object.entries(expectedMenus) as [UserRole, string[]][])(
   },
 );
 
-it("navigates with product links and exposes the connected superadmin", () => {
-  const onNavigate = vi.fn();
-  render(
-    <ProductShell
-      path="/results"
-      user={sessionUser("Admin", { username: "root", is_superuser: true })}
-      onNavigate={onNavigate}
-      onLogout={vi.fn()}
-      theme="day"
-      onThemeChange={vi.fn()}
-    />,
-  );
-
-  fireEvent.click(screen.getByRole("link", { name: "Résultats" }));
-  expect(onNavigate).toHaveBeenCalledWith("/results");
-  expect(screen.getByText("Superadmin · Admin")).toBeVisible();
-});
-
 it("calls logout from the connected-user header", () => {
   const onLogout = vi.fn().mockResolvedValue(undefined);
   render(

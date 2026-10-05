@@ -82,6 +82,11 @@ Le versionnement ajoute une concurrence réelle sur SQLite fichier (copies et va
 une migration conservant IDs/FK/snapshots/journaux et des refus de périmètre. Le parcours Playwright
 `evaluation-versions.spec.ts` vérifie l’ancienne passation v1 après activation et planification de v2.
 
+Résultats : `test_results*` vérifie la récence métier, le tie-break, les snapshots ordonnés, les archives,
+l’isolation et un nombre constant de requêtes. Les tests React couvrent 0/1/N équipes, styles, légende,
+dates, désélection, changement de version et réponses obsolètes. `results.spec.ts` exerce le radar réel
+avec deux équipes et deux complétions pour l’une, sans requête supplémentaire lors des sélections.
+
 ## Stratégie de couverture
 
 - Coverage backend global : **>= 90 %**.

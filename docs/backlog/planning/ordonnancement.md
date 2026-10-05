@@ -19,10 +19,11 @@ Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de
 2. **Cycle Organisation :** compléter `ORG-002`; décider avec `ARB-ORG-005` le sort des données dépendantes avant de reprendre `ORG-004`.
 3. **Cycle Équipes :** `TEAM-001` et `TEAM-004` sont livrés ; compléter `TEAM-002`, `TEAM-003` et `TEAM-005`, puis `TEAM-006` et `TEAM-007`.
 4. **Rattachements historiques :** les états courants `ORG-005`, `ORG-006` et `COACH-001` sont livrés ; l’historisation de `FEAT-008`, `FEAT-009`, `FEAT-037` et `FEAT-038` reste à raffiner.
-5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local et `EVAL-002` la validation immuable et l’archivage ; modalités, versions et partage éventuel restent à raffiner/arbitrer.
+5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local, `EVAL-002` la validation immuable et l’archivage, `EVAL-003` les familles et versions ; modalités et partage éventuel restent à raffiner/arbitrer.
 6. **Planification :** `PLAN-001` livre le planning courant ; périodes d’association, historique et calcul piloté par les finalisations restent dans `FEAT-015`, `FEAT-016` et `FEAT-018`.
 7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
-8. **Suite P1/P2 :** retards, rappels avancés, résultats et pilotage après leurs dépendances et arbitrages explicites.
+8. **Résultats :** `RESULT-001` compare les dernières complétions interéquipes pour une version exacte après `EVAL-003` et `PASS-001` ; comparaison temporelle hors périmètre.
+9. **Suite P1/P2 :** retards, rappels avancés, historique temporel et pilotage après leurs dépendances et arbitrages explicites.
 
 Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django. Il ne rend aucun élément prêt tant que les décisions bloquantes du [registre des arbitrages Organisation](../source/00-arbitrages-organisations.md) ne sont pas résolues.
 
@@ -69,7 +70,7 @@ Cette cartographie est une hypothèse évolutive. Elle guide un découpage cohé
 ### Analyse longitudinale
 
 - **Responsabilité principale :** restitution de l’historique, comparabilité, évolutions et représentations des résultats.
-- **Features concernées :** `FEAT-024` à `FEAT-027`.
+- **Features concernées :** `FEAT-024` à `FEAT-027` et `FEAT-041` (Résultats interéquipes).
 - **Dépendances :** lit les preuves finalisées de Passations et la sémantique des versions du Référentiel ; n’altère jamais les évaluations sources.
 
 ### Notifications

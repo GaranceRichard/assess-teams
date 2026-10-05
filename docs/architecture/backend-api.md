@@ -60,7 +60,10 @@ avec `403`.
 
 Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
 capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Utilisateurs, Organisations, Équipes,
-Modèles, Planification, Évaluations et Journaux ont des pages réelles ; tableau de bord générique, résultats et pilotage restent des placeholders.
+Modèles, Planification, Évaluations, Résultats et Journaux ont des pages réelles ; tableau de bord générique et pilotage restent des placeholders.
+
+Le [contrat Results](results-api.md) expose les versions avec complétions et les dernières passations
+complétées par équipe, sur une version exacte, dans le scope des passations et sans agrégation.
 
 ## Gestion hiérarchique des identités
 

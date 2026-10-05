@@ -70,6 +70,9 @@ commencée reste reprenable, finalisable et révisable sur v1, indépendamment d
 
 ## Migration et vérification
 
+Le [contrat Results](results-api.md) sélectionne l’ID exact de version, y compris archivée, et conserve
+les axes/scores des snapshots. Aucune comparabilité entre versions n’est présumée.
+
 `assessments.0011` crée une famille distincte pour chaque `Evaluation` existante et l’y rattache en
 v1, compteur à 2. Elle conserve IDs, noms, statuts, index, questions, FK de planning/run et snapshots.
 Deux noms égaux ne sont pas fusionnés. Aucun numéro antérieur, date de validation ou historique

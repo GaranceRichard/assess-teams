@@ -41,8 +41,12 @@ utilisent une commande Django quotidienne et conservent la première échéance 
 La route `/evaluations` utilise le domaine `assessments` pour les passations planifiées : brouillon persistant,
 questions figées, finalisation et révision Admin avec provenance initiale conservée. Le [contrat de passation](evaluation-taking.md)
 décrit les données, contraintes et scopes. Le démarrage exige un modèle validé ; une passation déjà commencée
-reste reprenable après archivage du modèle. Le référentiel est versionné ; les résultats,
+reste reprenable après archivage du modèle. Le référentiel est versionné ;
 le pilotage et le tableau de bord générique restent des placeholders.
+
+La route `/results` compare sur un radar les dernières passations complétées des équipes pour une
+version exacte. Le [contrat Results](results-api.md) décrit la projection de snapshots, le scope partagé
+avec les passations, la sélection locale React et l’absence d’agrégation ou de comparaison temporelle.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
 répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des
