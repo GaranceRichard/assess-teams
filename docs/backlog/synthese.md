@@ -28,7 +28,7 @@ restent des placeholders. La présence de leurs routes ne constitue pas une livr
 | EPIC-001 — Identités, coachs et habilitations | 4 | 5 | 2 | 40 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 2 | 29 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
-| EPIC-003 — Référentiel des modèles d’évaluation | 4 | 2 | 2 | 100 % |
+| EPIC-003 — Référentiel des modèles d’évaluation | 4 | 3 | 3 | 100 % |
 | EPIC-004 — Affectations et planification des évaluations | 5 | 1 | 1 | 100 % |
 | EPIC-005 — Passation et preuve d’évaluation | 4 | 1 | 1 | 100 % |
 | EPIC-006 — Suivi longitudinal | 4 | 0 | 0 | N/A |
@@ -47,7 +47,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EPIC-001 | `FEAT-001`, `FEAT-002` | `FEAT-003`, `FEAT-004` |
 | EPIC-002 | `FEAT-005`, `FEAT-006`, `FEAT-007`, `FEAT-010` | aucune |
 | EPIC-002A | `FEAT-008` | `FEAT-009` |
-| EPIC-003 | `FEAT-011`, `FEAT-013` (partielle) | `FEAT-012`, `FEAT-014` |
+| EPIC-003 | `FEAT-011`, `FEAT-013`, `FEAT-014` (partielles) | `FEAT-012` |
 | EPIC-004 | `FEAT-017` | `FEAT-015`, `FEAT-016`, `FEAT-018`, `FEAT-019` |
 | EPIC-005 | `FEAT-023` | `FEAT-020` à `FEAT-022` |
 | EPIC-006 | aucune | `FEAT-024` à `FEAT-027` |
@@ -82,6 +82,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | Réalisé | CRUD local sans publication/version ; 2026-09-28 |
 | PLAN-001 — Planifier un modèle local pour une équipe | Réalisé | quatre modes, responsable et CRUD ; 2026-09-29 |
 | EVAL-002 — Sécuriser le cycle de vie des modèles locaux | Réalisé | validation/archivage audités, immutabilité et planification validée ; 2026-10-05 |
+| EVAL-003 — Versionner les modèles d’évaluation | Réalisé | familles, versions immuables, historique conservé, concurrence et E2E ; 2026-10-05 |
 | PASS-001 — Passer et réviser les évaluations planifiées | Réalisé | reprise, finalisation, provenance, révision Admin et tableau ; scope revérifié à la mutation, sauvegarde avant navigation ; 2026-10-05 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | Réalisé | confirmation, échéance et récurrence ; 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
@@ -93,7 +94,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 - `ARB-ORG-008` reste nécessaire pour le dernier Admin ; le `DELETE` utilisateur actuel contourne la protection.
 - `ARB-ORG-010` reste ouvert pour un éventuel partage de modèles ; le code ne livre qu’un périmètre strictement local.
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
-- partage/versionnement, résultats, suivi longitudinal, retards et pilotage restent non réalisés.
+- partage, résultats, suivi longitudinal, retards et pilotage restent non réalisés.
 - la notification livrée est un courriel direct sans état durable de remise, préférence de canal ni déduplication métier historisée.
 
 ## Matrices CRUD réellement protégées par le backend
@@ -113,12 +114,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | --- | ---: |
 | Nombre d’Epics | 11 |
 | Nombre de Features | 40 |
-| Features raffinées | 17 |
-| Features non raffinées | 23 |
-| Nombre total de PBIs | 26 |
+| Features raffinées | 18 |
+| Features non raffinées | 22 |
+| Nombre total de PBIs | 27 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 2 |
 | PBIs non réalisés | 10 |
-| PBIs réalisés | 16 |
-| Avancement global | 62 % |
+| PBIs réalisés | 17 |
+| Avancement global | 63 % |

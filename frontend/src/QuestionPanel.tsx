@@ -1,3 +1,4 @@
+import { versionLabel } from "./evaluationVersionLabel";
 import type { Evaluation, Question } from "./evaluations";
 
 type Props = {
@@ -27,7 +28,7 @@ export function QuestionPanel({
       <div className="evaluation-heading">
         <div>
           <p className="eyebrow">Questions</p>
-          <h2>{evaluation.name}</h2>
+          <h2>{versionLabel(evaluation.family_name, evaluation.version)}</h2>
         </div>
         {evaluation.status === "DRAFT" ? (
           <button onClick={onCreate}>Ajouter une question</button>

@@ -24,6 +24,7 @@ class ActivityAction(models.TextChoices):
     EVALUATION_CREATED = "evaluation_created", "Évaluation créée"
     EVALUATION_RENAMED = "evaluation_renamed", "Évaluation renommée"
     EVALUATION_DELETED = "evaluation_deleted", "Évaluation supprimée"
+    EVALUATION_VERSION_CREATED = "evaluation_version_created", "Version d’évaluation créée"
     EVALUATION_VALIDATED = "evaluation_validated", "Évaluation validée"
     EVALUATION_ARCHIVED = "evaluation_archived", "Évaluation archivée"
     QUESTION_CREATED = "question_created", "Question créée"

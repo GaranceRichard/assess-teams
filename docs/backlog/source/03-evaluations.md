@@ -51,7 +51,8 @@ Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md)
 - **Domaine métier cible :** Référentiel d’évaluation.
 
 Le PBI local [EVAL-002 — Sécuriser le cycle de vie](03a-evaluation-lifecycle.md), rattaché à `FEAT-013`,
-livre validation et archivage immuables avant la passation ; il ne réalise pas le versionnement de `FEAT-014`.
+livre validation et archivage immuables avant la passation. [EVAL-003](03b-evaluation-versions.md)
+livre le versionnement local de `FEAT-014` sans comparaison temporelle ni nouveau périmètre Viewer.
 
 ### FEAT-014 — Versionner un modèle sans réécrire le passé
 

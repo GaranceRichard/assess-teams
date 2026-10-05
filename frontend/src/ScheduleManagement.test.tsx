@@ -12,6 +12,9 @@ const schedule: EvaluationSchedule = {
   team_id: 2,
   team_name: "Alpha",
   evaluation_id: 3,
+  family_id: 1,
+  family_name: "Maturité",
+  evaluation_version: 1,
   evaluation_name: "Maturité",
   assignee_id: 5,
   assignee_identifier: "admin",
@@ -25,7 +28,7 @@ it("shows one structured clickable line", () => {
   render(<ScheduleList onOpen={onOpen} schedules={[schedule]} />);
 
   const row = screen.getByRole("button", {
-    name: "North - Maturité - Alpha - admin",
+    name: "North - Maturité v1 - Alpha - admin",
   });
   fireEvent.click(row);
 
@@ -50,7 +53,7 @@ it("identifies a legacy planning without an assignee", () => {
 
   expect(
     screen.getByRole("button", {
-      name: "North - Maturité - Alpha - Non attribué",
+      name: "North - Maturité v1 - Alpha - Non attribué",
     }),
   ).toBeVisible();
 });
@@ -63,7 +66,15 @@ it("edits and confirms deletion in the same dialog", async () => {
     <ScheduleEditDialog
       assignees={[{ id: 5, identifier: "admin", user_type: "Admin" }]}
       evaluations={[
-        { id: 3, name: "Maturité", organization_id: 1, status: "VALIDATED" },
+        {
+          id: 3,
+          family_id: 3,
+          family_name: "Maturité",
+          version: 1,
+          name: "Maturité",
+          organization_id: 1,
+          status: "VALIDATED",
+        },
       ]}
       onCancel={onCancel}
       onDelete={onDelete}

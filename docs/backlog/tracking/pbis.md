@@ -28,6 +28,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | FEAT-011 — Composer un modèle d’évaluation ordonné | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre local | 2026-09-28 |
 | PLAN-001 — Planifier un modèle local pour une équipe | FEAT-017 — Configurer la fréquence et la première échéance | L | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-29 |
 | EVAL-002 — Sécuriser le cycle de vie des modèles locaux | FEAT-013 — Publier ou retirer un modèle | N/A | N/A | Réalisé | aucun dans le périmètre local demandé | 2026-10-05 |
+| EVAL-003 — Versionner les modèles d’évaluation | FEAT-014 — Versionner un modèle sans réécrire le passé | N/A | N/A | Réalisé | aucun dans le périmètre local demandé | 2026-10-05 |
 | PASS-001 — Passer et réviser les évaluations planifiées | FEAT-023 — Finaliser et tracer une évaluation | À définir | À définir | Réalisé | aucun ; dépend de `EVAL-002` ; versionnement hors PBI | 2026-10-05 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | FEAT-030 — Remettre une notification sans coupler le métier au canal | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courriel | 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | FEAT-039 — Consulter le Journal d’activité | M | Sol — puissance moyenne | Réalisé | aucun | 2026-09-28 |

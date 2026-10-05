@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import serializers
 
+from assessments.adapters.api.scope import locked_evaluation
 from assessments.application.expected_evaluations import ensure_expected_evaluation
 from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
 from identities.adapters.api.organization_scope import manageable_organization
@@ -16,6 +17,9 @@ class EvaluationScheduleSerializer(serializers.ModelSerializer):
     team_id = serializers.IntegerField(read_only=True)
     team_name = serializers.CharField(source="team.name", read_only=True)
     evaluation_id = serializers.IntegerField(read_only=True)
+    family_id = serializers.IntegerField(source="evaluation.family_id", read_only=True)
+    family_name = serializers.CharField(source="evaluation.family.name", read_only=True)
+    evaluation_version = serializers.IntegerField(source="evaluation.version", read_only=True)
     evaluation_name = serializers.CharField(source="evaluation.name", read_only=True)
     assignee_id = serializers.IntegerField(read_only=True, allow_null=True)
     assignee_identifier = serializers.CharField(
@@ -39,6 +43,9 @@ class EvaluationScheduleSerializer(serializers.ModelSerializer):
             "team_id",
             "team_name",
             "evaluation_id",
+            "family_id",
+            "family_name",
+            "evaluation_version",
             "evaluation_name",
             "assignee_id",
             "assignee_identifier",
@@ -58,6 +65,7 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
     first_due_date = serializers.DateField(required=False, allow_null=True)
 
     def _resources(self, attrs: dict):
+        locked_evaluation(self.context["request"].user, attrs["evaluation_id"])
         organization = manageable_organization(
             self.context["request"].user,
             attrs.pop("organization_id"),

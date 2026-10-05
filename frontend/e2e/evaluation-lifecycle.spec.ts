@@ -70,10 +70,10 @@ test("draft validation, immutability, archive and planning history", async ({
     .selectOption({ label: "lifecycle-admin-e2e — Admin" });
   await page
     .getByLabel("Modèle d’évaluation")
-    .selectOption({ label: "Lifecycle model" });
+    .selectOption({ label: "Lifecycle model v1" });
   await page.getByRole("button", { name: "Planifier l’évaluation" }).click();
   const rowName =
-    "Lifecycle E2E - Lifecycle model - Lifecycle team - lifecycle-admin-e2e";
+    "Lifecycle E2E - Lifecycle model v1 - Lifecycle team - lifecycle-admin-e2e";
   await expect(page.getByRole("button", { name: rowName })).toBeVisible();
 
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
@@ -90,27 +90,27 @@ test("draft validation, immutability, archive and planning history", async ({
   await expect(
     page
       .getByLabel("Modèle d’évaluation")
-      .getByRole("option", { name: "Lifecycle model" }),
+      .getByRole("option", { name: "Lifecycle model v1" }),
   ).toHaveCount(0);
   await page.getByRole("button", { name: rowName }).click();
   await expect(
     page.getByRole("dialog").getByLabel("Modèle d’évaluation"),
   ).toHaveValue(String(evaluation.id));
   await expect(
-    page
-      .getByRole("dialog")
-      .getByRole("option", { name: "Lifecycle model — Archivé (historique)" }),
+    page.getByRole("dialog").getByRole("option", {
+      name: "Lifecycle model v1 — Archivé (historique)",
+    }),
   ).toHaveAttribute("disabled", "");
   await page.getByRole("button", { name: "Annuler" }).click();
   await page.getByRole("link", { name: "Journal d’activité" }).click();
   await expect(
     page.getByText("Validation de l’évaluation Lifecycle model", {
-      exact: true,
+      exact: false,
     }),
   ).toBeVisible();
   await expect(
     page.getByText("Archivage de l’évaluation Lifecycle model", {
-      exact: true,
+      exact: false,
     }),
   ).toBeVisible();
 });

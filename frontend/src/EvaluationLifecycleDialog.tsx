@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { versionLabel } from "./evaluationVersionLabel";
 import type { Evaluation } from "./evaluations";
 
 type Props = {
@@ -39,9 +40,9 @@ export function EvaluationLifecycleDialog({
           {validating ? "Valider" : "Archiver"} ce modèle ?
         </h2>
         <p>
-          « {evaluation.name} »{" "}
+          « {versionLabel(evaluation.family_name, evaluation.version)} »{" "}
           {validating
-            ? "et ses questions deviendront définitivement non modifiables."
+            ? "et ses questions deviendront définitivement non modifiables. L’ancienne version validée de cette famille sera automatiquement archivée."
             : "restera consultable, mais ne pourra plus être nouvellement planifié."}
         </p>
         <div className="evaluation-dialog-actions">

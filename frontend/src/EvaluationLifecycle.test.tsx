@@ -25,6 +25,9 @@ vi.mock("./organizations", () => ({
 const evaluation = {
   id: 1,
   organization_id: 7,
+  family_id: 1,
+  family_name: "Model",
+  version: 1,
   name: "Model",
   status: "DRAFT",
 };

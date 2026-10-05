@@ -4,6 +4,9 @@ export type NamedEntity = { id: number; name: string };
 export type EvaluationStatus = "DRAFT" | "VALIDATED" | "ARCHIVED";
 export type Evaluation = NamedEntity & {
   organization_id: number;
+  family_id: number;
+  family_name: string;
+  version: number;
   status: EvaluationStatus;
 };
 export type Question = NamedEntity & { index: number };
@@ -86,4 +89,31 @@ export function updateQuestion(
 
 export function deleteQuestion(id: number): Promise<void> {
   return request(`/api/admin/questions/${id}/`, writeOptions("DELETE"));
+}
+
+export function createEvaluationVersion(id: number): Promise<Evaluation> {
+  return request(
+    `/api/admin/evaluations/${id}/versions/`,
+    writeOptions("POST"),
+  );
+}
+
+export function mergeEvaluation(
+  current: Evaluation[],
+  saved: Evaluation,
+): Evaluation[] {
+  const updated = current.map((item) => {
+    if (item.id === saved.id) return saved;
+    if (
+      saved.status === "VALIDATED" &&
+      item.family_id === saved.family_id &&
+      item.status === "VALIDATED"
+    ) {
+      return { ...item, status: "ARCHIVED" as const };
+    }
+    return item;
+  });
+  return current.some((item) => item.id === saved.id)
+    ? updated
+    : [...updated, saved];
 }

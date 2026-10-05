@@ -6,17 +6,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from assessments.adapters.api.permissions import CanManageEvaluations
-from assessments.adapters.api.scope import manageable_evaluation
+from assessments.adapters.api.scope import locked_evaluation
 from assessments.adapters.api.serializers import EvaluationSerializer
-from assessments.models import Evaluation, EvaluationStatus
+from assessments.models import EvaluationStatus
 from journals.activity_records import evaluation_activity
 from journals.log_context import describe_log_attempt
 from journals.models import ActivityAction, LogSource
-
-
-def locked_evaluation(user, evaluation_id: int) -> Evaluation:
-    visible = manageable_evaluation(user, evaluation_id)
-    return Evaluation.objects.select_for_update().get(pk=visible.pk)
 
 
 class ValidateEvaluationView(APIView):
@@ -26,7 +21,8 @@ class ValidateEvaluationView(APIView):
     @extend_schema(
         description=(
             "Valide explicitement un brouillon nommé contenant au moins une question. "
-            "Le modèle et ses questions deviennent immuables."
+            "Le modèle et ses questions deviennent immuables. L’ancienne version VALIDATED "
+            "de la famille est automatiquement archivée dans la même transaction."
         ),
         request=None,
         responses={
@@ -52,8 +48,19 @@ class ValidateEvaluationView(APIView):
             errors["name"] = "Un nom valide est obligatoire."
         if not evaluation.questions.exists():
             errors["questions"] = "Au moins une question est obligatoire."
+        if evaluation.questions.filter(name__regex=r"^\s*$").exists():
+            errors["questions"] = "Chaque question doit avoir un nom valide."
         if errors:
             raise ValidationError(errors)
+        for previous in evaluation.family.versions.filter(status=EvaluationStatus.VALIDATED):
+            previous.status = EvaluationStatus.ARCHIVED
+            previous.save(update_fields=["status"])
+            evaluation_activity(
+                request.user,
+                previous,
+                ActivityAction.EVALUATION_ARCHIVED,
+                f"Archivage automatique de l’évaluation {previous.name}",
+            )
         evaluation.status = EvaluationStatus.VALIDATED
         evaluation.save(update_fields=["status"])
         evaluation_activity(

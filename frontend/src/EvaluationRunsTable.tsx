@@ -1,3 +1,4 @@
+import { referenceLabel } from "./evaluationVersionLabel";
 import {
   completionDate,
   type EvaluationRunRow,
@@ -36,7 +37,7 @@ export function EvaluationRunsTable({ rows, onOpen, busy }: Props) {
         <tbody>
           {rows.map((row) => (
             <tr key={row.id}>
-              <td>{row.evaluation_name}</td>
+              <td>{referenceLabel(row)}</td>
               <td>{row.organization_name}</td>
               <td>{row.team_name}</td>
               <td>{row.assigned_to}</td>

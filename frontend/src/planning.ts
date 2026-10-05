@@ -17,6 +17,9 @@ export type EvaluationSchedule = {
   team_name: string;
   evaluation_id: number;
   evaluation_name: string;
+  family_id: number;
+  family_name: string;
+  evaluation_version: number;
   assignee_id: number | null;
   assignee_identifier: string | null;
   assignee_role: "Admin" | "Coach" | "Superadmin" | null;

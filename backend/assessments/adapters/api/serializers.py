@@ -7,11 +7,13 @@ from identities.adapters.api.organization_scope import manageable_organization
 
 class EvaluationSerializer(serializers.ModelSerializer):
     organization_id = serializers.IntegerField(read_only=True)
+    family_id = serializers.IntegerField(read_only=True)
+    family_name = serializers.CharField(source="family.name", read_only=True)
 
     class Meta:
         model = Evaluation
-        fields = ("id", "organization_id", "name", "status")
-        read_only_fields = ("status",)
+        fields = ("id", "organization_id", "family_id", "family_name", "version", "name", "status")
+        read_only_fields = ("status", "version")
 
 
 class EvaluationInputSerializer(serializers.Serializer):

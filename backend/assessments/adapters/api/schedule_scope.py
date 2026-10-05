@@ -8,7 +8,7 @@ from identities.models import User
 def visible_schedules(user: User) -> QuerySet[EvaluationSchedule]:
     schedules = EvaluationSchedule.objects.select_related(
         "team__organization",
-        "evaluation",
+        "evaluation__family",
         "assignee",
     )
     if user.is_superuser:

@@ -9,6 +9,9 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
     organization_id = serializers.IntegerField(read_only=True)
     team_id = serializers.IntegerField(read_only=True)
     evaluation_id = serializers.IntegerField(read_only=True)
+    family_id = serializers.IntegerField(source="evaluation.family_id", read_only=True)
+    family_name = serializers.CharField(source="evaluation.family.name", read_only=True)
+    evaluation_version = serializers.IntegerField(source="evaluation.version", read_only=True)
     assignee_id = serializers.IntegerField(read_only=True, allow_null=True)
     completed_by_id = serializers.IntegerField(read_only=True, allow_null=True)
     revised_by_id = serializers.IntegerField(read_only=True, allow_null=True)
@@ -37,6 +40,9 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
             "team_id",
             "team_name",
             "evaluation_id",
+            "family_id",
+            "family_name",
+            "evaluation_version",
             "evaluation_name",
             "assignee_id",
             "assigned_to",

@@ -35,7 +35,7 @@ test("an Admin plans a monthly evaluation in its organization", async ({
     .selectOption({ label: "planning-admin-e2e — Admin" });
   await page
     .getByLabel("Modèle d’évaluation")
-    .selectOption({ label: "Evaluation E2E" });
+    .selectOption({ label: "Evaluation E2E v1" });
   await expect(page.getByLabel("Planifier").locator("option")).toHaveText([
     "Tout de suite",
     "À date fixe",
@@ -48,7 +48,7 @@ test("an Admin plans a monthly evaluation in its organization", async ({
 
   const planned = page.getByRole("region", { name: "Évaluations planifiées" });
   const row = planned.getByRole("button", {
-    name: "Planning E2E - Evaluation E2E - Team E2E - planning-admin-e2e",
+    name: "Planning E2E - Evaluation E2E v1 - Team E2E - planning-admin-e2e",
   });
   await expect(row).toBeVisible();
   const backgroundBeforeHover = await row.evaluate(
@@ -74,7 +74,7 @@ test("an Admin plans a monthly evaluation in its organization", async ({
     .getByRole("button", { name: "Enregistrer les modifications" })
     .click();
   const updatedRow = planned.getByRole("button", {
-    name: "Planning E2E - Evaluation E2E - Team E2E - planning-coach-e2e",
+    name: "Planning E2E - Evaluation E2E v1 - Team E2E - planning-coach-e2e",
   });
   await expect(updatedRow).toBeVisible();
 

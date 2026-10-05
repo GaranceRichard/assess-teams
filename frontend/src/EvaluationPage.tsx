@@ -10,6 +10,7 @@ import {
   type Evaluation,
   listEvaluations,
   listQuestions,
+  mergeEvaluation,
   type NameInput,
   orderQuestions,
   type Question,
@@ -36,10 +37,7 @@ export function EvaluationPage() {
   const [deleting, setDeleting] = useState<DeleteTarget | null>(null);
   const [error, setError] = useState<string | null>(null);
   const lifecycle = useEvaluationLifecycle(
-    (saved) =>
-      setEvaluations((current) =>
-        current.map((item) => (item.id === saved.id ? saved : item)),
-      ),
+    (saved) => setEvaluations((current) => mergeEvaluation(current, saved)),
     setError,
   );
   const selected =
@@ -157,6 +155,8 @@ export function EvaluationPage() {
         <EvaluationList
           evaluations={visibleEvaluations}
           selectedId={selectedId}
+          onNewVersion={lifecycle.createVersion}
+          creatingVersion={lifecycle.creatingVersion}
           onArchive={(value) =>
             lifecycle.setTarget({ action: "archive", value })
           }

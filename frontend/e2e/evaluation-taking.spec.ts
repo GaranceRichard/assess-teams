@@ -13,7 +13,7 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
   await page.getByRole("button", { name: "Se connecter" }).click();
   const row = page
     .getByRole("row")
-    .filter({ has: page.getByText("Passation E2E", { exact: true }) });
+    .filter({ has: page.getByText("Passation E2E v1", { exact: true }) });
   await row.getByRole("button", { name: "Passer l’évaluation" }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
@@ -60,9 +60,9 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
   await expect(row).toContainText(/Révisé par taking-admin-e2e le/);
   await expect(row.locator("td").nth(4)).toHaveText("taking-coach-e2e");
   await expect(row.locator("td").nth(5)).toHaveText(initialCompletion);
-  const proxyRow = page
-    .getByRole("row")
-    .filter({ has: page.getByText("Complétion Admin E2E", { exact: true }) });
+  const proxyRow = page.getByRole("row").filter({
+    has: page.getByText("Complétion Admin E2E v1", { exact: true }),
+  });
   await proxyRow.getByRole("button", { name: "Passer l’évaluation" }).click();
   await dialog.getByRole("button", { name: "Enregistrer la note" }).click();
   await dialog.getByRole("button", { name: "Valider l’évaluation" }).click();
@@ -90,7 +90,7 @@ test("Next waits for backend persistence before changing the question", async ({
   await page.getByRole("button", { name: "Se connecter" }).click();
   const row = page
     .getByRole("row")
-    .filter({ has: page.getByText("Passation E2E", { exact: true }) });
+    .filter({ has: page.getByText("Passation E2E v1", { exact: true }) });
   await row.getByRole("button", { name: "Passer l’évaluation" }).click();
   const dialog = page.getByRole("dialog");
   let resumeSave!: () => void;

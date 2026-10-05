@@ -1,3 +1,4 @@
+import { referenceLabel } from "./evaluationVersionLabel";
 import type { EvaluationSchedule } from "./planning";
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 function scheduleLabel(schedule: EvaluationSchedule): string {
   return [
     schedule.organization_name,
-    schedule.evaluation_name,
+    referenceLabel(schedule),
     schedule.team_name,
     schedule.assignee_identifier ?? "Non attribué",
   ].join(" - ");

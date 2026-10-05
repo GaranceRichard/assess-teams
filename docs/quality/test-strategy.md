@@ -78,6 +78,10 @@ Playwright valide les parcours métier critiques à travers l'interface et le ba
 Chaque parcours critique est inventorié avec son état de couverture. Les scénarios incluent le chemin nominal et les refus métier essentiels sans dupliquer inutilement les tests de niveaux inférieurs.
 Les parcours utilisent un seul worker tant que le backend E2E repose sur SQLite, afin de sérialiser leurs écritures et d’éviter une contention propre à cette base locale.
 
+Le versionnement ajoute une concurrence réelle sur SQLite fichier (copies et validations simultanées),
+une migration conservant IDs/FK/snapshots/journaux et des refus de périmètre. Le parcours Playwright
+`evaluation-versions.spec.ts` vérifie l’ancienne passation v1 après activation et planification de v2.
+
 ## Stratégie de couverture
 
 - Coverage backend global : **>= 90 %**.

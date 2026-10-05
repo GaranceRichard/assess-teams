@@ -17,7 +17,8 @@ absent des écritures, mais numérote la liste triée renvoyée en lecture. Tout
 d’un modèle validé ou archivé retourne `400`, y compris une tentative de changement d’ordre.
 
 `POST /api/admin/evaluations/{evaluation_id}/validate/` sans corps passe un brouillon à `VALIDATED`
-si son nom est non vide et s’il contient au moins une question. `POST .../archive/` sans corps passe
+si son nom est non vide et s’il contient au moins une question au texte valide. La validation archive
+transactionnellement l’ancienne version active de sa famille. `POST .../archive/` sans corps passe
 uniquement `VALIDATED` à `ARCHIVED`, sans suppression. Ces actions retournent le modèle (`200`),
 journalisent le succès et refusent état/complétude invalides (`400`), fonction (`403`) ou périmètre (`404`).
 Aucune transition inverse n’existe. Les modèles archivés et leurs questions restent dans les lectures.
@@ -33,9 +34,15 @@ Toute future ressource métier, y compris le journal d'activité, porte ou héri
 les mêmes scopes backend : vue globale pour le Superadmin, organisation unique pour l'Admin. Un identifiant
 fourni dans une URL ou un corps JSON ne remplace jamais cette vérification.
 
+## Familles et versions
+
+Le [contrat de versionnement](evaluation-versioning.md) décrit `POST .../{id}/versions/` (`201`),
+les champs read-only `family_id`, `family_name`, `version`, les verrous et la migration conservant les IDs.
+Les réponses planning ajoutent `family_id`, `family_name`, `evaluation_version` sans modifier les FK historiques.
+
 ## Planification des évaluations
 
-`GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de l’organisation de l’Admin. React les présente sur une ligne cliquable `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE`, surlignée au survol, qui ouvre la modification et la suppression dans une même modale. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `assignee_id`, `mode` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
+`GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de l’organisation de l’Admin. React les présente sur une ligne cliquable `ORGANISATION - FAMILLE vN - ÉQUIPE - RESPONSABLE`, surlignée au survol, qui ouvre la modification et la suppression dans une même modale. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `assignee_id`, `mode` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
 
 Le mode immédiat fixe la première échéance à la date locale du serveur et refuse une date fournie. Les trois
 autres modes exigent une date présente ou future. L’équipe doit être active ; l’équipe et le modèle doivent

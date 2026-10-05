@@ -8,6 +8,9 @@ export type EvaluationRunRow = {
   organization_name: string;
   team_name: string;
   evaluation_name: string;
+  family_id: number;
+  family_name: string;
+  evaluation_version: number;
   assigned_to: string;
   filled_by: string;
   completed_at: string | null;

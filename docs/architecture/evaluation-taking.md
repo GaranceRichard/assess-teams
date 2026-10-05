@@ -15,7 +15,9 @@ L’état vaut `not_started`, `in_progress` ou `completed`. Au démarrage, un mo
 au statut `VALIDATED` est contrôlé et verrouillé, puis ses questions exactes, textes et index sont
 copiés dans `EvaluationRunQuestion`. Les modèles validés sont déjà immuables grâce à `EVAL-002`.
 L’archivage interdit un nouveau démarrage, mais ne bloque ni reprise, ni complétion, ni révision
-d’une passation commencée. Le snapshot garantit la provenance sans introduire de versionnement.
+d’une passation commencée. Le snapshot garantit la provenance avec la FK de version exacte.
+Le [versionnement](evaluation-versioning.md) conserve les runs existants et ajoute en lecture
+`family_id`, `family_name`, `evaluation_version` ; le nom historique du run reste conservé.
 Une réponse appartient à une seule passation, référence la question source protégée et porte
 une note entière `0..10` ou `null` avant réponse. Contraintes DB : état, provenance cohérente,
 unicité échéance, question/index uniques et index positif, notes entières et bornées même sous SQLite.

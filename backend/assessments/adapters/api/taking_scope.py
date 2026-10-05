@@ -12,7 +12,7 @@ def visible_evaluation_runs(user: User) -> QuerySet[EvaluationRun]:
         .select_related(
             "organization",
             "team",
-            "evaluation",
+            "evaluation__family",
             "assignee",
             "completed_by",
             "revised_by",

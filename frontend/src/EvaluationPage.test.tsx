@@ -34,6 +34,9 @@ vi.mock("./organizations", () => ({
 const evaluation = {
   id: 1,
   organization_id: 7,
+  family_id: 1,
+  family_name: "Initial",
+  version: 1,
   name: "Initial",
   status: "DRAFT",
 };
@@ -58,6 +61,9 @@ it("keeps the evaluation index hidden while creating and updating", async () => 
   api.createEvaluation.mockResolvedValue({
     id: 2,
     organization_id: 7,
+    family_id: 2,
+    family_name: "Second",
+    version: 1,
     name: "Second",
     status: "DRAFT",
   });

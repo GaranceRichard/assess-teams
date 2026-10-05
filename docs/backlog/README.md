@@ -22,7 +22,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 
 ## Premier parcours vertical — PV-001
 
-**Objectif :** prouver la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**. Au 2026-10-05, le produit livre aussi le cycle brouillon/validation/archivage des modèles locaux ; `PASS-001` ajoute la passation persistante, la finalisation et la révision Admin. Résultats, versionnement et historique longitudinal restent à livrer.
+**Objectif :** prouver la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**. Au 2026-10-05, le produit livre aussi le cycle brouillon/validation/archivage des modèles locaux ; `PASS-001` ajoute la passation persistante, la finalisation et la révision Admin. `EVAL-003` ajoute familles et versions immuables avec références historiques exactes. Résultats et historique longitudinal restent à livrer.
 
 `TEAM-001` reste indépendant de l’implémentation technique de l’authentification et des permissions. Il ne peut toutefois être ordonnancé qu’après `ORG-001` et la résolution des rattachements du socle Organisation dont dépend son organisation obligatoire.
 
@@ -43,6 +43,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 
 ## Source fonctionnelle détaillée
 
+- [Versionnement local des modèles](source/03b-evaluation-versions.md)
 - [Concepts métier transverses : Organisation, rôles et rattachements](source/00-concepts-transverses.md)
 - [Décisions et arbitrages bloquants du socle Organisation](source/00-arbitrages-organisations.md)
 - [Identités, coachs et habilitations](source/01-identites.md)

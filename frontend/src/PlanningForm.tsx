@@ -1,3 +1,4 @@
+import { versionLabel } from "./evaluationVersionLabel";
 import { useState } from "react";
 
 import type { Evaluation } from "./evaluations";
@@ -121,7 +122,7 @@ export function PlanningForm({
               key={evaluation.id}
               value={evaluation.id}
             >
-              {evaluation.name}
+              {versionLabel(evaluation.family_name, evaluation.version)}
               {evaluation.status === "ARCHIVED"
                 ? " — Archivé (historique)"
                 : ""}

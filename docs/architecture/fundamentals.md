@@ -28,6 +28,8 @@ l’organisation administrée avant toute lecture ou écriture et l’API revali
 La route `/templates` confie au domaine Django `assessments` le référentiel administratif des modèles
 d’évaluation et de leurs questions ordonnées. Le cycle `DRAFT → VALIDATED → ARCHIVED` est irréversible :
 seuls les brouillons sont modifiables ou supprimables ; validation et archivage sont des actions auditées.
+`EvaluationFamily` rassemble les versions `Evaluation` ; leur [versionnement](evaluation-versioning.md)
+conserve les FK historiques et remplace transactionnellement la version active.
 
 La route `/planning` associe une équipe active à un modèle validé de sa propre organisation et fixe une première
 échéance immédiate, ponctuelle, mensuelle ou trimestrielle. Le backend demeure l’autorité du périmètre : le
@@ -39,7 +41,7 @@ utilisent une commande Django quotidienne et conservent la première échéance 
 La route `/evaluations` utilise le domaine `assessments` pour les passations planifiées : brouillon persistant,
 questions figées, finalisation et révision Admin avec provenance initiale conservée. Le [contrat de passation](evaluation-taking.md)
 décrit les données, contraintes et scopes. Le démarrage exige un modèle validé ; une passation déjà commencée
-reste reprenable après archivage du modèle. Le référentiel n’est pas versionné et les résultats,
+reste reprenable après archivage du modèle. Le référentiel est versionné ; les résultats,
 le pilotage et le tableau de bord générique restent des placeholders.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité

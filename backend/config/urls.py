@@ -15,6 +15,7 @@ from assessments.adapters.api.taking_views import (
     EvaluationRunView,
     EvaluationScoreView,
 )
+from assessments.adapters.api.version_views import CreateEvaluationVersionView
 from assessments.adapters.api.views import EvaluationDetailView, EvaluationListCreateView
 from health.views import HealthView
 from identities.adapters.api.admin_views import (
@@ -79,6 +80,11 @@ urlpatterns = [
         "api/admin/evaluations/<int:evaluation_id>/",
         EvaluationDetailView.as_view(),
         name="evaluation-detail",
+    ),
+    path(
+        "api/admin/evaluations/<int:evaluation_id>/versions/",
+        CreateEvaluationVersionView.as_view(),
+        name="evaluation-new-version",
     ),
     path(
         "api/admin/evaluations/<int:evaluation_id>/validate/",

@@ -135,7 +135,8 @@ du menu Équipes fournit explicitement `organization_id` et ne mélange jamais p
 ## Modèles, questions et planification
 
 Le [contrat des évaluations et planifications](evaluations-api.md) décrit les brouillons, la validation,
-l’immutabilité, l’archivage logique et les planifications réservées aux modèles validés.
+l’immutabilité, l’archivage logique et les planifications réservées aux versions validées.
+Le [contrat de versionnement](evaluation-versioning.md) précise familles, création de versions et migration.
 
 ## Passation des évaluations planifiées
 

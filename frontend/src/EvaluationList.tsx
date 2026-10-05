@@ -1,8 +1,11 @@
+import { versionLabel } from "./evaluationVersionLabel";
 import type { Evaluation } from "./evaluations";
 
 type Props = {
   evaluations: Evaluation[];
   selectedId: number | null;
+  creatingVersion: number | null;
+  onNewVersion: (evaluation: Evaluation) => Promise<void>;
   onArchive: (evaluation: Evaluation) => void;
   onDelete: (evaluation: Evaluation) => void;
   onEdit: (evaluation: Evaluation) => void;
@@ -19,6 +22,8 @@ const statusLabels = {
 export function EvaluationList({
   evaluations,
   selectedId,
+  creatingVersion,
+  onNewVersion,
   onArchive,
   onDelete,
   onEdit,
@@ -40,13 +45,28 @@ export function EvaluationList({
             onClick={() => onSelect(evaluation)}
           >
             <strong>{evaluation.name}</strong>
+            <span>
+              {versionLabel(evaluation.family_name, evaluation.version)}
+            </span>
             <span
               className={`evaluation-status ${evaluation.status.toLowerCase()}`}
             >
               {statusLabels[evaluation.status]}
             </span>
+            {evaluation.status === "VALIDATED" && (
+              <small>Version active pour la planification</small>
+            )}
           </button>
           <div className="evaluation-actions">
+            <button
+              className="secondary"
+              disabled={creatingVersion !== null}
+              onClick={() => void onNewVersion(evaluation)}
+            >
+              {creatingVersion === evaluation.id
+                ? "Création…"
+                : "Créer une nouvelle version"}
+            </button>
             {evaluation.status === "DRAFT" && (
               <>
                 <button onClick={() => onValidate(evaluation)}>Valider</button>

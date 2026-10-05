@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import {
   archiveEvaluation,
+  createEvaluationVersion,
   type Evaluation,
   validateEvaluation,
 } from "./evaluations";
@@ -12,6 +13,20 @@ export function useEvaluationLifecycle(
   onError: (message: string | null) => void,
 ) {
   const [target, setTarget] = useState<LifecycleTarget | null>(null);
+
+  const [creatingVersion, setCreatingVersion] = useState<number | null>(null);
+
+  async function createVersion(evaluation: Evaluation) {
+    setCreatingVersion(evaluation.id);
+    try {
+      onSaved(await createEvaluationVersion(evaluation.id));
+      onError(null);
+    } catch {
+      onError("La création d’une nouvelle version a été refusée.");
+    } finally {
+      setCreatingVersion(null);
+    }
+  }
 
   async function confirm() {
     if (!target) return;
@@ -30,5 +45,5 @@ export function useEvaluationLifecycle(
     }
   }
 
-  return { target, setTarget, confirm };
+  return { target, setTarget, confirm, createVersion, creatingVersion };
 }

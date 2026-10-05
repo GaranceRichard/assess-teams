@@ -1,3 +1,4 @@
+import { evaluation, existing, team } from "./test/planningFixture";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, expect, it, vi } from "vitest";
 
@@ -48,34 +49,6 @@ const organization = {
     { id: 10, identifier: "admin", user_type: "Admin" },
   ],
 };
-const evaluation = {
-  id: 2,
-  name: "Maturité",
-  organization_id: 1,
-  status: "VALIDATED",
-};
-const team = {
-  id: 3,
-  name: "Alpha",
-  organization_id: 1,
-  organization_name: "North",
-  is_active: true,
-  coaches: [],
-};
-const existing = {
-  id: 4,
-  organization_id: 1,
-  organization_name: "North",
-  team_id: 3,
-  team_name: "Alpha",
-  evaluation_id: 2,
-  evaluation_name: "Maturité",
-  assignee_id: 9,
-  assignee_identifier: "coach",
-  assignee_role: "Coach" as const,
-  mode: "quarterly" as const,
-  first_due_date: "2026-10-05",
-};
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -111,7 +84,7 @@ it("preselects the admin organization and plans immediately", async () => {
 
   expect(
     await screen.findByRole("button", {
-      name: "North - Maturité - Alpha - coach",
+      name: "North - Maturité v1 - Alpha - coach",
     }),
   ).toBeVisible();
   await completeSelection();

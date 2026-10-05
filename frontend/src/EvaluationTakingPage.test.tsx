@@ -113,7 +113,7 @@ it("gives Admin access to expected work, consultation and visibly attributed rev
   expect(screen.getByText(/Révisé par Admin Alice le/)).toHaveTextContent(
     "2026",
   );
-  const row = screen.getByText("Coopération").closest("tr")!;
+  const row = screen.getByText("Coopération v1").closest("tr")!;
   expect(within(row).getByText("coach")).toBeVisible();
   expect(within(row).getByText("admin")).toBeVisible();
 });

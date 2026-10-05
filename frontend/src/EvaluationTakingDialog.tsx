@@ -1,3 +1,4 @@
+import { referenceLabel } from "./evaluationVersionLabel";
 import { useEffect, useRef } from "react";
 
 import type { EvaluationRun } from "./evaluationRuns";
@@ -48,7 +49,7 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
         {revision ? "Réviser" : readonly ? "Consulter" : "Passer"} l’évaluation
       </h2>
       <p>
-        {current.evaluation_name} · {current.team_name}
+        {referenceLabel(current)} · {current.team_name}
       </p>
       <p>Assigné à {current.assigned_to}</p>
       {revision && <p>La révision sera enregistrée à sa validation.</p>}
