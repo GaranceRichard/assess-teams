@@ -20,6 +20,8 @@ def test_schema_documents_taking_endpoints_and_notes_contract():
         assert {"cookieAuth": []} in operation["security"]
         assert set(operation["responses"]) == {"200", "400", "403", "404"}
     assert set(score["responses"]) == {"204", "400", "403", "404"}
+    for operation in [detail["post"], score, finalize, revision]:
+        assert "périmètre est revérifié sur la passation verrouillée" in operation["description"]
     reference = score["requestBody"]["content"]["application/json"]["schema"]["$ref"]
     component = schema["components"]["schemas"][reference.split("/")[-1]]
     assert component["required"] == ["score"]

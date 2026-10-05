@@ -79,3 +79,42 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
     ),
   ).toBeVisible();
 });
+
+test("Next waits for backend persistence before changing the question", async ({
+  page,
+}) => {
+  seedTakingContext();
+  await page.goto("/evaluations");
+  await page.getByLabel("Identifiant").fill("taking-coach-e2e");
+  await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+  const row = page
+    .getByRole("row")
+    .filter({ has: page.getByText("Passation E2E", { exact: true }) });
+  await row.getByRole("button", { name: "Passer l’évaluation" }).click();
+  const dialog = page.getByRole("dialog");
+  let resumeSave!: () => void;
+  const saveGate = new Promise<void>((resolve) => {
+    resumeSave = resolve;
+  });
+  await page.route("**/api/evaluations/*/responses/*/", async (route) => {
+    await saveGate;
+    await route.continue();
+  });
+  try {
+    await dialog.getByRole("button", { name: "Suivant" }).click();
+    await expect(dialog.getByRole("slider")).toBeDisabled();
+    await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "Fermer" })).toBeDisabled();
+  } finally {
+    resumeSave();
+  }
+  await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+  await expect(dialog.getByRole("slider")).toBeEnabled();
+  await dialog.getByRole("button", { name: "Fermer" }).click();
+  await page.reload();
+  await row.getByRole("button", { name: "Reprendre l’évaluation" }).click();
+  await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+  await dialog.getByRole("button", { name: "Précédent" }).click();
+  await expect(dialog.getByRole("slider")).toHaveValue("5");
+});

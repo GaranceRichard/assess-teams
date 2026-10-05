@@ -49,6 +49,9 @@ Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestri
 
 La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant.
 
+Le chantier de vérification de cette passation renforce la sauvegarde lors du changement de question
+et le contrôle du périmètre au moment des mutations, avec des tests de non-régression ciblés.
+
 ## Installation
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Windows, macOS ou Linux.

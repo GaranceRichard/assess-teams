@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from assessments.adapters.api.taking_scope import is_evaluation_admin
+from assessments.application.taking_scope import is_evaluation_admin
 from assessments.models import EvaluationRun, EvaluationRunQuestion, EvaluationRunState
 
 

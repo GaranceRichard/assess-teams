@@ -21,6 +21,7 @@ export function useEvaluationTaking(
   });
   const [saving, setSaving] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [advancing, setAdvancing] = useState(false);
   const [unsaved, setUnsaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const saves = useRef(Promise.resolve(true));
@@ -68,10 +69,15 @@ export function useEvaluationTaking(
   }
 
   async function next() {
-    if (!readonly && (question.score === null || unsaved)) {
-      if (!(await selectScore(question.score ?? 5))) return;
+    setAdvancing(true);
+    try {
+      if (!readonly && (question.score === null || unsaved)) {
+        if (!(await selectScore(question.score ?? 5))) return;
+      }
+      setPosition(position + 1);
+    } finally {
+      setAdvancing(false);
     }
-    setPosition(position + 1);
   }
 
   async function submit() {
@@ -99,6 +105,7 @@ export function useEvaluationTaking(
     setPosition,
     saving,
     submitting,
+    advancing,
     unsaved,
     error,
     question,

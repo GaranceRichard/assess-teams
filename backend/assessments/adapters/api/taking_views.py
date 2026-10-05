@@ -7,7 +7,6 @@ from rest_framework.views import APIView
 from assessments.adapters.api.taking_permissions import CanTakeEvaluations
 from assessments.adapters.api.taking_scope import (
     accessible_evaluation_run,
-    is_evaluation_admin,
     visible_evaluation_runs,
 )
 from assessments.adapters.api.taking_serializers import (
@@ -22,6 +21,7 @@ from assessments.application.taking import (
     save_evaluation_score,
     start_evaluation,
 )
+from assessments.application.taking_scope import is_evaluation_admin
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
 
@@ -73,7 +73,8 @@ class EvaluationRunView(APIView):
     @extend_schema(
         description=(
             "Commence une passation sur un modèle validé ou reprend sans double création "
-            "celle liée à la planification accessible, même après archivage du modèle."
+            "celle liée à la planification accessible, même après archivage du modèle. "
+            "Le périmètre est revérifié sur la passation verrouillée avant toute mutation."
         ),
         request=None,
         responses={
@@ -87,7 +88,7 @@ class EvaluationRunView(APIView):
         run = scoped_run(request, run_id)
         if request.data:
             raise ValidationError("Le contexte d’une passation ne peut pas être remplacé.")
-        run = start_evaluation(run)
+        run = start_evaluation(run, request.user)
         return Response(EvaluationRunSerializer(run, context={"request": request}).data)
 
 
@@ -96,7 +97,10 @@ class EvaluationScoreView(APIView):
     permission_classes = [CanTakeEvaluations]
 
     @extend_schema(
-        description="Enregistre une note de brouillon entière entre 0 et 10.",
+        description=(
+            "Enregistre une note de brouillon entière entre 0 et 10. "
+            "Le périmètre est revérifié sur la passation verrouillée avant toute mutation."
+        ),
         request=EvaluationScoreSerializer,
         responses={
             204: None,
@@ -109,7 +113,7 @@ class EvaluationScoreView(APIView):
         run = scoped_run(request, run_id)
         serializer = EvaluationScoreSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        save_evaluation_score(run, question_id, serializer.validated_data["score"])
+        save_evaluation_score(run, request.user, question_id, serializer.validated_data["score"])
         return Response(status=204)
 
 
@@ -118,7 +122,10 @@ class EvaluationFinalizeView(APIView):
     permission_classes = [CanTakeEvaluations]
 
     @extend_schema(
-        description="Finalise atomiquement une passation dont toutes les notes sont présentes.",
+        description=(
+            "Finalise atomiquement une passation dont toutes les notes sont présentes. "
+            "Le périmètre est revérifié sur la passation verrouillée avant toute mutation."
+        ),
         request=None,
         responses={
             200: EvaluationRunSerializer,
@@ -142,7 +149,8 @@ class EvaluationRevisionView(APIView):
     @extend_schema(
         description=(
             "Révise atomiquement toutes les notes d’une évaluation complétée sans "
-            "modifier son auteur ni sa date de complétion initiaux."
+            "modifier son auteur ni sa date de complétion initiaux. "
+            "Le périmètre est revérifié sur la passation verrouillée avant toute mutation."
         ),
         request=EvaluationRevisionSerializer,
         responses={

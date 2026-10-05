@@ -77,7 +77,9 @@ it("blocks every business role already attached to another organization", async 
   const creationForm = await screen.findByRole("form", {
     name: "Créer une organisation",
   });
-  expect(within(creationForm).getByLabelText(/admin-one/)).toBeDisabled();
+  expect(
+    await within(creationForm).findByLabelText(/admin-one/),
+  ).toBeDisabled();
   expect(within(creationForm).getByLabelText(/coach-one/)).toBeDisabled();
   expect(within(creationForm).getByLabelText(/viewer-one/)).toBeDisabled();
 

@@ -17,6 +17,7 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
     setPosition,
     saving,
     submitting,
+    advancing,
     unsaved,
     error,
     question,
@@ -66,7 +67,7 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
             max={10}
             step={1}
             value={question.score ?? 5}
-            disabled={readonly || submitting}
+            disabled={readonly || submitting || advancing}
             aria-describedby="question-text score-status"
             aria-valuetext={`${question.score ?? 5} sur 10`}
             onChange={(event) => void selectScore(Number(event.target.value))}

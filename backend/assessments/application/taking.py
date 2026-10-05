@@ -2,6 +2,7 @@ from django.db import transaction
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
+from assessments.application.taking_scope import locked_evaluation_run
 from assessments.models import (
     Evaluation,
     EvaluationRun,
@@ -19,8 +20,8 @@ def _actor_name(actor: User) -> str:
 
 
 @transaction.atomic
-def start_evaluation(run: EvaluationRun) -> EvaluationRun:
-    run = EvaluationRun.objects.select_for_update().select_related("evaluation").get(pk=run.pk)
+def start_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
+    run = locked_evaluation_run(run, actor)
     if run.state != EvaluationRunState.NOT_STARTED:
         return run
     if run.assignee is None:
@@ -58,8 +59,8 @@ def start_evaluation(run: EvaluationRun) -> EvaluationRun:
 
 
 @transaction.atomic
-def save_evaluation_score(run: EvaluationRun, question_id: int, score: int) -> None:
-    run = EvaluationRun.objects.select_for_update().get(pk=run.pk)
+def save_evaluation_score(run: EvaluationRun, actor: User, question_id: int, score: int) -> None:
+    run = locked_evaluation_run(run, actor)
     if run.state != EvaluationRunState.IN_PROGRESS:
         raise ValidationError("Seule une passation en cours peut être modifiée.")
     question = run.questions.filter(source_question_id=question_id).first()
@@ -71,7 +72,7 @@ def save_evaluation_score(run: EvaluationRun, question_id: int, score: int) -> N
 
 @transaction.atomic
 def complete_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
-    run = EvaluationRun.objects.select_for_update().get(pk=run.pk)
+    run = locked_evaluation_run(run, actor)
     if run.state == EvaluationRunState.COMPLETED:
         return run
     if not run.questions.exists() or run.questions.filter(score__isnull=True).exists():
@@ -101,7 +102,7 @@ def complete_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
 
 @transaction.atomic
 def revise_evaluation(run: EvaluationRun, actor: User, answers: list[dict]) -> EvaluationRun:
-    run = EvaluationRun.objects.select_for_update().get(pk=run.pk)
+    run = locked_evaluation_run(run, actor)
     if run.state != EvaluationRunState.COMPLETED:
         raise ValidationError("Seule une évaluation complétée peut être révisée.")
     questions = list(run.questions.all())

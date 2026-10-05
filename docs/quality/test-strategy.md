@@ -165,3 +165,5 @@ La passation vérifie aussi le prérequis `VALIDATED`, le refus des nouveaux dé
 et la reprise, complétion et révision de passations commencées avant l’archivage du modèle.
 Une non-régression E2E vérifie aussi la réinitialisation répétée des fixtures avec passations protégées,
 sans supprimer les données d’une autre organisation de test.
+Les mutations revérifient l’accès après changement d’assignation, d’organisation ou de rattachement entre
+lecture et verrouillage. React et Playwright vérifient que « Suivant » attend sa sauvegarde avant de naviguer.

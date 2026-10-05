@@ -58,10 +58,15 @@ Un Coach membre de l’organisation lit/remplit seulement ses assignations, puis
 Un Admin lit toutes les attentes et complétions de son organisation, peut répondre à la place de l’assigné
 et réviser les complétions. Le Superadmin conserve son périmètre global. Aucun droit Viewer n’est ajouté.
 Les scopes se basent sur l’organisation historique de la passation, jamais sur un ID fourni dans le payload.
+Le scope de lecture est aussi utilisé par les mutations : après verrouillage de la passation courante,
+le service revérifie l’assignation et l’appartenance à l’organisation dans sa transaction. Si ce contexte
+a changé depuis la première lecture HTTP, la mutation retourne `404`, sans réponse modifiée ni activité métier.
 
 Une même modale native sert passation, consultation et révision : question X/N, range entier accessible
 au clavier, note affichée, précédent/suivant, sauvegarde ordonnée, erreurs et reprise après interruption.
 La finalisation attend la confirmation des sauvegardes ; une révision est validée atomiquement.
+Lorsque « Suivant » confirme la note proposée, le range est temporairement désactivé jusqu’à la sauvegarde ;
+un refus laisse la même question ouverte et réactive la saisie pour réessayer.
 Le tableau distingue « Assigné à » de « Rempli par » et indique « Révisé par [ADMIN] le [date/heure] ».
 
 Le Journal d’activité existant enregistre `evaluation_completed`, `evaluation_completed_by_admin`
