@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models, transaction
 
 from assessments.run_models import (  # noqa: F401
@@ -78,6 +80,7 @@ class Evaluation(models.Model):
 
 
 class Question(models.Model):
+    lineage_id = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
     evaluation = models.ForeignKey(
         Evaluation,
         on_delete=models.CASCADE,
@@ -93,6 +96,9 @@ class Question(models.Model):
             models.UniqueConstraint(
                 fields=("evaluation", "index"),
                 name="question_index_unique_per_evaluation",
+            ),
+            models.UniqueConstraint(
+                fields=("evaluation", "lineage_id"), name="question_lineage_unique_per_version"
             ),
         ]
 

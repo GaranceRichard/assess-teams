@@ -1,4 +1,9 @@
-import type { ChartData, ChartOptions, PointStyle } from "chart.js";
+import type {
+  ChartData,
+  ChartOptions,
+  PointStyle,
+  RadialLinearScale,
+} from "chart.js";
 
 import type { ResultAxis, ResultTeam } from "./results";
 import type { Theme } from "./theme";
@@ -51,10 +56,29 @@ export function radarData(
   };
 }
 
-export function radarOptions(theme: Theme): ChartOptions<"radar"> {
+export function radarOptions(
+  theme: Theme,
+  onCriterion?: (index: number) => void,
+): ChartOptions<"radar"> {
   const text = theme === "night" ? "#e5efec" : "#18252c";
   const grid = theme === "night" ? "#50645e" : "#aebdb8";
   return {
+    onClick: (event, elements, chart) => {
+      if (!onCriterion || event.x === null || event.y === null) return;
+      const radial = chart.scales.r as RadialLinearScale;
+      const labels = chart.data.labels ?? [];
+      const index = labels.findIndex((_, i) => {
+        const bounds = radial.getPointLabelPosition(i);
+        return (
+          event.x! >= bounds.left &&
+          event.x! <= bounds.right &&
+          event.y! >= bounds.top &&
+          event.y! <= bounds.bottom
+        );
+      });
+      const clicked = index >= 0 ? index : elements[0]?.index;
+      if (clicked !== undefined) onCriterion(clicked);
+    },
     responsive: true,
     maintainAspectRatio: false,
     animation: false,

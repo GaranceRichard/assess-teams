@@ -22,7 +22,7 @@ Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de
 5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local, `EVAL-002` la validation immuable et l’archivage, `EVAL-003` les familles et versions ; modalités et partage éventuel restent à raffiner/arbitrer.
 6. **Planification :** `PLAN-001` livre le planning courant ; périodes d’association, historique et calcul piloté par les finalisations restent dans `FEAT-015`, `FEAT-016` et `FEAT-018`.
 7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
-8. **Résultats :** `RESULT-001` compare les dernières complétions interéquipes pour une version exacte après `EVAL-003` et `PASS-001` ; comparaison temporelle hors périmètre.
+8. **Résultats :** `RESULT-001` compare les dernières complétions interéquipes sur la dernière version ayant des résultats après `EVAL-003` et `PASS-001` ; `RESULT-002` ouvre les observations historiques d’un critère par lignée explicite.
 9. **Suite P1/P2 :** retards, rappels avancés, historique temporel et pilotage après leurs dépendances et arbitrages explicites.
 
 Cet ordre indique une séquence de valeur ; il ne prescrit ni lots techniques ni applications Django. Il ne rend aucun élément prêt tant que les décisions bloquantes du [registre des arbitrages Organisation](../source/00-arbitrages-organisations.md) ne sont pas résolues.

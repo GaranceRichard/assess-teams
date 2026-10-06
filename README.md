@@ -12,7 +12,7 @@ Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO,
 
 Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DELETE et proposent dix filtres structurés, avec contexte sûr et isolation par organisation. Les données sensibles restent exclues ; le Journal métier reste séparé.
 
-Le premier incrément [Résultats](docs/architecture/results-api.md) compare sur un radar les dernières passations complétées par équipe, pour une version précise, à partir des snapshots et dans le périmètre autorisé. Sans agrégation ni comparaison temporelle.
+Les [Résultats longitudinaux](docs/architecture/results-api.md) prolongent le radar par organisation et famille sur la dernière version ayant des résultats, puis ouvrent à la demande les observations historiques d’un critère. La continuité inter-version exige une lignée explicite, sans agrégation ni rapprochement implicite des questions.
 
 ## Socle technique
 
@@ -52,7 +52,7 @@ Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` :
 immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
-Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Les modèles sont regroupés en familles organisationnelles avec versions linéaires : création v1 brouillon, copie explicite en nouvelle version, archivage automatique de l’ancienne version active lors de la validation. Le planning affiche famille/version ; les passations conservent leur référence historique et leurs snapshots. La [stratégie de versionnement](docs/architecture/evaluation-versioning.md) précise migration et concurrence. Le radar Résultats compare une version exacte ; le pilotage reste à livrer.
+Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Les modèles sont regroupés en familles organisationnelles avec versions linéaires : création v1 brouillon, copie explicite en nouvelle version, archivage automatique de l’ancienne version active lors de la validation. Le planning affiche famille/version ; les passations conservent leur référence historique et leurs snapshots. La [stratégie de versionnement](docs/architecture/evaluation-versioning.md) précise migration et concurrence. Le radar Résultats utilise la dernière version ayant des résultats ; le longitudinal suit les lignées explicites ; le pilotage reste à livrer.
 
 ## Périmètre livré — passation des évaluations planifiées
 
@@ -188,7 +188,7 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Les tests, seuils de coverage et quality gates bloquants couvrent les deux applications.
 - `USER-001` expose la création contrôlée d'identités ; le parcours authentifié applique les accès par fonction.
 - Les Admins et Superadmins gèrent organisations, équipes, modèles/questions et planifications ; les deux journaux administratifs sont consultables en lecture seule.
-- La passation persistante, son tableau et la révision Admin sont livrés ; le radar Résultats compare les dernières complétions ; le pilotage reste à venir.
+- La passation persistante, son tableau et la révision Admin sont livrés ; Résultats associe radar courant et historique des critères par lignée ; le pilotage reste à venir.
 
 ## Documentation
 

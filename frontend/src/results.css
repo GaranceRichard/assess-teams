@@ -99,3 +99,26 @@
     grid-template-columns: 1fr;
   }
 }
+
+.results-selectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.results-selectors .results-model {
+  flex: 1 1 18rem;
+}
+.result-criterion {
+  padding: 0;
+  border: 0;
+  color: var(--text);
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.result-criterion:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}

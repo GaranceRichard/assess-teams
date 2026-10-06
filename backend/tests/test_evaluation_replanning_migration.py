@@ -2,9 +2,7 @@ import pytest
 from django.db import IntegrityError, connection, transaction
 from django.db.migrations.executor import MigrationExecutor
 
-from assessments.application.expected_evaluations import ensure_expected_evaluation
-from assessments.models import EvaluationRun, EvaluationSchedule
-from tests.taking_helpers import client_for, complete, taking_context
+from tests.migration_results_helpers import historic_result
 
 
 @pytest.mark.django_db(transaction=True)
@@ -15,34 +13,43 @@ def test_replanning_migration_preserves_completed_runs_and_removes_only_schedule
     executor = MigrationExecutor(connection)
     executor.migrate(before)
     try:
-        _, _, admin, run = taking_context()
-        assert complete(client_for(admin), run).status_code == 200
-        history = EvaluationRun.objects.values().get(pk=run.pk)
-        questions = list(run.questions.values())
+        apps = executor.loader.project_state(before).apps
+        _, run, snapshot = historic_result(apps)
+        history = apps.get_model("assessments", "EvaluationRun").objects.values().get(pk=run.pk)
+        snapshot_history = (
+            apps.get_model("assessments", "EvaluationRunQuestion")
+            .objects.values()
+            .get(pk=snapshot.pk)
+        )
         schedule_fields = {
-            "team": run.team,
-            "evaluation": run.evaluation,
-            "assignee": run.assignee,
+            "team_id": run.team_id,
+            "evaluation_id": run.evaluation_id,
             "mode": run.schedule.mode,
             "first_due_date": run.due_date,
         }
+        schedule_model = apps.get_model("assessments", "EvaluationSchedule")
         with pytest.raises(IntegrityError), transaction.atomic():
-            EvaluationSchedule.objects.create(**schedule_fields)
-
+            schedule_model.objects.create(**schedule_fields)
         MigrationExecutor(connection).migrate(after)
-
-        assert EvaluationRun.objects.values().get(pk=run.pk) == history
-        assert list(run.questions.values()) == questions
-        new_schedule = EvaluationSchedule.objects.create(**schedule_fields)
-        new_run = ensure_expected_evaluation(new_schedule)
-        assert new_run.pk != run.pk
-        assert EvaluationSchedule.objects.count() == 2
-        assert EvaluationRun.objects.count() == 2
-        assert ensure_expected_evaluation(new_schedule).pk == new_run.pk
-        duplicate = EvaluationRun.objects.values().get(pk=new_run.pk)
+        migrated = MigrationExecutor(connection).loader.project_state(after).apps
+        run_model = migrated.get_model("assessments", "EvaluationRun")
+        assert run_model.objects.values().get(pk=run.pk) == history
+        assert (
+            migrated.get_model("assessments", "EvaluationRunQuestion")
+            .objects.values()
+            .get(pk=snapshot.pk)
+            == snapshot_history
+        )
+        new_schedule = migrated.get_model("assessments", "EvaluationSchedule").objects.create(
+            **schedule_fields
+        )
+        duplicate = dict(history)
         duplicate.pop("id")
+        duplicate["schedule_id"] = new_schedule.pk
+        new_run = run_model.objects.create(**duplicate)
+        assert new_run.pk != run.pk
         with pytest.raises(IntegrityError), transaction.atomic():
-            EvaluationRun.objects.create(**duplicate)
+            run_model.objects.create(**duplicate)
     finally:
         executor = MigrationExecutor(connection)
         executor.migrate(executor.loader.graph.leaf_nodes())

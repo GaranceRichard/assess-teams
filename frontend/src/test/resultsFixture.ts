@@ -1,4 +1,11 @@
-import type { ResultComparison, ResultVersion } from "../results";
+import type { SessionUser } from "../auth";
+
+import type {
+  ResultComparison,
+  ResultVersion,
+  ResultFamily,
+  ResultHistory,
+} from "../results";
 
 export const resultVersions: ResultVersion[] = [
   {
@@ -18,13 +25,24 @@ export const resultVersions: ResultVersion[] = [
 ];
 export const resultComparison: ResultComparison = {
   axes: [
-    { question_id: 1, index: 1, text: "Collaboration" },
+    {
+      question_id: 1,
+      lineage_id: "00000000-0000-4000-8000-000000000001",
+      index: 1,
+      text: "Collaboration",
+    },
     {
       question_id: 2,
+      lineage_id: "00000000-0000-4000-8000-000000000002",
       index: 2,
       text: "Critère très long qui doit rester intégralement accessible dans le tableau",
     },
-    { question_id: 3, index: 3, text: "Amélioration" },
+    {
+      question_id: 3,
+      lineage_id: "00000000-0000-4000-8000-000000000003",
+      index: 3,
+      text: "Amélioration",
+    },
   ],
   teams: [
     {
@@ -42,4 +60,58 @@ export const resultComparison: ResultComparison = {
       scores: [10, 0, 5],
     },
   ],
+};
+
+export const resultActor: SessionUser = {
+  username: "admin",
+  role: "Admin",
+  is_superuser: false,
+  organization_name: "North",
+  team_names: [],
+};
+export const resultOrganizations = [
+  { id: 1, name: "North" },
+  { id: 2, name: "South" },
+];
+export const resultFamilies: ResultFamily[] = [
+  { ...resultVersions[1], organization_id: 1 },
+  {
+    ...resultVersions[0],
+    family_id: 5,
+    family_name: "Autre modèle",
+    organization_id: 1,
+  },
+];
+export const resultFamilyComparison = {
+  ...resultComparison,
+  evaluation_id: 2,
+  version: 2,
+};
+export const resultHistory: ResultHistory = {
+  lineage_id: resultComparison.axes[0].lineage_id!,
+  criterion_text: "Collaboration",
+  teams: resultComparison.teams.map((team) => ({
+    team_id: team.team_id,
+    team_name: team.team_name,
+    points: [
+      {
+        run_id: team.run_id - 10,
+        team_name: team.team_name,
+        completed_at: "2026-09-01T12:00:00Z",
+        score: 2,
+        criterion_text: "Ancienne collaboration",
+        evaluation_id: 1,
+        version: 1,
+      },
+      {
+        run_id: team.run_id,
+        team_name: team.team_name,
+        completed_at: team.completed_at,
+        score: team.scores[0],
+        criterion_text: "Collaboration",
+        evaluation_id: 2,
+        version: 2,
+      },
+    ],
+  })),
 };

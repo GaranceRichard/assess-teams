@@ -84,8 +84,11 @@ une migration conservant IDs/FK/snapshots/journaux et des refus de périmètre. 
 
 Résultats : `test_results*` vérifie la récence métier, le tie-break, les snapshots ordonnés, les archives,
 l’isolation et un nombre constant de requêtes. Les tests React couvrent 0/1/N équipes, styles, légende,
-dates, désélection, changement de version et réponses obsolètes. `results.spec.ts` exerce le radar réel
+dates, désélection, changement d’organisation/famille et réponses obsolètes. `results.spec.ts` exerce le radar réel
 avec deux équipes et deux complétions pour l’une, sans requête supplémentaire lors des sélections.
+Le longitudinal ajoute les tests `test_result_longitudinal*` et `test_question_lineage*` : lignées
+explicites, migration conservatrice, v1/v2, isolement et IDs forgés. `results-longitudinal.spec.ts`
+vérifie le radar automatique, le chargement à la demande, les observations accessibles et le retour.
 
 ## Stratégie de couverture
 

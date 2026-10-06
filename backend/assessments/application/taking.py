@@ -49,6 +49,7 @@ def start_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
             EvaluationRunQuestion(
                 run=run,
                 source_question=question,
+                lineage_id=question.lineage_id,
                 index=question.index,
                 text=question.name,
             )

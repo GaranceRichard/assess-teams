@@ -20,7 +20,7 @@ def latest_team_results(user, evaluation_id):
     runs = completed_results_for(user).filter(evaluation_id=evaluation_id)
     latest = runs.filter(team_id=OuterRef("team_id")).order_by("-completed_at", "-pk")
     questions = EvaluationRunQuestion.objects.only(
-        "run_id", "source_question_id", "index", "text", "score"
+        "run_id", "source_question_id", "lineage_id", "index", "text", "score"
     ).order_by("index", "pk")
     return (
         runs.filter(pk=Subquery(latest.values("pk")[:1]))
@@ -30,22 +30,29 @@ def latest_team_results(user, evaluation_id):
     )
 
 
-def comparison_results(user, evaluation_id):
+def snapshot_axes(questions, include_lineage):
+    return [
+        {
+            "question_id": q.source_question_id,
+            "index": q.index,
+            "text": q.text,
+            **({"lineage_id": q.lineage_id} if include_lineage else {}),
+        }
+        for q in questions
+    ]
+
+
+def comparison_results(user, evaluation_id, include_lineage=False):
     runs = list(latest_team_results(user, evaluation_id))
     # Validated versions are immutable. Use snapshots even if the live model is damaged.
     reference = runs[0].result_questions if runs else []
-    axes = [
-        {"question_id": q.source_question_id, "index": q.index, "text": q.text} for q in reference
-    ]
+    axes = snapshot_axes(reference, include_lineage)
     teams = []
     for run in runs:
-        snapshot_axes = [
-            {"question_id": q.source_question_id, "index": q.index, "text": q.text}
-            for q in run.result_questions
-        ]
+        run_axes = snapshot_axes(run.result_questions, include_lineage)
         scores = [q.score for q in run.result_questions]
         # Never align incompatible snapshots by label/position, or fall back to an older run.
-        if not axes or snapshot_axes != axes or None in scores:
+        if not axes or run_axes != axes or None in scores:
             continue
         teams.append(
             {

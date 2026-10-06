@@ -31,7 +31,9 @@ incrémente atomiquement le compteur de famille. Cela protège aussi l’index i
 et fonctionne avec SQLite, où `select_for_update` seul ne verrouille pas les lignes.
 Les mutations de brouillon et le lifecycle partagent ce verrou pour copier une source cohérente.
 Le nom et chaque question sont copiés exactement, avec leurs index, y compris les trous d’ordre.
-Les IDs des questions copiées sont distincts ; aucun planning, run ni réponse n’est copié.
+Les IDs des questions copiées sont distincts, mais leur lignée UUID explicite est conservée depuis
+`0013_question_lineage`. Renommer un brouillon copié conserve cette lignée ; une nouvelle question
+en reçoit une nouvelle. Aucun planning, run ni réponse n’est copié.
 Tout échec annule copie, compteur et événement de succès. Deux demandes concurrentes réussies
 obtiennent deux numéros distincts. Supprimer un brouillon reste possible ; son numéro n’est
 jamais réutilisé, donc la suite peut présenter un trou après suppression explicite.
@@ -58,7 +60,8 @@ commun des Logs, sans logging HTTP supplémentaire. Les anciens événements res
 Le sélecteur de création affiche uniquement les versions `VALIDATED` : famille et numéro visibles.
 Une ancienne référence archivée reste visible et désactivée dans la modale de modification.
 Le backend refuse `DRAFT`/`ARCHIVED` à la création et modification (`404`), même avec un ID forgé.
-L’unicité du planning reste équipe–version ; v1 et v2 peuvent donc avoir leurs propres planifications.
+Les doublons de planning encore actifs sont refusés par équipe–version ; une complétion ponctuelle
+autorise une nouvelle planification indépendante. v1 et v2 conservent leurs propres planifications.
 
 Valider/archiver ne modifie aucun planning ni run. `EvaluationRun.evaluation_id` conserve la
 version exacte ; les snapshots de questions, scores et provenance ne sont pas reconstruits.
@@ -71,7 +74,8 @@ commencée reste reprenable, finalisable et révisable sur v1, indépendamment d
 ## Migration et vérification
 
 Le [contrat Results](results-api.md) sélectionne l’ID exact de version, y compris archivée, et conserve
-les axes/scores des snapshots. Aucune comparabilité entre versions n’est présumée.
+les axes/scores des snapshots. Le longitudinal compare uniquement les observations d’une lignée
+explicitement conservée ; la migration `0013` ne rapproche pas les anciennes copies historiques.
 
 `assessments.0011` crée une famille distincte pour chaque `Evaluation` existante et l’y rattache en
 v1, compteur à 2. Elle conserve IDs, noms, statuts, index, questions, FK de planning/run et snapshots.
@@ -84,5 +88,5 @@ Vitest couvre affichage, actions, erreurs, requêtes CSRF et références histor
 Playwright couvre v1 validée et planifiée, passation commencée, v2 copiée et modifiée puis validée,
 archivage automatique de v1, complétion historique sur v1 et nouveau planning/passation sur v2.
 
-Résultats, agrégation, comparaison temporelle/statistique, import/export et publication externe
-restent hors périmètre. La version constitue seulement l’ancre du référentiel historique.
+Le longitudinal Results est documenté séparément ; agrégation, comparaison globale ou statistique,
+import/export et publication externe restent hors périmètre du versionnement. La version constitue seulement l’ancre du référentiel historique.

@@ -71,7 +71,7 @@ export function ProductShell({
         ) : authorized && path === "/evaluations" ? (
           <EvaluationTakingPage actor={user} />
         ) : authorized && path === "/results" ? (
-          <ResultsPage theme={theme} />
+          <ResultsPage theme={theme} actor={user} />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
         ) : authorized && path === "/logs" ? (

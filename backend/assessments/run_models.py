@@ -93,11 +93,17 @@ class EvaluationRun(models.Model):
 
 
 class EvaluationRunQuestion(models.Model):
+    lineage_id = models.UUIDField(editable=False, db_index=True)
     run = models.ForeignKey(EvaluationRun, on_delete=models.CASCADE, related_name="questions")
     source_question = models.ForeignKey("assessments.Question", on_delete=models.PROTECT)
     index = models.PositiveIntegerField()
     text = models.CharField(max_length=255)
     score = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.lineage_id is None:
+            self.lineage_id = self.source_question.lineage_id
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ("index", "pk")
@@ -106,6 +112,7 @@ class EvaluationRunQuestion(models.Model):
                 fields=("run", "source_question"),
                 name="run_source_question_unique",
             ),
+            models.UniqueConstraint(fields=("run", "lineage_id"), name="run_lineage_unique"),
             models.UniqueConstraint(fields=("run", "index"), name="run_question_index_unique"),
             models.CheckConstraint(
                 condition=models.Q(index__gte=1),

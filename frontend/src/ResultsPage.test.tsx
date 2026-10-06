@@ -4,11 +4,18 @@ import type { ChartData, ChartOptions } from "chart.js";
 
 import { ResultsPage } from "./ResultsPage";
 import { completionDate } from "./evaluationRuns";
-import { resultComparison, resultVersions } from "./test/resultsFixture";
+import {
+  resultComparison,
+  resultFamilyComparison,
+  resultFamilies,
+  resultOrganizations,
+  resultActor,
+} from "./test/resultsFixture";
 
 const api = vi.hoisted(() => ({
-  listResultVersions: vi.fn(),
-  getResultComparison: vi.fn(),
+  listResultOrganizations: vi.fn(),
+  listResultFamilies: vi.fn(),
+  getFamilyComparison: vi.fn(),
 }));
 vi.mock("./results", () => api);
 vi.mock("react-chartjs-2", () => ({
@@ -30,8 +37,9 @@ vi.mock("react-chartjs-2", () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
-  api.listResultVersions.mockResolvedValue(resultVersions);
-  api.getResultComparison.mockResolvedValue(resultComparison);
+  api.listResultOrganizations.mockResolvedValue([resultOrganizations[0]]);
+  api.listResultFamilies.mockResolvedValue(resultFamilies);
+  api.getFamilyComparison.mockResolvedValue(resultFamilyComparison);
 });
 
 function chartData(): ChartData<"radar"> {
@@ -39,22 +47,20 @@ function chartData(): ChartData<"radar"> {
 }
 
 async function chooseVersion() {
-  await screen.findByRole("option", { name: "Maturité — v1 · North" });
-  fireEvent.change(screen.getByLabelText("Modèle / version"), {
-    target: { value: "1" },
+  await screen.findByRole("option", { name: "Maturité" });
+  fireEvent.change(screen.getByLabelText("Modèle"), {
+    target: { value: "4" },
   });
   await screen.findByRole("img");
 }
 
 it("loads ordered axes immediately with a fixed empty scale, then overlays and removes teams locally", async () => {
-  render(<ResultsPage theme="day" />);
+  render(<ResultsPage actor={resultActor} theme="day" />);
   expect(screen.getByRole("status")).toHaveTextContent("Chargement");
-  await screen.findByText(
-    "Sélectionnez un modèle et sa version pour comparer les équipes.",
-  );
+  await screen.findByText("Sélectionnez un modèle pour comparer les équipes.");
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   await chooseVersion();
-  expect(api.getResultComparison).toHaveBeenCalledWith(1);
+  expect(api.getFamilyComparison).toHaveBeenCalledWith(4);
   expect(chartData().labels).toEqual([
     "1. Collaboration",
     "2. Critère très long qui doit rest…",
@@ -114,31 +120,31 @@ it("loads ordered axes immediately with a fixed empty scale, then overlays and r
   expect(chartData().datasets).toHaveLength(0);
   expect(chartData().labels).toHaveLength(3);
   expect(within(legend).queryAllByRole("listitem")).toHaveLength(0);
-  expect(api.getResultComparison).toHaveBeenCalledTimes(1);
+  expect(api.getFamilyComparison).toHaveBeenCalledTimes(1);
 });
 
 it("resets selected teams on a version change and updates chart contrast with the theme", async () => {
-  const { rerender } = render(<ResultsPage theme="day" />);
+  const { rerender } = render(<ResultsPage actor={resultActor} theme="day" />);
   await chooseVersion();
   fireEvent.click(screen.getByRole("checkbox", { name: /^Alpha/ }));
-  rerender(<ResultsPage theme="night" />);
+  rerender(<ResultsPage actor={resultActor} theme="night" />);
   const options = JSON.parse(
     screen.getByRole("img").getAttribute("data-options")!,
   );
   expect(options.scales.r.pointLabels.color).toBe("#e5efec");
-  api.getResultComparison.mockResolvedValueOnce({
+  api.getFamilyComparison.mockResolvedValueOnce({
     axes: [{ question_id: 99, index: 1, text: "Nouvelle version" }],
     teams: [resultComparison.teams[1]],
   });
-  fireEvent.change(screen.getByLabelText("Modèle / version"), {
-    target: { value: "2" },
+  fireEvent.change(screen.getByLabelText("Modèle"), {
+    target: { value: "5" },
   });
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   await screen.findByRole("img");
   expect(chartData().labels).toEqual(["1. Nouvelle version"]);
   expect(chartData().datasets).toHaveLength(0);
   expect(screen.getByRole("checkbox")).not.toBeChecked();
-  fireEvent.change(screen.getByLabelText("Modèle / version"), {
+  fireEvent.change(screen.getByLabelText("Modèle"), {
     target: { value: "" },
   });
   expect(screen.queryByRole("img")).not.toBeInTheDocument();

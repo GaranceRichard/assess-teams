@@ -4,6 +4,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from assessments.adapters.api.lifecycle_views import ArchiveEvaluationView, ValidateEvaluationView
 from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
+from assessments.adapters.api.result_history_views import (
+    ResultCriterionHistoryView,
+    ResultFamilyComparisonView,
+    ResultFamilyListView,
+    ResultOrganizationListView,
+)
 from assessments.adapters.api.results_views import ResultComparisonView, ResultVersionListView
 from assessments.adapters.api.schedule_views import (
     EvaluationScheduleDetailView,
@@ -41,6 +47,22 @@ urlpatterns = [
     path("api/session/login/", LoginView.as_view(), name="session-login"),
     path("api/session/logout/", LogoutView.as_view(), name="session-logout"),
     path("api/users/", UserCreateView.as_view(), name="user-create"),
+    path(
+        "api/results/organizations/",
+        ResultOrganizationListView.as_view(),
+        name="result-organizations",
+    ),
+    path("api/results/families/", ResultFamilyListView.as_view(), name="result-families"),
+    path(
+        "api/results/families/<int:family_id>/",
+        ResultFamilyComparisonView.as_view(),
+        name="result-family-comparison",
+    ),
+    path(
+        "api/results/families/<int:family_id>/criteria/<uuid:lineage_id>/",
+        ResultCriterionHistoryView.as_view(),
+        name="result-criterion-history",
+    ),
     path("api/results/versions/", ResultVersionListView.as_view(), name="result-versions"),
     path(
         "api/results/versions/<int:evaluation_id>/",

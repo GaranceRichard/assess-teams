@@ -1,63 +1,112 @@
-# Résultats : comparaison interéquipes pour une version
+# Résultats : radar et observations longitudinales
 
-## Audit et modèle retenu
+## Audit du main et choix retenus
 
-Le domaine `assessments` possède déjà `EvaluationFamily`, les versions exactes `Evaluation`,
-`EvaluationRun` et `EvaluationRunQuestion`. Les modèles validés puis archivés sont immuables.
-Aucun nouveau modèle, migration ou moteur de versionnement n’est nécessaire.
-`application/results.py` réutilise `evaluation_runs_for` et expose une projection dédiée ;
-les adapters API restent des vues DRF avec serializers et annotations `drf-spectacular`.
+Le main audité (base `e900f3d`) possède `EvaluationFamily`, les versions exactes `Evaluation`,
+`EvaluationRun` et ses questions snapshotées, ainsi qu’un radar Chart.js 4/react-chartjs-2 5.
+Les projections existantes sélectionnent la dernière complétion par équipe sur une version exacte.
+Les droits sont ceux de `evaluation_runs_for` ; aucun droit Results autonome n’est introduit.
+La copie de version recréait les questions avec texte/index, sans filiation explicite entre leurs IDs.
+Les journaux de copie ne prouvent pas la correspondance individuelle des questions historiques.
 
-## Contrat de lecture
+`Question.lineage_id` est un UUID technique non éditable. Une nouvelle question reçoit une nouvelle
+lignée ; une copie conserve la lignée source ; renommer/réordonner un brouillon copié ne la change pas.
+La DB impose une seule occurrence d’une lignée par version. `EvaluationRunQuestion.lineage_id`
+fige cette identité au démarrage, en plus du texte, ordre et score ; une lignée est unique par run.
+Supprimer une question de brouillon n’efface pas les snapshots existants ; leurs sources sont protégées.
+Aucun rapprochement par texte, index ou position n’existe.
 
-Session active par cookie ; aucune mutation et aucun endpoint par équipe/run/question.
+La migration `0013_question_lineage` attribue une lignée distincte à chaque question préexistante,
+puis à ses snapshots via leur FK source démontrable. Deux copies historiques identiques restent
+indépendantes. Les copies effectuées après migration conservent explicitement la lignée.
+IDs, modèles, équipes, dates, scores, textes et provenance historiques sont conservés.
+Le longitudinal peut ainsi être discontinu pour les anciennes versions, sans inventer une continuité.
 
-- `GET /api/results/versions/` : `200`, tableau de `{id, family_id, family_name, version, organization_name}`.
-  L’ID est celui de la version `Evaluation`, jamais celui de sa famille. Seules les versions ayant
-  une passation `COMPLETED` accessible sont listées ; aucun filtre de statut du modèle n’exclut l’archive.
-- `GET /api/results/versions/{evaluation_id}/` : `200`, `{axes, teams}`.
-  `axes` contient `{question_id, index, text}` ordonnés par index de snapshot puis ID.
-  `teams` contient `{team_id, team_name, run_id, completed_at, scores}` ; les scores entiers 0–10
-  suivent exactement les axes. Aucune question de brouillon ni passation plus ancienne n’est envoyée.
-- Anonyme/inactif : `403` ; version inconnue, inaccessible ou sans complétion accessible : `404`.
-  Un snapshot inutilisable peut produire des équipes vides ; React affiche un état explicite.
+## API de lecture actuelle
 
-Le schéma dynamique `/api/schema/` et Swagger `/api/docs/` documentent ces deux lectures et leurs erreurs.
-Les paramètres d’identifiants supplémentaires ne sont pas des filtres et ne changent jamais le scope.
+Session active par cookie. Lectures GET uniquement ; anonyme/inactif : `403`.
 
-## Sélection et intégrité
+- `GET /api/results/organizations/` : `200`, `[{id, name}]`. Superadmin : organisations globales ;
+  autres rôles : leurs rattachements. Cette collection ne donne aucun accès aux passations.
+- `GET /api/results/families/?organization_id=ID` : `200`,
+  `[{id, family_id, family_name, version, organization_id, organization_name}]`.
+  `id` identifie la version radar, `family_id` le modèle à sélectionner. Chaque famille proposée
+  possède au moins une `COMPLETED` accessible dans l’organisation. Sa plus grande version ayant
+  des résultats accessibles est retenue, y compris archivée, indépendamment de la date de complétion.
+  Une version plus récente sans résultat n’est pas retenue. ID absent/invalide : `400` ; hors scope : `404`.
+- `GET /api/results/families/{family_id}/` : `200`, `{evaluation_id, version, axes, teams}`.
+  La version radar est automatiquement recalculée dans le scope de l’acteur.
+  `axes` contient `{question_id, lineage_id, index, text}` issus des snapshots ordonnés.
+  `teams` contient `{team_id, team_name, run_id, completed_at, scores}` ; scores entiers 0–10.
+  Famille inaccessible ou sans complétion accessible : `404`.
+- `GET /api/results/families/{family_id}/criteria/{lineage_id}/?team_ids=ID&team_ids=ID` : `200`,
+  `{lineage_id, criterion_text, teams: [{team_id, team_name, points}]}`.
+  Chaque point contient `{run_id, team_name, completed_at, score, criterion_text, evaluation_id, version}`.
+  Seuls les snapshots `COMPLETED`, avec score présent, de la même famille et de la lignée exacte
+  sont lus pour les équipes sélectionnées. Ordre par `completed_at ASC, pk ASC`, un point par passation.
+  Le texte observé, le score, le nom historique d’équipe et la date viennent des snapshots/runs.
+  `version` provient de la FK exacte de version du run, jamais d’une version courante de substitution.
+  Aucun ID d’équipe : séries vides. IDs répétés : dédupliqués. IDs mal formés : `400`.
+  Critère absent des axes du radar courant ou équipe non éligible sur sa version : `404`.
+  Une liste mêlant équipes accessibles et forgées est refusée intégralement.
 
-Dans le scope autorisé, filtrer d’abord l’ID exact de version et `state=completed`.
-Une sous-requête corrélée par équipe choisit `completed_at DESC, pk DESC`, puis un prefetch unique
-charge uniquement les questions de ces runs. La collection de versions coûte une requête ; la projection
-comparative coûte deux requêtes, indépendamment du nombre d’équipes (hors session/logs et lookup de version).
-Les noms d’équipe sont les snapshots de la passation retenue ; les équipes archivées restent éligibles.
+Les anciens `GET /api/results/versions/` et `GET /api/results/versions/{evaluation_id}/` sont conservés
+avec leur contrat exact de version et leurs réponses `{axes, teams}`, sans lignée ajoutée à ces axes.
+Le schéma dynamique `/api/schema/` et Swagger `/api/docs/` décrivent paramètres, types, réponses et refus.
 
-`completed_at` est la date métier initiale de complétion ; ni `due_date`, ni `created_at`, ni `revised_at`
-ne la remplacent. Une révision autorisée modifie les scores du run retenu, sans changer cette récence.
-Aucune agrégation ni fallback vers un ancien run. Le référentiel vient du premier snapshot retenu dans
-l’ordre déterministe nom d’équipe/ID. Les autres snapshots doivent correspondre exactement en identité
-de question, index et texte ; un snapshot vide, incompatible ou avec un score manquant est exclu.
-Les API de passation normales garantissent ces invariants pour une version immuable.
+## Sélection, intégrité et coût
+
+Radar = dernière position sur la dernière version de la famille ayant des résultats accessibles.
+Après filtrage du scope et de la version, une sous-requête par équipe choisit
+`completed_at DESC, pk DESC`. Les questions sont chargées par un prefetch unique (deux requêtes
+pour la projection radar, hors lookup/session/logs). Les équipes archivées restent éligibles.
+`due_date`, `created_at` et `revised_at` ne déterminent jamais cette récence.
+Une révision modifie les scores conservés sans déplacer la date de complétion initiale.
+
+Axes et noms proviennent du premier snapshot retenu dans l’ordre déterministe nom d’équipe/ID.
+Les autres snapshots doivent correspondre exactement en question, lignée, index et texte.
+Snapshot vide, incompatible ou incomplet : série exclue, sans remplacer le dernier run par un ancien.
+L’API n’envoie aucune question du modèle courant pour reconstituer un résultat endommagé.
+
+Longitudinal = observations historiques compatibles d’un critère, sans agrégation ni calcul d’évolution.
+Une seule requête de snapshots avec jointure sur la version historique charge toutes les équipes sélectionnées,
+après validation de leur éligibilité sur le radar. La continuité inter-version repose exclusivement sur
+la lignée explicitement conservée. Les critères ajoutés ou retirés ne sont ni alignés ni reconstitués.
+Les anciennes versions sans lignée commune démontrable ne sont pas fusionnées.
 
 ## Autorisation
 
-Superadmin : tous les runs ; Admin : son organisation ; Coach : ses runs assignés dans son organisation ;
-Viewer : aucun run. Le menu `/results` est conservé pour tous les rôles, sans élargir les capacités backend.
-Le Viewer obtient une collection vide et `404` pour toute version. L’autorisation précède le choix du run
-le plus récent : un Coach ne reçoit jamais la dernière passation d’un autre assigné.
-Les IDs forgés ne peuvent élargir ni les versions, ni les équipes, ni les questions retournées.
+Superadmin : global avec choix d’organisation ; Admin : organisation imposée ; Coach : uniquement
+ses passations assignées dans son organisation ; Viewer : aucun résultat. Les menus existants restent.
+Le scope est appliqué avant le choix de version, du dernier run et des points historiques.
+Un Coach ne reçoit pas une complétion plus récente d’un autre assigné. Les IDs de famille, lignée,
+organisation et équipe ne peuvent élargir ce scope ni mélanger plusieurs organisations.
 
-## React et radar
+## React et graphiques
 
-`ResultsPage` charge les versions, puis une projection par choix explicite. Aucun choix initial d’équipe.
-Les réponses devenues obsolètes sont ignorées ; tout changement de version remet la sélection à zéro.
-`ResultsRadar` utilise Chart.js 4 et react-chartjs-2 5, avec seulement l’échelle radiale, les éléments
-ligne/point, remplissage et tooltip enregistrés. Pas de dépendance de dashboard.
-L’échelle fixe 0–10 et les axes existent même avec zéro dataset. Les sélections modifient les datasets
-directement en React. Les styles restent liés à l’équipe, avec trait, marqueur, numéro et légende datée.
-Le thème adapte les textes et grilles. Les libellés longs sont abrégés autour du radar et affichés
-intégralement dans un tableau sémantique contenant aussi les scores exacts.
+Parcours : Organisation → Modèle (famille) → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
+Aucune organisation préchoisie pour le Superadmin ; celle de l’Admin est imposée. Aucune équipe préchoisie.
+Changer d’organisation ou de famille remet à zéro les sélections et ferme le longitudinal.
+Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
-Ce [PBI RESULT-001](../backlog/source/04a-results.md) compare uniquement une même version.
-Comparaison temporelle, comparabilité v1/v2, moyennes, scores globaux, classement et exports restent hors périmètre.
+Le radar conserve axes et échelle 0–10 avec zéro série. Avec 1/N équipes, il conserve séries superposées,
+styles par équipe, légende, dates et tableau accessible. Les critères s’ouvrent par clic sur leur libellé
+ou point dans le radar, ou par bouton clavier dans le tableau des critères.
+L’historique est chargé uniquement quand cette vue s’ouvre, et pour la sélection courante.
+Le retour garde organisation, modèle et équipes, sans recharger la projection radar.
+
+Le longitudinal réutilise Chart.js : X numérique en timestamps de complétion (espacement temporel réel),
+Y fixe 0–10, une courbe par équipe, chaque point correspondant à une passation compatible.
+Les segments droits relient les observations, sans lissage, point intermédiaire ni valeur calculée.
+Tooltip et tableau sémantique restituent équipe historique, date, score, version et texte observé.
+Sans observation, un état explicite remplace le graphique ; aucune date fictive n’est affichée.
+Les thèmes jour/nuit et styles des équipes restent cohérents entre les deux vues.
+
+## Périmètre et preuves
+
+[RESULT-001 et RESULT-002](../backlog/source/04a-results.md) appartiennent à EPIC-006.
+Tests backend : lignées/copies/migration, choix de version, récence/tie-break, observations, isolation,
+IDs forgés, paramètres et OpenAPI. React : états 0/1/N, chargement à la demande, retour, erreurs,
+thèmes et réponses obsolètes. Playwright : radar courant et observations v1/v2 avec valeurs accessibles.
+Moyennes, score global, classement, tendances calculées, objectifs, comparaison automatique sans filiation,
+comparaison globale des versions, Steering, exports et édition depuis Results restent hors périmètre.

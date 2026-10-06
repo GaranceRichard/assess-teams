@@ -4,7 +4,7 @@ import {
   seedIdentity,
 } from "./identity-fixture";
 
-export function seedResultsContext() {
+export function seedResultsContext(longitudinal = false) {
   seedIdentity("results-admin-e2e", "Admin");
   assignOrganization(["results-admin-e2e"], "Results E2E");
   runDjangoShell([
@@ -34,4 +34,30 @@ export function seedResultsContext() {
     "evaluation.status = 'ARCHIVED'",
     "evaluation.save()",
   ]);
+  if (longitudinal)
+    runDjangoShell([
+      "from datetime import datetime, timezone as tz",
+      "from identities.models import Organization, User",
+      "from teams.models import Team",
+      "from assessments.models import Evaluation, EvaluationSchedule",
+      "from assessments.application.versioning import create_next_version",
+      "from assessments.application.expected_evaluations import ensure_expected_evaluation",
+      "from assessments.application.taking import start_evaluation, save_evaluation_score, complete_evaluation",
+      "organization = Organization.objects.get(name='Results E2E')",
+      "actor = User.objects.get(username='results-admin-e2e')",
+      "source = Evaluation.objects.get(organization=organization, version=1)",
+      "current = create_next_version(source.pk, actor)",
+      "current.questions.filter(index=1).update(name='Collaboration v2')",
+      "current.status = 'VALIDATED'",
+      "current.save()",
+      "teams = list(Team.objects.filter(organization=organization).order_by('name'))",
+      "schedules = [EvaluationSchedule.objects.create(team=team, evaluation=current, assignee=actor, mode='immediate', first_due_date='2026-10-05') for team in teams]",
+      "runs = [ensure_expected_evaluation(schedule) for schedule in schedules]",
+      "[start_evaluation(run, actor) for run in runs]",
+      "[save_evaluation_score(run, actor, q.source_question_id, score) for run, values in zip(runs, [[6, 9, 8], [7, 4, 6]]) for q, score in zip(run.questions.all(), values)]",
+      "[complete_evaluation(run, actor) for run in runs]",
+      "[setattr(run, 'completed_at', datetime(2026, 10, 5 + i, 12, tzinfo=tz.utc)) for i, run in enumerate(runs)]",
+      "[run.save(update_fields=['completed_at']) for run in runs]",
+      "create_next_version(current.pk, actor)",
+    ]);
 }

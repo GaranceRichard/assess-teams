@@ -6,7 +6,8 @@ Le backend applique la session Django et le CSRF aux mutations ; il décide touj
 ## Données conservées
 
 `EvaluationRun` référence la planification source et sa date d’échéance, son organisation,
-son équipe, son modèle et son assigné. L’unicité `(schedule, due_date)` évite les doublons.
+son équipe, son modèle et son assigné. Les questions figent aussi leur lignée UUID explicite au démarrage
+pour la compatibilité longitudinale, indépendamment des modifications ultérieures du référentiel. L’unicité `(schedule, due_date)` évite les doublons.
 Après complétion ponctuelle, replanifier le même modèle pour la même équipe crée une nouvelle
 planification et une passation indépendante ; les anciennes passations et leurs snapshots sont conservés.
 La première passation attendue est créée à la planification ; les échéances récurrentes le sont

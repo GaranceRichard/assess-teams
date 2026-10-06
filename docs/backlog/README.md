@@ -31,7 +31,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 
 ## Premier parcours vertical — PV-001
 
-**Objectif :** prouver la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**. Au 2026-10-05, le produit livre aussi le cycle brouillon/validation/archivage des modèles locaux ; `PASS-001` ajoute la passation persistante, la finalisation et la révision Admin. `EVAL-003` ajoute familles et versions immuables avec références historiques exactes. RESULT-001 ajoute le radar interéquipes ; l’historique longitudinal reste à livrer.
+**Objectif :** prouver la valeur et la cohérence du produit sur une chaîne complète : **Organisation → Admin → Coach → Équipe → Affectation du Coach → Modèle d’évaluation → Affectation du modèle → Passation → Finalisation → Historique**. Au 2026-10-06, le produit livre aussi le cycle brouillon/validation/archivage des modèles locaux ; `PASS-001` ajoute la passation persistante, la finalisation et la révision Admin. `EVAL-003` ajoute familles et versions immuables avec références historiques exactes. RESULT-001 ajoute le radar interéquipes ; RESULT-002 ajoute les observations historiques d’un critère avec continuité inter-version par lignée explicite.
 
 `TEAM-001` reste indépendant de l’implémentation technique de l’authentification et des permissions. Il ne peut toutefois être ordonnancé qu’après `ORG-001` et la résolution des rattachements du socle Organisation dont dépend son organisation obligatoire.
 
@@ -62,7 +62,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 - [Cycle de vie des modèles locaux — EVAL-002](source/03a-evaluation-lifecycle.md)
 - [Passation et preuve d’évaluation — PASS-001](source/03a-passations.md)
 - [Suivi, notifications et pilotage](source/04-suivi-et-pilotage.md)
-- [Résultats interéquipes — RESULT-001](source/04a-results.md)
+- [Résultats radar et longitudinal — RESULT-001/002](source/04a-results.md)
 - [Gestion des organisations](source/05-organisations.md)
 - [Journaux opérationnels](source/06-journaux.md)
 

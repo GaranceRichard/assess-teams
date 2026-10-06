@@ -17,13 +17,9 @@ test("compares latest completed team runs on a persistent radar without navigati
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Résultats", exact: true }).click();
   await expect(
-    page.getByText(
-      "Sélectionnez un modèle et sa version pour comparer les équipes.",
-    ),
+    page.getByText("Sélectionnez un modèle pour comparer les équipes."),
   ).toBeVisible();
-  await page
-    .getByLabel("Modèle / version")
-    .selectOption({ label: "Radar E2E — v1 · Results E2E" });
+  await page.getByLabel("Modèle").selectOption({ label: "Radar E2E" });
   const radar = page.getByRole("img", { name: /Radar des résultats/ });
   await expect(radar).toHaveAttribute(
     "aria-label",

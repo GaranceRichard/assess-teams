@@ -36,7 +36,12 @@ def create_next_version(source_id: int, actor: User) -> Evaluation:
     )
     Question.objects.bulk_create(
         [
-            Question(evaluation=created, index=question.index, name=question.name)
+            Question(
+                evaluation=created,
+                index=question.index,
+                name=question.name,
+                lineage_id=question.lineage_id,
+            )
             for question in source.questions.all()
         ]
     )

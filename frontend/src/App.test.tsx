@@ -129,6 +129,7 @@ describe("product authentication journey", () => {
   it("follows browser history navigation", async () => {
     vi.spyOn(globalThis, "fetch")
       .mockImplementationOnce(() => response(200, viewer))
+      .mockImplementationOnce(() => response(200, [{ id: 1, name: "North" }]))
       .mockImplementationOnce(() => response(200, []));
     render(<App />);
     await screen.findByRole("navigation");

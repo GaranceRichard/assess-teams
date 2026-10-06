@@ -47,8 +47,9 @@ reste reprenable après archivage du modèle. Le référentiel est versionné ;
 le pilotage et le tableau de bord générique restent des placeholders.
 
 La route `/results` compare sur un radar les dernières passations complétées des équipes pour une
-version exacte. Le [contrat Results](results-api.md) décrit la projection de snapshots, le scope partagé
-avec les passations, la sélection locale React et l’absence d’agrégation ou de comparaison temporelle.
+version radar automatiquement choisie par famille dans l’organisation. Le [contrat Results](results-api.md)
+décrit les snapshots, le scope des passations et l’historique à la demande d’un critère, avec continuité
+inter-version uniquement par lignée UUID explicite, sans agrégation.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
 répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des

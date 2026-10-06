@@ -3,7 +3,8 @@
 Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md). L’organisation de toute vue, comparaison, évolution ou tendance est celle de l’équipe source ; aucune donnée d’une autre organisation n’est consultée ou agrégée implicitement. Tous les acteurs sont authentifiés et le `Viewer` relève de son périmètre accordé.
 
 Le premier comparatif interéquipes `FEAT-041` / `RESULT-001` est détaillé dans
-[Résultats](04a-results.md), sous ce même Epic ; l’historique temporel reste distinct.
+[Résultats](04a-results.md), sous ce même Epic. `RESULT-002`, déclinaison limitée de `FEAT-025`,
+y ajoute les observations d’un critère par lignée explicite ; historique général et calculs restent distincts.
 
 ### FEAT-024 — Parcourir l’historique des évaluations
 

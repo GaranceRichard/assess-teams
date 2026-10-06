@@ -10,14 +10,24 @@ import { Radar } from "react-chartjs-2";
 
 import { completionDate } from "./evaluationRuns";
 import { radarData, radarOptions, seriesStyle } from "./resultRadarConfig";
-import type { ResultComparison } from "./results";
+import type { ResultAxis, ResultComparison } from "./results";
 import type { Theme } from "./theme";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
-type Props = ResultComparison & { selected: number[]; theme: Theme };
+type Props = ResultComparison & {
+  selected: number[];
+  theme: Theme;
+  onCriterion?: (axis: ResultAxis) => void;
+};
 
-export function ResultsRadar({ axes, teams, selected, theme }: Props) {
+export function ResultsRadar({
+  axes,
+  teams,
+  selected,
+  theme,
+  onCriterion,
+}: Props) {
   const visible = teams.filter((team) => selected.includes(team.team_id));
   return (
     <section className="results-chart" aria-label="Comparaison des équipes">
@@ -28,7 +38,10 @@ export function ResultsRadar({ axes, teams, selected, theme }: Props) {
       <div className="results-canvas">
         <Radar
           data={radarData(axes, teams, selected)}
-          options={radarOptions(theme)}
+          options={radarOptions(theme, (index) => {
+            const axis = axes[index];
+            if (axis?.lineage_id) onCriterion?.(axis);
+          })}
           role="img"
           aria-label={`Radar des résultats : ${visible.length} équipe(s), ${axes.length} axe(s), échelle 0 à 10`}
         />
@@ -82,7 +95,14 @@ export function ResultsRadar({ axes, teams, selected, theme }: Props) {
             {axes.map((axis, index) => (
               <tr key={axis.question_id}>
                 <th scope="row">
-                  {index + 1}. {axis.text}
+                  <button
+                    type="button"
+                    className="result-criterion"
+                    disabled={!axis.lineage_id}
+                    onClick={() => onCriterion?.(axis)}
+                  >
+                    {index + 1}. {axis.text}
+                  </button>
                 </th>
                 {visible.map((team) => (
                   <td key={team.team_id}>{team.scores[index]} / 10</td>

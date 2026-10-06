@@ -1,139 +1,124 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { completionDate } from "./evaluationRuns";
+import type { SessionUser } from "./auth";
+import { ResultTeamSelection } from "./ResultTeamSelection";
+import { ResultsHistory } from "./ResultsHistory";
 import { ResultsRadar } from "./ResultsRadar";
-import { getResultComparison, listResultVersions } from "./results";
-import type { ResultComparison, ResultVersion } from "./results";
+import type { ResultAxis } from "./results";
 import type { Theme } from "./theme";
+import { useResultSelection } from "./useResultSelection";
 import "./results.css";
 
-export function ResultsPage({ theme }: { theme: Theme }) {
-  const [versions, setVersions] = useState<ResultVersion[]>([]);
-  const [versionId, setVersionId] = useState("");
-  const [comparison, setComparison] = useState<ResultComparison | null>(null);
-  const [selected, setSelected] = useState<number[]>([]);
-  const [loadingVersions, setLoadingVersions] = useState(true);
-  const [loadingComparison, setLoadingComparison] = useState(false);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    let current = true;
-    listResultVersions().then(
-      (data) => {
-        if (current) {
-          setVersions(data);
-          setLoadingVersions(false);
-        }
-      },
-      () => {
-        if (current) {
-          setError("Impossible de charger les modèles avec résultats.");
-          setLoadingVersions(false);
-        }
-      },
-    );
-    return () => {
-      current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!versionId) return;
-    let current = true;
-    getResultComparison(Number(versionId)).then(
-      (data) => {
-        if (current) {
-          setComparison(data);
-          setLoadingComparison(false);
-        }
-      },
-      () => {
-        if (current) {
-          setError("Impossible de charger les résultats de cette version.");
-          setLoadingComparison(false);
-        }
-      },
-    );
-    return () => {
-      current = false;
-    };
-  }, [versionId]);
-
-  function selectVersion(value: string) {
-    setVersionId(value);
-    setComparison(null);
-    setSelected([]);
-    setError("");
-    setLoadingComparison(Boolean(value));
+export function ResultsPage({
+  theme,
+  actor,
+}: {
+  theme: Theme;
+  actor: SessionUser;
+}) {
+  const state = useResultSelection(actor.is_superuser);
+  const [criterion, setCriterion] = useState<ResultAxis | null>(null);
+  function selectOrganization(value: string) {
+    setCriterion(null);
+    state.selectOrganization(value);
   }
-
-  function toggleTeam(teamId: number) {
-    setSelected((previous) =>
-      previous.includes(teamId)
-        ? previous.filter((id) => id !== teamId)
-        : [...previous, teamId],
-    );
+  function selectFamily(value: string) {
+    setCriterion(null);
+    state.selectFamily(value);
   }
-
-  const usable =
-    comparison && comparison.axes.length > 0 && comparison.teams.length > 0;
+  const usable = state.comparison && state.comparison.axes.length > 0;
   return (
     <section className="results-page">
       <h1>Résultats</h1>
-      <label className="results-model">
-        Modèle / version
-        <select
-          value={versionId}
-          onChange={(event) => selectVersion(event.target.value)}
-          disabled={loadingVersions || versions.length === 0}
-        >
-          <option value="">Sélectionner un modèle / version</option>
-          {versions.map((version) => (
-            <option key={version.id} value={version.id}>
-              {version.family_name} — v{version.version} ·{" "}
-              {version.organization_name}
-            </option>
-          ))}
-        </select>
-      </label>
-      {(loadingVersions || loadingComparison) && (
-        <p role="status">Chargement des résultats…</p>
-      )}
-      {error && <p role="alert">{error}</p>}
-      {!loadingVersions && !error && versions.length === 0 && (
-        <p>Aucune passation complétée accessible.</p>
-      )}
-      {!loadingVersions && !versionId && versions.length > 0 && (
-        <p>Sélectionnez un modèle et sa version pour comparer les équipes.</p>
-      )}
-      {comparison && !usable && (
-        <p>Aucun résultat exploitable pour cette version.</p>
-      )}
-      {usable && (
-        <div className="results-layout">
-          <fieldset className="results-teams">
-            <legend>Équipes disponibles</legend>
-            {comparison.teams.map((team) => (
-              <label key={team.team_id}>
-                <input
-                  type="checkbox"
-                  checked={selected.includes(team.team_id)}
-                  onChange={() => toggleTeam(team.team_id)}
-                />
-                <span>
-                  {team.team_name}
-                  <small>
-                    Complétée le{" "}
-                    <time dateTime={team.completed_at}>
-                      {completionDate(team.completed_at)}
-                    </time>
-                  </small>
-                </span>
-              </label>
+      <div className="results-selectors">
+        <label className="results-model">
+          Organisation
+          <select
+            value={state.organizationId}
+            disabled={!actor.is_superuser}
+            onChange={(event) => selectOrganization(event.target.value)}
+          >
+            <option value="">Sélectionner une organisation</option>
+            {state.organizations.map((org) => (
+              <option key={org.id} value={org.id}>
+                {org.name}
+              </option>
             ))}
-          </fieldset>
-          <ResultsRadar {...comparison} selected={selected} theme={theme} />
-        </div>
+          </select>
+        </label>
+        <label className="results-model">
+          Modèle
+          <select
+            value={state.familyId}
+            disabled={!state.organizationId || state.families.length === 0}
+            onChange={(event) => selectFamily(event.target.value)}
+          >
+            <option value="">Sélectionner un modèle</option>
+            {state.families.map((family) => (
+              <option key={family.family_id} value={family.family_id}>
+                {family.family_name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      {state.loading && <p role="status">Chargement des résultats…</p>}
+      {state.error && <p role="alert">{state.error}</p>}
+      {!state.loading && !state.error && state.organizations.length === 0 && (
+        <p>Aucune organisation accessible.</p>
+      )}
+      {!state.loading &&
+        !state.error &&
+        state.organizationId &&
+        state.families.length === 0 && (
+          <p>Aucune passation complétée accessible.</p>
+        )}
+      {!state.loading &&
+        !state.organizationId &&
+        state.organizations.length > 0 && (
+          <p>Sélectionnez une organisation pour consulter ses résultats.</p>
+        )}
+      {!state.loading &&
+        state.organizationId &&
+        !state.familyId &&
+        state.families.length > 0 && (
+          <p>Sélectionnez un modèle pour comparer les équipes.</p>
+        )}
+      {state.comparison && !usable && (
+        <p>Aucun résultat exploitable pour ce modèle.</p>
+      )}
+      {usable && state.comparison && (
+        <>
+          <p>
+            Version radar : v{state.comparison.version} · Dernière version ayant
+            des résultats accessibles
+          </p>
+          <div className="results-layout">
+            <ResultTeamSelection
+              teams={state.comparison.teams}
+              selected={state.selected}
+              onToggle={state.toggleTeam}
+            />
+            {criterion ? (
+              <ResultsHistory
+                key={`${state.familyId}:${criterion.lineage_id}`}
+                familyId={Number(state.familyId)}
+                criterion={criterion}
+                teams={state.comparison.teams}
+                selected={state.selected}
+                theme={theme}
+                onBack={() => setCriterion(null)}
+              />
+            ) : (
+              <ResultsRadar
+                {...state.comparison}
+                selected={state.selected}
+                theme={theme}
+                onCriterion={setCriterion}
+              />
+            )}
+          </div>
+        </>
       )}
     </section>
   );

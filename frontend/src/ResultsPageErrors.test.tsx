@@ -2,24 +2,28 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, expect, it, vi } from "vitest";
 
 import { ResultsPage } from "./ResultsPage";
-import type { ResultComparison, ResultVersion } from "./results";
-import { resultComparison, resultVersions } from "./test/resultsFixture";
+import {
+  resultActor,
+  resultFamilyComparison,
+  resultFamilies,
+  resultOrganizations,
+} from "./test/resultsFixture";
 
 const api = vi.hoisted(() => ({
-  listResultVersions: vi.fn(),
-  getResultComparison: vi.fn(),
+  listResultOrganizations: vi.fn(),
+  listResultFamilies: vi.fn(),
+  getFamilyComparison: vi.fn(),
 }));
 vi.mock("./results", () => api);
 vi.mock("react-chartjs-2", () => ({
   Radar: () => <canvas role="img" aria-label="Radar" />,
 }));
-
 beforeEach(() => {
   vi.clearAllMocks();
-  api.listResultVersions.mockResolvedValue(resultVersions);
-  api.getResultComparison.mockResolvedValue(resultComparison);
+  api.listResultOrganizations.mockResolvedValue([resultOrganizations[0]]);
+  api.listResultFamilies.mockResolvedValue(resultFamilies);
+  api.getFamilyComparison.mockResolvedValue(resultFamilyComparison);
 });
-
 function deferred<T>() {
   let resolve!: (data: T) => void;
   let reject!: (error: Error) => void;
@@ -29,67 +33,80 @@ function deferred<T>() {
   });
   return { promise, resolve, reject };
 }
-
-async function choose(value = "1") {
-  await screen.findByRole("option", { name: "Maturité — v1 · North" });
-  fireEvent.change(screen.getByLabelText("Modèle / version"), {
-    target: { value },
-  });
+async function choose(value = "4") {
+  await screen.findByRole("option", { name: "Maturité" });
+  fireEvent.change(screen.getByLabelText("Modèle"), { target: { value } });
 }
-
-it("shows list failures and an empty accessible list", async () => {
-  api.listResultVersions.mockRejectedValueOnce(new Error("offline"));
-  const { unmount } = render(<ResultsPage theme="day" />);
-  expect(await screen.findByRole("alert")).toHaveTextContent(
-    "Impossible de charger les modèles avec résultats.",
-  );
-  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+it.each(["organizations", "families"])(
+  "shows %s loading failures",
+  async (level) => {
+    if (level === "organizations")
+      api.listResultOrganizations.mockRejectedValueOnce(new Error("offline"));
+    else api.listResultFamilies.mockRejectedValueOnce(new Error("offline"));
+    render(<ResultsPage actor={resultActor} theme="day" />);
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Impossible de charger",
+    );
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  },
+);
+it("shows empty accessible organizations and families", async () => {
+  api.listResultOrganizations.mockResolvedValueOnce([]);
+  const { unmount } = render(<ResultsPage actor={resultActor} theme="day" />);
+  expect(
+    await screen.findByText("Aucune organisation accessible."),
+  ).toBeVisible();
   unmount();
-  api.listResultVersions.mockResolvedValueOnce([]);
-  render(<ResultsPage theme="day" />);
+  api.listResultFamilies.mockResolvedValueOnce([]);
+  render(<ResultsPage actor={resultActor} theme="day" />);
   expect(
     await screen.findByText("Aucune passation complétée accessible."),
   ).toBeVisible();
-  expect(screen.getByLabelText("Modèle / version")).toBeDisabled();
+  expect(screen.getByLabelText("Modèle")).toBeDisabled();
 });
-
 it("shows comparison loading, failure and recovery on another selection", async () => {
-  const pending = deferred<ResultComparison>();
-  api.getResultComparison.mockReturnValueOnce(pending.promise);
-  render(<ResultsPage theme="day" />);
+  const pending = deferred<unknown>();
+  api.getFamilyComparison.mockReturnValueOnce(pending.promise);
+  render(<ResultsPage actor={resultActor} theme="day" />);
   await choose();
   expect(screen.getByRole("status")).toBeVisible();
-  expect(screen.queryByRole("img")).not.toBeInTheDocument();
   await act(async () => pending.reject(new Error("404")));
   expect(await screen.findByRole("alert")).toHaveTextContent(
-    "Impossible de charger les résultats de cette version.",
+    "Impossible de charger les résultats de ce modèle.",
   );
-  await choose("2");
+  await choose("5");
   expect(await screen.findByRole("img")).toBeVisible();
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
 });
-
-it.each([
-  { axes: [], teams: [] },
-  { ...resultComparison, teams: [] },
-])("shows an unusable comparison without drawing scores", async (data) => {
-  api.getResultComparison.mockResolvedValueOnce(data);
-  render(<ResultsPage theme="day" />);
+it("shows a damaged empty snapshot without drawing scores", async () => {
+  api.getFamilyComparison.mockResolvedValueOnce({
+    ...resultFamilyComparison,
+    axes: [],
+    teams: [],
+  });
+  render(<ResultsPage actor={resultActor} theme="day" />);
   await choose();
   expect(
-    await screen.findByText("Aucun résultat exploitable pour cette version."),
+    await screen.findByText("Aucun résultat exploitable pour ce modèle."),
   ).toBeVisible();
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
 });
-
+it("keeps axes even if no latest team snapshot is usable", async () => {
+  api.getFamilyComparison.mockResolvedValueOnce({
+    ...resultFamilyComparison,
+    teams: [],
+  });
+  render(<ResultsPage actor={resultActor} theme="day" />);
+  await choose();
+  expect(await screen.findByRole("img")).toBeVisible();
+});
 it.each(["success", "error"])(
-  "ignores stale comparison %s after switching versions",
+  "ignores stale comparison %s",
   async (outcome) => {
-    const pending = deferred<ResultComparison>();
-    api.getResultComparison.mockReturnValueOnce(pending.promise);
-    render(<ResultsPage theme="day" />);
+    const pending = deferred<unknown>();
+    api.getFamilyComparison.mockReturnValueOnce(pending.promise);
+    render(<ResultsPage actor={resultActor} theme="day" />);
     await choose();
-    await choose("2");
+    await choose("5");
     await screen.findByRole("img");
     await act(async () => {
       if (outcome === "success") pending.resolve({ axes: [], teams: [] });
@@ -99,16 +116,15 @@ it.each(["success", "error"])(
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   },
 );
-
 it.each(["success", "error"])(
-  "ignores a pending list %s after unmount",
+  "ignores a pending organization list %s after unmount",
   async (outcome) => {
-    const pending = deferred<ResultVersion[]>();
-    api.listResultVersions.mockReturnValueOnce(pending.promise);
-    const { unmount } = render(<ResultsPage theme="day" />);
+    const pending = deferred<unknown>();
+    api.listResultOrganizations.mockReturnValueOnce(pending.promise);
+    const { unmount } = render(<ResultsPage actor={resultActor} theme="day" />);
     unmount();
     await act(async () => {
-      if (outcome === "success") pending.resolve(resultVersions);
+      if (outcome === "success") pending.resolve(resultOrganizations);
       else pending.reject(new Error("old request"));
     });
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
