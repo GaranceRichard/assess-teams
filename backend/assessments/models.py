@@ -129,9 +129,3 @@ class EvaluationSchedule(models.Model):
 
     class Meta:
         ordering = ("first_due_date", "pk")
-        constraints = [
-            models.UniqueConstraint(
-                fields=("team", "evaluation"),
-                name="schedule_unique_per_team_evaluation",
-            )
-        ]

@@ -148,13 +148,17 @@ immutabilité des modèles/questions, archivage logique et audit. React et Playw
 le filtrage des modèles planifiables et les références historiques après archivage ; l’API teste les requêtes
 forgées, permissions Admin/Superadmin et refus inter-organisations.
 
-La planification couvre les quatre cadences, la première échéance, l’unicité équipe–modèle, l’équipe active et
+La planification couvre les quatre cadences, la première échéance, le refus des doublons encore actifs, l’équipe active et
 le cloisonnement organisationnel. Elle couvre aussi le responsable Coach ou Admin, l’auto-affectation du
 Superadmin et son refus à un Admin, le rattachement atomique d’un Coach, le refus d’un responsable hors
 organisation, les modifications et suppressions, les courriels de
 confirmation et d’échéance, le lien produit et l’avancement calendaire des récurrences. Les tests React vérifient
 les formulaires immédiat et récurrent, la ligne structurée et la suppression dans la modale ; Playwright
 traverse la session Admin, le changement de fond au survol, l’ouverture de la ligne, la modification et la suppression.
+La non-régression `test_evaluation_replanning*` couvre la replanification après complétion ponctuelle,
+l’historique intact, les refus encore actifs et la migration sans perte de données.
+`evaluation-replanning.spec.ts` complète puis replanifie le même modèle pour la même équipe, refuse
+un doublon en attente et consulte les anciennes notes après la nouvelle complétion.
 
 Les journaux sont couverts séparément : création après succès, absence de succès après refus ou échec,
 snapshots historiques, tri, filtres, pagination et lecture seule. Les tests directs des endpoints prouvent les

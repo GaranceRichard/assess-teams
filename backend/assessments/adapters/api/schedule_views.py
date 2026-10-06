@@ -42,7 +42,10 @@ class EvaluationScheduleListCreateView(APIView):
         description=(
             "Planifie une évaluation immédiate, fixe, mensuelle ou trimestrielle "
             "pour une équipe active de la même organisation. Le modèle doit être VALIDATED ; "
-            "un brouillon ou modèle archivé retourne 404."
+            "un brouillon ou modèle archivé retourne 404. Une planification ponctuelle "
+            "dont toutes les passations sont complétées autorise une nouvelle planification "
+            "indépendante pour la même équipe et le même modèle, avec historique conservé. "
+            "Une planification récurrente ou non complétée bloque les doublons (400)."
         ),
         request=EvaluationScheduleInputSerializer,
         responses={
@@ -89,7 +92,10 @@ class EvaluationScheduleDetailView(APIView):
         description=(
             "Modifie l’équipe, le modèle, le responsable, la fréquence et la date "
             "d’une planification accessible. Le modèle doit être VALIDATED (sinon 404), "
-            "même si la référence historique archivée reste consultable en lecture."
+            "même si la référence historique archivée reste consultable en lecture. "
+            "Les mêmes règles de doublons qu’à la création s’appliquent : une planification "
+            "ponctuelle complétée ne bloque pas ; une autre planification récurrente ou "
+            "non complétée pour la même équipe et le même modèle retourne 400."
         ),
         request=EvaluationScheduleInputSerializer,
         responses={

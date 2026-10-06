@@ -37,6 +37,8 @@ Superadmin agit globalement et l’Admin uniquement dans son organisation. Un Co
 est désigné comme responsable ; seul le Superadmin peut désigner un Superadmin. Un Coach peut être rattaché
 pendant la planification, tandis qu’un Admin reste distinct des Coachs de l’équipe. Les notifications différées
 utilisent une commande Django quotidienne et conservent la première échéance comme ancre des récurrences.
+Une planification ponctuelle complétée permet de replanifier le même modèle pour la même équipe avec
+une nouvelle passation indépendante et un historique conservé ; les planifications encore actives bloquent les doublons.
 
 La route `/evaluations` utilise le domaine `assessments` pour les passations planifiées : brouillon persistant,
 questions figées, finalisation et révision Admin avec provenance initiale conservée. Le [contrat de passation](evaluation-taking.md)

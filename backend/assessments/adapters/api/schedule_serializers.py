@@ -4,7 +4,13 @@ from rest_framework import serializers
 
 from assessments.adapters.api.scope import locked_evaluation
 from assessments.application.expected_evaluations import ensure_expected_evaluation
-from assessments.models import Evaluation, EvaluationSchedule, EvaluationStatus, ScheduleMode
+from assessments.models import (
+    Evaluation,
+    EvaluationRunState,
+    EvaluationSchedule,
+    EvaluationStatus,
+    ScheduleMode,
+)
 from identities.adapters.api.organization_scope import manageable_organization
 from identities.domain.users import Role
 from identities.models import User
@@ -125,6 +131,11 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
         team, evaluation, assignee = self._resources(attrs)
         self._validate_date(attrs)
         duplicates = EvaluationSchedule.objects.filter(team=team, evaluation=evaluation)
+        completed = duplicates.filter(
+            mode__in=(ScheduleMode.IMMEDIATE, ScheduleMode.FIXED),
+            runs__state=EvaluationRunState.COMPLETED,
+        ).exclude(runs__state__in=(EvaluationRunState.NOT_STARTED, EvaluationRunState.IN_PROGRESS))
+        duplicates = duplicates.exclude(pk__in=completed.values("pk"))
         if self.instance:
             duplicates = duplicates.exclude(pk=self.instance.pk)
         if duplicates.exists():

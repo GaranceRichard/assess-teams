@@ -32,3 +32,6 @@ def test_openapi_documents_evaluation_planning() -> None:
     }
     assert mode_component["enum"] == list(ScheduleMode.values)
     assert "assignee_id" in component["properties"]
+    assert "historique conservé" in collection["post"]["description"]
+    assert "doublons (400)" in collection["post"]["description"]
+    assert "ponctuelle complétée ne bloque pas" in detail["put"]["description"]

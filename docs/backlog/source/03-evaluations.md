@@ -113,7 +113,7 @@ Cet Epic dérive l’organisation de ses associations, cycles et échéances de 
 #### PLAN-001 — Planifier un modèle local pour une équipe
 - **Identifiant / Feature parente / nature :** `PLAN-001` / `FEAT-017` / régularisation du parcours achevé le 2026-09-29.
 - **User story :** en tant que `Superadmin` ou `Admin`, je veux créer, modifier ou supprimer une planification afin d’attribuer une échéance et un responsable à une équipe.
-- **Périmètre et critères livrés :** même organisation pour équipe active et modèle ; responsable actif avec e-mail ; modes immédiat, ponctuel, mensuel ou trimestriel ; première et prochaine échéances exposées ; unicité équipe–modèle ; UI et refus de périmètre.
+- **Périmètre et critères livrés :** même organisation pour équipe active et modèle ; responsable actif avec e-mail ; modes immédiat, ponctuel, mensuel ou trimestriel ; première et prochaine échéances exposées ; refus des doublons actifs et replanification du même modèle après une passation ponctuelle complétée, avec historique conservé ; UI et refus de périmètre.
 - **Limites :** aucune version publiée, période d’association, date d’effet historique ou passation ; `FEAT-015`, `FEAT-016` et le calcul piloté par finalisation de `FEAT-018` restent incomplets.
 - **Valeur apportée :** rend l’engagement courant visible et attribuable avant la livraison des passations.
 - **Dépendances / priorité / preuves :** `TEAM-001`, `EVAL-001`, `FEAT-004` / P0 / migrations, OpenAPI, tests API, React et E2E.

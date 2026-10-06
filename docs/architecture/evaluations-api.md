@@ -50,8 +50,13 @@ appartenir à l’organisation accessible. Le modèle doit être `VALIDATED` ; b
 `404` à la création comme à la modification. Le responsable doit être un Coach ou un Admin actif de cette même
 organisation et posséder une adresse e-mail. Le Superadmin peut également désigner un Superadmin actif ; un
 Admin ne peut jamais le faire. Un Coach choisi est rattaché à l’équipe dans la même transaction ; un Admin peut
-être choisi même si l’équipe possède déjà un Coach, sans devenir Coach de l’équipe. Une même paire
-équipe–modèle ne peut posséder qu’une planification. Les incohérences retournent `400`, les ressources absentes
+être choisi même si l’équipe possède déjà un Coach, sans devenir Coach de l’équipe. Une planification
+ponctuelle (`immediate` ou `fixed`) dont toutes les passations sont complétées autorise une nouvelle
+planification indépendante pour la même équipe et le même modèle, même à la même date. L’historique,
+les notes, les snapshots et la provenance des passations précédentes sont conservés. Une planification
+récurrente, sans passation ou avec une passation non complétée bloque encore les doublons (`400`).
+La migration `0012` retire l’unicité historique équipe–modèle sans modifier les données ; l’unicité
+planification–échéance des passations reste en vigueur. Les incohérences retournent `400`, les ressources absentes
 ou hors périmètre `404`, et un Coach, Viewer ou visiteur reçoit `403`.
 
 `PUT` et `DELETE /api/admin/planning/{schedule_id}/` remplacent les paramètres ou suppriment la planification.
