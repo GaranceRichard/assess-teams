@@ -53,7 +53,8 @@ le pilotage et le tableau de bord générique restent des placeholders.
 La route `/results` compare sur un radar les dernières passations complétées des équipes pour une
 version radar automatiquement choisie par famille dans l’organisation. Le [contrat Results](results-api.md)
 décrit les snapshots, le scope des passations et l’historique à la demande d’un critère, avec continuité
-inter-version uniquement par lignée UUID explicite, sans agrégation.
+inter-version uniquement par lignée UUID explicite, sans agrégation. Viewer lit uniquement les
+COMPLETED de son organisation, sans accéder aux utilisateurs, aux équipes administratives ni aux mutations.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
 répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des

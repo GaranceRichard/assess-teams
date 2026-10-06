@@ -20,7 +20,7 @@ def test_openapi_documents_organization_family_and_explicit_criterion_history():
         get = paths[path]["get"]
         assert set(get["responses"]) == codes
         assert {"cookieAuth": []} in get["security"]
-        assert "Viewer sans résultats" in get["description"]
+        assert "Viewer sur les COMPLETED de son organisation" in get["description"]
     family = paths["/api/results/families/"]["get"]
     organization = next(p for p in family["parameters"] if p["name"] == "organization_id")
     assert organization["required"] is True

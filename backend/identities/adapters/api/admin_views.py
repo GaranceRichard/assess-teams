@@ -40,9 +40,9 @@ class ManagedUserListCreateView(APIView):
 
     @extend_schema(
         description=(
-            "Liste toutes les identités pour un Superadmin. Un Admin, Coach ou "
-            "Viewer ne voit que les membres de son organisation, ou une liste vide "
-            "sans rattachement."
+            "Liste toutes les identités pour un Superadmin. Un Admin ou Coach "
+            "ne voit que les membres de son organisation, ou une liste vide "
+            "sans rattachement. Viewer : accès interdit (403)."
         ),
         responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
     )

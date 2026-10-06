@@ -77,14 +77,14 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Critères d’acceptation :**
   - un `Superadmin` peut consulter la liste des `Superadmin`, des `Admin`, des `Coach`, des `Viewer`, la liste globale et le détail de chacun de ces comptes ;
   - un `Admin` consulte uniquement les identités de son organisation d'affectation ;
-  - un `Coach` ou un `Viewer` consulte uniquement les utilisateurs rattachés à son organisation ;
-  - sans organisation, un `Coach` ou un `Viewer` reçoit une liste vide ;
-  - le `Viewer` ne peut créer, modifier ni supprimer un utilisateur ;
+  - un `Coach` consulte uniquement les utilisateurs rattachés à son organisation ;
+  - sans organisation, un `Coach` reçoit une liste vide ;
+  - le `Viewer` ne peut consulter, créer, modifier ni supprimer un utilisateur ;
   - le menu des `Admin` et `Superadmin` indique les organisations de chaque utilisateur ; un `Superadmin` est présenté comme affecté à toutes les organisations existantes ;
   - chaque résultat accessible expose au minimum l’identifiant stable, `nom`, `prénom`, `mail`, la fonction métier et l’état actif ou désactivé ; un `Superadmin` est signalé comme capacité technique sans recevoir une quatrième fonction métier ;
   - la liste « tous les utilisateurs » est globale pour un `Superadmin` et cloisonnée par organisation pour tous les rôles métier ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
-- **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; écriture demandée par un `Viewer` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
+- **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; consultation ou écriture demandée par un `Viewer` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
 - **Décision produit bloquante :** aucune ; l'organisation unique de l'Admin détermine son périmètre.
 - **Capacité prérequise :** le rattachement organisationnel unique est matérialisé par `ORG-001`.
 - **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation ; `FEAT-037` pour le périmètre organisationnel de l’`Admin`.

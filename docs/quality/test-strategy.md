@@ -89,6 +89,8 @@ avec deux équipes et deux complétions pour l’une, sans requête supplémenta
 Le longitudinal ajoute les tests `test_result_longitudinal*` et `test_question_lineage*` : lignées
 explicites, migration conservatrice, v1/v2, isolement et IDs forgés. `results-longitudinal.spec.ts`
 vérifie le radar automatique, le chargement à la demande, les observations accessibles et le retour.
+`test_viewer_results` et `viewer-results.spec.ts` protègent la consultation Viewer des COMPLETED de
+son organisation, le longitudinal, les refus inter-organisations et l’absence d’accès/mutation admin.
 
 ## Stratégie de couverture
 

@@ -84,13 +84,13 @@ def test_coach_uses_existing_assignment_scope_before_choosing_latest_run():
     assert client_for(coach).get(reverse("result-versions")).json() == []
 
 
-def test_viewer_menu_does_not_grant_access_to_run_data_and_anonymous_is_denied():
+def test_viewer_consults_results_but_anonymous_and_inactive_are_denied():
     organization, _, _, run = results_context()
     viewer = create_user("viewer", Role.VIEWER)
     organization.users.add(viewer)
     client = client_for(viewer)
-    assert client.get(reverse("result-versions")).json() == []
-    assert client.get(comparison_url(run)).status_code == 404
+    assert [v["id"] for v in client.get(reverse("result-versions")).json()] == [run.evaluation_id]
+    assert client.get(comparison_url(run)).status_code == 200
     assert APIClient().get(reverse("result-versions")).status_code == 403
     assert APIClient().get(comparison_url(run)).status_code == 403
     viewer.is_active = False

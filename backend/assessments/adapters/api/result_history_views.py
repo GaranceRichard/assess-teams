@@ -29,7 +29,8 @@ class ResultsReadView(APIView):
 
 class ResultOrganizationListView(ResultsReadView):
     @extend_schema(
-        description=SCOPE_DESCRIPTION + "Organisations accessibles. L’organisation de l’Admin "
+        description=SCOPE_DESCRIPTION + "Organisations accessibles. "
+        "L’organisation de l’Admin et du Viewer "
         "est imposée ; le Superadmin choisit. Cette liste n’accorde aucun accès aux résultats.",
         responses={200: ResultOrganizationSerializer(many=True), 403: OpenApiResponse()},
     )

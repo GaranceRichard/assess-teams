@@ -38,8 +38,6 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
   );
   await expect(page.getByRole("navigation").getByRole("link")).toHaveText([
     "Tableau de bord",
-    "Utilisateurs",
-    "Équipes",
     "Résultats",
   ]);
   await page.getByRole("button", { name: "Replier le menu" }).click();
@@ -58,9 +56,9 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
     .toBe("1");
   await page.getByRole("button", { name: "Déplier le menu" }).click();
   await expect(dashboardLink.locator(".sidebar-label")).toBeVisible();
-  await page.getByRole("link", { name: "Utilisateurs" }).click();
+  await page.getByRole("link", { name: "Résultats" }).click();
   await expect(
-    page.getByRole("row").filter({ hasText: "viewer-e2e" }),
+    page.getByText("Aucune passation complétée accessible."),
   ).toBeVisible();
 
   await page.goto("/");
@@ -84,8 +82,14 @@ test("a Viewer cannot open an Admin route directly", async ({ page }) => {
   await page.getByRole("button", { name: "Se connecter" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByText(/Vous êtes affecté à/)).toHaveCount(0);
-  await page.getByRole("link", { name: "Utilisateurs" }).click();
-  await expect(page.locator("tbody tr")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Utilisateurs" })).toHaveCount(0);
+  await expect(
+    page.getByRole("link", { name: "Équipes", exact: true }),
+  ).toHaveCount(0);
+  for (const path of ["/users", "/teams"]) {
+    await page.goto(path);
+    await expect(page.getByRole("alert")).toContainText("Page non autorisée");
+  }
 
   await page.goto("/organization");
 

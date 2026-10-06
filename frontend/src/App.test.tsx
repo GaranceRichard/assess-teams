@@ -101,20 +101,23 @@ describe("product authentication journey", () => {
     expect(window.location.pathname).toBe("/");
   });
 
-  it("refuses a direct route outside the connected role", async () => {
-    window.history.replaceState({}, "", "/organization");
-    vi.spyOn(globalThis, "fetch").mockImplementationOnce(() =>
-      response(200, viewer),
-    );
-    render(<App />);
+  it.each(["/organization", "/users", "/teams"])(
+    "refuses Viewer direct route %s",
+    async (path) => {
+      window.history.replaceState({}, "", path);
+      vi.spyOn(globalThis, "fetch").mockImplementationOnce(() =>
+        response(200, viewer),
+      );
+      render(<App />);
 
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Page non autorisée",
-    );
-    expect(
-      screen.queryByRole("link", { name: "Organisation" }),
-    ).not.toBeInTheDocument();
-  });
+      expect(await screen.findByRole("alert")).toHaveTextContent(
+        "Page non autorisée",
+      );
+      expect(
+        screen.queryByRole("link", { name: "Organisation" }),
+      ).not.toBeInTheDocument();
+    },
+  );
 
   it("reports an unavailable authentication service", async () => {
     vi.spyOn(globalThis, "fetch").mockRejectedValue(

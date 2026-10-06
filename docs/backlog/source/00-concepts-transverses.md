@@ -29,7 +29,7 @@ Le `Superadmin` désigne le superuser Django global. C’est une capacité techn
 | --- | --- | --- |
 | `Admin` | administration des ressources et membres non-Admin | unique organisation d'affectation |
 | `Coach` | fonctions `Coach` et `Viewer` | unique organisation de rattachement, puis équipe concernée lorsque la Feature exige une affectation |
-| `Viewer` | consultation uniquement | unique organisation de rattachement |
+| `Viewer` | consultation des résultats COMPLETED uniquement ; aucun accès administratif | unique organisation de rattachement |
 
 Une capacité héritée ne supprime pas les préconditions métier propres à l’action. Par exemple, une fonction exigeant le `Coach` affecté à une équipe conserve cette précondition lorsqu’elle est exercée par un `Admin`.
 
@@ -48,7 +48,7 @@ Le périmètre actif d’un `Admin` est toujours son unique organisation d'affec
 | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
 | CREATE | Oui | Non | Non | Non |
-| READ | Toutes | Organisation d'affectation | Périmètre autorisé | Périmètre autorisé |
+| READ | Toutes | Organisation d'affectation | Périmètre autorisé | Contexte Results uniquement |
 | UPDATE | Toutes | Organisation d'affectation | Non | Non |
 | DELETE | Toutes | Non | Non | Non |
 
@@ -61,7 +61,7 @@ Le `DELETE` d’une Organisation est une suppression physique réservée au `Sup
 | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
 | CREATE | Toutes les organisations | Organisation d'affectation | Non | Non |
-| READ | Toutes les organisations | Organisation d'affectation | Périmètre autorisé | Périmètre autorisé |
+| READ | Toutes les organisations | Organisation d'affectation | Périmètre autorisé | Résultats uniquement, aucun écran Équipes |
 | UPDATE | Toutes les organisations | Organisation d'affectation | Non | Non |
 | DELETE | Toutes les organisations | Organisation d'affectation | Non | Non |
 
@@ -77,7 +77,7 @@ Toute consultation exige une identité authentifiée portant une fonction `Admin
 | --- | --- | --- |
 | `Admin` | zéro ou un rattachement explicite | `FEAT-002`, `FEAT-004`, `FEAT-037` et toutes les Features administrées |
 | `Coach` | zéro ou un rattachement explicite | `FEAT-003`, `FEAT-004`, `FEAT-038`, `FEAT-008` à `FEAT-009`, `FEAT-020` à `FEAT-030`, `FEAT-032` |
-| `Viewer` | zéro ou un rattachement explicite | toutes les Features de consultation |
+| `Viewer` | zéro ou un rattachement explicite | consultation Results (radar et longitudinal COMPLETED) |
 | Équipe | rattachement direct et obligatoire à exactement une organisation | `FEAT-005` à `FEAT-010` et toutes les données rattachées à une équipe |
 | Modèle et paramètres | modèle actuellement propre à son organisation ; partage futur à arbitrer | `FEAT-011` à `FEAT-019`, `FEAT-031` |
 | Passation, évaluation, échéance, notification et indicateur | organisation déterminée par l’équipe source et vérifiée avec les autres rattachements | `FEAT-018` à `FEAT-035` |

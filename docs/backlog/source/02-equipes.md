@@ -1,6 +1,6 @@
 ﻿## EPIC-002 — Gestion des équipes
 
-Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi les matrices CRUD. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. Le vertical slice livré permet aux Superadmins et Admins de sélectionner une organisation accessible, lister, créer, renommer et archiver ses équipes ; `TEAM-001` et `TEAM-004` sont satisfaits. La liste pour Coach/Viewer, le détail par identifiant, la consultation des archives et la réactivation restent absents ; `TEAM-005` reste incomplet faute de restitution de l’équipe archivée et de refus métier explicite d’un second archivage. L’affectation courante de plusieurs Coachs relève de l’Epic Accompagnement.
+Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi les matrices CRUD. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. Le vertical slice livré permet aux Superadmins et Admins de sélectionner une organisation accessible, lister, créer, renommer et archiver ses équipes ; `TEAM-001` et `TEAM-004` sont satisfaits. La liste pour Coach (Viewer exclu des écrans Équipes), le détail par identifiant, la consultation des archives et la réactivation restent absents ; `TEAM-005` reste incomplet faute de restitution de l’équipe archivée et de refus métier explicite d’un second archivage. L’affectation courante de plusieurs Coachs relève de l’Epic Accompagnement.
 
 ### FEAT-005 — Constituer une équipe
 
@@ -38,20 +38,20 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Identifiant :** `TEAM-002`.
 - **Feature parente :** `FEAT-007`.
 - **Titre :** Lister les équipes.
-- **User story :** en tant que `Superadmin`, `Admin`, `Coach` ou `Viewer`, je veux lister les équipes accessibles afin d’accéder aux informations nécessaires au suivi.
+- **User story :** en tant que `Superadmin`, `Admin` ou `Coach`, je veux lister les équipes accessibles afin d’accéder aux informations nécessaires au suivi.
 - **Intention métier :** offrir une vue courante fiable des équipes en activité.
 - **Description :** exposer dans le backend la liste des équipes actives accessibles à l’acteur, avec les seules données utiles à leur identification : identifiant, nom, état et organisation.
 - **Critères d’acceptation :**
   - le `Superadmin` peut lister les équipes de toutes les organisations ;
   - l’`Admin` peut lister uniquement les équipes de son organisation ;
-  - le `Coach` et le `Viewer` peuvent lister uniquement les équipes de leur périmètre autorisé ;
+  - le `Coach` peut lister uniquement les équipes de son périmètre autorisé ;
   - la liste contient chaque équipe active accessible une seule fois, avec son identifiant, son nom, son état et l’identifiant de son organisation ;
   - une équipe archivée n’apparaît pas dans la liste active par défaut ;
   - lorsqu’aucune équipe active n’est accessible, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
   - une équipe nouvellement créée par `TEAM-001` apparaît dans la liste active lors de la consultation suivante ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une équipe.
 - **Principaux cas de refus :** acteur non authentifié ; périmètre absent ou tentative d’accès hors du périmètre autorisé.
-- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution du périmètre du `Viewer`.
+- **Décision produit bloquante :** aucune pour Viewer : aucun accès administratif ; seules les équipes ayant des résultats COMPLETED sont proposées dans Results.
 - **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -63,19 +63,19 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Identifiant :** `TEAM-003`.
 - **Feature parente :** `FEAT-007`.
 - **Titre :** Consulter une équipe.
-- **User story :** en tant que `Superadmin`, `Admin`, `Coach` ou `Viewer`, je veux consulter une équipe accessible afin d’accéder aux informations nécessaires au suivi.
+- **User story :** en tant que `Superadmin`, `Admin` ou `Coach`, je veux consulter une équipe accessible afin d’accéder aux informations nécessaires au suivi.
 - **Intention métier :** fournir une référence fiable pour toute action portant sur une équipe déterminée.
 - **Description :** exposer dans le backend la consultation d’une équipe par son identifiant dans le périmètre autorisé et présenter son identifiant, son nom, son état courant et son organisation.
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter une équipe de toute organisation ;
   - l’`Admin` peut consulter une équipe de son organisation uniquement ;
-  - le `Coach` et le `Viewer` peuvent consulter une équipe de leur périmètre autorisé ;
+  - le `Coach` peut consulter une équipe de son périmètre autorisé ;
   - un identifiant existant et accessible restitue exactement une équipe avec son identifiant, son nom, son état et l’identifiant de son organisation ;
   - l’état présenté distingue explicitement une équipe active d’une équipe archivée ;
   - un identifiant inexistant produit une erreur explicite d’équipe introuvable sans contenu d’équipe ;
   - un acteur sans accès à l’équipe ne reçoit aucune donnée métier et aucune confirmation de son existence.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent ou mal formé ; équipe inexistante ou hors du périmètre autorisé.
-- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution du périmètre du `Viewer`.
+- **Décision produit bloquante :** aucune pour Viewer : aucun accès administratif ; seules les équipes ayant des résultats COMPLETED sont proposées dans Results.
 - **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -141,19 +141,19 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Identifiant :** `TEAM-006`.
 - **Feature parente :** `FEAT-010`.
 - **Titre :** Consulter les équipes archivées.
-- **User story :** en tant que `Superadmin`, `Admin`, `Coach` ou `Viewer`, je veux consulter les équipes archivées accessibles afin de retrouver les collectifs sortis du suivi actif.
+- **User story :** en tant que `Superadmin`, `Admin` ou `Coach`, je veux consulter les équipes archivées accessibles afin de retrouver les collectifs sortis du suivi actif.
 - **Intention métier :** rendre le patrimoine historique repérable sans le mélanger au portefeuille actif.
 - **Description :** afficher séparément les équipes archivées de l’organisation applicable avec leur identifiant, leur nom, leur état et leur organisation.
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter les équipes archivées de toutes les organisations ;
   - l’`Admin` peut consulter les équipes archivées de son organisation uniquement ;
-  - le `Coach` et le `Viewer` peuvent consulter les équipes archivées de leur périmètre autorisé ;
+  - le `Coach` peut consulter les équipes archivées de son périmètre autorisé ;
   - la liste contient chaque équipe archivée accessible une seule fois, avec son identifiant, son nom, l’état `archivée` et l’identifiant de son organisation ;
   - aucune équipe active n’apparaît dans cette liste ;
   - lorsqu’aucune équipe n’est archivée, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
   - une équipe archivée par `TEAM-005` apparaît dans cette liste lors de la consultation suivante.
 - **Principaux cas de refus :** acteur non authentifié ; périmètre absent ou tentative de consulter une équipe archivée hors du périmètre autorisé.
-- **Décision produit bloquante :** `ARB-ORG-012` pour le mode d’attribution du périmètre du `Viewer`.
+- **Décision produit bloquante :** aucune pour Viewer : aucun accès administratif ; seules les équipes ayant des résultats COMPLETED sont proposées dans Results.
 - **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P1.
 - **Domaine métier cible :** Gestion des équipes.

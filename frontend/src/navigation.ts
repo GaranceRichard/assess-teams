@@ -17,8 +17,8 @@ export const routes: ProductRoute[] = [
   {
     path: "/users",
     title: "Utilisateurs",
-    menuRoles: ["Admin", "Coach", "Viewer"],
-    minimumRole: "Viewer",
+    menuRoles: ["Admin", "Coach"],
+    minimumRole: "Coach",
   },
   {
     path: "/organization",
@@ -29,8 +29,8 @@ export const routes: ProductRoute[] = [
   {
     path: "/teams",
     title: "Équipes",
-    menuRoles: ["Admin", "Viewer"],
-    minimumRole: "Viewer",
+    menuRoles: ["Admin"],
+    minimumRole: "Coach",
   },
   {
     path: "/templates",

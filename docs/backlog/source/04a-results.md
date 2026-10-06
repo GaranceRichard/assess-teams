@@ -7,7 +7,7 @@ Cette extension appartient à `EPIC-006 — Suivi longitudinal`, défini dans
 
 - **Intention métier :** comparer les profils actuels d’équipes sur un référentiel identique.
 - **Acteurs :** Superadmin global, Admin dans son organisation, Coach sur ses passations assignées.
-  Le menu Viewer ne confère aucun droit sur les passations ; `ARB-ORG-012` reste ouvert.
+  Viewer consulte les COMPLETED de son organisation, sans droit de passation ni administration.
 - **Description :** afficher les scores snapshotés des dernières passations complétées de plusieurs équipes,
   pour une seule version exacte. Ce comparatif interéquipes est distinct de la comparaison temporelle `FEAT-025`.
 - **Critères principaux :** aucun brouillon, aucune agrégation, aucune comparaison automatique entre versions ;
@@ -35,7 +35,7 @@ Cette extension appartient à `EPIC-006 — Suivi longitudinal`, défini dans
   - 0 équipe conserve axes/échelle, 1 équipe affiche une série, N équipes superposent leurs séries ;
   - légende, tracés et marqueurs différenciés, dates de complétion, libellés complets et tableau accessible ;
   - changement d’organisation/de famille réinitialise les sélections ; chargement, erreur et absence de données explicites ;
-  - Superadmin global, Admin organisationnel, Coach limité à ses assignations, Viewer sans données.
+  - Superadmin global, Admin organisationnel, Coach limité à ses assignations, Viewer limité aux COMPLETED de son organisation en lecture seule.
 - **Refus / cas négatifs :** version forgée hors scope ou sans complétion : `404` ; anonyme : `403` ;
   snapshots incompatibles/incomplets exclus sans utiliser une ancienne passation en remplacement.
 - **Hors périmètre :** comparaison temporelle, comparaison v1/v2, historique, agrégation, moyenne d’organisation,
@@ -61,7 +61,7 @@ paire à paire d’équipes ni comparaison globale de versions n’est introduit
 - **Intention / valeur :** rendre les observations datées explicables sans inventer de filiation ni de tendance.
 - **Description :** Organisation → Modèle → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
 - **Critères d’acceptation :**
-  - Superadmin : choisit l’organisation ; Admin : organisation imposée ; autres rôles : droits inchangés ;
+  - Superadmin : choisit l’organisation ; Admin et Viewer : organisation imposée ; Coach : assignations inchangées ;
   - familles avec `COMPLETED` accessibles, dernière version ayant des résultats automatiquement retenue ;
   - seules les équipes de cette version sont sélectionnables ; aucune sélection d’équipe par défaut ;
   - radar = dernière position : une `COMPLETED` par équipe, `completed_at DESC`, puis `pk DESC` ;
@@ -78,7 +78,7 @@ paire à paire d’équipes ni comparaison globale de versions n’est introduit
   - retour au radar conserve organisation, modèle et équipes ; changement de contexte réinitialise les choix ;
   - tableau sémantique complet, thèmes jour/nuit et erreurs/absence de données explicites.
 - **Refus :** organisation/famille/critère/équipe forgés ou hors scope : `404` ; query invalide : `400` ;
-  anonyme/inactif : `403` ; Viewer : aucune donnée. Une liste mêlant équipes autorisées et forgées est refusée.
+  anonyme/inactif : `403` ; Viewer : aucun résultat hors organisation ni non COMPLETED. Une liste mêlant équipes autorisées et forgées est refusée.
 - **Hors périmètre :** moyennes, score global, classement, tendances calculées, objectifs, rapprochement
   automatique de critères, comparaison globale de versions, Steering, exports et édition depuis Results.
 - **Dépendances / priorité :** `RESULT-001`, `EVAL-003`, `PASS-001` / P0.

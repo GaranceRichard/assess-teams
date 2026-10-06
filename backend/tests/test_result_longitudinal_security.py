@@ -45,7 +45,7 @@ def test_coach_scope_applies_before_latest_version_and_history_selection():
     assert client.get(history_url(current, own.questions.first().lineage_id)).status_code == 404
 
 
-def test_superadmin_selects_organization_without_mixing_tenants_and_viewer_stays_empty():
+def test_superadmin_selects_organization_and_viewer_consults_own_results():
     org, _, admin, own, _ = longitudinal_context()
     foreign_org, _, _, foreign = results_context("Foreign")
     admin.is_superuser = True
@@ -61,9 +61,12 @@ def test_superadmin_selects_organization_without_mixing_tenants_and_viewer_stays
     viewer = create_user("viewer", Role.VIEWER)
     org.users.add(viewer)
     viewer_client = client_for(viewer)
-    assert viewer_client.get(reverse("result-families"), {"organization_id": org.pk}).json() == []
-    assert viewer_client.get(family_url(own)).status_code == 404
-    assert viewer_client.get(history_url(own, own.questions.first().lineage_id)).status_code == 404
+    assert (
+        viewer_client.get(reverse("result-families"), {"organization_id": org.pk}).status_code
+        == 200
+    )
+    assert viewer_client.get(family_url(own)).status_code == 200
+    assert viewer_client.get(history_url(own, own.questions.first().lineage_id)).status_code == 200
     assert APIClient().get(reverse("result-organizations")).status_code == 403
     assert APIClient().get(history_url(own, own.questions.first().lineage_id)).status_code == 403
 

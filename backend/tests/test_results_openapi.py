@@ -17,7 +17,7 @@ def test_results_schema_is_read_only_scoped_and_documents_scores():
     assert set(detail["get"]["responses"]) == {"200", "403", "404"}
     for operation in (collection["get"], detail["get"]):
         assert {"cookieAuth": []} in operation["security"]
-        assert "Viewer sans résultats" in operation["description"]
+        assert "Viewer sur les COMPLETED de son organisation" in operation["description"]
     assert "completed_at" in detail["get"]["description"]
     components = schema["components"]["schemas"]
     assert set(components["ResultComparison"]["required"]) == {"axes", "teams"}

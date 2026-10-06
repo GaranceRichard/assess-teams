@@ -96,7 +96,7 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 ### ARB-ORG-012 — Périmètre du Viewer authentifié
 
 - **Décision prise :** le `Viewer` est authentifié et consulte uniquement son périmètre accordé. Une identité possède une seule fonction métier ; la hiérarchie de capacités ne constitue pas un cumul de rôles explicites.
-- **Décision prise :** le périmètre accordé provient des rattachements explicites du Viewer aux organisations.
+- **Décision prise :** Viewer consulte les résultats COMPLETED de son unique organisation de rattachement (radar et longitudinal), sans accès Utilisateurs/Équipes, administration ni mutation métier.
 - **Arbitrage résolu :** le choix d’un périmètre actif en cas de multi-appartenance reste porté par `ARB-ORG-011`.
 
 ### ARB-ORG-013 — Paramètres et vues multi-organisation
@@ -109,5 +109,5 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 - **Décision prise :** le `Superadmin` peut créer une organisation, agir sur toutes les organisations et leurs équipes, et supprimer physiquement une organisation.
 - **Décision prise :** un `Admin` administre sans suppression son unique organisation et ne peut jamais modifier ses Admins. Seul le Superadmin crée une organisation et administre les comptes Admin.
-- **Décision prise :** `Coach` et `Viewer` peuvent uniquement lire les Organisations et Équipes de leur périmètre autorisé. Toute lecture de donnée métier exige une identité authentifiée. Toute lecture hors périmètre ne révèle ni l’existence ni les données de l’objet, et tout refus d’écriture est sans effet partiel.
+- **Décision prise :** `Coach` conserve la consultation dans son périmètre autorisé. Viewer n’accède à l’organisation et aux équipes que via leurs résultats COMPLETED, jamais via les écrans/API d’administration. Toute lecture de donnée métier exige une identité authentifiée. Toute lecture hors périmètre ne révèle ni l’existence ni les données de l’objet, et tout refus d’écriture est sans effet partiel.
 - **Arbitrage résolu :** les périmètres CRUD sont décidés ; `ARB-ORG-015` ne bloque plus `ORG-001` à `ORG-004` ni `TEAM-001` à `TEAM-007`. `ARB-ORG-011` reste applicable au choix d’un périmètre actif.

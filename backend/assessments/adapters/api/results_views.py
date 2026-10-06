@@ -14,8 +14,9 @@ from journals.log_context import describe_log_attempt
 from journals.models import LogSource
 
 SCOPE_DESCRIPTION = (
-    "Session active. Scope des passations existant : Superadmin global, Admin dans son "
-    "organisation, Coach sur ses passations assignées, Viewer sans résultats. "
+    "Session active. Scope de consultation : Superadmin global, Admin dans son "
+    "organisation, Coach sur ses passations assignées, "
+    "Viewer sur les COMPLETED de son organisation. "
 )
 
 

@@ -30,8 +30,11 @@ def test_coach_or_viewer_lists_only_organization_members(role: Role) -> None:
 
     response = logged_in_client(actor).get(reverse("managed-user-list"))
 
-    assert response.status_code == 200
-    assert {entry["id"] for entry in response.json()} == {actor.pk, peer.pk}
+    if role is Role.VIEWER:
+        assert response.status_code == 403
+    else:
+        assert response.status_code == 200
+        assert {entry["id"] for entry in response.json()} == {actor.pk, peer.pk}
 
 
 @pytest.mark.django_db
@@ -43,8 +46,11 @@ def test_coach_or_viewer_without_organization_lists_nobody(role: Role) -> None:
 
     response = logged_in_client(actor).get(reverse("managed-user-list"))
 
-    assert response.status_code == 200
-    assert response.json() == []
+    if role is Role.VIEWER:
+        assert response.status_code == 403
+    else:
+        assert response.status_code == 200
+        assert response.json() == []
 
 
 @pytest.mark.django_db
@@ -71,11 +77,12 @@ def test_coach_cannot_change_a_viewer_from_another_organization() -> None:
 
 @pytest.mark.django_db
 @pytest.mark.api
-def test_viewer_has_read_only_access_to_organization_users() -> None:
+def test_viewer_cannot_access_organization_users() -> None:
     actor = create_user("actor", Role.VIEWER)
     peer = create_user("peer", Role.VIEWER)
     Organization.objects.create(name="North").users.add(actor, peer)
     client = logged_in_client(actor)
+    assert client.get(reverse("managed-user-list")).status_code == 403
     detail = reverse("managed-user-detail", kwargs={"user_id": peer.pk})
     payload = {"identifier": "changed", "email": "changed@example.com"}
 

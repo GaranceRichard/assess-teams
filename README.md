@@ -37,8 +37,8 @@ soleil/lune conserve le mode jour/nuit. Le sélecteur [Couleurs](docs/architectu
 
 La gestion actuelle des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
 l'Admin gère uniquement les Coachs et Viewers de son organisation, le Coach gère les Viewers de son
-organisation, et le Viewer consulte ses membres. Seul le Superadmin crée, affecte, modifie ou supprime un Admin.
-Sans organisation, un Coach ou Viewer ne voit aucun utilisateur ; le Coach ne peut jamais changer une fonction. Les écrans manipulent encore `username`/e-mail plutôt que `nom`/`prénom`, et `DELETE` supprime physiquement le compte : les PBIs complets restent donc ouverts ou bloqués.
+organisation. Le Viewer consulte uniquement les résultats COMPLETED de son organisation, sans accès Utilisateurs ni Équipes. Seul le Superadmin crée, affecte, modifie ou supprime un Admin.
+Sans organisation, un Coach ne voit aucun utilisateur et un Viewer aucun résultat ; le Coach ne peut jamais changer une fonction. Les écrans manipulent encore `username`/e-mail plutôt que `nom`/`prénom`, et `DELETE` supprime physiquement le compte : les PBIs complets restent donc ouverts ou bloqués.
 
 ## Périmètre livré — gestion des organisations et équipes
 

@@ -34,7 +34,7 @@ const expectedMenus: Record<UserRole, string[]> = {
     "Logs",
   ],
   Coach: ["Tableau de bord", "Utilisateurs", "Évaluations", "Résultats"],
-  Viewer: ["Tableau de bord", "Utilisateurs", "Équipes", "Résultats"],
+  Viewer: ["Tableau de bord", "Résultats"],
 };
 
 function sessionUser(

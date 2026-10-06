@@ -5,7 +5,8 @@
 Le main audité (base `e900f3d`) possède `EvaluationFamily`, les versions exactes `Evaluation`,
 `EvaluationRun` et ses questions snapshotées, ainsi qu’un radar Chart.js 4/react-chartjs-2 5.
 Les projections existantes sélectionnent la dernière complétion par équipe sur une version exacte.
-Les droits sont ceux de `evaluation_runs_for` ; aucun droit Results autonome n’est introduit.
+Le scope Results conserve `evaluation_runs_for` pour Superadmin/Admin/Coach ; Viewer dispose
+d’une lecture distincte des COMPLETED de son organisation, sans droit de passation.
 La copie de version recréait les questions avec texte/index, sans filiation explicite entre leurs IDs.
 Les journaux de copie ne prouvent pas la correspondance individuelle des questions historiques.
 
@@ -77,7 +78,10 @@ Les anciennes versions sans lignée commune démontrable ne sont pas fusionnées
 ## Autorisation
 
 Superadmin : global avec choix d’organisation ; Admin : organisation imposée ; Coach : uniquement
-ses passations assignées dans son organisation ; Viewer : aucun résultat. Les menus existants restent.
+ses passations assignées dans son organisation ; Viewer : toutes les COMPLETED de son organisation,
+indépendamment de l’assigné, en lecture seule. Son organisation est imposée dans l’UI.
+Les menus et routes Utilisateurs/Équipes lui sont interdits ; leurs API administratives refusent Viewer (403).
+Aucun droit de passation, de révision ou autre mutation métier n’est ajouté.
 Le scope est appliqué avant le choix de version, du dernier run et des points historiques.
 Un Coach ne reçoit pas une complétion plus récente d’un autre assigné. Les IDs de famille, lignée,
 organisation et équipe ne peuvent élargir ce scope ni mélanger plusieurs organisations.
@@ -85,7 +89,7 @@ organisation et équipe ne peuvent élargir ce scope ni mélanger plusieurs orga
 ## React et graphiques
 
 Parcours : Organisation → Modèle (famille) → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
-Aucune organisation préchoisie pour le Superadmin ; celle de l’Admin est imposée. Aucune équipe préchoisie.
+Aucune organisation préchoisie pour le Superadmin ; celle de l’Admin et du Viewer est imposée. Aucune équipe préchoisie.
 Changer d’organisation ou de famille remet à zéro les sélections et ferme le longitudinal.
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
@@ -105,7 +109,8 @@ Les thèmes jour/nuit et styles des équipes restent cohérents entre les deux v
 ## Périmètre et preuves
 
 [RESULT-001 et RESULT-002](../backlog/source/04a-results.md) appartiennent à EPIC-006.
-Tests backend : lignées/copies/migration, choix de version, récence/tie-break, observations, isolation,
+Tests backend : `test_viewer_results` (scope COMPLETED, refus admin/mutations, isolation),
+lignées/copies/migration, choix de version, récence/tie-break, observations, isolation,
 IDs forgés, paramètres et OpenAPI. React : états 0/1/N, chargement à la demande, retour, erreurs,
 thèmes et réponses obsolètes. Playwright : radar courant et observations v1/v2 avec valeurs accessibles.
 Moyennes, score global, classement, tendances calculées, objectifs, comparaison automatique sans filiation,

@@ -2,7 +2,7 @@ from identities.domain.users import Actor, Role
 
 
 def can_view_managed_users(actor: Actor) -> bool:
-    roles = {Role.ADMIN, Role.COACH, Role.VIEWER}
+    roles = {Role.ADMIN, Role.COACH}
     return actor.is_active and (actor.is_superuser or actor.role in roles)
 
 

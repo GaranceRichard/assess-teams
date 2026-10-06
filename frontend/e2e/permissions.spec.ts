@@ -6,7 +6,7 @@ import {
   seedIdentity,
 } from "./identity-fixture";
 
-test("Admin, Coach and Viewer see only allowed organization users", async ({
+test("Admin and Coach manage scoped users while Viewer is denied", async ({
   page,
 }) => {
   seedIdentity("permissions-admin-e2e", "Admin");
@@ -62,10 +62,9 @@ test("Admin, Coach and Viewer see only allowed organization users", async ({
   await page.getByLabel("Identifiant").fill("permissions-viewer-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
-  await page.getByRole("link", { name: "Utilisateurs" }).click();
-  await expect(coachRow).toBeVisible();
-  await expect(viewerRow).toBeVisible();
-  await expect(adminRow).toBeVisible();
-  await expect(adminRow.getByRole("button")).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Modifier" })).toHaveCount(0);
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.getByRole("link", { name: "Utilisateurs" })).toHaveCount(0);
+  await page.goto("/users");
+  await expect(page.getByRole("alert")).toContainText("Page non autorisée");
+  expect((await page.request.get("/api/admin/users/")).status()).toBe(403);
 });

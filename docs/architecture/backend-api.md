@@ -59,12 +59,13 @@ session et son jeton CSRF, invalide la session puis retourne `204`; une session 
 avec `403`.
 
 Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
-capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Utilisateurs, Organisations, Équipes,
+capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Viewer accède au tableau de bord et aux Résultats, jamais à Utilisateurs ni Équipes. Utilisateurs, Organisations, Équipes,
 Modèles, Planification, Évaluations, Résultats et Journaux ont des pages réelles ; tableau de bord générique et pilotage restent des placeholders.
 
 Le [contrat Results](results-api.md) expose les versions avec complétions et les dernières passations
 complétées par équipe, sur une version radar automatique par famille/organisation, puis les observations longitudinales d’un critère
-par lignée explicite, dans le scope des passations et sans agrégation.
+par lignée explicite, dans le scope des passations pour Superadmin/Admin/Coach et des COMPLETED
+de son organisation pour Viewer, sans agrégation ni droit d’écriture.
 
 Les réponses de session et de connexion exposent aussi `interface_palette`, parmi `green`, `blue`, `pink`,
 `red`, avec défaut `green`. `PATCH /api/session/` accepte uniquement ce champ obligatoire et modifie
@@ -74,11 +75,11 @@ restauration et isolation. Aucun identifiant cible, rôle, organisation ou CSS l
 
 ## Gestion hiérarchique des identités
 
-`GET /api/admin/users/` exige une session active. Le Superadmin consulte la liste complète ; un Admin, Coach
-ou Viewer consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement.
+`GET /api/admin/users/` exige une session active. Le Superadmin consulte la liste complète ; un Admin ou Coach
+consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement. Viewer reçoit `403`.
 Chaque résultat expose `organizations`, soit les rattachements du compte, soit toutes les organisations existantes
 pour un Superadmin. Le menu Utilisateurs affiche cette liste à ses visiteurs Admin et Superadmin.
-Le Viewer dispose d’un écran en lecture seule. `POST` sur la collection, puis `PUT` et `DELETE` sur
+Viewer n’a aucun accès à l’écran Utilisateurs. `POST` sur la collection, puis `PUT` et `DELETE` sur
 `/api/admin/users/{user_id}/`, exigent le jeton CSRF et restent interdits au Viewer. Masquer un bouton ne
 constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
 

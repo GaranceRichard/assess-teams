@@ -1,10 +1,20 @@
 from django.db.models import OuterRef, Prefetch, Subquery
 
 from assessments.application.taking_scope import evaluation_runs_for
-from assessments.models import Evaluation, EvaluationRunQuestion, EvaluationRunState
+from assessments.models import Evaluation, EvaluationRun, EvaluationRunQuestion, EvaluationRunState
+from identities.domain.users import Role
 
 
 def completed_results_for(user):
+    if user.is_active and not user.is_superuser and user.role == Role.VIEWER.value:
+        # Results consultation is independent of permission to take/revise evaluations.
+        organizations = user.organizations.values("pk")
+        return EvaluationRun.objects.filter(
+            organization_id__in=organizations,
+            evaluation__organization_id__in=organizations,
+            team__organization_id__in=organizations,
+            state=EvaluationRunState.COMPLETED,
+        )
     return evaluation_runs_for(user).filter(state=EvaluationRunState.COMPLETED)
 
 
