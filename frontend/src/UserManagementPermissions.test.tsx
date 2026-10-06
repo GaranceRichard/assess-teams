@@ -5,7 +5,7 @@ import type { SessionUser } from "./auth";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 
 const api = vi.hoisted(() => ({
-  deleteManagedUser: vi.fn(),
+  setManagedUserActivation: vi.fn(),
   inviteManagedUser: vi.fn(),
   listManagedUsers: vi.fn(),
   updateManagedUser: vi.fn(),
@@ -104,7 +104,7 @@ it("lets an admin act only on coaches and viewers with subordinate roles", async
   expect(within(rowFor("root")).queryByRole("button")).not.toBeInTheDocument();
   expect(within(rowFor("admin")).queryByRole("button")).not.toBeInTheDocument();
   expect(within(rowFor("coach")).getByText("Modifier")).toBeVisible();
-  expect(within(rowFor("viewer")).getByText("Supprimer")).toBeVisible();
+  expect(within(rowFor("viewer")).getByText("Désactiver")).toBeVisible();
 
   fireEvent.click(
     screen.getByRole("button", { name: "Ajouter un utilisateur" }),
@@ -154,5 +154,5 @@ it("gives a viewer a read-only user list", async () => {
     screen.queryByRole("button", { name: "Ajouter un utilisateur" }),
   ).toBeNull();
   expect(screen.queryByText("Modifier")).toBeNull();
-  expect(screen.queryByText("Supprimer")).toBeNull();
+  expect(screen.queryByText("Désactiver")).toBeNull();
 });

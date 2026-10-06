@@ -8,7 +8,7 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 ## Produit réellement disponible au 2026-10-06
 
 - session par login/logout, reprise de session, invitations et choix du mot de passe ;
-- liste et administration hiérarchique des comptes, avec écarts au contrat `USER-002` à `USER-004` ;
+- liste et administration hiérarchique des comptes, avec désactivation/réactivation et écarts restant dans `USER-002/003` ;
 - organisations : création, liste/détail Admin-Superadmin, renommage et gestion des membres ;
 - équipes : liste active Admin-Superadmin, création, renommage, archivage et Coachs courants ;
 - modèles locaux : brouillon modifiable, validation immuable et archivage logique, avec familles et versions immuables ;
@@ -29,7 +29,7 @@ Les Features larges de pilotage restent incomplètes.
 
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
-| EPIC-001 — Identités, coachs et habilitations | 4 | 6 | 3 | 50 % |
+| EPIC-001 — Identités, coachs et habilitations | 4 | 6 | 4 | 67 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 2 | 29 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 3 | 3 | 100 % |
@@ -69,7 +69,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | USER-001 — Créer un utilisateur | Réalisé | contrat historique ; 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | Ouvert | liste livrée ; détail et `nom`/`prénom` absents |
 | USER-003 — Modifier un utilisateur | Ouvert | édition présente, mais identifiant/fonction mutables et noms absents |
-| USER-004 — Supprimer un utilisateur | Bloqué | suppression physique au lieu de désactivation ; `ARB-ORG-008` |
+| USER-004 — Désactiver et réactiver un utilisateur | Réalisé | lifecycle préservant historique ; dernier Admin actif protégé ; 2026-10-06 |
 | ORG-001 — Créer une organisation | Réalisé | création et rattachements atomiques ; 2026-09-24 |
 | ORG-002 — Consulter les organisations | Ouvert | Superadmin/Admin livrés ; Coach/Viewer absents |
 | ORG-003 — Modifier une organisation | Réalisé | renommage cloisonné ; 2026-09-24 |
@@ -99,7 +99,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 ## Écarts et décisions encore ouverts
 
 - `ARB-ORG-005` doit décider le traitement des équipes, modèles et planifications avant de rétablir `ORG-004`.
-- `ARB-ORG-008` reste nécessaire pour le dernier Admin ; le `DELETE` utilisateur actuel contourne la protection.
+- `ARB-ORG-008` est résolu : dernier Admin actif protégé, transitions explicites et aucune suppression physique métier.
 - `ARB-ORG-010` reste ouvert pour un éventuel partage de modèles ; le code ne livre qu’un périmètre strictement local.
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
 - partage, historique général, calculs d’évolution/tendance, alertes et pilotage élargi restent non réalisés.
@@ -111,7 +111,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | --- | --- | --- | --- | --- |
 | Organisation | CRUD global | lecture/mise à jour de son organisation | aucun endpoint Organisation | aucun endpoint Organisation |
 | Équipe | création/liste/mise à jour/archivage global | mêmes actions dans son organisation | aucune lecture d’équipe par API | aucune lecture d’équipe par API |
-| Utilisateur | liste et gestion hors soi-même | membres non-Admin de son organisation | liste et gestion des Viewers de son organisation | refus |
+| Utilisateur | liste/édition/désactivation/réactivation hors soi-même | Coach/Viewer de son organisation | Viewers de son organisation, fonction inchangée | refus |
 | Modèle/planification | gestion globale | gestion dans son organisation | aucune gestion | aucune gestion |
 | Passation | accès global, complétion et révision | mêmes actions dans son organisation | ses assignations dans son organisation ; complétions read-only | refus |
 | Résultats | lecture globale | lecture organisationnelle | ses passations assignées | COMPLETED de son organisation, lecture seule |
@@ -130,7 +130,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | Nombre total de PBIs | 31 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
-| PBIs bloqués | 2 |
-| PBIs non réalisés | 10 |
-| PBIs réalisés | 21 |
-| Avancement global | 68 % |
+| PBIs bloqués | 1 |
+| PBIs non réalisés | 9 |
+| PBIs réalisés | 22 |
+| Avancement global | 71 % |

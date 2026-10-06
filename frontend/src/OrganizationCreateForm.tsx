@@ -56,26 +56,28 @@ export function OrganizationCreateForm({
       />
       <fieldset>
         <legend>Utilisateurs</legend>
-        <p>Sélectionnez au moins un utilisateur.</p>
+        <p>Sélectionnez au moins un Admin actif.</p>
         <div className="organization-users">
-          {users.map((user) => {
-            const unavailable = unavailableUserIds.has(user.id);
-            return (
-              <label key={user.id}>
-                <input
-                  checked={userIds.includes(user.id)}
-                  disabled={unavailable}
-                  onChange={() => toggleUser(user.id)}
-                  type="checkbox"
-                />
-                <span>{user.identifier}</span>
-                <small>
-                  {user.user_type}
-                  {unavailable ? " · déjà affecté" : ""}
-                </small>
-              </label>
-            );
-          })}
+          {users
+            .filter((user) => user.is_active)
+            .map((user) => {
+              const unavailable = unavailableUserIds.has(user.id);
+              return (
+                <label key={user.id}>
+                  <input
+                    checked={userIds.includes(user.id)}
+                    disabled={unavailable}
+                    onChange={() => toggleUser(user.id)}
+                    type="checkbox"
+                  />
+                  <span>{user.identifier}</span>
+                  <small>
+                    {user.user_type}
+                    {unavailable ? " · déjà affecté" : ""}
+                  </small>
+                </label>
+              );
+            })}
         </div>
       </fieldset>
       <button disabled={saving || !name.trim() || userIds.length === 0}>

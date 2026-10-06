@@ -35,11 +35,11 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 
 - **Intention métier :** maîtriser qui peut participer au dispositif sans effacer son passé.
 - **Acteurs concernés :** `Superadmin` technique ou `Admin` autorisé selon `FEAT-004`.
-- **Description :** créer une identité, consulter et mettre à jour ses informations utiles, puis désactiver son accès lorsqu’elle doit être retirée, sans confondre ce cycle de vie avec son rattachement organisationnel.
+- **Description :** créer une identité, consulter et mettre à jour ses informations utiles, puis désactiver et éventuellement réactiver son accès, sans confondre ce cycle de vie avec son rattachement organisationnel.
 - **Critères d’acceptation principaux :**
   - une identité unique et valide comprend `nom`, `prénom`, `mail` et exactement une fonction métier parmi `Admin`, `Coach` et `Viewer` ;
   - toute opération applique la matrice de `FEAT-004` au demandeur, à la fonction courante de la cible et, lors d’une création, à la fonction demandée ;
-  - la désactivation bloque les nouvelles connexions sans supprimer les actions historiques ;
+  - la désactivation bloque connexions et sessions existantes sans supprimer l’historique ; la réactivation reste explicite ;
   - une identité en doublon, des données obligatoires invalides ou une opération interdite sont refusées sans effet partiel.
 - **Dépendances éventuelles :** `FEAT-001`, `FEAT-004`.
 - **Priorité :** P0.
@@ -117,29 +117,31 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Valeur apportée :** maintient des comptes exacts sans permettre d’élévation de privilège indirecte.
 - **Notes d’implémentation :** la mise à jour doit être atomique.
 
-#### USER-004 — Supprimer un utilisateur
+#### USER-004 — Désactiver et réactiver un utilisateur
 
 - **Identifiant :** `USER-004`.
 - **Feature parente :** `FEAT-002`.
-- **Titre :** Supprimer un utilisateur.
-- **User story :** en tant que `Superadmin` technique ou `Admin` autorisé, je veux retirer un utilisateur selon mes droits afin d’empêcher un compte qui ne doit plus participer au dispositif de continuer à agir.
-- **Intention métier :** retirer l’accès courant tout en conservant l’identité nécessaire à la traçabilité du dispositif.
-- **Description :** la suppression demandée est une désactivation logique : elle bloque les nouvelles connexions et opérations sans suppression physique de l’identité, de ses actions, de ses rattachements ni de son historique.
+- **Titre :** Désactiver et réactiver un utilisateur.
+- **User story :** retirer puis éventuellement rendre l’accès d’une identité autorisée sans effacer son passé.
+- **Intention métier :** `Actif → Désactivé → Réactivé`, ID et historique conservés intégralement.
+- **Description :** `is_active` bloque connexions et sessions existantes, sans suppression ni réécriture historique.
 - **Critères d’acceptation :**
-  - un `Superadmin` peut désactiver un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
-  - un `Admin` peut désactiver un `Coach` ou un `Viewer` de son organisation active, mais ne peut désactiver aucun `Admin` ;
-  - un `Coach` ou un `Viewer` ne peut supprimer ni désactiver aucun utilisateur ;
-  - une désactivation valide interdit toute nouvelle connexion ou action du compte, le conserve consultable comme désactivé selon `USER-002` et préserve ses faits historiques ;
-  - aucun utilisateur, y compris un `Superadmin`, ne peut supprimer ou désactiver un compte `Superadmin` par ce PBI ;
-  - un compte déjà désactivé ne subit pas de nouvelle transition et tout refus laisse l’ensemble des données inchangé ;
-  - le retrait du dernier `Admin` d’une organisation respecte la décision restant à prendre dans `ARB-ORG-008`.
-- **Principaux cas de refus :** rôle demandeur interdit ; cible `Superadmin` ; `Admin` ciblant un `Admin` ou une autre organisation ; cible inexistante ou déjà désactivée ; retrait du dernier `Admin` tant que `ARB-ORG-008` n’est pas résolu.
-- **Décision produit bloquante :** `ARB-ORG-008` ; la dépendance à `USER-002` reste nécessaire.
-- **Dépendances :** `USER-002` ; `FEAT-001` pour l’effet sur l’accès ; `FEAT-004` pour l’autorisation et le périmètre.
+  - Superadmin : gestion globale sauf soi ; seul cet acteur administre les Admins ;
+  - Admin : Coach/Viewer de son organisation, jamais Admin ; Coach : Viewer de son organisation, sans changer la fonction ; Viewer : refus ;
+  - désactivation et réactivation explicites, idempotentes et auditées avec acteur/cible/organisation ;
+  - dernier Admin actif protégé contre désactivation, rétrogradation et retrait, atomiquement et sous concurrence ;
+  - réactivation validant rôle, cardinalité, organisation et absence de conflit d’identité/mail ;
+  - aucun lien supprimé entre-temps n’est restauré, aucune responsabilité réattribuée automatiquement ;
+  - identité inactive exclue des nouveaux candidats ; planifications non closes à réaffecter explicitement ;
+  - FK, COMPLETED, auteurs/dates, révisions, résultats et snapshots préservés.
+- **Principaux refus :** droit ou scope, cible inconnue, dernier Admin actif, conflit mail/identité, appartenance multiple.
+- **Arbitrage :** `ARB-ORG-008` résolu avec la règle conservatoire de l’Admin actif.
+- **Dépendances :** `FEAT-001`, `FEAT-004` ; les détails/noms de `USER-002/003` restent ouverts.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
-- **Valeur apportée :** empêche un ancien participant d’agir sans détruire la preuve de son activité passée.
-- **Notes d’implémentation :** aucune suppression physique ni cascade destructive n’appartient à ce PBI ; une éventuelle réactivation devra être raffinée séparément avant implémentation.
+- **Notes d’implémentation :** [audit, API, concurrence et responsabilités](../../architecture/user-lifecycle.md).
+  DELETE est temporairement un alias déprécié de désactivation ; le produit utilise des POST sémantiques.
+  Le lifecycle Organisation, la rétention et l’anonymisation définitive restent hors périmètre.
 
 ### FEAT-003 — Qualifier et superviser un coach
 
@@ -169,12 +171,12 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
   | Opération | `Superadmin` technique | `Admin` | `Coach` | `Viewer` |
   | --- | --- | --- | --- | --- |
   | Créer | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` | refus | refus |
-  | Consulter | tous les comptes, dont les `Superadmin` | `Admin`, `Coach`, `Viewer` dans son organisation active ; aucun `Superadmin` | refus | refus |
-  | Modifier | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son organisation active | refus | refus |
-  | Supprimer logiquement | `Admin`, `Coach`, `Viewer` | `Coach`, `Viewer` dans son organisation active | refus | refus |
+  | Consulter | tous les comptes | membres actifs et comptes inactifs administrables de son organisation | membres actifs et Viewers inactifs de son organisation | refus |
+  | Modifier | tous sauf soi | `Coach`, `Viewer` de son organisation | `Viewer` de son organisation, fonction inchangée | refus |
+  | Désactiver / réactiver | tous sauf soi | `Coach`, `Viewer` de son organisation | `Viewer` de son organisation | refus |
 
-  Cette matrice ne permet jamais de créer, modifier ou supprimer un `Superadmin` par les PBIs fonctionnels. Toutes ses opérations exigent une identité authentifiée. Tout refus intervient avant écriture et ne produit aucun effet partiel.
-- **Décisions produit bloquantes pour la matrice Utilisateurs :** `ARB-ORG-011` porte le choix du périmètre actif ; `ARB-ORG-008` reste bloquant pour `USER-004`. Le rattachement multiple initial est matérialisé par `ORG-001`.
+  Le bootstrap Superadmin reste système ; les capacités de gestion préexistantes sont conservées, sans auto-modification ni suppression physique. Toutes ses opérations exigent une identité authentifiée. Tout refus intervient avant écriture et ne produit aucun effet partiel.
+- **Décisions produit bloquantes pour la matrice Utilisateurs :** `ARB-ORG-011` porte le choix du périmètre actif ; `ARB-ORG-008` est résolu pour `USER-004`. Le rattachement multiple initial est matérialisé par `ORG-001`.
 - **Dépendances éventuelles :** `FEAT-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { SessionUser } from "./auth";
 import { ConfirmDialog } from "./ConfirmDialog";
 import {
-  deleteManagedUser,
+  setManagedUserActivation,
   inviteManagedUser,
   listManagedUsers,
   type ManagedUser,
@@ -24,7 +24,7 @@ type Props = { actor: SessionUser };
 export function SuperadminDashboard({ actor }: Props) {
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [editing, setEditing] = useState<ManagedUser | "new" | null>(null);
-  const [deleting, setDeleting] = useState<ManagedUser | null>(null);
+  const [deactivating, setDeactivating] = useState<ManagedUser | null>(null);
   const [error, setError] = useState<string | null>(null);
   const allowedCreationRoles = creationRoles(actor);
   const showsOrganizations = actor.is_superuser || actor.role === "Admin";
@@ -48,20 +48,27 @@ export function SuperadminDashboard({ actor }: Props) {
       );
       setEditing(null);
       setError(null);
-    } catch {
-      setError("L’opération a été refusée. Vérifiez les informations saisies.");
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "L’opération a été refusée.",
+      );
     }
   }
 
-  async function remove() {
-    if (!deleting) return;
+  async function changeActivation(user: ManagedUser, active: boolean) {
     try {
-      await deleteManagedUser(deleting.id);
-      setUsers((current) => current.filter((user) => user.id !== deleting.id));
-      setDeleting(null);
+      const saved = await setManagedUserActivation(user.id, active);
+      setUsers((current) =>
+        current.map((item) => (item.id === saved.id ? saved : item)),
+      );
+      setDeactivating(null);
       setError(null);
-    } catch {
-      setError("La suppression a été refusée.");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Le changement d’activation a été refusé.",
+      );
     }
   }
 
@@ -115,7 +122,9 @@ export function SuperadminDashboard({ actor }: Props) {
                   </td>
                 )}
                 <td className="row-actions">
-                  {!user.is_active && <span className="pending">Inactif</span>}
+                  <span className="pending">
+                    {user.is_active ? "Actif" : "Désactivé"}
+                  </span>
                   {canManageTarget(actor, user) && (
                     <>
                       <button
@@ -126,9 +135,13 @@ export function SuperadminDashboard({ actor }: Props) {
                       </button>
                       <button
                         className="danger-outline"
-                        onClick={() => setDeleting(user)}
+                        onClick={() =>
+                          user.is_active
+                            ? setDeactivating(user)
+                            : void changeActivation(user, true)
+                        }
                       >
-                        Supprimer
+                        {user.is_active ? "Désactiver" : "Réactiver"}
                       </button>
                     </>
                   )}
@@ -150,11 +163,11 @@ export function SuperadminDashboard({ actor }: Props) {
           onSubmit={save}
         />
       )}
-      {deleting && (
+      {deactivating && (
         <ConfirmDialog
-          name={deleting.identifier}
-          onCancel={() => setDeleting(null)}
-          onConfirm={remove}
+          name={deactivating.identifier}
+          onCancel={() => setDeactivating(null)}
+          onConfirm={() => changeActivation(deactivating, false)}
         />
       )}
     </section>

@@ -26,6 +26,7 @@ def record_activity(
     action: ActivityAction,
     description: str,
     team: Team | None = None,
+    target_user: User | None = None,
 ) -> ActivityEntry:
     return ActivityEntry.objects.create(
         organization=organization,
@@ -36,6 +37,8 @@ def record_activity(
         team_name=team.name if team else "",
         action=action,
         description=description,
+        target_user=target_user,
+        target_user_name=target_user.username if target_user else "",
     )
 
 

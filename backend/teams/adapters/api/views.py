@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from identities.adapters.api.organization_permissions import CanManageOrganizations
 from identities.adapters.api.organization_scope import manageable_organization
+from identities.application.lifecycle import lock_identity_changes
 from journals.activity_records import team_archived, team_changed, team_created
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
@@ -61,6 +62,7 @@ class TeamListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request, organization_id: int):
+        lock_identity_changes()
         organization = manageable_organization(request.user, organization_id)
         describe_log_attempt(
             request,
@@ -103,6 +105,7 @@ class TeamDetailView(APIView):
     )
     @transaction.atomic
     def put(self, request, team_id: int):
+        lock_identity_changes()
         team = manageable_team(request.user, team_id)
         describe_log_attempt(
             request,

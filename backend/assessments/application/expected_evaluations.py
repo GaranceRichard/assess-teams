@@ -5,7 +5,11 @@ from assessments.models import EvaluationRun, EvaluationRunState, EvaluationSche
 
 @transaction.atomic
 def ensure_expected_evaluation(schedule: EvaluationSchedule, due_date=None) -> EvaluationRun | None:
-    if schedule.assignee is None:
+    if (
+        schedule.assignee is None
+        or schedule.requires_reassignment
+        or not schedule.assignee.is_active
+    ):
         return None
     context = {
         "organization": schedule.team.organization,

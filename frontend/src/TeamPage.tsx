@@ -39,7 +39,14 @@ export function TeamPage({ actor }: Props) {
     (candidate) => candidate.id === organizationId,
   );
   const coaches =
-    organization?.users.filter((member) => member.user_type === "Coach") ?? [];
+    organization?.users.filter(
+      (member) =>
+        member.user_type === "Coach" &&
+        (member.is_active !== false ||
+          (editing &&
+            editing !== "new" &&
+            editing.coaches.some((coach) => coach.id === member.id))),
+    ) ?? [];
 
   useEffect(() => {
     listOrganizations()

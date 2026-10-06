@@ -18,9 +18,16 @@ class JournalEntrySerializer(serializers.ModelSerializer):
 
 
 class ActivityEntrySerializer(JournalEntrySerializer):
+    target_user = serializers.IntegerField(source="target_user_id", read_only=True, allow_null=True)
+
     class Meta(JournalEntrySerializer.Meta):
         model = ActivityEntry
-        fields = JournalEntrySerializer.Meta.fields + ("action", "description")
+        fields = JournalEntrySerializer.Meta.fields + (
+            "action",
+            "description",
+            "target_user",
+            "target_user_name",
+        )
 
 
 class LogEntrySerializer(JournalEntrySerializer):

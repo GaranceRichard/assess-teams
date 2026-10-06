@@ -84,8 +84,8 @@ Viewer n’a aucun accès à l’écran Utilisateurs. `POST` sur la collection, 
 constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
 
 Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite
-des Coachs ou Viewers automatiquement rattachés à son organisation, puis modifie, active/désactive ou supprime physiquement
-uniquement ces deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier ou supprimer un Viewer de sa propre
+des Coachs ou Viewers automatiquement rattachés à son organisation, puis modifie, désactive ou réactive
+uniquement ces deux fonctions. Le Coach ne crée aucun compte et peut uniquement modifier, désactiver ou réactiver un Viewer de sa propre
 organisation, sans changer sa fonction. Une cible hors organisation retourne `404` sans révéler son existence ;
 toute autre tentative hors de cette hiérarchie retourne `403`.
 
@@ -96,11 +96,17 @@ par e-mail appelle `POST /api/invitations/{uid}/{token}/`; un lien invalide, exp
 reçoit un message distinct. La modification et la suppression du compte connecté du Superadmin sont refusées
 avec `403`.
 
+Les actions explicites `POST /api/admin/users/{user_id}/deactivate/` et `reactivate/` exigent
+session/CSRF, sans corps : 200 identité conservée ; 400 invariant ; 403 droit ; 404 cible/scopes.
+DELETE est un alias déprécié de désactivation (204), jamais une suppression physique ; PUT applique
+les mêmes invariants. Le [lifecycle et son audit](user-lifecycle.md) précise transactions, dernier Admin
+actif, historique, invitations, comptes inactifs administrables et planifications à réaffecter.
+
 ## Création, consultation, renommage, suppression et membres des organisations
 
 `GET /api/admin/organizations/` liste les organisations et leurs utilisateurs affectés. `POST` sur la même
 collection accepte exactement `name` et `user_ids`. Le nom est obligatoire et la liste contient au moins un
-identifiant utilisateur existant. La création de l’organisation et de tous ses rattachements est atomique.
+identifiant utilisateur actif existant, dont au moins un Admin métier actif. La création de l’organisation et de tous ses rattachements est atomique.
 
 La lecture exige une session active de Superadmin ou d’Admin ; l'Admin ne reçoit que son organisation. La
 création est réservée au Superadmin et retourne `201`. Un Admin, Coach ou Viewer appartient au plus à une
@@ -122,7 +128,8 @@ son organisation et ses références : leur suppression retourne `400`. `ARB-ORG
 Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur son organisation. La liste doit
 contenir au moins une identité et refuse tout membre déjà rattaché ailleurs. Pour un Admin, l'ensemble des Admin
 de l'organisation est immuable : tout ajout ou retrait est refusé. Un refus, un utilisateur inconnu ou une organisation
-hors périmètre ne modifie aucun rattachement.
+hors périmètre ne modifie aucun rattachement. Un Admin actif doit rester ; les membres inactifs existants
+peuvent être conservés mais ne peuvent être nouvellement affectés.
 
 La migration d'invariant s'interrompt en listant les Admins historiquement rattachés à plusieurs organisations.
 Elle ne choisit ni ne supprime aucun rattachement. Ces conflits doivent être résolus explicitement avant reprise.

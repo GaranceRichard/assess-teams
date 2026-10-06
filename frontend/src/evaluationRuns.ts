@@ -12,6 +12,8 @@ export type EvaluationRunRow = {
   family_name: string;
   evaluation_version: number;
   assigned_to: string;
+  assignee_active?: boolean | null;
+  requires_reassignment?: boolean;
   filled_by: string;
   completed_at: string | null;
   revised_by: string;

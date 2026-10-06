@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
@@ -11,6 +12,7 @@ from rest_framework.views import APIView
 
 from identities.adapters.api.admin_serializers import ChoosePasswordSerializer
 from identities.application.invitations import invitation_is_valid
+from identities.application.lifecycle import lock_identity_changes
 from identities.models import User
 
 
@@ -28,7 +30,9 @@ class AcceptInvitationView(APIView):
         },
         auth=[],
     )
+    @transaction.atomic
     def post(self, request, uid: str, token: str):
+        lock_identity_changes()
         serializer = ChoosePasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         try:

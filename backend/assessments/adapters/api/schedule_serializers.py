@@ -56,6 +56,7 @@ class EvaluationScheduleSerializer(serializers.ModelSerializer):
             "assignee_id",
             "assignee_identifier",
             "assignee_role",
+            "requires_reassignment",
             "mode",
             "first_due_date",
             "next_due_date",
@@ -160,6 +161,7 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
     def update(self, instance: EvaluationSchedule, validated_data: dict) -> EvaluationSchedule:
         for field, value in validated_data.items():
             setattr(instance, field, value)
+        instance.requires_reassignment = False
         instance.next_due_date = instance.first_due_date
         instance.save()
         ensure_expected_evaluation(instance)

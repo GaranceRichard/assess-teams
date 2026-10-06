@@ -19,14 +19,17 @@ export function ConfirmDialog({ name, onCancel, onConfirm }: Props) {
         className="dialog"
         role="dialog"
       >
-        <h2 id="confirm-title">Supprimer l’utilisateur ?</h2>
-        <p>Le compte de {name} sera définitivement supprimé.</p>
+        <h2 id="confirm-title">Désactiver l’utilisateur ?</h2>
+        <p>
+          Le compte de {name} ne pourra plus agir. Son identité et son
+          historique seront conservés.
+        </p>
         <div className="dialog-actions">
           <button className="secondary" onClick={onCancel}>
             Annuler
           </button>
           <button className="danger" onClick={() => void onConfirm()}>
-            Valider la suppression
+            Confirmer la désactivation
           </button>
         </div>
       </section>

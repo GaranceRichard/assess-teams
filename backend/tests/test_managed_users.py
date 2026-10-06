@@ -117,7 +117,9 @@ def test_update_same_email_sends_one_notice_and_rejects_duplicate(
 @pytest.mark.django_db
 @pytest.mark.functional
 @pytest.mark.api
-def test_delete_removes_user_and_sends_notice(django_capture_on_commit_callbacks) -> None:
+def test_legacy_delete_deactivates_user_and_sends_notice(
+    django_capture_on_commit_callbacks,
+) -> None:
     client, _ = authenticated_superadmin_client()
     user = create_managed_user()
     route = reverse("managed-user-detail", kwargs={"user_id": user.pk})
@@ -129,7 +131,7 @@ def test_delete_removes_user_and_sends_notice(django_capture_on_commit_callbacks
         )
 
     assert response.status_code == 204
-    assert not User.objects.filter(pk=user.pk).exists()
+    assert User.objects.filter(pk=user.pk, is_active=False).exists()
     assert mail.outbox[0].to == ["member@example.com"]
 
 

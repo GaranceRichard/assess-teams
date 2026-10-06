@@ -126,6 +126,7 @@ urlpatterns = [
         LogsView.as_view(),
         name="logs",
     ),
+    path("", include("config.identity_urls")),
     path("api/admin/users/", ManagedUserListCreateView.as_view(), name="managed-user-list"),
     path(
         "api/admin/organizations/",

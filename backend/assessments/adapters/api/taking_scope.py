@@ -14,6 +14,7 @@ def visible_evaluation_runs(user: User) -> QuerySet[EvaluationRun]:
             "team",
             "evaluation__family",
             "assignee",
+            "schedule",
             "completed_by",
             "revised_by",
         )

@@ -21,6 +21,8 @@ def _recipient_coaches(schedule: EvaluationSchedule):
 
 
 def _recipients(schedule: EvaluationSchedule):
+    if schedule.requires_reassignment:
+        return []
     assignee = schedule.assignee
     if (
         assignee
@@ -114,6 +116,8 @@ def following_due_date(
 
 
 def deliver_due_schedule(schedule: EvaluationSchedule, reference_date: date) -> bool:
+    if schedule.requires_reassignment:
+        return False
     ensure_expected_evaluation(schedule, schedule.next_due_date)
     if send_due_notification(schedule) == 0:
         return False

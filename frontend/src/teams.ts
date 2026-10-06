@@ -1,6 +1,6 @@
 import { csrfToken } from "./auth";
 
-export type TeamCoach = { id: number; identifier: string };
+export type TeamCoach = { id: number; identifier: string; is_active?: boolean };
 
 export type Team = {
   id: number;

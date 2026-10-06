@@ -40,7 +40,13 @@ export function EvaluationRunsTable({ rows, onOpen, busy }: Props) {
               <td>{referenceLabel(row)}</td>
               <td>{row.organization_name}</td>
               <td>{row.team_name}</td>
-              <td>{row.assigned_to}</td>
+              <td>
+                {row.assigned_to}
+                {row.assignee_active === false && " · Désactivé"}
+                {row.requires_reassignment &&
+                  row.state !== "completed" &&
+                  " · Réaffectation requise"}
+              </td>
               <td>{row.filled_by || "—"}</td>
               <td>{completionDate(row.completed_at)}</td>
               <td>

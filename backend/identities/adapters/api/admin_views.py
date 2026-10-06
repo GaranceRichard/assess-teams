@@ -19,12 +19,15 @@ from identities.adapters.api.user_activity import (
     UserSnapshot,
     record_invitation,
     record_user_changes,
-    record_user_deletion,
 )
 from identities.application.invitations import (
-    send_deletion_notice,
     send_invitation,
     send_update_notice,
+)
+from identities.application.lifecycle import (
+    lock_identity_changes,
+    mark_pending_responsibilities,
+    validate_user_transition,
 )
 from identities.domain.managed_users import can_invite_managed_user, can_manage_user
 from identities.domain.organizations import requires_single_organization
@@ -42,7 +45,7 @@ class ManagedUserListCreateView(APIView):
         description=(
             "Liste toutes les identités pour un Superadmin. Un Admin ou Coach "
             "ne voit que les membres de son organisation, ou une liste vide "
-            "sans rattachement. Viewer : accès interdit (403)."
+            "sans rattachement. Les inactifs sont limités aux cibles administrables. Viewer : 403."
         ),
         responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
     )
@@ -60,6 +63,7 @@ class ManagedUserListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
+        lock_identity_changes()
         describe_log_attempt(
             request,
             "Échec d’envoi de l’invitation",
@@ -114,6 +118,7 @@ class ManagedUserDetailView(APIView):
     )
     @transaction.atomic
     def put(self, request, user_id: int):
+        lock_identity_changes()
         users = visible_managed_users(request.user).select_for_update()
         user = get_object_or_404(users, pk=user_id)
         previous = UserSnapshot.capture(user)
@@ -136,44 +141,40 @@ class ManagedUserDetailView(APIView):
             raise ValidationError(
                 {"role": ("Un Admin, un Coach ou un Viewer appartient au plus à une organisation.")}
             )
+        validate_user_transition(
+            user,
+            role_value,
+            serializer.validated_data.get("is_active", user.is_active),
+            identity_validated=True,
+        )
         previous_email = user.email
         user.username = serializer.validated_data["identifier"]
         user.email = serializer.validated_data["email"]
         if not user.is_superuser:
             user.role = requested_role.value
         user.is_active = serializer.validated_data.get("is_active", user.is_active)
+        if previous.is_active and not user.is_active:
+            mark_pending_responsibilities(user)
         user.save(update_fields=["email", "is_active", "role", "username"])
         record_user_changes(request.user, user, previous)
         transaction.on_commit(lambda: send_update_notice(user, previous_email))
         return Response(ManagedUserSerializer(user).data)
 
     @extend_schema(
-        description=(
-            "Supprime une identité que la fonction de l'appelant peut administrer. "
-            "Un Coach agit uniquement sur un Viewer de son organisation."
-        ),
+        deprecated=True,
+        description="Alias déprécié de désactivation logique : préférer POST deactivate.",
         responses={
             204: None,
+            400: OpenApiResponse(),
             403: OpenApiResponse(),
             404: OpenApiResponse(),
         },
     )
     @transaction.atomic
     def delete(self, request, user_id: int):
-        user = get_object_or_404(visible_managed_users(request.user), pk=user_id)
-        organization = user.organizations.first()
-        describe_log_attempt(
-            request,
-            "Échec de suppression de l’utilisateur",
-            LogSource.IDENTITIES,
-            organization=organization,
-        )
-        if not self._can_manage(request, user):
-            raise PermissionDenied("Vous ne pouvez pas supprimer cet utilisateur.")
-        identifier, email = user.username, user.email
-        record_user_deletion(request.user, user, organization)
-        user.delete()
-        transaction.on_commit(lambda: send_deletion_notice(identifier, email))
+        from identities.adapters.api.lifecycle_views import change_activation
+
+        change_activation(request, user_id, False)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod

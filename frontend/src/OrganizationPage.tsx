@@ -65,8 +65,12 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
       );
       setEditingMembers(null);
       setError(null);
-    } catch {
-      setError("La modification des membres a été refusée.");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "La modification des membres a été refusée.",
+      );
     }
   }
 

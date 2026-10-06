@@ -16,6 +16,8 @@ export type JournalEntry = {
 };
 
 export type ActivityEntry = JournalEntry & {
+  target_user?: number | null;
+  target_user_name?: string;
   action: string;
   description: string;
 };

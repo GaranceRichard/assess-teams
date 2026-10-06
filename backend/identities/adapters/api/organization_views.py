@@ -17,6 +17,7 @@ from identities.adapters.api.organization_serializers import (
     OrganizationSerializer,
     UpdateOrganizationMembersSerializer,
 )
+from identities.application.lifecycle import lock_identity_changes
 from identities.domain.organizations import can_create_organizations
 from journals.activity_records import (
     organization_created,
@@ -56,6 +57,7 @@ class OrganizationListCreateView(APIView):
     )
     @transaction.atomic
     def post(self, request):
+        lock_identity_changes()
         describe_log_attempt(
             request,
             "Échec de création de l’organisation",
@@ -96,6 +98,7 @@ class OrganizationMemberUpdateView(APIView):
     )
     @transaction.atomic
     def put(self, request, organization_id: int):
+        lock_identity_changes()
         organization = manageable_organization(request.user, organization_id)
         describe_log_attempt(
             request,

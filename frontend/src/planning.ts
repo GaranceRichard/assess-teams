@@ -22,6 +22,7 @@ export type EvaluationSchedule = {
   evaluation_version: number;
   assignee_id: number | null;
   assignee_identifier: string | null;
+  requires_reassignment?: boolean;
   assignee_role: "Admin" | "Coach" | "Superadmin" | null;
   mode: ScheduleMode;
   first_due_date: string;

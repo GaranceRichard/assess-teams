@@ -2,6 +2,8 @@ import { resolve } from "node:path";
 
 import { defineConfig, devices } from "@playwright/test";
 
+import { backendPort, backendURL, frontendPort, frontendURL } from "./e2e/urls";
+
 const repositoryRoot = resolve(import.meta.dirname, "..");
 
 export default defineConfig({
@@ -12,24 +14,23 @@ export default defineConfig({
   reporter: "list",
   workers: 1,
   use: {
-    baseURL: "http://127.0.0.1:5180",
+    baseURL: frontendURL,
     trace: "on-first-retry",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: [
     {
-      command:
-        "node ./scripts/run-powershell.mjs ./scripts/dev-backend.ps1 -NoReload -Port 8100",
+      command: `node ./scripts/run-powershell.mjs ./scripts/dev-backend.ps1 -NoReload -Port ${backendPort}`,
       cwd: repositoryRoot,
-      url: "http://127.0.0.1:8100/api/health/",
+      url: `${backendURL}/api/health/`,
       reuseExistingServer: false,
       timeout: 30_000,
     },
     {
-      command: "npm run dev -- --host 127.0.0.1 --port 5180",
+      command: `npm run dev -- --host 127.0.0.1 --port ${frontendPort}`,
       cwd: import.meta.dirname,
-      env: { ASSESS_BACKEND_URL: "http://127.0.0.1:8100" },
-      url: "http://127.0.0.1:5180",
+      env: { ASSESS_BACKEND_URL: backendURL },
+      url: frontendURL,
       reuseExistingServer: false,
       timeout: 30_000,
     },

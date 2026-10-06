@@ -53,7 +53,7 @@ def pending_assignments(user):
     # Count persisted assignments the user can start or resume, including future dates.
     return (
         consistent_runs(evaluation_runs_for(user))
-        .filter(assignee=user)
+        .filter(assignee=user, schedule__requires_reassignment=False)
         .exclude(state=EvaluationRunState.COMPLETED)
         .filter(team__is_active=True)
         .exclude(

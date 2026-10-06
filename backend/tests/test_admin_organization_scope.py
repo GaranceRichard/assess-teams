@@ -100,4 +100,4 @@ def test_admin_scope_protects_peer_admins_and_other_organization_members() -> No
         HTTP_X_CSRFTOKEN=root_client.cookies["csrftoken"].value,
     )
     assert deleted.status_code == 204
-    assert not User.objects.filter(pk=admin_b.pk).exists()
+    assert User.objects.filter(pk=admin_b.pk, is_active=False).exists()

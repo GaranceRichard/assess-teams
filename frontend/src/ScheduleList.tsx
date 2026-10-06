@@ -30,6 +30,7 @@ export function ScheduleList({ schedules, onOpen }: Props) {
             type="button"
           >
             {scheduleLabel(schedule)}
+            {schedule.requires_reassignment && " · Réaffectation requise"}
           </button>
         </li>
       ))}

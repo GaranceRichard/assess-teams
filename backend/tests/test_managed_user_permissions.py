@@ -125,7 +125,7 @@ def test_coach_updates_and_deletes_viewer_without_changing_role() -> None:
     assert changed.status_code == 200
     assert viewer.role == Role.VIEWER.value
     assert removed.status_code == 204
-    assert not User.objects.filter(pk=viewer.pk).exists()
+    assert User.objects.filter(pk=viewer.pk, is_active=False).exists()
 
 
 @pytest.mark.django_db

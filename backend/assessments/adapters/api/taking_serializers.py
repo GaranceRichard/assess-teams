@@ -20,6 +20,12 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
     revised_by = serializers.CharField(source="revised_by_name", read_only=True)
     is_assignee = serializers.SerializerMethodField()
     can_revise = serializers.SerializerMethodField()
+    requires_reassignment = serializers.BooleanField(
+        source="schedule.requires_reassignment", read_only=True
+    )
+    assignee_active = serializers.BooleanField(
+        source="assignee.is_active", read_only=True, allow_null=True
+    )
 
     def get_is_assignee(self, run: EvaluationRun) -> bool:
         return run.assignee_id == self.context["request"].user.pk
@@ -56,6 +62,8 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
             "due_date",
             "is_assignee",
             "can_revise",
+            "requires_reassignment",
+            "assignee_active",
         )
 
 

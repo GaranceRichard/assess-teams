@@ -23,7 +23,12 @@ export function TeamList({ teams, onDelete, onEdit }: Props) {
             <strong>{team.name}</strong>
             <span>
               {team.coaches.length > 0
-                ? team.coaches.map((coach) => coach.identifier).join(", ")
+                ? team.coaches
+                    .map(
+                      (coach) =>
+                        `${coach.identifier}${coach.is_active === false ? " · Désactivé" : ""}`,
+                    )
+                    .join(", ")
                 : "Aucun Coach"}
             </span>
           </div>

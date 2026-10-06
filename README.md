@@ -11,6 +11,8 @@ Le [Dashboard personnel — DASH-001](docs/architecture/dashboard-api.md) rempla
 profil, apparence, dix complétions/dernières révisions accessibles et raccourcis par rôle.
 Il réutilise la provenance EvaluationRun et les scopes Results, sans scores ni droits supplémentaires.
 
+USER-004 livre le [lifecycle réversible des identités](docs/architecture/user-lifecycle.md), sans perte d’historique et avec protection du dernier Admin actif. Les validations E2E acceptent des ports dédiés pour isoler les worktrees.
+
 [Pilotage P0 — STEER-001](docs/architecture/steering-api.md) livre `/steering` pour Admin/Superadmin :
 équipes actives, complétions, retards et liens Results, via une projection backend read-only.
 Aucun score global, classement ou indicateur de performance individuelle n’est calculé.
@@ -45,8 +47,8 @@ soleil/lune conserve le mode jour/nuit. Dans Mon profil → Apparence, le sélec
 
 La gestion actuelle des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
 l'Admin gère uniquement les Coachs et Viewers de son organisation, le Coach gère les Viewers de son
-organisation. Le Viewer consulte uniquement les résultats COMPLETED de son organisation, sans accès Utilisateurs ni Équipes. Seul le Superadmin crée, affecte, modifie ou supprime un Admin.
-Sans organisation, un Coach ne voit aucun utilisateur et un Viewer aucun résultat ; le Coach ne peut jamais changer une fonction. Les écrans manipulent encore `username`/e-mail plutôt que `nom`/`prénom`, et `DELETE` supprime physiquement le compte : les PBIs complets restent donc ouverts ou bloqués.
+organisation. Le Viewer consulte uniquement les résultats COMPLETED de son organisation, sans accès Utilisateurs ni Équipes. Seul le Superadmin crée, affecte, modifie, désactive ou réactive un Admin.
+Sans organisation, un Coach ne voit aucun utilisateur et un Viewer aucun résultat ; le Coach ne change jamais une fonction. Les comptes désactivés conservent leurs références ; les planifications non closes exigent une réaffectation explicite, même après réactivation. Les contrats `nom`/`prénom` restent ouverts dans USER-002/003.
 
 ## Périmètre livré — gestion des organisations et équipes
 
@@ -127,11 +129,9 @@ Elle délègue à `scripts/test-all.ps1`, exécute successivement backend, front
 
 Les [commandes ciblées backend, frontend et E2E](docs/quality/test-commands.md) complètent cette suite.
 
-Le backend couvre le health check, SQLite, le contrat OpenAPI, la gestion Superadmin, les organisations et le cycle de session : règles de fonction, authentification, permissions, validations, CSRF, atomicité et persistance. Le frontend
-couvre le client de session, les menus par rôle, les routes autorisées et refusées et les états d'erreur.
-Playwright couvre connexion, refus, navigation protégée, gestion d'utilisateurs, création, renommage et suppression d’organisation, puis
-vérifie que le backend applique les migrations avant de servir. La non-régression des fixtures E2E vérifie
-leur réinitialisation avec des passations protégées, sans affecter une autre organisation de test.
+Les suites backend, React et Playwright couvrent authentification, scopes, CRUD, contrats et parcours métier.
+La [stratégie de tests](docs/quality/test-strategy.md) décrit leur couverture, y compris la conservation
+historique, les responsabilités à réaffecter et la concurrence du dernier Admin actif de USER-004.
 
 ## Approche quality-first
 

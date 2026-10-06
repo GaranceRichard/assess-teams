@@ -3,6 +3,7 @@ import { csrfToken } from "./auth";
 export type OrganizationMember = {
   id: number;
   identifier: string;
+  is_active?: boolean;
   user_type: "Admin" | "Coach" | "Viewer" | "Superadmin";
 };
 
@@ -19,7 +20,13 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     credentials: "same-origin",
     ...init,
   });
-  if (!response.ok) throw new Error("Organization request failed");
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(
+      data.detail ??
+        (Object.values(data).flat().join(" ") || "Organization request failed"),
+    );
+  }
   if (response.status === 204) return undefined as T;
   return (await response.json()) as T;
 }

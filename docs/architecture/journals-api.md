@@ -71,3 +71,7 @@ Les tests API couvrent CRUD réel, refus PATCH, erreurs 4xx/5xx, contexte, corr�
 non-récursion, bornes temporelles, filtres combinés, pagination et tentatives inter-organisations.
 React couvre les dix filtres, dépendances/reset, Admin/Superadmin, erreurs et pagination.
 Playwright crée des logs par des requêtes réelles, filtre dans l’UI et vérifie l’isolation organisationnelle.
+
+Les transitions User enregistrent acteur, organisation, `target_user` et `target_user_name` dans le Journal.
+Les anciennes entrées restent intactes ; les refus métier restent dans les Logs HTTP opérationnels.
+Voir le [lifecycle User](user-lifecycle.md).

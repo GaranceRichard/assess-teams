@@ -63,13 +63,3 @@ def record_user_changes(actor: User, user: User, previous: UserSnapshot) -> None
             f"{label} de {user.username}",
             previous.organization,
         )
-
-
-def record_user_deletion(actor: User, user: User, organization: Organization | None) -> None:
-    user_activity(
-        actor,
-        user,
-        ActivityAction.USER_DELETED,
-        f"Suppression de {user.username}",
-        organization,
-    )

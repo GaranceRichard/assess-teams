@@ -1,7 +1,8 @@
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 
-from assessments.models import EvaluationRun
+from assessments.models import EvaluationRun, EvaluationRunState
 from identities.domain.users import Role
 from identities.models import User
 
@@ -28,4 +29,6 @@ def locked_evaluation_run(run: EvaluationRun, actor: User) -> EvaluationRun:
     # Lock the current row before checking its assignment and organization again.
     current = get_object_or_404(EvaluationRun.objects.select_for_update(), pk=run.pk)
     get_object_or_404(evaluation_runs_for(actor).only("pk"), pk=current.pk)
+    if current.state != EvaluationRunState.COMPLETED and current.schedule.requires_reassignment:
+        raise ValidationError("Cette planification nécessite une réaffectation explicite.")
     return current

@@ -4,7 +4,7 @@ import { beforeEach, expect, it, vi } from "vitest";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 
 const api = vi.hoisted(() => ({
-  deleteManagedUser: vi.fn(),
+  setManagedUserActivation: vi.fn(),
   inviteManagedUser: vi.fn(),
   listManagedUsers: vi.fn(),
   updateManagedUser: vi.fn(),
@@ -91,10 +91,13 @@ it("creates a user with the selected business role", async () => {
   expect(await screen.findByText("bob")).toBeVisible();
 });
 
-it("updates then confirms deletion", async () => {
+it("updates then confirms deactivation", async () => {
   const updated = { ...pending, identifier: "alice-updated", pending: false };
   api.updateManagedUser.mockResolvedValue(updated);
-  api.deleteManagedUser.mockResolvedValue(undefined);
+  api.setManagedUserActivation.mockResolvedValue({
+    ...updated,
+    is_active: false,
+  });
   render(<SuperadminDashboard actor={actor} />);
   await screen.findByText("alice");
 
@@ -102,41 +105,40 @@ it("updates then confirms deletion", async () => {
   fireEvent.change(screen.getByLabelText("Identifiant"), {
     target: { value: "alice-updated" },
   });
-  fireEvent.click(screen.getByLabelText("Compte actif"));
   fireEvent.click(screen.getByRole("button", { name: "Valider" }));
   await waitFor(() =>
     expect(api.updateManagedUser).toHaveBeenCalledWith(2, {
       identifier: "alice-updated",
       email: "alice@example.com",
       role: "Coach",
-      is_active: false,
     }),
   );
   expect(await screen.findByText("alice-updated")).toBeVisible();
 
-  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  fireEvent.click(screen.getByRole("button", { name: "Désactiver" }));
   fireEvent.click(
-    screen.getByRole("button", { name: "Valider la suppression" }),
+    screen.getByRole("button", { name: "Confirmer la désactivation" }),
   );
-  await waitFor(() => expect(api.deleteManagedUser).toHaveBeenCalledWith(2));
-  expect(screen.queryByText("alice-updated")).not.toBeInTheDocument();
+  await waitFor(() =>
+    expect(api.setManagedUserActivation).toHaveBeenCalledWith(2, false),
+  );
+  expect(screen.getByText("alice-updated")).toBeVisible();
+  expect(screen.getByText("Désactivé")).toBeVisible();
 });
 
-it("cancels or reports a refused deletion", async () => {
+it("cancels or reports a refused deactivation", async () => {
   const { container } = render(<SuperadminDashboard actor={actor} />);
   await screen.findByText("alice");
-  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  fireEvent.click(screen.getByRole("button", { name: "Désactiver" }));
   fireEvent.mouseDown(container.querySelector(".dialog-backdrop")!);
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
-  api.deleteManagedUser.mockRejectedValue(new Error("refused"));
-  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  api.setManagedUserActivation.mockRejectedValue(new Error("refused"));
+  fireEvent.click(screen.getByRole("button", { name: "Désactiver" }));
   fireEvent.click(
-    screen.getByRole("button", { name: "Valider la suppression" }),
+    screen.getByRole("button", { name: "Confirmer la désactivation" }),
   );
-  expect(await screen.findByRole("alert")).toHaveTextContent(
-    "suppression a été refusée",
-  );
+  expect(await screen.findByRole("alert")).toHaveTextContent("refused");
 });
 
 it("shows loading and mutation failures while preserving the dialog", async () => {
@@ -157,8 +159,6 @@ it("shows loading and mutation failures while preserving the dialog", async () =
     target: { value: "bob@example.com" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Valider" }));
-  expect(await screen.findByRole("alert")).toHaveTextContent(
-    "opération a été refusée",
-  );
+  expect(await screen.findByRole("alert")).toHaveTextContent("refused");
   fireEvent.click(screen.getByRole("button", { name: "Annuler" }));
 });

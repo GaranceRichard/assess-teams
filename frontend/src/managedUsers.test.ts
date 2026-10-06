@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   acceptInvitation,
-  deleteManagedUser,
+  setManagedUserActivation,
   inviteManagedUser,
   listManagedUsers,
   updateManagedUser,
@@ -69,19 +69,19 @@ describe("managed users API", () => {
     );
   });
 
-  it("deletes a user and accepts an encoded invitation", async () => {
+  it("deactivates a user and accepts an encoded invitation", async () => {
     const credential = "new-password";
     const fetchMock = vi
       .spyOn(globalThis, "fetch")
       .mockResolvedValue(new Response(null, { status: 204 }));
 
-    await deleteManagedUser(2);
+    await setManagedUserActivation(2, false);
     await acceptInvitation("uid/value", "token value", credential);
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      "/api/admin/users/2/",
-      expect.objectContaining({ method: "DELETE", body: undefined }),
+      "/api/admin/users/2/deactivate/",
+      expect.objectContaining({ method: "POST", body: undefined }),
     );
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
@@ -101,4 +101,24 @@ describe("managed users API", () => {
       "Managed user request failed",
     );
   });
+});
+
+it("returns the preserved identity from explicit reactivation and exposes the server refusal", async () => {
+  const fetchMock = vi
+    .spyOn(globalThis, "fetch")
+    .mockResolvedValueOnce(new Response(JSON.stringify(user), { status: 200 }))
+    .mockResolvedValueOnce(
+      new Response(JSON.stringify({ detail: "Affectez un autre Admin." }), {
+        status: 400,
+      }),
+    );
+  await expect(setManagedUserActivation(2, true)).resolves.toEqual(user);
+  expect(fetchMock).toHaveBeenNthCalledWith(
+    1,
+    "/api/admin/users/2/reactivate/",
+    expect.objectContaining({ method: "POST" }),
+  );
+  await expect(setManagedUserActivation(2, false)).rejects.toThrow(
+    "Affectez un autre Admin.",
+  );
 });

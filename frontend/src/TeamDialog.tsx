@@ -66,10 +66,15 @@ export function TeamDialog({ coaches, team, onCancel, onSubmit }: Props) {
                   <label key={coach.id}>
                     <input
                       checked={coachIds.includes(coach.id)}
+                      disabled={
+                        coach.is_active === false &&
+                        !coachIds.includes(coach.id)
+                      }
                       onChange={() => toggleCoach(coach.id)}
                       type="checkbox"
                     />
                     {coach.identifier}
+                    {coach.is_active === false ? " · Désactivé" : ""}
                   </label>
                 ))}
               </div>

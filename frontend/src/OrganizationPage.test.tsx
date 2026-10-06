@@ -166,9 +166,7 @@ it("keeps the member dialog open after a rejected update", async () => {
     within(dialog).getByRole("button", { name: "Enregistrer les membres" }),
   );
 
-  expect(await screen.findByRole("alert")).toHaveTextContent(
-    "modification des membres a été refusée",
-  );
+  expect(await screen.findByRole("alert")).toHaveTextContent("refused");
   expect(screen.getByRole("dialog")).toBeVisible();
 });
 

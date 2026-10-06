@@ -111,6 +111,7 @@ class ScheduleMode(models.TextChoices):
 
 
 class EvaluationSchedule(models.Model):
+    requires_reassignment = models.BooleanField(default=False)
     team = models.ForeignKey(
         "teams.Team",
         on_delete=models.CASCADE,

@@ -111,7 +111,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
   - un rattachement vers une organisation inexistante ou non admissible selon son état est refusé sans effet partiel ;
   - une opération métier d’un `Admin` est limitée au rattachement actif applicable ;
   - l’historique permet de déterminer le rattachement applicable à une action passée.
-- **Décisions produit bloquantes :** `ARB-ORG-008` et `ARB-ORG-011` pour la levée éventuelle de la protection du dernier Admin, l’historisation et le périmètre actif. Le rattachement initial multiple et l’édition du rattachement courant sont livrés.
+- **Décisions produit bloquantes :** `ARB-ORG-011` pour le périmètre actif ; `ARB-ORG-008` résout la protection du dernier Admin actif. L’historisation reste à raffiner. Le rattachement initial multiple et l’édition du rattachement courant sont livrés.
 - **Dépendances éventuelles :** `FEAT-002`, `FEAT-036`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.
@@ -122,7 +122,7 @@ Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD back
 - **Nature :** régularisation documentaire du socle finalisé le 2026-09-28.
 - **User story :** en tant que `Superadmin`, je veux gérer les Admins courants d’une organisation sans qu’un Admin pair puisse les administrer.
 - **Critères livrés :** rattachement atomique, une seule organisation par Admin, plusieurs Admins pairs permis, modification des Admins réservée au Superadmin, refus de retirer le dernier Admin via l’édition des membres.
-- **Limites :** pas de date d’effet ni d’historique ; la suppression physique du compte contourne encore la protection du dernier Admin portée par `ARB-ORG-008`.
+- **Limites :** pas de date d’effet ni d’historique ; la protection du dernier Admin actif est maintenant commune aux rattachements et au lifecycle User (`ARB-ORG-008` résolu).
 - **Valeur apportée :** matérialise le périmètre administratif courant et protège les Admins pairs.
 - **Dépendances / priorité / preuves :** `FEAT-002`, `FEAT-036` / P0 / migration d’invariant, API et tests de scope des Admins pairs.
 

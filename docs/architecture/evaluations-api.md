@@ -70,3 +70,7 @@ date. À l’échéance, ou immédiatement, le responsable reçoit un lien vers 
 La commande idempotente `send_due_evaluation_notifications` traite les échéances dues ; après envoi, une
 cadence mensuelle ou trimestrielle avance sans dérive calendaire, tandis qu’une échéance ponctuelle est close.
 Après authentification, ce lien conserve `/evaluations` au lieu de renvoyer le Coach vers le tableau de bord.
+
+Le planning expose `requires_reassignment` : les responsabilités suspendues exigent une édition explicite
+avec un assigné actif avant reprise ; la réactivation seule ne reprend ni attentes ni notifications.
+Voir le [lifecycle User](user-lifecycle.md).

@@ -10,7 +10,7 @@ class TeamCoachSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "identifier")
+        fields = ("id", "identifier", "is_active")
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -41,13 +41,20 @@ class TeamInputSerializer(serializers.Serializer):
     def validate(self, attrs: dict) -> dict:
         organization: Organization = self.context["organization"]
         coaches: list[User] = attrs["coaches"]
+        retained_ids = (
+            set(self.instance.coaches.values_list("pk", flat=True)) if self.instance else set()
+        )
         invalid_coaches = [
-            coach.pk for coach in coaches if coach.role != Role.COACH or not coach.is_active
+            coach.pk
+            for coach in coaches
+            if coach.role != Role.COACH or (not coach.is_active and coach.pk not in retained_ids)
         ]
         organization_coach_ids = set(
             organization.users.filter(role=Role.COACH, is_active=True).values_list("pk", flat=True)
         )
-        if invalid_coaches or any(coach.pk not in organization_coach_ids for coach in coaches):
+        if invalid_coaches or any(
+            coach.pk not in organization_coach_ids | retained_ids for coach in coaches
+        ):
             raise serializers.ValidationError(
                 {"coach_ids": "Chaque Coach doit être actif et membre de l'organisation."}
             )

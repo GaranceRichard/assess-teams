@@ -89,6 +89,10 @@ class JournalEntryFields(models.Model):
 
 
 class ActivityEntry(JournalEntryFields):
+    target_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="+"
+    )
+    target_user_name = models.CharField(max_length=150, blank=True)
     action = models.CharField(max_length=40, choices=ActivityAction.choices)
     description = models.CharField(max_length=255)
 

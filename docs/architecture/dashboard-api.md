@@ -56,7 +56,7 @@ Deux requêtes bornées à dix passations chacune lisent respectivement les comp
 la fusion conserve les dix événements les plus récents, par date décroissante, PK du run décroissante,
 puis type décroissant en cas d’égalité. Une transaction englobe la lecture de la projection.
 Le compteur lit uniquement les EvaluationRun persistées non COMPLETED, assignées à l’utilisateur,
-sur équipe active et contexte cohérent. Une NOT_STARTED exige un modèle VALIDATED ; une IN_PROGRESS
+sur équipe active et contexte cohérent, sans planification nécessitant une réaffectation explicite. Une NOT_STARTED exige un modèle VALIDATED ; une IN_PROGRESS
 reste reprenable après archivage. Les dates futures sont incluses. Aucune attente n’est créée à la lecture.
 
 ## Interface et limites livrées

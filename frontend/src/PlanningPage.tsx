@@ -117,7 +117,8 @@ export function PlanningPage({ actor }: Props) {
       .find((organization) => organization.id === organizationId)
       ?.users.filter(
         (member) =>
-          member.user_type === "Coach" || member.user_type === "Admin",
+          member.is_active !== false &&
+          (member.user_type === "Coach" || member.user_type === "Admin"),
       ) ?? [];
   const organizationAssignees =
     actor.is_superuser && actor.id

@@ -9,13 +9,13 @@
 | 1 | `USER-001` — Créer un utilisateur | Réalisé | Livré le 2026-09-21 |
 | 2 | `USER-002` — Consulter les utilisateurs | Ouvert | compléter le détail et `nom`/`prénom` |
 | 3 | `USER-003` — Modifier un utilisateur | Ouvert | aligner les champs modifiables sur le contrat |
-| 3 | `USER-004` — Supprimer un utilisateur | Bloqué | décider `ARB-ORG-008` et remplacer la suppression physique |
+| 3 | `USER-004` — Désactiver et réactiver un utilisateur | Réalisé | ARB-ORG-008 résolu ; livré le 2026-10-06 |
 
-Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. Le socle technique de liste, édition et suppression existe, mais `USER-002` à `USER-004` ne sont pas déclarés réalisés tant que leurs contrats fonctionnels divergent. `USER-003` peut être complété après `USER-002`; `USER-004` reste bloqué indépendamment par `ARB-ORG-008`.
+Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. Le socle technique de liste, édition et suppression existe, mais `USER-002/003` restent ouverts pour leurs contrats de champs. `USER-003` peut être complété après `USER-002`; `USER-004` livre le lifecycle réversible et résout `ARB-ORG-008`.
 
 ## Ordonnancement global recommandé
 
-1. **Contrats Utilisateurs :** compléter `USER-002` et `USER-003`; conserver `USER-004` bloqué jusqu’à `ARB-ORG-008` et à une désactivation logique.
+1. **Contrats Utilisateurs :** compléter `USER-002` et `USER-003`; `USER-004` est livré avec désactivation/réactivation explicites.
 2. **Cycle Organisation :** compléter `ORG-002`; décider avec `ARB-ORG-005` le sort des données dépendantes avant de reprendre `ORG-004`.
 3. **Cycle Équipes :** `TEAM-001` et `TEAM-004` sont livrés ; compléter `TEAM-002`, `TEAM-003` et `TEAM-005`, puis `TEAM-006` et `TEAM-007`.
 4. **Rattachements historiques :** les états courants `ORG-005`, `ORG-006` et `COACH-001` sont livrés ; l’historisation de `FEAT-008`, `FEAT-009`, `FEAT-037` et `FEAT-038` reste à raffiner.

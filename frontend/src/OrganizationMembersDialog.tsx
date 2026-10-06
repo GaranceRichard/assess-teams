@@ -50,30 +50,41 @@ export function OrganizationMembersDialog({
         role="dialog"
       >
         <h2 id="organization-members-title">Membres de {organization.name}</h2>
-        <p>Sélectionnez au moins un membre.</p>
+        <p>Conservez au moins un Admin actif.</p>
         <div className="organization-users">
-          {users.map((user) => {
-            const selected = userIds.includes(user.id);
-            const unavailable = unavailableUserIds.has(user.id) && !selected;
-            const protectedAdmin =
-              user.user_type === "Admin" && !canManageAdmins;
-            return (
-              <label key={user.id}>
-                <input
-                  checked={selected}
-                  disabled={unavailable || protectedAdmin}
-                  onChange={() => toggleUser(user.id)}
-                  type="checkbox"
-                />
-                <span>{user.identifier}</span>
-                <small>
-                  {user.user_type}
-                  {unavailable ? " · déjà affecté" : ""}
-                  {protectedAdmin ? " · protégé" : ""}
-                </small>
-              </label>
-            );
-          })}
+          {users
+            .filter(
+              (user) =>
+                user.is_active ||
+                organization.users.some((member) => member.id === user.id),
+            )
+            .map((user) => {
+              const selected = userIds.includes(user.id);
+              const unavailable = unavailableUserIds.has(user.id) && !selected;
+              const protectedAdmin =
+                user.user_type === "Admin" && !canManageAdmins;
+              return (
+                <label key={user.id}>
+                  <input
+                    checked={selected}
+                    disabled={
+                      unavailable ||
+                      protectedAdmin ||
+                      (!user.is_active && !selected)
+                    }
+                    onChange={() => toggleUser(user.id)}
+                    type="checkbox"
+                  />
+                  <span>{user.identifier}</span>
+                  <small>
+                    {user.user_type}
+                    {!user.is_active ? " · Désactivé" : ""}
+                    {unavailable ? " · déjà affecté" : ""}
+                    {protectedAdmin ? " · protégé" : ""}
+                  </small>
+                </label>
+              );
+            })}
         </div>
         <div className="organization-dialog-actions">
           <button className="secondary" onClick={onCancel} type="button">

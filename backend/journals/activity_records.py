@@ -70,6 +70,7 @@ def user_activity(
 ) -> None:
     record_activity(
         actor=actor,
+        target_user=user,
         organization=organization or user.organizations.first(),
         action=action,
         description=description,

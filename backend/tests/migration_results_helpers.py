@@ -30,7 +30,8 @@ def historic_result(apps):
         completed_at=timezone.now(),
         completed_by_name="Historical author",
     )
+    lineage = {"lineage_id": question.lineage_id} if hasattr(question, "lineage_id") else {}
     snapshot = apps.get_model("assessments", "EvaluationRunQuestion").objects.create(
-        run=run, source_question=question, index=1, text="Historical text", score=8
+        run=run, source_question=question, index=1, text="Historical text", score=8, **lineage
     )
     return question, run, snapshot

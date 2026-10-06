@@ -16,7 +16,6 @@ export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
   const initialRole =
     user && user.user_type !== "Superadmin" ? user.user_type : allowedRoles[0];
   const [role, setRole] = useState<UserRole | undefined>(initialRole);
-  const [isActive, setIsActive] = useState(user?.is_active ?? true);
   const [saving, setSaving] = useState(false);
 
   function closeBackdrop(event: MouseEvent<HTMLDivElement>) {
@@ -27,8 +26,7 @@ export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
     event.preventDefault();
     setSaving(true);
     const roleInput = allowedRoles.length > 0 ? { role } : {};
-    const activeInput = user ? { is_active: isActive } : {};
-    await onSubmit({ identifier, email, ...roleInput, ...activeInput });
+    await onSubmit({ identifier, email, ...roleInput });
     setSaving(false);
   }
 
@@ -72,16 +70,6 @@ export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
                 ))}
               </select>
             </>
-          )}
-          {user && (
-            <label>
-              <input
-                checked={isActive}
-                onChange={(event) => setIsActive(event.target.checked)}
-                type="checkbox"
-              />
-              Compte actif
-            </label>
           )}
           <div className="dialog-actions">
             <button className="secondary" type="button" onClick={onCancel}>

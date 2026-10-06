@@ -69,11 +69,13 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 
 ### ARB-ORG-008 — Dernier Admin d’une organisation
 
-- **Décision prise :** une organisation ne doit pas perdre silencieusement son administration ni la traçabilité des actions passées.
-- **Décision à arbitrer — bloquante :** peut-on retirer, désactiver ou transférer le dernier `Admin`, sous quelles préconditions et avec quel mécanisme de reprise ?
-- **Décision conservatoire livrée :** l’édition des membres refuse de retirer le dernier `Admin` existant.
-- **Écart constaté :** la suppression physique d’un compte par le `Superadmin` ne réapplique pas cette protection.
-- **Backlog bloqué :** toute levée de cette protection dans `FEAT-037`, ainsi que le retrait d’un `Admin` par `USER-004` lorsqu’il est le dernier `Admin` de son organisation.
+- **Statut :** résolu le 2026-10-06 pour le lifecycle User et les rattachements courants.
+- **Décision :** une organisation présente conserve au moins un Admin métier actif ; le Superadmin ne compte pas comme Admin métier.
+- **Règle livrée :** désactivation/rétrogradation/retrait du dernier Admin actif refusés atomiquement ; affecter ou activer d’abord un autre Admin.
+- **Concurrence :** verrou avant lecture des invariants, test SQLite fichier avec opérations concurrentes.
+- **Lifecycle :** désactivation réversible, réactivation explicite, aucune suppression physique produit ni restauration implicite de responsabilité.
+- **Preuves :** [contrat et audit User](../../architecture/user-lifecycle.md), API/transactions/tests, UI et Journal.
+- **Limites :** transfert et lifecycle Organisation non traités ; aucune attribution automatique pour réparer une organisation historique sans Admin actif.
 
 ### ARB-ORG-009 — Portée de l’unicité du nom d’une équipe
 

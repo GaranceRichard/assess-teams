@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 
+from identities.application.lifecycle import LAST_ADMIN_MESSAGE
 from identities.domain.organizations import requires_single_organization
 from identities.domain.users import Role
 from identities.models import Organization, User
@@ -11,6 +12,15 @@ def validate_membership_limit(
     current_organization: Organization | None = None,
 ) -> None:
     locked_users = User.objects.select_for_update().filter(pk__in=[user.pk for user in users])
+    existing_ids = (
+        set(current_organization.users.values_list("pk", flat=True))
+        if current_organization
+        else set()
+    )
+    if any(not user.is_active and user.pk not in existing_ids for user in locked_users):
+        raise serializers.ValidationError(
+            {"user_ids": "Un utilisateur désactivé ne peut pas être affecté."}
+        )
     restricted_ids = [
         user.pk
         for user in locked_users
@@ -36,7 +46,7 @@ class OrganizationUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "identifier", "user_type")
+        fields = ("id", "identifier", "user_type", "is_active")
 
     def get_user_type(self, user: User) -> str:
         return "Superadmin" if user.is_superuser else user.role
@@ -77,6 +87,8 @@ class CreateOrganizationSerializer(serializers.Serializer):
 
     def validate(self, attrs: dict) -> dict:
         validate_membership_limit(attrs["users"])
+        if not any(user.role == Role.ADMIN and user.is_active for user in attrs["users"]):
+            raise serializers.ValidationError({"user_ids": LAST_ADMIN_MESSAGE})
         return attrs
 
     def create(self, validated_data: dict) -> Organization:
@@ -112,12 +124,9 @@ class UpdateOrganizationMembersSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 {"user_ids": "Seul le Superadmin peut modifier les Admin de l'organisation."}
             )
-        had_admin = self.instance.users.filter(role=Role.ADMIN).exists()
-        keeps_admin = any(user.role == Role.ADMIN for user in attrs["users"])
-        if had_admin and not keeps_admin:
-            raise serializers.ValidationError(
-                {"user_ids": "L'organisation doit conserver au moins un Admin."}
-            )
+        keeps_admin = any(user.role == Role.ADMIN and user.is_active for user in attrs["users"])
+        if not keeps_admin:
+            raise serializers.ValidationError({"user_ids": LAST_ADMIN_MESSAGE})
         return attrs
 
     def update(self, instance: Organization, validated_data: dict) -> Organization:

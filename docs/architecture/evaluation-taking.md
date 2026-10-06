@@ -78,3 +78,7 @@ Le Journal d’activité existant enregistre `evaluation_completed`, `evaluation
 et `evaluation_revised` dans la transaction métier. GET, sliders, sauvegardes et navigation n’y créent rien.
 Le gestionnaire commun des erreurs couvre aussi `/api/evaluations/`, avec son contexte d’organisation,
 sans nouvelle infrastructure, stockage de payload ni journalisation HTTP spécifique.
+
+Les passations inachevées liées à une planification à réaffecter restent consultables mais leurs mutations
+sont refusées (400), même après réactivation. Aucune COMPLETED n’est modifiée par désactivation.
+Voir le [lifecycle User](user-lifecycle.md).

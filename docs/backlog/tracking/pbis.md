@@ -11,7 +11,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Réalisé | aucun ; dépend de `FEAT-001` et de la matrice de `FEAT-004` | 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | liste livrée ; détail et `nom`/`prénom` absents | N/A |
 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | édition livrée mais contrat des champs et de l’identifiant divergent | N/A |
-| USER-004 — Supprimer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Bloqué | `ARB-ORG-008` ; le code supprime physiquement au lieu de désactiver | N/A |
+| USER-004 — Désactiver et réactiver un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Réalisé | aucun ; ARB-ORG-008 résolu, historique et concurrence couverts | 2026-10-06 |
 | ORG-001 — Créer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |
 | ORG-002 — Consulter les organisations | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Ouvert | lecture Superadmin/Admin livrée ; Coach/Viewer absents | N/A |
 | ORG-003 — Modifier une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |

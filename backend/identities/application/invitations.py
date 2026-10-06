@@ -28,7 +28,7 @@ def send_update_notice(user: User, previous_email: str) -> None:
     changed = previous_email.casefold() != user.email.casefold()
     pending_message = (
         f"\n\nChoisissez votre mot de passe : {invitation_url(user)}"
-        if not user.has_usable_password()
+        if user.is_active and not user.has_usable_password()
         else ""
     )
     if changed:
@@ -47,14 +47,21 @@ def send_update_notice(user: User, previous_email: str) -> None:
     )
 
 
-def send_deletion_notice(identifier: str, email: str) -> None:
+def send_activation_notice(user: User) -> None:
+    if not user.email:
+        return
+    activation = "actif" if user.is_active else "désactivé"
     send_mail(
-        "Suppression de votre compte Assess teams",
-        f"Bonjour {identifier},\n\nVotre compte Assess teams a été supprimé.",
+        "Activation de votre compte Assess teams",
+        f"Bonjour {user.username},\n\nVotre compte est {activation}.",
         settings.DEFAULT_FROM_EMAIL,
-        [email],
+        [user.email],
     )
 
 
 def invitation_is_valid(user: User, token: str) -> bool:
-    return not user.has_usable_password() and default_token_generator.check_token(user, token)
+    return (
+        user.is_active
+        and not user.has_usable_password()
+        and default_token_generator.check_token(user, token)
+    )

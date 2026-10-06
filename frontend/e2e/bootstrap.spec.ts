@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+import { backendURL } from "./urls";
+
 import {
   assignOrganization,
   e2eCredential,
@@ -116,7 +118,7 @@ test("invalid credentials never open the product shell", async ({ page }) => {
 test("the Playwright backend applies Django migrations before serving", async ({
   page,
 }) => {
-  await page.goto("http://127.0.0.1:8100/admin/login/");
+  await page.goto(`${backendURL}/admin/login/`);
   await page.locator('input[name="username"]').fill("missing-admin");
   await page.locator('input[name="password"]').fill("invalid-password");
   await page.locator('input[type="submit"]').click();
@@ -124,7 +126,7 @@ test("the Playwright backend applies Django migrations before serving", async ({
   await expect(page.locator(".errornote")).toBeVisible();
 });
 
-test("a Superadmin creates, updates and deletes an invited user", async ({
+test("a Superadmin creates, updates, deactivates and reactivates an invited user", async ({
   page,
 }) => {
   const managedEmail = "managed-e2e@example.com";
@@ -155,7 +157,13 @@ test("a Superadmin creates, updates and deletes an invited user", async ({
   await page.getByRole("button", { name: "Valider" }).click();
   await expect(page.getByText("managed-updated")).toBeVisible();
 
-  await managedRow.getByRole("button", { name: "Supprimer" }).click();
-  await page.getByRole("button", { name: "Valider la suppression" }).click();
-  await expect(page.getByText("managed-updated")).toHaveCount(0);
+  await managedRow.getByRole("button", { name: "Désactiver" }).click();
+  await page
+    .getByRole("button", { name: "Confirmer la désactivation" })
+    .click();
+  await expect(managedRow.getByText("Désactivé")).toBeVisible();
+  await page.reload();
+  await expect(managedRow.getByText("Désactivé")).toBeVisible();
+  await managedRow.getByRole("button", { name: "Réactiver" }).click();
+  await expect(managedRow.getByText("Actif", { exact: true })).toBeVisible();
 });

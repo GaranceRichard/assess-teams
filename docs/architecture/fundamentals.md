@@ -73,3 +73,7 @@ organisation restent supprimées par cascade ; leur arbitrage produit reste suiv
 
 La [traçabilité HTTP](journals-api.md) est un adapter transverse Django : elle centralise la réponse HTTP
 et reçoit uniquement le contexte autorisé des vues, indépendamment des activités métier transactionnelles.
+
+Le [lifecycle des identités](user-lifecycle.md) utilise `is_active` : désactivation/réactivation explicites,
+identité et provenance conservées, invariant transactionnel du dernier Admin actif et planifications suspendues
+jusqu’à réaffectation explicite. Le Superadmin Django reste distinct des fonctions métier.

@@ -13,10 +13,11 @@ fictives, leurs fonctions, l'idempotence, la préservation des comptes existants
 production. Un test de configuration garantit aussi que l'application de données locales n'est pas installée
 par les réglages de production.
 
-La gestion Superadmin est couverte par les contrats API, les permissions, les invitations signées, les
-notifications aux anciennes et nouvelles adresses, l'identifiant, l'indicateur d'attente et les dialogues.
-Playwright valide le parcours navigateur de création, modification et suppression d'une identité invitée.
-Il vérifie aussi l'accès par le menu Utilisateurs et le changement de thème jour/nuit.
+La gestion Superadmin couvre contrats API, permissions, invitations signées, notifications,
+identifiant, attente et dialogues. Le [lifecycle USER-004](../architecture/user-lifecycle.md) ajoute
+concurrence, sessions existantes, invitations, historique intact et responsabilités suspendues.
+React et Playwright vérifient création, modification, désactivation et réactivation d’une identité,
+ainsi que le menu Utilisateurs et les thèmes jour/nuit.
 
 Le référentiel d’évaluation couvre l’attribution automatique des index de modèles et de questions, les
 validations, les permissions, le contrat OpenAPI et la cascade. Playwright valide le CRUD complet sans champ

@@ -23,7 +23,13 @@ export type InviteUserInput = Required<
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, { credentials: "same-origin", ...init });
-  if (!response.ok) throw new Error("Managed user request failed");
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(
+      data.detail ??
+        (Object.values(data).flat().join(" ") || "Managed user request failed"),
+    );
+  }
   return (response.status === 204 ? undefined : await response.json()) as T;
 }
 
@@ -52,8 +58,12 @@ export function updateManagedUser(
   return request(`/api/admin/users/${id}/`, writeOptions("PUT", input));
 }
 
-export function deleteManagedUser(id: number): Promise<void> {
-  return request(`/api/admin/users/${id}/`, writeOptions("DELETE"));
+export function setManagedUserActivation(
+  id: number,
+  active: boolean,
+): Promise<ManagedUser> {
+  const action = active ? "reactivate" : "deactivate";
+  return request(`/api/admin/users/${id}/${action}/`, writeOptions("POST"));
 }
 
 export function acceptInvitation(

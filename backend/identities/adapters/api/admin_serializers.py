@@ -45,13 +45,17 @@ class InviteUserSerializer(serializers.Serializer):
     def validate_identifier(self, value: str) -> str:
         identifier = value.strip()
         if User.objects.filter(username__iexact=identifier).exists():
-            raise serializers.ValidationError("Cet identifiant est déjà utilisé.")
+            raise serializers.ValidationError(
+                "Identité déjà existante ; réactivez-la si elle est désactivée."
+            )
         return identifier
 
     def validate_email(self, value: str) -> str:
         email = value.strip().lower()
         if User.objects.filter(email__iexact=email).exists():
-            raise serializers.ValidationError("Une identité utilise déjà cette adresse.")
+            raise serializers.ValidationError(
+                "Une identité existe déjà avec cette adresse ; réactivez-la si elle est désactivée."
+            )
         return email
 
 
@@ -65,14 +69,18 @@ class UpdateManagedUserSerializer(serializers.Serializer):
         identifier = value.strip()
         user = self.context["user"]
         if User.objects.filter(username__iexact=identifier).exclude(pk=user.pk).exists():
-            raise serializers.ValidationError("Cet identifiant est déjà utilisé.")
+            raise serializers.ValidationError(
+                "Identité déjà existante ; réactivez-la si elle est désactivée."
+            )
         return identifier
 
     def validate_email(self, value: str) -> str:
         email = value.strip().lower()
         user = self.context["user"]
         if User.objects.filter(email__iexact=email).exclude(pk=user.pk).exists():
-            raise serializers.ValidationError("Une identité utilise déjà cette adresse.")
+            raise serializers.ValidationError(
+                "Une identité existe déjà avec cette adresse ; réactivez-la si elle est désactivée."
+            )
         return email
 
 

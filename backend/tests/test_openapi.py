@@ -99,7 +99,13 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
     assert user_component["properties"]["is_active"]["type"] == "boolean"
     assert "name" not in create_component["properties"]
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
+    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}
+    assert detail["delete"]["deprecated"] is True
+    for action in ("deactivate", "reactivate"):
+        operation = schema["paths"][f"/api/admin/users/{{user_id}}/{action}/"]["post"]
+        assert set(operation["responses"]) == {"200", "400", "403", "404"}
+        assert {"cookieAuth": []} in operation["security"]
+        assert "requestBody" not in operation
     assert "security" not in invitation
     assert set(invitation["responses"]) == {"204", "400", "403"}
 
