@@ -3,7 +3,7 @@
   padding: clamp(1.25rem, 3vw, 2.5rem);
   border-radius: 1rem;
   background: var(--surface);
-  box-shadow: 0 1rem 3rem rgb(27 58 48 / 8%);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 8%);
 }
 
 .journal-page h1 {

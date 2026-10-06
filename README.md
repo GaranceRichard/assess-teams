@@ -37,7 +37,7 @@ Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. 
 l'espace Admin sans devenir un rôle métier supplémentaire. Sans menu Équipes, le Coach retrouve sur son tableau
 de bord son organisation et ses équipes actives ; le Viewer y retrouve son organisation. La déconnexion invalide la session.
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
-soleil/lune conserve le mode jour/nuit. Le sélecteur [Couleurs](docs/architecture/interface-palettes.md) propose vert (par défaut), bleu, rose et rouge, persistés par utilisateur dans la session backend. Le chargement initial de la planification ignore les réponses obsolètes.
+soleil/lune conserve le mode jour/nuit. Le sélecteur [Couleurs](docs/architecture/interface-palettes.md) propose dix accents indépendants des surfaces neutres Clair/Sombre, persistés par utilisateur dans la session backend (défaut vert). Le chargement initial de la planification ignore les réponses obsolètes.
 
 La gestion actuelle des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
 l'Admin gère uniquement les Coachs et Viewers de son organisation, le Coach gère les Viewers de son

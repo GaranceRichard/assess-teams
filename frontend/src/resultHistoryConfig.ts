@@ -41,8 +41,8 @@ export function historyData(
 }
 
 export function historyOptions(theme: Theme): ChartOptions<"line"> {
-  const text = theme === "night" ? "#e5efec" : "#18252c";
-  const grid = theme === "night" ? "#50645e" : "#aebdb8";
+  const text = theme === "night" ? "#f5f5f5" : "#171717";
+  const grid = theme === "night" ? "#a3a3a3" : "#737373";
   return {
     responsive: true,
     maintainAspectRatio: false,

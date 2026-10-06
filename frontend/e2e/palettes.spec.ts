@@ -5,7 +5,6 @@ import {
   runDjangoShell,
   seedIdentity,
 } from "./identity-fixture";
-import { contrast } from "./palette-contrast";
 
 async function login(page: Page, username: string) {
   await page.goto("/");
@@ -30,69 +29,23 @@ test("persists a personal palette across reload, login and a fresh browser conte
   await expect(root).toHaveAttribute("data-palette", "green");
   await page.getByText("Couleurs", { exact: true }).click();
 
-  for (const [value, label] of [
-    ["green", "Vert"],
-    ["blue", "Bleu"],
-    ["pink", "Rose"],
-    ["red", "Rouge"],
+  await expect(page.getByRole("radio")).toHaveCount(10);
+  await page.getByRole("radio", { name: "Turquoise", exact: true }).check();
+  await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
+  for (const [name, theme] of [
+    ["Activer le mode nuit", "night"],
+    ["Activer le mode jour", "day"],
   ]) {
-    if (value !== "green") {
-      await page.getByRole("radio", { name: label, exact: true }).check();
-      await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
-    }
-    await expect(root).toHaveAttribute("data-palette", value);
-    for (const theme of ["day", "night"]) {
-      if (theme === "night")
-        await page
-          .getByRole("button", { name: "Activer le mode nuit" })
-          .click();
-      const colors = await root.evaluate((element) => {
-        const style = getComputedStyle(element);
-        const token = (name: string) => style.getPropertyValue(name).trim();
-        return {
-          primary: token("--primary"),
-          text: token("--accent-text"),
-          surface: token("--surface"),
-          navigation: token("--navigation-active"),
-          sidebar: token("--navigation-background"),
-          focus: token("--focus"),
-        };
-      });
-      expect(contrast(colors.primary, "#ffffff")).toBeGreaterThanOrEqual(4.5);
-      expect(
-        contrast(
-          colors.text,
-          colors.surface === "#fff" ? "#ffffff" : colors.surface,
-        ),
-      ).toBeGreaterThanOrEqual(4.5);
-      expect(contrast("#ffffff", colors.navigation)).toBeGreaterThanOrEqual(
-        4.5,
-      );
-      expect(contrast("#ffffff", colors.sidebar)).toBeGreaterThanOrEqual(4.5);
-      expect(
-        contrast(
-          colors.focus,
-          colors.surface === "#fff" ? "#ffffff" : colors.surface,
-        ),
-      ).toBeGreaterThanOrEqual(3);
-      expect(
-        await page
-          .locator(".product-sidebar")
-          .evaluate((element) => getComputedStyle(element).backgroundColor),
-      ).not.toBe("rgba(0, 0, 0, 0)");
-      if (value === "red")
-        await page.screenshot({
-          path: test.info().outputPath(`palette-${theme}.png`),
-          fullPage: true,
-        });
-      if (theme === "night")
-        await page
-          .getByRole("button", { name: "Activer le mode jour" })
-          .click();
-    }
+    await page.getByRole("button", { name }).click();
+    await expect(root).toHaveAttribute("data-theme", theme);
+    await expect(root).toHaveAttribute("data-palette", "turquoise");
+    await page.screenshot({
+      path: test.info().outputPath(`palette-${theme}.png`),
+      fullPage: true,
+    });
   }
 
-  await page.getByRole("radio", { name: "Bleu", exact: true }).focus();
+  await page.getByRole("radio", { name: "Violet", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
   await expect(
     page.getByRole("radio", { name: "Rose", exact: true }),

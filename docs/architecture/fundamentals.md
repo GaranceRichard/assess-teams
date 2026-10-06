@@ -21,7 +21,8 @@ navigateur.
 
 Les [palettes personnelles](interface-palettes.md) reposent sur `identities.User.interface_palette`,
 les réponses de session et `PATCH /api/session/`. Le sélecteur de l’en-tête applique des tokens CSS
-sémantiques partagés en jour/nuit. Le backend reste autoritaire ; les séries du radar sont indépendantes.
+sémantiques pour dix accents ; `theme.css` réserve les surfaces, textes et bordures neutres au mode
+jour/nuit. Ces dimensions restent indépendantes. Le backend reste autoritaire ; les séries du radar sont indépendantes.
 
 La route `/organization`, visible pour les Superadmins et Admins, matérialise le vertical slice
 React → API DRF → ORM pour créer ou renommer une organisation, puis ajouter ou retirer ses membres depuis sa fiche.

@@ -22,6 +22,7 @@
 }
 
 .taking-dialog {
+  background: var(--surface-raised);
   border: 1px solid var(--border);
   color: var(--text);
   max-height: calc(100dvh - 2rem);
@@ -29,7 +30,7 @@
 }
 
 .taking-dialog::backdrop {
-  background: rgb(15 23 42 / 55%);
+  background: var(--overlay);
 }
 
 .taking-dialog input[type="range"] {

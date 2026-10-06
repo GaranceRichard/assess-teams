@@ -68,7 +68,7 @@ par lignée explicite, dans le scope des passations pour Superadmin/Admin/Coach 
 de son organisation pour Viewer, sans agrégation ni droit d’écriture.
 
 Les réponses de session et de connexion exposent aussi `interface_palette`, parmi `green`, `blue`, `pink`,
-`red`, avec défaut `green`. `PATCH /api/session/` accepte uniquement ce champ obligatoire et modifie
+`red`, `indigo`, `violet`, `orange`, `amber`, `emerald`, `turquoise`, avec défaut `green`. `PATCH /api/session/` accepte uniquement ce champ obligatoire et modifie
 l’utilisateur authentifié : `200` avec profil actualisé, `400` pour une valeur ou des champs invalides,
 `403` sans session ou CSRF. Le [contrat des palettes personnelles](interface-palettes.md) décrit stockage,
 restauration et isolation. Aucun identifiant cible, rôle, organisation ou CSS libre n’est accepté.

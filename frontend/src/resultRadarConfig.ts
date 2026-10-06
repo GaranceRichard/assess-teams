@@ -60,8 +60,8 @@ export function radarOptions(
   theme: Theme,
   onCriterion?: (index: number) => void,
 ): ChartOptions<"radar"> {
-  const text = theme === "night" ? "#e5efec" : "#18252c";
-  const grid = theme === "night" ? "#50645e" : "#aebdb8";
+  const text = theme === "night" ? "#f5f5f5" : "#171717";
+  const grid = theme === "night" ? "#a3a3a3" : "#737373";
   return {
     onClick: (event, elements, chart) => {
       if (!onCriterion || event.x === null || event.y === null) return;

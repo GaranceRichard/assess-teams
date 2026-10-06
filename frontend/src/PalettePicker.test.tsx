@@ -15,12 +15,12 @@ const user: SessionUser = {
 
 afterEach(() => vi.restoreAllMocks());
 
-it("restores the server preference and exposes four named visual choices", () => {
+it("restores the server preference and exposes ten named visual choices", () => {
   const { unmount } = render(<PalettePicker user={user} />);
   expect(document.documentElement.dataset.palette).toBe("pink");
-  expect(screen.getAllByRole("radio", { hidden: true })).toHaveLength(4);
+  expect(screen.getAllByRole("radio", { hidden: true })).toHaveLength(10);
   expect(screen.getByLabelText("Rose")).toBeChecked();
-  expect(document.querySelectorAll(".palette-swatch")).toHaveLength(4);
+  expect(document.querySelectorAll(".palette-swatch")).toHaveLength(10);
   unmount();
   expect(document.documentElement.dataset.palette).toBe("green");
 });
@@ -39,7 +39,7 @@ it("changes immediately, serializes saves and adopts the authoritative response"
   fireEvent.click(screen.getByLabelText("Bleu"));
   expect(document.documentElement.dataset.palette).toBe("blue");
   expect(
-    screen.getByRole("group", { name: "Couleur d’interface" }),
+    screen.getByRole("group", { name: "Couleur d’accent" }),
   ).toHaveAttribute("aria-busy", "true");
   expect(screen.getByLabelText("Rouge")).toBeDisabled();
   fireEvent.change(screen.getByLabelText("Bleu"));
@@ -107,4 +107,17 @@ it("keeps the next user's palette when an old save completes after logout", asyn
     ),
   );
   expect(document.documentElement.dataset.palette).toBe("red");
+});
+
+it("shows a checked safe default for an unknown preference from the server", () => {
+  render(
+    <PalettePicker
+      user={{
+        ...user,
+        interface_palette: "unknown" as SessionUser["interface_palette"],
+      }}
+    />,
+  );
+  expect(screen.getByLabelText("Vert")).toBeChecked();
+  expect(document.documentElement.dataset.palette).toBe("green");
 });

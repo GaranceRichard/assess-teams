@@ -38,7 +38,7 @@ button {
   padding: 2.5rem;
   border-radius: 1rem;
   background: var(--surface);
-  box-shadow: 0 1.5rem 4rem rgb(27 58 48 / 12%);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 12%);
 }
 .eyebrow {
   margin: 0 0 0.65rem;
@@ -127,7 +127,7 @@ header span {
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border-radius: 1rem;
   background: var(--surface);
-  box-shadow: 0 1rem 3rem rgb(27 58 48 / 8%);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 8%);
 }
 .placeholder p:last-child {
   margin: 1.3rem 0 0;

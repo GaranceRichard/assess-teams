@@ -65,7 +65,7 @@
 
 .team-dialog-backdrop {
   align-items: center;
-  background: rgb(15 23 42 / 55%);
+  background: var(--overlay);
   display: flex;
   inset: 0;
   justify-content: center;
@@ -75,9 +75,9 @@
 }
 
 .team-dialog {
-  background: var(--surface);
+  background: var(--surface-raised);
   border-radius: 1rem;
-  box-shadow: 0 1.5rem 4rem rgb(15 23 42 / 25%);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 25%);
   max-height: calc(100vh - 2rem);
   overflow: auto;
   padding: 1.5rem;

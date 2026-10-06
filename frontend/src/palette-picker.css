@@ -20,7 +20,7 @@
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   color: var(--text);
-  background: var(--surface);
+  background: var(--surface-raised);
   box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 20%);
   text-align: left;
 }
@@ -75,10 +75,12 @@
 }
 
 .palette-swatch {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 1.25rem;
   border-radius: 50%;
-  background: var(--primary);
+  background: var(--accent-day);
+  border: 1px solid var(--input-border);
 }
 
 .palette-status {
@@ -92,12 +94,21 @@
 
 @media (max-width: 760px) {
   .workspace > header {
+    position: relative;
     flex-wrap: wrap;
   }
 
+  .palette-picker {
+    position: static;
+  }
+
   .palette-panel {
-    right: auto;
-    left: 0;
+    right: 1rem;
+    left: auto;
     width: min(18rem, calc(100vw - 2rem));
   }
+}
+
+:root[data-theme="night"] .palette-swatch {
+  background: var(--accent-night);
 }

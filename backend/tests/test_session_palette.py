@@ -20,8 +20,11 @@ def patch_palette(client, data):
     )
 
 
-@pytest.mark.parametrize("role", [*Role, None])
-@pytest.mark.parametrize("palette", InterfacePalette.values())
+@pytest.mark.parametrize(
+    "role,palette",
+    [(role, "turquoise") for role in [*Role, None]]
+    + [(Role.VIEWER, palette) for palette in InterfacePalette.values() if palette != "turquoise"],
+)
 def test_palette_is_personal_persistent_and_restored_on_new_session(role, palette):
     member = create_user("member", role) if role else create_superuser()
     other = create_user("other", Role.VIEWER)

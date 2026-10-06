@@ -131,7 +131,7 @@ it("resets selected teams on a version change and updates chart contrast with th
   const options = JSON.parse(
     screen.getByRole("img").getAttribute("data-options")!,
   );
-  expect(options.scales.r.pointLabels.color).toBe("#e5efec");
+  expect(options.scales.r.pointLabels.color).toBe("#f5f5f5");
   api.getFamilyComparison.mockResolvedValueOnce({
     axes: [{ question_id: 99, index: 1, text: "Nouvelle version" }],
     teams: [resultComparison.teams[1]],

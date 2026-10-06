@@ -14,8 +14,9 @@
   z-index: 2;
   min-width: 0;
   padding: 1.5rem 1.25rem;
-  color: #fff;
+  color: var(--text);
   background: var(--navigation-background);
+  border-right: 1px solid var(--border);
 }
 
 .sidebar-heading {
@@ -29,7 +30,7 @@
   min-width: 0;
   align-items: center;
   gap: 0.65rem;
-  color: #fff;
+  color: var(--text);
   font-size: 1.25rem;
   font-weight: 850;
   text-decoration: none;
@@ -60,7 +61,7 @@
   border: 1px solid var(--sidebar-border);
   border-radius: 50%;
   margin: 1rem 0 0 auto;
-  color: #fff;
+  color: var(--text);
   background: var(--sidebar-control);
   place-items: center;
 }
@@ -104,7 +105,7 @@
 
 .product-sidebar nav a:hover,
 .product-sidebar nav a[aria-current="page"] {
-  color: #fff;
+  color: var(--accent);
   background: var(--navigation-active);
 }
 
@@ -132,8 +133,8 @@
   left: calc(100% + 0.65rem);
   padding: 0.5rem 0.7rem;
   border-radius: 0.4rem;
-  color: #fff;
-  background: var(--navigation-background);
+  color: var(--text);
+  background: var(--surface-raised);
   box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 20%);
   content: attr(data-tooltip);
   font-size: 0.85rem;

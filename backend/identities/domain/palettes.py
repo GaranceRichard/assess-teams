@@ -6,6 +6,12 @@ class InterfacePalette(StrEnum):
     BLUE = "blue"
     PINK = "pink"
     RED = "red"
+    INDIGO = "indigo"
+    VIOLET = "violet"
+    ORANGE = "orange"
+    AMBER = "amber"
+    EMERALD = "emerald"
+    TURQUOISE = "turquoise"
 
     @classmethod
     def values(cls) -> tuple[str, ...]:

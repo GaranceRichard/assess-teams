@@ -1,78 +1,111 @@
-# Palettes personnelles d’interface
+# Apparence et accents personnels
 
-## Audit du main de départ
+## Cause racine et périmètre
 
-L’audit de `origin/main` (`e900f3d`) a ciblé le profil, la session, les couleurs et les tests concernés.
-Le modèle `identities.User` ne portait aucune préférence de couleur. `GET /api/session/` et la connexion
-retournaient déjà le profil authentifié. Le mode jour/nuit était mémorisé dans le navigateur.
-Les accents verts étaient codés en dur dans les styles communs, la navigation, le focus et la passation.
-Le radar utilisait une liste de séries indépendante, avec formes et pointillés distincts.
-Les suites ciblées initiales étaient conformes : 22 tests backend et 25 tests frontend.
+L’audit part de `origin/main` (`51574e0`). `palette.css` associait chaque accent à une famille
+`--sidebar*` : changer de préférence recolorait donc toute la navigation. `theme.css` définissait aussi
+les fonds `#eef2ef`, `#101817`, les cartes `#1a2624` et des textes/bordures teintés de vert.
+Le test de régression navigateur reproduit le défaut avant correction : Vert → Bleu changeait
+`--navigation-background` de `#102c2a` à `#142c49`.
 
-Le premier gate complet a révélé une course préexistante dans le chargement de la planification :
-la réponse d’un effet initial nettoyé par React StrictMode pouvait effacer une création réussie.
-`PlanningLoading.test.tsx` reproduit l’échec avant correction. Le chargement ignore désormais les réponses
-et erreurs de cet effet obsolète ; le parcours E2E de versionnement demeure inchangé.
+L’apparence Clair/Sombre et la couleur d’accent sont désormais deux dimensions indépendantes.
+Le Dashboard personnel avec section Apparence n’est pas présent sur ce main : le sélecteur reste
+provisoirement dans le header pour préserver le chantier Dashboard. Aucun comportement métier ne change.
 
-La livraison a été resynchronisée sur `9bbe2ef`, qui ajoute l’historique longitudinal des résultats.
-Ses courbes partagent les styles de séries indépendants du radar ; une vérification navigateur couvre
-également leur dessin et leur légende lors des quatre changements de palette. Les deux évolutions coexistent.
+## Tokens structurels
 
-## Usage
+`theme.css` est la source des surfaces, textes et bordures neutres. Seul `data-theme` les contrôle.
+Les composants utilisent les mêmes tokens dans tous les accents ; aucune palette ne les redéfinit.
 
-Le menu **Couleurs**, dans l’en-tête près de l’identité connectée, propose quatre pastilles nommées :
-**Vert**, **Bleu**, **Rose**, **Rouge**. Les boutons radio se parcourent au clavier ; le choix est indiqué
-autrement que par la couleur. La palette s’applique immédiatement, en mode jour comme en mode nuit.
-Pendant l’enregistrement, les choix sont désactivés pour sérialiser les écritures. Un succès est annoncé ;
-un échec rétablit la préférence précédente et présente un message accessible.
+| Token | Clair (`day`) | Sombre (`night`) |
+| --- | --- | --- |
+| `background` | `#f5f5f5` | `#171717` |
+| `surface` | `#ffffff` | `#262626` |
+| `surface-raised` | `#ffffff` | `#303030` |
+| `border` | `#d4d4d4` | `#525252` |
+| `input-border` | `#737373` | `#a3a3a3` |
+| `text` | `#171717` | `#f5f5f5` |
+| `text-muted` | `#525252` | `#b8b8b8` |
 
-La palette est chargée avant l’affichage de l’espace authentifié et restaurée après rechargement,
-reconnexion ou connexion depuis un autre appareil/navigateur. La déconnexion rétablit le vert.
-Le choix jour/nuit continue à fonctionner séparément, avec son stockage navigateur existant.
+`heading`, `muted`, `secondary-text`, `navigation-background`, `navigation-text`, `sidebar-control`
+et `sidebar-border` sont des alias structurels. Header et sidebar utilisent `surface` ; menus, tooltips
+et modales utilisent `surface-raised`. Les champs utilisent `surface`. Les overlays et ombres sont noirs.
+Le toggle jour/nuit utilise lui aussi les surfaces et textes neutres, sans toucher à l’accent.
 
-## Stockage et contrat
+## Dix palettes d’accent
 
-`identities.User.interface_palette` est un `CharField` non nullable, avec choix fermés
-`green | blue | pink | red` et défaut `green`. La migration `0004` initialise aussi les identités existantes
-et ajoute une contrainte SQL d’appartenance à cette liste. Aucune nouvelle table ou dépendance.
-Cette préférence ne porte ni organisation, ni rôle, ni permission et vaut aussi pour un Superadmin.
+`palette.css` définit uniquement les bases d’accent et leurs rôles ; `palette.ts` porte les choix nommés.
+Chaque couleur possède une base sombre pour le mode clair et une base claire pour le mode sombre.
 
-La connexion et `GET /api/session/` ajoutent `interface_palette` à la représentation produit.
-`PATCH /api/session/` accepte exclusivement le JSON `{"interface_palette": "blue"}` et retourne `200`
-avec la représentation complète actualisée. Le champ est obligatoire ; une valeur inconnue, CSS libre,
-vide, nulle, de type invalide ou un champ supplémentaire retourne `400` sans mutation.
-Une session Django active et son en-tête `X-CSRFToken` sont obligatoires, sinon `403`.
-La cible est toujours `request.user` ; aucun identifiant utilisateur cible n’est accepté.
-L’écriture limite `update_fields` à cette préférence. Le contrat OpenAPI décrit les trois opérations.
+| Accent | Valeur persistée | Base Clair | Base Sombre |
+| --- | --- | --- | --- |
+| Bleu | `blue` | `#205ba3` | `#90beff` |
+| Indigo | `indigo` | `#4338ca` | `#a5b4fc` |
+| Violet | `violet` | `#7e22ce` | `#d8b4fe` |
+| Rose | `pink` | `#9b2866` | `#f5a4cc` |
+| Rouge | `red` | `#ac3036` | `#ffaaa7` |
+| Orange | `orange` | `#b0430a` | `#fdba74` |
+| Ambre | `amber` | `#8a5700` | `#fcd34d` |
+| Vert | `green` | `#28703c` | `#86d99b` |
+| Émeraude | `emerald` | `#15654d` | `#70cbb0` |
+| Turquoise | `turquoise` | `#0e6974` | `#67d5df` |
 
-Le backend constitue la source de vérité. La palette n’est pas enregistrée dans `localStorage`.
-Le frontend adopte la réponse serveur après sauvegarde ; une réponse tardive après déconnexion ne modifie
-pas l’interface du compte suivant. Des sessions déjà ouvertes ailleurs actualisent leur palette à la
-prochaine reprise/reconnexion ; aucun mécanisme de diffusion en temps réel n’est ajouté.
+Les cinq rôles sont partagés, sans créer dix thèmes complets :
 
-## Tokens et accessibilité
+- `accent` : base du mode courant ;
+- `accent-hover` : mélange sRGB de 88 % d’accent et 12 % de texte ;
+- `accent-subtle` : mélange de 12 % d’accent et 88 % de surface ;
+- `accent-border` : mélange de 65 % d’accent et 35 % de surface ;
+- `accent-contrast` : `#ffffff` en clair, `#171717` en sombre.
 
-`palette.css` contient uniquement les valeurs des palettes et les règles communes. Les composants
-consomment `--primary`, `--primary-hover`, `--on-primary`, `--accent-text`, `--focus`, `--selection`
-et les tokens de navigation. Les mêmes valeurs de palette alimentent les pastilles de prévisualisation.
-Les surfaces, dimensions et composants existants sont conservés ; les accents de nuit sont plus clairs.
-Le focus de navigation sur fond sombre utilise l’accent clair, indépendamment du focus des surfaces.
+Les alias `primary`, `primary-hover`, `on-primary`, `accent-text`, `focus`, `selection` et
+`navigation-active` permettent aux composants existants de consommer ces rôles. L’accent s’applique aux
+actions principales, liens, navigation active, focus, contrôles sélectionnés et surtitres.
+Les fonds subtils se limitent aux sélections locales ; les grandes surfaces restent neutres.
+Les statuts métier, dangers et avertissements conservent leurs couleurs sémantiques indépendantes.
+Le radar et les courbes conservent leurs séries distinctes, formes et pointillés indépendants des accents ;
+leurs textes/grilles suivent les mêmes gris clair/sombre que l’interface.
 
-Les couleurs de danger, d’avertissement et de statut métier restent sémantiques et indépendantes.
-`resultRadarConfig.ts` et `resultHistoryConfig.ts` conservent les séries, formes et pointillés,
-ainsi que le contraste jour/nuit du radar et des courbes longitudinales.
-Les tests navigateur vérifient les contrastes des accents et libellés (≥ 4,5:1) et du focus (≥ 3:1)
-dans les huit combinaisons palette/mode ; ils vérifient également les choix clavier et les états désactivés.
+## Sélecteur et persistance
 
-## Validation et revue documentaire
+Le menu **Couleurs** expose dix pastilles avec libellés et boutons radio accessibles au clavier.
+Chaque échantillon montre sa propre base dans le mode courant ; le choix est aussi signalé par le radio
+et la bordure. Un enregistrement sérialise les écritures et annonce le succès ; un refus rétablit le
+choix précédent et affiche une erreur accessible. Une réponse tardive après déconnexion est ignorée.
 
-Les tests backend couvrent persistance, quatre palettes et quatre types d’identité, isolation, refus,
-CSRF, contrainte SQL, migration historique et contrat OpenAPI. Les tests React couvrent restauration,
-application immédiate, réponse serveur, échec, déconnexion et réponse tardive.
-`palettes.spec.ts` vérifie le backend réel, rechargement, reconnexion, second compte, nouveau contexte
-navigateur, contrastes, clavier et erreur d’enregistrement. `results.spec.ts` vérifie que changer de palette
-ne modifie ni le dessin du radar ni les couleurs de sa légende ; `results-longitudinal.spec.ts` protège
-de la même façon les courbes historiques.
+Le backend reste la source de vérité, sans stockage local de l’accent. `GET /api/session/`, la connexion
+et `PATCH /api/session/` conservent le contrat existant et restituent la préférence personnelle.
+Le choix est restauré après reload, reconnexion et connexion dans un navigateur neuf.
+Clair/Sombre conserve son stockage navigateur `assess-teams-theme`, totalement séparé.
 
-README, contrat API, fondamentaux et stratégie de tests sont adaptés. Les règles des agents, la charte
-qualité et la Definition of Done ont été revues : leurs exigences demeurent applicables sans modification.
+La migration `0005` élargit `User.interface_palette` à 16 caractères et étend les choix et la contrainte
+SQL aux dix valeurs. Elle ne réécrit aucune préférence : `green`, `blue`, `pink`, `red` restent valides,
+avec les mêmes rattachements et identifiants. Le défaut reste `green`, y compris à la déconnexion.
+Une réponse serveur inconnue est normalisée vers `green` dans l’affichage sans écriture backend.
+Une valeur inconnue envoyée à l’API est refusée avec `400`, sans modifier le choix enregistré.
+Une session active et le jeton CSRF restent obligatoires (`403` autrement) ; seul le champ de préférence
+est accepté, sans utilisateur cible, rôle, organisation ni CSS libre.
+
+## Audit et validation
+
+L’audit couvre Dashboard, shell/navigation, champs, sélecteur, formulaires/modales de gestion,
+Results/radar/historique, Pilotage et tableaux. Les fonds et textes verts historiques, surfaces de sidebar
+par palette, contrôles de sidebar, tooltips, ombres vertes et overlays teintés sont neutralisés à leur source.
+Les modales Utilisateurs, Organisations, Équipes, Modèles, Planification et Passation partagent
+`surface-raised`. Les liens/focus Results et Pilotage suivent l’accent. Le danger de Planification garde
+un texte blanc indépendant du contraste des boutons primaires ; les dangers outline suivent le mode.
+
+Les tests de migration protègent les quatre choix historiques et les rattachements ; les tests API couvrent
+les dix accents, les rôles, la persistance, l’isolation, les valeurs invalides, CSRF et OpenAPI.
+React vérifie les dix choix, le fallback, l’indépendance des dimensions, la restauration et le rollback.
+Un seul test navigateur de tokens parcourt les bases clair/sombre et vérifie invariance structurelle,
+neutres achromatiques et contraste des accents/hover avec leur texte et les surfaces (≥ 4,5:1).
+Il ne multiplie pas les parcours métier pour les vingt combinaisons.
+`palettes.spec.ts` couvre persistance réelle, reconnexion, navigateur neuf, clavier et refus.
+`theme-surfaces.spec.ts` vérifie les fonds calculés et capture des écrans représentatifs dans les deux
+modes et sur mobile ; les E2E Results et Pilotage protègent aussi les composants et séries existants.
+
+La revue documentaire porte sur README, fondamentaux, contrat API, stratégie de tests, règles des agents,
+charte qualité et Definition of Done. Les trois derniers restent applicables sans modification.
+Les validations requises incluent lint/formatage, build TypeScript/Vite, migrations, schéma OpenAPI,
+tests/coverage ≥ 90 %, E2E, limite de 200 lignes, secrets et `npm run quality:full`, répété au pre-push.

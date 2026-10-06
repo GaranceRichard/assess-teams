@@ -21,7 +21,7 @@
   overflow-x: auto;
   border-radius: 0.8rem;
   background: var(--surface);
-  box-shadow: 0 1rem 3rem rgb(27 58 48 / 8%);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 8%);
 }
 table {
   width: 100%;
@@ -62,8 +62,8 @@ th {
   background: #a62f38;
 }
 .danger-outline {
-  border: 1px solid #c85c64;
-  color: #982b33;
+  border: 1px solid var(--error-text);
+  color: var(--error-text);
   background: var(--surface);
 }
 .dialog-backdrop {
@@ -72,7 +72,7 @@ th {
   inset: 0;
   display: grid;
   padding: 1rem;
-  background: rgb(9 28 24 / 55%);
+  background: var(--overlay);
   place-items: center;
 }
 .dialog {
@@ -80,7 +80,7 @@ th {
   max-height: calc(100vh - 2rem);
   padding: clamp(1.25rem, 4vh, 2rem);
   border-radius: 0.8rem;
-  background: var(--surface);
+  background: var(--surface-raised);
   box-shadow: 0 2rem 5rem rgb(0 0 0 / 25%);
 }
 .dialog h2 {

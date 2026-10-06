@@ -58,5 +58,5 @@ it("uses actual completion timestamps, point metadata and fixed scales without c
   expect(
     tick.call({} as never, new Date("2026-09-01T12:00:00Z").getTime(), 0, []),
   ).toBe("2026-09-01");
-  expect(historyOptions("day").scales!.y!.ticks!.color).toBe("#18252c");
+  expect(historyOptions("day").scales!.y!.ticks!.color).toBe("#171717");
 });

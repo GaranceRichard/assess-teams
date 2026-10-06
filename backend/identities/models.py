@@ -8,7 +8,7 @@ from identities.domain.users import Role
 
 class User(AbstractUser):
     interface_palette = models.CharField(
-        max_length=5,
+        max_length=16,
         choices=[(palette.value, palette.value) for palette in InterfacePalette],
         default=InterfacePalette.GREEN.value,
     )
