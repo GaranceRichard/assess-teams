@@ -1,0 +1,82 @@
+.steering-page {
+  min-width: 0;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--surface);
+}
+.steering-organization {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 28rem;
+}
+.steering-organization select {
+  padding: 0.75rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  color: var(--text);
+  background: var(--surface);
+  font: inherit;
+}
+.steering-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.steering-summary > div {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+.steering-summary dd {
+  margin: 0.5rem 0 0;
+}
+.steering-summary strong {
+  font-size: 1.25rem;
+}
+.steering-summary small {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
+.steering-table {
+  overflow-x: auto;
+}
+.steering-table table {
+  min-width: 58rem;
+}
+.steering-table caption {
+  padding: 0.75rem 0;
+  text-align: left;
+}
+.steering-table th {
+  white-space: normal;
+}
+.steering-table a {
+  color: var(--text);
+}
+.steering-state {
+  display: inline-block;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+}
+.steering-state--overdue {
+  font-weight: 700;
+  border-color: var(--text);
+}
+.steering-note {
+  color: var(--muted);
+}
+.steering-table:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .steering-page {
+    padding: 1rem;
+  }
+  .steering-summary {
+    grid-template-columns: 1fr;
+  }
+}

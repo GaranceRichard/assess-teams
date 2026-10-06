@@ -1,20 +1,14 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from assessments.adapters.api.lifecycle_views import ArchiveEvaluationView, ValidateEvaluationView
 from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
-from assessments.adapters.api.result_history_views import (
-    ResultCriterionHistoryView,
-    ResultFamilyComparisonView,
-    ResultFamilyListView,
-    ResultOrganizationListView,
-)
-from assessments.adapters.api.results_views import ResultComparisonView, ResultVersionListView
 from assessments.adapters.api.schedule_views import (
     EvaluationScheduleDetailView,
     EvaluationScheduleListCreateView,
 )
+from assessments.adapters.api.steering_views import SteeringOrganizationListView, SteeringView
 from assessments.adapters.api.taking_views import (
     EvaluationFinalizeView,
     EvaluationRevisionView,
@@ -41,34 +35,19 @@ from journals.adapters.api.views import ActivityJournalView, LogsView
 from teams.adapters.api.views import TeamDetailView, TeamListCreateView
 
 urlpatterns = [
+    path("api/steering/", SteeringView.as_view(), name="steering"),
+    path(
+        "api/steering/organizations/",
+        SteeringOrganizationListView.as_view(),
+        name="steering-organizations",
+    ),
     path("admin/", admin.site.urls),
     path("api/health/", HealthView.as_view(), name="health"),
     path("api/session/", CurrentSessionView.as_view(), name="session-current"),
     path("api/session/login/", LoginView.as_view(), name="session-login"),
     path("api/session/logout/", LogoutView.as_view(), name="session-logout"),
     path("api/users/", UserCreateView.as_view(), name="user-create"),
-    path(
-        "api/results/organizations/",
-        ResultOrganizationListView.as_view(),
-        name="result-organizations",
-    ),
-    path("api/results/families/", ResultFamilyListView.as_view(), name="result-families"),
-    path(
-        "api/results/families/<int:family_id>/",
-        ResultFamilyComparisonView.as_view(),
-        name="result-family-comparison",
-    ),
-    path(
-        "api/results/families/<int:family_id>/criteria/<uuid:lineage_id>/",
-        ResultCriterionHistoryView.as_view(),
-        name="result-criterion-history",
-    ),
-    path("api/results/versions/", ResultVersionListView.as_view(), name="result-versions"),
-    path(
-        "api/results/versions/<int:evaluation_id>/",
-        ResultComparisonView.as_view(),
-        name="result-comparison",
-    ),
+    path("", include("config.results_urls")),
     path("api/evaluations/", EvaluationRunListView.as_view(), name="evaluation-run-list"),
     path(
         "api/evaluations/<int:run_id>/",

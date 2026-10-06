@@ -11,6 +11,7 @@ import { PalettePicker } from "./PalettePicker";
 import { PlanningPage } from "./PlanningPage";
 import { ProductSidebar } from "./ProductSidebar";
 import { ResultsPage } from "./ResultsPage";
+import { SteeringPage } from "./SteeringPage";
 import { SuperadminDashboard } from "./SuperadminDashboard";
 import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
@@ -74,6 +75,8 @@ export function ProductShell({
           <EvaluationTakingPage actor={user} />
         ) : authorized && path === "/results" ? (
           <ResultsPage theme={theme} actor={user} />
+        ) : authorized && path === "/steering" ? (
+          <SteeringPage actor={user} onNavigate={onNavigate} />
         ) : authorized && path === "/activity-journal" ? (
           <ActivityJournalPage actor={user} />
         ) : authorized && path === "/logs" ? (

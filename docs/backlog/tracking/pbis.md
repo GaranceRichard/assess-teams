@@ -32,6 +32,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | PASS-001 — Passer et réviser les évaluations planifiées | FEAT-023 — Finaliser et tracer une évaluation | À définir | À définir | Réalisé | aucun ; dépend de `EVAL-002` ; versionnement hors PBI | 2026-10-05 |
 | RESULT-001 — Comparer les dernières passations des équipes sur un radar | FEAT-041 — Comparer les dernières passations de plusieurs équipes | À définir | À définir | Réalisé | aucun ; dépend de `EVAL-003` et `PASS-001` | 2026-10-05 |
 | RESULT-002 — Suivre les observations historiques d’un critère | FEAT-025 — Comparer des évaluations compatibles | À définir | À définir | Réalisé | aucun dans le périmètre demandé ; dépend de `RESULT-001`, `EVAL-003`, `PASS-001` | 2026-10-06 |
+| STEER-001 — Piloter la couverture et les échéances des équipes actives | FEAT-035 — Obtenir une vue globale du dispositif | À définir | À définir | Réalisé | aucun dans le périmètre P0 demandé | 2026-10-06 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | FEAT-030 — Remettre une notification sans coupler le métier au canal | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courriel | 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | FEAT-039 — Consulter le Journal d’activité | M | Sol — puissance moyenne | Réalisé | aucun | 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | FEAT-040 — Consulter les Logs | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-29 |

@@ -59,8 +59,8 @@ session et son jeton CSRF, invalide la session puis retourne `204`; une session 
 avec `403`.
 
 Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
-capacités `Admin > Coach > Viewer`, y compris lors d'un accès direct. Viewer accède au tableau de bord et aux Résultats, jamais à Utilisateurs ni Équipes. Utilisateurs, Organisations, Équipes,
-Modèles, Planification, Évaluations, Résultats et Journaux ont des pages réelles ; tableau de bord générique et pilotage restent des placeholders.
+capacités `Admin > Coach > Viewer`, y compris lors d’un accès direct. Viewer accède au tableau de bord et aux Résultats, jamais à Utilisateurs ni Équipes. Utilisateurs, Organisations, Équipes,
+Modèles, Planification, Évaluations, Résultats, Pilotage et Journaux ont des pages réelles ; le tableau de bord générique reste un placeholder.
 
 Le [contrat Results](results-api.md) expose les versions avec complétions et les dernières passations
 complétées par équipe, sur une version radar automatique par famille/organisation, puis les observations longitudinales d’un critère
@@ -154,6 +154,11 @@ Le [contrat de versionnement](evaluation-versioning.md) précise familles, créa
 ## Passation des évaluations planifiées
 
 Le [contrat de passation](evaluation-taking.md) décrit `/api/evaluations/`, la reprise, les notes, la finalisation et la révision Admin, avec provenance durable et scopes backend.
+
+## Pilotage P0
+
+Le [contrat Steering](steering-api.md) décrit `GET /api/steering/` et sa liste d’organisations dédiée :
+Admin/Superadmin uniquement, projection cohérente des actifs, complétions et attentes en retard, sans score.
 
 ## Journal d’activité et Logs
 

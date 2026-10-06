@@ -89,7 +89,7 @@ organisation et équipe ne peuvent élargir ce scope ni mélanger plusieurs orga
 ## React et graphiques
 
 Parcours : Organisation → Modèle (famille) → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
-Aucune organisation préchoisie pour le Superadmin ; celle de l’Admin et du Viewer est imposée. Aucune équipe préchoisie.
+Sans intention URL de Pilotage, aucune organisation préchoisie pour le Superadmin ni équipe préchoisie ; l’organisation de l’Admin et du Viewer est imposée.
 Changer d’organisation ou de famille remet à zéro les sélections et ferme le longitudinal.
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
@@ -114,4 +114,7 @@ lignées/copies/migration, choix de version, récence/tie-break, observations, i
 IDs forgés, paramètres et OpenAPI. React : états 0/1/N, chargement à la demande, retour, erreurs,
 thèmes et réponses obsolètes. Playwright : radar courant et observations v1/v2 avec valeurs accessibles.
 Moyennes, score global, classement, tendances calculées, objectifs, comparaison automatique sans filiation,
-comparaison globale des versions, Steering, exports et édition depuis Results restent hors périmètre.
+comparaison globale des versions, exports et édition depuis Results restent hors périmètre.
+Le [Pilotage P0](steering-api.md) fournit une intention URL organisation/famille/équipe ; Results la valide
+contre ses réponses accessibles et sélectionne seulement une équipe éligible sur sa version radar.
+Une équipe source absente de cette version reçoit un message explicite ; les calculs restent inchangés.

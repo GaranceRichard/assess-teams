@@ -63,6 +63,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 - [Passation et preuve d’évaluation — PASS-001](source/03a-passations.md)
 - [Suivi, notifications et pilotage](source/04-suivi-et-pilotage.md)
 - [Résultats radar et longitudinal — RESULT-001/002](source/04a-results.md)
+- [Pilotage P0 — STEER-001](source/04b-steering.md)
 - [Gestion des organisations](source/05-organisations.md)
 - [Journaux opérationnels](source/06-journaux.md)
 

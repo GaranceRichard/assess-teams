@@ -48,13 +48,17 @@ La route `/evaluations` utilise le domaine `assessments` pour les passations pla
 questions figées, finalisation et révision Admin avec provenance initiale conservée. Le [contrat de passation](evaluation-taking.md)
 décrit les données, contraintes et scopes. Le démarrage exige un modèle validé ; une passation déjà commencée
 reste reprenable après archivage du modèle. Le référentiel est versionné ;
-le pilotage et le tableau de bord générique restent des placeholders.
+le tableau de bord générique reste un placeholder.
 
 La route `/results` compare sur un radar les dernières passations complétées des équipes pour une
 version radar automatiquement choisie par famille dans l’organisation. Le [contrat Results](results-api.md)
 décrit les snapshots, le scope des passations et l’historique à la demande d’un critère, avec continuité
 inter-version uniquement par lignée UUID explicite, sans agrégation. Viewer lit uniquement les
 COMPLETED de son organisation, sans accéder aux utilisateurs, aux équipes administratives ni aux mutations.
+
+La route `/steering` expose le [Pilotage P0](steering-api.md), projection read-only de couverture et
+échéances des équipes actives pour Admin/Superadmin. Elle réutilise les scopes et snapshots, sans scores
+ni calcul Results ; son drill-down présélectionne les identifiants accessibles sur le radar courant.
 
 Les routes `/activity-journal` et `/logs` restent deux verticales de lecture distinctes. Le Journal d’activité
 répond à « qui a fait quoi ? » après un succès métier. Les Logs répondent à « que s’est-il passé ? » avec des

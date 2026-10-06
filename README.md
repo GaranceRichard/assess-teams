@@ -7,6 +7,10 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
+[Pilotage P0 — STEER-001](docs/architecture/steering-api.md) livre `/steering` pour Admin/Superadmin :
+équipes actives, complétions, retards et liens Results, via une projection backend read-only.
+Aucun score global, classement ou indicateur de performance individuelle n’est calculé.
+
 Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
 Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO, WARNING et ERROR restent read-only et cloisonnés, avec les logs système globaux réservés au Superadmin.
 
@@ -28,7 +32,7 @@ Le bootstrap distingue `development` et `production`, réconcilie les identités
 L'endpoint initial de création d'identité est réservé au Superadmin. Dans l'espace produit, un Admin invite
 uniquement des Coachs ou Viewers, automatiquement rattachés à son organisation unique.
 
-Une identité active peut ouvrir une session produit, reprendre sur le tableau de bord depuis la racine puis accéder aux placeholders autorisés par sa fonction.
+Une identité active peut ouvrir une session produit, reprendre sur le tableau de bord depuis la racine puis accéder aux pages autorisées par sa fonction.
 Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. Le Superadmin Django obtient
 l'espace Admin sans devenir un rôle métier supplémentaire. Sans menu Équipes, le Coach retrouve sur son tableau
 de bord son organisation et ses équipes actives ; le Viewer y retrouve son organisation. La déconnexion invalide la session.
@@ -52,7 +56,7 @@ Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` :
 immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
-Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Les modèles sont regroupés en familles organisationnelles avec versions linéaires : création v1 brouillon, copie explicite en nouvelle version, archivage automatique de l’ancienne version active lors de la validation. Le planning affiche famille/version ; les passations conservent leur référence historique et leurs snapshots. La [stratégie de versionnement](docs/architecture/evaluation-versioning.md) précise migration et concurrence. Le radar Résultats utilise la dernière version ayant des résultats ; le longitudinal suit les lignées explicites ; le pilotage reste à livrer.
+Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Les modèles sont regroupés en familles organisationnelles avec versions linéaires : création v1 brouillon, copie explicite en nouvelle version, archivage automatique de l’ancienne version active lors de la validation. Le planning affiche famille/version ; les passations conservent leur référence historique et leurs snapshots. La [stratégie de versionnement](docs/architecture/evaluation-versioning.md) précise migration et concurrence. Le radar Résultats utilise la dernière version ayant des résultats ; le longitudinal suit les lignées explicites ; Pilotage lit couverture et échéances sans recalculer Results.
 
 ## Périmètre livré — passation des évaluations planifiées
 
@@ -104,8 +108,6 @@ Push-Location backend
 Pop-Location
 ```
 
-`Ctrl+Shift+B` lance la tâche par défaut `Dev: all`. Elle démarre `Dev: backend` et `Dev: frontend` en parallèle dans deux terminaux identifiables. Les trois tâches versionnées utilisent `${workspaceFolder}` et les mêmes scripts PowerShell que les commandes ci-dessus.
-
 Au premier lancement, chaque terminal affiche la préparation de son runtime avant de démarrer le service. Les
 lancements suivants restent quasi immédiats sur chaque plateforme ; une erreur explicite arrête le service concerné.
 
@@ -135,11 +137,9 @@ Le workflow attendu part du dernier `origin/main` dans une branche et un worktre
 dans le README, valide puis committe le changement et le resynchronise. Le Pre-push vers main exécute le gate
 complet avant la publication et le nettoyage du chantier.
 
-Le checkout principal reste stable et ouvert dans VS Code. Chaque chantier s'exécute dans un worktree interne
-distinct, créé hors du dépôt principal et annoncé pour traçabilité ; aucun workspace multi-root, changement de
-dossier VS Code ou ouverture manuelle du worktree n'est demandé. Le premier chantier prêt publie sans attendre
-les autres. Chaque chantier retardataire repart du dernier `origin/main`, valide cet état final, pousse vers
-`main`, puis nettoie exclusivement sa propre branche et son propre worktree.
+Le checkout principal reste stable dans VS Code. Chaque chantier utilise son worktree hors du dépôt,
+publie dès qu’il est prêt depuis le dernier `origin/main`, puis nettoie uniquement sa branche et son worktree.
+Aucun changement de dossier VS Code ni workspace multi-root n’est demandé.
 
 Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée
 sur `main` selon ce flux asynchrone. [`AGENTS.md`](AGENTS.md) est la règle permanente d'entrée ; les
@@ -188,7 +188,7 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 - Les tests, seuils de coverage et quality gates bloquants couvrent les deux applications.
 - `USER-001` expose la création contrôlée d'identités ; le parcours authentifié applique les accès par fonction.
 - Les Admins et Superadmins gèrent organisations, équipes, modèles/questions et planifications ; les deux journaux administratifs sont consultables en lecture seule.
-- La passation persistante, son tableau et la révision Admin sont livrés ; Résultats associe radar courant et historique des critères par lignée ; le pilotage reste à venir.
+- La passation persistante, son tableau et la révision Admin sont livrés ; Résultats associe radar courant et historique des critères par lignée ; Pilotage restitue couverture et retards des actifs.
 
 ## Documentation
 

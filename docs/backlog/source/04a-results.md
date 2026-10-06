@@ -25,7 +25,7 @@ Cette extension appartient à `EPIC-006 — Suivi longitudinal`, défini dans
 - **Intention / valeur :** rendre les profils comparables et leurs sources explicables sans inventer un score global.
 - **Description :** `/results` propose organisation + famille, choisit automatiquement la dernière version avec résultats,
   puis propose les équipes éligibles et un radar 0–10.
-  Aucun choix d’équipe initial ; sélectionner ou désélectionner ne déclenche ni navigation ni requête.
+  Sans lien de Pilotage, aucun choix d’équipe initial ; sélectionner ou désélectionner ne déclenche ni navigation ni requête.
 - **Critères d’acceptation :**
   - seules les familles avec une `COMPLETED` accessible sont proposées ; la dernière version ayant
     des résultats accessibles est utilisée automatiquement, y compris après archivage ;

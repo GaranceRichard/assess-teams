@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { readResultIntent } from "./resultIntent";
 
 import {
   getFamilyComparison,
@@ -12,6 +13,8 @@ import type {
 } from "./results";
 
 export function useResultSelection(isSuperuser: boolean) {
+  const intent = useRef(readResultIntent());
+  const [selectionNotice, setSelectionNotice] = useState("");
   const [organizations, setOrganizations] = useState<ResultOrganization[]>([]);
   const [organizationId, setOrganizationId] = useState("");
   const [families, setFamilies] = useState<ResultFamily[]>([]);
@@ -32,8 +35,11 @@ export function useResultSelection(isSuperuser: boolean) {
         if (!current) return;
         setOrganizations(data);
         setLoadingOrganizations(false);
-        if (!isSuperuser && data.length > 0) {
-          setOrganizationId(String(data[0].id));
+        const requested = data.find(
+          (org) => String(org.id) === intent.current?.organizationId,
+        );
+        if (requested || (!isSuperuser && data.length > 0)) {
+          setOrganizationId(String((requested ?? data[0]).id));
           setLoadingFamilies(true);
         }
       },
@@ -56,6 +62,13 @@ export function useResultSelection(isSuperuser: boolean) {
         if (!current) return;
         setFamilies(data);
         setLoadingFamilies(false);
+        const requested = data.find(
+          (family) => String(family.family_id) === intent.current?.familyId,
+        );
+        if (requested && organizationId === intent.current?.organizationId) {
+          setFamilyId(String(requested.family_id));
+          setLoadingComparison(true);
+        }
       },
       () => {
         if (!current) return;
@@ -76,6 +89,17 @@ export function useResultSelection(isSuperuser: boolean) {
         if (!current) return;
         setComparison(data);
         setLoadingComparison(false);
+        if (intent.current) {
+          const requested = data.teams.find(
+            (team) => team.team_id === intent.current?.teamId,
+          );
+          if (requested) setSelected([requested.team_id]);
+          else
+            setSelectionNotice(
+              "L’équipe demandée n’a pas de résultat exploitable sur la version radar courante. Choisissez une équipe disponible.",
+            );
+          intent.current = null;
+        }
       },
       () => {
         if (!current) return;
@@ -89,6 +113,8 @@ export function useResultSelection(isSuperuser: boolean) {
   }, [familyId]);
 
   function selectFamily(value: string) {
+    intent.current = null;
+    setSelectionNotice("");
     setFamilyId(value);
     setComparison(null);
     setSelected([]);
@@ -117,6 +143,7 @@ export function useResultSelection(isSuperuser: boolean) {
     selected,
     loading: loadingOrganizations || loadingFamilies || loadingComparison,
     error,
+    selectionNotice,
     selectOrganization,
     selectFamily,
     toggleTeam,

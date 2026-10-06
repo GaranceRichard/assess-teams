@@ -64,6 +64,7 @@ export function ResultsPage({
       </div>
       {state.loading && <p role="status">Chargement des résultats…</p>}
       {state.error && <p role="alert">{state.error}</p>}
+      {state.selectionNotice && <p role="status">{state.selectionNotice}</p>}
       {!state.loading && !state.error && state.organizations.length === 0 && (
         <p>Aucune organisation accessible.</p>
       )}

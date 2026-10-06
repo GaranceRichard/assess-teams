@@ -20,8 +20,9 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 
 Le radar `/results` compare les dernières positions sur la dernière version ayant des résultats
 par famille/organisation ; le longitudinal restitue les observations d’un critère par lignée explicite.
-Le pilotage `/steering` et le tableau de bord générique
-restent des placeholders. La présence de leurs routes ne constitue pas une livraison fonctionnelle.
+Le [Pilotage P0](source/04b-steering.md) `/steering` restitue couverture, complétions et retards
+des équipes actives pour Admin/Superadmin, avec drill-down Results et sans score.
+Le tableau de bord générique reste un placeholder ; les Features larges de pilotage restent incomplètes.
 
 ## Vue d’ensemble
 
@@ -35,7 +36,7 @@ restent des placeholders. La présence de leurs routes ne constitue pas une livr
 | EPIC-005 — Passation et preuve d’évaluation | 4 | 1 | 1 | 100 % |
 | EPIC-006 — Suivi longitudinal | 5 | 2 | 2 | 100 % |
 | EPIC-007 — Notifications du dispositif | 3 | 1 | 1 | 100 % |
-| EPIC-008 — Pilotage du dispositif | 5 | 0 | 0 | N/A |
+| EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
 
@@ -54,7 +55,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EPIC-005 | `FEAT-023` | `FEAT-020` à `FEAT-022` |
 | EPIC-006 | `FEAT-041`, `FEAT-025` (partielle) | `FEAT-024`, `FEAT-026`, `FEAT-027` |
 | EPIC-007 | `FEAT-030` | `FEAT-028`, `FEAT-029` |
-| EPIC-008 | aucune | `FEAT-031` à `FEAT-035` |
+| EPIC-008 | `FEAT-035` (partielle) | `FEAT-031` à `FEAT-034` |
 | EPIC-009 | `FEAT-036`, `FEAT-037`, `FEAT-038` | aucune |
 | EPIC-010 | `FEAT-039`, `FEAT-040` | aucune |
 
@@ -74,7 +75,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | ORG-005 — Gérer le rattachement courant des Admins | Réalisé | scope et protection des pairs ; 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | Réalisé | cardinalité et scope ; 2026-09-28 |
 | TEAM-001 — Créer une équipe | Réalisé | API/UI/tests et unicité organisationnelle ; 2026-09-27 |
-| TEAM-002 — Lister les équipes | Ouvert | Admin/Superadmin seulement |
+| TEAM-002 — Lister les équipes | Ouvert | Admin/Superadmin livrés ; Coach absent, Viewer exclu |
 | TEAM-003 — Consulter une équipe | Ouvert | détail par identifiant absent |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
 | TEAM-005 — Archiver une équipe | Ouvert | archivage livré ; restitution archivée et second refus absents |
@@ -88,6 +89,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | PASS-001 — Passer et réviser les évaluations planifiées | Réalisé | reprise, finalisation, provenance, révision Admin et tableau ; scope revérifié à la mutation, sauvegarde avant navigation ; 2026-10-05 |
 | RESULT-001 — Comparer les dernières passations des équipes sur un radar | Réalisé | snapshots, récence métier, scope, sélection React et E2E ; 2026-10-05 |
 | RESULT-002 — Suivre les observations historiques d’un critère | Réalisé | lignée explicite, migration conservatrice, observations snapshotées, API/UI/E2E ; 2026-10-06 |
+| STEER-001 — Piloter la couverture et les échéances des équipes actives | Réalisé | API/UI cloisonnées, attentes en retard, snapshots, drill-down Results et E2E ; 2026-10-06 |
 | NOTIF-001 — Remettre les notifications de planification par courriel | Réalisé | confirmation, échéance et récurrence ; 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
@@ -98,7 +100,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 - `ARB-ORG-008` reste nécessaire pour le dernier Admin ; le `DELETE` utilisateur actuel contourne la protection.
 - `ARB-ORG-010` reste ouvert pour un éventuel partage de modèles ; le code ne livre qu’un périmètre strictement local.
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
-- partage, historique général, calculs d’évolution/tendance, retards et pilotage restent non réalisés.
+- partage, historique général, calculs d’évolution/tendance, alertes et pilotage élargi restent non réalisés.
 - la notification livrée est un courriel direct sans état durable de remise, préférence de canal ni déduplication métier historisée.
 
 ## Matrices CRUD réellement protégées par le backend
@@ -107,10 +109,11 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | --- | --- | --- | --- | --- |
 | Organisation | CRUD global | lecture/mise à jour de son organisation | aucun endpoint Organisation | aucun endpoint Organisation |
 | Équipe | création/liste/mise à jour/archivage global | mêmes actions dans son organisation | aucune lecture d’équipe par API | aucune lecture d’équipe par API |
-| Utilisateur | liste et gestion hors soi-même | membres non-Admin de son organisation | liste et gestion des Viewers de son organisation | liste seule de son organisation |
+| Utilisateur | liste et gestion hors soi-même | membres non-Admin de son organisation | liste et gestion des Viewers de son organisation | refus |
 | Modèle/planification | gestion globale | gestion dans son organisation | aucune gestion | aucune gestion |
 | Passation | accès global, complétion et révision | mêmes actions dans son organisation | ses assignations dans son organisation ; complétions read-only | refus |
-| Résultats | lecture globale | lecture organisationnelle | ses passations assignées | aucune donnée |
+| Résultats | lecture globale | lecture organisationnelle | ses passations assignées | COMPLETED de son organisation, lecture seule |
+| Pilotage | lecture d’une organisation choisie | lecture de son organisation imposée | refus | refus |
 | Journaux | lecture globale | lecture de son organisation | refus | refus |
 
 ## Scoring global
@@ -119,12 +122,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | --- | ---: |
 | Nombre d’Epics | 11 |
 | Nombre de Features | 41 |
-| Features raffinées | 20 |
-| Features non raffinées | 21 |
-| Nombre total de PBIs | 29 |
+| Features raffinées | 21 |
+| Features non raffinées | 20 |
+| Nombre total de PBIs | 30 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 2 |
 | PBIs non réalisés | 10 |
-| PBIs réalisés | 19 |
-| Avancement global | 66 % |
+| PBIs réalisés | 20 |
+| Avancement global | 67 % |

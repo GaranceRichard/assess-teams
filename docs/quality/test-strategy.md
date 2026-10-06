@@ -15,8 +15,6 @@ Tout élément fonctionnel doit avoir au minimum :
 - Frontend : **Vitest** et **React Testing Library**.
 - E2E : **Playwright**.
 
-Les commandes propres aux outils applicatifs sont actives avec les squelettes Django et React.
-
 La commande globale `test:all` orchestre les suites backend, frontend et E2E ainsi que leurs seuils de coverage. Elle est réutilisée par `quality:full` et documentée dans le [README](../../README.md#tests-et-coverages). Les commandes propres à Django et React sont obligatoires dès que leur squelette est détecté ; leur absence produit un échec plutôt qu'un faux `NON APPLICABLE`.
 
 Le socle qualité exécute aussi des tests fonctionnels isolés du bootstrap local. Ils couvrent la création et la
@@ -92,6 +90,10 @@ vérifie le radar automatique, le chargement à la demande, les observations acc
 `test_viewer_results` et `viewer-results.spec.ts` protègent la consultation Viewer des COMPLETED de
 son organisation, le longitudinal, les refus inter-organisations et l’absence d’accès/mutation admin.
 
+Le [Pilotage P0](../architecture/steering-api.md) couvre projection/permissions/OpenAPI, bornes de retard,
+snapshots, absence de N+1, états React, réponses obsolètes et drill-down. `steering.spec.ts` valide
+Admin/Superadmin, refus Coach/Viewer, thèmes/palettes, mobile/clavier et recharge Results.
+
 ## Stratégie de couverture
 
 Les palettes personnelles sont couvertes par `test_session_palette`, `test_palette_contract` et
@@ -132,10 +134,6 @@ Le gate de commit constitue l'exception explicitement informative : `quality:qui
 Le pre-push et la CI exécutent `quality:full`. Côté backend, une exécution pytest unique couvre toutes les catégories collectées, active le branch coverage et applique le seuil de 90 % porté par `.coveragerc`. Côté frontend, `test:coverage` couvre les tests unitaires, fonctionnels, de composants, d'intégration, de contrat et de non-régression ; Vitest porte les seuils d'au moins 90 % pour branches, fonctions, lignes et statements. `test:e2e` exécute séparément les parcours Playwright inventoriés depuis le backlog.
 
 Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le coverage frontend exclut seulement les sorties générées, l'entrée de rendu et les fichiers de configuration ou de test ; il ne retire pas du calcul le code applicatif testable.
-
-Le bootstrap actuel rend applicables les groupes backend, frontend et E2E. Les tests unitaires backend
-couvrent désormais la politique de création d'utilisateur de `USER-001`. Les niveaux sans objet réel, comme
-les tests de non-régression en l'absence de bug corrigé, restent explicitement `NON APPLICABLE`.
 
 Le parcours d'accès produit ajoute des tests API de connexion valide et invalide, de session protégée, de
 déconnexion et de contrôle CSRF. Les tests frontend vérifient les menus exacts Admin, Coach et Viewer,

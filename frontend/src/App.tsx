@@ -49,7 +49,7 @@ export function App() {
 
   function navigate(nextPath: string) {
     window.history.pushState({}, "", nextPath);
-    setPath(nextPath);
+    setPath(window.location.pathname);
   }
 
   async function handleLogin(username: string, password: string) {

@@ -115,6 +115,8 @@ Cet Epic rattache chaque intention et remise de notification à l’organisation
 
 ## EPIC-008 — Pilotage du dispositif
 
+[STEER-001 — Premier incrément P0](04b-steering.md) décline partiellement FEAT-035, sans clore les Features.
+
 Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md). Chaque paramètre, vue et indicateur expose son organisation et n’agrège jamais plusieurs organisations sans règle explicitement arbitrée. Les paramètres partageables et l’éventuelle vue multi-organisation relèvent de la décision produit bloquante `ARB-ORG-013`.
 
 ### FEAT-031 — Gérer les paramètres métier du dispositif
