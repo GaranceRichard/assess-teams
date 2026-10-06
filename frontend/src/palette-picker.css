@@ -1,0 +1,103 @@
+.palette-picker {
+  position: relative;
+}
+
+.palette-picker summary {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.45rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.palette-panel {
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 18rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 20%);
+  text-align: left;
+}
+
+.palette-panel fieldset {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+.palette-panel legend {
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.palette-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.palette-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.45rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+.palette-options label:has(:checked) {
+  border-color: var(--accent-text);
+  box-shadow: inset 0 0 0 1px var(--accent-text);
+}
+
+.palette-options input {
+  width: 1rem;
+  margin: 0;
+}
+
+.palette-options input:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+.palette-options input:disabled,
+.palette-options label:has(:disabled) {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.palette-swatch {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.palette-status {
+  color: var(--muted);
+}
+
+.palette-panel p {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 760px) {
+  .workspace > header {
+    flex-wrap: wrap;
+  }
+
+  .palette-panel {
+    right: auto;
+    left: 0;
+    width: min(18rem, calc(100vw - 2rem));
+  }
+}

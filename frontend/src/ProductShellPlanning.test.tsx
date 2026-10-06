@@ -14,6 +14,7 @@ const admin: SessionUser = {
   is_superuser: false,
   organization_name: null,
   team_names: [],
+  interface_palette: "green" as const,
 };
 
 it("opens planning for an Admin", () => {

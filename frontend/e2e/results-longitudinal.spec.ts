@@ -55,6 +55,37 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   await expect(
     table.getByRole("cell", { name: "7 / 10", exact: true }),
   ).toBeVisible();
+  const historyChart = page.getByRole("img", {
+    name: /Évolution de Collaboration v2/,
+  });
+  const historyDrawing = await historyChart.evaluate(
+    (canvas: HTMLCanvasElement) => canvas.toDataURL(),
+  );
+  const historyLegend = page.getByRole("list", { name: "Légende des équipes" });
+  const historyColors = await historyLegend
+    .locator("line")
+    .evaluateAll((lines) => lines.map((line) => line.getAttribute("stroke")));
+  await page.getByText("Couleurs", { exact: true }).click();
+  for (const label of ["Bleu", "Rose", "Rouge", "Vert"]) {
+    const choice = page.getByRole("radio", { name: label, exact: true });
+    if (!(await choice.isChecked())) {
+      await choice.check();
+      await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
+    }
+    expect(
+      await historyChart.evaluate((canvas: HTMLCanvasElement) =>
+        canvas.toDataURL(),
+      ),
+    ).toBe(historyDrawing);
+    expect(
+      await historyLegend
+        .locator("line")
+        .evaluateAll((lines) =>
+          lines.map((line) => line.getAttribute("stroke")),
+        ),
+    ).toEqual(historyColors);
+  }
+  await page.getByText("Couleurs", { exact: true }).click();
   await page.screenshot({
     path: test.info().outputPath("longitudinal-light.png"),
     fullPage: true,

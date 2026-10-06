@@ -47,6 +47,7 @@ function sessionUser(
     is_superuser: false,
     organization_name: null,
     team_names: [],
+    interface_palette: "green" as const,
     ...overrides,
   };
 }
@@ -151,6 +152,7 @@ it("shows every assigned team on the Coach dashboard", () => {
       user={sessionUser("Coach", {
         organization_name: "North",
         team_names: ["Équipe A", "Équipe B", "Équipe C"],
+        interface_palette: "green" as const,
       })}
       onNavigate={vi.fn()}
       onLogout={vi.fn()}

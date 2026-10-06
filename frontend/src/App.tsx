@@ -9,6 +9,7 @@ import { applyTheme, readTheme } from "./theme";
 import "./styles.css";
 import "./sidebar.css";
 import "./theme.css";
+import "./palette.css";
 
 type AuthState =
   | { kind: "loading" }

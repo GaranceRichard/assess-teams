@@ -1,0 +1,103 @@
+:root,
+.palette-swatch[data-palette="green"] {
+  --primary: #155e4d;
+  --primary-hover: #104c3e;
+  --accent-day: #25735e;
+  --accent-night: #70cbb0;
+  --selection: #bce8da;
+  --sidebar: #102c2a;
+  --sidebar-night: #09110f;
+  --sidebar-control: #183d38;
+  --sidebar-hover: #24534b;
+  --sidebar-hover-night: #1f493f;
+  --sidebar-border: #467068;
+}
+
+:root[data-palette="blue"],
+.palette-swatch[data-palette="blue"] {
+  --primary: #205ba3;
+  --primary-hover: #184981;
+  --accent-day: #205ba3;
+  --accent-night: #90beff;
+  --selection: #d1e4ff;
+  --sidebar: #142c49;
+  --sidebar-night: #0b1524;
+  --sidebar-control: #1d3c60;
+  --sidebar-hover: #284f78;
+  --sidebar-hover-night: #243f60;
+  --sidebar-border: #6283aa;
+}
+
+:root[data-palette="pink"],
+.palette-swatch[data-palette="pink"] {
+  --primary: #9b2866;
+  --primary-hover: #7d2053;
+  --accent-day: #9b2866;
+  --accent-night: #f5a4cc;
+  --selection: #f8d4e7;
+  --sidebar: #421c34;
+  --sidebar-night: #210e1a;
+  --sidebar-control: #572641;
+  --sidebar-hover: #703451;
+  --sidebar-hover-night: #54233e;
+  --sidebar-border: #ae708e;
+}
+
+:root[data-palette="red"],
+.palette-swatch[data-palette="red"] {
+  --primary: #ac3036;
+  --primary-hover: #8a252b;
+  --accent-day: #ac3036;
+  --accent-night: #ffaaa7;
+  --selection: #ffd6d4;
+  --sidebar: #421e21;
+  --sidebar-night: #210f11;
+  --sidebar-control: #582a2c;
+  --sidebar-hover: #71393b;
+  --sidebar-hover-night: #55272b;
+  --sidebar-border: #b57679;
+}
+
+:root {
+  --on-primary: #fff;
+  --focus: var(--accent-text);
+  --accent-text: var(--accent-day);
+  --navigation-background: var(--sidebar);
+  --navigation-active: var(--sidebar-hover);
+  --navigation-text: #cfe2dc;
+  --danger: #a62f38;
+  --error-text: #a42e35;
+}
+
+:root[data-theme="night"] {
+  --accent-text: var(--accent-night);
+  --navigation-background: var(--sidebar-night);
+  --navigation-active: var(--sidebar-hover-night);
+  --error-text: #ff9ca4;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button:not([class]):hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+input {
+  accent-color: var(--accent-text);
+}
+
+::selection {
+  color: #18252c;
+  background: var(--selection);
+}
+
+.product-sidebar a:focus-visible,
+.product-sidebar button:focus-visible {
+  outline-color: var(--accent-night);
+}

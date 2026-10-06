@@ -29,15 +29,22 @@ export function PlanningPage({ actor }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let active = true;
     Promise.all([listOrganizations(), listEvaluations(), listSchedules()])
       .then(([loadedOrganizations, loadedEvaluations, loadedSchedules]) => {
+        if (!active) return;
         setOrganizations(loadedOrganizations);
         setEvaluations(loadedEvaluations);
         setSchedules(loadedSchedules);
         if (loadedOrganizations.length === 1)
           setOrganizationId(loadedOrganizations[0].id);
       })
-      .catch(() => setError("Impossible de charger la planification."));
+      .catch(() => {
+        if (active) setError("Impossible de charger la planification.");
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {

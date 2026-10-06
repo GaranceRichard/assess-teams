@@ -21,6 +21,7 @@ const actor = {
   is_superuser: false,
   organization_name: null,
   team_names: [],
+  interface_palette: "green" as const,
 };
 
 vi.mock("./organizations", () => ({

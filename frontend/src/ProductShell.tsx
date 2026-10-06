@@ -7,6 +7,7 @@ import { EvaluationPage } from "./EvaluationPage";
 import { EvaluationTakingPage } from "./EvaluationTakingPage";
 import { canAccess, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
+import { PalettePicker } from "./PalettePicker";
 import { PlanningPage } from "./PlanningPage";
 import { ProductSidebar } from "./ProductSidebar";
 import { ResultsPage } from "./ResultsPage";
@@ -50,6 +51,7 @@ export function ProductShell({
       <main className="workspace">
         <header>
           <ThemeToggle theme={theme} onChange={onThemeChange} />
+          <PalettePicker key={user.id ?? user.username} user={user} />
           <div>
             <strong>{user.username}</strong>
             <span>{user.is_superuser ? "Superadmin · Admin" : user.role}</span>

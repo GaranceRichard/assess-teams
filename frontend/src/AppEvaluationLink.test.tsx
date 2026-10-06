@@ -25,6 +25,7 @@ it("returns a Coach to the evaluation link after login", async () => {
         is_superuser: false,
         organization_name: "North",
         team_names: ["Alpha"],
+        interface_palette: "green" as const,
       }),
     )
     .mockImplementationOnce(() => response(200, []));

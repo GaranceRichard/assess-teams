@@ -10,6 +10,7 @@ const viewer: SessionUser = {
   is_superuser: false,
   organization_name: "North",
   team_names: [],
+  interface_palette: "green" as const,
 };
 
 function response(status: number, body?: object) {

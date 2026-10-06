@@ -7,6 +7,7 @@ export const logAdmin: SessionUser = {
   is_superuser: false,
   organization_name: "North",
   team_names: [],
+  interface_palette: "green",
 };
 export const logOrganizations = [
   {

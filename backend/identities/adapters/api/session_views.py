@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -11,8 +11,10 @@ from rest_framework.views import APIView
 
 from identities.adapters.api.session_serializers import (
     LoginSerializer,
+    SessionPreferenceSerializer,
     SessionUserSerializer,
 )
+from identities.domain.palettes import InterfacePalette
 
 
 @method_decorator(csrf_protect, name="dispatch")
@@ -24,7 +26,8 @@ class LoginView(APIView):
         operation_id="session_login",
         description=(
             "Ouvre une session produit pour une identité active et restitue "
-            "l'organisation d'un Coach ou Viewer lorsqu'il est rattaché."
+            "l'organisation d'un Coach ou Viewer lorsqu'il est rattaché, ainsi que "
+            "sa palette d'interface personnelle."
         ),
         request=LoginSerializer,
         responses={
@@ -57,7 +60,7 @@ class CurrentSessionView(APIView):
         operation_id="session_current",
         description=(
             "Retourne l'identité, la fonction et l'éventuelle organisation de "
-            "la session produit active."
+            "la session produit active, avec sa palette d'interface personnelle."
         ),
         responses={
             200: SessionUserSerializer,
@@ -66,6 +69,36 @@ class CurrentSessionView(APIView):
     )
     def get(self, request):
         return Response(SessionUserSerializer(request.user).data)
+
+    @extend_schema(
+        operation_id="session_preferences_update",
+        description=(
+            "Enregistre uniquement la palette personnelle de l'utilisateur authentifié, "
+            "quel que soit son rôle. Aucun identifiant cible ni champ supplémentaire accepté. "
+            "Exige le jeton X-CSRFToken de la session."
+        ),
+        request={
+            "application/json": {
+                "type": "object",
+                "properties": {
+                    "interface_palette": {"type": "string", "enum": list(InterfacePalette.values())}
+                },
+                "required": ["interface_palette"],
+                "additionalProperties": False,
+            },
+        },
+        parameters=[OpenApiParameter("X-CSRFToken", str, OpenApiParameter.HEADER, required=True)],
+        responses={
+            200: SessionUserSerializer,
+            400: OpenApiResponse(OpenApiTypes.OBJECT, "Palette ou champs invalides."),
+            403: OpenApiResponse(description="Session absente ou contrôle CSRF refusé."),
+        },
+    )
+    def patch(self, request):
+        serializer = SessionPreferenceSerializer(request.user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response(SessionUserSerializer(user).data)
 
 
 class LogoutView(APIView):

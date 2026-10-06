@@ -18,6 +18,7 @@ it("opens the functional Results page, navigates and exposes the connected super
         is_superuser: true,
         organization_name: null,
         team_names: [],
+        interface_palette: "green" as const,
       }}
       onNavigate={onNavigate}
       onLogout={vi.fn()}

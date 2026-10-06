@@ -28,6 +28,7 @@ const actor = {
   is_superuser: true,
   organization_name: null,
   team_names: [],
+  interface_palette: "green" as const,
 };
 
 beforeEach(() => {

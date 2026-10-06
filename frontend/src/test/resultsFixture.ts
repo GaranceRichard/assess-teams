@@ -68,6 +68,7 @@ export const resultActor: SessionUser = {
   is_superuser: false,
   organization_name: "North",
   team_names: [],
+  interface_palette: "green",
 };
 export const resultOrganizations = [
   { id: 1, name: "North" },

@@ -24,7 +24,7 @@
 }
 
 .theme-toggle:focus-visible {
-  outline: 3px solid #70cbb0;
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -93,12 +93,12 @@
 }
 
 :root[data-theme="night"] aside {
-  background: #09110f;
+  background: var(--navigation-background);
 }
 
 :root[data-theme="night"] nav a:hover,
 :root[data-theme="night"] nav a[aria-current="page"] {
-  background: #1f493f;
+  background: var(--navigation-active);
 }
 
 :root[data-theme="night"] .table-wrap,

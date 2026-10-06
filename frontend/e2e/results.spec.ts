@@ -64,6 +64,28 @@ test("compares latest completed team runs on a persistent radar without navigati
   await page.getByRole("checkbox", { name: /^Équipe B/ }).check();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await expect(legend.getByRole("listitem")).toHaveCount(2);
+  const seriesDrawing = await radar.evaluate((canvas: HTMLCanvasElement) =>
+    canvas.toDataURL(),
+  );
+  const seriesColors = await legend
+    .locator("line")
+    .evaluateAll((lines) => lines.map((line) => line.getAttribute("stroke")));
+  await page.getByText("Couleurs", { exact: true }).click();
+  for (const label of ["Bleu", "Rose", "Rouge", "Vert"]) {
+    await page.getByRole("radio", { name: label, exact: true }).check();
+    await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
+    expect(
+      await radar.evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL()),
+    ).toBe(seriesDrawing);
+    expect(
+      await legend
+        .locator("line")
+        .evaluateAll((lines) =>
+          lines.map((line) => line.getAttribute("stroke")),
+        ),
+    ).toEqual(seriesColors);
+  }
+  await page.getByText("Couleurs", { exact: true }).click();
   await page.screenshot({
     path: test.info().outputPath("radar-light.png"),
     fullPage: true,

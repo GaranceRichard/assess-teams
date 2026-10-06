@@ -19,5 +19,5 @@
 }
 
 .password-visibility:focus-visible {
-  outline: 3px solid #bce8da;
+  outline: 3px solid var(--focus);
 }

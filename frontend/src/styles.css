@@ -42,7 +42,7 @@ button {
 }
 .eyebrow {
   margin: 0 0 0.65rem;
-  color: #25735e;
+  color: var(--accent-text);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -76,15 +76,15 @@ input {
   background: var(--surface);
 }
 input:focus {
-  outline: 3px solid #bce8da;
-  border-color: #25735e;
+  outline: 3px solid var(--focus);
+  border-color: var(--accent-text);
 }
 button {
   padding: 0.8rem 1rem;
   border: 0;
   border-radius: 0.45rem;
-  color: #fff;
-  background: #155e4d;
+  color: var(--on-primary);
+  background: var(--primary);
   font-weight: 750;
 }
 button:disabled {
@@ -93,7 +93,7 @@ button:disabled {
 }
 .form-error {
   margin: 0.5rem 0 0;
-  color: #a42e35;
+  color: var(--error-text);
 }
 
 .workspace {
@@ -138,7 +138,7 @@ header span {
   border-left: 0.4rem solid #b73a42;
 }
 .denied .eyebrow {
-  color: #a42e35;
+  color: var(--error-text);
 }
 
 @media (max-width: 760px) {

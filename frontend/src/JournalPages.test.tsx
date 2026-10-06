@@ -10,6 +10,7 @@ const actor: SessionUser = {
   is_superuser: false,
   organization_name: null,
   team_names: [],
+  interface_palette: "green" as const,
 };
 
 const base = {

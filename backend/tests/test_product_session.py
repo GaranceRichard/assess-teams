@@ -53,6 +53,7 @@ def test_valid_business_user_opens_and_reads_session(
         "is_superuser": False,
         "organization_name": None,
         "team_names": [],
+        "interface_palette": "green",
     }
     assert current_response.json() == login_response.json()
 
@@ -72,6 +73,7 @@ def test_superadmin_uses_admin_product_role(api_client: APIClient) -> None:
         "is_superuser": True,
         "organization_name": None,
         "team_names": [],
+        "interface_palette": "green",
     }
 
 

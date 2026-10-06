@@ -1,3 +1,5 @@
+import type { InterfacePalette } from "./palette";
+
 export type UserRole = "Admin" | "Coach" | "Viewer";
 
 export type SessionUser = {
@@ -7,6 +9,7 @@ export type SessionUser = {
   is_superuser: boolean;
   organization_name: string | null;
   team_names: string[];
+  interface_palette: InterfacePalette;
 };
 
 type Credentials = { username: string; password: string };
@@ -49,4 +52,19 @@ export async function logout(): Promise<void> {
     headers: { "X-CSRFToken": csrfToken() },
   });
   if (!response.ok) throw new Error("Logout request failed");
+}
+
+export async function savePalette(
+  interface_palette: InterfacePalette,
+): Promise<SessionUser> {
+  const response = await fetch("/api/session/", {
+    method: "PATCH",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken(),
+    },
+    body: JSON.stringify({ interface_palette }),
+  });
+  return parseUser(response);
 }

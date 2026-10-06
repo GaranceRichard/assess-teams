@@ -24,6 +24,7 @@ describe("session API", () => {
       is_superuser: false,
       organization_name: "North",
       team_names: ["Alpha"],
+      interface_palette: "green",
     } as const;
     const fetchMock = vi
       .spyOn(globalThis, "fetch")

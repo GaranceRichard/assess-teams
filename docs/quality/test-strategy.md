@@ -92,6 +92,14 @@ vérifie le radar automatique, le chargement à la demande, les observations acc
 
 ## Stratégie de couverture
 
+Les palettes personnelles sont couvertes par `test_session_palette`, `test_palette_contract` et
+`test_palette_migration` (persistance, isolation, refus, CSRF, contrats et défaut historique), les tests
+React `PalettePicker` et `AppPalette`, puis `palettes.spec.ts` (reprise, reconnexion, nouveau navigateur,
+contrastes des huit combinaisons, clavier et erreur). `results.spec.ts` et
+`results-longitudinal.spec.ts` protègent les séries du radar et des courbes historiques.
+`PlanningLoading.test.tsx` reproduit la réponse initiale obsolète qui effaçait une planification créée
+sous StrictMode ; le parcours `evaluation-versions.spec.ts` vérifie le résultat dans le navigateur réel.
+
 - Coverage backend global : **>= 90 %**.
 - Coverage frontend global : **>= 90 %**.
 - Toute baisse sous un seuil bloque la livraison.

@@ -66,6 +66,12 @@ Le [contrat Results](results-api.md) expose les versions avec complétions et le
 complétées par équipe, sur une version radar automatique par famille/organisation, puis les observations longitudinales d’un critère
 par lignée explicite, dans le scope des passations et sans agrégation.
 
+Les réponses de session et de connexion exposent aussi `interface_palette`, parmi `green`, `blue`, `pink`,
+`red`, avec défaut `green`. `PATCH /api/session/` accepte uniquement ce champ obligatoire et modifie
+l’utilisateur authentifié : `200` avec profil actualisé, `400` pour une valeur ou des champs invalides,
+`403` sans session ou CSRF. Le [contrat des palettes personnelles](interface-palettes.md) décrit stockage,
+restauration et isolation. Aucun identifiant cible, rôle, organisation ou CSS libre n’est accepté.
+
 ## Gestion hiérarchique des identités
 
 `GET /api/admin/users/` exige une session active. Le Superadmin consulte la liste complète ; un Admin, Coach
