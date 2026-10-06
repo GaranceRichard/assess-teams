@@ -7,6 +7,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | PBI | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- |
 | AUTH-001 — Ouvrir et fermer une session produit | FEAT-001 — Accéder de manière authentifiée au produit | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-22 |
+| DASH-001 — Accueillir l’utilisateur sur son tableau de bord personnel | FEAT-001 — Accéder de manière authentifiée au produit | À définir | À définir | Réalisé | aucun dans le périmètre demandé | 2026-10-06 |
 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Réalisé | aucun ; dépend de `FEAT-001` et de la matrice de `FEAT-004` | 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | liste livrée ; détail et `nom`/`prénom` absents | N/A |
 | USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | édition livrée mais contrat des champs et de l’identifiant divergent | N/A |

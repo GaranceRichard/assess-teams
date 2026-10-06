@@ -11,10 +11,15 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   page.on("request", (request) => {
     if (request.url().includes("/criteria/")) historyRequests += 1;
   });
-  await page.goto("/results");
+  await page.goto("/");
   await page.getByLabel("Identifiant").fill("results-admin-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
+  await page.getByText("Couleurs", { exact: true }).click();
+  await page.getByRole("radio", { name: "Bleu", exact: true }).check();
+  await page.getByRole("link", { name: "Voir les résultats" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-palette", "blue");
+  await expect(page.locator("header").getByText("Couleurs")).toHaveCount(0);
   await expect(page.getByLabel("Organisation")).toBeDisabled();
   await page.getByLabel("Modèle").selectOption({ label: "Radar E2E" });
   await expect(page.getByText(/Version radar : v2/)).toBeVisible();
@@ -55,37 +60,6 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   await expect(
     table.getByRole("cell", { name: "7 / 10", exact: true }),
   ).toBeVisible();
-  const historyChart = page.getByRole("img", {
-    name: /Évolution de Collaboration v2/,
-  });
-  const historyDrawing = await historyChart.evaluate(
-    (canvas: HTMLCanvasElement) => canvas.toDataURL(),
-  );
-  const historyLegend = page.getByRole("list", { name: "Légende des équipes" });
-  const historyColors = await historyLegend
-    .locator("line")
-    .evaluateAll((lines) => lines.map((line) => line.getAttribute("stroke")));
-  await page.getByText("Couleurs", { exact: true }).click();
-  for (const label of ["Bleu", "Rose", "Rouge", "Vert"]) {
-    const choice = page.getByRole("radio", { name: label, exact: true });
-    if (!(await choice.isChecked())) {
-      await choice.check();
-      await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
-    }
-    expect(
-      await historyChart.evaluate((canvas: HTMLCanvasElement) =>
-        canvas.toDataURL(),
-      ),
-    ).toBe(historyDrawing);
-    expect(
-      await historyLegend
-        .locator("line")
-        .evaluateAll((lines) =>
-          lines.map((line) => line.getAttribute("stroke")),
-        ),
-    ).toEqual(historyColors);
-  }
-  await page.getByText("Couleurs", { exact: true }).click();
   await page.screenshot({
     path: test.info().outputPath("longitudinal-light.png"),
     fullPage: true,

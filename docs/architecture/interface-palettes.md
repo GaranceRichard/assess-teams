@@ -9,8 +9,8 @@ Le test de régression navigateur reproduit le défaut avant correction : Vert �
 `--navigation-background` de `#102c2a` à `#142c49`.
 
 L’apparence Clair/Sombre et la couleur d’accent sont désormais deux dimensions indépendantes.
-Le Dashboard personnel avec section Apparence n’est pas présent sur ce main : le sélecteur reste
-provisoirement dans le header pour préserver le chantier Dashboard. Aucun comportement métier ne change.
+Le [Dashboard personnel](dashboard-api.md) intègre désormais le sélecteur dans Mon profil → Apparence.
+Le header conserve le changement Clair/Sombre ; aucun comportement métier ne change.
 
 ## Tokens structurels
 
@@ -68,10 +68,12 @@ leurs textes/grilles suivent les mêmes gris clair/sombre que l’interface.
 
 ## Sélecteur et persistance
 
-Le menu **Couleurs** expose dix pastilles avec libellés et boutons radio accessibles au clavier.
+Dans Mon profil → Apparence, le menu **Couleurs** expose dix pastilles avec libellés et boutons radio accessibles au clavier.
 Chaque échantillon montre sa propre base dans le mode courant ; le choix est aussi signalé par le radio
 et la bordure. Un enregistrement sérialise les écritures et annonce le succès ; un refus rétablit le
 choix précédent et affiche une erreur accessible. Une réponse tardive après déconnexion est ignorée.
+`usePalettePreference` reste monté dans le shell pendant la navigation : une sauvegarde commencée sur
+le dashboard conserve son résultat ou son rollback après un changement de page, sans second appel API.
 
 Le backend reste la source de vérité, sans stockage local de l’accent. `GET /api/session/`, la connexion
 et `PATCH /api/session/` conservent le contrat existant et restituent la préférence personnelle.

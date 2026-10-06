@@ -95,6 +95,7 @@ export function App() {
     return <LoginPage error={auth.error} onLogin={handleLogin} />;
   return (
     <ProductShell
+      key={auth.user.id ?? auth.user.username}
       path={path}
       user={auth.user}
       onNavigate={navigate}

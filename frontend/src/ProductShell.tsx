@@ -7,7 +7,8 @@ import { EvaluationPage } from "./EvaluationPage";
 import { EvaluationTakingPage } from "./EvaluationTakingPage";
 import { canAccess, routeFor } from "./navigation";
 import { OrganizationPage } from "./OrganizationPage";
-import { PalettePicker } from "./PalettePicker";
+import { DashboardPage } from "./DashboardPage";
+import { usePalettePreference } from "./usePalettePreference";
 import { PlanningPage } from "./PlanningPage";
 import { ProductSidebar } from "./ProductSidebar";
 import { ResultsPage } from "./ResultsPage";
@@ -34,6 +35,7 @@ export function ProductShell({
   theme,
   onThemeChange,
 }: Props) {
+  const preference = usePalettePreference(user);
   const route = routeFor(path);
   const authorized = route && canAccess(user.role, route);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -52,7 +54,6 @@ export function ProductShell({
       <main className="workspace">
         <header>
           <ThemeToggle theme={theme} onChange={onThemeChange} />
-          <PalettePicker key={user.id ?? user.username} user={user} />
           <div>
             <strong>{user.username}</strong>
             <span>{user.is_superuser ? "Superadmin · Admin" : user.role}</span>
@@ -61,7 +62,13 @@ export function ProductShell({
             Se déconnecter
           </button>
         </header>
-        {authorized && path === "/users" ? (
+        {authorized && path === "/dashboard" ? (
+          <DashboardPage
+            user={user}
+            onNavigate={onNavigate}
+            preference={preference}
+          />
+        ) : authorized && path === "/users" ? (
           <SuperadminDashboard actor={user} />
         ) : authorized && path === "/organization" ? (
           <OrganizationPage isSuperadmin={user.is_superuser} />
@@ -85,21 +92,6 @@ export function ProductShell({
           <section className="placeholder">
             <p className="eyebrow">Votre espace</p>
             <h1>{route.title}</h1>
-            {path === "/dashboard" &&
-              user.role !== "Admin" &&
-              user.organization_name && (
-                <p>
-                  Vous êtes affecté à :{" "}
-                  <strong>{user.organization_name}</strong>
-                </p>
-              )}
-            {path === "/dashboard" &&
-              user.role === "Coach" &&
-              user.team_names.length > 0 && (
-                <p>
-                  Équipes : <strong>{user.team_names.join(", ")}</strong>
-                </p>
-              )}
             <p>{route.title} — fonctionnalité à venir</p>
           </section>
         ) : (

@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { e2eCredential } from "./identity-fixture";
+import { e2eCredential, runDjangoShell } from "./identity-fixture";
 import { seedSteeringContext } from "./steering-fixture";
 
 async function neutralSurfaces(page: Page) {
@@ -9,7 +9,7 @@ async function neutralSurfaces(page: Page) {
       [
         ".product-sidebar",
         ".workspace > header",
-        ".placeholder",
+        ".dashboard-card",
         ".palette-panel",
         ".steering-page",
         ".results-page",
@@ -45,6 +45,10 @@ test("representative dashboard, forms, dialogs, Results and Steering stay neutra
   page,
 }) => {
   seedSteeringContext();
+  runDjangoShell([
+    "from identities.models import User",
+    "User.objects.filter(username='results-admin-e2e').update(interface_palette='green')",
+  ]);
   await page.goto("/");
   await page.getByLabel("Identifiant").fill("results-admin-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
@@ -63,7 +67,10 @@ test("representative dashboard, forms, dialogs, Results and Steering stay neutra
     await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
     await capture(page, `dashboard-${mode}`);
     await page.getByText("Couleurs", { exact: true }).click();
-    await page.getByRole("link", { name: "Pilotage", exact: true }).click();
+    await page
+      .getByRole("region", { name: "Raccourcis utiles" })
+      .getByRole("link", { name: "Pilotage", exact: true })
+      .click();
     await expect(
       page.getByRole("rowheader", { name: "Équipe A" }),
     ).toBeVisible();

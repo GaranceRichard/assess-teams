@@ -22,13 +22,14 @@ Le radar `/results` compare les dernières positions sur la dernière version ay
 par famille/organisation ; le longitudinal restitue les observations d’un critère par lignée explicite.
 Le [Pilotage P0](source/04b-steering.md) `/steering` restitue couverture, complétions et retards
 des équipes actives pour Admin/Superadmin, avec drill-down Results et sans score.
-Le tableau de bord générique reste un placeholder ; les Features larges de pilotage restent incomplètes.
+Le [dashboard personnel](source/01a-dashboard.md) livre profil, palettes, activité prouvée et raccourcis.
+Les Features larges de pilotage restent incomplètes.
 
 ## Vue d’ensemble
 
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
-| EPIC-001 — Identités, coachs et habilitations | 4 | 5 | 2 | 40 % |
+| EPIC-001 — Identités, coachs et habilitations | 4 | 6 | 3 | 50 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 2 | 29 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 3 | 3 | 100 % |
@@ -64,6 +65,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | PBI | Statut | Écart ou preuve principale |
 | --- | --- | --- |
 | AUTH-001 — Ouvrir et fermer une session produit | Réalisé | API, UI et E2E d’authentification ; 2026-09-22 |
+| DASH-001 — Accueillir l’utilisateur sur son tableau de bord personnel | Réalisé | provenance EvaluationRun, scopes Results, API/UI/E2E et palettes ; 2026-10-06 |
 | USER-001 — Créer un utilisateur | Réalisé | contrat historique ; 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | Ouvert | liste livrée ; détail et `nom`/`prénom` absents |
 | USER-003 — Modifier un utilisateur | Ouvert | édition présente, mais identifiant/fonction mutables et noms absents |
@@ -113,6 +115,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | Modèle/planification | gestion globale | gestion dans son organisation | aucune gestion | aucune gestion |
 | Passation | accès global, complétion et révision | mêmes actions dans son organisation | ses assignations dans son organisation ; complétions read-only | refus |
 | Résultats | lecture globale | lecture organisationnelle | ses passations assignées | COMPLETED de son organisation, lecture seule |
+| Dashboard | profil personnel, activité globale contextualisée | profil, activité organisationnelle | profil, activité assignée | profil, activité COMPLETED organisationnelle sans auteurs ni administration |
 | Pilotage | lecture d’une organisation choisie | lecture de son organisation imposée | refus | refus |
 | Journaux | lecture globale | lecture de son organisation | refus | refus |
 
@@ -124,10 +127,10 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | Nombre de Features | 41 |
 | Features raffinées | 21 |
 | Features non raffinées | 20 |
-| Nombre total de PBIs | 30 |
+| Nombre total de PBIs | 31 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 2 |
 | PBIs non réalisés | 10 |
-| PBIs réalisés | 20 |
-| Avancement global | 67 % |
+| PBIs réalisés | 21 |
+| Avancement global | 68 % |

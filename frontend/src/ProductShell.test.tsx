@@ -19,6 +19,8 @@ vi.mock("./EvaluationPage", () => ({
   EvaluationPage: () => <div>Gestion des évaluations</div>,
 }));
 
+vi.mock("./dashboard", () => ({ getDashboard: () => new Promise(() => {}) }));
+
 const expectedMenus: Record<UserRole, string[]> = {
   Admin: [
     "Tableau de bord",
@@ -104,7 +106,7 @@ it("shows user management on Users only and changes theme", () => {
 
   expect(screen.queryByText("Gestion Superadmin")).not.toBeInTheDocument();
   expect(
-    screen.getByText("Tableau de bord — fonctionnalité à venir"),
+    screen.getByRole("heading", { name: "Tableau de bord" }),
   ).toBeVisible();
   fireEvent.click(screen.getByRole("button", { name: "Activer le mode nuit" }));
   expect(onThemeChange).toHaveBeenCalledWith("night");
@@ -139,8 +141,8 @@ it.each(["Coach", "Viewer"] as const)(
       />,
     );
 
-    expect(screen.getByText(/Vous êtes affecté à/)).toHaveTextContent(
-      "Vous êtes affecté à : North",
+    expect(screen.getByText(/Organisation :/)).toHaveTextContent(
+      "Organisation : North",
     );
   },
 );
@@ -178,5 +180,7 @@ it("does not show an organization when the Viewer is not assigned", () => {
     />,
   );
 
-  expect(screen.queryByText(/Vous êtes affecté à/)).not.toBeInTheDocument();
+  expect(screen.getByText(/Organisation :/)).toHaveTextContent(
+    "Aucune organisation",
+  );
 });

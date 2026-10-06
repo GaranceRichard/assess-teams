@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from assessments.adapters.api.dashboard_views import DashboardView
 from assessments.adapters.api.lifecycle_views import ArchiveEvaluationView, ValidateEvaluationView
 from assessments.adapters.api.question_views import QuestionDetailView, QuestionListCreateView
 from assessments.adapters.api.schedule_views import (
@@ -35,6 +36,7 @@ from journals.adapters.api.views import ActivityJournalView, LogsView
 from teams.adapters.api.views import TeamDetailView, TeamListCreateView
 
 urlpatterns = [
+    path("api/dashboard/", DashboardView.as_view(), name="dashboard"),
     path("api/steering/", SteeringView.as_view(), name="steering"),
     path(
         "api/steering/organizations/",

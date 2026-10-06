@@ -11,10 +11,15 @@ test("compares latest completed team runs on a persistent radar without navigati
   page.on("request", (request) => {
     if (request.url().includes("/api/results/")) resultsRequests += 1;
   });
-  await page.goto("/results");
+  await page.goto("/");
   await page.getByLabel("Identifiant").fill("results-admin-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
+  await page.getByText("Couleurs", { exact: true }).click();
+  await page.getByRole("radio", { name: "Rose", exact: true }).check();
+  await page.getByRole("link", { name: "Voir les résultats" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-palette", "pink");
+  await expect(page.locator("header").getByText("Couleurs")).toHaveCount(0);
   await page.getByRole("link", { name: "Résultats", exact: true }).click();
   await expect(
     page.getByText("Sélectionnez un modèle pour comparer les équipes."),
@@ -64,28 +69,6 @@ test("compares latest completed team runs on a persistent radar without navigati
   await page.getByRole("checkbox", { name: /^Équipe B/ }).check();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await expect(legend.getByRole("listitem")).toHaveCount(2);
-  const seriesDrawing = await radar.evaluate((canvas: HTMLCanvasElement) =>
-    canvas.toDataURL(),
-  );
-  const seriesColors = await legend
-    .locator("line")
-    .evaluateAll((lines) => lines.map((line) => line.getAttribute("stroke")));
-  await page.getByText("Couleurs", { exact: true }).click();
-  for (const label of ["Bleu", "Rose", "Rouge", "Vert"]) {
-    await page.getByRole("radio", { name: label, exact: true }).check();
-    await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
-    expect(
-      await radar.evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL()),
-    ).toBe(seriesDrawing);
-    expect(
-      await legend
-        .locator("line")
-        .evaluateAll((lines) =>
-          lines.map((line) => line.getAttribute("stroke")),
-        ),
-    ).toEqual(seriesColors);
-  }
-  await page.getByText("Couleurs", { exact: true }).click();
   await page.screenshot({
     path: test.info().outputPath("radar-light.png"),
     fullPage: true,

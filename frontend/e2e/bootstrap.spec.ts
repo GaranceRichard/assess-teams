@@ -31,10 +31,10 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
 
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(
-    page.getByText("Tableau de bord — fonctionnalité à venir"),
+    page.getByRole("heading", { name: "Tableau de bord" }),
   ).toBeVisible();
-  await expect(page.getByText(/Vous êtes affecté à/)).toContainText(
-    "Vous êtes affecté à : North E2E",
+  await expect(page.getByText(/Organisation :/)).toContainText(
+    "Organisation : North E2E",
   );
   await expect(page.getByRole("navigation").getByRole("link")).toHaveText([
     "Tableau de bord",
@@ -56,7 +56,7 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
     .toBe("1");
   await page.getByRole("button", { name: "Déplier le menu" }).click();
   await expect(dashboardLink.locator(".sidebar-label")).toBeVisible();
-  await page.getByRole("link", { name: "Résultats" }).click();
+  await page.getByRole("link", { name: "Résultats", exact: true }).click();
   await expect(
     page.getByText("Aucune passation complétée accessible."),
   ).toBeVisible();
@@ -64,7 +64,7 @@ test("an anonymous visitor signs in, sees Viewer menus, and signs out", async ({
   await page.goto("/");
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(
-    page.getByText("Tableau de bord — fonctionnalité à venir"),
+    page.getByRole("heading", { name: "Tableau de bord" }),
   ).toBeVisible();
 
   await page.getByRole("button", { name: "Se déconnecter" }).click();
@@ -81,7 +81,9 @@ test("a Viewer cannot open an Admin route directly", async ({ page }) => {
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByText(/Vous êtes affecté à/)).toHaveCount(0);
+  await expect(page.getByText(/Organisation :/)).toContainText(
+    "Aucune organisation",
+  );
   await expect(page.getByRole("link", { name: "Utilisateurs" })).toHaveCount(0);
   await expect(
     page.getByRole("link", { name: "Équipes", exact: true }),
@@ -133,7 +135,7 @@ test("a Superadmin creates, updates and deletes an invited user", async ({
   await page.getByRole("button", { name: "Se connecter" }).click();
 
   await expect(
-    page.getByText("Tableau de bord — fonctionnalité à venir"),
+    page.getByRole("heading", { name: "Tableau de bord" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Activer le mode nuit" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "night");

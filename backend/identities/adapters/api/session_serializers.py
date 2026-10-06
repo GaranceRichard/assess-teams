@@ -33,7 +33,7 @@ class SessionUserSerializer(serializers.Serializer):
         if user.is_superuser or user.role != Role.COACH.value:
             return []
         return list(
-            user.coached_teams.filter(is_active=True)
+            user.coached_teams.filter(is_active=True, organization__in=user.organizations.all())
             .order_by("name", "pk")
             .values_list("name", flat=True)
         )

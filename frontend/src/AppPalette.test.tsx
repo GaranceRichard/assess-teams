@@ -3,6 +3,8 @@ import { afterEach, expect, it, vi } from "vitest";
 
 import { App } from "./App";
 
+vi.mock("./dashboard", () => ({ getDashboard: () => new Promise(() => {}) }));
+
 const user = {
   username: "lea",
   role: "Viewer",
@@ -24,7 +26,7 @@ it("restores from the session despite a browser preference and preserves night m
   localStorage.setItem("assess-teams-theme", "night");
   vi.spyOn(globalThis, "fetch").mockResolvedValue(response(user));
   render(<App />);
-  await screen.findByText("lea");
+  await screen.findAllByText("lea");
   expect(document.documentElement).toHaveAttribute("data-palette", "blue");
   expect(document.documentElement).toHaveAttribute("data-theme", "night");
   fireEvent.click(screen.getByText("Couleurs"));
@@ -51,12 +53,12 @@ it("applies a login preference, resets at logout and isolates the next account",
     fireEvent.click(screen.getByRole("button", { name: "Se connecter" }));
   };
   enter("lea");
-  await screen.findByText("lea");
+  await screen.findAllByText("lea");
   expect(document.documentElement.dataset.palette).toBe("pink");
   fireEvent.click(screen.getByRole("button", { name: "Se déconnecter" }));
   await screen.findByLabelText("Identifiant");
   expect(document.documentElement.dataset.palette).toBe("green");
   enter("other");
-  await screen.findByText("other");
+  await screen.findAllByText("other");
   expect(document.documentElement.dataset.palette).toBe("green");
 });

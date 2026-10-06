@@ -42,13 +42,17 @@ test("Admin reads coverage, overdue and sources with palette, keyboard and mobil
         .evaluate((el) => getComputedStyle(el).backgroundColor),
     )
     .not.toBe(background);
-  await page.getByText("Couleurs", { exact: true }).click();
   for (const color of ["Bleu", "Rose", "Rouge", "Vert"]) {
+    await page.getByRole("link", { name: "Tableau de bord" }).click();
+    await page.getByText("Couleurs", { exact: true }).click();
     await page.getByRole("radio", { name: color, exact: true }).check();
     await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
+    await page
+      .getByRole("region", { name: "Raccourcis utiles" })
+      .getByRole("link", { name: "Pilotage" })
+      .click();
     await expect(table.getByText("En retard", { exact: true })).toBeVisible();
   }
-  await page.getByText("Couleurs", { exact: true }).click();
   await page.screenshot({
     path: test.info().outputPath("steering-dark.png"),
     fullPage: true,

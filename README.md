@@ -7,6 +7,10 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
+Le [Dashboard personnel — DASH-001](docs/architecture/dashboard-api.md) remplace le placeholder :
+profil, apparence, dix complétions/dernières révisions accessibles et raccourcis par rôle.
+Il réutilise la provenance EvaluationRun et les scopes Results, sans scores ni droits supplémentaires.
+
 [Pilotage P0 — STEER-001](docs/architecture/steering-api.md) livre `/steering` pour Admin/Superadmin :
 équipes actives, complétions, retards et liens Results, via une projection backend read-only.
 Aucun score global, classement ou indicateur de performance individuelle n’est calculé.
@@ -37,7 +41,7 @@ Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. 
 l'espace Admin sans devenir un rôle métier supplémentaire. Sans menu Équipes, le Coach retrouve sur son tableau
 de bord son organisation et ses équipes actives ; le Viewer y retrouve son organisation. La déconnexion invalide la session.
 La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
-soleil/lune conserve le mode jour/nuit. Le sélecteur [Couleurs](docs/architecture/interface-palettes.md) propose dix accents indépendants des surfaces neutres Clair/Sombre, persistés par utilisateur dans la session backend (défaut vert). Le chargement initial de la planification ignore les réponses obsolètes.
+soleil/lune conserve le mode jour/nuit. Dans Mon profil → Apparence, le sélecteur [Couleurs](docs/architecture/interface-palettes.md) propose dix accents indépendants des surfaces neutres Clair/Sombre, persistés par utilisateur dans la session backend (défaut vert). Le chargement initial de la planification ignore les réponses obsolètes.
 
 La gestion actuelle des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,
 l'Admin gère uniquement les Coachs et Viewers de son organisation, le Coach gère les Viewers de son
@@ -181,14 +185,6 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 `--no-verify` sans effet sur le contrôle distant.
 
 `quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. Le gate rapide produit réellement les coverages backend et frontend courants, tout en restant informatif. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage et migrations.
-
-## État actuel
-
-- Le backend Django/DRF avec SQLite et le frontend React/Vite sont opérationnels.
-- Les tests, seuils de coverage et quality gates bloquants couvrent les deux applications.
-- `USER-001` expose la création contrôlée d'identités ; le parcours authentifié applique les accès par fonction.
-- Les Admins et Superadmins gèrent organisations, équipes, modèles/questions et planifications ; les deux journaux administratifs sont consultables en lecture seule.
-- La passation persistante, son tableau et la révision Admin sont livrés ; Résultats associe radar courant et historique des critères par lignée ; Pilotage restitue couverture et retards des actifs.
 
 ## Documentation
 

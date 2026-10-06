@@ -29,6 +29,8 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 - **Valeur apportée :** attribue les actions à une identité et ferme l’accès après déconnexion ou refus.
 - **Preuves :** endpoints `/api/session/*` et `/api/invitations/*`, tests API, React et E2E du parcours authentifié.
 
+`FEAT-001` est aussi raffinée par [DASH-001 — accueil personnel](01a-dashboard.md), sans extension des habilitations.
+
 ### FEAT-002 — Administrer le cycle de vie d’une identité
 
 - **Intention métier :** maîtriser qui peut participer au dispositif sans effacer son passé.

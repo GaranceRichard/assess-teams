@@ -9,6 +9,8 @@ Ce dossier fixe les fondamentaux architecturaux de **Assess teams**. Ils défini
 - [API backend et OpenAPI](backend-api.md) : exposition HTTP avec Django REST Framework, contrat OpenAPI et Swagger UI.
 - [Environnements et identités locales](../development-environments.md) : réglages explicites et données locales isolées.
 
+- [Dashboard personnel](dashboard-api.md) : profil, apparence, activité prouvée et raccourcis par rôle.
+
 ## Complémentarité
 
 L'architecture hexagonale organise les dépendances et les responsabilités à grande échelle. Clean Code organise la qualité et la lisibilité à petite échelle. Le contrat OpenAPI rend explicite la frontière HTTP exposée par les adapters backend.
@@ -20,7 +22,7 @@ bord. Son toggle illustré soleil/lune applique le thème au document complet et
 navigateur.
 
 Les [palettes personnelles](interface-palettes.md) reposent sur `identities.User.interface_palette`,
-les réponses de session et `PATCH /api/session/`. Le sélecteur de l’en-tête applique des tokens CSS
+les réponses de session et `PATCH /api/session/`. Le sélecteur de Mon profil → Apparence applique des tokens CSS
 sémantiques pour dix accents ; `theme.css` réserve les surfaces, textes et bordures neutres au mode
 jour/nuit. Ces dimensions restent indépendantes. Le backend reste autoritaire ; les séries du radar sont indépendantes.
 
@@ -48,8 +50,7 @@ une nouvelle passation indépendante et un historique conservé ; les planificat
 La route `/evaluations` utilise le domaine `assessments` pour les passations planifiées : brouillon persistant,
 questions figées, finalisation et révision Admin avec provenance initiale conservée. Le [contrat de passation](evaluation-taking.md)
 décrit les données, contraintes et scopes. Le démarrage exige un modèle validé ; une passation déjà commencée
-reste reprenable après archivage du modèle. Le référentiel est versionné ;
-le tableau de bord générique reste un placeholder.
+reste reprenable après archivage du modèle. Le référentiel est versionné.
 
 La route `/results` compare sur un radar les dernières passations complétées des équipes pour une
 version radar automatiquement choisie par famille dans l’organisation. Le [contrat Results](results-api.md)

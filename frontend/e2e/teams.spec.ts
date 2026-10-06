@@ -65,8 +65,8 @@ test("a Coach sees assigned teams on the dashboard without a teams menu", async 
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
 
-  await expect(page.getByText(/Vous êtes affecté à/)).toContainText(
-    "Vous êtes affecté à : Coach dashboard E2E",
+  await expect(page.getByText(/Organisation :/)).toContainText(
+    "Organisation : Coach dashboard E2E",
   );
   await expect(page.getByText(/^Équipes :/)).toContainText(
     "Équipes : Équipe A, Équipe B, Équipe C",

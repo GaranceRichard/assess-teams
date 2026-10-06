@@ -4,6 +4,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import type { SessionUser } from "./auth";
 
+vi.mock("./dashboard", () => ({ getDashboard: () => new Promise(() => {}) }));
+
 const viewer: SessionUser = {
   username: "lea",
   role: "Viewer",
@@ -42,11 +44,11 @@ describe("product authentication journey", () => {
     fireEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
     expect(
-      await screen.findByText("Tableau de bord — fonctionnalité à venir"),
+      await screen.findByRole("heading", { name: "Tableau de bord" }),
     ).toBeVisible();
-    expect(screen.getByText("lea")).toBeVisible();
-    expect(screen.getByText(/Vous êtes affecté à/)).toHaveTextContent(
-      "Vous êtes affecté à : North",
+    expect(screen.getAllByText("lea")[0]).toBeVisible();
+    expect(screen.getByText(/Organisation :/)).toHaveTextContent(
+      "Organisation : North",
     );
     expect(window.location.pathname).toBe("/dashboard");
   });
@@ -58,7 +60,7 @@ describe("product authentication journey", () => {
     render(<App />);
 
     expect(
-      await screen.findByText("Tableau de bord — fonctionnalité à venir"),
+      await screen.findByRole("heading", { name: "Tableau de bord" }),
     ).toBeVisible();
     expect(window.location.pathname).toBe("/dashboard");
     expect(screen.queryByText("Page non autorisée")).not.toBeInTheDocument();

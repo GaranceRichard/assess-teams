@@ -1,52 +1,32 @@
-import { useLayoutEffect, useRef, useState } from "react";
-
-import { savePalette, type SessionUser } from "./auth";
+import type { SessionUser } from "./auth";
+import { palettes } from "./palette";
 import {
-  applyPalette,
-  normalizePalette,
-  palettes,
-  type InterfacePalette,
-} from "./palette";
+  usePalettePreference,
+  type PalettePreference,
+} from "./usePalettePreference";
 import "./palette-picker.css";
 
-export function PalettePicker({ user }: { user: SessionUser }) {
-  const [palette, setPalette] = useState(() =>
-    normalizePalette(user.interface_palette),
+export function PalettePicker({
+  user,
+  preference,
+}: {
+  user: SessionUser;
+  preference?: PalettePreference;
+}) {
+  return preference ? (
+    <PaletteOptions preference={preference} />
+  ) : (
+    <PersonalPalette user={user} />
   );
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState(false);
-  const pending = useRef(false);
+}
 
-  useLayoutEffect(() => {
-    applyPalette(palette);
-    return () => applyPalette("green");
-  }, [palette]);
+function PersonalPalette({ user }: { user: SessionUser }) {
+  const preference = usePalettePreference(user);
+  return <PaletteOptions preference={preference} />;
+}
 
-  async function choose(next: InterfacePalette) {
-    if (pending.current || next === palette) return;
-    const previous = palette;
-    pending.current = true;
-    setPalette(next);
-    setSaving(true);
-    setMessage("");
-    setError(false);
-    try {
-      const updated = await savePalette(next);
-      setPalette(normalizePalette(updated.interface_palette));
-      setMessage("Couleur enregistrée.");
-    } catch {
-      setPalette(previous);
-      setError(true);
-      setMessage(
-        "Enregistrement impossible. Votre couleur précédente est rétablie.",
-      );
-    } finally {
-      pending.current = false;
-      setSaving(false);
-    }
-  }
-
+function PaletteOptions({ preference }: { preference: PalettePreference }) {
+  const { palette, saving, message, error, choose } = preference;
   return (
     <details className="palette-picker">
       <summary>Couleurs</summary>

@@ -1,0 +1,99 @@
+.dashboard {
+  padding: 2rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-card h2 {
+  margin-top: 0;
+}
+
+.dashboard-identity {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.dashboard-activity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-activity li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard-activity li:last-child {
+  border-bottom: 0;
+}
+
+.dashboard-activity li > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dashboard-activity p {
+  margin: 0.5rem 0 0;
+}
+
+.dashboard-activity time {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.dashboard-shortcuts {
+  grid-column: 1 / -1;
+}
+
+.dashboard-shortcuts ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard .palette-panel {
+  position: static;
+  width: auto;
+  margin-top: 0.75rem;
+  box-shadow: none;
+}
+
+.dashboard-shortcuts a {
+  color: var(--accent-text);
+}
+
+.dashboard a:focus-visible,
+.dashboard summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
