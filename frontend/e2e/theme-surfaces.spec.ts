@@ -30,13 +30,15 @@ async function themedSurfaces(page: Page) {
         name: element.className || element.tagName,
         color: getComputedStyle(element).backgroundColor,
         expected,
+        night: document.documentElement.dataset.theme === "night",
       }));
     });
   }, selectors);
   expect(colors.length).toBeGreaterThan(2);
-  for (const { name, color, expected } of colors) {
+  for (const { name, color, expected, night } of colors) {
     expect(color, name).toBe(expected);
-    expect(luminance(color), name).toBeLessThan(0.99);
+    if (night) expect(luminance(color), name).toBeLessThan(0.15);
+    else expect(luminance(color), name).toBeGreaterThan(0.9);
   }
 }
 
@@ -48,7 +50,7 @@ async function capture(page: Page, name: string) {
   });
 }
 
-test("representative dashboard, forms, dialogs, Results and Steering share tinted surfaces", async ({
+test("representative dashboard, forms, dialogs, Results and Steering use neutral light and preserved dark surfaces", async ({
   page,
 }) => {
   seedSteeringContext();
@@ -64,7 +66,7 @@ test("representative dashboard, forms, dialogs, Results and Steering share tinte
     page.getByRole("heading", { name: "Tableau de bord" }),
   ).toBeVisible();
   for (const [mode, label] of [
-    ["day", "Orange"],
+    ["day", "Bleu"],
     ["night", "Violet"],
   ]) {
     if (mode === "night")

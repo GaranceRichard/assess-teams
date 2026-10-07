@@ -6,7 +6,7 @@ import { contrast, luminance } from "./palette-contrast";
 const stable = ["text", "text-muted", "border", "input-border"];
 const surfaces = ["background", "surface", "surface-raised"];
 
-test("each palette tints light and dark surfaces without changing readable text", async ({
+test("light surfaces stay neutral and the approved dark surfaces stay unchanged", async ({
   page,
 }) => {
   await page.goto("/");
@@ -24,18 +24,24 @@ test("each palette tints light and dark surfaces without changing readable text"
           const style = getComputedStyle(root);
           const token = (name: string) =>
             style.getPropertyValue(`--${name}`).trim();
-          const resolved = (name: string) => {
+          const resolveColor = (color: string) => {
             const probe = document.createElement("span");
-            probe.style.color = `var(--${name})`;
+            probe.style.color = color;
             root.append(probe);
-            const color = getComputedStyle(probe).color;
+            const computed = getComputedStyle(probe).color;
             probe.remove();
-            return color;
+            return computed;
           };
+          const resolved = (name: string) => resolveColor(`var(--${name})`);
           return {
             palette: value,
             stable: stable.map(token),
             surfaces: surfaces.map(resolved),
+            nightBaseline: ["#171717", "#262626", "#303030"].map((base) =>
+              resolveColor(
+                `color-mix(in srgb, var(--accent-day) 24%, ${base})`,
+              ),
+            ),
             text: resolved("text"),
             muted: resolved("text-muted"),
             accent: resolved("accent"),
@@ -54,6 +60,13 @@ test("each palette tints light and dark surfaces without changing readable text"
       );
       for (const color of tokens.stable)
         expect(color).toMatch(/^#([0-9a-f]{2})\1\1$/i);
+      if (theme === "day") {
+        expect(tokens.surfaces).toEqual([
+          "rgb(247, 247, 247)",
+          "rgb(255, 255, 255)",
+          "rgb(255, 255, 255)",
+        ]);
+      } else expect(tokens.surfaces).toEqual(tokens.nightBaseline);
       for (const surface of tokens.surfaces) {
         if (theme === "day") expect(luminance(surface)).toBeGreaterThan(0.65);
         else expect(luminance(surface)).toBeLessThan(0.15);
@@ -73,7 +86,7 @@ test("each palette tints light and dark surfaces without changing readable text"
     }
     for (let index = 0; index < surfaces.length; index++) {
       expect(new Set(values.map((tokens) => tokens.surfaces[index])).size).toBe(
-        10,
+        theme === "day" ? 1 : 10,
       );
     }
     expect(new Set(values.map((tokens) => tokens.accent)).size).toBe(10);

@@ -1,28 +1,15 @@
 :root {
   color-scheme: light;
-  --background-base: #f5f5f5;
+  --background-base: #f7f7f7;
   --surface-base: #ffffff;
   --surface-raised-base: #ffffff;
-  --surface-tone: var(--accent-night);
-  --background-tint: 35%;
-  --surface-tint: 25%;
-  --raised-tint: 18%;
-  --background: color-mix(
-    in srgb,
-    var(--surface-tone) var(--background-tint),
-    var(--background-base)
-  );
-  --surface: color-mix(
-    in srgb,
-    var(--surface-tone) var(--surface-tint),
-    var(--surface-base)
-  );
-  --surface-raised: color-mix(
-    in srgb,
-    var(--surface-tone) var(--raised-tint),
-    var(--surface-raised-base)
-  );
-  --border: #d4d4d4;
+  --background: var(--background-base);
+  --surface: var(--surface-base);
+  --surface-raised: var(--surface-raised-base);
+  --surface-secondary: #f3f3f3;
+  --shadow-surface: 0 0.5rem 1.5rem rgb(0 0 0 / 4%);
+  --shadow-raised: 0 0.75rem 2rem rgb(0 0 0 / 10%);
+  --border: #e3e3e3;
   --input-border: #737373;
   --text: #171717;
   --text-muted: #525252;
@@ -31,7 +18,7 @@
   --secondary-text: var(--text);
   --navigation-background: var(--surface);
   --navigation-text: var(--text-muted);
-  --sidebar-control: var(--background);
+  --sidebar-control: var(--surface-secondary);
   --sidebar-border: var(--border);
   --danger: #a62f38;
   --error-text: #a42e35;
@@ -47,6 +34,22 @@
   --background-tint: 24%;
   --surface-tint: 24%;
   --raised-tint: 24%;
+  --background: color-mix(
+    in srgb,
+    var(--surface-tone) var(--background-tint),
+    var(--background-base)
+  );
+  --surface: color-mix(
+    in srgb,
+    var(--surface-tone) var(--surface-tint),
+    var(--surface-base)
+  );
+  --surface-raised: color-mix(
+    in srgb,
+    var(--surface-tone) var(--raised-tint),
+    var(--surface-raised-base)
+  );
+  --surface-secondary: var(--background);
   --border: #525252;
   --input-border: #a3a3a3;
   --text: #f5f5f5;
@@ -130,4 +133,35 @@
 :root[data-theme="night"] .login-card,
 :root[data-theme="night"] .dialog {
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 28%);
+}
+
+/* Light appearance only: retain the approved dark styling and density. */
+:root:not([data-theme="night"]) th {
+  background: var(--surface-secondary);
+}
+
+:root:not([data-theme="night"]) :is(.table-wrap, .placeholder, .login-card) {
+  box-shadow: var(--shadow-surface);
+}
+
+:root:not([data-theme="night"])
+  :is(
+    .dialog,
+    .organization-dialog,
+    .team-dialog,
+    .evaluation-dialog,
+    .planning-dialog,
+    .taking-dialog,
+    .palette-panel
+  ) {
+  box-shadow: var(--shadow-raised);
+}
+
+:root:not([data-theme="night"]) .dashboard .palette-panel {
+  box-shadow: none;
+}
+
+:root[data-theme="night"] .appearance-day,
+:root:not([data-theme="night"]) .appearance-night {
+  display: none;
 }

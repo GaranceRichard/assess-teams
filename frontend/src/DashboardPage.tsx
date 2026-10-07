@@ -71,8 +71,14 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
           )}
           <h3>Apparence</h3>
           <p>
-            Votre couleur habille les fonds en clair ou en sombre et reste
-            conservée pour vos prochaines connexions.
+            <span className="appearance-day">
+              Votre couleur personnalise les accents et reste conservée pour vos
+              prochaines connexions.
+            </span>
+            <span className="appearance-night">
+              Votre couleur habille les fonds en clair ou en sombre et reste
+              conservée pour vos prochaines connexions.
+            </span>
           </p>
           <PalettePicker user={user} preference={preference} />
         </section>
