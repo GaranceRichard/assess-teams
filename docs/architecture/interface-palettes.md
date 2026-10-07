@@ -2,14 +2,15 @@
 
 ## Comportement attendu
 
-Le mode clair associe des bandeaux sidebar/header légèrement teintés à un contenu neutre : fond très
-clair, cartes blanches, surfaces internes gris léger et bordures discrètes. La palette ponctue les
-interactions et les bandeaux ; elle ne colore jamais le fond applicatif ni les grandes cartes.
+Le mode clair associe des bandeaux sidebar/header clairement perceptibles à un fond central gris
+très clair subtilement teinté. Les cartes restent blanches, les surfaces internes gris léger et les
+bordures discrètes. La palette colore les bandeaux, le fond central et les interactions ; jamais les cartes.
 
 Le mode sombre validé conserve ses valeurs, sa hiérarchie de surfaces, ses ombres et sa densité.
 Changer Clair/Sombre ne change jamais la couleur choisie ; changer de couleur ne change jamais le mode.
-En clair, les dix palettes suivent la même dérivation pour les accents et les bandeaux. Le contenu
-reste identique quelle que soit la palette.
+En clair, les dix palettes suivent la même dérivation pour les accents, les bandeaux et le fond central.
+Les cartes et les surfaces internes restent identiques quelle que soit la palette ; le layout, le shell,
+les scrolls, la pagination et la persistance ne changent pas.
 
 Le [Dashboard personnel](dashboard-api.md) expose les dix choix dans Mon profil → Apparence.
 Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat API ne change.
@@ -28,20 +29,24 @@ Les composants consomment ces rôles communs, sans thème complet ni patch Dashb
 
 | Token                     | Clair                              | Sombre validé                      |
 | ------------------------- | ---------------------------------- | ---------------------------------- |
-| `background`              | `#f7f7f7`                          | 24 % `accent-day` + 76 % `#171717` |
+| `background`              | alias LIGHT de `light-background`  | 24 % `accent-day` + 76 % `#171717` |
 | `surface`                 | `#ffffff`                          | 24 % `accent-day` + 76 % `#262626` |
 | `surface-raised`          | `#ffffff`                          | 24 % `accent-day` + 76 % `#303030` |
 | `surface-secondary`       | `#f3f3f3`                          | alias de `background`              |
-| `light-band-background`   | 6 % `accent-day` + 94 % `#f8f8fa`  | non appliqué                       |
-| `light-navigation-active` | 14 % `accent-day` + 86 % `#ffffff` | non appliqué                       |
+| `light-background`        | 3 % `accent-day` + 97 % `#f7f7f7`  | non appliqué                       |
+| `light-band-background`   | 12 % `accent-day` + 88 % `#f8f8fa` | non appliqué                       |
+| `light-navigation-active` | 20 % `accent-day` + 80 % `#ffffff` | non appliqué                       |
+| `light-navigation-text`   | alias de `accent-hover`            | non appliqué                       |
 | `border`                  | `#e3e3e3`                          | `#525252`                          |
 | `input-border`            | `#737373`                          | `#a3a3a3`                          |
 | `text`                    | `#171717`                          | `#f5f5f5`                          |
 | `text-muted`              | `#525252`                          | `#b8b8b8`                          |
 
-Les trois mélanges sRGB sombres sont conservés exactement ; les surfaces du contenu clair ne dépendent
-pas de l’accent. Les bandeaux utilisent un mélange sRGB très léger, désaturé par sa base presque blanche ;
-la navigation active emploie une proportion plus visible. Aucune couleur n’a de règle dédiée.
+Les trois mélanges sRGB sombres sont conservés exactement. En clair, les cartes ne dépendent pas de
+l’accent ; le fond central utilise seulement 3 % de couleur sur sa base grise. Les bandeaux passent de
+6 % à 12 %, et la navigation active de 14 % à 20 %, pour renforcer la hiérarchie chromatique. Le texte
+du menu actif/survolé utilise l’accent assombri existant (`accent-hover`) pour garder un contraste
+≥ 4,5:1, y compris Orange. Les bases d’accent ne changent pas. Aucune couleur n’a de règle dédiée.
 `heading`, `muted`, `secondary-text`, `navigation-background`, `navigation-text` et `sidebar-border`
 restent des alias. En clair, `navigation-background` et le header utilisent `light-band-background`,
 `navigation-active` utilise `light-navigation-active`. En sombre, ces rôles gardent leurs valeurs
@@ -88,7 +93,8 @@ Les cinq rôles sont partagés, sans créer dix thèmes complets :
 Les alias `primary`, `primary-hover`, `on-primary`, `accent-text`, `focus`, `selection` et
 `navigation-active` permettent aux composants existants de consommer ces rôles. L’accent s’applique aux
 actions principales, liens, navigation active, focus, contrôles sélectionnés et surtitres.
-Les fonds subtils signalent les sélections locales ; les grandes surfaces du contenu clair restent neutres.
+Les fonds subtils signalent les sélections locales ; les cartes claires restent blanches sur le fond
+central légèrement teinté. Les trois proportions LIGHT sont communes à toutes les palettes.
 Les statuts métier, dangers et avertissements conservent leurs couleurs sémantiques indépendantes.
 Le radar et les courbes conservent leurs séries distinctes, formes et pointillés indépendants des accents ;
 leurs textes/grilles suivent les mêmes gris clair/sombre que l’interface.
@@ -119,8 +125,8 @@ est accepté, sans utilisateur cible, rôle, organisation ni CSS libre.
 ## Audit et validation
 
 L’audit couvre Dashboard, shell/navigation, champs, sélecteur, formulaires/modales de gestion,
-Results/radar/historique, Pilotage et tableaux. Les grandes surfaces claires suivent les tokens neutres,
-sans fond lié au Bleu, Rouge ou Vert ; les surfaces sombres validées restent inchangées.
+Results/radar/historique, Pilotage et tableaux. Le fond applicatif et les bandeaux suivent les dérivés
+LIGHT de chaque palette, tandis que les cartes et champs restent blancs ; le sombre reste inchangé.
 Les modales Utilisateurs, Organisations, Équipes, Modèles, Planification et Passation partagent
 `surface-raised`. Les liens/focus Results et Pilotage suivent l’accent. Le danger de Planification garde
 un texte blanc indépendant du contraste des boutons primaires ; les dangers outline suivent le mode.
@@ -128,10 +134,11 @@ un texte blanc indépendant du contraste des boutons primaires ; les dangers out
 Les tests de migration protègent les quatre choix historiques et les rattachements ; les tests API couvrent
 les dix accents, les rôles, la persistance, l’isolation, les valeurs invalides, CSRF et OpenAPI.
 React vérifie les dix choix, le fallback, l’indépendance des dimensions, la restauration et le rollback.
-Un seul test navigateur parcourt les palettes : fonds clairs identiques, achromatiques et lumineux,
+Un seul test navigateur parcourt les palettes : cartes claires identiques et blanches, fond central
+subtilement teinté distinct pour chaque accent, bandeaux plus soutenus et menu actif plus visible,
 valeurs sombres égales aux trois mélanges validés, contrastes ≥ 4,5:1 pour textes principaux/secondaires,
 accents et hover, bandeaux dérivés distincts pour les dix palettes et navigation active lisible.
-Il échoue avant correction sur les bandeaux encore blancs. Les captures sombres Dashboard, Pilotage,
+Il échoue avant correction sur le fond central encore neutre. Les captures sombres Dashboard, Pilotage,
 Results et modale sont comparées à la référence avant modification, avec animations et scroll
 stabilisés, pour protéger leur rendu.
 Il ne multiplie pas les parcours métier pour les vingt combinaisons.

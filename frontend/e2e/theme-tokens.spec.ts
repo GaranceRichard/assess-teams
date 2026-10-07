@@ -6,7 +6,7 @@ import { contrast, luminance } from "./palette-contrast";
 const stable = ["text", "text-muted", "border", "input-border"];
 const surfaces = ["background", "surface", "surface-raised"];
 
-test("light bands follow each accent while content stays neutral and dark stays unchanged", async ({
+test("light bands and background follow each accent while cards stay white and dark stays unchanged", async ({
   page,
 }) => {
   await page.goto("/");
@@ -42,13 +42,20 @@ test("light bands follow each accent while content stays neutral and dark stays 
                 `color-mix(in srgb, var(--accent-day) 24%, ${base})`,
               ),
             ),
+            expectedBackground: resolveColor(
+              "color-mix(in srgb, var(--accent-day) 3%, #f7f7f7)",
+            ),
+            navigationText:
+              theme === "day"
+                ? resolved("light-navigation-text")
+                : resolved("accent"),
             band: resolved("navigation-background"),
             active: resolved("navigation-active"),
             expectedBand: resolveColor(
-              "color-mix(in srgb, var(--accent-day) 6%, #f8f8fa)",
+              "color-mix(in srgb, var(--accent-day) 12%, #f8f8fa)",
             ),
             expectedActive: resolveColor(
-              "color-mix(in srgb, var(--accent-day) 14%, #ffffff)",
+              "color-mix(in srgb, var(--accent-day) 20%, #ffffff)",
             ),
             text: resolved("text"),
             muted: resolved("text-muted"),
@@ -70,13 +77,17 @@ test("light bands follow each accent while content stays neutral and dark stays 
         expect(color).toMatch(/^#([0-9a-f]{2})\1\1$/i);
       if (theme === "day") {
         expect(tokens.surfaces).toEqual([
-          "rgb(247, 247, 247)",
+          tokens.expectedBackground,
           "rgb(255, 255, 255)",
           "rgb(255, 255, 255)",
         ]);
         expect(tokens.band).toBe(tokens.expectedBand);
         expect(tokens.active).toBe(tokens.expectedActive);
-        expect(luminance(tokens.band)).toBeGreaterThan(0.8);
+        expect(luminance(tokens.band)).toBeGreaterThan(0.7);
+        expect(luminance(tokens.surfaces[0])).toBeGreaterThan(
+          luminance(tokens.band),
+        );
+        expect(tokens.navigationText).toBe(tokens.hover);
         expect(luminance(tokens.active)).toBeLessThan(luminance(tokens.band));
       } else {
         expect(tokens.surfaces).toEqual(tokens.nightBaseline);
@@ -85,9 +96,9 @@ test("light bands follow each accent while content stays neutral and dark stays 
       }
       expect(contrast(tokens.text, tokens.band)).toBeGreaterThanOrEqual(4.5);
       expect(contrast(tokens.muted, tokens.band)).toBeGreaterThanOrEqual(4.5);
-      expect(contrast(tokens.accent, tokens.active)).toBeGreaterThanOrEqual(
-        4.5,
-      );
+      expect(
+        contrast(tokens.navigationText, tokens.active),
+      ).toBeGreaterThanOrEqual(4.5);
       for (const surface of tokens.surfaces) {
         if (theme === "day") expect(luminance(surface)).toBeGreaterThan(0.65);
         else expect(luminance(surface)).toBeLessThan(0.15);
@@ -107,7 +118,7 @@ test("light bands follow each accent while content stays neutral and dark stays 
     }
     for (let index = 0; index < surfaces.length; index++) {
       expect(new Set(values.map((tokens) => tokens.surfaces[index])).size).toBe(
-        theme === "day" ? 1 : 10,
+        theme === "day" && index > 0 ? 1 : 10,
       );
     }
     expect(new Set(values.map((tokens) => tokens.accent)).size).toBe(10);

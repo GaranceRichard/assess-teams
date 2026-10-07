@@ -1,9 +1,21 @@
 /* Light-only roles and refinements: no selector applies to the approved dark mode. */
 :root:not([data-theme="night"]) {
-  --light-band-background: color-mix(in srgb, var(--accent-day) 6%, #f8f8fa);
-  --light-navigation-active: color-mix(in srgb, var(--accent-day) 14%, #ffffff);
+  --light-background: color-mix(
+    in srgb,
+    var(--accent-day) 3%,
+    var(--background-base)
+  );
+  --background: var(--light-background);
+  --light-band-background: color-mix(in srgb, var(--accent-day) 12%, #f8f8fa);
+  --light-navigation-active: color-mix(in srgb, var(--accent-day) 20%, #ffffff);
+  --light-navigation-text: var(--accent-hover);
   --navigation-background: var(--light-band-background);
   --navigation-active: var(--light-navigation-active);
+}
+
+:root:not([data-theme="night"]) .product-sidebar nav a:hover,
+:root:not([data-theme="night"]) .product-sidebar nav a[aria-current="page"] {
+  color: var(--light-navigation-text);
 }
 
 :root:not([data-theme="night"]) .workspace > header {

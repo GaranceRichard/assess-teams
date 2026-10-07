@@ -20,8 +20,8 @@ Les modales sont bornées par `100dvh - 2rem` et gardent leurs actions accessibl
 
 Sous 761 px, le document retrouve son flux naturel ; panneaux empilés, menu horizontal scrollable,
 contenus sans découpe et tableaux à scroll interne. La pagination reste sticky dans sa collection.
-Le dark mode conserve son rendu ; le [mode clair](interface-palettes.md) associe bandeaux légèrement
-teintés par la palette et surfaces neutres du contenu, sans modifier les régions de scroll.
+Le dark mode conserve son rendu ; le [mode clair](interface-palettes.md) associe bandeaux clairs perceptibles,
+fond central subtilement teinté par la palette et cartes blanches, sans modifier les régions de scroll.
 
 ## Collections et contrats
 

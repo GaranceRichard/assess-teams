@@ -44,12 +44,26 @@ async function themedSurfaces(page: Page) {
   for (const { name, color, expected, band, night } of colors) {
     expect(color, name).toBe(expected);
     if (night) expect(luminance(color), name).toBeLessThan(0.15);
-    else expect(luminance(color), name).toBeGreaterThan(band ? 0.8 : 0.88);
+    else expect(luminance(color), name).toBeGreaterThan(band ? 0.7 : 0.88);
   }
 }
 
 async function capture(page: Page, name: string) {
   await themedSurfaces(page);
+  const navigation = await page
+    .locator(".product-sidebar nav a[aria-current=page]")
+    .evaluate((element) => {
+      const probe = document.createElement("span");
+      probe.style.color =
+        document.documentElement.dataset.theme === "night"
+          ? "var(--accent)"
+          : "var(--light-navigation-text)";
+      document.body.append(probe);
+      const expected = getComputedStyle(probe).color;
+      probe.remove();
+      return { actual: getComputedStyle(element).color, expected };
+    });
+  expect(navigation.actual).toBe(navigation.expected);
   await page
     .locator(".dashboard-card, .dashboard-feed")
     .evaluateAll((elements) => {
@@ -62,7 +76,7 @@ async function capture(page: Page, name: string) {
   });
 }
 
-test("representative screens use accent light bands, neutral content and preserved dark surfaces", async ({
+test("representative screens use chromatic light backgrounds, white cards and preserved dark surfaces", async ({
   page,
 }) => {
   seedSteeringContext();
