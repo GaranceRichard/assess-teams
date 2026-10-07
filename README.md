@@ -24,6 +24,10 @@ Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DEL
 
 Les [Résultats longitudinaux](docs/architecture/results-api.md) prolongent le radar par organisation et famille sur la dernière version ayant des résultats, puis ouvrent à la demande les observations historiques d’un critère. La continuité inter-version exige une lignée explicite, sans agrégation ni rapprochement implicite des questions.
 
+## CI — feedback qualité
+
+La [CI parallèle](docs/quality/ci.md) exécute les contrôles dépôt, backend, frontend et E2E indépendamment, avec caches npm/pip et annulation des runs obsolètes. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
+
 ## Socle technique
 
 - Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite.
@@ -181,10 +185,10 @@ commun permettent au `post-checkout` cible de préparer ses runtimes sans partag
 Le `pre-commit` lance `quality:quick` sans bloquer le commit. Pour une publication, le `pre-push` impose d'abord
 la branche et le worktree dédiés, l'état entièrement commité, la destination `main` et la resynchronisation sur
 le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le push en cas d'échec. Le workflow
-[GitHub Actions](.github/workflows/quality.yml) appelle exactement le même script en mode `full`, ce qui rend
-`--no-verify` sans effet sur le contrôle distant.
+[GitHub Actions](.github/workflows/quality.yml) appelle le même script en mode `full` par scope indépendant,
+puis exige leur succès dans `Full quality gate`, sans réexécuter les contrôles.
 
-`quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. Le gate rapide produit réellement les coverages backend et frontend courants, tout en restant informatif. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage et migrations.
+`quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. Le gate rapide produit réellement les coverages backend et frontend courants, tout en restant informatif. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage, migrations et le build/typecheck frontend. Les scopes CI sont documentés dans [CI parallèle](docs/quality/ci.md).
 
 ## Documentation
 

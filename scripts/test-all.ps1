@@ -1,3 +1,8 @@
+param(
+    [ValidateSet('all', 'backend', 'frontend', 'e2e')]
+    [string]$Scope = 'all'
+)
+
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $failures = 0
@@ -44,35 +49,43 @@ function Write-Applicability {
     }
 }
 
-$backend = Join-Path $root 'backend'
-if (Test-Path (Join-Path $backend 'manage.py')) {
-    Write-Applicability `
-        -Applicable @('unitaire', 'fonctionnel', 'API', 'integration', 'contrat') `
-        -NotApplicable @('regression: aucun bug corrige')
-    $python = Get-PythonExecutable
-    $coverageConfig = Join-Path $root '.coveragerc'
-    Invoke-TestGroup 'Backend - tests et coverage >= 90 %' $backend {
-        & $python -m pytest --cov=. --cov-config=$coverageConfig --cov-report=term-missing
+if ($Scope -in @('all', 'backend')) {
+    $backend = Join-Path $root 'backend'
+    if (Test-Path (Join-Path $backend 'manage.py')) {
+        Write-Applicability `
+            -Applicable @('unitaire', 'fonctionnel', 'API', 'integration', 'contrat') `
+            -NotApplicable @('regression: aucun bug corrige')
+        $python = Get-PythonExecutable
+        $coverageConfig = Join-Path $root '.coveragerc'
+        Invoke-TestGroup 'Backend - tests et coverage >= 90 %' $backend {
+            & $python -m pytest --cov=. --cov-config=$coverageConfig --cov-report=term-missing
+        }
+    } else {
+        Write-Host '[NON APPLICABLE] Backend - bootstrap absent.' -ForegroundColor DarkGray
     }
-} else {
-    Write-Host '[NON APPLICABLE] Backend - bootstrap absent.' -ForegroundColor DarkGray
 }
 
-$frontend = Join-Path $root 'frontend'
-$package = Join-Path $frontend 'package.json'
-if (Test-Path $package) {
-    $npm = if ($IsLinux -or $IsMacOS) { 'npm' } else { 'npm.cmd' }
-    Write-Applicability `
-        -Applicable @('unitaire', 'composant', 'fonctionnel', 'integration', 'contrat') `
-        -NotApplicable @('regression: aucun bug corrige')
-    Invoke-TestGroup 'Frontend - tests et coverage >= 90 %' $frontend {
-        & $npm run test:coverage
+if ($Scope -in @('all', 'frontend', 'e2e')) {
+    $frontend = Join-Path $root 'frontend'
+    $package = Join-Path $frontend 'package.json'
+    if (Test-Path $package) {
+        $npm = if ($IsLinux -or $IsMacOS) { 'npm' } else { 'npm.cmd' }
+        if ($Scope -in @('all', 'frontend')) {
+            Write-Applicability `
+                -Applicable @('unitaire', 'composant', 'fonctionnel', 'integration', 'contrat') `
+                -NotApplicable @('regression: aucun bug corrige')
+            Invoke-TestGroup 'Frontend - tests et coverage >= 90 %' $frontend {
+                & $npm run test:coverage
+            }
+        }
+        if ($Scope -in @('all', 'e2e')) {
+            Invoke-TestGroup 'E2E - smoke test technique Playwright' $frontend {
+                & $npm run test:e2e
+            }
+        }
+    } else {
+        Write-Host '[NON APPLICABLE] Frontend et E2E - bootstrap absent.' -ForegroundColor DarkGray
     }
-    Invoke-TestGroup 'E2E - smoke test technique Playwright' $frontend {
-        & $npm run test:e2e
-    }
-} else {
-    Write-Host '[NON APPLICABLE] Frontend et E2E - bootstrap absent.' -ForegroundColor DarkGray
 }
 
 Write-Host "`n=== Synthese test:all : $failures echec(s) ===" -ForegroundColor White

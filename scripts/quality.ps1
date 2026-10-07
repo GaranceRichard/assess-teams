@@ -1,7 +1,9 @@
 param(
     [Parameter(Position = 0)]
     [ValidateSet('quick', 'full')]
-    [string]$Mode = 'quick'
+    [string]$Mode = 'quick',
+    [ValidateSet('all', 'repository', 'backend', 'frontend', 'e2e')]
+    [string]$Scope = 'all'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -76,60 +78,71 @@ function Invoke-NpmScript {
     & npm run $ScriptName
 }
 
-Write-Host "Quality gate '$Mode' - Assess teams" -ForegroundColor White
-Invoke-QualityStep 'Limite de 200 lignes' { & npm run check:lines }
-Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
-Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
-Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
-Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
-Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
-Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
+Write-Host "Quality gate '$Mode' ($Scope) - Assess teams" -ForegroundColor White
+if ($Scope -in @('all', 'repository')) {
+    Invoke-QualityStep 'Limite de 200 lignes' { & npm run check:lines }
+    Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
+    Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
+    Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
+    Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
+    Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
+    Invoke-PowerShellCheck 'Tests des scopes qualite' 'scripts\quality\tests\scopes.tests.ps1'
+    Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
+    Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs }
+}
 
-$backendPath = Join-Path $root 'backend'
-$backendPresent = (Test-Path (Join-Path $backendPath 'manage.py')) -or
-    (Test-Path (Join-Path $backendPath 'pyproject.toml'))
-if (-not $backendPresent) {
-    Write-NotApplicable 'Backend' 'bootstrap Django absent'
-} else {
-    $python = Get-PythonExecutable
-    Invoke-QualityStep 'Backend lint' { & $python -m ruff check . } $backendPath
-    Invoke-QualityStep 'Backend format check' { & $python -m ruff format --check . } $backendPath
-    $coverageConfig = Join-Path $root '.coveragerc'
-    if ($Mode -eq 'quick') {
-        Invoke-QualityStep 'Backend tests rapides et coverage courant' {
-            & $python -m pytest -m 'unit or functional' --cov=. --cov-config=$coverageConfig
-        } $backendPath
+if ($Scope -in @('all', 'backend')) {
+    $backendPath = Join-Path $root 'backend'
+    $backendPresent = (Test-Path (Join-Path $backendPath 'manage.py')) -or
+        (Test-Path (Join-Path $backendPath 'pyproject.toml'))
+    if (-not $backendPresent) {
+        Write-NotApplicable 'Backend' 'bootstrap Django absent'
     } else {
-        if (Test-Path (Join-Path $backendPath 'manage.py')) {
-            Invoke-QualityStep 'Coherence des migrations Django' {
-                & $python manage.py makemigrations --check --dry-run --settings=config.settings_development
+        $python = Get-PythonExecutable
+        Invoke-QualityStep 'Backend lint' { & $python -m ruff check . } $backendPath
+        Invoke-QualityStep 'Backend format check' { & $python -m ruff format --check . } $backendPath
+        $coverageConfig = Join-Path $root '.coveragerc'
+        if ($Mode -eq 'quick') {
+            Invoke-QualityStep 'Backend tests rapides et coverage courant' {
+                & $python -m pytest -m 'unit or functional' --cov=. --cov-config=$coverageConfig
             } $backendPath
+        } else {
+            if (Test-Path (Join-Path $backendPath 'manage.py')) {
+                Invoke-QualityStep 'Coherence des migrations Django' {
+                    & $python manage.py makemigrations --check --dry-run --settings=config.settings_development
+                } $backendPath
+            }
         }
     }
 }
 
-$frontendPath = Join-Path $root 'frontend'
-$packagePath = Join-Path $frontendPath 'package.json'
-if (-not (Test-Path $packagePath)) {
-    Write-NotApplicable 'Frontend et E2E' 'bootstrap React absent'
-} else {
-    $package = Get-Content -LiteralPath $packagePath -Raw | ConvertFrom-Json
-    Invoke-QualityStep 'Frontend lint' { Invoke-NpmScript 'lint' $package } $frontendPath
-    Invoke-QualityStep 'Frontend format check' { Invoke-NpmScript 'format:check' $package } $frontendPath
-    Invoke-QualityStep 'Configuration coverage frontend >= 90 %' {
-        Test-FrontendCoverageConfiguration
-    } $frontendPath
-    if ($Mode -eq 'quick') {
-        Invoke-QualityStep 'Frontend tests rapides et coverage courant' {
-            Invoke-NpmScript 'test:coverage' $package
+if ($Scope -in @('all', 'frontend')) {
+    $frontendPath = Join-Path $root 'frontend'
+    $packagePath = Join-Path $frontendPath 'package.json'
+    if (-not (Test-Path $packagePath)) {
+        Write-NotApplicable 'Frontend et E2E' 'bootstrap React absent'
+    } else {
+        $package = Get-Content -LiteralPath $packagePath -Raw | ConvertFrom-Json
+        Invoke-QualityStep 'Frontend lint' { Invoke-NpmScript 'lint' $package } $frontendPath
+        Invoke-QualityStep 'Frontend format check' { Invoke-NpmScript 'format:check' $package } $frontendPath
+        Invoke-QualityStep 'Configuration coverage frontend >= 90 %' {
+            Test-FrontendCoverageConfiguration
         } $frontendPath
+        if ($Mode -eq 'full') {
+            Invoke-QualityStep 'Frontend typecheck et build' { Invoke-NpmScript 'build' $package } $frontendPath
+        }
+        if ($Mode -eq 'quick') {
+            Invoke-QualityStep 'Frontend tests rapides et coverage courant' {
+                Invoke-NpmScript 'test:coverage' $package
+            } $frontendPath
+        }
     }
 }
 
-if ($Mode -eq 'full') {
+if ($Mode -eq 'full' -and $Scope -ne 'repository') {
     $allTests = Join-Path $root 'scripts\test-all.ps1'
     Invoke-QualityStep 'Suite globale test:all' {
-        & $hostExecutable -NoProfile -File $allTests
+        & $hostExecutable -NoProfile -File $allTests -Scope $Scope
     }
 }
 

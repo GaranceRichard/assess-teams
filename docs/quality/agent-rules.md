@@ -127,7 +127,8 @@ destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
 
 Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
 antérieure à la resynchronisation ne vaut pas validation finale. Le `pre-push` applique d'abord la garde de
-contribution, puis le full quality gate existant ; la CI répète le full quality gate comme frontière distante.
+contribution, puis le full quality gate existant ; la CI exécute tous ses scopes indépendants et agrège
+leur succès comme frontière distante, sans répéter les mêmes contrôles.
 
 Un travail ne prend jamais fin tant que la branche locale `main` du checkout principal est en retard sur
 `origin/main`, même d'un seul commit. Après confirmation du push, la resynchroniser exclusivement par
@@ -153,4 +154,4 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 
 ## Automatisation des quality gates
 
-Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le même full quality gate, exhaustif et bloquant, que la CI GitHub. Contourner le hook local ne dispense jamais du contrôle distant.
+Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le full quality gate, exhaustif et bloquant ; la CI GitHub répartit ces mêmes contrôles par scopes indépendants et exige leur succès agrégé. Contourner le hook local ne dispense jamais du contrôle distant.

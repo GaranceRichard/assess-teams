@@ -2,6 +2,11 @@
 
 La suite globale reste `npm run test:all` à la racine ; `npm run quality:full` ajoute les contrôles bloquants.
 
+Les commandes [CI par scope](ci.md) exécutent exactement leur domaine :
+`npm run quality:full -- -Scope repository`, `backend`, `frontend` ou `e2e`
+(remplacer la valeur après `-Scope`). Sans scope, la commande garde tous les contrôles.
+Le scope frontend inclut `npm run build` (typecheck TypeScript puis Vite).
+
 Tests backend seuls, avec coverage :
 
 ```powershell
