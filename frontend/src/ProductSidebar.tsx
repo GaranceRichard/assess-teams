@@ -10,14 +10,6 @@ type Props = {
   onCollapsedChange: (collapsed: boolean) => void;
 };
 
-function ProductMark() {
-  return (
-    <svg aria-hidden="true" className="product-mark" viewBox="0 0 32 32">
-      <path d="M16 3 29 27h-7l-2.2-4H12l-2.2 4H3L16 3Zm0 8.8L14 17h4l-2-5.2Z" />
-    </svg>
-  );
-}
-
 function ToggleIcon({ collapsed }: { collapsed: boolean }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -49,7 +41,7 @@ export function ProductSidebar({
             onNavigate("/dashboard");
           }}
         >
-          <ProductMark />
+          <span aria-hidden="true" className="product-mark" />
           <span className="brand-label">Assess teams</span>
         </a>
       </div>

@@ -102,6 +102,11 @@ lecture défensive) et `test_superadmin_membership_migration` (liens seuls, hist
 `users-layout.spec.ts` contrôle cellules, dimensions, centrage et contraste des deux états,
 avec/sans actions, desktop/mobile et les dix palettes dans les deux modes.
 
+Le logo officiel est couvert par `ProductSidebar.test.tsx` (marque accessible et navigation), puis
+`brand-logo.spec.ts` : chargement SVG vectoriel, contraste dans les dix palettes et les deux modes,
+proportions, alignement, absence de débordement desktop/mobile à densité double et nom masqué en
+sidebar repliée. Le lien reste accessible et ramène au dashboard après un accès Viewer refusé.
+
 ## Stratégie de couverture
 
 Les palettes personnelles sont couvertes par `test_session_palette`, `test_palette_contract` et

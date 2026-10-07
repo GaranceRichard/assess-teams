@@ -33,6 +33,25 @@ function renderSidebar(collapsed = false) {
 }
 
 describe("ProductSidebar", () => {
+  it.each([false, true])(
+    "keeps a decorative mark and an accessible brand (collapsed=%s)",
+    (collapsed) => {
+      renderSidebar(collapsed);
+
+      const brand = screen.getByRole("link", { name: "Assess teams" });
+      expect(brand).toHaveAttribute("href", "/dashboard");
+      expect(brand.querySelector(".product-mark")).toHaveAttribute(
+        "aria-hidden",
+        "true",
+      );
+      expect(brand.querySelector(".brand-label")).toHaveTextContent(
+        "Assess teams",
+      );
+      expect(brand.querySelector("svg")).not.toBeInTheDocument();
+      expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    },
+  );
+
   it("associates an icon with every visible menu item", () => {
     renderSidebar();
 

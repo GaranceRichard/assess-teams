@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 320" role="img" aria-labelledby="title desc">
+  <title id="title">Assess Teams logo</title>
+  <desc id="desc">Lowercase handwritten e with an upward right arrow</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Handwritten e: entry stroke begins before the loop and stays horizontal -->
+    <path d="M72 205
+             C112 202 148 194 184 179
+             C223 163 265 137 292 111
+             C315 89 321 67 306 58
+             C286 46 244 58 207 84
+             C166 113 135 154 128 193
+             C121 231 143 250 181 249
+             C234 247 302 221 382 186"
+          stroke-width="28"/>
+
+    <!-- Straight rising arrow -->
+    <path d="M91 93 L397 31" stroke-width="18"/>
+    <path d="M354 20 L404 29 L369 67" stroke-width="18"/>
+  </g>
+</svg>

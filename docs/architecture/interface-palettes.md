@@ -14,6 +14,11 @@ reste identique quelle que soit la palette.
 Le [Dashboard personnel](dashboard-api.md) expose les dix choix dans Mon profil → Apparence.
 Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat API ne change.
 
+Le symbole officiel est l’asset vectoriel `frontend/src/assets/assess-teams-logo.svg`, dont les
+tracés et le viewBox fournis sont conservés. La sidebar l’utilise comme masque CSS en `currentColor` :
+le symbole suit `text` dans les deux modes. Son cadre de 1,8 rem et le gap de marque restent inchangés ;
+`contain` préserve les proportions. La sidebar repliée masque le nom, mais conserve le lien accessible.
+
 ## Tokens des surfaces
 
 `theme.css` centralise les surfaces et les textes ; `palette.css` fournit les accents des dix couleurs.
