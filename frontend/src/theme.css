@@ -1,3 +1,5 @@
+@import "./light-appearance.css";
+
 :root {
   color-scheme: light;
   --background-base: #f7f7f7;

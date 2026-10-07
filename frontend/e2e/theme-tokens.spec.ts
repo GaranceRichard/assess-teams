@@ -6,7 +6,7 @@ import { contrast, luminance } from "./palette-contrast";
 const stable = ["text", "text-muted", "border", "input-border"];
 const surfaces = ["background", "surface", "surface-raised"];
 
-test("light surfaces stay neutral and the approved dark surfaces stay unchanged", async ({
+test("light bands follow each accent while content stays neutral and dark stays unchanged", async ({
   page,
 }) => {
   await page.goto("/");
@@ -42,6 +42,14 @@ test("light surfaces stay neutral and the approved dark surfaces stay unchanged"
                 `color-mix(in srgb, var(--accent-day) 24%, ${base})`,
               ),
             ),
+            band: resolved("navigation-background"),
+            active: resolved("navigation-active"),
+            expectedBand: resolveColor(
+              "color-mix(in srgb, var(--accent-day) 6%, #f8f8fa)",
+            ),
+            expectedActive: resolveColor(
+              "color-mix(in srgb, var(--accent-day) 14%, #ffffff)",
+            ),
             text: resolved("text"),
             muted: resolved("text-muted"),
             accent: resolved("accent"),
@@ -66,7 +74,20 @@ test("light surfaces stay neutral and the approved dark surfaces stay unchanged"
           "rgb(255, 255, 255)",
           "rgb(255, 255, 255)",
         ]);
-      } else expect(tokens.surfaces).toEqual(tokens.nightBaseline);
+        expect(tokens.band).toBe(tokens.expectedBand);
+        expect(tokens.active).toBe(tokens.expectedActive);
+        expect(luminance(tokens.band)).toBeGreaterThan(0.8);
+        expect(luminance(tokens.active)).toBeLessThan(luminance(tokens.band));
+      } else {
+        expect(tokens.surfaces).toEqual(tokens.nightBaseline);
+        expect(tokens.band).toBe(tokens.surfaces[1]);
+        expect(tokens.active).toBe(tokens.subtle);
+      }
+      expect(contrast(tokens.text, tokens.band)).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(tokens.muted, tokens.band)).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(tokens.accent, tokens.active)).toBeGreaterThanOrEqual(
+        4.5,
+      );
       for (const surface of tokens.surfaces) {
         if (theme === "day") expect(luminance(surface)).toBeGreaterThan(0.65);
         else expect(luminance(surface)).toBeLessThan(0.15);
@@ -90,6 +111,7 @@ test("light surfaces stay neutral and the approved dark surfaces stay unchanged"
       );
     }
     expect(new Set(values.map((tokens) => tokens.accent)).size).toBe(10);
+    expect(new Set(values.map((tokens) => tokens.band)).size).toBe(10);
   }
   for (let index = 0; index < palettes.length; index++) {
     expect(appearances[0][index]).not.toEqual(appearances[1][index]);

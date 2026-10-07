@@ -23,7 +23,8 @@ navigateur.
 
 Les [palettes personnelles](interface-palettes.md) reposent sur `identities.User.interface_palette`,
 les réponses de session et `PATCH /api/session/`. Le sélecteur de Mon profil → Apparence applique des tokens CSS
-sémantiques pour dix accents ; `theme.css` réserve les grandes surfaces claires aux neutres et conserve
+sémantiques pour dix accents ; `theme.css` réserve les surfaces du contenu clair aux neutres, dérive les
+bandeaux clairs de chaque accent via `light-appearance.css` et conserve
 exactement les surfaces sombres validées, avec des textes/bordures lisibles. Changer le mode ne change jamais la couleur choisie, et inversement. Le backend reste autoritaire ; les séries du radar sont indépendantes.
 
 La route `/organization`, visible pour les Superadmins et Admins, matérialise le vertical slice

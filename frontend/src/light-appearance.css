@@ -1,0 +1,126 @@
+/* Light-only roles and refinements: no selector applies to the approved dark mode. */
+:root:not([data-theme="night"]) {
+  --light-band-background: color-mix(in srgb, var(--accent-day) 6%, #f8f8fa);
+  --light-navigation-active: color-mix(in srgb, var(--accent-day) 14%, #ffffff);
+  --navigation-background: var(--light-band-background);
+  --navigation-active: var(--light-navigation-active);
+}
+
+:root:not([data-theme="night"]) .workspace > header {
+  background: var(--light-band-background);
+}
+
+:root:not([data-theme="night"]) .dashboard {
+  padding: 1.5rem 2rem;
+}
+
+:root:not([data-theme="night"]) .dashboard h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+:root:not([data-theme="night"]) .dashboard-grid {
+  gap: 1.25rem;
+}
+
+:root:not([data-theme="night"]) .dashboard-card {
+  padding: 1.25rem;
+  box-shadow: var(--shadow-surface);
+}
+
+:root:not([data-theme="night"]) .dashboard-card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+:root:not([data-theme="night"]) .dashboard-card > p {
+  margin: 0.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+:root:not([data-theme="night"]) .dashboard-card .dashboard-identity {
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+:root:not([data-theme="night"]) .dashboard-card h3 {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  margin: 1rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+:root:not([data-theme="night"]) .dashboard-activity li {
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+:root:not([data-theme="night"]) .dashboard-activity li:first-child {
+  padding-top: 0.5rem;
+}
+
+:root:not([data-theme="night"]) .dashboard-activity li:last-child {
+  padding-bottom: 0;
+}
+
+:root:not([data-theme="night"]) .dashboard-activity p {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+}
+
+:root:not([data-theme="night"]) .dashboard-activity time {
+  font-size: 0.8rem;
+}
+
+:root:not([data-theme="night"]) .dashboard-shortcuts h2 {
+  margin-bottom: 0.75rem;
+}
+
+:root:not([data-theme="night"]) .dashboard-shortcuts ul {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+}
+
+:root:not([data-theme="night"]) .dashboard .palette-picker {
+  margin-top: 0.75rem;
+}
+
+:root:not([data-theme="night"]) .dashboard .palette-panel {
+  padding: 0.75rem;
+  background: var(--surface-secondary);
+}
+
+:root:not([data-theme="night"]) .dashboard .palette-panel legend {
+  font-size: 0.875rem;
+}
+
+:root:not([data-theme="night"]) .dashboard .palette-options label {
+  gap: 0.3rem;
+  padding: 0.45rem;
+  border-color: var(--border);
+  background: var(--surface);
+  font-size: 0.75rem;
+}
+
+:root:not([data-theme="night"])
+  .dashboard
+  .palette-options
+  label:has(:checked) {
+  border-color: var(--accent);
+}
+
+:root:not([data-theme="night"]) .dashboard .palette-swatch {
+  width: 1rem;
+  height: 1rem;
+  flex-basis: 1rem;
+}
+
+@media (max-width: 760px) {
+  :root:not([data-theme="night"]) .dashboard {
+    padding: 1rem;
+  }
+}

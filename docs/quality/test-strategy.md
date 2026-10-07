@@ -108,8 +108,9 @@ Les palettes personnelles sont couvertes par `test_session_palette`, `test_palet
 `test_palette_migration` (persistance, isolation, refus, CSRF, contrats et défaut historique), les tests
 React `PalettePicker` et `AppPalette`, puis `palettes.spec.ts` (reprise, reconnexion, nouveau navigateur,
 clavier et erreur). `theme-tokens.spec.ts` protège les fonds clairs neutres identiques dans les dix palettes, les valeurs
-sombres validées et les contrastes en un seul test ; `theme-surfaces.spec.ts` capture les écrans
-représentatifs et vérifie leurs fonds partagés, blancs en clair et inchangés en sombre. La migration protège aussi les quatre préférences historiques. `results.spec.ts` et
+sombres validées, les bandeaux dérivés de chaque accent et les contrastes en un seul test ; `theme-surfaces.spec.ts` capture les écrans
+représentatifs (dont Bleu/Violet/Vert en clair) et vérifie bandeaux teintés, contenu neutre, densité
+desktop et fonds sombres inchangés. La migration protège aussi les quatre préférences historiques. `results.spec.ts` et
 `results-longitudinal.spec.ts` protègent les séries du radar et des courbes historiques.
 `PlanningLoading.test.tsx` reproduit la réponse initiale obsolète qui effaçait une planification créée
 sous StrictMode ; le parcours `evaluation-versions.spec.ts` vérifie le résultat dans le navigateur réel.

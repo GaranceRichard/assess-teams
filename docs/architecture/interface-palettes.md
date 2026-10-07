@@ -2,13 +2,14 @@
 
 ## Comportement attendu
 
-Le mode clair utilise une hiérarchie lumineuse neutre : fond très clair, sidebar/header/cartes blancs,
-surfaces secondaires gris léger et bordures discrètes. Les mélanges pastel précédents coloraient toutes
-les grandes surfaces avec l’accent ; ils sont retirés uniquement du mode clair.
+Le mode clair associe des bandeaux sidebar/header légèrement teintés à un contenu neutre : fond très
+clair, cartes blanches, surfaces internes gris léger et bordures discrètes. La palette ponctue les
+interactions et les bandeaux ; elle ne colore jamais le fond applicatif ni les grandes cartes.
 
 Le mode sombre validé conserve ses valeurs, sa hiérarchie de surfaces, ses ombres et sa densité.
 Changer Clair/Sombre ne change jamais la couleur choisie ; changer de couleur ne change jamais le mode.
-En clair, les dix palettes ne colorent que les accents, jamais les grandes surfaces.
+En clair, les dix palettes suivent la même dérivation pour les accents et les bandeaux. Le contenu
+reste identique quelle que soit la palette.
 
 Le [Dashboard personnel](dashboard-api.md) expose les dix choix dans Mon profil → Apparence.
 Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat API ne change.
@@ -16,25 +17,37 @@ Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat 
 ## Tokens des surfaces
 
 `theme.css` centralise les surfaces et les textes ; `palette.css` fournit les accents des dix couleurs.
+`light-appearance.css`, importé par le thème, contient uniquement des sélecteurs excluant `night` :
+les dérivés des bandeaux et les raffinements visuels du Dashboard ne peuvent pas s’appliquer au sombre.
 Les composants consomment ces rôles communs, sans thème complet ni patch Dashboard par palette.
 
-| Token               | Clair     | Sombre validé                      |
-| ------------------- | --------- | ---------------------------------- |
-| `background`        | `#f7f7f7` | 24 % `accent-day` + 76 % `#171717` |
-| `surface`           | `#ffffff` | 24 % `accent-day` + 76 % `#262626` |
-| `surface-raised`    | `#ffffff` | 24 % `accent-day` + 76 % `#303030` |
-| `surface-secondary` | `#f3f3f3` | alias de `background`              |
-| `border`            | `#e3e3e3` | `#525252`                          |
-| `input-border`      | `#737373` | `#a3a3a3`                          |
-| `text`              | `#171717` | `#f5f5f5`                          |
-| `text-muted`        | `#525252` | `#b8b8b8`                          |
+| Token                     | Clair                              | Sombre validé                      |
+| ------------------------- | ---------------------------------- | ---------------------------------- |
+| `background`              | `#f7f7f7`                          | 24 % `accent-day` + 76 % `#171717` |
+| `surface`                 | `#ffffff`                          | 24 % `accent-day` + 76 % `#262626` |
+| `surface-raised`          | `#ffffff`                          | 24 % `accent-day` + 76 % `#303030` |
+| `surface-secondary`       | `#f3f3f3`                          | alias de `background`              |
+| `light-band-background`   | 6 % `accent-day` + 94 % `#f8f8fa`  | non appliqué                       |
+| `light-navigation-active` | 14 % `accent-day` + 86 % `#ffffff` | non appliqué                       |
+| `border`                  | `#e3e3e3`                          | `#525252`                          |
+| `input-border`            | `#737373`                          | `#a3a3a3`                          |
+| `text`                    | `#171717`                          | `#f5f5f5`                          |
+| `text-muted`              | `#525252`                          | `#b8b8b8`                          |
 
-Les trois mélanges sRGB sombres sont conservés exactement ; le clair n’a plus de dépendance à un accent.
+Les trois mélanges sRGB sombres sont conservés exactement ; les surfaces du contenu clair ne dépendent
+pas de l’accent. Les bandeaux utilisent un mélange sRGB très léger, désaturé par sa base presque blanche ;
+la navigation active emploie une proportion plus visible. Aucune couleur n’a de règle dédiée.
 `heading`, `muted`, `secondary-text`, `navigation-background`, `navigation-text` et `sidebar-border`
-restent des alias. Header et sidebar utilisent `surface`, menus/modales/tooltips `surface-raised`.
+restent des alias. En clair, `navigation-background` et le header utilisent `light-band-background`,
+`navigation-active` utilise `light-navigation-active`. En sombre, ces rôles gardent leurs valeurs
+validées (`surface` et `accent-subtle`). Menus/modales/tooltips utilisent `surface-raised`.
 `sidebar-control` utilise `surface-secondary`, dont la valeur sombre préserve son ancien fond.
 Les entêtes de tableaux clairs utilisent le gris secondaire ; cartes et lignes d’activité restent
-séparées par la bordure neutre. Structure, padding, typographie et densité du Dashboard sont conservés.
+séparées par la bordure neutre. Le Dashboard conserve ses sections et comportements : son identité et
+son sélecteur sont plus compacts en clair, l’Apparence séparée par une ligne, l’activité structurée par
+les espaces et textes secondaires. Les cartes blanches reçoivent une ombre légère ; le panneau inline
+des palettes utilise le gris secondaire avec des échantillons blancs. La vue desktop représentative
+(trois événements) avec sélecteur fermé tient dans un viewport de 720 px. Aucun style de disposition du shell n’est modifié.
 
 En clair seulement, `shadow-surface` vaut `0 0.5rem 1.5rem rgb(0 0 0 / 4%)` et `shadow-raised`
 `0 0.75rem 2rem rgb(0 0 0 / 10%)`. Les règles conditionnelles couvrent les cartes/tableaux et les menus/
@@ -70,7 +83,7 @@ Les cinq rôles sont partagés, sans créer dix thèmes complets :
 Les alias `primary`, `primary-hover`, `on-primary`, `accent-text`, `focus`, `selection` et
 `navigation-active` permettent aux composants existants de consommer ces rôles. L’accent s’applique aux
 actions principales, liens, navigation active, focus, contrôles sélectionnés et surtitres.
-Les fonds subtils signalent les sélections locales ; les grandes surfaces claires restent neutres.
+Les fonds subtils signalent les sélections locales ; les grandes surfaces du contenu clair restent neutres.
 Les statuts métier, dangers et avertissements conservent leurs couleurs sémantiques indépendantes.
 Le radar et les courbes conservent leurs séries distinctes, formes et pointillés indépendants des accents ;
 leurs textes/grilles suivent les mêmes gris clair/sombre que l’interface.
@@ -112,12 +125,15 @@ les dix accents, les rôles, la persistance, l’isolation, les valeurs invalide
 React vérifie les dix choix, le fallback, l’indépendance des dimensions, la restauration et le rollback.
 Un seul test navigateur parcourt les palettes : fonds clairs identiques, achromatiques et lumineux,
 valeurs sombres égales aux trois mélanges validés, contrastes ≥ 4,5:1 pour textes principaux/secondaires,
-accents et hover. Il échoue avant correction car les fonds clairs sont teintés. Les captures sombres
-Dashboard, Pilotage et modale sont comparées à la référence avant modification pour protéger leur rendu.
+accents et hover, bandeaux dérivés distincts pour les dix palettes et navigation active lisible.
+Il échoue avant correction sur les bandeaux encore blancs. Les captures sombres Dashboard, Pilotage,
+Results et modale sont comparées à la référence avant modification, avec animations et scroll
+stabilisés, pour protéger leur rendu.
 Il ne multiplie pas les parcours métier pour les vingt combinaisons.
 `palettes.spec.ts` couvre persistance réelle, reconnexion, navigateur neuf, clavier et refus.
 `theme-surfaces.spec.ts` vérifie les fonds calculés et capture des écrans représentatifs dans les deux
-modes et sur mobile, avec des métriques de police élargies. La CI Linux a révélé une largeur minimale
+modes, en clair Bleu/Violet/Vert et sur mobile, avec des métriques de police élargies. Il protège aussi
+la hauteur de la vue desktop claire avec Apparence repliée. La CI Linux a révélé une largeur minimale
 intrinsèque du fieldset et des colonnes, causant un débordement de 7 px à 390 px. Le panneau borne sa
 largeur au viewport, annule ce minimum et autorise la grille et ses libellés à se replier ; le test
 reproduit le débordement avant correction. Les E2E Results et Pilotage protègent aussi les composants et séries existants.

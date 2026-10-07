@@ -7,9 +7,8 @@ import { seedSteeringContext } from "./steering-fixture";
 async function themedSurfaces(page: Page) {
   const selectors = {
     background: "html",
+    "navigation-background": ".product-sidebar, .workspace > header",
     surface: [
-      ".product-sidebar",
-      ".workspace > header",
       ".dashboard-card",
       ".steering-page",
       ".results-page",
@@ -17,12 +16,18 @@ async function themedSurfaces(page: Page) {
       "input:not([type=radio]):not([type=checkbox])",
       "select",
     ].join(", "),
-    "surface-raised": ".palette-panel, .organization-dialog",
+    "surface-raised": ".organization-dialog",
+    "surface-secondary": ".dashboard .palette-panel",
   };
   const colors = await page.evaluate((selectors) => {
     return Object.entries(selectors).flatMap(([token, selector]) => {
       const probe = document.createElement("span");
-      probe.style.backgroundColor = `var(--${token})`;
+      const role =
+        token === "surface-secondary" &&
+        document.documentElement.dataset.theme === "night"
+          ? "surface-raised"
+          : token;
+      probe.style.backgroundColor = `var(--${role})`;
       document.body.append(probe);
       const expected = getComputedStyle(probe).backgroundColor;
       probe.remove();
@@ -30,27 +35,34 @@ async function themedSurfaces(page: Page) {
         name: element.className || element.tagName,
         color: getComputedStyle(element).backgroundColor,
         expected,
+        band: token === "navigation-background",
         night: document.documentElement.dataset.theme === "night",
       }));
     });
   }, selectors);
   expect(colors.length).toBeGreaterThan(2);
-  for (const { name, color, expected, night } of colors) {
+  for (const { name, color, expected, band, night } of colors) {
     expect(color, name).toBe(expected);
     if (night) expect(luminance(color), name).toBeLessThan(0.15);
-    else expect(luminance(color), name).toBeGreaterThan(0.9);
+    else expect(luminance(color), name).toBeGreaterThan(band ? 0.8 : 0.88);
   }
 }
 
 async function capture(page: Page, name: string) {
   await themedSurfaces(page);
+  await page
+    .locator(".dashboard-card, .dashboard-feed")
+    .evaluateAll((elements) => {
+      elements.forEach((element) => element.scrollTo(0, 0));
+    });
   await page.screenshot({
+    animations: "disabled",
     path: test.info().outputPath(`${name}.png`),
     fullPage: true,
   });
 }
 
-test("representative dashboard, forms, dialogs, Results and Steering use neutral light and preserved dark surfaces", async ({
+test("representative screens use accent light bands, neutral content and preserved dark surfaces", async ({
   page,
 }) => {
   seedSteeringContext();
@@ -76,6 +88,22 @@ test("representative dashboard, forms, dialogs, Results and Steering use neutral
     await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
     await capture(page, `dashboard-${mode}`);
     await page.getByText("Couleurs", { exact: true }).click();
+    if (mode === "day") {
+      for (const palette of ["Violet", "Vert", "Bleu"]) {
+        await page.getByText("Couleurs", { exact: true }).click();
+        await page.getByRole("radio", { name: palette, exact: true }).check();
+        await expect(page.getByRole("status")).toHaveText(
+          "Couleur enregistrée.",
+        );
+        await page.getByText("Couleurs", { exact: true }).click();
+        await capture(page, `dashboard-day-${palette}`);
+      }
+      expect(
+        await page
+          .getByRole("region", { name: "Raccourcis utiles" })
+          .evaluate((element) => element.getBoundingClientRect().bottom),
+      ).toBeLessThanOrEqual(720);
+    }
     await page
       .getByRole("region", { name: "Raccourcis utiles" })
       .getByRole("link", { name: "Pilotage", exact: true })
