@@ -16,6 +16,11 @@ from assessments.adapters.api.serializers import (
     EvaluationSerializer,
 )
 from assessments.models import EvaluationRun, EvaluationRunState
+from config.collection_pagination import (
+    CollectionQuerySerializer,
+    collection_response,
+    collection_schema,
+)
 from journals.activity_records import evaluation_activity
 from journals.log_context import describe_log_attempt
 from journals.models import ActivityAction, LogSource
@@ -30,11 +35,17 @@ class EvaluationListCreateView(APIView):
             "Liste, selon leur ordre interne invisible, tous les modèles d’évaluation "
             "pour un Superadmin et ceux de l’organisation d’un Admin."
         ),
-        responses={200: EvaluationSerializer(many=True), 403: OpenApiResponse()},
+        parameters=[CollectionQuerySerializer],
+        responses={
+            200: collection_schema(EvaluationSerializer),
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     def get(self, request):
         evaluations = visible_evaluations(request.user)
-        return Response(EvaluationSerializer(evaluations, many=True).data)
+        return collection_response(request, evaluations, EvaluationSerializer, "organization_id")
 
     @extend_schema(
         description=(

@@ -150,6 +150,8 @@ test("a Superadmin creates, updates, deactivates and reactivates an invited user
   await page.getByLabel("Adresse mail").fill(managedEmail);
   await page.getByLabel("Type utilisateur").selectOption("Coach");
   await page.getByRole("button", { name: "Valider" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByLabel("Rechercher un utilisateur").fill("managed-");
   const managedRow = page.getByRole("row").filter({ hasText: managedEmail });
   await expect(managedRow.getByText("En attente")).toBeVisible();
   await managedRow.getByRole("button", { name: "Modifier" }).click();
@@ -163,6 +165,7 @@ test("a Superadmin creates, updates, deactivates and reactivates an invited user
     .click();
   await expect(managedRow.getByText("Désactivé")).toBeVisible();
   await page.reload();
+  await page.getByLabel("Rechercher un utilisateur").fill("managed-");
   await expect(managedRow.getByText("Désactivé")).toBeVisible();
   await managedRow.getByRole("button", { name: "Réactiver" }).click();
   await expect(managedRow.getByText("Actif", { exact: true })).toBeVisible();

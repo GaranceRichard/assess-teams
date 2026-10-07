@@ -22,6 +22,7 @@ from assessments.application.taking import (
     start_evaluation,
 )
 from assessments.application.taking_scope import is_evaluation_admin
+from config.collection_pagination import PageQuerySerializer, collection_response, collection_schema
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
 
@@ -44,19 +45,26 @@ class EvaluationRunListView(APIView):
     permission_classes = [CanTakeEvaluations]
 
     @extend_schema(
+        operation_id="api_evaluations_list",
         description=(
             "Liste les évaluations assignées au Coach ou attendues dans le périmètre "
             "administratif, avec auteur, complétion et dernière révision."
         ),
-        responses={200: EvaluationRunListSerializer(many=True), 403: OpenApiResponse()},
+        parameters=[PageQuerySerializer],
+        responses={
+            200: collection_schema(EvaluationRunListSerializer),
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     def get(self, request):
-        serializer = EvaluationRunListSerializer(
+        return collection_response(
+            request,
             visible_evaluation_runs(request.user),
-            many=True,
+            EvaluationRunListSerializer,
             context={"request": request},
         )
-        return Response(serializer.data)
 
 
 class EvaluationRunView(APIView):

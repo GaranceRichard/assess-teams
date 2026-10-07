@@ -107,11 +107,11 @@ it("keeps activity organization filtering, pagination and reset separate from HT
   expect(screen.queryByLabelText("Méthode")).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
   await waitFor(() =>
-    expect(screen.getByText("Page 2 · 21 entrées")).toBeVisible(),
+    expect(screen.getByText("Page 2 / 2 · 21 éléments")).toBeVisible(),
   );
   fireEvent.click(screen.getByRole("button", { name: "Précédent" }));
   await waitFor(() =>
-    expect(screen.getByText("Page 1 · 21 entrées")).toBeVisible(),
+    expect(screen.getByText("Page 1 / 2 · 21 éléments")).toBeVisible(),
   );
   fireEvent.click(screen.getByRole("button", { name: "Effacer" }));
   expect(screen.getByLabelText("Organisation")).toHaveValue("");

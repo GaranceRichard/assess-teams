@@ -1,3 +1,4 @@
+import { CollectionFrame } from "./CollectionFrame";
 import { useEffect, useState } from "react";
 
 import type { SessionUser } from "./auth";
@@ -13,6 +14,7 @@ export function LogsPage({ actor }: { actor: SessionUser }) {
   const [draft, setDraft] = useState(emptyLogFilters);
   const [filters, setFilters] = useState(emptyLogFilters);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<JournalPage<LogEntry> | null>(null);
   const [error, setError] = useState("");
   const options = useLogOptions(draft.organization, actor.is_superuser);
@@ -22,12 +24,16 @@ export function LogsPage({ actor }: { actor: SessionUser }) {
     listHttpLogs(filters, page)
       .then((next) => {
         if (active) {
+          setLoading(false);
           setData(next);
           setError("");
         }
       })
       .catch(() => {
-        if (active) setError("Impossible de charger les logs.");
+        if (active) {
+          setError("Impossible de charger les logs.");
+          setLoading(false);
+        }
       });
     return () => {
       active = false;
@@ -35,17 +41,19 @@ export function LogsPage({ actor }: { actor: SessionUser }) {
   }, [filters, page]);
 
   function apply() {
+    setLoading(true);
     setPage(1);
     setFilters({ ...draft, organization: options.selected });
   }
   function clear() {
     setDraft(emptyLogFilters);
-    setFilters(emptyLogFilters);
+    setFilters({ ...emptyLogFilters });
+    setLoading(true);
     setPage(1);
   }
 
   return (
-    <section className="journal-page">
+    <section className="journal-page product-page">
       <p className="eyebrow">Exploitation et diagnostic</p>
       <h1>Logs</h1>
       <p className="journal-intro">
@@ -65,36 +73,27 @@ export function LogsPage({ actor }: { actor: SessionUser }) {
           {options.error}
         </p>
       )}
-      {error ? (
-        <p className="form-error" role="alert">
-          {error}
-        </p>
-      ) : data ? (
-        <>
-          <LogEntries entries={data.results} />
-          <nav className="journal-pagination" aria-label="Pagination des logs">
-            <button
-              className="secondary"
-              disabled={!data.previous}
-              onClick={() => setPage((current) => current - 1)}
-            >
-              Précédent
-            </button>
-            <span>
-              Page {page} · {data.count} entrées
-            </span>
-            <button
-              className="secondary"
-              disabled={!data.next}
-              onClick={() => setPage((current) => current + 1)}
-            >
-              Suivant
-            </button>
-          </nav>
-        </>
-      ) : (
-        <p>Chargement…</p>
-      )}
+      <CollectionFrame
+        page={page}
+        count={data?.count ?? 0}
+        loading={loading}
+        onChange={(value) => {
+          setLoading(true);
+          setPage(value);
+        }}
+      >
+        {error ? (
+          <p className="form-error" role="alert">
+            {error}
+          </p>
+        ) : data ? (
+          <>
+            <LogEntries entries={data.results} />
+          </>
+        ) : (
+          <p>Chargement…</p>
+        )}
+      </CollectionFrame>
     </section>
   );
 }

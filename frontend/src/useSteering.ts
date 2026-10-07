@@ -8,6 +8,8 @@ export function useSteering(isSuperuser: boolean) {
     [],
   );
   const [organizationId, setOrganizationId] = useState("");
+  const [selection, setSelection] = useState({ organizationId: "", page: 1 });
+  const page = selection.organizationId === organizationId ? selection.page : 1;
   const [data, setData] = useState<SteeringProjection | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -34,7 +36,7 @@ export function useSteering(isSuperuser: boolean) {
   useEffect(() => {
     if (!organizationId) return;
     let current = true;
-    getSteering(Number(organizationId)).then(
+    getSteering(Number(organizationId), page).then(
       (projection) => {
         if (!current) return;
         setData(projection);
@@ -49,7 +51,7 @@ export function useSteering(isSuperuser: boolean) {
     return () => {
       current = false;
     };
-  }, [organizationId]);
+  }, [organizationId, page]);
   function selectOrganization(value: string) {
     setOrganizationId(value);
     setData(null);
@@ -63,5 +65,11 @@ export function useSteering(isSuperuser: boolean) {
     loading,
     error,
     selectOrganization,
+    page,
+    changePage: (page: number) => {
+      setLoading(true);
+      setError("");
+      setSelection({ organizationId, page });
+    },
   };
 }

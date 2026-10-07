@@ -146,3 +146,5 @@ Le pre-push exécute `quality:full` ; la [CI](ci.md) répartit ses scopes indép
 Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le coverage frontend exclut seulement les sorties générées, l'entrée de rendu et les fichiers de configuration ou de test ; il ne retire pas du calcul le code applicatif testable.
 
 Les preuves par domaine sont détaillées dans l’[inventaire des couvertures fonctionnelles](functional-coverage.md).
+
+Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentaire) ajoute les invariants viewport/overflow, pagination serveur bornée, filtres et réponses obsolètes aux suites API, React et Playwright.

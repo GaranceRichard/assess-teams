@@ -7,13 +7,15 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from config.collection_pagination import collection_response, collection_schema
 from identities.adapters.api.admin_permissions import CanViewManagedUsers, actor_for
 from identities.adapters.api.admin_serializers import (
     InviteUserSerializer,
+    ManagedUserQuerySerializer,
     ManagedUserSerializer,
     UpdateManagedUserSerializer,
 )
-from identities.adapters.api.managed_user_scope import visible_managed_users
+from identities.adapters.api.managed_user_scope import filtered_managed_users, visible_managed_users
 from identities.adapters.api.organization_scope import assigned_admin_organization
 from identities.adapters.api.user_activity import (
     UserSnapshot,
@@ -47,11 +49,17 @@ class ManagedUserListCreateView(APIView):
             "ne voit que les membres de son organisation, ou une liste vide "
             "sans rattachement. Les inactifs sont limités aux cibles administrables. Viewer : 403."
         ),
-        responses={200: ManagedUserSerializer(many=True), 403: OpenApiResponse()},
+        parameters=[ManagedUserQuerySerializer],
+        responses={
+            200: collection_schema(ManagedUserSerializer),
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     def get(self, request):
-        users = visible_managed_users(request.user).order_by("username", "email", "pk")
-        return Response(ManagedUserSerializer(users, many=True).data)
+        users = filtered_managed_users(request.user, request.query_params)
+        return collection_response(request, users, ManagedUserSerializer)
 
     @extend_schema(
         description=(

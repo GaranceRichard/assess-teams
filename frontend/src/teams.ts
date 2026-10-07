@@ -1,3 +1,4 @@
+import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
 
 export type TeamCoach = { id: number; identifier: string; is_active?: boolean };
@@ -28,8 +29,22 @@ function writeOptions(method: string, input?: TeamInput): RequestInit {
 
 export function listTeams(
   organizationId: number,
+  includeArchived?: boolean,
+): Promise<Team[]>;
+export function listTeams(
+  organizationId: number,
+  includeArchived: boolean,
+  page: number,
+): Promise<CollectionPage<Team>>;
+export function listTeams(
+  organizationId: number,
   includeArchived = false,
-): Promise<Team[]> {
+  page?: number,
+): Promise<Team[] | CollectionPage<Team>> {
+  if (page !== undefined)
+    return request(
+      `/api/admin/organizations/${organizationId}/teams/${pageQuery(page)}&include_archived=${includeArchived}`,
+    );
   const query = includeArchived ? "?include_archived=true" : "";
   return request(`/api/admin/organizations/${organizationId}/teams/${query}`);
 }

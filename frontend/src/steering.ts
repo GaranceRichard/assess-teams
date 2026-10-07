@@ -25,6 +25,7 @@ export type SteeringProjection = {
     last_completed_at: string | null;
   };
   teams: SteeringTeam[];
+  pagination?: { count: number; page: number; pages: number };
 };
 
 async function request<T>(path: string): Promise<T> {
@@ -36,8 +37,10 @@ async function request<T>(path: string): Promise<T> {
 }
 export const listSteeringOrganizations = () =>
   request<SteeringOrganization[]>("organizations/");
-export const getSteering = (id: number) =>
-  request<SteeringProjection>(`?organization_id=${id}`);
+export const getSteering = (id: number, page?: number) =>
+  request<SteeringProjection>(
+    `?organization_id=${id}${page === undefined ? "" : `&page=${page}`}`,
+  );
 
 export function steeringResultsPath(
   organizationId: number,

@@ -60,6 +60,7 @@ export function ProductSidebar({
             aria-current={path === item.path ? "page" : undefined}
             aria-label={collapsed ? item.title : undefined}
             data-tooltip={collapsed ? item.title : undefined}
+            title={collapsed ? item.title : undefined}
             href={item.path}
             onClick={(event) => {
               event.preventDefault();

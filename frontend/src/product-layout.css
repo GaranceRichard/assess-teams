@@ -1,0 +1,196 @@
+/* Product geometry is shared by every route; mobile keeps natural flow. */
+.product-page {
+  min-width: 0;
+  margin: 0;
+  padding: 1.25rem;
+  gap: 0.75rem;
+}
+.product-page h1 {
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  line-height: 1.15;
+}
+.product-page h2 {
+  font-size: 1.1rem;
+}
+.product-page p {
+  margin: 0.35rem 0;
+}
+.product-page [class$="-heading"] {
+  margin-bottom: 0;
+}
+.page-viewport,
+.collection-frame,
+.collection-scroll {
+  min-height: 0;
+  min-width: 0;
+}
+.collection-frame {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  overflow: hidden;
+}
+.collection-scroll {
+  flex: 1 1 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.collection-scroll:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+.pagination {
+  display: flex;
+  min-block-size: 3.5rem;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+.collection-scroll .table-wrap,
+.collection-scroll .log-table-wrap,
+.collection-scroll .steering-table {
+  overflow: visible;
+  margin: 0;
+}
+.collection-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
+}
+.dialog,
+.evaluation-dialog,
+.organization-dialog,
+.planning-dialog {
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+}
+.product-page .journal-filters {
+  margin: 0;
+  padding: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+}
+.product-page .journal-filters input,
+.product-page .journal-filters select {
+  padding: 0.5rem;
+}
+.product-page .journal-day {
+  margin-top: 0.75rem;
+}
+@media (min-width: 761px) {
+  html.product-active,
+  .product-active body,
+  .product-active #root {
+    height: 100%;
+    overflow: hidden;
+  }
+  .app-shell {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .workspace > header div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .workspace > header button {
+    flex-shrink: 0;
+  }
+  .workspace > header {
+    flex: 0 0 auto;
+    padding: 0.75rem 1.25rem;
+  }
+  .product-sidebar {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding-top: 1rem;
+  }
+  .sidebar-heading {
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+  }
+  .product-sidebar nav {
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .page-viewport {
+    display: flex;
+    flex: 1 1 0;
+    overflow: hidden;
+  }
+  .product-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    overflow: auto;
+  }
+  .product-page > * {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+  .product-page > .collection-frame,
+  .product-page > .page-content {
+    flex: 1 1 0;
+    /* Shared accessibility floor: cramped/zoomed pages can scroll internally. */
+    min-block-size: 8rem;
+  }
+  .page-content {
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .placeholder {
+    align-self: start;
+    margin: 1.25rem;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell {
+    min-height: 100dvh;
+  }
+  .page-viewport {
+    min-width: 0;
+  }
+  .product-page {
+    padding: 1rem;
+  }
+  .product-page [class$="-heading"] {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .collection-frame {
+    display: block;
+  }
+  .collection-scroll {
+    overflow: auto;
+  }
+  .pagination {
+    position: sticky;
+    bottom: 0;
+  }
+  .product-page .journal-filters {
+    grid-template-columns: 1fr;
+  }
+  .product-page .evaluation-workspace,
+  .product-page .planning-workspace,
+  .product-page .results-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

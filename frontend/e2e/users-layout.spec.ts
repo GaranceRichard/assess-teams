@@ -22,6 +22,7 @@ test("Superadmin has no membership or self actions and status badges stay center
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Utilisateurs" }).click();
+  await page.getByLabel("Rechercher un utilisateur").fill("layout-");
   const rootRow = page
     .getByRole("row")
     .filter({ has: page.getByText("layout-root", { exact: true }) });

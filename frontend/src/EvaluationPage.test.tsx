@@ -147,6 +147,7 @@ it("confirms evaluation deletion and reports loading failure", async () => {
 
   api.listEvaluations.mockRejectedValue(new Error("offline"));
   render(<EvaluationPage />);
+  await selectOrganization();
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger les évaluations",
   );

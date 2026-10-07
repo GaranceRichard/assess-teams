@@ -48,10 +48,13 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
       : []),
   ];
   return (
-    <section className="dashboard" aria-labelledby="dashboard-title">
+    <section
+      className="dashboard product-page"
+      aria-labelledby="dashboard-title"
+    >
       <p className="eyebrow">Votre espace</p>
       <h1 id="dashboard-title">Tableau de bord</h1>
-      <div className="dashboard-grid">
+      <div className="dashboard-grid page-content">
         <section className="dashboard-card" aria-labelledby="profile-title">
           <h2 id="profile-title">Mon profil</h2>
           <p className="dashboard-identity">{name || user.username}</p>
@@ -83,7 +86,7 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
           <PalettePicker user={user} preference={preference} />
         </section>
         <section
-          className="dashboard-card"
+          className="dashboard-card dashboard-activity-card"
           aria-labelledby="activity-title"
           aria-busy={!data && !error}
         >
@@ -109,10 +112,17 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
             </>
           )}
           {data && (
-            <DashboardActivity
-              events={data.recent_activity}
-              global={data.activity_scope === "global"}
-            />
+            <div
+              className="dashboard-feed collection-scroll"
+              tabIndex={0}
+              role="region"
+              aria-label="Activité récente bornée"
+            >
+              <DashboardActivity
+                events={data.recent_activity}
+                global={data.activity_scope === "global"}
+              />
+            </div>
           )}
         </section>
         <section

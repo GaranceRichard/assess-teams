@@ -13,6 +13,11 @@ from assessments.adapters.api.schedule_serializers import (
 )
 from assessments.application.schedule_notifications import notify_schedule_created
 from assessments.models import EvaluationRunState
+from config.collection_pagination import (
+    CollectionQuerySerializer,
+    collection_response,
+    collection_schema,
+)
 from journals.activity_records import (
     evaluation_schedule_deleted,
     evaluation_schedule_updated,
@@ -31,11 +36,20 @@ class EvaluationScheduleListCreateView(APIView):
             "Liste les planifications de toutes les organisations pour un Superadmin "
             "et uniquement celles de l’organisation d’un Admin."
         ),
-        responses={200: EvaluationScheduleSerializer(many=True), 403: OpenApiResponse()},
+        parameters=[CollectionQuerySerializer],
+        responses={
+            200: collection_schema(EvaluationScheduleSerializer),
+            400: OpenApiResponse(),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     def get(self, request):
-        return Response(
-            EvaluationScheduleSerializer(visible_schedules(request.user), many=True).data
+        return collection_response(
+            request,
+            visible_schedules(request.user),
+            EvaluationScheduleSerializer,
+            "team__organization_id",
         )
 
     @extend_schema(

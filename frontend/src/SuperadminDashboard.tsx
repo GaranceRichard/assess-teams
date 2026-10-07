@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { CollectionFrame } from "./CollectionFrame";
+import { usePagedCollection } from "./usePagedCollection";
+import { useCallback, useState } from "react";
 
 import type { SessionUser } from "./auth";
 import { ConfirmDialog } from "./ConfirmDialog";
@@ -22,18 +24,18 @@ import "./admin-users.css";
 type Props = { actor: SessionUser };
 
 export function SuperadminDashboard({ actor }: Props) {
-  const [users, setUsers] = useState<ManagedUser[]>([]);
+  const [search, setSearch] = useState("");
+  const load = useCallback(
+    (page: number) => listManagedUsers(page, search),
+    [search],
+  );
+  const collection = usePagedCollection<ManagedUser>(load, search);
+  const { items: users, setItems: setUsers } = collection;
   const [editing, setEditing] = useState<ManagedUser | "new" | null>(null);
   const [deactivating, setDeactivating] = useState<ManagedUser | null>(null);
   const [error, setError] = useState<string | null>(null);
   const allowedCreationRoles = creationRoles(actor);
   const showsOrganizations = actor.is_superuser || actor.role === "Admin";
-
-  useEffect(() => {
-    listManagedUsers()
-      .then(setUsers)
-      .catch(() => setError("Impossible de charger les utilisateurs."));
-  }, []);
 
   async function save(input: UserInput) {
     try {
@@ -73,7 +75,7 @@ export function SuperadminDashboard({ actor }: Props) {
   }
 
   return (
-    <section className="users-page">
+    <section className="users-page product-page">
       <div className="users-heading">
         <div>
           <p className="eyebrow">Administration</p>
@@ -94,67 +96,85 @@ export function SuperadminDashboard({ actor }: Props) {
           {error}
         </p>
       )}
-      <div className="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Identifiant</th>
-              <th>Mail</th>
-              <th>Type utilisateur</th>
-              {showsOrganizations && <th>Organisations</th>}
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>
-                  {user.identifier}
-                  {user.pending && <span className="pending">En attente</span>}
-                </td>
-                <td>{user.email}</td>
-                <td>{user.user_type}</td>
-                {showsOrganizations && (
-                  <td>
-                    {user.user_type === "Superadmin"
-                      ? "—"
-                      : user.organizations.length > 0
-                        ? user.organizations.join(", ")
-                        : "Aucune organisation"}
-                  </td>
-                )}
-                <td>
-                  <div className="row-actions users-actions">
-                    <span className="status-badge">
-                      {user.is_active ? "Actif" : "Désactivé"}
-                    </span>
-                    {canManageTarget(actor, user) && (
-                      <>
-                        <button
-                          className="secondary"
-                          onClick={() => setEditing(user)}
-                        >
-                          Modifier
-                        </button>
-                        <button
-                          className="danger-outline"
-                          onClick={() =>
-                            user.is_active
-                              ? setDeactivating(user)
-                              : void changeActivation(user, true)
-                          }
-                        >
-                          {user.is_active ? "Désactiver" : "Réactiver"}
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </td>
+      <label className="collection-search">
+        Rechercher un utilisateur
+        <input
+          type="search"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
+      </label>
+      <CollectionFrame {...collection} onChange={collection.changePage}>
+        {collection.failed && !error && (
+          <p role="alert">Impossible de charger les utilisateurs.</p>
+        )}
+        {collection.loading && (
+          <p role="status">Chargement des utilisateurs…</p>
+        )}
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Identifiant</th>
+                <th>Mail</th>
+                <th>Type utilisateur</th>
+                {showsOrganizations && <th>Organisations</th>}
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id}>
+                  <td>
+                    {user.identifier}
+                    {user.pending && (
+                      <span className="pending">En attente</span>
+                    )}
+                  </td>
+                  <td>{user.email}</td>
+                  <td>{user.user_type}</td>
+                  {showsOrganizations && (
+                    <td>
+                      {user.user_type === "Superadmin"
+                        ? "—"
+                        : user.organizations.length > 0
+                          ? user.organizations.join(", ")
+                          : "Aucune organisation"}
+                    </td>
+                  )}
+                  <td>
+                    <div className="row-actions users-actions">
+                      <span className="status-badge">
+                        {user.is_active ? "Actif" : "Désactivé"}
+                      </span>
+                      {canManageTarget(actor, user) && (
+                        <>
+                          <button
+                            className="secondary"
+                            onClick={() => setEditing(user)}
+                          >
+                            Modifier
+                          </button>
+                          <button
+                            className="danger-outline"
+                            onClick={() =>
+                              user.is_active
+                                ? setDeactivating(user)
+                                : void changeActivation(user, true)
+                            }
+                          >
+                            {user.is_active ? "Désactiver" : "Réactiver"}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CollectionFrame>
       {editing && (
         <UserDialog
           user={editing === "new" ? undefined : editing}

@@ -10,6 +10,8 @@ import "./styles.css";
 import "./sidebar.css";
 import "./theme.css";
 import "./palette.css";
+import "./product-layout.css";
+import "./product-panels.css";
 
 type AuthState =
   | { kind: "loading" }

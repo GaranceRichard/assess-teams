@@ -138,7 +138,9 @@ it("cancels or reports a refused deactivation", async () => {
   fireEvent.click(
     screen.getByRole("button", { name: "Confirmer la désactivation" }),
   );
-  expect(await screen.findByRole("alert")).toHaveTextContent("refused");
+  await waitFor(() =>
+    expect(screen.getByRole("alert")).toHaveTextContent("refused"),
+  );
 });
 
 it("shows loading and mutation failures while preserving the dialog", async () => {
@@ -159,6 +161,8 @@ it("shows loading and mutation failures while preserving the dialog", async () =
     target: { value: "bob@example.com" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Valider" }));
-  expect(await screen.findByRole("alert")).toHaveTextContent("refused");
+  await waitFor(() =>
+    expect(screen.getByRole("alert")).toHaveTextContent("refused"),
+  );
   fireEvent.click(screen.getByRole("button", { name: "Annuler" }));
 });

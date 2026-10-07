@@ -105,7 +105,7 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
   }
 
   return (
-    <section className="organizations-page">
+    <section className="organizations-page product-page">
       <div>
         <p className="eyebrow">Administration</p>
         <h1>Organisations</h1>

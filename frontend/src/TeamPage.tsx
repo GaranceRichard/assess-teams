@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { CollectionFrame } from "./CollectionFrame";
+import { usePagedCollection } from "./usePagedCollection";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { SessionUser } from "./auth";
 import { listOrganizations, type Organization } from "./organizations";
@@ -20,7 +22,16 @@ type Props = { actor: SessionUser };
 export function TeamPage({ actor }: Props) {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [organizationId, setOrganizationId] = useState<number | null>(null);
-  const [teams, setTeams] = useState<Team[]>([]);
+  const loadTeams = useCallback(
+    (page: number) => listTeams(organizationId!, false, page),
+    [organizationId],
+  );
+  const collection = usePagedCollection<Team>(
+    loadTeams,
+    String(organizationId),
+    organizationId !== null,
+  );
+  const { items: teams, setItems: setTeams } = collection;
   const [editing, setEditing] = useState<Team | "new" | null>(null);
   const [deleting, setDeleting] = useState<Team | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -54,16 +65,6 @@ export function TeamPage({ actor }: Props) {
       .catch(() => setError("Impossible de charger les organisations."));
   }, []);
 
-  useEffect(() => {
-    if (organizationId === null) return;
-    listTeams(organizationId)
-      .then((loaded) => {
-        setTeams(loaded);
-        setError(null);
-      })
-      .catch(() => setError("Impossible de charger les équipes."));
-  }, [organizationId]);
-
   async function save(input: TeamInput) {
     if (!organizationId) return;
     try {
@@ -96,7 +97,7 @@ export function TeamPage({ actor }: Props) {
   }
 
   return (
-    <section className="teams-page">
+    <section className="teams-page product-page">
       <div className="teams-heading">
         <div>
           <p className="eyebrow">Administration</p>
@@ -128,7 +129,12 @@ export function TeamPage({ actor }: Props) {
         </select>
       </label>
       {organization ? (
-        <TeamList teams={teams} onDelete={setDeleting} onEdit={setEditing} />
+        <CollectionFrame {...collection} onChange={collection.changePage}>
+          {collection.failed && (
+            <p role="alert">Impossible de charger les équipes.</p>
+          )}
+          <TeamList teams={teams} onDelete={setDeleting} onEdit={setEditing} />
+        </CollectionFrame>
       ) : (
         <p className="team-empty">Sélectionnez une organisation.</p>
       )}

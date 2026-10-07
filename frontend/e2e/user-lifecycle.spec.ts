@@ -31,6 +31,7 @@ test("last Admin refusal and Coach lifecycle preserve identity while blocking an
     await login(coachPage, "lifecycle-coach");
     await login(page, "lifecycle-root");
     await page.getByRole("link", { name: "Utilisateurs" }).click();
+    await page.getByLabel("Rechercher un utilisateur").fill("lifecycle-");
     const adminRow = page
       .getByRole("row")
       .filter({ hasText: "lifecycle-admin@example.com" });

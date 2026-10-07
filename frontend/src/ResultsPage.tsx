@@ -28,7 +28,7 @@ export function ResultsPage({
   }
   const usable = state.comparison && state.comparison.axes.length > 0;
   return (
-    <section className="results-page">
+    <section className="results-page product-page">
       <h1>Résultats</h1>
       <div className="results-selectors">
         <label className="results-model">
@@ -94,7 +94,7 @@ export function ResultsPage({
             Version radar : v{state.comparison.version} · Dernière version ayant
             des résultats accessibles
           </p>
-          <div className="results-layout">
+          <div className="results-layout page-content">
             <ResultTeamSelection
               teams={state.comparison.teams}
               selected={state.selected}

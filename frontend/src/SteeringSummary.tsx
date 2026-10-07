@@ -39,16 +39,25 @@ export function SteeringSummary({ data }: { data: SteeringProjection }) {
         <time dateTime={data.as_of_date}>{data.as_of_date}</time>
       </p>
       <dl className="steering-summary" aria-label="Synthèse du dispositif">
-        {cards.map(([label, value, definition]) => (
+        {cards.map(([label, value]) => (
           <div key={label}>
             <dt>{label}</dt>
             <dd>
               <strong>{value}</strong>
-              <small>{definition}</small>
             </dd>
           </div>
         ))}
       </dl>
+      <details className="steering-definitions">
+        <summary>Comprendre les indicateurs</summary>
+        <ul>
+          {cards.map(([label, , definition]) => (
+            <li key={label}>
+              <strong>{label} :</strong> {definition}
+            </li>
+          ))}
+        </ul>
+      </details>
     </>
   );
 }

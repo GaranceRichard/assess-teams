@@ -18,16 +18,16 @@ Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat 
 `theme.css` centralise les surfaces et les textes ; `palette.css` fournit les accents des dix couleurs.
 Les composants consomment ces rôles communs, sans thème complet ni patch Dashboard par palette.
 
-| Token | Clair | Sombre validé |
-| --- | --- | --- |
-| `background` | `#f7f7f7` | 24 % `accent-day` + 76 % `#171717` |
-| `surface` | `#ffffff` | 24 % `accent-day` + 76 % `#262626` |
-| `surface-raised` | `#ffffff` | 24 % `accent-day` + 76 % `#303030` |
-| `surface-secondary` | `#f3f3f3` | alias de `background` |
-| `border` | `#e3e3e3` | `#525252` |
-| `input-border` | `#737373` | `#a3a3a3` |
-| `text` | `#171717` | `#f5f5f5` |
-| `text-muted` | `#525252` | `#b8b8b8` |
+| Token               | Clair     | Sombre validé                      |
+| ------------------- | --------- | ---------------------------------- |
+| `background`        | `#f7f7f7` | 24 % `accent-day` + 76 % `#171717` |
+| `surface`           | `#ffffff` | 24 % `accent-day` + 76 % `#262626` |
+| `surface-raised`    | `#ffffff` | 24 % `accent-day` + 76 % `#303030` |
+| `surface-secondary` | `#f3f3f3` | alias de `background`              |
+| `border`            | `#e3e3e3` | `#525252`                          |
+| `input-border`      | `#737373` | `#a3a3a3`                          |
+| `text`              | `#171717` | `#f5f5f5`                          |
+| `text-muted`        | `#525252` | `#b8b8b8`                          |
 
 Les trois mélanges sRGB sombres sont conservés exactement ; le clair n’a plus de dépendance à un accent.
 `heading`, `muted`, `secondary-text`, `navigation-background`, `navigation-text` et `sidebar-border`
@@ -46,18 +46,18 @@ Le texte d’aide clair décrit les accents ; le texte sombre validé conserve s
 `palette.css` définit uniquement les bases d’accent et leurs rôles ; `palette.ts` porte les choix nommés.
 Chaque couleur possède une base sombre pour le mode clair et une base claire pour le mode sombre.
 
-| Accent | Valeur persistée | Base Clair | Base Sombre |
-| --- | --- | --- | --- |
-| Bleu | `blue` | `#205ba3` | `#90beff` |
-| Indigo | `indigo` | `#4338ca` | `#a5b4fc` |
-| Violet | `violet` | `#7e22ce` | `#d8b4fe` |
-| Rose | `pink` | `#9b2866` | `#f5a4cc` |
-| Rouge | `red` | `#ac3036` | `#ffaaa7` |
-| Orange | `orange` | `#b0430a` | `#fdba74` |
-| Ambre | `amber` | `#8a5700` | `#fcd34d` |
-| Vert | `green` | `#28703c` | `#86d99b` |
-| Émeraude | `emerald` | `#15654d` | `#70cbb0` |
-| Turquoise | `turquoise` | `#0e6974` | `#67d5df` |
+| Accent    | Valeur persistée | Base Clair | Base Sombre |
+| --------- | ---------------- | ---------- | ----------- |
+| Bleu      | `blue`           | `#205ba3`  | `#90beff`   |
+| Indigo    | `indigo`         | `#4338ca`  | `#a5b4fc`   |
+| Violet    | `violet`         | `#7e22ce`  | `#d8b4fe`   |
+| Rose      | `pink`           | `#9b2866`  | `#f5a4cc`   |
+| Rouge     | `red`            | `#ac3036`  | `#ffaaa7`   |
+| Orange    | `orange`         | `#b0430a`  | `#fdba74`   |
+| Ambre     | `amber`          | `#8a5700`  | `#fcd34d`   |
+| Vert      | `green`          | `#28703c`  | `#86d99b`   |
+| Émeraude  | `emerald`        | `#15654d`  | `#70cbb0`   |
+| Turquoise | `turquoise`      | `#0e6974`  | `#67d5df`   |
 
 Les cinq rôles sont partagés, sans créer dix thèmes complets :
 

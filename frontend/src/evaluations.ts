@@ -1,3 +1,4 @@
+import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
 
 export type NamedEntity = { id: number; name: string };
@@ -36,7 +37,18 @@ function writeOptions(
   };
 }
 
-export function listEvaluations(): Promise<Evaluation[]> {
+export function listEvaluations(): Promise<Evaluation[]>;
+export function listEvaluations(
+  page: number,
+  organizationId?: number | null,
+): Promise<CollectionPage<Evaluation>>;
+export function listEvaluations(
+  page?: number,
+  organizationId?: number | null,
+): Promise<Evaluation[] | CollectionPage<Evaluation>> {
+  if (page !== undefined) {
+    return request(`/api/admin/evaluations/${pageQuery(page, organizationId)}`);
+  }
   return request("/api/admin/evaluations/");
 }
 

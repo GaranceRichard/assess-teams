@@ -1,3 +1,4 @@
+import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
 
 export type RunState = "not_started" | "in_progress" | "completed";
@@ -49,7 +50,15 @@ async function request<T>(
   return (response.status === 204 ? undefined : await response.json()) as T;
 }
 
-export const listEvaluationRuns = () => request<EvaluationRunRow[]>();
+export function listEvaluationRuns(): Promise<EvaluationRunRow[]>;
+export function listEvaluationRuns(
+  page: number,
+): Promise<CollectionPage<EvaluationRunRow>>;
+export function listEvaluationRuns(page?: number) {
+  return request<EvaluationRunRow[] | CollectionPage<EvaluationRunRow>>(
+    page === undefined ? "" : pageQuery(page),
+  );
+}
 export const getEvaluationRun = (id: number) =>
   request<EvaluationRun>(`${id}/`);
 export const startEvaluationRun = (id: number) =>

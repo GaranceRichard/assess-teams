@@ -1,3 +1,4 @@
+import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
 
 export type ScheduleMode = "immediate" | "fixed" | "monthly" | "quarterly";
@@ -50,7 +51,21 @@ async function request<T>(
   return response.json() as Promise<T>;
 }
 
-export function listSchedules(): Promise<EvaluationSchedule[]> {
+export function listSchedules(): Promise<EvaluationSchedule[]>;
+export function listSchedules(
+  page: number,
+  organizationId?: number | null,
+): Promise<CollectionPage<EvaluationSchedule>>;
+export function listSchedules(
+  page?: number,
+  organizationId?: number | null,
+): Promise<EvaluationSchedule[] | CollectionPage<EvaluationSchedule>> {
+  if (page !== undefined) {
+    return request(
+      undefined,
+      `/api/admin/planning/${pageQuery(page, organizationId)}`,
+    );
+  }
   return request();
 }
 

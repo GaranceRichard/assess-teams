@@ -77,3 +77,5 @@ et reçoit uniquement le contexte autorisé des vues, indépendamment des activi
 Le [lifecycle des identités](user-lifecycle.md) utilise `is_active` : désactivation/réactivation explicites,
 identité et provenance conservées, invariant transactionnel du dernier Admin actif et planifications suspendues
 jusqu’à réaffectation explicite. Le Superadmin Django reste distinct des fonctions métier.
+
+Le [shell produit](product-layout.md) borne le desktop à 100dvh, avec header/sidebar immobiles, zones internes scrollables et pagination serveur commune.

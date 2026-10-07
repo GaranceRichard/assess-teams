@@ -7,6 +7,7 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
+Le [shell desktop](docs/architecture/product-layout.md) occupe 100dvh, borne les collections avec pagination serveur, adapte le mobile et conserve des surfaces neutres en mode clair.
 Le [Dashboard personnel — DASH-001](docs/architecture/dashboard-api.md) remplace le placeholder :
 profil, apparence, dix complétions/dernières révisions accessibles et raccourcis par rôle.
 Il réutilise la provenance EvaluationRun et les scopes Results, sans scores ni droits supplémentaires.
@@ -144,10 +145,6 @@ Le projet traite la qualité comme une condition de livraison : Clean Code, fich
 Le workflow attendu part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre
 dans le README, valide puis committe le changement et le resynchronise. Le Pre-push vers main exécute le gate
 complet avant la publication et le nettoyage du chantier.
-
-Le checkout principal reste stable dans VS Code. Chaque chantier utilise son worktree hors du dépôt,
-publie dès qu’il est prêt depuis le dernier `origin/main`, puis nettoie uniquement sa branche et son worktree.
-Aucun changement de dossier VS Code ni workspace multi-root n’est demandé.
 
 Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée
 sur `main` selon ce flux asynchrone. [`AGENTS.md`](AGENTS.md) est la règle permanente d'entrée ; les

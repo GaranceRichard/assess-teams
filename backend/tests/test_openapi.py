@@ -88,7 +88,8 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
     create_schema = collection["post"]["requestBody"]["content"]["application/json"]["schema"]
     create_component = schema["components"]["schemas"][create_schema["$ref"].split("/")[-1]]
     list_schema = collection["get"]["responses"]["200"]["content"]["application/json"]["schema"]
-    user_ref = list_schema["items"]["$ref"].split("/")[-1]
+    collection_component = schema["components"]["schemas"][list_schema["$ref"].split("/")[-1]]
+    user_ref = collection_component["oneOf"][0]["items"]["$ref"].split("/")[-1]
     user_component = schema["components"]["schemas"][user_ref]
 
     assert response.status_code == 200

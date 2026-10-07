@@ -1,6 +1,7 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
+from config.collection_pagination import PageQuerySerializer
 from identities.domain.users import Role
 from identities.models import User
 
@@ -85,3 +86,7 @@ class UpdateManagedUserSerializer(serializers.Serializer):
 
 class ChoosePasswordSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True, min_length=8, trim_whitespace=False)
+
+
+class ManagedUserQuerySerializer(PageQuerySerializer):
+    search = serializers.CharField(required=False, allow_blank=True, max_length=150)

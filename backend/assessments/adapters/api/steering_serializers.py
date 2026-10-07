@@ -5,6 +5,7 @@ from assessments.adapters.api.result_history_serializers import ResultOrganizati
 
 class SteeringQuerySerializer(serializers.Serializer):
     organization_id = serializers.IntegerField(min_value=1, required=False)
+    page = serializers.IntegerField(min_value=1, required=False)
 
 
 class SteeringCoachSerializer(serializers.Serializer):
@@ -40,8 +41,15 @@ class SteeringSummarySerializer(serializers.Serializer):
     last_completed_at = serializers.DateTimeField(allow_null=True)
 
 
+class SteeringPaginationSerializer(serializers.Serializer):
+    count = serializers.IntegerField()
+    page = serializers.IntegerField()
+    pages = serializers.IntegerField()
+
+
 class SteeringSerializer(serializers.Serializer):
     organization = ResultOrganizationSerializer()
     as_of_date = serializers.DateField()
     summary = SteeringSummarySerializer()
     teams = SteeringTeamSerializer(many=True)
+    pagination = SteeringPaginationSerializer(required=False)

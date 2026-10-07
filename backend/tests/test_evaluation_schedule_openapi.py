@@ -19,7 +19,7 @@ def test_openapi_documents_evaluation_planning() -> None:
 
     assert response.status_code == 200
     assert {"cookieAuth": []} in collection["get"]["security"]
-    assert set(collection["get"]["responses"]) == {"200", "403"}
+    assert set(collection["get"]["responses"]) == {"200", "400", "403", "404"}
     assert set(collection["post"]["responses"]) == {"201", "400", "403", "404"}
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
     assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}

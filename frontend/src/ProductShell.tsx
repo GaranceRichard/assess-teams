@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { SessionUser } from "./auth";
 import { ActivityJournalPage } from "./ActivityJournalPage";
@@ -40,6 +40,11 @@ export function ProductShell({
   const authorized = route && canAccess(user.role, route);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  useEffect(() => {
+    document.documentElement.classList.add("product-active");
+    return () => document.documentElement.classList.remove("product-active");
+  }, []);
+
   return (
     <div
       className={`app-shell${sidebarCollapsed ? " app-shell--sidebar-collapsed" : ""}`}
@@ -62,45 +67,47 @@ export function ProductShell({
             Se déconnecter
           </button>
         </header>
-        {authorized && path === "/dashboard" ? (
-          <DashboardPage
-            user={user}
-            onNavigate={onNavigate}
-            preference={preference}
-          />
-        ) : authorized && path === "/users" ? (
-          <SuperadminDashboard actor={user} />
-        ) : authorized && path === "/organization" ? (
-          <OrganizationPage isSuperadmin={user.is_superuser} />
-        ) : authorized && path === "/teams" && user.role === "Admin" ? (
-          <TeamPage actor={user} />
-        ) : authorized && path === "/templates" && user.role === "Admin" ? (
-          <EvaluationPage />
-        ) : authorized && path === "/planning" && user.role === "Admin" ? (
-          <PlanningPage actor={user} />
-        ) : authorized && path === "/evaluations" ? (
-          <EvaluationTakingPage actor={user} />
-        ) : authorized && path === "/results" ? (
-          <ResultsPage theme={theme} actor={user} />
-        ) : authorized && path === "/steering" ? (
-          <SteeringPage actor={user} onNavigate={onNavigate} />
-        ) : authorized && path === "/activity-journal" ? (
-          <ActivityJournalPage actor={user} />
-        ) : authorized && path === "/logs" ? (
-          <LogsPage actor={user} />
-        ) : authorized ? (
-          <section className="placeholder">
-            <p className="eyebrow">Votre espace</p>
-            <h1>{route.title}</h1>
-            <p>{route.title} — fonctionnalité à venir</p>
-          </section>
-        ) : (
-          <section className="placeholder denied" role="alert">
-            <p className="eyebrow">Accès refusé</p>
-            <h1>Page non autorisée</h1>
-            <p>Votre fonction ne permet pas d’accéder à cette page.</p>
-          </section>
-        )}
+        <div className="page-viewport" key={path}>
+          {authorized && path === "/dashboard" ? (
+            <DashboardPage
+              user={user}
+              onNavigate={onNavigate}
+              preference={preference}
+            />
+          ) : authorized && path === "/users" ? (
+            <SuperadminDashboard actor={user} />
+          ) : authorized && path === "/organization" ? (
+            <OrganizationPage isSuperadmin={user.is_superuser} />
+          ) : authorized && path === "/teams" && user.role === "Admin" ? (
+            <TeamPage actor={user} />
+          ) : authorized && path === "/templates" && user.role === "Admin" ? (
+            <EvaluationPage />
+          ) : authorized && path === "/planning" && user.role === "Admin" ? (
+            <PlanningPage actor={user} />
+          ) : authorized && path === "/evaluations" ? (
+            <EvaluationTakingPage actor={user} />
+          ) : authorized && path === "/results" ? (
+            <ResultsPage theme={theme} actor={user} />
+          ) : authorized && path === "/steering" ? (
+            <SteeringPage actor={user} onNavigate={onNavigate} />
+          ) : authorized && path === "/activity-journal" ? (
+            <ActivityJournalPage actor={user} />
+          ) : authorized && path === "/logs" ? (
+            <LogsPage actor={user} />
+          ) : authorized ? (
+            <section className="placeholder">
+              <p className="eyebrow">Votre espace</p>
+              <h1>{route.title}</h1>
+              <p>{route.title} — fonctionnalité à venir</p>
+            </section>
+          ) : (
+            <section className="placeholder denied" role="alert">
+              <p className="eyebrow">Accès refusé</p>
+              <h1>Page non autorisée</h1>
+              <p>Votre fonction ne permet pas d’accéder à cette page.</p>
+            </section>
+          )}
+        </div>
       </main>
     </div>
   );

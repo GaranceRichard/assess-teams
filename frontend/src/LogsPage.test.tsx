@@ -40,7 +40,7 @@ it("imposes Admin organization, renders the HTTP table and paginates", async () 
   );
   fireEvent.click(screen.getByRole("button", { name: "Précédent" }));
   await waitFor(() =>
-    expect(screen.getByText("Page 1 · 21 entrées")).toBeVisible(),
+    expect(screen.getByText("Page 1 / 2 · 21 éléments")).toBeVisible(),
   );
 });
 

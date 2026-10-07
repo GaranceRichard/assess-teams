@@ -1,3 +1,4 @@
+import { CollectionFrame } from "./CollectionFrame";
 import { useEffect, useState } from "react";
 
 import { JournalEntries } from "./JournalEntries";
@@ -37,6 +38,7 @@ export function JournalPage<T extends JournalEntry>({
   const [draft, setDraft] = useState(emptyFilters);
   const [filters, setFilters] = useState(emptyFilters);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<PageData<T> | null>(null);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [error, setError] = useState("");
@@ -50,27 +52,42 @@ export function JournalPage<T extends JournalEntry>({
   }, [isSuperadmin]);
 
   useEffect(() => {
-    load(filters, page)
-      .then((nextData) => {
-        setData(nextData);
-        setError("");
-      })
-      .catch(() => setError("Impossible de charger le journal."));
+    let active = true;
+    load(filters, page).then(
+      (nextData) => {
+        if (active) {
+          setData(nextData);
+          setError("");
+          setLoading(false);
+        }
+      },
+      () => {
+        if (active) {
+          setError("Impossible de charger le journal.");
+          setLoading(false);
+        }
+      },
+    );
+    return () => {
+      active = false;
+    };
   }, [filters, load, page]);
 
   function applyFilters() {
+    setLoading(true);
     setPage(1);
-    setFilters(draft);
+    setFilters({ ...draft });
   }
 
   function clearFilters() {
     setDraft(emptyFilters);
-    setFilters(emptyFilters);
+    setFilters({ ...emptyFilters });
+    setLoading(true);
     setPage(1);
   }
 
   return (
-    <section className="journal-page">
+    <section className="journal-page product-page">
       <p className="eyebrow">{eyebrow}</p>
       <h1>{title}</h1>
       <p className="journal-intro">{intro}</p>
@@ -82,39 +99,27 @@ export function JournalPage<T extends JournalEntry>({
         onApply={applyFilters}
         onClear={clearFilters}
       />
-      {error ? (
-        <p className="form-error" role="alert">
-          {error}
-        </p>
-      ) : data ? (
-        <>
-          <JournalEntries entries={data.results} actionFor={actionFor} />
-          <nav
-            className="journal-pagination"
-            aria-label="Pagination du journal"
-          >
-            <button
-              className="secondary"
-              disabled={!data.previous}
-              onClick={() => setPage((current) => current - 1)}
-            >
-              Précédent
-            </button>
-            <span>
-              Page {page} · {data.count} entrée{data.count > 1 ? "s" : ""}
-            </span>
-            <button
-              className="secondary"
-              disabled={!data.next}
-              onClick={() => setPage((current) => current + 1)}
-            >
-              Suivant
-            </button>
-          </nav>
-        </>
-      ) : (
-        <p>Chargement…</p>
-      )}
+      <CollectionFrame
+        page={page}
+        count={data?.count ?? 0}
+        loading={loading}
+        onChange={(value) => {
+          setLoading(true);
+          setPage(value);
+        }}
+      >
+        {error ? (
+          <p className="form-error" role="alert">
+            {error}
+          </p>
+        ) : data ? (
+          <>
+            <JournalEntries entries={data.results} actionFor={actionFor} />
+          </>
+        ) : (
+          <p>Chargement…</p>
+        )}
+      </CollectionFrame>
     </section>
   );
 }

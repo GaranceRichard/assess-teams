@@ -14,7 +14,7 @@ def test_schema_documents_taking_endpoints_and_notes_contract():
     finalize = paths["/api/evaluations/{run_id}/finalize/"]["post"]
     revision = paths["/api/evaluations/{run_id}/revision/"]["put"]
     assert {"cookieAuth": []} in collection["security"]
-    assert set(collection["responses"]) == {"200", "403"}
+    assert set(collection["responses"]) == {"200", "400", "403", "404"}
     assert set(detail["get"]["responses"]) == {"200", "403", "404"}
     for operation in [detail["post"], finalize, revision]:
         assert {"cookieAuth": []} in operation["security"]
@@ -30,7 +30,10 @@ def test_schema_documents_taking_endpoints_and_notes_contract():
         "minimum": 0,
         "maximum": 10,
     }
-    row_schema = collection["responses"]["200"]["content"]["application/json"]["schema"]["items"]
+    collection_schema = collection["responses"]["200"]["content"]["application/json"]["schema"]
+    row_schema = schema["components"]["schemas"][collection_schema["$ref"].split("/")[-1]]["oneOf"][
+        0
+    ]["items"]
     row = schema["components"]["schemas"][row_schema["$ref"].split("/")[-1]]
     assert {"assigned_to", "filled_by", "completed_at", "revised_by", "revised_at"} <= set(
         row["properties"]

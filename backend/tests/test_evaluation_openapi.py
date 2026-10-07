@@ -16,14 +16,16 @@ def test_openapi_documents_evaluation_and_question_management() -> None:
     component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
     response_schema = evaluations["get"]["responses"]["200"]["content"]["application/json"][
         "schema"
-    ]["items"]
+    ]
+    collection_component = schema["components"]["schemas"][response_schema["$ref"].split("/")[-1]]
+    response_schema = collection_component["oneOf"][0]["items"]
     response_component = schema["components"]["schemas"][response_schema["$ref"].split("/")[-1]]
     question_request = questions["post"]["requestBody"]["content"]["application/json"]["schema"]
     question_component = schema["components"]["schemas"][question_request["$ref"].split("/")[-1]]
 
     assert response.status_code == 200
     assert {"cookieAuth": []} in evaluations["get"]["security"]
-    assert set(evaluations["get"]["responses"]) == {"200", "403"}
+    assert set(evaluations["get"]["responses"]) == {"200", "400", "403", "404"}
     assert set(evaluations["post"]["responses"]) == {"201", "400", "403", "404"}
     assert set(component["required"]) == {"organization_id", "name"}
     assert "index" not in component["properties"]

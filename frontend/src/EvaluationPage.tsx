@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+import { CollectionFrame } from "./CollectionFrame";
+import { useEvaluationCatalog } from "./useEvaluationCatalog";
+import { useState } from "react";
 
 import { EvaluationList } from "./EvaluationList";
 import { EvaluationOrganizationSelect } from "./EvaluationOrganizationSelect";
 import {
+  type Evaluation,
   createEvaluation,
   createQuestion,
   deleteEvaluation,
   deleteQuestion,
-  type Evaluation,
-  listEvaluations,
-  listQuestions,
   mergeEvaluation,
   type NameInput,
   orderQuestions,
-  type Question,
   updateEvaluation,
   updateQuestion,
 } from "./evaluations";
@@ -22,48 +21,38 @@ import {
   type EditTarget,
   EvaluationPageDialogs,
 } from "./EvaluationPageDialogs";
-import { listOrganizations, type Organization } from "./organizations";
 import { QuestionPanel } from "./QuestionPanel";
 import { useEvaluationLifecycle } from "./useEvaluationLifecycle";
 import "./evaluations.css";
 
 export function EvaluationPage() {
-  const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [organizationId, setOrganizationId] = useState<number | null>(null);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [selectedSnapshot, setSelectedSnapshot] = useState<Evaluation | null>(
+    null,
+  );
+  const selectedId = selectedSnapshot?.id ?? null;
   const [editing, setEditing] = useState<EditTarget | null>(null);
   const [deleting, setDeleting] = useState<DeleteTarget | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const lifecycle = useEvaluationLifecycle(
-    (saved) => setEvaluations((current) => mergeEvaluation(current, saved)),
-    setError,
-  );
+  const { organizations, questions, setQuestions, collection } =
+    useEvaluationCatalog(organizationId, selectedId, setError);
+  const { items: evaluations, setItems: setEvaluations } = collection;
+  const lifecycle = useEvaluationLifecycle((saved) => {
+    setEvaluations((current) => mergeEvaluation(current, saved));
+    setSelectedSnapshot((current) =>
+      current
+        ? mergeEvaluation([current], saved).find(
+            (item) => item.id === current.id,
+          )!
+        : null,
+    );
+  }, setError);
   const selected =
-    evaluations.find((evaluation) => evaluation.id === selectedId) ?? null;
+    evaluations.find((evaluation) => evaluation.id === selectedId) ??
+    selectedSnapshot;
   const visibleEvaluations = evaluations.filter(
     (evaluation) => evaluation.organization_id === organizationId,
   );
-
-  useEffect(() => {
-    Promise.all([listEvaluations(), listOrganizations()])
-      .then(([loadedEvaluations, loadedOrganizations]) => {
-        setEvaluations(loadedEvaluations);
-        setOrganizations(loadedOrganizations);
-      })
-      .catch(() => setError("Impossible de charger les évaluations."));
-  }, []);
-
-  useEffect(() => {
-    if (selectedId === null) return;
-    listQuestions(selectedId)
-      .then((loaded) => {
-        setQuestions(loaded);
-        setError(null);
-      })
-      .catch(() => setError("Impossible de charger les questions."));
-  }, [selectedId]);
 
   async function save(input: NameInput) {
     if (!editing) return;
@@ -110,7 +99,7 @@ export function EvaluationPage() {
           current.filter((item) => item.id !== deleting.value.id),
         );
         if (selectedId === deleting.value.id) {
-          setSelectedId(null);
+          setSelectedSnapshot(null);
           setQuestions([]);
         }
       } else {
@@ -129,7 +118,7 @@ export function EvaluationPage() {
   }
 
   return (
-    <section className="evaluations-page">
+    <section className="evaluations-page product-page">
       <div className="evaluation-heading">
         <div>
           <p className="eyebrow">Administration</p>
@@ -147,26 +136,31 @@ export function EvaluationPage() {
         value={organizationId}
         onChange={(value) => {
           setOrganizationId(value);
-          setSelectedId(null);
+          setSelectedSnapshot(null);
           setQuestions([]);
         }}
       />
-      <div className="evaluation-workspace">
-        <EvaluationList
-          evaluations={visibleEvaluations}
-          selectedId={selectedId}
-          onNewVersion={lifecycle.createVersion}
-          creatingVersion={lifecycle.creatingVersion}
-          onArchive={(value) =>
-            lifecycle.setTarget({ action: "archive", value })
-          }
-          onDelete={(value) => setDeleting({ kind: "évaluation", value })}
-          onEdit={(value) => setEditing({ kind: "évaluation", value })}
-          onSelect={(value) => setSelectedId(value.id)}
-          onValidate={(value) =>
-            lifecycle.setTarget({ action: "validate", value })
-          }
-        />
+      <div className="evaluation-workspace page-content">
+        <CollectionFrame {...collection} onChange={collection.changePage}>
+          {collection.failed && (
+            <p role="alert">Impossible de charger les évaluations.</p>
+          )}
+          <EvaluationList
+            evaluations={visibleEvaluations}
+            selectedId={selectedId}
+            onNewVersion={lifecycle.createVersion}
+            creatingVersion={lifecycle.creatingVersion}
+            onArchive={(value) =>
+              lifecycle.setTarget({ action: "archive", value })
+            }
+            onDelete={(value) => setDeleting({ kind: "évaluation", value })}
+            onEdit={(value) => setEditing({ kind: "évaluation", value })}
+            onSelect={(value) => setSelectedSnapshot(value)}
+            onValidate={(value) =>
+              lifecycle.setTarget({ action: "validate", value })
+            }
+          />
+        </CollectionFrame>
         <QuestionPanel
           evaluation={selected}
           questions={questions}

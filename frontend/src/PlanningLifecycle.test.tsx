@@ -94,7 +94,7 @@ it("offers only validated models for new planning while preserving archived hist
   expect(within(select).queryByRole("option", { name: /Legacy/ })).toBeNull();
   expect(within(select).queryByRole("option", { name: "Other" })).toBeNull();
   fireEvent.click(
-    screen.getByRole("button", {
+    await screen.findByRole("button", {
       name: "North - Legacy v1 - Alpha - Non attribué",
     }),
   );

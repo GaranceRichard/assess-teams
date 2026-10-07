@@ -1,0 +1,99 @@
+@media (min-width: 761px) {
+  .evaluation-workspace,
+  .planning-workspace,
+  .results-layout {
+    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 1rem;
+  }
+  .evaluation-workspace > *,
+  .planning-workspace > *,
+  .results-layout > * {
+    min-width: 0;
+    min-height: 0;
+  }
+  .question-panel,
+  .planning-workspace > section {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  .question-list,
+  .planning-form,
+  .results-teams,
+  .results-chart {
+    overflow: auto;
+    scrollbar-gutter: stable;
+  }
+  .planning-form {
+    align-content: start;
+  }
+  .question-list {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+  .dashboard-grid {
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 1rem;
+  }
+  .dashboard-card {
+    min-height: 0;
+    overflow: auto;
+    padding: 1rem;
+  }
+  .dashboard-activity-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard-activity-card > .collection-frame {
+    min-height: 0;
+  }
+  .results-layout {
+    margin-top: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  }
+  .results-canvas {
+    height: auto;
+    aspect-ratio: 1.35;
+    min-height: 0;
+  }
+  .steering-summary {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: 0;
+  }
+  .steering-summary > div {
+    padding: 0.65rem;
+  }
+  .schedule-row {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+.product-page .collection-search {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 28rem;
+}
+.product-page .collection-search input {
+  padding: 0.5rem;
+}
+.steering-definitions {
+  min-width: 0;
+}
+.steering-definitions summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+.steering-definitions ul {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+@media (max-width: 760px) {
+  .app-shell {
+    display: block;
+  }
+  .workspace > header {
+    flex-wrap: wrap;
+  }
+}

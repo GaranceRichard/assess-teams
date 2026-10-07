@@ -1,3 +1,4 @@
+import { CollectionFrame } from "./CollectionFrame";
 import type { SessionUser } from "./auth";
 import { SteeringSummary } from "./SteeringSummary";
 import { SteeringTeams } from "./SteeringTeams";
@@ -13,7 +14,7 @@ export function SteeringPage({
 }) {
   const state = useSteering(actor.is_superuser);
   return (
-    <section className="steering-page">
+    <section className="steering-page product-page">
       <h1>Pilotage</h1>
       <p>
         Couverture et échéances du dispositif, pour orienter l’accompagnement.
@@ -54,7 +55,14 @@ export function SteeringPage({
       {state.data && (
         <>
           <SteeringSummary data={state.data} />
-          <SteeringTeams data={state.data} onNavigate={onNavigate} />
+          <CollectionFrame
+            page={state.page}
+            count={state.data.pagination?.count ?? state.data.teams.length}
+            loading={state.loading}
+            onChange={state.changePage}
+          >
+            <SteeringTeams data={state.data} onNavigate={onNavigate} />
+          </CollectionFrame>
         </>
       )}
     </section>

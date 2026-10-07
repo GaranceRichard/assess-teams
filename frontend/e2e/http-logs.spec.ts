@@ -98,7 +98,9 @@ test("HTTP logs are created, filtered and isolated across Admin organizations an
   await page.getByLabel("Méthode").selectOption("POST");
   await page.getByLabel("Statut").fill("201");
   await page.getByRole("button", { name: "Filtrer" }).click();
-  await expect(page.getByText("Page 1 · 1 entrées")).toBeVisible();
+  await expect(
+    page.locator(".pagination").getByText("1 élément"),
+  ).toBeVisible();
   await expect(page.locator(".log-table tbody tr")).toHaveCount(1);
   await expect(page.locator(".log-table tbody tr")).toContainText(
     "HTTP POST 201",

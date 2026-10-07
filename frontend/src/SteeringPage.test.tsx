@@ -27,7 +27,7 @@ it("imposes Admin organization and shows definitions, states, absent data and Re
   const table = await screen.findByRole("table");
   expect(screen.getByRole("heading", { name: "Pilotage" })).toBeVisible();
   expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
-  expect(api.getSteering).toHaveBeenCalledWith(1);
+  expect(api.getSteering).toHaveBeenCalledWith(1, 1);
   for (const label of [
     "Équipes actives",
     "Avec un résultat",
@@ -40,6 +40,7 @@ it("imposes Admin organization and shows definitions, states, absent data and Re
         exact: true,
       }),
     ).toBeVisible();
+  fireEvent.click(screen.getByText("Comprendre les indicateurs"));
   expect(screen.getByText(/strictement la date de référence/)).toBeVisible();
   expect(
     within(table)

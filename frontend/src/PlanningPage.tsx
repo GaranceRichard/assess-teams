@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { planningCandidates } from "./planningCandidates";
+import { CollectionFrame } from "./CollectionFrame";
+import { usePagedCollection } from "./usePagedCollection";
+import { useCallback, useEffect, useState } from "react";
 
 import type { SessionUser } from "./auth";
 import { listEvaluations, type Evaluation } from "./evaluations";
@@ -22,20 +25,28 @@ type Props = { actor: SessionUser };
 export function PlanningPage({ actor }: Props) {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
-  const [schedules, setSchedules] = useState<EvaluationSchedule[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [organizationId, setOrganizationId] = useState<number | null>(null);
+  const loadSchedules = useCallback(
+    (page: number) => listSchedules(page, organizationId),
+    [organizationId],
+  );
+  const collection = usePagedCollection<EvaluationSchedule>(
+    loadSchedules,
+    String(organizationId),
+    organizationId !== null,
+  );
+  const { items: schedules, setItems: setSchedules } = collection;
   const [editing, setEditing] = useState<EvaluationSchedule | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
-    Promise.all([listOrganizations(), listEvaluations(), listSchedules()])
-      .then(([loadedOrganizations, loadedEvaluations, loadedSchedules]) => {
+    Promise.all([listOrganizations(), listEvaluations()])
+      .then(([loadedOrganizations, loadedEvaluations]) => {
         if (!active) return;
         setOrganizations(loadedOrganizations);
         setEvaluations(loadedEvaluations);
-        setSchedules(loadedSchedules);
         if (loadedOrganizations.length === 1)
           setOrganizationId(loadedOrganizations[0].id);
       })
@@ -96,44 +107,20 @@ export function PlanningPage({ actor }: Props) {
     }
   }
 
-  const organizationEvaluations = evaluations.filter(
-    (evaluation) =>
-      evaluation.organization_id === organizationId &&
-      evaluation.status === "VALIDATED",
-  );
-  const editingEvaluations = editing
-    ? evaluations.filter(
-        (evaluation) =>
-          evaluation.organization_id === editing.organization_id &&
-          (evaluation.status === "VALIDATED" ||
-            evaluation.id === editing.evaluation_id),
-      )
-    : [];
+  const { organizationEvaluations, editingEvaluations, organizationAssignees } =
+    planningCandidates(
+      actor,
+      organizations,
+      evaluations,
+      organizationId,
+      editing,
+    );
   const organizationSchedules = schedules.filter(
     (schedule) => schedule.organization_id === organizationId,
   );
-  const organizationMembers =
-    organizations
-      .find((organization) => organization.id === organizationId)
-      ?.users.filter(
-        (member) =>
-          member.is_active !== false &&
-          (member.user_type === "Coach" || member.user_type === "Admin"),
-      ) ?? [];
-  const organizationAssignees =
-    actor.is_superuser && actor.id
-      ? [
-          {
-            id: actor.id,
-            identifier: actor.username,
-            user_type: "Superadmin" as const,
-          },
-          ...organizationMembers.filter((member) => member.id !== actor.id),
-        ]
-      : organizationMembers;
 
   return (
-    <section className="planning-page">
+    <section className="planning-page product-page">
       <div>
         <p className="eyebrow">Administration</p>
         <h1>Planification</h1>
@@ -162,7 +149,7 @@ export function PlanningPage({ actor }: Props) {
       {organizationId === null ? (
         <p className="planning-empty">Sélectionnez une organisation.</p>
       ) : (
-        <div className="planning-workspace">
+        <div className="planning-workspace page-content">
           <PlanningForm
             assignees={organizationAssignees}
             organizationId={organizationId}
@@ -172,10 +159,15 @@ export function PlanningPage({ actor }: Props) {
           />
           <section aria-labelledby="planned-evaluations-title">
             <h2 id="planned-evaluations-title">Évaluations planifiées</h2>
-            <ScheduleList
-              onOpen={setEditing}
-              schedules={organizationSchedules}
-            />
+            <CollectionFrame {...collection} onChange={collection.changePage}>
+              {collection.failed && (
+                <p role="alert">Impossible de charger la planification.</p>
+              )}
+              <ScheduleList
+                onOpen={setEditing}
+                schedules={organizationSchedules}
+              />
+            </CollectionFrame>
           </section>
         </div>
       )}

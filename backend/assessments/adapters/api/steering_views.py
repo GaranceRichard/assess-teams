@@ -12,6 +12,7 @@ from assessments.adapters.api.steering_serializers import (
     SteeringSerializer,
 )
 from assessments.application.steering import steering_projection
+from config.collection_pagination import CollectionPagination
 from identities.adapters.api.organization_scope import (
     assigned_admin_organization,
     visible_organizations,
@@ -77,4 +78,13 @@ class SteeringView(SteeringReadView):
             organization = assigned_admin_organization(request.user)
             if organization_id is not None and organization_id != organization.pk:
                 raise NotFound()
-        return Response(SteeringSerializer(steering_projection(request.user, organization)).data)
+        projection = steering_projection(request.user, organization)
+        if "page" in query.validated_data:
+            pagination = CollectionPagination()
+            projection["teams"] = pagination.paginate_queryset(projection["teams"], request)
+            projection["pagination"] = {
+                "count": pagination.page.paginator.count,
+                "page": pagination.page.number,
+                "pages": pagination.page.paginator.num_pages,
+            }
+        return Response(SteeringSerializer(projection).data)

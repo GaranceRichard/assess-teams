@@ -1,3 +1,4 @@
+import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken, type UserRole } from "./auth";
 
 export type ManagedUser = {
@@ -41,7 +42,20 @@ function writeOptions(method: string, input?: object): RequestInit {
   };
 }
 
-export function listManagedUsers(): Promise<ManagedUser[]> {
+export function listManagedUsers(): Promise<ManagedUser[]>;
+export function listManagedUsers(
+  page: number,
+  search?: string,
+): Promise<CollectionPage<ManagedUser>>;
+export function listManagedUsers(
+  page?: number,
+  search = "",
+): Promise<ManagedUser[] | CollectionPage<ManagedUser>> {
+  if (page !== undefined) {
+    return request(
+      `/api/admin/users/${pageQuery(page)}${search ? `&search=${encodeURIComponent(search)}` : ""}`,
+    );
+  }
   return request("/api/admin/users/");
 }
 
