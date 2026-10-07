@@ -92,6 +92,11 @@ test("representative dashboard, forms, dialogs, Results and Steering stay neutra
       .click();
   }
   await page.setViewportSize({ width: 390, height: 844 });
+  // Wide font metrics reproduce the overflow reported by the Linux CI runner.
+  await page.addStyleTag({
+    content:
+      ".palette-options label { font-family: monospace; font-size: 1rem; }",
+  });
   await page.getByText("Couleurs", { exact: true }).click();
   await expect(
     page.getByRole("radio", { name: "Turquoise", exact: true }),

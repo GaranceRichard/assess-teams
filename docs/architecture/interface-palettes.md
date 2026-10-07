@@ -105,7 +105,10 @@ neutres achromatiques et contraste des accents/hover avec leur texte et les surf
 Il ne multiplie pas les parcours métier pour les vingt combinaisons.
 `palettes.spec.ts` couvre persistance réelle, reconnexion, navigateur neuf, clavier et refus.
 `theme-surfaces.spec.ts` vérifie les fonds calculés et capture des écrans représentatifs dans les deux
-modes et sur mobile ; les E2E Results et Pilotage protègent aussi les composants et séries existants.
+modes et sur mobile, avec des métriques de police élargies. La CI Linux a révélé une largeur minimale
+intrinsèque du fieldset et des colonnes, causant un débordement de 7 px à 390 px. Le panneau borne sa
+largeur au viewport, annule ce minimum et autorise la grille et ses libellés à se replier ; le test
+reproduit le débordement avant correction. Les E2E Results et Pilotage protègent aussi les composants et séries existants.
 
 La revue documentaire porte sur README, fondamentaux, contrat API, stratégie de tests, règles des agents,
 charte qualité et Definition of Done. Les trois derniers restent applicables sans modification.
