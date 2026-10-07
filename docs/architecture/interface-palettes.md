@@ -1,36 +1,45 @@
 # Apparence et accents personnels
 
-## Cause racine et périmètre
+## Comportement attendu
 
-L’audit part de `origin/main` (`51574e0`). `palette.css` associait chaque accent à une famille
-`--sidebar*` : changer de préférence recolorait donc toute la navigation. `theme.css` définissait aussi
-les fonds `#eef2ef`, `#101817`, les cartes `#1a2624` et des textes/bordures teintés de vert.
-Le test de régression navigateur reproduit le défaut avant correction : Vert → Bleu changeait
-`--navigation-background` de `#102c2a` à `#142c49`.
+Le système précédent gardait les grandes surfaces neutres : choisir Bleu ou Violet laissait les cartes
+blanches en clair. L’exigence actualisée est de colorer aussi ces fonds, avec des teintes claires lumière
+allumée et des teintes foncées lumière éteinte. Les deux choix restent indépendants : changer Clair/Sombre
+ne change jamais la couleur sélectionnée ; changer de couleur ne change jamais le mode.
 
-L’apparence Clair/Sombre et la couleur d’accent sont désormais deux dimensions indépendantes.
-Le [Dashboard personnel](dashboard-api.md) intègre désormais le sélecteur dans Mon profil → Apparence.
-Le header conserve le changement Clair/Sombre ; aucun comportement métier ne change.
+Le [Dashboard personnel](dashboard-api.md) expose les dix choix dans Mon profil → Apparence.
+Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat API ne change.
 
-## Tokens structurels
+## Tokens des surfaces
 
-`theme.css` est la source des surfaces, textes et bordures neutres. Seul `data-theme` les contrôle.
-Les composants utilisent les mêmes tokens dans tous les accents ; aucune palette ne les redéfinit.
+`theme.css` centralise les bases, les proportions et les rôles de surface. `palette.css` fournit les
+bases des dix couleurs ; aucune palette ne duplique le thème complet ni les styles des composants.
 
-| Token | Clair (`day`) | Sombre (`night`) |
+| Rôle | Base Clair | Base Sombre | Part de couleur Clair / Sombre |
+| --- | --- | --- | --- |
+| `background` | `#f5f5f5` | `#171717` | 35 % / 24 % |
+| `surface` | `#ffffff` | `#262626` | 25 % / 24 % |
+| `surface-raised` | `#ffffff` | `#303030` | 18 % / 24 % |
+
+Les mélanges utilisent `color-mix(in srgb, couleur proportion, base)`. En clair, la couleur des fonds
+est la base lumineuse `accent-night` ; en sombre, c’est la base profonde `accent-day`. Les noms de ces
+bases indiquent leur usage comme accent d’action, tandis que les fonds utilisent la base opposée pour
+préserver leur luminosité et le contraste. La couleur choisie est donc visible dans les deux modes.
+
+Exemple Bleu : le fond de page passe d’environ `#d2e2f8` en clair à `#192739` en sombre.
+Le panneau, les cartes, le header, la sidebar, les champs et les modales suivent ces rôles partagés.
+
+| Token lisible | Clair | Sombre |
 | --- | --- | --- |
-| `background` | `#f5f5f5` | `#171717` |
-| `surface` | `#ffffff` | `#262626` |
-| `surface-raised` | `#ffffff` | `#303030` |
 | `border` | `#d4d4d4` | `#525252` |
 | `input-border` | `#737373` | `#a3a3a3` |
 | `text` | `#171717` | `#f5f5f5` |
 | `text-muted` | `#525252` | `#b8b8b8` |
 
-`heading`, `muted`, `secondary-text`, `navigation-background`, `navigation-text`, `sidebar-control`
-et `sidebar-border` sont des alias structurels. Header et sidebar utilisent `surface` ; menus, tooltips
-et modales utilisent `surface-raised`. Les champs utilisent `surface`. Les overlays et ombres sont noirs.
-Le toggle jour/nuit utilise lui aussi les surfaces et textes neutres, sans toucher à l’accent.
+Les textes et bordures restent neutres et dépendent uniquement du mode. `heading`, `muted`,
+`secondary-text`, `navigation-background`, `navigation-text`, `sidebar-control` et `sidebar-border`
+restent des alias ; header et sidebar utilisent `surface`, menus/tooltips/modales `surface-raised`.
+Les overlays et ombres restent noirs. Le toggle utilise les fonds assortis sans changer la préférence.
 
 ## Dix palettes d’accent
 
@@ -54,14 +63,14 @@ Les cinq rôles sont partagés, sans créer dix thèmes complets :
 
 - `accent` : base du mode courant ;
 - `accent-hover` : mélange sRGB de 88 % d’accent et 12 % de texte ;
-- `accent-subtle` : mélange de 12 % d’accent et 88 % de surface ;
+- `accent-subtle` : mélange de 12 % d’accent et 88 % de base de surface, pour préserver le contraste des sélections ;
 - `accent-border` : mélange de 65 % d’accent et 35 % de surface ;
 - `accent-contrast` : `#ffffff` en clair, `#171717` en sombre.
 
 Les alias `primary`, `primary-hover`, `on-primary`, `accent-text`, `focus`, `selection` et
 `navigation-active` permettent aux composants existants de consommer ces rôles. L’accent s’applique aux
 actions principales, liens, navigation active, focus, contrôles sélectionnés et surtitres.
-Les fonds subtils se limitent aux sélections locales ; les grandes surfaces restent neutres.
+Les fonds subtils signalent les sélections locales ; les grandes surfaces utilisent les mélanges dédiés.
 Les statuts métier, dangers et avertissements conservent leurs couleurs sémantiques indépendantes.
 Le radar et les courbes conservent leurs séries distinctes, formes et pointillés indépendants des accents ;
 leurs textes/grilles suivent les mêmes gris clair/sombre que l’interface.
@@ -69,6 +78,7 @@ leurs textes/grilles suivent les mêmes gris clair/sombre que l’interface.
 ## Sélecteur et persistance
 
 Dans Mon profil → Apparence, le menu **Couleurs** expose dix pastilles avec libellés et boutons radio accessibles au clavier.
+Le groupe « Couleur de l’interface » et le texte du profil expliquent aussi l’effet sur les fonds.
 Chaque échantillon montre sa propre base dans le mode courant ; le choix est aussi signalé par le radio
 et la bordure. Un enregistrement sérialise les écritures et annonce le succès ; un refus rétablit le
 choix précédent et affiche une erreur accessible. Une réponse tardive après déconnexion est ignorée.
@@ -91,8 +101,8 @@ est accepté, sans utilisateur cible, rôle, organisation ni CSS libre.
 ## Audit et validation
 
 L’audit couvre Dashboard, shell/navigation, champs, sélecteur, formulaires/modales de gestion,
-Results/radar/historique, Pilotage et tableaux. Les fonds et textes verts historiques, surfaces de sidebar
-par palette, contrôles de sidebar, tooltips, ombres vertes et overlays teintés sont neutralisés à leur source.
+Results/radar/historique, Pilotage et tableaux. Les surfaces suivent les mêmes tokens teintés, sans
+couleur verte structurelle codée en dur. Le vert ne colore les fonds que lorsque cette palette est choisie.
 Les modales Utilisateurs, Organisations, Équipes, Modèles, Planification et Passation partagent
 `surface-raised`. Les liens/focus Results et Pilotage suivent l’accent. Le danger de Planification garde
 un texte blanc indépendant du contraste des boutons primaires ; les dangers outline suivent le mode.
@@ -100,8 +110,9 @@ un texte blanc indépendant du contraste des boutons primaires ; les dangers out
 Les tests de migration protègent les quatre choix historiques et les rattachements ; les tests API couvrent
 les dix accents, les rôles, la persistance, l’isolation, les valeurs invalides, CSRF et OpenAPI.
 React vérifie les dix choix, le fallback, l’indépendance des dimensions, la restauration et le rollback.
-Un seul test navigateur de tokens parcourt les bases clair/sombre et vérifie invariance structurelle,
-neutres achromatiques et contraste des accents/hover avec leur texte et les surfaces (≥ 4,5:1).
+Un seul test navigateur parcourt les bases clair/sombre : dix fonds distincts par rôle et par mode,
+luminosité claire/foncée, textes/bordures indépendants de la palette, contrastes ≥ 4,5:1 pour textes
+principaux et secondaires, accents et hover. Il échoue avant correction : dix palettes donnaient un seul fond.
 Il ne multiplie pas les parcours métier pour les vingt combinaisons.
 `palettes.spec.ts` couvre persistance réelle, reconnexion, navigateur neuf, clavier et refus.
 `theme-surfaces.spec.ts` vérifie les fonds calculés et capture des écrans représentatifs dans les deux

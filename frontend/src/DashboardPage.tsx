@@ -70,7 +70,10 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
             </p>
           )}
           <h3>Apparence</h3>
-          <p>Votre palette est conservée pour vos prochaines connexions.</p>
+          <p>
+            Votre couleur habille les fonds en clair ou en sombre et reste
+            conservée pour vos prochaines connexions.
+          </p>
           <PalettePicker user={user} preference={preference} />
         </section>
         <section

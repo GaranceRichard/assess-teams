@@ -1,47 +1,54 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { e2eCredential, runDjangoShell } from "./identity-fixture";
+import { luminance } from "./palette-contrast";
 import { seedSteeringContext } from "./steering-fixture";
 
-async function neutralSurfaces(page: Page) {
-  const colors = await page
-    .locator(
-      [
-        ".product-sidebar",
-        ".workspace > header",
-        ".dashboard-card",
-        ".palette-panel",
-        ".steering-page",
-        ".results-page",
-        ".table-wrap",
-        ".organization-dialog",
-        "input:not([type=radio]):not([type=checkbox])",
-        "select",
-      ].join(", "),
-    )
-    .evaluateAll((elements) =>
-      elements.map((element) => ({
+async function themedSurfaces(page: Page) {
+  const selectors = {
+    background: "html",
+    surface: [
+      ".product-sidebar",
+      ".workspace > header",
+      ".dashboard-card",
+      ".steering-page",
+      ".results-page",
+      ".table-wrap",
+      "input:not([type=radio]):not([type=checkbox])",
+      "select",
+    ].join(", "),
+    "surface-raised": ".palette-panel, .organization-dialog",
+  };
+  const colors = await page.evaluate((selectors) => {
+    return Object.entries(selectors).flatMap(([token, selector]) => {
+      const probe = document.createElement("span");
+      probe.style.backgroundColor = `var(--${token})`;
+      document.body.append(probe);
+      const expected = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return [...document.querySelectorAll(selector)].map((element) => ({
         name: element.className || element.tagName,
         color: getComputedStyle(element).backgroundColor,
-      })),
-    );
+        expected,
+      }));
+    });
+  }, selectors);
   expect(colors.length).toBeGreaterThan(2);
-  for (const { name, color } of colors) {
-    const channels = color.match(/[\d.]+/g)!.map(Number);
-    expect(channels[0], `${name}: ${color}`).toBe(channels[1]);
-    expect(channels[1], `${name}: ${color}`).toBe(channels[2]);
+  for (const { name, color, expected } of colors) {
+    expect(color, name).toBe(expected);
+    expect(luminance(color), name).toBeLessThan(0.99);
   }
 }
 
 async function capture(page: Page, name: string) {
-  await neutralSurfaces(page);
+  await themedSurfaces(page);
   await page.screenshot({
     path: test.info().outputPath(`${name}.png`),
     fullPage: true,
   });
 }
 
-test("representative dashboard, forms, dialogs, Results and Steering stay neutral", async ({
+test("representative dashboard, forms, dialogs, Results and Steering share tinted surfaces", async ({
   page,
 }) => {
   seedSteeringContext();

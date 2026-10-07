@@ -39,7 +39,7 @@ it("changes immediately, serializes saves and adopts the authoritative response"
   fireEvent.click(screen.getByLabelText("Bleu"));
   expect(document.documentElement.dataset.palette).toBe("blue");
   expect(
-    screen.getByRole("group", { name: "Couleur d’accent" }),
+    screen.getByRole("group", { name: "Couleur de l’interface" }),
   ).toHaveAttribute("aria-busy", "true");
   expect(screen.getByLabelText("Rouge")).toBeDisabled();
   fireEvent.change(screen.getByLabelText("Bleu"));

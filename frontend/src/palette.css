@@ -63,7 +63,7 @@
 :root {
   --accent: var(--accent-day);
   --accent-hover: color-mix(in srgb, var(--accent) 88%, var(--text));
-  --accent-subtle: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  --accent-subtle: color-mix(in srgb, var(--accent) 12%, var(--surface-base));
   --accent-border: color-mix(in srgb, var(--accent) 65%, var(--surface));
   --accent-contrast: #ffffff;
   --primary: var(--accent);

@@ -8,7 +8,7 @@ function channels(color: string): number[] {
   return color.startsWith("color(srgb") ? values : values.map((v) => v / 255);
 }
 
-function luminance(color: string): number {
+export function luminance(color: string): number {
   const rgb = channels(color).map((value) =>
     value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4,
   );

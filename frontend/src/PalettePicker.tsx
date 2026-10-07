@@ -32,7 +32,7 @@ function PaletteOptions({ preference }: { preference: PalettePreference }) {
       <summary>Couleurs</summary>
       <div className="palette-panel">
         <fieldset disabled={saving} aria-busy={saving}>
-          <legend>Couleur d’accent</legend>
+          <legend>Couleur de l’interface</legend>
           <div className="palette-options">
             {palettes.map(({ value, label }) => (
               <label key={value}>

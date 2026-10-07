@@ -1,32 +1,22 @@
 import { expect, test } from "@playwright/test";
 
 import { palettes } from "../src/palette";
-import { contrast } from "./palette-contrast";
+import { contrast, luminance } from "./palette-contrast";
 
-const structural = [
-  "background",
-  "surface",
-  "surface-raised",
-  "border",
-  "text",
-  "text-muted",
-  "input-border",
-  "navigation-background",
-  "navigation-text",
-  "sidebar-control",
-];
+const stable = ["text", "text-muted", "border", "input-border"];
+const surfaces = ["background", "surface", "surface-raised"];
 
-test("accents never change structural tokens in either appearance", async ({
+test("each palette tints light and dark surfaces without changing readable text", async ({
   page,
 }) => {
   await page.goto("/");
   await expect(
     page.getByRole("button", { name: "Se connecter" }),
   ).toBeVisible();
-  const themes: string[][] = [];
+  const appearances: string[][][] = [];
   for (const theme of ["day", "night"]) {
     const values = await page.evaluate(
-      ({ theme, structural, palettes }) => {
+      ({ theme, stable, surfaces, palettes }) => {
         const root = document.documentElement;
         root.dataset.theme = theme;
         return palettes.map(({ value }) => {
@@ -34,7 +24,6 @@ test("accents never change structural tokens in either appearance", async ({
           const style = getComputedStyle(root);
           const token = (name: string) =>
             style.getPropertyValue(`--${name}`).trim();
-          // Resolve derived colors through a real CSS property.
           const resolved = (name: string) => {
             const probe = document.createElement("span");
             probe.style.color = `var(--${name})`;
@@ -45,28 +34,33 @@ test("accents never change structural tokens in either appearance", async ({
           };
           return {
             palette: value,
-            structural: structural.map(token),
-            accent: token("accent"),
-            contrast: token("accent-contrast"),
+            stable: stable.map(token),
+            surfaces: surfaces.map(resolved),
+            text: resolved("text"),
+            muted: resolved("text-muted"),
+            accent: resolved("accent"),
+            contrast: resolved("accent-contrast"),
             hover: resolved("accent-hover"),
-            surface: token("surface"),
-            raised: token("surface-raised"),
-            border: token("accent-border"),
             subtle: resolved("accent-subtle"),
           };
         });
       },
-      { theme, structural, palettes },
+      { theme, stable, surfaces, palettes },
     );
-    themes.push(values[0].structural);
+    appearances.push(values.map((tokens) => tokens.surfaces));
     for (const tokens of values) {
-      expect(tokens.structural, `${theme}/${tokens.palette}`).toEqual(
-        values[0].structural,
+      expect(tokens.stable, `${theme}/${tokens.palette}`).toEqual(
+        values[0].stable,
       );
-      for (const token of tokens.structural) {
-        expect(token).toMatch(/^#([0-9a-f]{2})\1\1$/i);
+      for (const color of tokens.stable)
+        expect(color).toMatch(/^#([0-9a-f]{2})\1\1$/i);
+      for (const surface of tokens.surfaces) {
+        if (theme === "day") expect(luminance(surface)).toBeGreaterThan(0.65);
+        else expect(luminance(surface)).toBeLessThan(0.15);
+        expect(contrast(tokens.text, surface)).toBeGreaterThanOrEqual(4.5);
+        expect(contrast(tokens.muted, surface)).toBeGreaterThanOrEqual(4.5);
+        expect(contrast(tokens.accent, surface)).toBeGreaterThanOrEqual(4.5);
       }
-      expect(tokens.border).not.toBe("");
       expect(contrast(tokens.accent, tokens.subtle)).toBeGreaterThanOrEqual(
         4.5,
       );
@@ -76,14 +70,15 @@ test("accents never change structural tokens in either appearance", async ({
       expect(contrast(tokens.hover, tokens.contrast)).toBeGreaterThanOrEqual(
         4.5,
       );
-      expect(contrast(tokens.accent, tokens.surface)).toBeGreaterThanOrEqual(
-        4.5,
-      );
-      expect(contrast(tokens.accent, tokens.raised)).toBeGreaterThanOrEqual(
-        4.5,
+    }
+    for (let index = 0; index < surfaces.length; index++) {
+      expect(new Set(values.map((tokens) => tokens.surfaces[index])).size).toBe(
+        10,
       );
     }
-    expect(new Set(values.map((value) => value.accent)).size).toBe(10);
+    expect(new Set(values.map((tokens) => tokens.accent)).size).toBe(10);
   }
-  expect(themes[0]).not.toEqual(themes[1]);
+  for (let index = 0; index < palettes.length; index++) {
+    expect(appearances[0][index]).not.toEqual(appearances[1][index]);
+  }
 });
