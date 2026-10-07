@@ -36,6 +36,8 @@ def test_superadmin_and_attached_admin_rename_an_organization() -> None:
     assert admin_response.json()["name"] == "East"
     assert root_response.status_code == 200
     assert organization.name == "Central"
+    assert not root.organizations.exists()
+    assert set(organization.users.all()) == {admin}
 
 
 @pytest.mark.django_db

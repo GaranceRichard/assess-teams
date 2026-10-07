@@ -77,8 +77,7 @@ restauration et isolation. Aucun identifiant cible, rôle, organisation ou CSS l
 
 `GET /api/admin/users/` exige une session active. Le Superadmin consulte la liste complète ; un Admin ou Coach
 consulte uniquement les membres de son organisation et reçoit une liste vide sans rattachement. Viewer reçoit `403`.
-Chaque résultat expose `organizations`, soit les rattachements du compte, soit toutes les organisations existantes
-pour un Superadmin. Le menu Utilisateurs affiche cette liste à ses visiteurs Admin et Superadmin.
+Chaque résultat expose `organizations`, les rattachements du compte et toujours `[]` pour un Superadmin. Le menu Utilisateurs affiche cette liste à ses visiteurs Admin et Superadmin.
 Viewer n’a aucun accès à l’écran Utilisateurs. `POST` sur la collection, puis `PUT` et `DELETE` sur
 `/api/admin/users/{user_id}/`, exigent le jeton CSRF et restent interdits au Viewer. Masquer un bouton ne
 constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
@@ -111,6 +110,9 @@ identifiant utilisateur actif existant, dont au moins un Admin métier actif. La
 La lecture exige une session active de Superadmin ou d’Admin ; l'Admin ne reçoit que son organisation. La
 création est réservée au Superadmin et retourne `201`. Un Admin, Coach ou Viewer appartient au plus à une
 organisation ; une création qui enfreint cette cardinalité retourne `400` sans persistance partielle.
+Le Superadmin est global et ne peut jamais être membre : création et remplacement de membres refusent
+son identifiant avec `400` et une erreur `user_ids`, sans écriture partielle. Les réponses de membres
+excluent les Superadmins ; renommer une organisation ne crée aucun rattachement.
 
 `GET /api/admin/organizations/{organization_id}/` applique le même scope que la collection. `PUT` accepte
 exactement `name` et renomme l’organisation sans

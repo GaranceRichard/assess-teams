@@ -21,7 +21,7 @@ const users = [
     user_type: "Superadmin",
     is_active: true,
     pending: false,
-    organizations: ["North", "South"],
+    organizations: [],
   },
   {
     id: 2,
@@ -76,7 +76,7 @@ it("hides every action on the connected superadmin row", async () => {
   });
 
   await screen.findByText("root@example.com");
-  expect(within(rowFor("root")).getByText("North, South")).toBeVisible();
+  expect(within(rowFor("root")).getByText("—")).toBeVisible();
   expect(
     screen.getByRole("columnheader", { name: "Organisations" }),
   ).toBeVisible();

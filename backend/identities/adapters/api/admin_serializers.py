@@ -2,7 +2,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from identities.domain.users import Role
-from identities.models import Organization, User
+from identities.models import User
 
 
 class ManagedUserSerializer(serializers.ModelSerializer):
@@ -31,10 +31,9 @@ class ManagedUserSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_organizations(self, user: User) -> list[str]:
-        organizations = (
-            Organization.objects.all() if user.is_superuser else user.organizations.all()
-        )
-        return [organization.name for organization in organizations]
+        if user.is_superuser:
+            return []
+        return [organization.name for organization in user.organizations.all()]
 
 
 class InviteUserSerializer(serializers.Serializer):

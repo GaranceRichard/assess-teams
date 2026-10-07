@@ -59,7 +59,7 @@ export function OrganizationCreateForm({
         <p>Sélectionnez au moins un Admin actif.</p>
         <div className="organization-users">
           {users
-            .filter((user) => user.is_active)
+            .filter((user) => user.is_active && user.user_type !== "Superadmin")
             .map((user) => {
               const unavailable = unavailableUserIds.has(user.id);
               return (

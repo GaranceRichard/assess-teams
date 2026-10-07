@@ -1,4 +1,4 @@
-from django.db.models import Q
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from identities.application.lifecycle import LAST_ADMIN_MESSAGE
@@ -12,6 +12,10 @@ def validate_membership_limit(
     current_organization: Organization | None = None,
 ) -> None:
     locked_users = User.objects.select_for_update().filter(pk__in=[user.pk for user in users])
+    if any(user.is_superuser for user in locked_users):
+        raise serializers.ValidationError(
+            {"user_ids": "Un Superadmin ne peut appartenir à aucune organisation."}
+        )
     existing_ids = (
         set(current_organization.users.values_list("pk", flat=True))
         if current_organization
@@ -53,11 +57,17 @@ class OrganizationUserSerializer(serializers.ModelSerializer):
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
-    users = OrganizationUserSerializer(many=True, read_only=True)
+    users = serializers.SerializerMethodField()
 
     class Meta:
         model = Organization
         fields = ("id", "name", "users")
+
+    @extend_schema_field(OrganizationUserSerializer(many=True))
+    def get_users(self, organization: Organization) -> list[dict]:
+        return OrganizationUserSerializer(
+            [user for user in organization.users.all() if not user.is_superuser], many=True
+        ).data
 
 
 class RenameOrganizationSerializer(serializers.Serializer):
@@ -79,7 +89,10 @@ class CreateOrganizationSerializer(serializers.Serializer):
         many=True,
         allow_empty=False,
         source="users",
-        help_text=("Un Admin, un Coach ou un Viewer appartient au plus à une organisation."),
+        help_text=(
+            "Un Admin, un Coach ou un Viewer appartient au plus à une organisation. "
+            "Un Superadmin ne peut être membre d'aucune organisation."
+        ),
     )
 
     def validate_name(self, value: str) -> str:
@@ -104,18 +117,19 @@ class UpdateOrganizationMembersSerializer(serializers.Serializer):
         many=True,
         allow_empty=False,
         source="users",
-        help_text=("Un Admin, un Coach ou un Viewer appartient au plus à une organisation."),
+        help_text=(
+            "Un Admin, un Coach ou un Viewer appartient au plus à une organisation. "
+            "Un Superadmin ne peut être membre d'aucune organisation."
+        ),
     )
 
     def validate(self, attrs: dict) -> dict:
         validate_membership_limit(attrs["users"], self.instance)
         current_protected_ids = set(
-            self.instance.users.filter(Q(role=Role.ADMIN) | Q(is_superuser=True)).values_list(
-                "pk", flat=True
-            )
+            self.instance.users.filter(role=Role.ADMIN).values_list("pk", flat=True)
         )
         requested_protected_ids = {
-            user.pk for user in attrs["users"] if user.is_superuser or user.role == Role.ADMIN.value
+            user.pk for user in attrs["users"] if user.role == Role.ADMIN.value
         }
         if (
             not self.context["actor"].is_superuser

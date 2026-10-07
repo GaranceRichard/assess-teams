@@ -17,7 +17,7 @@ USER-004 livre le [lifecycle réversible des identités](docs/architecture/user-
 équipes actives, complétions, retards et liens Results, via une projection backend read-only.
 Aucun score global, classement ou indicateur de performance individuelle n’est calculé.
 
-Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
+Le produit fait de l'Organisation la frontière d'administration : le Superadmin est global et [sans appartenance](docs/architecture/user-lifecycle.md#superadmin-global-sans-appartenance), avec migration des liens historiques ; un Admin rattaché à une organisation unique administre ses membres non-Admin, ses équipes et ses modèles, jamais les Admins pairs. Le bandeau de navigation vertical associe une icône à chaque entrée et peut être replié puis déplié ; les icônes repliées révèlent leur libellé au survol.
 Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO, WARNING et ERROR restent read-only et cloisonnés, avec les logs système globaux réservés au Superadmin.
 
 Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DELETE et proposent dix filtres structurés, avec contexte sûr et isolation par organisation. Les données sensibles restent exclues ; le Journal métier reste séparé.
@@ -46,7 +46,7 @@ Une identité active peut ouvrir une session produit, reprendre sur le tableau d
 Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. Le Superadmin Django obtient
 l'espace Admin sans devenir un rôle métier supplémentaire. Sans menu Équipes, le Coach retrouve sur son tableau
 de bord son organisation et ses équipes actives ; le Viewer y retrouve son organisation. La déconnexion invalide la session.
-La page Utilisateurs du Superadmin administre les identités et leurs invitations par e-mail. Un toggle illustré
+La page Utilisateurs administre les identités et leurs invitations ; elle affiche `—` pour le Superadmin, conserve les cellules Actions et centre les badges Actif/Désactivé dans les thèmes et palettes. Un toggle illustré
 soleil/lune conserve le mode jour/nuit. Dans Mon profil → Apparence, le sélecteur [Couleurs](docs/architecture/interface-palettes.md) propose dix couleurs avec fonds assortis : teintes claires lumière allumée, teintes foncées lumière éteinte, sans changer la couleur choisie, persistés par utilisateur dans la session backend (défaut vert). Le panneau de choix doit rester contenu dans le viewport mobile avec les métriques de police Linux. Le chargement initial de la planification ignore les réponses obsolètes.
 
 La gestion actuelle des utilisateurs suit la hiérarchie : le Superadmin gère les autres comptes sans agir sur le sien,

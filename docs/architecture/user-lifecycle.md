@@ -112,3 +112,21 @@ ci-dessus ; aucune action produit ou bouton ne l’expose. L’ORM reste une cap
 fixtures de tests et la réconciliation des comptes fictifs de développement, pas un workflow métier.
 Ne jamais employer ces commandes de données locales sur des identités métier de production.
 L’anonymisation réglementaire, la rétention et le lifecycle Organisation restent à définir séparément.
+
+## Superadmin global sans appartenance
+
+Le Superadmin Django (`is_superuser`) n'est pas un rôle métier ni un membre d'organisation.
+Les serializers de membres refusent son affectation ; les relations ORM `add`/`set` sont protégées
+sur les deux côtés. Une promotion Django exige de retirer préalablement les appartenances.
+La migration `identities.0006_remove_superadmin_memberships` retire uniquement les lignes de liaison
+vers les Superadmins, actifs ou inactifs. Elle conserve comptes, FK de responsabilités, passations,
+snapshots et journaux. Elle est idempotente ; son retour arrière ne recrée pas les liens invalides.
+Les écritures SQL ou bulk directes dans la table de liaison ne sont pas des parcours applicatifs autorisés.
+
+La liste Utilisateurs reçoit `organizations: []` pour ces comptes et affiche `—`, même face à une
+réponse ancienne. La cellule Actions existe aussi sans boutons sur le compte connecté ; son conteneur
+interne a les mêmes dimensions pour toutes les lignes. Le badge commun Actif/Désactivé utilise
+`inline-flex`, centrage horizontal/vertical et dimensions fixes, indépendants du rôle et des boutons.
+Les tests `test_superadmin_memberships`, `test_superadmin_membership_migration`,
+`SuperadminUsersLayout` et `users-layout.spec.ts` couvrent refus API/ORM, conservation historique,
+structure du tableau et géométrie/contraste sur desktop/mobile, clair/sombre et les dix palettes.

@@ -110,7 +110,6 @@ def test_global_scope_is_explicit_and_every_event_has_its_organization():
     first_org, _, _, first = results_context()
     second_org, _, _, second = results_context("South")
     root = create_superuser()
-    root.organizations.add(first_org)
     payload = client_for(root).get(reverse("dashboard")).json()
     assert payload["profile"]["is_superuser"]
     assert payload["profile"]["organization_name"] is None

@@ -21,7 +21,9 @@ export function OrganizationMembersDialog({
   onSubmit,
 }: Props) {
   const [userIds, setUserIds] = useState(
-    organization.users.map((user) => user.id),
+    organization.users
+      .filter((user) => user.user_type !== "Superadmin")
+      .map((user) => user.id),
   );
   const [saving, setSaving] = useState(false);
 
@@ -55,8 +57,9 @@ export function OrganizationMembersDialog({
           {users
             .filter(
               (user) =>
-                user.is_active ||
-                organization.users.some((member) => member.id === user.id),
+                user.user_type !== "Superadmin" &&
+                (user.is_active ||
+                  organization.users.some((member) => member.id === user.id)),
             )
             .map((user) => {
               const selected = userIds.includes(user.id);

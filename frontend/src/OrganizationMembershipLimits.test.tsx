@@ -23,6 +23,15 @@ vi.mock("./organizations", () => ({
 
 const users = [
   {
+    id: 4,
+    identifier: "root",
+    email: "root@example.com",
+    user_type: "Superadmin",
+    is_active: true,
+    pending: false,
+    organizations: [],
+  },
+  {
     id: 1,
     identifier: "admin-one",
     email: "admin@example.com",
@@ -83,12 +92,14 @@ it("blocks every business role already attached to another organization", async 
   expect(within(creationForm).getByLabelText(/coach-one/)).toBeDisabled();
   expect(within(creationForm).getByLabelText(/viewer-one/)).toBeDisabled();
 
+  expect(within(creationForm).queryByLabelText(/root/)).not.toBeInTheDocument();
   const target = screen.getByText("Target").closest("li");
   expect(target).not.toBeNull();
   fireEvent.click(
     within(target!).getByRole("button", { name: "Gérer les membres" }),
   );
   const dialog = screen.getByRole("dialog");
+  expect(within(dialog).queryByLabelText(/root/)).not.toBeInTheDocument();
   expect(within(dialog).getByLabelText(/admin-one/)).toBeDisabled();
   expect(within(dialog).getByLabelText(/coach-one/)).toBeDisabled();
   expect(within(dialog).getByLabelText(/viewer-one/)).toBeEnabled();

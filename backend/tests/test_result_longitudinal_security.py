@@ -48,9 +48,11 @@ def test_coach_scope_applies_before_latest_version_and_history_selection():
 def test_superadmin_selects_organization_and_viewer_consults_own_results():
     org, _, admin, own, _ = longitudinal_context()
     foreign_org, _, _, foreign = results_context("Foreign")
+    admin.organizations.clear()
     admin.is_superuser = True
     admin.role = None
     admin.save()
+    assert not admin.organizations.exists()
     client = client_for(admin)
     assert {o["id"] for o in client.get(reverse("result-organizations")).json()} == {
         org.pk,

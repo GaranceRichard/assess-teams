@@ -47,7 +47,7 @@ def test_superadmin_lists_all_users_with_status() -> None:
     assert response.status_code == 200
     users = {entry["id"]: entry for entry in response.json()}
     assert users[root.pk]["user_type"] == "Superadmin"
-    assert users[root.pk]["organizations"] == ["North", "South"]
+    assert users[root.pk]["organizations"] == []
     assert users[active.pk]["organizations"] == ["North"]
     assert users[pending.pk]["organizations"] == ["South"]
     assert users[unassigned.pk]["organizations"] == []

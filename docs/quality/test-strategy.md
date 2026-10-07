@@ -97,6 +97,11 @@ Admin/Superadmin, refus Coach/Viewer, thèmes/palettes, mobile/clavier et rechar
 Le [Dashboard personnel](../architecture/dashboard-api.md#validation-et-revue-documentaire) inventorie
 ses preuves API/ORM/OpenAPI, React et Playwright : provenance, scopes, refus, états et palettes.
 
+Le Superadmin sans appartenance est couvert par `test_superadmin_memberships` (refus API/ORM,
+lecture défensive) et `test_superadmin_membership_migration` (liens seuls, historique et rollback).
+`users-layout.spec.ts` contrôle cellules, dimensions, centrage et contraste des deux états,
+avec/sans actions, desktop/mobile et les dix palettes dans les deux modes.
+
 ## Stratégie de couverture
 
 Les palettes personnelles sont couvertes par `test_session_palette`, `test_palette_contract` et

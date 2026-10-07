@@ -116,35 +116,39 @@ export function SuperadminDashboard({ actor }: Props) {
                 <td>{user.user_type}</td>
                 {showsOrganizations && (
                   <td>
-                    {user.organizations.length > 0
-                      ? user.organizations.join(", ")
-                      : "Aucune organisation"}
+                    {user.user_type === "Superadmin"
+                      ? "—"
+                      : user.organizations.length > 0
+                        ? user.organizations.join(", ")
+                        : "Aucune organisation"}
                   </td>
                 )}
-                <td className="row-actions">
-                  <span className="pending">
-                    {user.is_active ? "Actif" : "Désactivé"}
-                  </span>
-                  {canManageTarget(actor, user) && (
-                    <>
-                      <button
-                        className="secondary"
-                        onClick={() => setEditing(user)}
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        className="danger-outline"
-                        onClick={() =>
-                          user.is_active
-                            ? setDeactivating(user)
-                            : void changeActivation(user, true)
-                        }
-                      >
-                        {user.is_active ? "Désactiver" : "Réactiver"}
-                      </button>
-                    </>
-                  )}
+                <td>
+                  <div className="row-actions users-actions">
+                    <span className="status-badge">
+                      {user.is_active ? "Actif" : "Désactivé"}
+                    </span>
+                    {canManageTarget(actor, user) && (
+                      <>
+                        <button
+                          className="secondary"
+                          onClick={() => setEditing(user)}
+                        >
+                          Modifier
+                        </button>
+                        <button
+                          className="danger-outline"
+                          onClick={() =>
+                            user.is_active
+                              ? setDeactivating(user)
+                              : void changeActivation(user, true)
+                          }
+                        >
+                          {user.is_active ? "Désactiver" : "Réactiver"}
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

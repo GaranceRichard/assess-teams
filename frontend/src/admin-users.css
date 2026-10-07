@@ -39,6 +39,10 @@ th {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+.users-page td {
+  vertical-align: middle;
+  white-space: nowrap;
+}
 .pending {
   display: inline-block;
   margin-left: 0.6rem;
@@ -48,6 +52,29 @@ th {
   background: #fff1c7;
   font-size: 0.72rem;
   font-weight: 800;
+}
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+  height: 1.75rem;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+  white-space: nowrap;
+  border-radius: 2rem;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.users-actions {
+  width: 22rem;
+  height: 2.5rem;
+  align-items: center;
+  white-space: nowrap;
 }
 .row-actions {
   display: flex;
@@ -109,7 +136,7 @@ th {
   td {
     padding: 0.7rem;
   }
-  .row-actions {
+  .row-actions:not(.users-actions) {
     align-items: stretch;
     flex-direction: column;
   }

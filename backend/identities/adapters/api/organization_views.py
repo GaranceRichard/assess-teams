@@ -46,7 +46,7 @@ class OrganizationListCreateView(APIView):
         description=(
             "Crée une organisation et l'affecte à un ou plusieurs utilisateurs. "
             "Action réservée au Superadmin ; chaque Admin, Coach ou Viewer "
-            "appartient au plus à une organisation."
+            "appartient au plus à une organisation. Le Superadmin n’est jamais membre."
         ),
         request=CreateOrganizationSerializer,
         responses={
@@ -86,7 +86,8 @@ class OrganizationMemberUpdateView(APIView):
         description=(
             "Remplace les membres d'une organisation pour un Superadmin ou un "
             "Admin actif dans son organisation. Un Admin ne peut jamais modifier "
-            "les rattachements des Admin ; chaque membre est limité à une organisation."
+            "les rattachements des Admin ; chaque membre est limité à une organisation. "
+            "Un Superadmin ne peut être affecté."
         ),
         request=UpdateOrganizationMembersSerializer,
         responses={

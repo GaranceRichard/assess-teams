@@ -47,6 +47,7 @@ def test_admin_organization_is_imposed_forged_ids_and_interorganization_data_are
 def test_superadmin_requires_one_organization_and_switches_without_aggregation():
     org, _, admin, _ = results_context("One")
     other, _, _, _ = results_context("Two")
+    admin.organizations.clear()
     admin.is_superuser = True
     admin.role = None
     admin.save()

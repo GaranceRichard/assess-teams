@@ -36,9 +36,11 @@ def test_admin_isolation_and_forged_version_team_run_question_ids():
 def test_superadmin_sees_global_results_and_separate_versions():
     _, _, admin, first = results_context("One")
     _, _, _, second = results_context("Two")
+    admin.organizations.clear()
     admin.is_superuser = True
     admin.role = None
     admin.save()
+    assert not admin.organizations.exists()
     client = client_for(admin)
     assert {v["id"] for v in client.get(reverse("result-versions")).json()} == {
         first.evaluation_id,

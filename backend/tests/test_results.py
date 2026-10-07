@@ -78,7 +78,10 @@ def test_equal_completion_dates_choose_greatest_run_id():
 
 def test_query_count_is_constant_with_multiple_teams(django_assert_num_queries):
     organization, _, admin, run = results_context()
+    admin.organizations.clear()
     admin.is_superuser = True
+    admin.role = None
+    admin.save()
     for number in range(6):
         team = Team.objects.create(organization=organization, name=f"Team {number}")
         another_run(run, team=team, days=number + 1)
