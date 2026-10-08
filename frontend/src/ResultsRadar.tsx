@@ -30,7 +30,7 @@ export function ResultsRadar({
   const visible = teams.filter((team) => selected.includes(team.team_id));
   return (
     <section
-      className="results-chart results-radar"
+      className="results-chart results-radar results-responsive-chart"
       aria-label="Comparaison des équipes"
     >
       <div className="results-canvas">

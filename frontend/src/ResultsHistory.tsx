@@ -14,6 +14,7 @@ import { seriesStyle } from "./resultRadarConfig";
 import { getCriterionHistory } from "./results";
 import type { ResultAxis, ResultHistory, ResultTeam } from "./results";
 import type { Theme } from "./theme";
+import "./results-history.css";
 
 ChartJS.register(LinearScale, LineElement, PointElement, Tooltip);
 
@@ -64,13 +65,15 @@ export function ResultsHistory({
   const history = loading ? null : result.data;
   return (
     <section
-      className="results-chart"
+      className="results-chart results-history results-responsive-chart"
       aria-label="Évolution temporelle du critère"
     >
-      <button type="button" onClick={onBack}>
-        Retour au radar
-      </button>
-      <h2>Évolution : {criterion.text}</h2>
+      <div className="results-history-heading">
+        <button type="button" onClick={onBack}>
+          Retour au radar
+        </button>
+        <h2>Évolution : {criterion.text}</h2>
+      </div>
       <p className="results-note">
         Observations historiques compatibles · Scores de 0 à 10 · Continuité par
         lignée explicite
@@ -119,7 +122,12 @@ export function ResultsHistory({
               );
             })}
           </ul>
-          <div className="table-wrap">
+          <div
+            className="table-wrap results-table-scroll"
+            role="region"
+            aria-label="Observations historiques"
+            tabIndex={0}
+          >
             <table>
               <caption>Observations historiques du critère sélectionné</caption>
               <thead>

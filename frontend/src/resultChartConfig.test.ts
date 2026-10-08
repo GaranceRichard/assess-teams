@@ -1,4 +1,11 @@
-import type { ActiveElement, Chart, ChartEvent, TooltipItem } from "chart.js";
+import type {
+  ActiveElement,
+  Chart,
+  ChartEvent,
+  TooltipItem,
+  LinearScaleOptions,
+  Scale,
+} from "chart.js";
 import { expect, it, vi } from "vitest";
 
 import { historyData, historyOptions } from "./resultHistoryConfig";
@@ -92,3 +99,36 @@ it.each([100, 500])(
     });
   },
 );
+
+it.each([
+  { width: 220, height: 90, ticks: 2, font: 10 },
+  { width: 600, height: 110, ticks: 4, font: 11 },
+  { width: 1000, height: 500, ticks: 6, font: 12 },
+])("sizes longitudinal dates and title for $width × $height", (size) => {
+  const options = historyOptions("day");
+  const axis = {
+    chart: { width: size.width },
+    ticks: Array.from({ length: 8 }, (_, value) => ({ value })),
+  } as unknown as Scale;
+  options.scales!.x!.afterBuildTicks!(axis);
+  expect(axis.ticks).toHaveLength(size.ticks);
+  expect(axis.ticks[0].value).toBe(0);
+  expect(axis.ticks.at(-1)!.value).toBe(7);
+  axis.ticks = [{ value: 1 }];
+  options.scales!.x!.afterBuildTicks!(axis);
+  expect(axis.ticks).toEqual([{ value: 1 }]);
+  const title = (options.scales!.y as LinearScaleOptions).title;
+  const font = title.font as (context: unknown) => { size: number };
+  expect(font({ chart: { height: size.height } })).toEqual({ size: size.font });
+  expect(options.scales!.x!.ticks).toMatchObject({
+    maxTicksLimit: 6,
+    maxRotation: 0,
+    autoSkip: false,
+  });
+  expect(options.scales!.y).toMatchObject({ min: 0, max: 10 });
+  expect(options).toMatchObject({
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: false,
+  });
+});

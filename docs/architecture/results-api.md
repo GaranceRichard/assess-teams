@@ -103,6 +103,12 @@ Historique par critère sous le radar et dans le tableau.
 Le radar remplit la hauteur restante du panneau flex, sans hauteur fixe ni scroll de page desktop ;
 ses libellés radar abrégés existants passent à la ligne selon la largeur disponible. Les textes
 intégraux restent accessibles dans le tableau et le menu Historique par critère. Le mobile conserve le flux naturel.
+Le longitudinal partage le conteneur flex responsive du radar : titre/retour, note et légende
+réservent leur espace, puis le canvas et le tableau se répartissent la hauteur restante. Sur desktop
+court, une grille place le tableau à côté du graphique ; seul le tableau peut scroller, sans scroll
+du panneau. Les dates restent horizontales et leurs graduations suivent la largeur du canvas.
+Le titre de l’axe des scores adapte sa police entre 10 et 12 px ; aucune donnée ni échelle ne change.
+L’application et la démo composent le même ResultsHistory. Le mobile garde son flux naturel.
 L’historique est chargé uniquement quand cette vue s’ouvre, et pour la sélection courante.
 Le retour garde organisation, modèle et équipes, sans recharger la projection radar.
 

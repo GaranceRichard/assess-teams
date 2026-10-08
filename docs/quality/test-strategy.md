@@ -91,6 +91,10 @@ il vérifie le scroll interne du tableau, la conservation des sélections et l�
 Le longitudinal ajoute les tests `test_result_longitudinal*` et `test_question_lineage*` : lignées
 explicites, migration conservatrice, v1/v2, isolement et IDs forgés. `results-longitudinal.spec.ts`
 vérifie le radar automatique, le chargement à la demande, les observations accessibles et le retour.
+Les tests de layout longitudinal de l’application et du build statique partagent leurs assertions :
+six viewports desktop, texte du canvas non rogné, dates sans chevauchement, titre/légende contenus,
+resize, mises à jour jour/nuit et changements d’onglets, retour au radar, tableau seul scrollable au clavier et flux mobile.
+Ils échouent avant correction sur le dépassement du canvas hors panneau dans les deux builds.
 `test_viewer_results` et `viewer-results.spec.ts` protègent la consultation Viewer des COMPLETED de
 son organisation, le longitudinal, les refus inter-organisations et l’absence d’accès/mutation admin.
 
