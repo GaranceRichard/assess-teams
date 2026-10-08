@@ -3,7 +3,6 @@ import { beforeEach, expect, it, vi } from "vitest";
 import type { ChartData, ChartOptions } from "chart.js";
 
 import { ResultsPage } from "./ResultsPage";
-import { completionDate } from "./evaluationRuns";
 import {
   resultComparison,
   resultFamilyComparison,
@@ -76,11 +75,6 @@ it("loads ordered axes immediately with a fixed empty scale, then overlays and r
     screen.getByRole("img").getAttribute("data-options")!,
   );
   expect(options.scales.r).toMatchObject({ min: 0, max: 10 });
-  expect(
-    screen.getByRole("rowheader", {
-      name: `2. ${resultComparison.axes[1].text}`,
-    }),
-  ).toBeVisible();
 
   fireEvent.click(screen.getByRole("checkbox", { name: /^Alpha/ }));
   expect(chartData().datasets).toHaveLength(1);
@@ -91,13 +85,6 @@ it("loads ordered axes immediately with a fixed empty scale, then overlays and r
   });
   const legend = screen.getByRole("list", { name: "Légende des équipes" });
   expect(within(legend).getByText("1. Alpha")).toBeVisible();
-  expect(
-    within(legend).getByText(
-      completionDate(resultComparison.teams[0].completed_at),
-    ),
-  ).toBeVisible();
-  expect(screen.getByRole("cell", { name: "0 / 10" })).toBeVisible();
-  expect(screen.getByRole("cell", { name: "10 / 10" })).toBeVisible();
 
   fireEvent.click(screen.getByRole("checkbox", { name: /^Beta/ }));
   const [first, second] = chartData().datasets;

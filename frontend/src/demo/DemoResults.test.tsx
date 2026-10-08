@@ -24,6 +24,11 @@ it("sélectionne, désélectionne et ouvre la trajectoire puis revient", () => {
   expect(screen.getByText("Radar 3")).toBeInTheDocument();
   fireEvent.click(screen.getAllByRole("checkbox")[0]);
   expect(screen.getByText("Radar 2")).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("tab", { name: "Résultats détaillés" }));
+  expect(screen.getAllByRole("columnheader")).toHaveLength(3);
+  expect(screen.getAllByRole("checkbox")[0]).not.toBeChecked();
+  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
+  expect(screen.getByText("Radar 2")).toBeInTheDocument();
   fireEvent.click(screen.getAllByRole("checkbox")[0]);
   fireEvent.click(screen.getByText("Radar 3"));
   fireEvent.click(screen.getByText("Retour au radar"));

@@ -94,8 +94,15 @@ Changer d’organisation ou de famille remet à zéro les sélections et ferme l
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
 Le radar conserve axes et échelle 0–10 avec zéro série. Avec 1/N équipes, il conserve séries superposées,
-styles par équipe, légende, dates et tableau accessible. Les critères s’ouvrent par clic sur leur libellé
-ou point dans le radar, ou par bouton clavier dans le tableau des critères.
+styles par équipe, légende et dates. Deux onglets accessibles, Radar / Résultats détaillés, partagent
+les mêmes filtres et équipes ; les flèches, Home et End déplacent le focus et activent la vue.
+Changer d’onglet ne réinitialise aucune sélection. Le tableau détaillé reprend les scores et dates
+des passations retenues, avec scroll interne uniquement en cas de dépassement. Les critères s’ouvrent
+par clic sur leur libellé ou point dans le radar, ou par bouton clavier dans le menu
+Historique par critère sous le radar et dans le tableau.
+Le radar remplit la hauteur restante du panneau flex, sans hauteur fixe ni scroll de page desktop ;
+ses libellés radar abrégés existants passent à la ligne selon la largeur disponible. Les textes
+intégraux restent accessibles dans le tableau et le menu Historique par critère. Le mobile conserve le flux naturel.
 L’historique est chargé uniquement quand cette vue s’ouvre, et pour la sélection courante.
 Le retour garde organisation, modèle et équipes, sans recharger la projection radar.
 

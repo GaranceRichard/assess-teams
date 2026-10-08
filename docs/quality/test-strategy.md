@@ -84,6 +84,10 @@ Résultats : `test_results*` vérifie la récence métier, le tie-break, les sna
 l’isolation et un nombre constant de requêtes. Les tests React couvrent 0/1/N équipes, styles, légende,
 dates, désélection, changement d’organisation/famille et réponses obsolètes. `results.spec.ts` exerce le radar réel
 avec deux équipes et deux complétions pour l’une, sans requête supplémentaire lors des sélections.
+`ResultsTabs.test.tsx` couvre le partage des filtres/équipes, les dates/scores détaillés, le clavier,
+la sélection vide et le refus de chargement. `results-layout.spec.ts` mesure le canvas et les bornes
+de chaque libellé sur six viewports desktop, dont 1280×480, sans scroll de document/page/panneau radar ;
+il vérifie le scroll interne du tableau, la conservation des sélections et l’accès mobile.
 Le longitudinal ajoute les tests `test_result_longitudinal*` et `test_question_lineage*` : lignées
 explicites, migration conservatrice, v1/v2, isolement et IDs forgés. `results-longitudinal.spec.ts`
 vérifie le radar automatique, le chargement à la demande, les observations accessibles et le retour.

@@ -2,7 +2,7 @@ import type { ActiveElement, Chart, ChartEvent, TooltipItem } from "chart.js";
 import { expect, it, vi } from "vitest";
 
 import { historyData, historyOptions } from "./resultHistoryConfig";
-import { radarOptions } from "./resultRadarConfig";
+import { radarOptions, wrapRadarLabel } from "./resultRadarConfig";
 import { resultComparison, resultHistory } from "./test/resultsFixture";
 
 it("selects a radar criterion by its label without datasets or by a plotted point", () => {
@@ -60,3 +60,35 @@ it("uses actual completion timestamps, point metadata and fixed scales without c
   ).toBe("2026-09-01");
   expect(historyOptions("day").scales!.y!.ticks!.color).toBe("#171717");
 });
+
+it("wraps complete radar labels for the available width, including long unbroken words", () => {
+  const label =
+    "1. Collaboration et amélioration continue de toutes les équipes";
+  expect(wrapRadarLabel(label, 400).join(" ")).toBe(label);
+  expect(wrapRadarLabel(label, 400).length).toBeGreaterThan(
+    wrapRadarLabel(label, 1600).length,
+  );
+  expect(
+    wrapRadarLabel("supercalifragilisticexpialidocious", 200).join(""),
+  ).toBe("supercalifragilisticexpialidocious");
+  expect(wrapRadarLabel("", 0)).toEqual([]);
+  const callback = radarOptions("day").scales!.r!.pointLabels!.callback!;
+  expect(callback.call({ chart: { width: 400 } } as never, label, 0)).toEqual(
+    wrapRadarLabel(label, 400),
+  );
+});
+
+it.each([100, 500])(
+  "keeps radar label fonts readable at height %s",
+  (height) => {
+    const font = radarOptions("day").scales!.r!.pointLabels!.font;
+    const resolve = font as (context: { chart: { height: number } }) => {
+      size: number;
+      lineHeight: number;
+    };
+    expect(resolve({ chart: { height } })).toEqual({
+      size: height < 180 ? 10 : 12,
+      lineHeight: 1,
+    });
+  },
+);

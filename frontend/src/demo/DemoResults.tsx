@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { ResultsRadar } from "../ResultsRadar";
-import { ResultsHistory } from "../ResultsHistory";
+import { ResultsViews } from "../ResultsViews";
 import { ResultTeamSelection } from "../ResultTeamSelection";
-import type { ResultAxis } from "../results";
 import type { Theme } from "../theme";
 import { comparison } from "./results";
 import "../results.css";
+import "../results-views.css";
 export function DemoResults({ theme }: { theme: Theme }) {
   const data = comparison();
   const requestedId = Number(
@@ -17,7 +16,6 @@ export function DemoResults({ theme }: { theme: Theme }) {
   const [selected, setSelected] = useState(
     requested ? [requested] : data.teams.map((t) => t.team_id),
   );
-  const [criterion, setCriterion] = useState<ResultAxis | null>(null);
   return (
     <section className="results-page product-page">
       <h1>Résultats</h1>
@@ -39,23 +37,12 @@ export function DemoResults({ theme }: { theme: Theme }) {
             )
           }
         />
-        {criterion ? (
-          <ResultsHistory
-            familyId={1}
-            criterion={criterion}
-            teams={data.teams}
-            selected={selected}
-            theme={theme}
-            onBack={() => setCriterion(null)}
-          />
-        ) : (
-          <ResultsRadar
-            {...data}
-            selected={selected}
-            theme={theme}
-            onCriterion={setCriterion}
-          />
-        )}
+        <ResultsViews
+          comparison={data}
+          familyId={1}
+          selected={selected}
+          theme={theme}
+        />
       </div>
     </section>
   );

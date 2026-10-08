@@ -30,15 +30,17 @@ test("compares latest completed team runs on a persistent radar without navigati
     "aria-label",
     /0 équipe\(s\), 3 axe\(s\), échelle 0 à 10/,
   );
+  await page.getByText("Historique par critère", { exact: true }).click();
   await expect(
-    page.getByRole("rowheader", { name: "1. Collaboration" }),
+    page.getByRole("button", { name: "1. Collaboration" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("rowheader", { name: "2. Livraison" }),
+    page.getByRole("button", { name: "2. Livraison" }),
   ).toBeVisible();
   await expect(
     page.getByRole("checkbox", { name: /^Équipe A/ }),
   ).not.toBeChecked();
+  await page.getByText("Historique par critère", { exact: true }).click();
   const loadedRequests = resultsRequests;
   const emptyDrawing = await radar.evaluate((canvas: HTMLCanvasElement) =>
     canvas.toDataURL(),
@@ -52,10 +54,13 @@ test("compares latest completed team runs on a persistent radar without navigati
     )
     .not.toBe(emptyDrawing);
   await expect(legend.getByText("1. Équipe A", { exact: true })).toBeVisible();
-  await expect(legend.locator("time")).toHaveAttribute(
-    "datetime",
-    "2026-10-02T08:00:00-04:00",
-  );
+  await expect(
+    page
+      .getByRole("group", { name: "Équipes disponibles" })
+      .locator("time")
+      .first(),
+  ).toHaveAttribute("datetime", "2026-10-02T08:00:00-04:00");
+  await page.getByRole("tab", { name: "Résultats détaillés" }).click();
   await expect(
     page.getByRole("cell", { name: "0 / 10", exact: true }),
   ).toBeVisible();
@@ -66,6 +71,7 @@ test("compares latest completed team runs on a persistent radar without navigati
     page.getByRole("cell", { name: "2 / 10", exact: true }),
   ).toHaveCount(0);
 
+  await page.getByRole("tab", { name: "Radar", exact: true }).click();
   await page.getByRole("checkbox", { name: /^Équipe B/ }).check();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await expect(legend.getByRole("listitem")).toHaveCount(2);
@@ -100,8 +106,9 @@ test("compares latest completed team runs on a persistent radar without navigati
       radar.evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL()),
     )
     .toBe(emptyDrawing);
+  await page.getByText("Historique par critère", { exact: true }).click();
   await expect(
-    page.getByRole("rowheader", { name: "3. Amélioration" }),
+    page.getByRole("button", { name: "3. Amélioration" }),
   ).toBeVisible();
   expect(resultsRequests).toBe(loadedRequests);
   await expect(page).toHaveURL(/\/results$/);

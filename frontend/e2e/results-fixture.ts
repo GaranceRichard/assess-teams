@@ -4,7 +4,12 @@ import {
   seedIdentity,
 } from "./identity-fixture";
 
-export function seedResultsContext(longitudinal = false) {
+export function seedResultsContext(
+  longitudinal = false,
+  criteria = ["Collaboration", "Livraison", "Amélioration"],
+) {
+  const scores = (values: number[]) =>
+    criteria.map((_, index) => values[index % values.length]);
   seedIdentity("results-admin-e2e", "Admin");
   assignOrganization(["results-admin-e2e"], "Results E2E");
   runDjangoShell([
@@ -17,13 +22,13 @@ export function seedResultsContext(longitudinal = false) {
     "organization = Organization.objects.get(name='Results E2E')",
     "actor = User.objects.get(username='results-admin-e2e')",
     "evaluation = Evaluation.objects.create(organization=organization, name='Radar E2E', index=1, status='VALIDATED')",
-    "[Question.objects.create(evaluation=evaluation, index=i, name=name) for i, name in [(3, 'Amélioration'), (1, 'Collaboration'), (2, 'Livraison')]]",
+    `[Question.objects.create(evaluation=evaluation, index=i, name=name) for i, name in ${JSON.stringify(criteria.map((name, index) => [index + 1, name]))}]`,
     "teams = [Team.objects.create(organization=organization, name=name) for name in ['Équipe A', 'Équipe B']]",
     "schedules = [EvaluationSchedule.objects.create(team=team, evaluation=evaluation, assignee=actor, mode='monthly', first_due_date='2026-08-01') for team in teams]",
     "runs = [ensure_expected_evaluation(schedule) for schedule in schedules]",
     "old = ensure_expected_evaluation(schedules[0], datetime(2026, 9, 1).date())",
     "[start_evaluation(run, actor) for run in runs + [old]]",
-    "[save_evaluation_score(run, actor, q.source_question_id, score) for run, values in [(runs[0], [0, 10, 7]), (runs[1], [8, 3, 5]), (old, [2, 2, 2])] for q, score in zip(run.questions.all(), values)]",
+    `[save_evaluation_score(run, actor, q.source_question_id, score) for run, values in [(runs[0], ${JSON.stringify(scores([0, 10, 7]))}), (runs[1], ${JSON.stringify(scores([8, 3, 5]))}), (old, ${JSON.stringify(scores([2]))})] for q, score in zip(run.questions.all(), values)]`,
     "[complete_evaluation(run, actor) for run in runs + [old]]",
     "runs[0].completed_at = datetime(2026, 10, 2, 12, tzinfo=tz.utc)",
     "runs[0].save(update_fields=['completed_at'])",

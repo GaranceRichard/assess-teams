@@ -1,13 +1,10 @@
-import { useState } from "react";
-
 import type { SessionUser } from "./auth";
 import { ResultTeamSelection } from "./ResultTeamSelection";
-import { ResultsHistory } from "./ResultsHistory";
-import { ResultsRadar } from "./ResultsRadar";
-import type { ResultAxis } from "./results";
+import { ResultsViews } from "./ResultsViews";
 import type { Theme } from "./theme";
 import { useResultSelection } from "./useResultSelection";
 import "./results.css";
+import "./results-views.css";
 
 export function ResultsPage({
   theme,
@@ -17,15 +14,6 @@ export function ResultsPage({
   actor: SessionUser;
 }) {
   const state = useResultSelection(actor.is_superuser);
-  const [criterion, setCriterion] = useState<ResultAxis | null>(null);
-  function selectOrganization(value: string) {
-    setCriterion(null);
-    state.selectOrganization(value);
-  }
-  function selectFamily(value: string) {
-    setCriterion(null);
-    state.selectFamily(value);
-  }
   const usable = state.comparison && state.comparison.axes.length > 0;
   return (
     <section className="results-page product-page">
@@ -36,7 +24,7 @@ export function ResultsPage({
           <select
             value={state.organizationId}
             disabled={!actor.is_superuser}
-            onChange={(event) => selectOrganization(event.target.value)}
+            onChange={(event) => state.selectOrganization(event.target.value)}
           >
             <option value="">Sélectionner une organisation</option>
             {state.organizations.map((org) => (
@@ -51,7 +39,7 @@ export function ResultsPage({
           <select
             value={state.familyId}
             disabled={!state.organizationId || state.families.length === 0}
-            onChange={(event) => selectFamily(event.target.value)}
+            onChange={(event) => state.selectFamily(event.target.value)}
           >
             <option value="">Sélectionner un modèle</option>
             {state.families.map((family) => (
@@ -100,24 +88,13 @@ export function ResultsPage({
               selected={state.selected}
               onToggle={state.toggleTeam}
             />
-            {criterion ? (
-              <ResultsHistory
-                key={`${state.familyId}:${criterion.lineage_id}`}
-                familyId={Number(state.familyId)}
-                criterion={criterion}
-                teams={state.comparison.teams}
-                selected={state.selected}
-                theme={theme}
-                onBack={() => setCriterion(null)}
-              />
-            ) : (
-              <ResultsRadar
-                {...state.comparison}
-                selected={state.selected}
-                theme={theme}
-                onCriterion={setCriterion}
-              />
-            )}
+            <ResultsViews
+              key={state.familyId}
+              comparison={state.comparison}
+              familyId={Number(state.familyId)}
+              selected={state.selected}
+              theme={theme}
+            />
           </div>
         </>
       )}

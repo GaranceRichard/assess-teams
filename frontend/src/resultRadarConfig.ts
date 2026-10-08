@@ -82,6 +82,7 @@ export function radarOptions(
     responsive: true,
     maintainAspectRatio: false,
     animation: false,
+    layout: { padding: 12 },
     scales: {
       r: {
         min: 0,
@@ -89,7 +90,16 @@ export function radarOptions(
         ticks: { stepSize: 2, color: text, showLabelBackdrop: false },
         grid: { color: grid },
         angleLines: { color: grid },
-        pointLabels: { color: text, font: { size: 12 } },
+        pointLabels: {
+          color: text,
+          font: (context) => ({
+            size: context.chart.height < 180 ? 10 : 12,
+            lineHeight: 1,
+          }),
+          callback: function (this: RadialLinearScale, label) {
+            return wrapRadarLabel(String(label), this.chart.width);
+          },
+        },
       },
     },
     plugins: {
@@ -97,4 +107,22 @@ export function radarOptions(
       tooltip: { enabled: true },
     },
   };
+}
+
+export function wrapRadarLabel(label: string, width: number) {
+  const limit = Math.max(18, Math.min(36, Math.floor(width / 25)));
+  const lines: string[] = [];
+  let line = "";
+  for (const word of label.split(/\s+/)) {
+    const parts = word.match(new RegExp(".{1," + limit + "}", "g")) ?? [];
+    for (const part of parts) {
+      if (line && line.length + part.length + 1 > limit) {
+        lines.push(line);
+        line = "";
+      }
+      line = line ? line + " " + part : part;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
 }

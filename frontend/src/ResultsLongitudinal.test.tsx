@@ -65,6 +65,7 @@ async function choose() {
   await screen.findByRole("option", { name: "Maturité" });
   fireEvent.change(screen.getByLabelText("Modèle"), { target: { value: "4" } });
   await screen.findByRole("img");
+  fireEvent.click(screen.getByText("Historique par critère"));
 }
 it("loads history only on criterion opening and returns with model and team selections intact", async () => {
   render(<ResultsPage actor={resultActor} theme="day" />);
@@ -79,6 +80,16 @@ it("loads history only on criterion opening and returns with model and team sele
     name: /Évolution de Collaboration/,
   });
   const data = JSON.parse(chart.getAttribute("data-chart")!);
+  fireEvent.click(screen.getByRole("tab", { name: "Résultats détaillés" }));
+  expect(screen.getByRole("table")).toHaveAccessibleName(
+    "Critères et scores des équipes sélectionnées",
+  );
+  fireEvent.click(screen.getByRole("button", { name: "1. Collaboration" }));
+  await screen.findByRole("img", { name: /Évolution de Collaboration/ });
+  expect(screen.getByRole("tab", { name: "Radar" })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
   expect(data.datasets).toHaveLength(2);
   expect(data.datasets[0].data.map((point: { y: number }) => point.y)).toEqual([
     2, 0,

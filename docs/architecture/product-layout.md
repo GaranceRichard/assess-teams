@@ -43,6 +43,9 @@ Journal et Logs réutilisent leur pagination backend existante de 20 éléments.
 Les petites collections ne montrent pas de pagination. Le Dashboard conserve son contrat métier
 limité aux dix événements récents, dans une zone bornée. Results conserve les jeux complets nécessaires
 aux comparaisons et courbes ; les sélections et observations sont consultables par scroll interne.
+Les onglets Radar / Résultats détaillés partagent une sélection unique. Le radar utilise la hauteur
+disponible du panneau avec `min-height: 0` et un canvas responsive ; le tableau détaillé est dans
+une région clavier à scroll interne, avec dates de complétion et en-tête sticky.
 Les sélecteurs des formulaires gardent leurs collections complètes pour ne rendre aucun choix inaccessible.
 
 `usePagedCollection` conserve page/scope, remet la page à 1 lors d’un changement de filtre, ignore les

@@ -8,7 +8,6 @@ import {
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
 
-import { completionDate } from "./evaluationRuns";
 import { radarData, radarOptions, seriesStyle } from "./resultRadarConfig";
 import type { ResultAxis, ResultComparison } from "./results";
 import type { Theme } from "./theme";
@@ -30,11 +29,10 @@ export function ResultsRadar({
 }: Props) {
   const visible = teams.filter((team) => selected.includes(team.team_id));
   return (
-    <section className="results-chart" aria-label="Comparaison des équipes">
-      <h2>Dernières passations complétées</h2>
-      <p className="results-note">
-        Même version · Scores de 0 à 10 · Sans agrégation
-      </p>
+    <section
+      className="results-chart results-radar"
+      aria-label="Comparaison des équipes"
+    >
       <div className="results-canvas">
         <Radar
           data={radarData(axes, teams, selected)}
@@ -68,50 +66,26 @@ export function ResultsRadar({
                 <strong>
                   {index + 1}. {team.team_name}
                 </strong>
-                <small>
-                  Complétée le{" "}
-                  <time dateTime={team.completed_at}>
-                    {completionDate(team.completed_at)}
-                  </time>
-                </small>
               </li>
             ),
         )}
       </ul>
-      <div className="table-wrap">
-        <table>
-          <caption>Critères et scores des équipes sélectionnées</caption>
-          <thead>
-            <tr>
-              <th scope="col">Axe / critère</th>
-              {visible.map((team) => (
-                <th scope="col" key={team.team_id}>
-                  {team.team_name}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {axes.map((axis, index) => (
-              <tr key={axis.question_id}>
-                <th scope="row">
-                  <button
-                    type="button"
-                    className="result-criterion"
-                    disabled={!axis.lineage_id}
-                    onClick={() => onCriterion?.(axis)}
-                  >
-                    {index + 1}. {axis.text}
-                  </button>
-                </th>
-                {visible.map((team) => (
-                  <td key={team.team_id}>{team.scores[index]} / 10</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <details className="results-criteria">
+        <summary>Historique par critère</summary>
+        <div role="group" aria-label="Historique par critère">
+          {axes.map((axis, index) => (
+            <button
+              key={axis.question_id}
+              type="button"
+              className="result-criterion"
+              disabled={!axis.lineage_id}
+              onClick={() => onCriterion?.(axis)}
+            >
+              {index + 1}. {axis.text}
+            </button>
+          ))}
+        </div>
+      </details>
     </section>
   );
 }

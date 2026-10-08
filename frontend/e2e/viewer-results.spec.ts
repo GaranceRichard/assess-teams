@@ -37,6 +37,7 @@ test("Viewer consults its organization radar and longitudinal without administra
   await expect(
     page.getByRole("img", { name: /Radar des résultats/ }),
   ).toHaveAttribute("aria-label", /1 équipe/);
+  await page.getByRole("tab", { name: "Résultats détaillés" }).click();
   await expect(
     page.getByRole("cell", { name: "6 / 10", exact: true }),
   ).toBeVisible();

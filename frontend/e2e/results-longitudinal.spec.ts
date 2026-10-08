@@ -32,6 +32,7 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   const beforeHistory = await radar.evaluate((canvas: HTMLCanvasElement) =>
     canvas.toDataURL(),
   );
+  await page.getByText("Historique par critère", { exact: true }).click();
   const criterion = page.getByRole("button", { name: "1. Collaboration v2" });
   await criterion.focus();
   await page.keyboard.press("Enter");
