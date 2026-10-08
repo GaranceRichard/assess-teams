@@ -82,3 +82,12 @@ sans nouvelle infrastructure, stockage de payload ni journalisation HTTP spécif
 Les passations inachevées liées à une planification à réaffecter restent consultables mais leurs mutations
 sont refusées (400), même après réactivation. Aucune COMPLETED n’est modifiée par désactivation.
 Voir le [lifecycle User](user-lifecycle.md).
+
+## Appréciations applicables
+
+Au premier démarrage, chaque snapshot reçoit `score_guides`, une liste JSON indépendante des repères
+de sa question source exacte. GET, reprise, finalisation, consultation et révision restituent cette copie.
+Les mutations de réponses acceptent uniquement les scores ; elles ne peuvent remplacer les appréciations.
+Le range 0–10 reste inchangé. Les niveaux configurés exposent un texte exact au survol/focus, puis
+persistant lorsque la note est choisie, avec accès tactile et clavier ; aucun texte n’est interpolé.
+Les [repères d’appréciation](score-guides.md) détaillent les composants et contraintes d’affichage.

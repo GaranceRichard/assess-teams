@@ -1,5 +1,6 @@
 import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
+import type { ScoreGuide } from "./scoreGuides";
 
 export type NamedEntity = { id: number; name: string };
 export type EvaluationStatus = "DRAFT" | "VALIDATED" | "ARCHIVED";
@@ -10,7 +11,11 @@ export type Evaluation = NamedEntity & {
   version: number;
   status: EvaluationStatus;
 };
-export type Question = NamedEntity & { index: number };
+export type Question = NamedEntity & {
+  index: number;
+  score_guides?: ScoreGuide[];
+};
+export type QuestionInput = NameInput & { score_guides?: ScoreGuide[] };
 export type NameInput = { name: string };
 export type EvaluationInput = NameInput & { organization_id: number };
 
@@ -28,7 +33,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 
 function writeOptions(
   method: string,
-  input?: NameInput | EvaluationInput,
+  input?: NameInput | EvaluationInput | QuestionInput,
 ): RequestInit {
   return {
     method,
@@ -84,7 +89,7 @@ export function listQuestions(evaluationId: number): Promise<Question[]> {
 
 export function createQuestion(
   evaluationId: number,
-  input: NameInput,
+  input: QuestionInput,
 ): Promise<Question> {
   return request(
     `/api/admin/evaluations/${evaluationId}/questions/`,
@@ -94,7 +99,7 @@ export function createQuestion(
 
 export function updateQuestion(
   id: number,
-  input: NameInput,
+  input: QuestionInput,
 ): Promise<Question> {
   return request(`/api/admin/questions/${id}/`, writeOptions("PUT", input));
 }

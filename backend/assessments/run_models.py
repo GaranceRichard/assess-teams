@@ -98,6 +98,7 @@ class EvaluationRunQuestion(models.Model):
     source_question = models.ForeignKey("assessments.Question", on_delete=models.PROTECT)
     index = models.PositiveIntegerField()
     text = models.CharField(max_length=255)
+    score_guides = models.JSONField(default=list, blank=True)
     score = models.PositiveSmallIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):

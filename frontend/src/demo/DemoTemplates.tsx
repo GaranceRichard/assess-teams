@@ -10,6 +10,7 @@ import {
   deleteQuestion,
   moveQuestion,
   saveQuestion,
+  saveDemoGuides,
   state,
 } from "./store";
 import "../evaluations.css";
@@ -44,6 +45,10 @@ export function DemoTemplates() {
           <QuestionPanel
             evaluation={selectedId === 2 ? draft : model}
             questions={selectedId === 2 ? questions : criteria}
+            onSaveGuides={async (question, guides) => {
+              await saveDemoGuides(question, guides);
+              refresh();
+            }}
             onCreate={() => setEditing("new")}
             onEdit={setEditing}
             onDelete={setDeleting}

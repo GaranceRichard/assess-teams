@@ -1,3 +1,4 @@
+import { verifyScoreGuides } from "./score-guide-assertions";
 import { expect, test } from "@playwright/test";
 import {
   assignOrganization,
@@ -33,9 +34,19 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await page.getByRole("button", { name: "Ajouter une question" }).click();
   await page.getByLabel("Nom de la question").fill("Original criterion v1");
   await page.getByRole("button", { name: "Enregistrer" }).click();
+  await page.getByText(/Repères d’appréciation/).click();
+  for (const level of [0, 5, 10]) {
+    await page
+      .getByRole("checkbox", { name: String(level), exact: true })
+      .check();
+  }
+  await page.getByLabel("Appréciation").fill("Appréciation historique v1");
+  await page.getByRole("button", { name: "Ajouter les repères" }).click();
+  await expect(page.getByLabel("Modifier le repère du niveau 5")).toBeEnabled();
   await first.getByRole("button", { name: "Valider" }).click();
   await page.getByRole("button", { name: "Confirmer la validation" }).click();
   await expect(first).toContainText("Validée");
+  await expect(page.getByLabel("Appréciation")).toHaveCount(0);
   const models = await (
     await page.request.get("/api/admin/evaluations/")
   ).json();
@@ -67,6 +78,7 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .filter({ has: page.getByText("Agile versions v1", { exact: true }) });
   await oldRun.getByRole("button", { name: "Passer l’évaluation" }).click();
   await expect(page.getByRole("dialog")).toContainText("Original criterion v1");
+  await verifyScoreGuides(page, "Appréciation historique v1");
   await page.getByRole("button", { name: "Enregistrer la note" }).click();
   await page.getByRole("button", { name: "Fermer" }).click();
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
@@ -82,11 +94,19 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await second.getByRole("button", { name: /Agile versions v2/ }).click();
   const criterion = page
     .getByRole("list", { name: "Questions", exact: true })
-    .getByRole("listitem");
+    .locator(":scope > li");
   await expect(criterion).toContainText("Original criterion v1");
-  await criterion.getByRole("button", { name: "Modifier" }).click();
+  await criterion
+    .getByRole("button", { name: "Modifier", exact: true })
+    .click();
   await page.getByLabel("Nom de la question").fill("Changed criterion v2");
   await page.getByRole("button", { name: "Enregistrer" }).click();
+  await page.getByText(/Repères d’appréciation/).click();
+  await expect(criterion).toContainText("Appréciation historique v1");
+  await page.getByLabel("Modifier le repère du niveau 5").click();
+  await page.getByLabel("Appréciation").fill("Appréciation nouvelle v2");
+  await page.getByRole("button", { name: "Enregistrer le repère" }).click();
+  await expect(criterion).toContainText("Appréciation nouvelle v2");
   await second.getByRole("button", { name: "Valider" }).click();
   await page.getByRole("button", { name: "Confirmer la validation" }).click();
   await expect(first).toContainText("Archivée");
@@ -103,6 +123,12 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await expect(page.getByRole("dialog")).toContainText("Original criterion v1");
   await expect(page.getByRole("dialog")).not.toContainText(
     "Changed criterion v2",
+  );
+  await expect(page.locator("#selected-score-guide")).toHaveText(
+    "Appréciation historique v1",
+  );
+  await expect(page.getByRole("dialog")).not.toContainText(
+    "Appréciation nouvelle v2",
   );
   await page.getByRole("button", { name: "Valider l’évaluation" }).click();
   await expect(oldRun).toContainText("Complétée");
@@ -123,4 +149,5 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .getByRole("button", { name: "Passer l’évaluation" })
     .click();
   await expect(page.getByRole("dialog")).toContainText("Changed criterion v2");
+  await verifyScoreGuides(page, "Appréciation nouvelle v2");
 });

@@ -32,6 +32,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | PLAN-001 — Planifier un modèle local pour une équipe | FEAT-017 — Configurer la fréquence et la première échéance | L | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-29 |
 | EVAL-002 — Sécuriser le cycle de vie des modèles locaux | FEAT-013 — Publier ou retirer un modèle | N/A | N/A | Réalisé | aucun dans le périmètre local demandé | 2026-10-05 |
 | EVAL-003 — Versionner les modèles d’évaluation | FEAT-014 — Versionner un modèle sans réécrire le passé | N/A | N/A | Réalisé | aucun dans le périmètre local demandé | 2026-10-05 |
+| EVAL-004 — Configurer les repères d’appréciation par question et score | FEAT-012 — Définir les modalités de notation | À définir | À définir | Réalisé | aucun dans le périmètre demandé | 2026-10-08 |
 | PASS-001 — Passer et réviser les évaluations planifiées | FEAT-023 — Finaliser et tracer une évaluation | À définir | À définir | Réalisé | aucun ; dépend de `EVAL-002` ; versionnement hors PBI | 2026-10-05 |
 | RESULT-001 — Comparer les dernières passations des équipes sur un radar | FEAT-041 — Comparer les dernières passations de plusieurs équipes | À définir | À définir | Réalisé | aucun ; dépend de `EVAL-003` et `PASS-001` | 2026-10-05 |
 | RESULT-002 — Suivre les observations historiques d’un critère | FEAT-025 — Comparer des évaluations compatibles | À définir | À définir | Réalisé | aucun dans le périmètre demandé ; dépend de `RESULT-001`, `EVAL-003`, `PASS-001` | 2026-10-06 |

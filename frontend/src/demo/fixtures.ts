@@ -39,7 +39,25 @@ export const model: Evaluation = {
   status: "VALIDATED",
 };
 export const criteria: Question[] = [
-  { id: 1, index: 1, name: "Clarté des objectifs" },
+  {
+    id: 1,
+    index: 1,
+    name: "Clarté des objectifs",
+    score_guides: [
+      {
+        score: 0,
+        text: "Les objectifs ne sont pas encore partagés dans l’équipe.",
+      },
+      {
+        score: 5,
+        text: "Les objectifs sont connus, mais leur priorisation reste à clarifier.",
+      },
+      {
+        score: 10,
+        text: "Les objectifs et les priorités sont compris et partagés par tous.",
+      },
+    ],
+  },
   { id: 2, index: 2, name: "Communication" },
   { id: 3, index: 3, name: "Entraide" },
   { id: 4, index: 4, name: "Autonomie" },
@@ -80,6 +98,7 @@ export function initialRuns(): EvaluationRun[] {
       index: q.index,
       text: q.name,
       score: null,
+      score_guides: structuredClone(q.score_guides ?? []),
     })),
   }));
 }

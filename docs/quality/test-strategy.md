@@ -178,3 +178,5 @@ Le coverage backend exclut les migrations générées, les tests, les points d'e
 Les preuves par domaine sont détaillées dans l’[inventaire des couvertures fonctionnelles](functional-coverage.md).
 
 Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentaire) ajoute les invariants viewport/overflow, pagination serveur bornée, filtres et réponses obsolètes aux suites API, React et Playwright.
+
+Les repères par score sont couverts selon [leurs preuves API, DB, React et E2E](../architecture/score-guides.md#preuves-et-revue-documentaire) : CRUD/refus, unicité, migration conservatrice, copie et snapshots, accès au clavier/mobile et infobulles bornées en top layer dans l’application et la démo Pages.

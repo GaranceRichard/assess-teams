@@ -51,7 +51,7 @@ def test_validation_and_archive_are_explicit_audited_and_preserve_questions(acto
     assert archived.json()["status"] == EvaluationStatus.ARCHIVED
     assert [item["id"] for item in client.get(reverse("evaluation-list")).json()] == [evaluation.pk]
     assert client.get(reverse("question-list", kwargs={"evaluation_id": evaluation.pk})).json() == [
-        {"id": question.pk, "index": 1, "name": "Criterion"}
+        {"id": question.pk, "index": 1, "name": "Criterion", "score_guides": []}
     ]
     for action in [ActivityAction.EVALUATION_VALIDATED, ActivityAction.EVALUATION_ARCHIVED]:
         entry = ActivityEntry.objects.get(action=action)

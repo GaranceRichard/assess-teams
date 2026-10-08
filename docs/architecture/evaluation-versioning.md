@@ -90,3 +90,10 @@ archivage automatique de v1, complétion historique sur v1 et nouveau planning/p
 
 Le longitudinal Results est documenté séparément ; agrégation, comparaison globale ou statistique,
 import/export et publication externe restent hors périmètre du versionnement. La version constitue seulement l’ancre du référentiel historique.
+
+## Repères d’appréciation
+
+`QuestionScoreGuide` dépend de la question de version exacte, jamais de sa seule lignée.
+La copie conserve score et texte en créant des lignes indépendantes dans le même verrou d’organisation.
+Les API refusent toute mutation VALIDATED/ARCHIVED, y compris suppression des seuls repères.
+Les snapshots ne sont jamais relus depuis une version plus récente : voir [repères](score-guides.md).

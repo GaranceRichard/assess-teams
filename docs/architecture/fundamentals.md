@@ -38,7 +38,8 @@ La route `/templates` confie au domaine Django `assessments` le référentiel ad
 d’évaluation et de leurs questions ordonnées. Le cycle `DRAFT → VALIDATED → ARCHIVED` est irréversible :
 seuls les brouillons sont modifiables ou supprimables ; validation et archivage sont des actions auditées.
 `EvaluationFamily` rassemble les versions `Evaluation` ; leur [versionnement](evaluation-versioning.md)
-conserve les FK historiques et remplace transactionnellement la version active.
+conserve les FK historiques et remplace transactionnellement la version active. Les [repères par score](score-guides.md)
+sont liés aux questions de chaque version et copiés dans les snapshots au démarrage, sans changer les calculs.
 
 La route `/planning` associe une équipe active à un modèle validé de sa propre organisation et fixe une première
 échéance immédiate, ponctuelle, mensuelle ou trimestrielle. Le backend demeure l’autorité du périmètre : le

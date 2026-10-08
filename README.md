@@ -66,7 +66,9 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 ## Périmètre livré — modèle d’évaluation
 
 Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` : validation et archivage explicites,
-immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
+immutabilité après validation, planification limitée aux modèles validés. Les repères facultatifs par question
+et score entier 0–10 guident la passation au survol/clavier/mobile ; ils sont copiés avec les versions et figés
+dans les snapshots sans changer les scores. La démo propose des exemples fictifs.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
 Les index des évaluations et questions sont attribués automatiquement, sans champ de saisie pour l’utilisateur.
 Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestriel, notifié par e-mail. Chaque planification peut être confiée à un Coach ou à un Admin actif de la même organisation ; le Superadmin peut aussi se désigner lui-même. Chaque ligne suit `ORGANISATION - ÉVALUATION - ÉQUIPE - RESPONSABLE` et ouvre la modification et la suppression. Une référence existante reste visible après archivage ; sa modification exige un modèle validé. Les modèles sont regroupés en familles organisationnelles avec versions linéaires : création v1 brouillon, copie explicite en nouvelle version, archivage automatique de l’ancienne version active lors de la validation. Le planning affiche famille/version ; les passations conservent leur référence historique et leurs snapshots. La [stratégie de versionnement](docs/architecture/evaluation-versioning.md) précise migration et concurrence. Le radar Résultats utilise la dernière version ayant des résultats ; le longitudinal suit les lignées explicites ; Pilotage lit couverture et échéances sans recalculer Results.
@@ -120,9 +122,6 @@ Push-Location backend
 & .\.venv\Scripts\python.exe manage.py createsuperuser --settings=config.settings_development
 Pop-Location
 ```
-
-Au premier lancement, chaque terminal affiche la préparation de son runtime avant de démarrer le service. Les
-lancements suivants restent quasi immédiats sur chaque plateforme ; une erreur explicite arrête le service concerné.
 
 ## Tests et coverages
 

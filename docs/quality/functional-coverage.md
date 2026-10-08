@@ -67,3 +67,8 @@ lecture et verrouillage. React et Playwright vérifient que « Suivant » attend
 L’extension HTTP des Logs couvre les succès CRUD, les refus PATCH, 4xx/5xx, la corrélation, le contexte sûr,
 les filtres seuls/combinés, les bornes inclusives et les tentatives inter-organisations. React vérifie les dix
 filtres, dépendances/reset, scopes et pagination ; Playwright crée les événements HTTP avant de les filtrer.
+
+Les [repères d’appréciation](../architecture/score-guides.md#preuves-et-revue-documentaire) ajoutent
+les invariants score entier/unicité, scopes, copie de version et snapshots historiques, migration sans
+rétroactivité, éditeur React connecté à PUT, erreurs, accès clavier/tactile et géométrie top layer.
+Le parcours de versionnement et le build Pages partagent les assertions navigateur.

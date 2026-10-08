@@ -37,6 +37,17 @@ Cet Epic applique les [concepts métier transverses](00-concepts-transverses.md)
 - **Priorité :** P0.
 - **Domaine métier cible :** Référentiel d’évaluation.
 
+#### EVAL-004 — Configurer les repères d’appréciation par question et score
+- **Identifiant / Feature parente :** `EVAL-004` / `FEAT-012`.
+- **User story :** Admin de mon organisation ou Superadmin, je configure des repères facultatifs pour guider le Coach sans modifier la notation.
+- **Critères :** texte libre par niveau entier 0–10, zéro à onze repères, unicité question/score ; CRUD dans une section repliable de chaque question DRAFT, aucun niveau prédéfini ; VALIDATED/ARCHIVED immuables ; copies indépendantes par version.
+- **Historique :** snapshot exact au démarrage, conservé après nouvelle version, complétion et révision ; aucune appréciation rétroactive ni recalcul des scores/radar/longitudinal.
+- **Passation :** infobulle au-dessus du niveau au survol/focus, texte sélectionné persistant, accès clavier/tactile, aucune interpolation ; range et interactions existants conservés, palettes/thèmes et viewport respectés.
+- **Refus :** niveau/type/texte invalide, doublon, mutation publiée/archivée et accès hors organisation ou fonction ; aucune écriture partielle.
+- **Dépendances / priorité :** `EVAL-003`, `PASS-001` / P0.
+- **Preuves :** [persistance, contrats et tests](../../architecture/score-guides.md) ; démo Pages avec repères fictifs.
+- **Limites :** aucun nouveau mode de réponse ou calcul ; les autres capacités de `FEAT-012` restent ouvertes.
+
 ### FEAT-013 — Publier ou retirer un modèle
 
 - **Intention métier :** contrôler quels modèles peuvent gouverner de nouvelles évaluations.

@@ -11,3 +11,11 @@ HTMLDialogElement.prototype.showModal = function () {
 HTMLDialogElement.prototype.close = function () {
   this.removeAttribute("open");
 };
+
+// JSDOM exposes popover styling but not its native top-layer lifecycle.
+HTMLElement.prototype.showPopover = function () {
+  this.style.display = "block";
+};
+HTMLElement.prototype.hidePopover = function () {
+  this.style.display = "none";
+};

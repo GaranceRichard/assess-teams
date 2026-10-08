@@ -1,3 +1,4 @@
+import { EvaluationScoreScale } from "./EvaluationScoreScale";
 import { referenceLabel } from "./evaluationVersionLabel";
 import { useEffect, useRef } from "react";
 
@@ -60,22 +61,13 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
             Question {position + 1} / {current.questions.length}
           </p>
           <h3 id="question-text">{question.text}</h3>
-          <label htmlFor="evaluation-score">Note de la question</label>
-          <input
-            id="evaluation-score"
-            type="range"
-            min={0}
-            max={10}
-            step={1}
-            value={question.score ?? 5}
-            disabled={readonly || submitting || advancing}
-            aria-describedby="question-text score-status"
-            aria-valuetext={`${question.score ?? 5} sur 10`}
-            onChange={(event) => void selectScore(Number(event.target.value))}
+          <EvaluationScoreScale
+            key={question.question_id}
+            question={question}
+            readonly={readonly}
+            disabled={submitting || advancing}
+            onSelect={(score) => void selectScore(score)}
           />
-          <output htmlFor="evaluation-score" aria-live="polite">
-            Note sélectionnée : {question.score ?? 5} / 10
-          </output>
           <p id="score-status" role="status">
             {saving
               ? "Enregistrement…"

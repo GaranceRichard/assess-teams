@@ -1,4 +1,5 @@
 import { criteria, initialRuns, user } from "./fixtures";
+import { validScoreGuides, type ScoreGuide } from "../scoreGuides";
 import type { Question } from "../evaluations";
 
 export const state = {
@@ -49,4 +50,13 @@ export function moveQuestion(id: number, direction: number) {
     state.questions[index],
   ];
   state.questions = state.questions.map((q, i) => ({ ...q, index: i + 1 }));
+}
+
+export async function saveDemoGuides(question: Question, guides: ScoreGuide[]) {
+  const target = state.questions.find((q) => q.id === question.id);
+  if (!target || !validScoreGuides(guides))
+    throw new Error("Repères invalides.");
+  target.score_guides = copy(guides).sort(
+    (left, right) => left.score - right.score,
+  );
 }

@@ -1,3 +1,4 @@
+import { saveQuestionGuides } from "./saveQuestionGuides";
 import { CollectionFrame } from "./CollectionFrame";
 import { useEvaluationCatalog } from "./useEvaluationCatalog";
 import { useState } from "react";
@@ -162,6 +163,7 @@ export function EvaluationPage() {
           />
         </CollectionFrame>
         <QuestionPanel
+          onSaveGuides={saveQuestionGuides(setQuestions)}
           evaluation={selected}
           questions={questions}
           onCreate={() => setEditing({ kind: "question" })}

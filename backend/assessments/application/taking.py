@@ -38,7 +38,7 @@ def start_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
         )
     if evaluation.status != EvaluationStatus.VALIDATED:
         raise ValidationError("Seul un modèle validé peut démarrer une nouvelle passation.")
-    questions = list(evaluation.questions.order_by("index", "pk"))
+    questions = list(evaluation.questions.prefetch_related("score_guides").order_by("index", "pk"))
     if not questions:
         raise ValidationError("Le modèle planifié ne contient aucune question.")
     run.state = EvaluationRunState.IN_PROGRESS
@@ -52,6 +52,10 @@ def start_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
                 lineage_id=question.lineage_id,
                 index=question.index,
                 text=question.name,
+                score_guides=[
+                    {"score": guide.score, "text": guide.text}
+                    for guide in question.score_guides.all()
+                ],
             )
             for question in questions
         ]

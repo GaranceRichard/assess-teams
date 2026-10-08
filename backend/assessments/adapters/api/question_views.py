@@ -42,7 +42,7 @@ class QuestionListCreateView(APIView):
             organization=evaluation.organization,
             evaluation=evaluation,
         )
-        questions = evaluation.questions.all()
+        questions = evaluation.questions.prefetch_related("score_guides")
         return Response(QuestionSerializer(questions, many=True).data)
 
     @extend_schema(
@@ -84,7 +84,11 @@ class QuestionDetailView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Modifie uniquement le nom d’une question de brouillon ; sinon retourne 400.",
+        description=(
+            "Modifie le nom et les repères facultatifs d’une question de brouillon ; sinon 400. "
+            "score_guides remplace la liste entière ; omission conserve, [] supprime. "
+            "Chaque score doit être un entier JSON unique de 0 à 10 et le texte non vide."
+        ),
         request=QuestionInputSerializer,
         responses={
             200: QuestionSerializer,
@@ -102,7 +106,7 @@ class QuestionDetailView(APIView):
             LogSource.ASSESSMENTS,
             organization=question.evaluation.organization,
         )
-        previous_name = question.name
+        previous = QuestionSerializer(question).data
         serializer = QuestionInputSerializer(
             question,
             data=request.data,
@@ -110,7 +114,7 @@ class QuestionDetailView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         question = serializer.save()
-        if previous_name != question.name:
+        if previous != QuestionSerializer(question).data:
             question_activity(
                 request.user,
                 question,

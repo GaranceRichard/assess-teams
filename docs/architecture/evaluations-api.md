@@ -74,3 +74,17 @@ Après authentification, ce lien conserve `/evaluations` au lieu de renvoyer le 
 Le planning expose `requires_reassignment` : les responsabilités suspendues exigent une édition explicite
 avec un assigné actif avant reprise ; la réactivation seule ne reprend ni attentes ni notifications.
 Voir le [lifecycle User](user-lifecycle.md).
+
+## Repères facultatifs — EVAL-004
+
+Les questions exposent toujours `score_guides: [{"score": 3, "text": "Texte libre"}]`, triés par score,
+ou `[]`. POST/PUT acceptent cette liste facultative avec `name` : omission préserve les repères lors
+d’un renommage ; `[]` les supprime ; une liste fournie remplace atomiquement tous les repères de la question.
+Chaque objet exige exactement `score` entier JSON 0–10 et `text` non vide après nettoyage périphérique.
+Doublons, flottants (même 5.0), booléens, chaînes pour le score, nulls et structures invalides retournent 400.
+Un même texte peut être associé à plusieurs niveaux ; aucun niveau ni repère n’est obligatoire.
+Ces écritures héritent de DRAFT, session/CSRF, droits Admin/Superadmin et scope organisationnel :
+400 immutabilité/validation, 403 fonction/session/CSRF, 404 question hors périmètre. Les changements
+alimentent QUESTION_UPDATED ; les textes ne sont pas ajoutés au journal HTTP.
+Le contrat `ScoreGuide` est partagé entre lecture des questions, entrées et snapshots de passation.
+La [persistance et l’interface](score-guides.md) précisent versionnement, migration et accès.

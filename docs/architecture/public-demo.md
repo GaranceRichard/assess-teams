@@ -82,3 +82,10 @@ Les tests du scope qualité vérifient l’inclusion du build/E2E démo et le bl
 README, règles agents, charte, DoD, stratégie, architecture, contrat API et documentation CI ont été revus.
 Les règles qualité et le contrat backend restent applicables et inchangés ; seules stratégie/architecture/CI
 et leurs liens documentaires évoluent pour ce build autonome.
+
+## Découverte des repères d’appréciation
+
+La première question de v1 fournit des appréciations fictives aux niveaux 0, 5 et 10 ; les autres
+n’en imposent aucune. Le brouillon v2 permet ajout multi-niveaux, modification et suppression locales.
+Les passations v1 conservent une copie indépendante ; modifier v2 ne change ni leurs textes ni scores.
+`score-guides.spec.ts` vérifie le build Pages sans API, avec le clavier, les bornes d’infobulle et le mobile.

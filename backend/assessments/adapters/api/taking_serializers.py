@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from assessments.adapters.api.guide_serializers import ScoreGuideSerializer
+from assessments.adapters.api.score_fields import StrictScoreField, StrictTakingInput
 from assessments.application.taking_scope import is_evaluation_admin
 from assessments.models import EvaluationRun, EvaluationRunQuestion, EvaluationRunState
 
@@ -69,10 +71,11 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
 
 class EvaluationRunQuestionSerializer(serializers.ModelSerializer):
     question_id = serializers.IntegerField(source="source_question_id", read_only=True)
+    score_guides = ScoreGuideSerializer(many=True, read_only=True)
 
     class Meta:
         model = EvaluationRunQuestion
-        fields = ("question_id", "index", "text", "score")
+        fields = ("question_id", "index", "text", "score", "score_guides")
 
 
 class EvaluationRunSerializer(EvaluationRunListSerializer):
@@ -80,24 +83,6 @@ class EvaluationRunSerializer(EvaluationRunListSerializer):
 
     class Meta(EvaluationRunListSerializer.Meta):
         fields = (*EvaluationRunListSerializer.Meta.fields, "questions")
-
-
-class StrictScoreField(serializers.IntegerField):
-    def to_internal_value(self, data):
-        if type(data) is not int:
-            self.fail("invalid")
-        return super().to_internal_value(data)
-
-
-class StrictTakingInput(serializers.Serializer):
-    def to_internal_value(self, data):
-        if isinstance(data, dict):
-            unexpected = set(data) - set(self.fields)
-            if unexpected:
-                raise serializers.ValidationError(
-                    {field: "Ce champ n’est pas accepté." for field in unexpected}
-                )
-        return super().to_internal_value(data)
 
 
 class EvaluationScoreSerializer(StrictTakingInput):

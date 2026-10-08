@@ -2,7 +2,7 @@ from django.db import transaction
 from django.db.models import F, Max
 from django.shortcuts import get_object_or_404
 
-from assessments.models import Evaluation, EvaluationFamily, Question
+from assessments.models import Evaluation, EvaluationFamily, Question, QuestionScoreGuide
 from identities.models import Organization, User
 from journals.activity_records import evaluation_activity
 from journals.models import ActivityAction
@@ -34,7 +34,8 @@ def create_next_version(source_id: int, actor: User) -> Evaluation:
         name=source.name,
         index=highest_index + 1,
     )
-    Question.objects.bulk_create(
+    source_questions = list(source.questions.prefetch_related("score_guides"))
+    copied_questions = Question.objects.bulk_create(
         [
             Question(
                 evaluation=created,
@@ -42,7 +43,14 @@ def create_next_version(source_id: int, actor: User) -> Evaluation:
                 name=question.name,
                 lineage_id=question.lineage_id,
             )
-            for question in source.questions.all()
+            for question in source_questions
+        ]
+    )
+    QuestionScoreGuide.objects.bulk_create(
+        [
+            QuestionScoreGuide(question=copied, score=guide.score, text=guide.text)
+            for source_question, copied in zip(source_questions, copied_questions, strict=True)
+            for guide in source_question.score_guides.all()
         ]
     )
     evaluation_activity(

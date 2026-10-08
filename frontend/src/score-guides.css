@@ -1,0 +1,126 @@
+.question-list > li {
+  display: block;
+}
+
+.question-row {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.question-row > span {
+  color: var(--muted);
+}
+
+.question-guides {
+  margin-top: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.question-guides summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.question-guides ul {
+  list-style: none;
+  padding: 0;
+}
+
+.question-guides li > span {
+  white-space: pre-wrap;
+}
+
+.question-guides fieldset {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.question-guides textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text);
+  min-height: 5rem;
+  padding: 0.75rem;
+  resize: vertical;
+  width: 100%;
+}
+
+.guide-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.guide-levels label {
+  align-items: center;
+  display: flex;
+  gap: 0.25rem;
+  min-height: 2.75rem;
+}
+
+.score-levels {
+  display: grid;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+  gap: 0.125rem;
+}
+
+.score-level {
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0;
+  position: relative;
+}
+
+.score-level.configured::after {
+  background: var(--accent-text);
+  border-radius: 50%;
+  content: "";
+  height: 0.25rem;
+  position: absolute;
+  bottom: 0.2rem;
+  left: calc(50% - 0.125rem);
+  width: 0.25rem;
+}
+
+.score-level[aria-pressed="true"] {
+  outline: 2px solid var(--accent-text);
+  outline-offset: -2px;
+}
+
+.score-guide-tooltip {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.3rem 1rem var(--overlay);
+  color: var(--text);
+  display: block;
+  inset: auto;
+  margin: 0;
+  max-width: min(22rem, calc(100vw - 1rem));
+  overflow: auto;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  position: fixed;
+  white-space: pre-wrap;
+}
+
+.selected-score-guide p {
+  background: var(--background);
+  border-left: 3px solid var(--accent-text);
+  padding: 0.75rem;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 850px) {
+  .question-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

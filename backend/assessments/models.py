@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models, transaction
 
+from assessments.guide_models import QuestionScoreGuide  # noqa: F401
 from assessments.run_models import (  # noqa: F401
     EvaluationRun,
     EvaluationRunQuestion,
