@@ -124,6 +124,10 @@ Les assertions reproduisent avant correction le SVG obsolète, puis le symbole t
 
 La [démo statique](../architecture/public-demo.md#validation-et-revue-documentaire) ajoute les tests des adaptateurs locaux et des composants, puis deux parcours Playwright sur le build Pages, avec les requêtes API bloquées. Le scope E2E du gate inclut sa compilation et ses parcours sans Django.
 
+La [gestion du mot de passe](../architecture/password-management.md#preuves-et-revue-documentaire) couvre
+non-énumération sans lookup synchrone, tokens/concurrence/fréquence, sessions, rôles, CSRF, logs,
+contrats OpenAPI/React et parcours navigateur avec remise réelle locale sans trace de credentials.
+
 ## Stratégie de couverture
 
 Les palettes personnelles sont couvertes par `test_session_palette`, `test_palette_contract` et
@@ -146,6 +150,9 @@ sous StrictMode ; le parcours `evaluation-versions.spec.ts` vérifie le résulta
 Le **code coverage** indique quelles lignes et branches ont été exécutées. La **couverture des parcours métier** indique quels parcours critiques ont été validés de bout en bout. Ces mesures sont distinctes : le seuil de 90 % ne prouve pas la couverture E2E, et les tests E2E ne remplacent pas le coverage du code.
 
 ## Données et isolation
+
+Vitest limite la concurrence à quatre workers pour borner les instances jsdom et éviter la contention
+sur les machines locales et CI ; assertions, délais et seuils de couverture restent inchangés.
 
 Les tests sont déterministes, indépendants et reproductibles. Chaque test crée les données minimales nécessaires, contrôle le temps et les dépendances externes si besoin, et nettoie son état via les mécanismes du framework. Les données sensibles réelles sont interdites dans les fixtures.
 

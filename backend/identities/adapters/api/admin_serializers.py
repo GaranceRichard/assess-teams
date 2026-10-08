@@ -85,7 +85,9 @@ class UpdateManagedUserSerializer(serializers.Serializer):
 
 
 class ChoosePasswordSerializer(serializers.Serializer):
-    password = serializers.CharField(write_only=True, min_length=8, trim_whitespace=False)
+    password = serializers.CharField(
+        write_only=True, min_length=8, max_length=128, trim_whitespace=False
+    )
 
 
 class ManagedUserQuerySerializer(PageQuerySerializer):

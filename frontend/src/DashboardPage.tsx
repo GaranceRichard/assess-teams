@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { SessionUser } from "./auth";
 import { DashboardActivity } from "./DashboardActivity";
 import { getDashboard, type DashboardData } from "./dashboard";
+import { ProfilePassword } from "./ProfilePassword";
 import { PalettePicker } from "./PalettePicker";
 import type { PalettePreference } from "./usePalettePreference";
 import "./dashboard.css";
@@ -13,6 +14,7 @@ type Props = {
   onNavigate: (path: string) => void;
   preference: PalettePreference;
   appearanceDescription?: string;
+  passwordManagement?: boolean;
 };
 
 export function DashboardPage({
@@ -20,6 +22,7 @@ export function DashboardPage({
   onNavigate,
   preference,
   appearanceDescription,
+  passwordManagement = true,
 }: Props) {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState(false);
@@ -95,6 +98,7 @@ export function DashboardPage({
             )}
           </p>
           <PalettePicker user={user} preference={preference} />
+          {passwordManagement && <ProfilePassword />}
         </section>
         <section
           className="dashboard-card dashboard-activity-card"

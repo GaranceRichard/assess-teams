@@ -66,6 +66,7 @@ export function LoginPage({ error, onLogin }: Props) {
             {submitting ? "Connexion…" : "Se connecter"}
           </button>
         </form>
+        <a href="/password/forgot">Mot de passe oublié ?</a>
       </section>
     </main>
   );

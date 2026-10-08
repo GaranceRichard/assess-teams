@@ -11,6 +11,9 @@ CSRF_TRUSTED_ORIGINS = [
     f"http://127.0.0.1:{os.getenv('ASSESS_E2E_FRONTEND_PORT', '5180')}",
 ]
 INSTALLED_APPS = [*INSTALLED_APPS, "development_data"]  # noqa: F405
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / ".mail"  # noqa: F405
 DEFAULT_FROM_EMAIL = "Assess teams <noreply@assess-teams.local>"
-FRONTEND_URL = "http://127.0.0.1:5173"
+FRONTEND_URL = os.getenv(
+    "APP_BASE_URL", f"http://127.0.0.1:{os.getenv('ASSESS_E2E_FRONTEND_PORT', '5173')}"
+).rstrip("/")

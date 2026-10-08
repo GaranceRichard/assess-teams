@@ -29,6 +29,7 @@ type Props = {
   pageContent?: ReactNode;
   pageNotice?: ReactNode;
   appearanceDescription?: string;
+  passwordManagement?: boolean;
 };
 
 export function ProductShell({
@@ -42,6 +43,7 @@ export function ProductShell({
   pageContent,
   pageNotice,
   appearanceDescription,
+  passwordManagement = true,
 }: Props) {
   const preference = usePalettePreference(user);
   const route = routeFor(path);
@@ -87,6 +89,7 @@ export function ProductShell({
               onNavigate={onNavigate}
               preference={preference}
               appearanceDescription={appearanceDescription}
+              passwordManagement={passwordManagement}
             />
           ) : authorized && path === "/users" ? (
             <SuperadminDashboard actor={user} />

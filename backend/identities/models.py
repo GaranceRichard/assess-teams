@@ -4,6 +4,7 @@ from django.db.models import Q
 
 from identities.domain.palettes import InterfacePalette
 from identities.domain.users import Role
+from identities.password_models import PasswordRateLimit, PasswordResetDelivery  # noqa: F401
 
 
 class User(AbstractUser):

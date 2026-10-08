@@ -5,9 +5,10 @@ font autorité pour le périmètre ; le [registre canonique](tracking/pbis.md) f
 Les PBIs signalés comme régularisations décrivent des comportements déjà livrés sans prétendre qu’ils avaient été
 planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés, pas la complétude du produit entier.
 
-## Produit réellement disponible au 2026-10-06
+## Produit réellement disponible au 2026-10-08
 
 - session par login/logout, reprise de session, invitations et choix du mot de passe ;
+- récupération publique et modification personnelle depuis Mon profil, avec politique des sessions et remise différée ;
 - liste et administration hiérarchique des comptes, avec désactivation/réactivation et écarts restant dans `USER-002/003` ;
 - organisations : création, liste/détail Admin-Superadmin, renommage et gestion des membres ;
 - équipes : liste active Admin-Superadmin, création, renommage, archivage et Coachs courants ;
@@ -29,7 +30,7 @@ Les Features larges de pilotage restent incomplètes.
 
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
-| EPIC-001 — Identités, coachs et habilitations | 4 | 6 | 4 | 67 % |
+| EPIC-001 — Identités, coachs et habilitations | 4 | 8 | 6 | 75 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 2 | 29 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 3 | 3 | 100 % |
@@ -65,6 +66,8 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | PBI | Statut | Écart ou preuve principale |
 | --- | --- | --- |
 | AUTH-001 — Ouvrir et fermer une session produit | Réalisé | API, UI et E2E d’authentification ; 2026-09-22 |
+| AUTH-002 — Récupérer son accès après oubli du mot de passe | Réalisé | API/ORM/OpenAPI, non-énumération, tokens, worker et parcours E2E ; 2026-10-08 |
+| AUTH-003 — Modifier son mot de passe depuis Mon profil | Réalisé | session personnelle, refus, conservation/invalidation des sessions et E2E ; 2026-10-08 |
 | DASH-001 — Accueillir l’utilisateur sur son tableau de bord personnel | Réalisé | provenance EvaluationRun, scopes Results, API/UI/E2E et palettes ; 2026-10-06 |
 | USER-001 — Créer un utilisateur | Réalisé | contrat historique ; 2026-09-21 |
 | USER-002 — Consulter les utilisateurs | Ouvert | liste livrée ; détail et `nom`/`prénom` absents |
@@ -127,10 +130,10 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | Nombre de Features | 41 |
 | Features raffinées | 21 |
 | Features non raffinées | 20 |
-| Nombre total de PBIs | 31 |
+| Nombre total de PBIs | 33 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
 | PBIs non réalisés | 9 |
-| PBIs réalisés | 22 |
-| Avancement global | 71 % |
+| PBIs réalisés | 24 |
+| Avancement global | 73 % |

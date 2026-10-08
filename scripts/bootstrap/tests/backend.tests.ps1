@@ -42,15 +42,30 @@ try {
 import json
 import pathlib
 import sys
+import os
+import time
 
-record = {"args": sys.argv[1:], "prefix": str(pathlib.Path(sys.prefix).resolve())}
+record = {"args": sys.argv[1:], "prefix": str(pathlib.Path(sys.prefix).resolve()), "pid": os.getpid()}
 with open(pathlib.Path(__file__).with_name("runtime-records.jsonl"), "a", encoding="utf-8") as stream:
     stream.write(json.dumps(record) + "\n")
+if sys.argv[1] == "send_password_reset_emails":
+    time.sleep(60)
+if sys.argv[1] == "runserver":
+    records = pathlib.Path(__file__).with_name("runtime-records.jsonl")
+    deadline = time.monotonic() + 5
+    while "send_password_reset_emails" not in records.read_text(encoding="utf-8"):
+        if time.monotonic() > deadline:
+            raise RuntimeError("Password worker missing")
+        time.sleep(0.05)
 '@
     Set-Content (Join-Path $backend 'manage.py') $manage
     & $dev -Root $testRoot -NoReload
     $calls = @(Get-Content $records | ForEach-Object { $_ | ConvertFrom-Json })
-    Assert-True ($calls.Count -eq 3) 'Django ne lance pas migrate, seed puis runserver.'
+    Assert-True ($calls.Count -eq 4) 'Django ne lance pas migrate, seed, worker et runserver.'
+    $worker = @($calls | Where-Object { $_.args[0] -eq 'send_password_reset_emails' })
+    Assert-True ($worker.Count -eq 1 -and $worker[0].args[1] -eq '--watch') 'Worker absent ou invalide.'
+    Assert-True (-not (Get-Process -Id $worker[0].pid -ErrorAction SilentlyContinue)) `
+        'Le worker continue apres l arret du serveur.'
     Assert-True ($calls[1].args[0] -eq 'seed_development_users') `
         'Les identites de developpement ne sont pas preparees avant le serveur.'
     $expectedPrefix = [IO.Path]::GetFullPath((Join-Path $backend '.venv'))

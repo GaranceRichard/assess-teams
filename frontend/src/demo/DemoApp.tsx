@@ -77,6 +77,7 @@ export function DemoApp() {
       theme={theme}
       onThemeChange={setTheme}
       pageContent={content}
+      passwordManagement={false}
       appearanceDescription="Votre couleur reste active pendant cette ouverture. Le rafraîchissement ou la réinitialisation restaure les données de départ."
       headerAction={
         <button className="secondary" onClick={reset}>

@@ -53,7 +53,17 @@ DATABASES = {
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = []
+AUTH_PASSWORD_VALIDATORS = [
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 8},
+    },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
+PASSWORD_RESET_TIMEOUT = 259200  # Preserve the existing three-day invitation lifetime.
+PASSWORD_RECOVERY_TIMEOUT = 3600
 LANGUAGE_CODE = "fr-fr"
 TIME_ZONE = "America/Toronto"
 USE_I18N = True
@@ -71,4 +81,8 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Contrat HTTP du backend Assess teams.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "POSTPROCESSING_HOOKS": [
+        "drf_spectacular.hooks.postprocess_schema_enums",
+        "identities.adapters.api.password_schema.strict_password_requests",
+    ],
 }

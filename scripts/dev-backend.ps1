@@ -25,8 +25,20 @@ try {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     $serverArguments = @('manage.py', 'runserver', "127.0.0.1:$Port")
     if ($NoReload) { $serverArguments += '--noreload' }
+    $workerOptions = @{
+        FilePath = $python
+        ArgumentList = @('manage.py', 'send_password_reset_emails', '--watch')
+        WorkingDirectory = $backend
+        PassThru = $true
+    }
+    if ($env:OS -eq 'Windows_NT') { $workerOptions.WindowStyle = 'Hidden' }
+    $passwordWorker = Start-Process @workerOptions
     & $python @serverArguments
     exit $LASTEXITCODE
 } finally {
+    if ($passwordWorker -and -not $passwordWorker.HasExited) {
+        $passwordWorker.Kill()
+        $passwordWorker.WaitForExit()
+    }
     Pop-Location
 }

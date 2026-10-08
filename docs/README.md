@@ -13,6 +13,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Architecture hexagonale](architecture/hexagonal-architecture.md) et [Clean Code](architecture/clean-code.md).
 - [Versionnement des modèles](architecture/evaluation-versioning.md) : données, lifecycle actif, migration et historique.
 - [Résultats interéquipes](architecture/results-api.md) : familles, dernière version ayant des résultats, radar et observations historiques par lignée.
+- [Gestion du mot de passe](architecture/password-management.md) : parcours, API, sécurité, sessions et emails.
 - [Dashboard personnel](architecture/dashboard-api.md) : profil, apparence, activité prouvée et raccourcis par rôle.
 - [Pilotage P0](architecture/steering-api.md) : couverture et échéances des actifs, API read-only et drill-down Results.
 - [API backend et OpenAPI](architecture/backend-api.md) : contrat DRF, schéma et Swagger UI.

@@ -1,3 +1,6 @@
+# Local mail contains private invitation/recovery links
+.mail/
+
 # Python
 .venv/
 venv/

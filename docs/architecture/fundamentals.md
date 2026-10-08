@@ -9,6 +9,7 @@ Ce dossier fixe les fondamentaux architecturaux de **Assess teams**. Ils défini
 - [API backend et OpenAPI](backend-api.md) : exposition HTTP avec Django REST Framework, contrat OpenAPI et Swagger UI.
 - [Environnements et identités locales](../development-environments.md) : réglages explicites et données locales isolées.
 
+- [Gestion du mot de passe](password-management.md) : services Django, tokens dédiés, limites atomiques et worker.
 - [Dashboard personnel](dashboard-api.md) : profil, apparence, activité prouvée et raccourcis par rôle.
 
 ## Complémentarité

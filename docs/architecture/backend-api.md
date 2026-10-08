@@ -73,6 +73,13 @@ l’utilisateur authentifié : `200` avec profil actualisé, `400` pour une vale
 `403` sans session ou CSRF. Le [contrat des palettes personnelles](interface-palettes.md) décrit stockage,
 restauration et isolation. Aucun identifiant cible, rôle, organisation ou CSS libre n’est accepté.
 
+## Gestion du mot de passe
+
+Le [contrat de récupération et modification](password-management.md) décrit les POST publics
+`/api/password/recovery/` et `/api/password/reset/`, et `/api/session/password/` pour son propre compte.
+Les trois exigent CSRF, validateurs Django et limites persistées ; récupération sans énumération,
+remise différée, changement conservant la seule session courante et réinitialisation les invalidant toutes.
+
 ## Gestion hiérarchique des identités
 
 `GET /api/admin/users/` exige une session active. Le Superadmin consulte la liste complète ; un Admin ou Coach

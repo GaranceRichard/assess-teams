@@ -9,6 +9,7 @@ SOURCE_PREFIXES = (
     ("organization", LogSource.ORGANIZATIONS),
     ("managed-user", LogSource.IDENTITIES),
     ("session", LogSource.IDENTITIES),
+    ("password", LogSource.IDENTITIES),
     ("invitation", LogSource.IDENTITIES),
     ("user", LogSource.IDENTITIES),
 )

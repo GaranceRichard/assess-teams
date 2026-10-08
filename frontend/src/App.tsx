@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { getCurrentUser, login, logout, type SessionUser } from "./auth";
+import { PasswordRecoveryPage } from "./PasswordRecoveryPage";
+import { PasswordResetPage } from "./PasswordResetPage";
+import "./passwords.css";
 import { LoginPage } from "./LoginPage";
 import { canAccess, routeFor } from "./navigation";
 import { ProductShell } from "./ProductShell";
@@ -77,6 +80,16 @@ export function App() {
     setAuth({ kind: "anonymous", error: null });
     navigate("/");
   }
+
+  function navigatePublicAuth(next: string) {
+    if (next === "/") setAuth({ kind: "anonymous", error: null });
+    navigate(next);
+  }
+
+  if (auth.kind !== "loading" && path === "/password/forgot")
+    return <PasswordRecoveryPage onNavigate={navigatePublicAuth} />;
+  if (auth.kind !== "loading" && path === "/password/reset")
+    return <PasswordResetPage onNavigate={navigatePublicAuth} />;
 
   const invitation = path.match(/^\/invitation\/([^/]+)\/([^/]+)$/);
   if (invitation) {

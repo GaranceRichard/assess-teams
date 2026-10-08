@@ -14,8 +14,11 @@ Django utilise deux modules de réglages sans détection implicite :
 `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DEFAULT_FROM_EMAIL` sous forme
 de listes séparées par des virgules. Une configuration absente ne bascule donc jamais vers le développement.
 
-En développement, les messages d'invitation et d'information utilisent le backend e-mail console : leur
-contenu et leur lien local sont affichés dans le terminal Django, sans envoi externe. Les notifications
+En développement, les emails sont écrits dans `backend/.mail/`, ignoré par Git, sans contenu dans
+le terminal. `dev:backend` lance le worker de [récupération du mot de passe](architecture/password-management.md#exploitation-et-migration).
+`APP_BASE_URL` configure l’URL publique ; les tests isolés utilisent aussi `ASSESS_E2E_FRONTEND_PORT`.
+En production, configurer SMTP et superviser `send_password_reset_emails --watch` ou le planifier chaque minute.
+Les notifications
 d’évaluation arrivées à échéance peuvent être déclenchées manuellement avec :
 
 ```powershell
