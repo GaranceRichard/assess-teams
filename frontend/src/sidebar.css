@@ -85,12 +85,15 @@
 
 .product-sidebar nav {
   display: grid;
+  min-width: 0;
+  align-content: start;
   gap: 0.25rem;
 }
 
 .product-sidebar nav a {
   position: relative;
   display: flex;
+  min-width: 0;
   min-height: 2.75rem;
   align-items: center;
   gap: 0.8rem;
@@ -111,7 +114,7 @@
 }
 
 .product-sidebar--collapsed {
-  padding-inline: 1.1rem;
+  padding-inline: 0.75rem;
 }
 
 .product-sidebar--collapsed .brand-label,
@@ -125,34 +128,28 @@
 
 .product-sidebar--collapsed nav a {
   justify-content: center;
-  padding-inline: 0.75rem;
+  padding-inline: 0.5rem;
 }
 
-.product-sidebar--collapsed nav a::after {
-  position: absolute;
+.product-sidebar--collapsed .brand {
+  width: 100%;
+  justify-content: center;
+}
+
+.sidebar-tooltip {
+  position: fixed;
   z-index: 5;
-  left: calc(100% + 0.65rem);
+  max-width: min(15rem, calc(100vw - 1rem));
   padding: 0.5rem 0.7rem;
   border-radius: 0.4rem;
   color: var(--text);
   background: var(--surface-raised);
   box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 20%);
-  content: attr(data-tooltip);
   font-size: 0.85rem;
   font-weight: 700;
-  opacity: 0;
+  overflow-wrap: anywhere;
   pointer-events: none;
-  transform: translateX(-0.25rem);
-  transition:
-    opacity 120ms ease,
-    transform 120ms ease;
-  white-space: nowrap;
-}
-
-.product-sidebar--collapsed nav a:hover::after,
-.product-sidebar--collapsed nav a:focus-visible::after {
-  opacity: 1;
-  transform: translateX(0);
+  transform: translateY(-50%);
 }
 
 @media (max-width: 760px) {
@@ -163,7 +160,7 @@
 
   .product-sidebar nav {
     display: flex;
-    overflow-x: auto;
+    flex-wrap: wrap;
   }
 
   .product-sidebar nav a {

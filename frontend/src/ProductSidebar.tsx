@@ -1,6 +1,6 @@
 import { productHref } from "./productHref";
 import type { UserRole } from "./auth";
-import { NavigationIcon } from "./NavigationIcon";
+import { SidebarLink } from "./SidebarLink";
 import { menuFor } from "./navigation";
 
 type Props = {
@@ -48,21 +48,13 @@ export function ProductSidebar({
       </div>
       <nav aria-label="Navigation principale" id="product-navigation">
         {menuFor(role).map((item) => (
-          <a
+          <SidebarLink
             key={item.path}
-            aria-current={path === item.path ? "page" : undefined}
-            aria-label={collapsed ? item.title : undefined}
-            data-tooltip={collapsed ? item.title : undefined}
-            title={collapsed ? item.title : undefined}
-            href={productHref(item.path)}
-            onClick={(event) => {
-              event.preventDefault();
-              onNavigate(item.path);
-            }}
-          >
-            <NavigationIcon path={item.path} />
-            <span className="sidebar-label">{item.title}</span>
-          </a>
+            item={item}
+            active={path === item.path}
+            collapsed={collapsed}
+            onNavigate={onNavigate}
+          />
         ))}
       </nav>
       <button

@@ -106,6 +106,12 @@ lecture défensive) et `test_superadmin_membership_migration` (liens seuls, hist
 `users-layout.spec.ts` contrôle cellules, dimensions, centrage et contraste des deux états,
 avec/sans actions, desktop/mobile et les dix palettes dans les deux modes.
 
+La sidebar partagée ajoute `SidebarLink.test.tsx` pour le portail des infobulles et leur retrait,
+puis `sidebar-layout.spec.ts` dans application et démo : 900/480 px, Admin/Viewer, les deux états,
+marge basse constante, icônes centrées, aucun débordement horizontal même au focus, scroll vertical
+limité à la navigation et état conservé lors du changement de page. Le test reproduit avant correction
+le bouton placé selon le nombre de menus ; les infobulles transparentes sortaient aussi du scroll.
+
 Le logo officiel est couvert par `ProductSidebar.test.tsx` (marque accessible et navigation), puis
 `brand-logo.spec.ts` : chargement SVG vectoriel, contraste dans les dix palettes et les deux modes,
 viewBox corrigé et translation de la flèche, ratio fourni, taille du symbole relative au texte, gap compact,

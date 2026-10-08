@@ -70,7 +70,9 @@ Vitest couvre données partagées, limites 0/10, refus hors bornes/incomplets/ID
 réordonnancement et bornes, provenance, reset, thème, navigation et compositions React.
 Playwright teste le build statique avec toutes les requêtes API bloquées : parcours complet, vrais scores dans le radar
 et l’historique, Pilotage, reset, liens profonds des onze menus, refresh, retour, dix palettes/deux modes et mobile.
-Les captures dashboard clair/sombre, radar et mobile permettent la revue visuelle.
+`sidebar-layout.spec.ts` réutilise les assertions de géométrie applicatives : bouton ancré en bas,
+absence de débordement horizontal, icônes centrées et scroll de navigation à faible hauteur.
+Les captures dashboard clair/sombre, radar, sidebar et mobile permettent la revue visuelle.
 Les tests du scope qualité vérifient l’inclusion du build/E2E démo et le blocage si l’un échoue.
 
 README, règles agents, charte, DoD, stratégie, architecture, contrat API et documentation CI ont été revus.
