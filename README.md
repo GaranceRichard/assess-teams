@@ -7,6 +7,8 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
+[Démo interactive](https://GaranceRichard.github.io/assess-teams/) : shell React réel, données fictives locales, passation, radar et Pilotage sans compte ni serveur. `npm run dev:demo` et `npm run build:demo` sont isolés du build normal ; [architecture, limites et publication](docs/architecture/public-demo.md).
+
 Le [shell desktop](docs/architecture/product-layout.md) occupe 100dvh, borne les collections avec pagination serveur, adapte le mobile et conserve des surfaces neutres en mode clair.
 Le [Dashboard personnel — DASH-001](docs/architecture/dashboard-api.md) remplace le placeholder :
 profil, apparence, dix complétions/dernières révisions accessibles et raccourcis par rôle.

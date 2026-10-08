@@ -4,13 +4,13 @@ import type { Evaluation } from "./evaluations";
 type Props = {
   evaluations: Evaluation[];
   selectedId: number | null;
-  creatingVersion: number | null;
-  onNewVersion: (evaluation: Evaluation) => Promise<void>;
-  onArchive: (evaluation: Evaluation) => void;
-  onDelete: (evaluation: Evaluation) => void;
-  onEdit: (evaluation: Evaluation) => void;
+  creatingVersion?: number | null;
+  onNewVersion?: (evaluation: Evaluation) => Promise<void>;
+  onArchive?: (evaluation: Evaluation) => void;
+  onDelete?: (evaluation: Evaluation) => void;
+  onEdit?: (evaluation: Evaluation) => void;
   onSelect: (evaluation: Evaluation) => void;
-  onValidate: (evaluation: Evaluation) => void;
+  onValidate?: (evaluation: Evaluation) => void;
 };
 
 const statusLabels = {
@@ -22,7 +22,7 @@ const statusLabels = {
 export function EvaluationList({
   evaluations,
   selectedId,
-  creatingVersion,
+  creatingVersion = null,
   onNewVersion,
   onArchive,
   onDelete,
@@ -57,42 +57,54 @@ export function EvaluationList({
               <small>Version active pour la planification</small>
             )}
           </button>
-          <div className="evaluation-actions">
-            <button
-              className="secondary"
-              disabled={creatingVersion !== null}
-              onClick={() => void onNewVersion(evaluation)}
-            >
-              {creatingVersion === evaluation.id
-                ? "Création…"
-                : "Créer une nouvelle version"}
-            </button>
-            {evaluation.status === "DRAFT" && (
-              <>
-                <button onClick={() => onValidate(evaluation)}>Valider</button>
+          {(onNewVersion || onValidate || onEdit || onDelete || onArchive) && (
+            <div className="evaluation-actions">
+              {onNewVersion && (
                 <button
                   className="secondary"
-                  onClick={() => onEdit(evaluation)}
+                  disabled={creatingVersion !== null}
+                  onClick={() => void onNewVersion(evaluation)}
                 >
-                  Modifier
+                  {creatingVersion === evaluation.id
+                    ? "Création…"
+                    : "Créer une nouvelle version"}
                 </button>
+              )}
+              {evaluation.status === "DRAFT" && (
+                <>
+                  {onValidate && (
+                    <button onClick={() => onValidate(evaluation)}>
+                      Valider
+                    </button>
+                  )}
+                  {onEdit && (
+                    <button
+                      className="secondary"
+                      onClick={() => onEdit(evaluation)}
+                    >
+                      Modifier
+                    </button>
+                  )}
+                  {onDelete && (
+                    <button
+                      className="evaluation-danger"
+                      onClick={() => onDelete(evaluation)}
+                    >
+                      Supprimer
+                    </button>
+                  )}
+                </>
+              )}
+              {evaluation.status === "VALIDATED" && onArchive && (
                 <button
-                  className="evaluation-danger"
-                  onClick={() => onDelete(evaluation)}
+                  className="secondary"
+                  onClick={() => onArchive(evaluation)}
                 >
-                  Supprimer
+                  Archiver
                 </button>
-              </>
-            )}
-            {evaluation.status === "VALIDATED" && (
-              <button
-                className="secondary"
-                onClick={() => onArchive(evaluation)}
-              >
-                Archiver
-              </button>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </li>
       ))}
     </ul>

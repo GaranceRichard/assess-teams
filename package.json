@@ -10,7 +10,9 @@
     "check:lines": "node ./scripts/run-powershell.mjs ./scripts/quality/check-source-lines.ps1",
     "test:all": "node ./scripts/run-powershell.mjs ./scripts/test-all.ps1",
     "quality:quick": "node ./scripts/run-powershell.mjs ./scripts/quality.ps1 quick",
-    "quality:full": "node ./scripts/run-powershell.mjs ./scripts/quality.ps1 full"
+    "quality:full": "node ./scripts/run-powershell.mjs ./scripts/quality.ps1 full",
+    "dev:demo": "npm run dev:demo --prefix frontend",
+    "build:demo": "npm run build:demo --prefix frontend"
   },
   "devDependencies": {
     "concurrently": ">=9.2.0 <10"

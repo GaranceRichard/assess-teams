@@ -109,3 +109,7 @@ les clés de cache, les déclencheurs et le check stable.
 README, règles des agents, charte, DoD, stratégie et commandes de tests sont
 adaptés à la répartition CI. Architecture et contrat API sont revus sans changement
 de comportement produit, d'endpoint, de modèle ou de migration.
+
+## Publication de la démo
+
+Le [workflow Pages](../../.github/workflows/demo-pages.yml) publie le build DEMO isolé uniquement après un Quality gate réussi pour le SHA main concerné. Le scope E2E valide aussi cette démo statique sans backend ; voir [architecture et limites](../architecture/public-demo.md).

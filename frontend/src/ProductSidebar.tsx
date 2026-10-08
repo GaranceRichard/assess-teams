@@ -1,3 +1,4 @@
+import { productHref } from "./productHref";
 import type { UserRole } from "./auth";
 import { NavigationIcon } from "./NavigationIcon";
 import { menuFor } from "./navigation";
@@ -35,7 +36,7 @@ export function ProductSidebar({
         <a
           aria-label="Assess teams"
           className="brand"
-          href="/dashboard"
+          href={productHref("/dashboard")}
           onClick={(event) => {
             event.preventDefault();
             onNavigate("/dashboard");
@@ -53,7 +54,7 @@ export function ProductSidebar({
             aria-label={collapsed ? item.title : undefined}
             data-tooltip={collapsed ? item.title : undefined}
             title={collapsed ? item.title : undefined}
-            href={item.path}
+            href={productHref(item.path)}
             onClick={(event) => {
               event.preventDefault();
               onNavigate(item.path);

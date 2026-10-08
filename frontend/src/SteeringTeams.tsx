@@ -1,3 +1,4 @@
+import { productHref } from "./productHref";
 import { completionDate } from "./evaluationRuns";
 import { steeringResultsPath } from "./steering";
 import type { SteeringProjection, SteeringTeam } from "./steering";
@@ -90,7 +91,9 @@ export function SteeringTeams({
                   {team.last_result ? (
                     <a
                       aria-label={`Voir les résultats de ${team.team_name}`}
-                      href={steeringResultsPath(data.organization.id, team)}
+                      href={productHref(
+                        steeringResultsPath(data.organization.id, team),
+                      )}
                       onClick={(event) => {
                         if (
                           event.button !== 0 ||

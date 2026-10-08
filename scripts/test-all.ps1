@@ -82,6 +82,10 @@ if ($Scope -in @('all', 'frontend', 'e2e')) {
             Invoke-TestGroup 'E2E - smoke test technique Playwright' $frontend {
                 & $npm run test:e2e
             }
+            Invoke-TestGroup 'Demo statique - build puis parcours sans backend' $frontend {
+                & $npm run build:demo
+                if ($LASTEXITCODE -eq 0) { & $npm run test:e2e:demo }
+            }
         }
     } else {
         Write-Host '[NON APPLICABLE] Frontend et E2E - bootstrap absent.' -ForegroundColor DarkGray

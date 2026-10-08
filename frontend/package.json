@@ -11,7 +11,11 @@
     "format:check": "prettier --check .",
     "test:quick": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "dev:demo": "vite --config vite.demo.config.ts",
+    "build:demo": "tsc -b && vite build --config vite.demo.config.ts",
+    "preview:demo": "vite preview --config vite.demo.config.ts --host 127.0.0.1 --port 4175",
+    "test:e2e:demo": "playwright test --config playwright.demo.config.ts"
   },
   "dependencies": {
     "chart.js": "^4.5.1",

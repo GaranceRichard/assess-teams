@@ -1,3 +1,4 @@
+import { productHref } from "./productHref";
 import { useEffect, useState } from "react";
 
 import type { SessionUser } from "./auth";
@@ -11,9 +12,15 @@ type Props = {
   user: SessionUser;
   onNavigate: (path: string) => void;
   preference: PalettePreference;
+  appearanceDescription?: string;
 };
 
-export function DashboardPage({ user, onNavigate, preference }: Props) {
+export function DashboardPage({
+  user,
+  onNavigate,
+  preference,
+  appearanceDescription,
+}: Props) {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -74,14 +81,18 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
           )}
           <h3>Apparence</h3>
           <p>
-            <span className="appearance-day">
-              Votre couleur personnalise les accents et reste conservée pour vos
-              prochaines connexions.
-            </span>
-            <span className="appearance-night">
-              Votre couleur habille les fonds en clair ou en sombre et reste
-              conservée pour vos prochaines connexions.
-            </span>
+            {appearanceDescription ?? (
+              <>
+                <span className="appearance-day">
+                  Votre couleur personnalise les accents et reste conservée pour
+                  vos prochaines connexions.
+                </span>
+                <span className="appearance-night">
+                  Votre couleur habille les fonds en clair ou en sombre et reste
+                  conservée pour vos prochaines connexions.
+                </span>
+              </>
+            )}
           </p>
           <PalettePicker user={user} preference={preference} />
         </section>
@@ -141,7 +152,7 @@ export function DashboardPage({ user, onNavigate, preference }: Props) {
             {shortcuts.map(({ path, label }) => (
               <li key={path}>
                 <a
-                  href={path}
+                  href={productHref(path)}
                   onClick={(event) => {
                     if (
                       !event.ctrlKey &&

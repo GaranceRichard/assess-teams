@@ -1,0 +1,48 @@
+.demo-notice {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.demo-notice strong {
+  color: var(--text);
+}
+.demo-template-content {
+  overflow: auto;
+}
+.demo-order {
+  padding-left: 1.5rem;
+}
+.demo-order li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+.demo-order span {
+  flex: 1;
+}
+
+.page-viewport:has(.demo-notice) {
+  flex-direction: column;
+}
+.page-viewport:has(.demo-notice) > .product-page {
+  flex: 1 1 0;
+}
+
+.demo-template-content .question-list {
+  flex: 0 0 auto;
+}
+.demo-template-content .question-panel {
+  overflow: visible;
+}
+
+.demo-template-content .question-list strong,
+.demo-order span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

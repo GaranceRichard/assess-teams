@@ -108,6 +108,8 @@ viewBox corrigé et translation de la flèche, ratio fourni, taille du symbole r
 centrage vertical, absence de débordement desktop/mobile à densité double et nom masqué en sidebar repliée.
 Les assertions reproduisent avant correction le SVG obsolète, puis le symbole trop petit. Le lien reste accessible et ramène au dashboard après un accès Viewer refusé.
 
+La [démo statique](../architecture/public-demo.md#validation-et-revue-documentaire) ajoute les tests des adaptateurs locaux et des composants, puis deux parcours Playwright sur le build Pages, avec les requêtes API bloquées. Le scope E2E du gate inclut sa compilation et ses parcours sans Django.
+
 ## Stratégie de couverture
 
 Les palettes personnelles sont couvertes par `test_session_palette`, `test_palette_contract` et

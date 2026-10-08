@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 import type { SessionUser } from "./auth";
 import { ActivityJournalPage } from "./ActivityJournalPage";
@@ -25,6 +25,10 @@ type Props = {
   onLogout: () => Promise<void>;
   theme: Theme;
   onThemeChange: (theme: Theme) => void;
+  headerAction?: ReactNode;
+  pageContent?: ReactNode;
+  pageNotice?: ReactNode;
+  appearanceDescription?: string;
 };
 
 export function ProductShell({
@@ -34,6 +38,10 @@ export function ProductShell({
   onLogout,
   theme,
   onThemeChange,
+  headerAction,
+  pageContent,
+  pageNotice,
+  appearanceDescription,
 }: Props) {
   const preference = usePalettePreference(user);
   const route = routeFor(path);
@@ -63,16 +71,22 @@ export function ProductShell({
             <strong>{user.username}</strong>
             <span>{user.is_superuser ? "Superadmin · Admin" : user.role}</span>
           </div>
-          <button className="secondary" onClick={() => void onLogout()}>
-            Se déconnecter
-          </button>
+          {headerAction ?? (
+            <button className="secondary" onClick={() => void onLogout()}>
+              Se déconnecter
+            </button>
+          )}
         </header>
         <div className="page-viewport" key={path}>
-          {authorized && path === "/dashboard" ? (
+          {pageNotice}
+          {authorized && pageContent ? (
+            pageContent
+          ) : authorized && path === "/dashboard" ? (
             <DashboardPage
               user={user}
               onNavigate={onNavigate}
               preference={preference}
+              appearanceDescription={appearanceDescription}
             />
           ) : authorized && path === "/users" ? (
             <SuperadminDashboard actor={user} />

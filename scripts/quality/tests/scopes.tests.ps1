@@ -73,10 +73,14 @@ try {
     $backendTests = @("python -m pytest --cov=. --cov-config=$(Join-Path $fixture '.coveragerc') --cov-report=term-missing")
     Assert-Scope 'test-all.ps1' 'backend' $backendTests
     Assert-Scope 'test-all.ps1' 'frontend' @('npm run test:coverage')
-    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e')
-    Assert-Scope 'test-all.ps1' 'all' ($backendTests + @('npm run test:coverage', 'npm run test:e2e'))
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo', 'npm run test:e2e:demo')
+    Assert-Scope 'test-all.ps1' 'all' ($backendTests + @('npm run test:coverage', 'npm run test:e2e', 'npm run build:demo', 'npm run test:e2e:demo'))
     $env:SCOPE_FAILURE = 'test:e2e'
-    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e') 1
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo', 'npm run test:e2e:demo') 1
+    $env:SCOPE_FAILURE = 'test:e2e:demo'
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo', 'npm run test:e2e:demo') 1
+    $env:SCOPE_FAILURE = 'build:demo'
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo') 1
     Write-Host '[PASS] Scopes independants, suite complete sans doublons et echecs bloquants.'
 } finally {
     Remove-Item Env:SCOPE_CALLS, Env:SCOPE_FAILURE -ErrorAction SilentlyContinue

@@ -80,3 +80,5 @@ identité et provenance conservées, invariant transactionnel du dernier Admin a
 jusqu’à réaffectation explicite. Le Superadmin Django reste distinct des fonctions métier.
 
 Le [shell produit](product-layout.md) borne le desktop à 100dvh, avec header/sidebar immobiles, zones internes scrollables et pagination serveur commune.
+
+La [démo publique](public-demo.md) compose le shell et ses composants avec des adaptateurs locaux sélectionnés uniquement par son build statique.

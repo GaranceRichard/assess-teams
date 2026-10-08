@@ -2,8 +2,8 @@ import type { Team } from "./teams";
 
 type Props = {
   teams: Team[];
-  onDelete: (team: Team) => void;
-  onEdit: (team: Team) => void;
+  onDelete?: (team: Team) => void;
+  onEdit?: (team: Team) => void;
 };
 
 export function TeamList({ teams, onDelete, onEdit }: Props) {
@@ -32,14 +32,20 @@ export function TeamList({ teams, onDelete, onEdit }: Props) {
                 : "Aucun Coach"}
             </span>
           </div>
-          <div className="team-actions">
-            <button className="secondary" onClick={() => onEdit(team)}>
-              Modifier
-            </button>
-            <button className="team-danger" onClick={() => onDelete(team)}>
-              Supprimer
-            </button>
-          </div>
+          {(onEdit || onDelete) && (
+            <div className="team-actions">
+              {onEdit && (
+                <button className="secondary" onClick={() => onEdit(team)}>
+                  Modifier
+                </button>
+              )}
+              {onDelete && (
+                <button className="team-danger" onClick={() => onDelete(team)}>
+                  Supprimer
+                </button>
+              )}
+            </div>
+          )}
         </li>
       ))}
     </ul>
