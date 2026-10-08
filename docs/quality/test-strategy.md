@@ -104,8 +104,9 @@ avec/sans actions, desktop/mobile et les dix palettes dans les deux modes.
 
 Le logo officiel est couvert par `ProductSidebar.test.tsx` (marque accessible et navigation), puis
 `brand-logo.spec.ts` : chargement SVG vectoriel, contraste dans les dix palettes et les deux modes,
-proportions, alignement, absence de débordement desktop/mobile à densité double et nom masqué en
-sidebar repliée. Le lien reste accessible et ramène au dashboard après un accès Viewer refusé.
+viewBox corrigé et translation de la flèche, ratio fourni, taille du symbole relative au texte, gap compact,
+centrage vertical, absence de débordement desktop/mobile à densité double et nom masqué en sidebar repliée.
+Les assertions reproduisent avant correction le SVG obsolète, puis le symbole trop petit. Le lien reste accessible et ramène au dashboard après un accès Viewer refusé.
 
 ## Stratégie de couverture
 

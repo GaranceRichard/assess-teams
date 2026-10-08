@@ -29,7 +29,7 @@
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.3em;
   color: var(--text);
   font-size: 1.25rem;
   font-weight: 850;
@@ -38,9 +38,9 @@
 }
 
 .product-mark {
-  width: 1.8rem;
-  height: 1.8rem;
-  flex: 0 0 1.8rem;
+  width: 2.1em;
+  aspect-ratio: 512 / 358;
+  flex: none;
   background-color: currentColor;
   mask: url("./assets/assess-teams-logo.svg") center / contain no-repeat;
 }

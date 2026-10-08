@@ -35,13 +35,15 @@ test("the official vector mark keeps its layout and contrast in both sidebar sta
       viewBox: svg.documentElement.getAttribute("viewBox"),
       stroke: svg.querySelector("g")?.getAttribute("stroke"),
       paths: svg.querySelectorAll("path").length,
+      arrowOffset: svg.querySelector("g g")?.getAttribute("transform"),
       rasterImages: svg.querySelectorAll("image").length,
       errors: svg.querySelectorAll("parsererror").length,
     };
   });
   expect(asset.ok).toBe(true);
   expect(asset.type).toContain("image/svg+xml");
-  expect(asset.viewBox).toBe("0 0 512 320");
+  expect(asset.viewBox).toBe("0 -38 512 358");
+  expect(asset.arrowOffset).toBe("translate(0 -40)");
   expect(asset.stroke).toBe("currentColor");
   expect(asset.paths).toBe(3);
   expect(asset.rasterImages).toBe(0);
@@ -91,6 +93,9 @@ test("the official vector mark keeps its layout and contrast in both sidebar sta
               repeat: style.maskRepeat,
               width: rect.width,
               height: rect.height,
+              fontSize: parseFloat(getComputedStyle(brand).fontSize),
+              position: style.maskPosition,
+              labelRight: labelRect.right,
               left: rect.left,
               right: rect.right,
               top: rect.top,
@@ -118,15 +123,21 @@ test("the official vector mark keeps its layout and contrast in both sidebar sta
           ).toBeGreaterThanOrEqual(4.5);
           expect(geometry.size).toBe("contain");
           expect(geometry.repeat).toBe("no-repeat");
-          expect(geometry.width).toBeCloseTo(28.8, 1);
-          expect(geometry.height).toBeCloseTo(28.8, 1);
+          expect(geometry.position).toBe("50% 50%");
+          expect(geometry.width / geometry.fontSize).toBeGreaterThanOrEqual(2);
+          expect(geometry.width / geometry.fontSize).toBeLessThanOrEqual(2.2);
+          expect(geometry.width / geometry.height).toBeCloseTo(512 / 358, 2);
           expect(geometry.left).toBeGreaterThanOrEqual(geometry.bounds.left);
           expect(geometry.right).toBeLessThanOrEqual(geometry.bounds.right);
           expect(geometry.top).toBeGreaterThanOrEqual(geometry.bounds.top);
           expect(geometry.bottom).toBeLessThanOrEqual(geometry.bounds.bottom);
           expect(geometry.documentOverflow).toBe(false);
           if (!collapsed) {
-            expect(geometry.gap).toBeCloseTo(10.4, 1);
+            expect(geometry.gap).toBeGreaterThan(0);
+            expect(geometry.gap / geometry.fontSize).toBeLessThanOrEqual(0.35);
+            expect(geometry.labelRight).toBeLessThanOrEqual(
+              geometry.bounds.right,
+            );
             expect(geometry.centerOffset).toBeLessThan(1);
           }
         }

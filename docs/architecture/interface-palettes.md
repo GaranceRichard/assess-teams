@@ -17,8 +17,11 @@ Le header conserve le toggle soleil/lune. Aucun comportement métier ni contrat 
 
 Le symbole officiel est l’asset vectoriel `frontend/src/assets/assess-teams-logo.svg`, dont les
 tracés et le viewBox fournis sont conservés. La sidebar l’utilise comme masque CSS en `currentColor` :
-le symbole suit `text` dans les deux modes. Son cadre de 1,8 rem et le gap de marque restent inchangés ;
-`contain` préserve les proportions. La sidebar repliée masque le nom, mais conserve le lien accessible.
+le symbole suit `text` dans les deux modes. Le SVG corrigé espace la flèche au-dessus du « e ».
+Le cadre suit la taille du nom (`2.1em` de large), avec le ratio fourni `512 / 358` et un gap de `0.3em` ;
+ces réglages sont centralisés dans le composant de marque de `sidebar.css`. Le centrage flex vertical et
+le masque centré en `contain` préservent les proportions sans rognage ni compensation. La sidebar repliée
+masque le nom, conserve la taille du symbole et le lien accessible, sans changer le layout ni la typographie.
 
 ## Tokens des surfaces
 
