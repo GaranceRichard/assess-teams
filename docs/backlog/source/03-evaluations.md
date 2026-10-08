@@ -145,3 +145,6 @@ Cet Epic dérive l’organisation de ses associations, cycles et échéances de 
 - **Domaine métier cible :** Planification des évaluations.
 
 La passation et la preuve sont détaillées dans [EPIC-005](03a-passations.md).
+
+[EVAL-004 — Configurer les repères d’appréciation par question](03c-appreciation-markers.md)
+raffine `FEAT-012` : aide textuelle facultative par niveau, sans nouvelles règles de calcul.

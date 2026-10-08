@@ -41,6 +41,7 @@ def create_next_version(source_id: int, actor: User) -> Evaluation:
                 index=question.index,
                 name=question.name,
                 lineage_id=question.lineage_id,
+                appreciation_markers=question.appreciation_markers,
             )
             for question in source.questions.all()
         ]

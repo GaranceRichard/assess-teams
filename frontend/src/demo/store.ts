@@ -1,5 +1,5 @@
 import { criteria, initialRuns, user } from "./fixtures";
-import type { Question } from "../evaluations";
+import type { AppreciationMarker, Question } from "../evaluations";
 
 export const state = {
   runs: initialRuns(),
@@ -49,4 +49,21 @@ export function moveQuestion(id: number, direction: number) {
     state.questions[index],
   ];
   state.questions = state.questions.map((q, i) => ({ ...q, index: i + 1 }));
+}
+
+export function saveMarkers(id: number, markers: AppreciationMarker[]) {
+  const question = state.questions.find((q) => q.id === id);
+  if (
+    !question ||
+    new Set(markers.map((m) => m.score)).size !== markers.length ||
+    markers.some(
+      (m) =>
+        !Number.isInteger(m.score) ||
+        m.score < 0 ||
+        m.score > 10 ||
+        !m.text.trim(),
+    )
+  )
+    throw new Error("Repères invalides.");
+  question.appreciation_markers = copy(markers);
 }

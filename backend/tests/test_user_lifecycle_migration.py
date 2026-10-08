@@ -52,11 +52,8 @@ def test_migration_flags_legacy_unavailable_responsibilities_without_changing_hi
             migrated.get_model("assessments", "EvaluationRun").objects.values().get(pk=run.pk)
             == history
         )
-        assert (
-            migrated.get_model("assessments", "EvaluationRunQuestion")
-            .objects.values()
-            .get(pk=question.pk)
-            == answers
-        )
+        assert migrated.get_model("assessments", "EvaluationRunQuestion").objects.values().get(
+            pk=question.pk
+        ) == {**answers, "appreciation_markers": []}
     finally:
         MigrationExecutor(connection).migrate(latest)

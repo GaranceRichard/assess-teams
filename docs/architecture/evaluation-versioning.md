@@ -90,3 +90,7 @@ archivage automatique de v1, complétion historique sur v1 et nouveau planning/p
 
 Le longitudinal Results est documenté séparément ; agrégation, comparaison globale ou statistique,
 import/export et publication externe restent hors périmètre du versionnement. La version constitue seulement l’ancre du référentiel historique.
+
+Les [repères d’appréciation](appreciation-markers.md) sont copiés exactement avec chaque question,
+indépendants dans la nouvelle version et immuables après validation/archivage. La migration 0015
+n’ajoute aucun texte aux anciens modèles ou snapshots ; les passations conservent leur copie au démarrage.

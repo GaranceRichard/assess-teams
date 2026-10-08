@@ -164,6 +164,15 @@ export function EvaluationPage() {
         <QuestionPanel
           evaluation={selected}
           questions={questions}
+          onSaveMarkers={async (question, markers) => {
+            const saved = await updateQuestion(question.id, {
+              name: question.name,
+              appreciation_markers: markers,
+            });
+            setQuestions((current) =>
+              current.map((item) => (item.id === saved.id ? saved : item)),
+            );
+          }}
           onCreate={() => setEditing({ kind: "question" })}
           onDelete={(value) => setDeleting({ kind: "question", value })}
           onEdit={(value) => setEditing({ kind: "question", value })}

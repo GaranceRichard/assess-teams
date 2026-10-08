@@ -82,3 +82,10 @@ sans nouvelle infrastructure, stockage de payload ni journalisation HTTP spécif
 Les passations inachevées liées à une planification à réaffecter restent consultables mais leurs mutations
 sont refusées (400), même après réactivation. Aucune COMPLETED n’est modifiée par désactivation.
 Voir le [lifecycle User](user-lifecycle.md).
+
+## Repères d’appréciation
+
+Les questions du détail ajoutent `appreciation_markers`, copie exacte figée au démarrage.
+Le range conserve notation/sauvegardes ; des niveaux accessibles affichent les textes configurés au survol/focus,
+puis un bloc persistant à la sélection. Aucun texte pour un niveau vide ; révision et reprise lisent
+uniquement le snapshot. Voir [persistance, migration et interface](appreciation-markers.md).

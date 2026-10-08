@@ -1,5 +1,6 @@
 import { versionLabel } from "./evaluationVersionLabel";
-import type { Evaluation, Question } from "./evaluations";
+import { QuestionAppreciation } from "./QuestionAppreciation";
+import type { AppreciationMarker, Evaluation, Question } from "./evaluations";
 
 type Props = {
   evaluation: Evaluation | null;
@@ -7,6 +8,10 @@ type Props = {
   onCreate: () => void;
   onDelete: (question: Question) => void;
   onEdit: (question: Question) => void;
+  onSaveMarkers?: (
+    question: Question,
+    markers: AppreciationMarker[],
+  ) => Promise<void>;
 };
 
 export function QuestionPanel({
@@ -15,6 +20,7 @@ export function QuestionPanel({
   onCreate,
   onDelete,
   onEdit,
+  onSaveMarkers,
 }: Props) {
   if (!evaluation) {
     return (
@@ -43,25 +49,35 @@ export function QuestionPanel({
       ) : (
         <ul className="question-list" aria-label="Questions">
           {questions.map((question) => (
-            <li key={question.id}>
-              <span>{question.index}</span>
-              <strong>{question.name}</strong>
-              {evaluation.status === "DRAFT" && (
-                <div className="evaluation-actions">
-                  <button
-                    className="secondary"
-                    onClick={() => onEdit(question)}
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    className="evaluation-danger"
-                    onClick={() => onDelete(question)}
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              )}
+            <li key={question.id} className="question-item">
+              <div className="question-row">
+                <span>{question.index}</span>
+                <strong>{question.name}</strong>
+                {evaluation.status === "DRAFT" && (
+                  <div className="evaluation-actions">
+                    <button
+                      className="secondary"
+                      onClick={() => onEdit(question)}
+                    >
+                      Modifier
+                    </button>
+                    <button
+                      className="evaluation-danger"
+                      onClick={() => onDelete(question)}
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                )}
+              </div>
+              <QuestionAppreciation
+                question={question}
+                onSave={
+                  evaluation.status === "DRAFT" && onSaveMarkers
+                    ? (markers) => onSaveMarkers(question, markers)
+                    : undefined
+                }
+              />
             </li>
           ))}
         </ul>

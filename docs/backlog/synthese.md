@@ -12,7 +12,7 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 - liste et administration hiérarchique des comptes, avec désactivation/réactivation et écarts restant dans `USER-002/003` ;
 - organisations : création, liste/détail Admin-Superadmin, renommage et gestion des membres ;
 - équipes : liste active Admin-Superadmin, création, renommage, archivage et Coachs courants ;
-- modèles locaux : brouillon modifiable, validation immuable et archivage logique, avec familles et versions immuables ;
+- modèles locaux : brouillon modifiable, validation immuable, archive, versions et repères facultatifs par question/score ;
 - planification locale : équipe, modèle, responsable, immédiat/ponctuel/mensuel/trimestriel et échéances ;
 - courriels de confirmation et d’échéance, avec commande de traitement différé ;
 - passation locale persistante, tableau et révision Admin avec provenance conservée ;
@@ -33,7 +33,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-001 — Identités, coachs et habilitations | 4 | 8 | 6 | 75 % |
 | EPIC-002 — Gestion des équipes | 4 | 7 | 2 | 29 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
-| EPIC-003 — Référentiel des modèles d’évaluation | 4 | 3 | 3 | 100 % |
+| EPIC-003 — Référentiel des modèles d’évaluation | 4 | 4 | 4 | 100 % |
 | EPIC-004 — Affectations et planification des évaluations | 5 | 1 | 1 | 100 % |
 | EPIC-005 — Passation et preuve d’évaluation | 4 | 1 | 1 | 100 % |
 | EPIC-006 — Suivi longitudinal | 5 | 2 | 2 | 100 % |
@@ -52,7 +52,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EPIC-001 | `FEAT-001`, `FEAT-002` | `FEAT-003`, `FEAT-004` |
 | EPIC-002 | `FEAT-005`, `FEAT-006`, `FEAT-007`, `FEAT-010` | aucune |
 | EPIC-002A | `FEAT-008` | `FEAT-009` |
-| EPIC-003 | `FEAT-011`, `FEAT-013`, `FEAT-014` (partielles) | `FEAT-012` |
+| EPIC-003 | `FEAT-011` à `FEAT-014` (partielles) | aucune |
 | EPIC-004 | `FEAT-017` | `FEAT-015`, `FEAT-016`, `FEAT-018`, `FEAT-019` |
 | EPIC-005 | `FEAT-023` | `FEAT-020` à `FEAT-022` |
 | EPIC-006 | `FEAT-041`, `FEAT-025` (partielle) | `FEAT-024`, `FEAT-026`, `FEAT-027` |
@@ -91,6 +91,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | PLAN-001 — Planifier un modèle local pour une équipe | Réalisé | quatre modes, responsable et CRUD ; 2026-09-29 |
 | EVAL-002 — Sécuriser le cycle de vie des modèles locaux | Réalisé | validation/archivage audités, immutabilité et planification validée ; 2026-10-05 |
 | EVAL-003 — Versionner les modèles d’évaluation | Réalisé | familles, versions immuables, historique conservé, concurrence et E2E ; 2026-10-05 |
+| EVAL-004 — Configurer les repères d’appréciation par question | Réalisé | repères facultatifs 0–10, versions/snapshots, API/UI/mobile/démo ; 2026-10-08 |
 | PASS-001 — Passer et réviser les évaluations planifiées | Réalisé | reprise, finalisation, provenance, révision Admin et tableau ; scope revérifié à la mutation, sauvegarde avant navigation ; 2026-10-05 |
 | RESULT-001 — Comparer les dernières passations des équipes sur un radar | Réalisé | snapshots, récence métier, scope, sélection React et E2E ; 2026-10-05 |
 | RESULT-002 — Suivre les observations historiques d’un critère | Réalisé | lignée explicite, migration conservatrice, observations snapshotées, API/UI/E2E ; 2026-10-06 |
@@ -128,12 +129,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | --- | ---: |
 | Nombre d’Epics | 11 |
 | Nombre de Features | 41 |
-| Features raffinées | 21 |
-| Features non raffinées | 20 |
-| Nombre total de PBIs | 33 |
+| Features raffinées | 22 |
+| Features non raffinées | 19 |
+| Nombre total de PBIs | 34 |
 | PBIs ouverts | 8 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
 | PBIs non réalisés | 9 |
-| PBIs réalisés | 24 |
-| Avancement global | 73 % |
+| PBIs réalisés | 25 |
+| Avancement global | 74 % |

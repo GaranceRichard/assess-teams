@@ -178,3 +178,7 @@ Le coverage backend exclut les migrations générées, les tests, les points d'e
 Les preuves par domaine sont détaillées dans l’[inventaire des couvertures fonctionnelles](functional-coverage.md).
 
 Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentaire) ajoute les invariants viewport/overflow, pagination serveur bornée, filtres et réponses obsolètes aux suites API, React et Playwright.
+
+Les [repères EVAL-004](../architecture/appreciation-markers.md) couvrent refus atomiques API,
+autorisations, copie, snapshots commencés/finalisés/révisés, migration et OpenAPI ; React et
+Playwright protègent édition, range, focus/survol, absence d’interpolation, viewport, mobile et démo.

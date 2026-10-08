@@ -88,6 +88,7 @@ class Question(models.Model):
     )
     index = models.PositiveIntegerField()
     name = models.CharField(max_length=255)
+    appreciation_markers = models.JSONField(default=list, blank=True)
 
     class Meta:
         ordering = ("index", "pk")

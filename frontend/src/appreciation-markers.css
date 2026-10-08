@@ -1,0 +1,116 @@
+.question-list > .question-item {
+  display: block;
+}
+.question-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.question-row > span {
+  color: var(--muted);
+}
+.question-appreciation {
+  margin-top: 0.75rem;
+  min-width: 0;
+}
+.question-appreciation summary {
+  cursor: pointer;
+  color: var(--accent-text);
+}
+.question-appreciation ul {
+  list-style: none;
+  padding: 0;
+}
+.question-appreciation ul > li {
+  align-items: stretch;
+  display: grid;
+  gap: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.question-appreciation li > span,
+.selected-appreciation,
+.appreciation-tooltip {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.question-appreciation form {
+  display: grid;
+  gap: 0.75rem;
+}
+.question-appreciation textarea {
+  font: inherit;
+  display: block;
+  width: 100%;
+  min-height: 6rem;
+  resize: vertical;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+.question-appreciation fieldset {
+  border: 1px solid var(--border);
+  min-width: 0;
+}
+.marker-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.marker-levels label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.appreciation-scale {
+  display: grid;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+  gap: 0.125rem;
+}
+.appreciation-scale button {
+  position: relative;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+.appreciation-scale button[aria-pressed="true"] {
+  outline: 2px solid var(--accent-text);
+  outline-offset: -2px;
+}
+.marker-dot {
+  position: absolute;
+  bottom: 0.2rem;
+  left: calc(50% - 0.125rem);
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: var(--accent-text);
+}
+.appreciation-tooltip {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  width: max-content;
+  max-width: min(22rem, calc(100vw - 1rem));
+  overflow-y: auto;
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 20%);
+}
+.selected-appreciation {
+  padding: 0.75rem;
+  border-left: 3px solid var(--accent-text);
+  background: var(--surface);
+}
+@media (max-width: 850px) {
+  .question-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

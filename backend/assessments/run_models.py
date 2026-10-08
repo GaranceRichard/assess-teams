@@ -99,6 +99,7 @@ class EvaluationRunQuestion(models.Model):
     index = models.PositiveIntegerField()
     text = models.CharField(max_length=255)
     score = models.PositiveSmallIntegerField(null=True, blank=True)
+    appreciation_markers = models.JSONField(default=list, blank=True)
 
     def save(self, *args, **kwargs):
         if self.lineage_id is None:

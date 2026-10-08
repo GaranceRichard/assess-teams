@@ -109,3 +109,24 @@ it("orders questions by index then identity without changing input", () => {
   expect(orderQuestions(items).map((item) => item.id)).toEqual([1, 2, 4]);
   expect(items[0].id).toBe(4);
 });
+
+it("sends complete marker replacements and surfaces backend refusals", async () => {
+  const input = {
+    name: "Question",
+    appreciation_markers: [{ score: 8, text: "Partagé" }],
+  };
+  const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+    new Response(JSON.stringify({ id: 7, index: 1, ...input }), {
+      status: 200,
+    }),
+  );
+  expect(await updateQuestion(7, input)).toEqual({ id: 7, index: 1, ...input });
+  expect(fetchMock).toHaveBeenCalledWith(
+    "/api/admin/questions/7/",
+    expect.objectContaining({ method: "PUT", body: JSON.stringify(input) }),
+  );
+  fetchMock.mockResolvedValueOnce(new Response(null, { status: 400 }));
+  await expect(updateQuestion(7, input)).rejects.toThrow(
+    "Evaluation request failed",
+  );
+});

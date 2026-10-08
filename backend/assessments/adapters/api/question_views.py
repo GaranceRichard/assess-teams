@@ -47,7 +47,8 @@ class QuestionListCreateView(APIView):
 
     @extend_schema(
         description=(
-            "Ajoute une question à un brouillon ; refuse un modèle validé ou archivé (400)."
+            "Ajoute une question avec repères facultatifs (scores entiers uniques 0–10) "
+            "à un brouillon ; refuse un modèle validé ou archivé (400)."
         ),
         request=QuestionInputSerializer,
         responses={
@@ -84,7 +85,9 @@ class QuestionDetailView(APIView):
     permission_classes = [CanManageEvaluations]
 
     @extend_schema(
-        description="Modifie uniquement le nom d’une question de brouillon ; sinon retourne 400.",
+        description="Modifie le nom et les repères facultatifs (scores entiers uniques 0–10) d’une "
+        "question de brouillon ; sinon retourne 400. Omettre les repères les conserve ; "
+        "une liste vide les supprime.",
         request=QuestionInputSerializer,
         responses={
             200: QuestionSerializer,
@@ -103,6 +106,7 @@ class QuestionDetailView(APIView):
             organization=question.evaluation.organization,
         )
         previous_name = question.name
+        previous_markers = question.appreciation_markers
         serializer = QuestionInputSerializer(
             question,
             data=request.data,
@@ -110,7 +114,7 @@ class QuestionDetailView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         question = serializer.save()
-        if previous_name != question.name:
+        if previous_name != question.name or previous_markers != question.appreciation_markers:
             question_activity(
                 request.user,
                 question,

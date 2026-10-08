@@ -52,6 +52,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 
 ## Source fonctionnelle détaillée
 
+- [Repères d’appréciation — EVAL-004](source/03c-appreciation-markers.md)
 - [Versionnement local des modèles](source/03b-evaluation-versions.md)
 - [Concepts métier transverses : Organisation, rôles et rattachements](source/00-concepts-transverses.md)
 - [Décisions et arbitrages bloquants du socle Organisation](source/00-arbitrages-organisations.md)

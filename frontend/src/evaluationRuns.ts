@@ -1,5 +1,6 @@
 import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
+import type { AppreciationMarker } from "./evaluations";
 
 export type RunState = "not_started" | "in_progress" | "completed";
 export type EvaluationRunRow = {
@@ -29,6 +30,7 @@ export type RunQuestion = {
   index: number;
   text: string;
   score: number | null;
+  appreciation_markers?: AppreciationMarker[];
 };
 export type EvaluationRun = EvaluationRunRow & { questions: RunQuestion[] };
 

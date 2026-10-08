@@ -43,7 +43,9 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
     .click();
   await page.getByLabel("Nom de la question").fill("Objectifs partagés");
   await page.getByRole("button", { name: "Enregistrer", exact: true }).click();
-  await expect(questions.getByText("Objectifs partagés")).toBeVisible();
+  await expect(
+    questions.getByText("Objectifs partagés", { exact: true }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Ajouter une question" }).click();
   await expect(
     page.getByRole("button", { name: "Enregistrer", exact: true }),

@@ -10,6 +10,7 @@ import {
   deleteQuestion,
   moveQuestion,
   saveQuestion,
+  saveMarkers,
   state,
 } from "./store";
 import "../evaluations.css";
@@ -47,6 +48,10 @@ export function DemoTemplates() {
             onCreate={() => setEditing("new")}
             onEdit={setEditing}
             onDelete={setDeleting}
+            onSaveMarkers={async (question, markers) => {
+              saveMarkers(question.id, markers);
+              refresh();
+            }}
           />
           {selectedId === 2 && (
             <details>

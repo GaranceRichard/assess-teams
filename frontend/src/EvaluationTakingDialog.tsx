@@ -1,3 +1,4 @@
+import { AppreciationScale } from "./AppreciationScale";
 import { referenceLabel } from "./evaluationVersionLabel";
 import { useEffect, useRef } from "react";
 
@@ -28,6 +29,11 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
     next,
     submit,
   } = useEvaluationTaking(run, revision, onClose);
+
+  const proposedScore = question?.score ?? 5;
+  const appreciation = question?.appreciation_markers?.find(
+    (marker) => marker.score === proposedScore,
+  )?.text;
 
   useEffect(() => {
     const element = dialog.current!;
@@ -70,8 +76,15 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
             value={question.score ?? 5}
             disabled={readonly || submitting || advancing}
             aria-describedby="question-text score-status"
-            aria-valuetext={`${question.score ?? 5} sur 10`}
+            aria-valuetext={`${proposedScore} sur 10${appreciation ? " : " + appreciation : ""}`}
             onChange={(event) => void selectScore(Number(event.target.value))}
+          />
+          <AppreciationScale
+            key={question.question_id}
+            markers={question.appreciation_markers ?? []}
+            score={question.score}
+            disabled={readonly || submitting || advancing}
+            onSelect={(score) => void selectScore(score)}
           />
           <output htmlFor="evaluation-score" aria-live="polite">
             Note sélectionnée : {question.score ?? 5} / 10

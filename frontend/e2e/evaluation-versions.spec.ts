@@ -1,3 +1,4 @@
+import { expectMarkerTooltip } from "./appreciation-assertions";
 import { expect, test } from "@playwright/test";
 import {
   assignOrganization,
@@ -33,6 +34,17 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await page.getByRole("button", { name: "Ajouter une question" }).click();
   await page.getByLabel("Nom de la question").fill("Original criterion v1");
   await page.getByRole("button", { name: "Enregistrer" }).click();
+  await page.getByText(/Repères d’appréciation/).click();
+  await page.getByRole("button", { name: "Ajouter un repère" }).click();
+  await page.getByLabel("5", { exact: true }).check();
+  await page.getByLabel("8", { exact: true }).check();
+  await page
+    .getByLabel("Appréciation", { exact: true })
+    .fill("Original marker v1");
+  await page.getByRole("button", { name: "Enregistrer les repères" }).click();
+  await expect(
+    page.getByRole("button", { name: "Modifier le repère 5" }),
+  ).toBeVisible();
   await first.getByRole("button", { name: "Valider" }).click();
   await page.getByRole("button", { name: "Confirmer la validation" }).click();
   await expect(first).toContainText("Validée");
@@ -67,7 +79,11 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .filter({ has: page.getByText("Agile versions v1", { exact: true }) });
   await oldRun.getByRole("button", { name: "Passer l’évaluation" }).click();
   await expect(page.getByRole("dialog")).toContainText("Original criterion v1");
+  await expectMarkerTooltip(page, 5, "Original marker v1");
   await page.getByRole("button", { name: "Enregistrer la note" }).click();
+  await expect(page.locator(".selected-appreciation")).toContainText(
+    "Original marker v1",
+  );
   await page.getByRole("button", { name: "Fermer" }).click();
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
   await page.getByLabel("Organisation").selectOption({ label: "Versions E2E" });
@@ -84,9 +100,18 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .getByRole("list", { name: "Questions", exact: true })
     .getByRole("listitem");
   await expect(criterion).toContainText("Original criterion v1");
-  await criterion.getByRole("button", { name: "Modifier" }).click();
+  await criterion
+    .getByRole("button", { name: "Modifier", exact: true })
+    .click();
   await page.getByLabel("Nom de la question").fill("Changed criterion v2");
   await page.getByRole("button", { name: "Enregistrer" }).click();
+  await page.getByText(/Repères d’appréciation/).click();
+  await page.getByRole("button", { name: "Modifier le repère 5" }).click();
+  await page
+    .getByLabel("Appréciation", { exact: true })
+    .fill("Changed marker v2");
+  await page.getByRole("button", { name: "Enregistrer les repères" }).click();
+  await expect(page.getByText(/Changed marker v2/)).toBeVisible();
   await second.getByRole("button", { name: "Valider" }).click();
   await page.getByRole("button", { name: "Confirmer la validation" }).click();
   await expect(first).toContainText("Archivée");
@@ -103,6 +128,9 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await expect(page.getByRole("dialog")).toContainText("Original criterion v1");
   await expect(page.getByRole("dialog")).not.toContainText(
     "Changed criterion v2",
+  );
+  await expect(page.locator(".selected-appreciation")).toContainText(
+    "Original marker v1",
   );
   await page.getByRole("button", { name: "Valider l’évaluation" }).click();
   await expect(oldRun).toContainText("Complétée");
@@ -123,4 +151,5 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .getByRole("button", { name: "Passer l’évaluation" })
     .click();
   await expect(page.getByRole("dialog")).toContainText("Changed criterion v2");
+  await expectMarkerTooltip(page, 5, "Changed marker v2");
 });

@@ -74,3 +74,9 @@ Après authentification, ce lien conserve `/evaluations` au lieu de renvoyer le 
 Le planning expose `requires_reassignment` : les responsabilités suspendues exigent une édition explicite
 avec un assigné actif avant reprise ; la réactivation seule ne reprend ni attentes ni notifications.
 Voir le [lifecycle User](user-lifecycle.md).
+
+## Repères facultatifs des questions
+
+`appreciation_markers` expose une liste `{score, text}` : entiers uniques 0–10, texte non vide.
+POST omis crée sans repères ; PUT omis les conserve, liste fournie les remplace, `[]` les supprime.
+Les mêmes permissions, verrous et refus de lifecycle s’appliquent. Voir le [contrat détaillé](appreciation-markers.md).

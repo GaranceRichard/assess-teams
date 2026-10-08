@@ -11,6 +11,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Démo publique interactive](architecture/public-demo.md) : composants réutilisés, fixtures, limites et GitHub Pages.
 - [Fondamentaux architecturaux](architecture/fundamentals.md) : navigation des principes structurants.
 - [Architecture hexagonale](architecture/hexagonal-architecture.md) et [Clean Code](architecture/clean-code.md).
+- [Repères d’appréciation](architecture/appreciation-markers.md) : configuration, snapshots et accès au clavier/mobile.
 - [Versionnement des modèles](architecture/evaluation-versioning.md) : données, lifecycle actif, migration et historique.
 - [Résultats interéquipes](architecture/results-api.md) : familles, dernière version ayant des résultats, radar et observations historiques par lignée.
 - [Gestion du mot de passe](architecture/password-management.md) : parcours, API, sécurité, sessions et emails.

@@ -52,6 +52,7 @@ def start_evaluation(run: EvaluationRun, actor: User) -> EvaluationRun:
                 lineage_id=question.lineage_id,
                 index=question.index,
                 text=question.name,
+                appreciation_markers=question.appreciation_markers,
             )
             for question in questions
         ]

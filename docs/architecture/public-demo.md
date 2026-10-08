@@ -82,3 +82,10 @@ Les tests du scope qualité vérifient l’inclusion du build/E2E démo et le bl
 README, règles agents, charte, DoD, stratégie, architecture, contrat API et documentation CI ont été revus.
 Les règles qualité et le contrat backend restent applicables et inchangés ; seules stratégie/architecture/CI
 et leurs liens documentaires évoluent pour ce build autonome.
+
+## Repères d’appréciation fictifs
+
+Clarté des objectifs et Communication proposent des repères libres à certains niveaux.
+Le brouillon v2 permet leur édition locale dans la section repliable partagée ; la v1 conserve ses textes.
+La passation réutilise l’échelle accessible et les infobulles au-dessus des niveaux ; sélection persistante,
+clavier/mobile et reset sont testés sans API. [Contrat fonctionnel](appreciation-markers.md).

@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from assessments.adapters.api.marker_serializers import AppreciationMarkerSerializer
+from assessments.adapters.api.score_fields import StrictScoreField
 from assessments.application.taking_scope import is_evaluation_admin
 from assessments.models import EvaluationRun, EvaluationRunQuestion, EvaluationRunState
 
@@ -68,11 +70,13 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
 
 
 class EvaluationRunQuestionSerializer(serializers.ModelSerializer):
+    appreciation_markers = AppreciationMarkerSerializer(many=True, read_only=True)
+
     question_id = serializers.IntegerField(source="source_question_id", read_only=True)
 
     class Meta:
         model = EvaluationRunQuestion
-        fields = ("question_id", "index", "text", "score")
+        fields = ("question_id", "index", "text", "score", "appreciation_markers")
 
 
 class EvaluationRunSerializer(EvaluationRunListSerializer):
@@ -80,13 +84,6 @@ class EvaluationRunSerializer(EvaluationRunListSerializer):
 
     class Meta(EvaluationRunListSerializer.Meta):
         fields = (*EvaluationRunListSerializer.Meta.fields, "questions")
-
-
-class StrictScoreField(serializers.IntegerField):
-    def to_internal_value(self, data):
-        if type(data) is not int:
-            self.fail("invalid")
-        return super().to_internal_value(data)
 
 
 class StrictTakingInput(serializers.Serializer):

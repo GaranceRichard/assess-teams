@@ -39,8 +39,41 @@ export const model: Evaluation = {
   status: "VALIDATED",
 };
 export const criteria: Question[] = [
-  { id: 1, index: 1, name: "Clarté des objectifs" },
-  { id: 2, index: 2, name: "Communication" },
+  {
+    id: 1,
+    index: 1,
+    name: "Clarté des objectifs",
+    appreciation_markers: [
+      { score: 0, text: "Les objectifs communs restent à définir." },
+      {
+        score: 5,
+        text: "Les objectifs sont connus, leur compréhension reste à partager.",
+      },
+      {
+        score: 8,
+        text: "L’équipe partage des objectifs clairs et les ajuste ensemble.",
+      },
+      {
+        score: 10,
+        text: "Chaque membre relie ses décisions aux objectifs partagés.",
+      },
+    ],
+  },
+  {
+    id: 2,
+    index: 2,
+    name: "Communication",
+    appreciation_markers: [
+      {
+        score: 3,
+        text: "Les échanges sont ponctuels et les informations dispersées.",
+      },
+      {
+        score: 7,
+        text: "Les échanges réguliers rendent les informations accessibles.",
+      },
+    ],
+  },
   { id: 3, index: 3, name: "Entraide" },
   { id: 4, index: 4, name: "Autonomie" },
   { id: 5, index: 5, name: "Apprentissage collectif" },
@@ -80,6 +113,7 @@ export function initialRuns(): EvaluationRun[] {
       index: q.index,
       text: q.name,
       score: null,
+      appreciation_markers: structuredClone(q.appreciation_markers ?? []),
     })),
   }));
 }

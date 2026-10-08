@@ -186,3 +186,7 @@ Admin/Superadmin uniquement, projection cohérente des actifs, complétions et a
 Le [contrat des journaux](journals-api.md) décrit les deux collections administratives, leurs filtres distincts, la capture HTTP exhaustive et le contexte sûr des Logs.
 
 Les [collections produit](product-layout.md#collections-et-contrats) acceptent une pagination serveur optionnelle ; OpenAPI décrit page, filtres et variantes de réponse.
+
+Les [repères d’appréciation](appreciation-markers.md) complètent les serializers des questions et
+les snapshots de passation : liste facultative en écriture, niveaux entiers uniques 0–10, texte non vide,
+lecture seule sur les runs. OpenAPI et ses tests couvrent ce contrat et les refus existants.
