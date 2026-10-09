@@ -75,14 +75,22 @@ facultatif. Aucun test ou seuil applicatif n'est supprimé ou abaissé.
 
 Sur db94189 : 582 tests en 248,22 s, couverture globale 98,89 % ; Ruff/format
 et migrations prennent environ 3 s, préparation backend 13 s.
-Le goulot backend est pytest. La mesure locale JUnit sur ce même socle fournit
-les poids de départ ; les rapports de chaque shard permettent de les recalibrer
-sur GitHub Actions.
+Le goulot backend est pytest. La mesure locale JUnit fournit les poids de départ.
+Les poids livrés sont ensuite recalibrés sur les 609 tests du run GitHub réussi
+[37934914110](https://github.com/GaranceRichard/assess-teams/actions/runs/37934914110),
+Python 3.13/Ubuntu : les charges estimées deviennent 191,18 s et 191,18 s.
 
 Validation locale du découpage : 287 tests en 226,97 s et 322 en 231,08 s,
 soit 609 tests réussis, contre 582 tests en 409,66 s pour la référence locale.
 Le chemin pytest diminue d'environ 44 %, malgré les tests CI supplémentaires.
 Ces temps Windows ne sont pas une mesure du workflow GitHub complet.
+
+Le premier run GitHub après séparation passe avec 98,89 % de couverture globale.
+Son chemin backend (shards puis fusion) prend 4 min 23 s, contre 4 min 36 s avant.
+Les shards mesurés prennent 220,93 s et 167,23 s, d'où le recalibrage sur la CI.
+Le workflow total prend 5 min 10 s, contre 4 min 52 s : l'E2E passe de 4 min 30 s
+à 4 min 58 s et devient le chemin critique. Ce premier run ne démontre donc
+pas de gain global ; mesurer plusieurs runners reste nécessaire.
 
 À vitesse identique, deux shards visent environ la moitié du temps pytest,
 avec une préparation par runner et une fusion courte. Le temps total devient

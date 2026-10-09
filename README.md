@@ -29,7 +29,7 @@ Les [Résultats](docs/architecture/results-api.md) séparent Analyse (Radar / Da
 
 ## CI — feedback qualité
 
-Le backend CI sépare Ruff et migrations des tests, répartis en deux shards équilibrés selon les durées mesurées. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
+Le backend CI sépare Ruff et migrations des tests, répartis en deux shards équilibrés selon les durées mesurées. Les poids sont recalibrés depuis les rapports JUnit GitHub, après une première mesure locale. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
 
 ## Socle technique
 
