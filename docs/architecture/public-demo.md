@@ -27,7 +27,7 @@ Le mapper de liens conserve les chemins applicatifs et fournit des fragments dan
 - Résultats : même modèle, trois équipes présélectionnées, sélecteurs Analyse et Restitution accessibles et sélections communes,
   radar et longitudinal dimensionnés dans la hauteur disponible, tableaux à scroll interne
   et clic sur un critère vers Dans le temps / Graphique ; courbe ou tableau historiques exclusifs,
-  avec critère conservé entre restitutions et retour par le select natif contrôlé Analyse.
+  avec critère conservé entre restitutions et retour par le switch compact Analyse inspiré du mode jour/nuit.
   Le tableau temporel partage `ResultsHistoryTable` : une colonne par équipe, observations chronologiques
   `SCORE/10 (JJ/MM/AAAA - HH:mm)` et cellules restantes vides, sans alignement de dates communes.
   Les trois observations préchargées sont étiquetées
@@ -80,7 +80,8 @@ absence de débordement horizontal, icônes centrées et scroll de navigation à
 Le test longitudinal partage ses mesures avec l’application : six viewports desktop (jusqu’à 1280×480),
 textes dessinés entièrement dans le canvas, dates sans chevauchement, légende et contrôles contenus,
 redimensionnement, mises à jour jour/nuit, aller-retour d’onglets, retour radar, scroll unique du tableau et flux mobile.
-`results-analysis.spec.ts` vérifie les quatre combinaisons depuis Analyse, le clavier natif et le critère conservé.
+`results-analysis.spec.ts` vérifie les quatre combinaisons depuis Analyse, Espace/Entrée et le critère conservé,
+ainsi que les libellés du switch, son focus, les thèmes, le mobile et la réduction des animations.
 Le parcours de passation vérifie aussi les historiques de longueurs différentes et les cellules vides.
 Les captures dashboard clair/sombre, radar, longitudinal, sidebar et mobile permettent la revue visuelle.
 Les tests du scope qualité vérifient l’inclusion du build/E2E démo et le blocage si l’un échoue.

@@ -54,7 +54,7 @@ test("Viewer consults its organization radar and longitudinal without administra
   await expect(table.getByRole("row")).toHaveCount(4);
   await expect(table.locator('[title*="· v1 ·"]')).toHaveCount(2);
   await expect(table.locator('[title*="· v2 ·"]')).toHaveCount(1);
-  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
+  await page.getByLabel("Analyse", { exact: true }).click();
   await page.getByRole("tab", { name: "Graphique" }).click();
   await expect(page.getByRole("checkbox", { name: /^Équipe A/ })).toBeChecked();
   await expect(

@@ -9,14 +9,20 @@ test("analysis selection changes all four views and keeps the criterion without 
     return route.abort();
   });
   await page.goto("./#/results");
-  const analysis = page.getByRole("combobox", { name: "Analyse", exact: true });
-  await expect(analysis).toHaveValue("radar");
+  const analysis = page.getByRole("switch", { name: "Analyse", exact: true });
+  await expect(analysis).toHaveAttribute("aria-checked", "false");
   await expect(
     page.getByRole("img", { name: /Radar des résultats/ }),
   ).toBeVisible();
   await analysis.focus();
-  await page.keyboard.press("End");
-  await expect(analysis).toHaveValue("temporal");
+  await page.keyboard.press("Space");
+  await expect(analysis).toHaveAttribute("aria-checked", "true");
+  await expect(analysis).toBeFocused();
+  await expect(analysis).toHaveAccessibleDescription("Dans le temps");
+  await page.keyboard.press("Enter");
+  await expect(analysis).toHaveAttribute("aria-checked", "false");
+  await expect(analysis).toHaveAccessibleDescription("Radar");
+  await page.keyboard.press("Space");
   await expect(page.getByRole("img")).toHaveCount(0);
   const criterion = page.getByLabel("Critère", { exact: true });
   await criterion.selectOption("1");
@@ -37,7 +43,7 @@ test("analysis selection changes all four views and keeps the criterion without 
       /^\d+\/10 \(\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}\)$/,
     );
   }
-  await analysis.selectOption("radar");
+  await analysis.click();
   await expect(table).toHaveAccessibleName(
     "Critères et scores des équipes sélectionnées",
   );
@@ -46,10 +52,42 @@ test("analysis selection changes all four views and keeps the criterion without 
   await expect(
     page.getByRole("img", { name: /Radar des résultats/ }),
   ).toBeVisible();
-  await analysis.selectOption("temporal");
+  await analysis.click();
   await expect(criterion).toHaveValue("1");
   await expect(
     page.getByRole("img", { name: /Évolution de Clarté des objectifs/ }),
   ).toBeVisible();
   expect(apiCalls).toEqual([]);
+});
+
+test("analysis switch stays readable in both themes and on mobile", async ({
+  page,
+}) => {
+  await page.goto("./#/results");
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 800 });
+    for (const theme of ["day", "night"]) {
+      if ((await page.locator("html").getAttribute("data-theme")) !== theme) {
+        await page
+          .getByRole("button", {
+            name: `Activer le mode ${theme === "day" ? "jour" : "nuit"}`,
+          })
+          .click();
+      }
+      const control = page.locator(".results-analysis-control");
+      await expect(control.getByText("Radar", { exact: true })).toBeVisible();
+      await expect(control.getByText("Dans le temps")).toBeVisible();
+      const box = await control.boundingBox();
+      expect(box!.x + box!.width).toBeLessThanOrEqual(width);
+      await page.screenshot({
+        path: test.info().outputPath(`switch-${theme}-${width}.png`),
+        fullPage: true,
+      });
+    }
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".results-analysis-thumb")).toHaveCSS(
+    "transition-duration",
+    "0s",
+  );
 });

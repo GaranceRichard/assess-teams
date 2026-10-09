@@ -50,7 +50,7 @@ Journal et Logs réutilisent leur pagination backend existante de 20 éléments.
 Les petites collections ne montrent pas de pagination. Le Dashboard conserve son contrat métier
 limité aux dix événements récents, dans une zone bornée. Results conserve les jeux complets nécessaires
 aux comparaisons et courbes ; les sélections et observations sont consultables par scroll interne.
-Les sélecteurs Analyse (Radar / Dans le temps) et Restitution (Graphique / Données détaillées) sont indépendants
+Le switch compact Analyse (Radar / Dans le temps), inspiré du mode jour/nuit, et le sélecteur Restitution (Graphique / Données détaillées) sont indépendants
 et partagent une sélection unique. Radar et longitudinal utilisent la hauteur
 disponible du panneau avec `min-height: 0` et un canvas responsive ; le tableau détaillé est dans
 une région clavier à scroll interne, avec dates de complétion et en-tête sticky.

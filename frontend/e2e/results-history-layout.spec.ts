@@ -57,7 +57,7 @@ test("longitudinal fits its panel with readable axes after resize, tab changes a
       .getByRole("region", { name: "Évolution temporelle du critère" })
       .evaluate((element) => element.scrollTop),
   ).toBe(0);
-  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
+  await page.getByLabel("Analyse", { exact: true }).click();
   await expect(page.getByRole("table")).toHaveAccessibleName(
     "Critères et scores des équipes sélectionnées",
   );

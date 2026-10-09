@@ -53,7 +53,7 @@ test("static demo fits longitudinal and radar through resize and tabs without an
       .getByRole("region", { name: "Évolution temporelle du critère" })
       .evaluate((element) => element.scrollTop),
   ).toBe(0);
-  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
+  await page.getByLabel("Analyse", { exact: true }).click();
   await expect(page.getByRole("table")).toHaveAccessibleName(
     "Critères et scores des équipes sélectionnées",
   );

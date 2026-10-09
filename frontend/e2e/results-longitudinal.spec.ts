@@ -32,14 +32,14 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   const beforeHistory = await radar.evaluate((canvas: HTMLCanvasElement) =>
     canvas.toDataURL(),
   );
-  const analysis = page.getByRole("combobox", { name: "Analyse", exact: true });
+  const analysis = page.getByRole("switch", { name: "Analyse", exact: true });
   await analysis.focus();
-  await page.keyboard.press("End");
-  await expect(analysis).toHaveValue("temporal");
+  await page.keyboard.press("Space");
+  await expect(analysis).toHaveAttribute("aria-checked", "true");
   await expect(radar).toHaveCount(0);
   await expect(page.getByLabel("Critère", { exact: true })).toBeVisible();
   expect(historyRequests).toBe(0);
-  await analysis.selectOption("radar");
+  await analysis.click();
   await page.getByText("Historique par critère", { exact: true }).click();
   const criterion = page.getByRole("button", { name: "1. Collaboration v2" });
   await criterion.focus();
@@ -96,7 +96,7 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
     path: test.info().outputPath("longitudinal-dark.png"),
     fullPage: true,
   });
-  await analysis.selectOption("radar");
+  await analysis.click();
   await expect(page.getByRole("table")).toHaveAccessibleName(
     "Critères et scores des équipes sélectionnées",
   );
@@ -115,7 +115,7 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   );
   expect(forbidden.status()).toBe(404);
   expect(historyRequests).toBe(loadedHistoryRequests);
-  await analysis.selectOption("temporal");
+  await analysis.click();
   await expect(page.getByLabel("Critère", { exact: true })).toHaveValue(
     selectedCriterion,
   );

@@ -1,5 +1,6 @@
 import { useId, useState } from "react";
 
+import { ResultsAnalysisSwitch } from "./ResultsAnalysisSwitch";
 import { ResultsDetails } from "./ResultsDetails";
 import { ResultsHistory } from "./ResultsHistory";
 import { ResultsRadar } from "./ResultsRadar";
@@ -31,19 +32,12 @@ export function ResultsViews({
   return (
     <div className="results-views">
       <div className="results-view-selectors">
-        <label className="results-view-selector results-model results-analysis-selector">
-          <span id={id + "-analysis-label"}>Analyse</span>
-          <select
-            id={id + "-analysis"}
-            aria-labelledby={id + "-analysis-label"}
-            aria-controls={id + "-panel"}
-            value={analysis}
-            onChange={(event) => setAnalysis(event.target.value)}
-          >
-            <option value="radar">Radar</option>
-            <option value="temporal">Dans le temps</option>
-          </select>
-        </label>
+        <ResultsAnalysisSwitch
+          id={id + "-analysis"}
+          panelId={id + "-panel"}
+          temporal={analysis === "temporal"}
+          onChange={(temporal) => setAnalysis(temporal ? "temporal" : "radar")}
+        />
         <ResultsViewSelector
           id={id + "-restitution"}
           panelId={id + "-panel"}

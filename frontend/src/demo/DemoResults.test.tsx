@@ -35,9 +35,7 @@ it("sélectionne, désélectionne et ouvre la trajectoire puis revient", () => {
   fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   expect(screen.getByText("Historique détaillé")).toBeVisible();
   fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
-  fireEvent.change(screen.getByLabelText("Analyse"), {
-    target: { value: "radar" },
-  });
+  fireEvent.click(screen.getByLabelText("Analyse"));
   expect(screen.getByText("Radar 3")).toBeInTheDocument();
   expect(screen.getByText(/observations « simulation »/)).toBeInTheDocument();
 });

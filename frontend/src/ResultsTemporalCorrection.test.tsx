@@ -23,15 +23,15 @@ it("changes the displayed analysis through a controlled, labelled selector in al
       theme="day"
     />,
   );
-  const analysis = screen.getByRole("combobox", { name: "Analyse" });
+  const analysis = screen.getByRole("switch", { name: "Analyse" });
   expect(analysis).toHaveAttribute(
     "aria-controls",
     screen.getByRole("tabpanel").id,
   );
-  expect(analysis).toHaveValue("radar");
+  expect(analysis).toHaveAttribute("aria-checked", "false");
   expect(screen.getByRole("img")).toHaveAccessibleName(/Radar/);
-  fireEvent.change(analysis, { target: { value: "temporal" } });
-  expect(analysis).toHaveValue("temporal");
+  fireEvent.click(analysis);
+  expect(analysis).toHaveAttribute("aria-checked", "true");
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   expect(screen.getByLabelText("Critère")).toBeVisible();
   expect(history).not.toHaveBeenCalled();
@@ -44,12 +44,12 @@ it("changes the displayed analysis through a controlled, labelled selector in al
   expect(screen.getByRole("table")).toHaveAccessibleName(
     /Observations historiques/,
   );
-  fireEvent.change(analysis, { target: { value: "radar" } });
+  fireEvent.click(analysis);
   expect(screen.getByRole("table")).toHaveAccessibleName(/Critères et scores/);
   fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
   expect(screen.queryByRole("table")).not.toBeInTheDocument();
   expect(screen.getByRole("img")).toHaveAccessibleName(/Radar/);
-  fireEvent.change(analysis, { target: { value: "temporal" } });
+  fireEvent.click(analysis);
   expect(screen.getByLabelText("Critère")).toHaveValue("1");
   await screen.findByRole("img", { name: /Évolution de Collaboration/ });
 });

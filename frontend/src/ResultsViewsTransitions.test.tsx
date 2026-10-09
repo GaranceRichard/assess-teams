@@ -29,11 +29,11 @@ function open(axes = resultFamilyComparison.axes) {
 }
 it("controls analysis selection and keeps restitution independent", async () => {
   open();
-  const analysis = screen.getByRole("combobox", { name: "Analyse" });
+  const analysis = screen.getByRole("switch", { name: "Analyse" });
   analysis.focus();
-  fireEvent.change(analysis, { target: { value: "temporal" } });
+  fireEvent.click(analysis);
   expect(analysis).toHaveFocus();
-  expect(analysis).toHaveValue("temporal");
+  expect(analysis).toHaveAttribute("aria-checked", "true");
   expect(screen.getByRole("tab", { name: "Graphique" })).toHaveAttribute(
     "aria-selected",
     "true",
@@ -57,10 +57,10 @@ it("controls analysis selection and keeps restitution independent", async () => 
   );
   expect(screen.getByLabelText("Critère")).toHaveValue("2");
   expect(history).toHaveBeenCalledTimes(1);
-  fireEvent.change(analysis, { target: { value: "radar" } });
+  fireEvent.click(analysis);
   expect(analysis).toHaveFocus();
   expect(screen.getByRole("img")).toHaveAccessibleName(/Radar/);
-  fireEvent.change(analysis, { target: { value: "temporal" } });
+  fireEvent.click(analysis);
   expect(analysis).toHaveFocus();
   await screen.findByRole("img", { name: /Évolution de Critère très long/ });
   expect(screen.getByLabelText("Critère")).toHaveValue("2");
@@ -79,9 +79,7 @@ it("controls analysis selection and keeps restitution independent", async () => 
 });
 it("never offers longitudinal continuity for a criterion without an explicit lineage", () => {
   open([{ question_id: 99, index: 1, text: "Historique incompatible" }]);
-  fireEvent.change(screen.getByLabelText("Analyse"), {
-    target: { value: "temporal" },
-  });
+  fireEvent.click(screen.getByLabelText("Analyse"));
   expect(
     screen.getByRole("option", { name: /Historique incompatible/ }),
   ).toBeDisabled();
@@ -95,7 +93,10 @@ it("keeps a refused history visible across restitutions without presenting stale
   fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   fireEvent.click(screen.getByRole("button", { name: "1. Collaboration" }));
   expect(screen.getByLabelText("Analyse")).toHaveFocus();
-  expect(screen.getByLabelText("Analyse")).toHaveValue("temporal");
+  expect(screen.getByLabelText("Analyse")).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
   expect(screen.getByRole("tab", { name: "Graphique" })).toHaveAttribute(
     "aria-selected",
     "true",
@@ -105,8 +106,6 @@ it("keeps a refused history visible across restitutions without presenting stale
   expect(screen.getByRole("alert")).toHaveTextContent("Impossible de charger");
   expect(screen.queryByRole("table")).not.toBeInTheDocument();
   expect(history).toHaveBeenCalledTimes(1);
-  fireEvent.change(screen.getByLabelText("Analyse"), {
-    target: { value: "radar" },
-  });
+  fireEvent.click(screen.getByLabelText("Analyse"));
   await waitFor(() => expect(screen.getByRole("table")).toBeVisible());
 });

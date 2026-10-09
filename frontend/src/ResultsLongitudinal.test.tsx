@@ -70,7 +70,10 @@ it("loads history only on criterion opening and returns with model and team sele
   ).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
   await screen.findByRole("img", { name: /Évolution de Collaboration/ });
-  expect(screen.getByLabelText("Analyse")).toHaveValue("temporal");
+  expect(screen.getByLabelText("Analyse")).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
   expect(data.datasets).toHaveLength(2);
   expect(data.datasets[0].data.map((point: { y: number }) => point.y)).toEqual([
     2, 0,
@@ -98,9 +101,7 @@ it("loads history only on criterion opening and returns with model and team sele
   ).toBeVisible();
   expect(screen.getAllByTitle(/· v1 · Ancienne collaboration/)).toHaveLength(2);
   expect(screen.getAllByTitle(/· v2 · Collaboration/)).toHaveLength(2);
-  fireEvent.change(screen.getByLabelText("Analyse"), {
-    target: { value: "radar" },
-  });
+  fireEvent.click(screen.getByLabelText("Analyse"));
   expect(screen.getByRole("table")).toHaveAccessibleName(
     "Critères et scores des équipes sélectionnées",
   );
@@ -141,9 +142,7 @@ it("shows history failures and lets the user return to the radar", async () => {
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger l’historique",
   );
-  fireEvent.change(screen.getByLabelText("Analyse"), {
-    target: { value: "radar" },
-  });
+  fireEvent.click(screen.getByLabelText("Analyse"));
   expect(await screen.findByRole("img")).toBeVisible();
 });
 it.each(["success", "error"])(

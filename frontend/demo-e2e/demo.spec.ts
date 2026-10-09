@@ -124,7 +124,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   await expect(
     observations.locator("tbody tr").last().getByRole("cell").nth(1),
   ).toBeEmpty();
-  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
+  await page.getByLabel("Analyse", { exact: true }).click();
   await page.getByRole("link", { name: "Pilotage", exact: true }).click();
   await expect(
     page.getByRole("row").filter({ hasText: "Aurore · votre passation" }),

@@ -94,9 +94,9 @@ Changer d’organisation ou de famille remet à zéro les sélections et ferme l
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
 Le radar conserve axes et échelle 0–10 avec zéro série. Avec 1/N équipes, il conserve séries superposées,
-styles par équipe, légende et dates. Analyse est un select natif contrôlé (Radar / Dans le temps),
-étiqueté et lié au panneau affiché ; Restitution conserve Graphique / Données détaillées.
-Les deux contrôles indépendants partagent les mêmes filtres et équipes. Le clavier natif pilote Analyse ;
+styles par équipe, légende et dates. Analyse est un switch contrôlé (Radar / Dans le temps), avec les deux libellés visibles,
+un curseur animé lié à la palette et un état `aria-checked` actif pour Dans le temps, étiqueté et lié au panneau affiché ; Restitution conserve Graphique / Données détaillées.
+Les deux contrôles indépendants partagent les mêmes filtres et équipes. Espace et Entrée basculent Analyse en conservant son focus ;
 les flèches, Home et End déplacent le focus et activent le choix dans Restitution.
 Changer de restitution conserve le critère et les observations chargées. Le tableau radar reprend les scores et dates
 des passations retenues, avec scroll interne uniquement en cas de dépassement. Les critères s’ouvrent
@@ -106,7 +106,7 @@ Dans le temps propose un sélecteur de critère, sans continuité possible pour 
 Sans critère choisi, un message invite à le sélectionner sans charger d’historique.
 Le radar remplit la hauteur restante du panneau flex, sans hauteur fixe ni scroll de page desktop ;
 ses libellés radar abrégés existants passent à la ligne selon la largeur disponible. Les textes
-intégraux restent accessibles dans le tableau et le menu Historique par critère. Le mobile conserve le flux naturel.
+intégraux restent accessibles dans le tableau et le menu Historique par critère. Le mobile conserve le flux naturel et empile les deux contrôles ; le switch respecte la réduction des animations.
 Le longitudinal partage le conteneur flex responsive du radar : la note et la légende
 réservent leur espace, puis le canvas remplit la hauteur restante. Données détaillées affiche uniquement
 le tableau historique à scroll interne ; aucun empilement ni juxtaposition avec la courbe.
@@ -114,7 +114,7 @@ Les dates restent horizontales et leurs graduations suivent la largeur du canvas
 Le titre de l’axe des scores adapte sa police entre 10 et 12 px ; aucune donnée ni échelle ne change.
 L’application et la démo composent le même ResultsHistory. Le mobile garde son flux naturel.
 L’historique est chargé uniquement quand cette vue s’ouvre, et pour la sélection courante.
-Le retour par le sélecteur Analyse garde organisation, modèle, équipes et restitution, sans recharger
+Le retour par le switch Analyse garde organisation, modèle, équipes et restitution, sans recharger
 la projection radar ni ajouter un bouton de retour. Le critère reste choisi pour la prochaine visite temporelle.
 
 Le longitudinal réutilise Chart.js : X numérique en timestamps de complétion (espacement temporel réel),
