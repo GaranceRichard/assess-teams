@@ -27,5 +27,15 @@ export async function expectMarkerTooltip(
   ).toBe(true);
   await button.press("Escape");
   await expect(tooltip).toHaveCount(0);
+  const slider = page.getByRole("slider");
+  if (await slider.isEnabled()) await slider.focus();
+  await button.hover();
+  await tooltip.hover();
+  await tooltip.evaluate((element) =>
+    element.dispatchEvent(new Event("scroll", { bubbles: true })),
+  );
+  await expect(tooltip).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(tooltip).toHaveCount(0);
   await expect(page.getByRole("dialog")).toBeVisible();
 }

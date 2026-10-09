@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import type { AppreciationMarker } from "./evaluations";
 import "./appreciation-markers.css";
 
@@ -17,11 +17,29 @@ export function AppreciationScale({
 }: Props) {
   const id = useId();
   const tooltip = useRef<HTMLDivElement>(null);
+  const dismissal = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [active, setActive] = useState<{
     marker: AppreciationMarker;
     anchor: HTMLButtonElement;
   } | null>(null);
   const selected = markers.find((marker) => marker.score === score);
+  const retain = () => {
+    if (dismissal.current) clearTimeout(dismissal.current);
+  };
+  const leave = (anchor?: HTMLButtonElement) => {
+    if (anchor && document.activeElement === anchor) return;
+    dismissal.current = setTimeout(() => {
+      setActive((current) =>
+        !anchor || current?.anchor === anchor ? null : current,
+      );
+    }, 120);
+  };
+  useEffect(
+    () => () => {
+      if (dismissal.current) clearTimeout(dismissal.current);
+    },
+    [],
+  );
 
   useLayoutEffect(() => {
     const element = tooltip.current;
@@ -42,16 +60,26 @@ export function AppreciationScale({
     };
     element.showPopover?.();
     position();
-    const dismiss = () => {
+    const dismiss = (event: Event) => {
+      if (event.target instanceof Node && element.contains(event.target))
+        return;
       if (document.activeElement === active.anchor) position();
       else setActive(null);
     };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopPropagation();
+      setActive(null);
+    };
+    document.addEventListener("keydown", escape, true);
     window.addEventListener("resize", dismiss);
     window.addEventListener("scroll", dismiss, true);
     return () => {
       element.hidePopover?.();
       window.removeEventListener("resize", dismiss);
       window.removeEventListener("scroll", dismiss, true);
+      document.removeEventListener("keydown", escape, true);
     };
   }, [active]);
 
@@ -76,13 +104,13 @@ export function AppreciationScale({
                 level + " sur 10" + (marker ? " : " + marker.text : "")
               }
               aria-describedby={active?.marker.score === level ? id : undefined}
-              onMouseEnter={(event) =>
-                marker && setActive({ marker, anchor: event.currentTarget })
-              }
-              onMouseLeave={(event) => {
-                if (document.activeElement !== event.currentTarget)
-                  setActive(null);
+              onMouseEnter={(event) => {
+                retain();
+                setActive(
+                  marker ? { marker, anchor: event.currentTarget } : null,
+                );
               }}
+              onMouseLeave={(event) => leave(event.currentTarget)}
               onFocus={(event) =>
                 setActive(
                   marker ? { marker, anchor: event.currentTarget } : null,
@@ -114,6 +142,8 @@ export function AppreciationScale({
           className="appreciation-tooltip"
           id={id}
           role="tooltip"
+          onMouseEnter={retain}
+          onMouseLeave={() => leave()}
         >
           <strong>{active.marker.score} / 10</strong> · {active.marker.text}
         </div>

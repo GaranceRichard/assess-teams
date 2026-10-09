@@ -46,7 +46,8 @@ Les niveaux occupés sont indisponibles à l’ajout ; aucune sélection par dé
 `AppreciationScale` complète le range existant avec onze niveaux identifiés et des points
 sur les niveaux configurés. Survol et focus affichent le texte exact au-dessus du niveau.
 Le popover natif utilise la top layer au-dessus de la modale, avec position bornée au viewport,
-largeur adaptée et hauteur limitée à l’espace disponible. Scroll/resize repositionnent un repère
+largeur adaptée et hauteur limitée à l’espace disponible. Le survol et le défilement du texte
+maintiennent l’infobulle. Scroll/resize repositionnent un repère
 au focus, sinon le retirent ; Échap ferme l’infobulle sans fermer la passation.
 Les textes longs se lisent aussi dans le bloc persistant après sélection.
 Les boutons sont utilisables au clavier et au toucher ; le range conserve ses interactions,
@@ -70,3 +71,17 @@ infobulles au-dessus des niveaux, bornes du viewport, thèmes/palettes, mobile e
 Revue : README, contrats backend/modèles/passation, versionnement, démo, backlog,
 index d’architecture, stratégie et inventaire des parcours sont actualisés.
 Les règles agents, charte qualité et DoD restent applicables sans changement de politique.
+
+## Réconciliation des chantiers
+
+Les branches `feat/question-appreciation-markers` et `feat/question-score-guides` ont été
+comparées puis réunies dans un historique de fusion. Le contrat unique retenu est
+`appreciation_markers`, avec JSON borné à onze repères sur la question et son snapshot.
+La variante relationnelle `QuestionScoreGuide` et le champ `score_guides` ne sont pas publiés :
+aucune de ces deux migrations concurrentes n’avait été livrée sur main.
+Cette décision évite deux sources de vérité et conserve les validations backend atomiques.
+Les garanties complémentaires du second chantier sont reprises : infobulle survolable,
+défilement de son texte, fermeture différée annulable et Échap depuis tout contrôle.
+`AppreciationTooltip.test` protège ces interactions, y compris le démontage et le changement
+rapide de niveau. Les deux suites historiques, de contrat, de versionnement et de migration
+ont été comparées ; la suite retenue conserve leurs invariants applicables au contrat unique.

@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import { AppreciationScale } from "./AppreciationScale";
 
@@ -7,7 +13,7 @@ const markers = [
   { score: 8, text: "Partagé" },
 ];
 
-it("reveals exact markers on hover/focus, keeps the selected marker and leaves gaps empty", () => {
+it("reveals exact markers on hover/focus, keeps the selected marker and leaves gaps empty", async () => {
   const onSelect = vi.fn();
   const { rerender } = render(
     <AppreciationScale
@@ -24,7 +30,9 @@ it("reveals exact markers on hover/focus, keeps the selected marker and leaves g
     "Partagé",
   );
   fireEvent.mouseLeave(configured);
-  expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();
+  await waitFor(() =>
+    expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull(),
+  );
   act(() => configured.focus());
   fireEvent.mouseLeave(configured);
   fireEvent.scroll(window);
