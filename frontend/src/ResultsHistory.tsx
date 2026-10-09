@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
-import { completionDate } from "./evaluationRuns";
+import { ResultsHistoryTable } from "./ResultsHistoryTable";
 import { historyData, historyOptions } from "./resultHistoryConfig";
 import { seriesStyle } from "./resultRadarConfig";
 import { getCriterionHistory } from "./results";
@@ -118,46 +118,7 @@ export function ResultsHistory({
               })}
             </ul>
           )}
-          {detailed && (
-            <div
-              className="table-wrap results-table-scroll"
-              role="region"
-              aria-label="Observations historiques"
-              tabIndex={0}
-            >
-              <table>
-                <caption>
-                  Observations historiques du critère sélectionné
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Équipe</th>
-                    <th scope="col">Date de complétion</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Version</th>
-                    <th scope="col">Critère observé</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.teams.flatMap((team) =>
-                    team.points.map((point) => (
-                      <tr key={`${team.team_id}:${point.run_id}`}>
-                        <th scope="row">{point.team_name}</th>
-                        <td>
-                          <time dateTime={point.completed_at}>
-                            {completionDate(point.completed_at)}
-                          </time>
-                        </td>
-                        <td>{point.score} / 10</td>
-                        <td>v{point.version}</td>
-                        <td>{point.criterion_text}</td>
-                      </tr>
-                    )),
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
+          {detailed && <ResultsHistoryTable history={history} />}
         </>
       )}
     </section>

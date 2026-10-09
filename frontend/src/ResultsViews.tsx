@@ -19,26 +19,31 @@ export function ResultsViews({
   theme: Theme;
 }) {
   const id = useId();
-  const [analysis, setAnalysis] = useState(0);
+  const [analysis, setAnalysis] = useState("radar");
   const [restitution, setRestitution] = useState(0);
   const [criterion, setCriterion] = useState<ResultAxis | null>(null);
   function openCriterion(axis: ResultAxis) {
     setCriterion(axis);
-    setAnalysis(1);
+    setAnalysis("temporal");
     setRestitution(0);
-    document.getElementById(id + "-analysis-tab-1")?.focus();
+    document.getElementById(id + "-analysis")?.focus();
   }
   return (
     <div className="results-views">
       <div className="results-view-selectors">
-        <ResultsViewSelector
-          id={id + "-analysis"}
-          panelId={id + "-panel"}
-          label="Analyse"
-          options={["Radar", "Dans le temps"]}
-          selected={analysis}
-          onSelect={setAnalysis}
-        />
+        <label className="results-view-selector results-model results-analysis-selector">
+          <span id={id + "-analysis-label"}>Analyse</span>
+          <select
+            id={id + "-analysis"}
+            aria-labelledby={id + "-analysis-label"}
+            aria-controls={id + "-panel"}
+            value={analysis}
+            onChange={(event) => setAnalysis(event.target.value)}
+          >
+            <option value="radar">Radar</option>
+            <option value="temporal">Dans le temps</option>
+          </select>
+        </label>
         <ResultsViewSelector
           id={id + "-restitution"}
           panelId={id + "-panel"}
@@ -48,10 +53,11 @@ export function ResultsViews({
           onSelect={setRestitution}
         />
       </div>
-      {analysis === 1 && (
+      {analysis === "temporal" && (
         <label className="results-model results-history-criterion">
-          Critère
+          <span id={id + "-criterion-label"}>Critère</span>
           <select
+            aria-labelledby={id + "-criterion-label"}
             value={criterion?.question_id ?? ""}
             onChange={(event) =>
               setCriterion(
@@ -77,11 +83,11 @@ export function ResultsViews({
       <div
         role="tabpanel"
         id={id + "-panel"}
-        aria-labelledby={`${id}-analysis-tab-${analysis} ${id}-restitution-tab-${restitution}`}
+        aria-label={`${analysis === "radar" ? "Radar" : "Dans le temps"} ${restitution === 0 ? "Graphique" : "Données détaillées"}`}
         tabIndex={0}
         className="results-tab-panel"
       >
-        {analysis === 1 ? (
+        {analysis === "temporal" ? (
           criterion ? (
             <ResultsHistory
               key={criterion.lineage_id}

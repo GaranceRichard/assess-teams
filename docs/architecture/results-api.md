@@ -94,9 +94,10 @@ Changer d’organisation ou de famille remet à zéro les sélections et ferme l
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
 Le radar conserve axes et échelle 0–10 avec zéro série. Avec 1/N équipes, il conserve séries superposées,
-styles par équipe, légende et dates. Deux sélecteurs accessibles indépendants, Analyse (Radar / Dans le temps)
-et Restitution (Graphique / Données détaillées), partagent les mêmes filtres et équipes.
-Les flèches, Home et End déplacent le focus et activent le choix dans chaque sélecteur.
+styles par équipe, légende et dates. Analyse est un select natif contrôlé (Radar / Dans le temps),
+étiqueté et lié au panneau affiché ; Restitution conserve Graphique / Données détaillées.
+Les deux contrôles indépendants partagent les mêmes filtres et équipes. Le clavier natif pilote Analyse ;
+les flèches, Home et End déplacent le focus et activent le choix dans Restitution.
 Changer de restitution conserve le critère et les observations chargées. Le tableau radar reprend les scores et dates
 des passations retenues, avec scroll interne uniquement en cas de dépassement. Les critères s’ouvrent
 par clic sur leur libellé ou point dans le radar, ou par bouton clavier dans le menu
@@ -119,7 +120,14 @@ la projection radar ni ajouter un bouton de retour. Le critère reste choisi pou
 Le longitudinal réutilise Chart.js : X numérique en timestamps de complétion (espacement temporel réel),
 Y fixe 0–10, une courbe par équipe, chaque point correspondant à une passation compatible.
 Les segments droits relient les observations, sans lissage, point intermédiaire ni valeur calculée.
-Tooltip et tableau sémantique restituent équipe historique, date, score, version et texte observé.
+Le tableau sémantique contient une colonne par équipe sélectionnée, même sans observation compatible.
+Chaque colonne est triée par date croissante, puis ID de passation à date égale, indépendamment des autres.
+Une cellule contient `SCORE/10 (JJ/MM/AAAA - HH:mm)` ; les dates/heures restent locales au navigateur.
+Les lignes correspondent au rang de l'observation dans chaque équipe, jamais à des dates communes.
+Le nombre de lignes est celui de l'historique le plus long ; les cellules restantes sont vides.
+Une absence de mesure ne devient jamais zéro ; un score mesuré de zéro reste `0/10`.
+Équipe historique, version et texte observé sont conservés dans le title de l'entrée et le tooltip graphique.
+Ce format est limité au tableau temporel ; les autres formats de dates/heures ne changent pas.
 Sans observation, un état explicite remplace le graphique ; aucune date fictive n’est affichée.
 Les thèmes jour/nuit et styles des équipes restent cohérents entre les deux vues.
 

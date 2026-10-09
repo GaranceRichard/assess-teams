@@ -32,6 +32,14 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   const beforeHistory = await radar.evaluate((canvas: HTMLCanvasElement) =>
     canvas.toDataURL(),
   );
+  const analysis = page.getByRole("combobox", { name: "Analyse", exact: true });
+  await analysis.focus();
+  await page.keyboard.press("End");
+  await expect(analysis).toHaveValue("temporal");
+  await expect(radar).toHaveCount(0);
+  await expect(page.getByLabel("Critère", { exact: true })).toBeVisible();
+  expect(historyRequests).toBe(0);
+  await analysis.selectOption("radar");
   await page.getByText("Historique par critère", { exact: true }).click();
   const criterion = page.getByRole("button", { name: "1. Collaboration v2" });
   await criterion.focus();
@@ -42,28 +50,43 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   ).toBeVisible();
   expect(historyRequests).toBeGreaterThan(0);
   const loadedHistoryRequests = historyRequests;
+  const selectedCriterion = await page
+    .getByLabel("Critère", { exact: true })
+    .inputValue();
   await expect(page.getByRole("table")).toHaveCount(0);
   await page.getByRole("tab", { name: "Données détaillées" }).click();
   await expect(page.getByRole("img")).toHaveCount(0);
   const table = page.getByRole("table", {
     name: "Observations historiques du critère sélectionné",
   });
-  await expect(table.getByRole("row")).toHaveCount(6);
+  await expect(table.getByRole("columnheader")).toHaveText([
+    "Équipe A",
+    "Équipe B",
+  ]);
+  await expect(table.getByRole("row")).toHaveCount(4);
+  await expect(table.locator('[title*="· v1 ·"]')).toHaveCount(3);
+  await expect(table.locator('[title*="· v2 ·"]')).toHaveCount(2);
   await expect(
-    table.getByRole("cell", { name: "v1", exact: true }),
-  ).toHaveCount(3);
-  await expect(
-    table.getByRole("cell", { name: "v2", exact: true }),
-  ).toHaveCount(2);
-  await expect(
-    table.getByRole("cell", { name: "2 / 10", exact: true }),
+    table.getByRole("cell", { name: /^2\/10 \(01\/09\/2026 - \d{2}:\d{2}\)$/ }),
   ).toBeVisible();
   await expect(
-    table.getByRole("cell", { name: "6 / 10", exact: true }),
+    table.getByRole("cell", { name: /^6\/10 \(05\/10\/2026 - \d{2}:\d{2}\)$/ }),
   ).toBeVisible();
   await expect(
-    table.getByRole("cell", { name: "7 / 10", exact: true }),
+    table.getByRole("cell", { name: /^7\/10 \(06\/10\/2026 - \d{2}:\d{2}\)$/ }),
   ).toBeVisible();
+  await expect(table.locator("tbody tr").nth(0).getByRole("cell")).toHaveText([
+    /^2\/10 \(01\/09\/2026 - \d{2}:\d{2}\)$/,
+    /^8\/10 \(03\/10\/2026 - \d{2}:\d{2}\)$/,
+  ]);
+  await expect(table.locator("tbody tr").nth(1).getByRole("cell")).toHaveText([
+    /^0\/10 \(02\/10\/2026 - \d{2}:\d{2}\)$/,
+    /^7\/10 \(06\/10\/2026 - \d{2}:\d{2}\)$/,
+  ]);
+  await expect(table.locator("tbody tr").nth(2).getByRole("cell")).toHaveText([
+    /^6\/10 \(05\/10\/2026 - \d{2}:\d{2}\)$/,
+    "",
+  ]);
   await page.screenshot({
     path: test.info().outputPath("longitudinal-light.png"),
     fullPage: true,
@@ -73,7 +96,10 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
     path: test.info().outputPath("longitudinal-dark.png"),
     fullPage: true,
   });
-  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await analysis.selectOption("radar");
+  await expect(page.getByRole("table")).toHaveAccessibleName(
+    "Critères et scores des équipes sélectionnées",
+  );
   await page.getByRole("tab", { name: "Graphique" }).click();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await expect(page.getByRole("checkbox", { name: /^Équipe A/ })).toBeChecked();
@@ -89,5 +115,12 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   );
   expect(forbidden.status()).toBe(404);
   expect(historyRequests).toBe(loadedHistoryRequests);
+  await analysis.selectOption("temporal");
+  await expect(page.getByLabel("Critère", { exact: true })).toHaveValue(
+    selectedCriterion,
+  );
+  await expect(
+    page.getByRole("img", { name: /Évolution de Collaboration v2/ }),
+  ).toBeVisible();
   await expect(page).toHaveURL(/\/results$/);
 });

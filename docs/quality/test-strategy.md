@@ -88,6 +88,10 @@ avec deux équipes et deux complétions pour l’une, sans requête supplémenta
 la sélection vide et le refus de chargement. `ResultsViewsTransitions.test.tsx` et `ResultsLongitudinal.test.tsx`
 couvrent les quatre combinaisons Analyse / Restitution, leur indépendance, le choix et la conservation
 du critère, le drill-down vers la courbe, les lignées absentes et les refus sans données obsolètes.
+`ResultsTemporalCorrection.test.tsx` échoue avant correction : select Analyse contrôlé, changement réel
+des quatre vues, colonnes indépendantes, ordre chronologique/tie-break, historiques inégaux ou vides,
+format local exact et distinction entre zéro mesuré et absence. `test_result_history_missing` protège
+les scores absents et les textes identiques de lignées distinctes dans les séries API v1/v2.
 `results-layout.spec.ts` mesure le canvas et les bornes
 de chaque libellé sur six viewports desktop, dont 1280×480, sans scroll de document/page/panneau radar ;
 il vérifie le scroll interne du tableau, la conservation des sélections et l’accès mobile.

@@ -27,13 +27,13 @@ function open(axes = resultFamilyComparison.axes) {
     />,
   );
 }
-it("navigates the analysis selector by keyboard and keeps restitution independent", async () => {
+it("controls analysis selection and keeps restitution independent", async () => {
   open();
-  const radar = screen.getByRole("tab", { name: "Radar" });
-  const temporal = screen.getByRole("tab", { name: "Dans le temps" });
-  radar.focus();
-  fireEvent.keyDown(radar, { key: "ArrowRight" });
-  expect(temporal).toHaveFocus();
+  const analysis = screen.getByRole("combobox", { name: "Analyse" });
+  analysis.focus();
+  fireEvent.change(analysis, { target: { value: "temporal" } });
+  expect(analysis).toHaveFocus();
+  expect(analysis).toHaveValue("temporal");
   expect(screen.getByRole("tab", { name: "Graphique" })).toHaveAttribute(
     "aria-selected",
     "true",
@@ -57,11 +57,11 @@ it("navigates the analysis selector by keyboard and keeps restitution independen
   );
   expect(screen.getByLabelText("Critère")).toHaveValue("2");
   expect(history).toHaveBeenCalledTimes(1);
-  fireEvent.keyDown(temporal, { key: "Home" });
-  expect(radar).toHaveFocus();
+  fireEvent.change(analysis, { target: { value: "radar" } });
+  expect(analysis).toHaveFocus();
   expect(screen.getByRole("img")).toHaveAccessibleName(/Radar/);
-  fireEvent.keyDown(radar, { key: "End" });
-  expect(temporal).toHaveFocus();
+  fireEvent.change(analysis, { target: { value: "temporal" } });
+  expect(analysis).toHaveFocus();
   await screen.findByRole("img", { name: /Évolution de Critère très long/ });
   expect(screen.getByLabelText("Critère")).toHaveValue("2");
   fireEvent.change(screen.getByLabelText("Critère"), {
@@ -79,7 +79,9 @@ it("navigates the analysis selector by keyboard and keeps restitution independen
 });
 it("never offers longitudinal continuity for a criterion without an explicit lineage", () => {
   open([{ question_id: 99, index: 1, text: "Historique incompatible" }]);
-  fireEvent.click(screen.getByRole("tab", { name: "Dans le temps" }));
+  fireEvent.change(screen.getByLabelText("Analyse"), {
+    target: { value: "temporal" },
+  });
   expect(
     screen.getByRole("option", { name: /Historique incompatible/ }),
   ).toBeDisabled();
@@ -92,7 +94,8 @@ it("keeps a refused history visible across restitutions without presenting stale
   open();
   fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   fireEvent.click(screen.getByRole("button", { name: "1. Collaboration" }));
-  expect(screen.getByRole("tab", { name: "Dans le temps" })).toHaveFocus();
+  expect(screen.getByLabelText("Analyse")).toHaveFocus();
+  expect(screen.getByLabelText("Analyse")).toHaveValue("temporal");
   expect(screen.getByRole("tab", { name: "Graphique" })).toHaveAttribute(
     "aria-selected",
     "true",
@@ -102,6 +105,8 @@ it("keeps a refused history visible across restitutions without presenting stale
   expect(screen.getByRole("alert")).toHaveTextContent("Impossible de charger");
   expect(screen.queryByRole("table")).not.toBeInTheDocument();
   expect(history).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
+  fireEvent.change(screen.getByLabelText("Analyse"), {
+    target: { value: "radar" },
+  });
   await waitFor(() => expect(screen.getByRole("table")).toBeVisible());
 });

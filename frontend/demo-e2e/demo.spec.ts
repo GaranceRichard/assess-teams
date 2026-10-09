@@ -109,14 +109,19 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   await page.getByRole("tab", { name: "Données détaillées" }).click();
   const observations = page.getByRole("table");
   await expect(
-    observations
-      .getByRole("row")
-      .filter({ hasText: "Aurore · votre passation" }),
-  ).toContainText("0 / 10");
+    observations.locator('[title^="Aurore · votre passation"]'),
+  ).toContainText("0/10 (");
   await expect(
-    observations.getByRole("row").filter({ hasText: "Aurore · simulation" }),
+    observations.locator('[title^="Aurore · simulation"]'),
   ).toHaveCount(3);
-  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await expect(observations.getByRole("columnheader")).toHaveText([
+    "Aurore",
+    "Canopée",
+  ]);
+  await expect(
+    observations.locator("tbody tr").last().getByRole("cell").nth(1),
+  ).toBeEmpty();
+  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
   await page.getByRole("link", { name: "Pilotage", exact: true }).click();
   await expect(
     page.getByRole("row").filter({ hasText: "Aurore · votre passation" }),

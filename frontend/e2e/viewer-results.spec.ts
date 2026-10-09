@@ -52,13 +52,9 @@ test("Viewer consults its organization radar and longitudinal without administra
     name: "Observations historiques du critère sélectionné",
   });
   await expect(table.getByRole("row")).toHaveCount(4);
-  await expect(
-    table.getByRole("cell", { name: "v1", exact: true }),
-  ).toHaveCount(2);
-  await expect(
-    table.getByRole("cell", { name: "v2", exact: true }),
-  ).toHaveCount(1);
-  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await expect(table.locator('[title*="· v1 ·"]')).toHaveCount(2);
+  await expect(table.locator('[title*="· v2 ·"]')).toHaveCount(1);
+  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
   await page.getByRole("tab", { name: "Graphique" }).click();
   await expect(page.getByRole("checkbox", { name: /^Équipe A/ })).toBeChecked();
   await expect(

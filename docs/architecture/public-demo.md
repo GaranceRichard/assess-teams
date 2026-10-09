@@ -12,7 +12,7 @@ Aucun endpoint, modèle, permission ou migration backend ne change.
 
 Le mode DEMO compose le véritable `ProductShell`, `ProductSidebar`, logo SVG, `ThemeToggle`, tokens CSS et dix palettes.
 Il réutilise `DashboardPage`, `PalettePicker`, `TeamList`, `EvaluationList`, `QuestionPanel`, `NameDialog`, `EvaluationDeleteDialog`,
-`EvaluationTakingPage`, son tableau/dialogue/hook, `ResultsViews`, ses onglets `ResultsRadar`/`ResultsDetails`, `ResultTeamSelection`, `ResultsHistory`,
+`EvaluationTakingPage`, son tableau/dialogue/hook, `ResultsViews`, `ResultsRadar`/`ResultsDetails`, `ResultTeamSelection`, `ResultsHistory`,
 `SteeringPage`, ses indicateurs et drill-down. Les slots optionnels du shell restent soumis à son autorisation de route.
 Le mapper de liens conserve les chemins applicatifs et fournit des fragments dans la démo, y compris pour les liens copiés.
 
@@ -27,7 +27,10 @@ Le mapper de liens conserve les chemins applicatifs et fournit des fragments dan
 - Résultats : même modèle, trois équipes présélectionnées, sélecteurs Analyse et Restitution accessibles et sélections communes,
   radar et longitudinal dimensionnés dans la hauteur disponible, tableaux à scroll interne
   et clic sur un critère vers Dans le temps / Graphique ; courbe ou tableau historiques exclusifs,
-  avec critère conservé entre restitutions et retour par Analyse. Les trois observations préchargées sont étiquetées
+  avec critère conservé entre restitutions et retour par le select natif contrôlé Analyse.
+  Le tableau temporel partage `ResultsHistoryTable` : une colonne par équipe, observations chronologiques
+  `SCORE/10 (JJ/MM/AAAA - HH:mm)` et cellules restantes vides, sans alignement de dates communes.
+  Les trois observations préchargées sont étiquetées
   « simulation » ; la passation du visiteur est étiquetée « votre passation », avec ses vrais scores et sa date.
 - Pilotage : équipes actives, couverture, complétions et retards ; les mêmes passations alimentent les projections.
   La date du scénario est le 8 octobre 2026. Aucun score global ni classement individuel n’est ajouté.
@@ -77,6 +80,8 @@ absence de débordement horizontal, icônes centrées et scroll de navigation à
 Le test longitudinal partage ses mesures avec l’application : six viewports desktop (jusqu’à 1280×480),
 textes dessinés entièrement dans le canvas, dates sans chevauchement, légende et contrôles contenus,
 redimensionnement, mises à jour jour/nuit, aller-retour d’onglets, retour radar, scroll unique du tableau et flux mobile.
+`results-analysis.spec.ts` vérifie les quatre combinaisons depuis Analyse, le clavier natif et le critère conservé.
+Le parcours de passation vérifie aussi les historiques de longueurs différentes et les cellules vides.
 Les captures dashboard clair/sombre, radar, longitudinal, sidebar et mobile permettent la revue visuelle.
 Les tests du scope qualité vérifient l’inclusion du build/E2E démo et le blocage si l’un échoue.
 

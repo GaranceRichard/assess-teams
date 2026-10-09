@@ -100,10 +100,10 @@ test("fits the entire radar, shares selections across accessible tabs and confin
     current.canvas.x + (label.left + label.right) / 2,
     current.canvas.y + (label.top + label.bottom) / 2,
   );
-  await expect(
-    page.getByRole("tab", { name: "Dans le temps" }),
-  ).toHaveAttribute("aria-selected", "true");
-  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await expect(page.getByLabel("Analyse", { exact: true })).toHaveValue(
+    "temporal",
+  );
+  await page.getByLabel("Analyse", { exact: true }).selectOption("radar");
   await expect(
     page.getByRole("img", { name: /Radar des résultats/ }),
   ).toBeVisible();
