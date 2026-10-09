@@ -1,41 +1,26 @@
 import { expect, type Page } from "@playwright/test";
 
-export async function expectMarkerTooltip(
-  page: Page,
-  level: number,
-  text: string,
-) {
-  const button = page.getByRole("button", {
-    name: level + " sur 10 : " + text,
-    exact: true,
-  });
-  await button.focus();
-  const tooltip = page.getByRole("tooltip");
-  await expect(tooltip).toBeVisible();
-  await expect(tooltip).toContainText(text);
-  const anchor = await button.boundingBox();
-  const bounds = await tooltip.boundingBox();
-  const viewport = page.viewportSize()!;
-  expect(anchor).not.toBeNull();
-  expect(bounds).not.toBeNull();
-  expect(bounds!.x).toBeGreaterThanOrEqual(0);
-  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
-  expect(bounds!.y).toBeGreaterThanOrEqual(0);
-  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(anchor!.y);
-  expect(
-    await tooltip.evaluate((element) => element.matches(":popover-open")),
-  ).toBe(true);
-  await button.press("Escape");
-  await expect(tooltip).toHaveCount(0);
-  const slider = page.getByRole("slider");
-  if (await slider.isEnabled()) await slider.focus();
-  await button.hover();
-  await tooltip.hover();
-  await tooltip.evaluate((element) =>
-    element.dispatchEvent(new Event("scroll", { bubbles: true })),
+export async function expectPassiveMarker(page: Page, level: number) {
+  const dialog = page.getByRole("dialog");
+  const point = dialog.locator(
+    `.taking-content .marker-dot[data-score="${level}"]`,
   );
-  await expect(tooltip).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(tooltip).toHaveCount(0);
-  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(point).toHaveCount(1);
+  await point.hover({ force: true });
+  await expect(dialog.getByRole("tooltip")).toHaveCount(0);
+  await expect(point).not.toHaveAttribute("title");
+  await expect(point).not.toHaveAttribute("tabindex");
+  const slider = dialog.getByRole("slider");
+  const track = (await slider.boundingBox())!;
+  const dot = (await point.boundingBox())!;
+  const thumb = await slider.evaluate(
+    (element) =>
+      parseFloat(
+        getComputedStyle(element).getPropertyValue("--rating-thumb-size"),
+      ) * parseFloat(getComputedStyle(document.documentElement).fontSize),
+  );
+  expect(dot.x + dot.width / 2).toBeCloseTo(
+    track.x + thumb / 2 + ((track.width - thumb) * level) / 10,
+    0,
+  );
 }

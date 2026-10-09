@@ -192,7 +192,7 @@ Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentai
 Les [repères EVAL-004](../architecture/appreciation-markers.md) couvrent contrats, permissions, versions et snapshots.
 React et Playwright vérifient édition, notes réelles, descriptifs de borne inférieure, repli et accès clavier/mobile.
 Le [parcours de stabilité](functional-coverage.md) mesure géométrie et navigation sur cinq viewports,
-avec onze cibles accessibles, textes longs défilants et refus de sauvegarde ; la démo reste sans API.
+avec les seuls repères passifs, onze notes au curseur, un défilement unique et refus de sauvegarde ; la démo reste sans API.
 
 Les [dates et heures de présentation](../architecture/date-time-presentation.md) sont couvertes en unitaires
 (fuseaux et changements de jour/heure), composants, notifications/admin Django et E2E de la démo.

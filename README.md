@@ -67,7 +67,7 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 
 ## Périmètre livré — modèle d’évaluation
 
-La réconciliation des deux chantiers conserve un contrat unique et renforce les infobulles des [repères d’appréciation](docs/architecture/appreciation-markers.md) : scores entiers 0–10 facultatifs par question, édition en brouillon, copie par version, snapshot au démarrage, accès clavier/mobile et démo fictive, sans effet sur les calculs.
+La réconciliation des deux chantiers conserve un contrat unique pour les [repères d’appréciation](docs/architecture/appreciation-markers.md) : scores entiers 0–10 facultatifs par question, édition en brouillon, copie par version, snapshot au démarrage, curseur accessible au clavier/mobile et démo fictive, sans effet sur les calculs.
 Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` : validation et archivage explicites,
 immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.
@@ -76,7 +76,7 @@ Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestri
 
 ## Périmètre livré — passation des évaluations planifiées
 
-La modale « Passer l’évaluation » propose onze points accessibles avec infobulles, des dimensions et une navigation fixes, des zones réservées à défilement interne et le descriptif de la borne inférieure renseignée la plus proche, sans changer les notes ni les contrats API.
+La correction UX de la modale « Passer l’évaluation » conserve les notes entières 0–10 et le descriptif du repère inférieur le plus proche. Elle affiche uniquement les repères explicitement renseignés, sans infobulle ni interaction au survol, et organise une modale compacte et stable avec un seul défilement vertical lorsque la hauteur disponible le nécessite, sans changer les contrats API.
 
 La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant. Après une passation ponctuelle complétée, une équipe peut replanifier le même modèle : une nouvelle passation indépendante conserve l’historique et les anciens résultats. Les planifications encore actives bloquent les doublons.
 

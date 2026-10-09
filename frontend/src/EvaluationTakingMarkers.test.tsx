@@ -14,7 +14,7 @@ beforeEach(() => {
   api.saveEvaluationScore.mockResolvedValue(undefined);
 });
 
-it("persists marker level selection through the same API and preserves the fallback below all bounds", async () => {
+it("persists slider selection through the same API and preserves the fallback below all bounds", async () => {
   const run = {
     ...evaluationRunFixture,
     questions: evaluationRunFixture.questions.map((q) => ({
@@ -25,7 +25,7 @@ it("persists marker level selection through the same API and preserves the fallb
   render(
     <EvaluationTakingDialog run={run} revision={false} onClose={vi.fn()} />,
   );
-  fireEvent.click(screen.getByRole("button", { name: "8 sur 10 : Partagé" }));
+  fireEvent.change(screen.getByRole("slider"), { target: { value: "8" } });
   await waitFor(() =>
     expect(api.saveEvaluationScore).toHaveBeenCalledWith(1, 11, 8),
   );
@@ -62,12 +62,7 @@ it("saves 6 while displaying the description for 5 in every score indication", a
   render(
     <EvaluationTakingDialog run={run} revision={false} onClose={vi.fn()} />,
   );
-  const point = screen.getByRole("button", { name: "6 sur 10 : Accompagné" });
-  fireEvent.focus(point);
-  expect(screen.getByRole("tooltip", { hidden: true })).toHaveTextContent(
-    "6 / 10 · Accompagné",
-  );
-  fireEvent.click(point);
+  fireEvent.change(screen.getByRole("slider"), { target: { value: "6" } });
   await waitFor(() =>
     expect(api.saveEvaluationScore).toHaveBeenCalledWith(1, 11, 6),
   );
@@ -80,5 +75,24 @@ it("saves 6 while displaying the description for 5 in every score indication", a
   expect(screen.getByText(/Repère pour 6/).parentElement).toHaveTextContent(
     "Accompagné",
   );
-  expect(point).toHaveAttribute("aria-pressed", "true");
+  expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();
+});
+
+it("preserves all eleven integer scores through the same saving API", async () => {
+  render(
+    <EvaluationTakingDialog
+      run={evaluationRunFixture}
+      revision={false}
+      onClose={vi.fn()}
+    />,
+  );
+  for (let score = 0; score <= 10; score++) {
+    fireEvent.change(screen.getByRole("slider"), {
+      target: { value: String(score) },
+    });
+    await waitFor(() =>
+      expect(api.saveEvaluationScore).toHaveBeenLastCalledWith(1, 11, score),
+    );
+    expect(screen.getByRole("slider")).toHaveValue(String(score));
+  }
 });

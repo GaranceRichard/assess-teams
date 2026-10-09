@@ -5,9 +5,9 @@ import {
   runDjangoShell,
   seedIdentity,
 } from "./identity-fixture";
-import { expectMarkerTooltip } from "./appreciation-assertions";
+import { expectPassiveMarker } from "./appreciation-assertions";
 
-test("Coach accesses lower-bound markers with hover, keyboard and mobile while preserving slider saves", async ({
+test("Coach accesses lower-bound markers with passive indicators, keyboard and mobile while preserving slider saves", async ({
   page,
 }) => {
   seedIdentity("markers-coach-e2e", "Coach");
@@ -32,14 +32,8 @@ test("Coach accesses lower-bound markers with hover, keyboard and mobile while p
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Évaluations", exact: true }).click();
   await page.getByRole("button", { name: "Passer l’évaluation" }).click();
-  await page.getByRole("button", { name: "8 sur 10 : Partagé" }).hover();
-  await expect(page.getByRole("tooltip")).toContainText("Partagé");
-  await page
-    .getByRole("button", { name: "7 sur 10 : À construire", exact: true })
-    .hover();
-  await expect(page.getByRole("tooltip")).toContainText(
-    "7 / 10 · À construire",
-  );
+  await expect(page.locator(".taking-content .marker-dot")).toHaveCount(3);
+  await expectPassiveMarker(page, 8);
   for (const mode of ["day", "night"]) {
     await page.evaluate((theme) => {
       document.documentElement.dataset.theme = theme;
@@ -48,8 +42,8 @@ test("Coach accesses lower-bound markers with hover, keyboard and mobile while p
       await page.evaluate((value) => {
         document.documentElement.dataset.palette = value;
       }, palette);
-      await expectMarkerTooltip(page, 0, "À construire");
-      await expectMarkerTooltip(page, 10, "Autonome");
+      await expectPassiveMarker(page, 0);
+      await expectPassiveMarker(page, 10);
     }
   }
   const slider = page.getByRole("slider");
@@ -70,13 +64,14 @@ test("Coach accesses lower-bound markers with hover, keyboard and mobile while p
     "À construire",
   );
   await page.setViewportSize({ width: 375, height: 667 });
-  await expectMarkerTooltip(page, 10, "Autonome");
-  await page.getByRole("button", { name: "8 sur 10 : Partagé" }).click();
+  await expectPassiveMarker(page, 10);
+  await slider.focus();
+  await slider.press("End");
+  await slider.press("ArrowLeft");
+  await slider.press("ArrowLeft");
   await expect(slider).toHaveValue("8");
   await expect(page.locator(".selected-appreciation")).toContainText("Partagé");
-  await page
-    .getByRole("button", { name: "7 sur 10 : À construire", exact: true })
-    .click();
+  await slider.press("ArrowLeft");
   await expect(slider).toHaveValue("7");
   await expect(page.locator(".selected-appreciation")).toContainText(
     "À construire",
@@ -84,9 +79,6 @@ test("Coach accesses lower-bound markers with hover, keyboard and mobile while p
   await page.getByRole("button", { name: "Valider l’évaluation" }).click();
   await page.getByRole("button", { name: "Consulter", exact: true }).click();
   await expect(slider).toBeDisabled();
-  await expectMarkerTooltip(page, 0, "À construire");
-  await page
-    .getByRole("button", { name: "0 sur 10 : À construire" })
-    .press("Enter");
+  await expectPassiveMarker(page, 0);
   await expect(slider).toHaveValue("7");
 });

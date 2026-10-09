@@ -43,24 +43,18 @@ dates et auteurs ne sont ni recalculés ni modifiés.
 ajout d’un texte sur plusieurs niveaux libres, modification et suppression en brouillon.
 Les niveaux occupés sont indisponibles à l’ajout ; aucune sélection par défaut n’est imposée.
 
-`AppreciationScale` complète le range existant avec onze points discrets régulièrement espacés,
-sans chiffres visibles ni second rail. Le point sélectionné est agrandi et cerclé.
-Les cibles conservent une hauteur de 44 px et une largeur minimale de 24 px dès 320 px de viewport.
-Survol et focus affichent la note réelle et son descriptif au-dessus du niveau.
-Le popover natif utilise la top layer au-dessus de la modale, avec position bornée au viewport,
-largeur adaptée et hauteur limitée à l’espace disponible. Le survol et le défilement du texte
-maintiennent l’infobulle. Scroll/resize repositionnent un repère
-au focus, sinon le retirent ; Échap ferme l’infobulle sans fermer la passation.
-Les textes longs se lisent aussi dans le bloc persistant après sélection.
-Les boutons sont utilisables au clavier et au toucher ; le range conserve ses interactions,
-ses sauvegardes ordonnées et annonce l’appréciation de sa valeur accessible.
-Pour une note intermédiaire, le descriptif provient de la borne inférieure renseignée la plus proche :
-6 reprend le texte de 5 si les repères suivants sont 5 et 7. Cette recherche commune aux infobulles,
-au bloc persistant et à la valeur accessible du range ne modifie jamais la note sélectionnée ou enregistrée.
-Sans borne inférieure, aucun descriptif n’est ajouté ; l’infobulle affiche uniquement la note.
-L’espace descriptif reste réservé, même vide, et les textes longs y défilent au clavier.
-En consultation, explorer ne modifie aucune note.
-Les tokens sémantiques suivent mode clair/sombre et palette personnelle.
+`AppreciationScale` complète le range existant avec des points passifs uniquement pour les
+repères dont le descriptif est explicitement renseigné. Leur position proportionnelle tient compte
+de la largeur du curseur aux deux extrémités. Les valeurs intermédiaires ne portent aucun point.
+Aucun effet visuel, infobulle, descriptif, focus clavier ou sélection n’est ajouté au survol/clic.
+Le curseur reste l’unique contrôle de saisie : toutes les notes entières 0–10 sont disponibles au
+clavier, à la souris et au toucher, avec les mêmes sauvegardes et permissions.
+Le descriptif persistant sous le curseur et sa valeur accessible utilisent le repère inférieur
+renseigné le plus proche : 6 affiche le texte de 5 entre les repères 5 et 7, tout en enregistrant 6.
+Sans borne inférieure, aucun descriptif n’est inventé. La note proposée suit la même présentation.
+Le [dimensionnement intrinsèque de la modale](evaluation-taking.md) suit ses contenus réels et
+stabilise les actions sans hauteur fixe ; un seul contenu actif peut défiler en faible hauteur
+ou pour des textes réellement longs. Les tokens suivent les modes clair/sombre et la palette.
 
 La démo Pages propose des repères fictifs sur Clarté des objectifs et Communication.
 Son brouillon v2 permet l’édition locale ; la v1 et les snapshots de passation restent indépendants.
@@ -71,9 +65,9 @@ Reset restaure les fixtures ; aucun appel API n’est ajouté au build statique.
 Les tests backend couvrent créations/remplacements/suppressions, omission, refus atomiques,
 scopes, copie de chaque statut, historique commencé/finalisé/révisé, migration et OpenAPI.
 React couvre les niveaux libres, conflits, lecture seule, erreurs de sauvegarde,
-hover/focus/Échap, borne inférieure, absence de texte inventé et conservation du curseur et des notes.
+absence de hover et de points intermédiaires, borne inférieure, absence de texte inventé et conservation du curseur et des notes.
 Playwright couvre édition v1/v2, passation historique, reprise, finalisation, consultation,
-infobulles au-dessus des niveaux, bornes du viewport, thèmes/palettes, mobile et démo sans API.
+alignement des seuls repères, absence d’infobulles, bornes du viewport, thèmes/palettes, mobile et démo sans API.
 
 Revue : README, contrats backend/modèles/passation, versionnement, démo, backlog,
 index d’architecture, stratégie et inventaire des parcours sont actualisés.
@@ -89,8 +83,6 @@ comparées puis réunies dans un historique de fusion. Le contrat unique retenu 
 La variante relationnelle `QuestionScoreGuide` et le champ `score_guides` ne sont pas publiés :
 aucune de ces deux migrations concurrentes n’avait été livrée sur main.
 Cette décision évite deux sources de vérité et conserve les validations backend atomiques.
-Les garanties complémentaires du second chantier sont reprises : infobulle survolable,
-défilement de son texte, fermeture différée annulable et Échap depuis tout contrôle.
-`AppreciationTooltip.test` protège ces interactions, y compris le démontage et le changement
-rapide de niveau. Les deux suites historiques, de contrat, de versionnement et de migration
-ont été comparées ; la suite retenue conserve leurs invariants applicables au contrat unique.
+Les anciennes interactions d’infobulle sont remplacées par les indicateurs passifs demandés.
+`AppreciationTooltip.test` protège désormais l’absence de contenu au survol/focus/clic.
+Les suites de contrat, versionnement et migration conservent leurs invariants applicables.

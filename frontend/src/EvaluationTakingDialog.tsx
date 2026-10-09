@@ -1,3 +1,4 @@
+import { TakingContentSizing } from "./TakingContentSizing";
 import { AppreciationScale } from "./AppreciationScale";
 import { appreciationForScore } from "./appreciationForScore";
 import { referenceLabel } from "./evaluationVersionLabel";
@@ -56,72 +57,97 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
       <h2 id="taking-title">
         {revision ? "Réviser" : readonly ? "Consulter" : "Passer"} l’évaluation
       </h2>
-      <div className="taking-content">
-        <p>
-          {referenceLabel(current)} · {current.team_name}
-        </p>
-        <p>Assigné à {current.assigned_to}</p>
-        {revision && <p>La révision sera enregistrée à sa validation.</p>}
-        <div className="taking-feedback">
-          {error && <p role="alert">{error}</p>}
-        </div>
-        {question && (
-          <>
-            <p className="question-position" aria-live="polite">
-              Question {position + 1} / {current.questions.length}
-            </p>
-            <h3 id="question-text" tabIndex={0}>
-              {question.text}
-            </h3>
-            <label htmlFor="evaluation-score">Note de la question</label>
-            <input
-              id="evaluation-score"
-              type="range"
-              min={0}
-              max={10}
-              step={1}
-              value={question.score ?? 5}
-              disabled={readonly || submitting || advancing}
-              aria-describedby="question-text score-status"
-              aria-valuetext={`${proposedScore} sur 10${appreciation ? " : " + appreciation : ""}`}
-              onChange={(event) => void selectScore(Number(event.target.value))}
-            />
-            <AppreciationScale
-              key={question.question_id}
-              markers={question.appreciation_markers ?? []}
-              score={question.score}
-              disabled={readonly || submitting || advancing}
-              onSelect={(score) => void selectScore(score)}
-            />
-            <output htmlFor="evaluation-score" aria-live="polite">
-              Note sélectionnée : {question.score ?? 5} / 10
-            </output>
-            <p id="score-status" role="status">
-              {saving
-                ? "Enregistrement…"
-                : unsaved
-                  ? "Note non sauvegardée"
-                  : question.score === null
-                    ? "Choisissez une note ou confirmez la note proposée."
-                    : revision
-                      ? "Note à valider"
-                      : "Note enregistrée"}
-            </p>
-            {!readonly && !revision && (
-              <button
-                className="secondary"
-                disabled={saving}
-                onClick={() => void selectScore(question.score ?? 5)}
+      <div className="taking-body">
+        <TakingContentSizing
+          run={run}
+          revision={revision}
+          readonly={readonly}
+        />
+        <div className="taking-content" key={question?.question_id}>
+          <p>
+            {referenceLabel(current)} · {current.team_name}
+          </p>
+          <p>Assigné à {current.assigned_to}</p>
+          {revision && <p>La révision sera enregistrée à sa validation.</p>}
+          {question && (
+            <>
+              <p className="question-position" aria-live="polite">
+                Question {position + 1} / {current.questions.length}
+              </p>
+              <h3 id="question-text" className="taking-question-title">
+                {question.text}
+              </h3>
+              <label className="taking-label" htmlFor="evaluation-score">
+                Note de la question
+              </label>
+              <input
+                className="taking-range"
+                id="evaluation-score"
+                type="range"
+                min={0}
+                max={10}
+                step={1}
+                value={question.score ?? 5}
+                disabled={readonly || submitting || advancing}
+                aria-describedby="question-text score-status"
+                aria-valuetext={`${proposedScore} sur 10${appreciation ? " : " + appreciation : ""}`}
+                onChange={(event) =>
+                  void selectScore(Number(event.target.value))
+                }
+              />
+              <AppreciationScale
+                key={question.question_id}
+                markers={question.appreciation_markers ?? []}
+                score={proposedScore}
+              />
+              <output
+                className="taking-output"
+                htmlFor="evaluation-score"
+                aria-live="polite"
               >
-                {unsaved ? "Réessayer la sauvegarde" : "Enregistrer la note"}
-              </button>
-            )}
-          </>
-        )}
+                Note sélectionnée : {question.score ?? 5} / 10
+              </output>
+              <p
+                id="score-status"
+                className="taking-status"
+                role={error ? "alert" : "status"}
+              >
+                {error ??
+                  (saving
+                    ? "Enregistrement…"
+                    : unsaved
+                      ? "Note non sauvegardée"
+                      : question.score === null
+                        ? "Choisissez une note ou confirmez la note proposée."
+                        : revision
+                          ? "Note à valider"
+                          : "Note enregistrée")}
+              </p>
+              {!readonly && !revision && (
+                <button
+                  className="secondary taking-note-action"
+                  disabled={saving}
+                  onClick={() => void selectScore(question.score ?? 5)}
+                >
+                  {unsaved ? "Réessayer la sauvegarde" : "Enregistrer la note"}
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
       <footer className="taking-footer">
         {question && (
-          <div className="evaluation-dialog-actions">
+          <div
+            className="evaluation-dialog-actions"
+            data-size-label={
+              readonly
+                ? "Suivant"
+                : revision
+                  ? "Valider la révision"
+                  : "Valider l’évaluation"
+            }
+          >
             <button
               className="secondary"
               disabled={saving || unsaved || position === 0}
@@ -131,7 +157,7 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
             </button>
             {position < current.questions.length - 1 ? (
               <button disabled={saving} onClick={() => void next()}>
-                Suivant
+                <span>Suivant</span>
               </button>
             ) : (
               !readonly && (
@@ -139,7 +165,9 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
                   disabled={saving || unsaved || !complete}
                   onClick={() => void submit()}
                 >
-                  {revision ? "Valider la révision" : "Valider l’évaluation"}
+                  <span>
+                    {revision ? "Valider la révision" : "Valider l’évaluation"}
+                  </span>
                 </button>
               )
             )}

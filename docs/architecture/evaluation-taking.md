@@ -35,14 +35,14 @@ est refusée avec `400` ; les attentes jamais commencées peuvent être retirée
 
 ## API minimale
 
-| Méthode / chemin | Effet / réponse |
-| --- | --- |
-| `GET /api/evaluations/` | Tableau accessible, `200` liste |
-| `GET /api/evaluations/{run_id}/` | Contexte, questions ordonnées et réponses, `200` |
-| `POST /api/evaluations/{run_id}/` | Démarrage ou reprise idempotente, aucun payload, `200` |
-| `PUT /api/evaluations/{run_id}/responses/{question_id}/` | JSON `{ "score": 0 }`, sauvegarde, `204` |
-| `POST /api/evaluations/{run_id}/finalize/` | Finalisation atomique, aucun payload, `200` |
-| `PUT /api/evaluations/{run_id}/revision/` | Toutes les réponses `{ "answers": [{ "question_id": 1, "score": 10 }] }`, `200` |
+| Méthode / chemin                                         | Effet / réponse                                                                 |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `GET /api/evaluations/`                                  | Tableau accessible, `200` liste                                                 |
+| `GET /api/evaluations/{run_id}/`                         | Contexte, questions ordonnées et réponses, `200`                                |
+| `POST /api/evaluations/{run_id}/`                        | Démarrage ou reprise idempotente, aucun payload, `200`                          |
+| `PUT /api/evaluations/{run_id}/responses/{question_id}/` | JSON `{ "score": 0 }`, sauvegarde, `204`                                        |
+| `POST /api/evaluations/{run_id}/finalize/`               | Finalisation atomique, aucun payload, `200`                                     |
+| `PUT /api/evaluations/{run_id}/revision/`                | Toutes les réponses `{ "answers": [{ "question_id": 1, "score": 10 }] }`, `200` |
 
 Liste et détail exposent modèle, organisation, équipe, assigné original, auteur réel de complétion,
 date initiale, état, date d’échéance et dernière révision. Les IDs de provenance sont également exposés.
@@ -69,10 +69,9 @@ a changé depuis la première lecture HTTP, la mutation retourne `404`, sans ré
 
 Une même modale native sert passation, consultation et révision : question X/N, range entier accessible
 au clavier, note affichée, précédent/suivant, sauvegarde ordonnée, erreurs et reprise après interruption.
-Sa largeur (34 rem maximum) et sa hauteur (46 rem maximum) restent constantes au cours du parcours,
-bornées au viewport dynamique avec marges adaptées au mobile. Le contenu défile à l’intérieur ;
-le titre et le pied de navigation restent fixes. Question, erreur et appréciation disposent d’espaces
-réservés ; les questions et descriptions longues défilent dans leur bloc accessible au clavier.
+Sa largeur responsive est bornée à 38 rem ; sa hauteur intrinsèque suit les textes réels et reste
+bornée au viewport dynamique. Le titre et les actions restent fixes ; seul le contenu actif défile
+si nécessaire, sans défilement propre à la question ou au descriptif.
 La finalisation attend la confirmation des sauvegardes ; une révision est validée atomiquement.
 Lorsque « Suivant » confirme la note proposée, le range est temporairement désactivé jusqu’à la sauvegarde ;
 un refus laisse la même question ouverte et réactive la saisie pour réessayer.
@@ -90,7 +89,18 @@ Voir le [lifecycle User](user-lifecycle.md).
 ## Repères d’appréciation
 
 Les questions du détail ajoutent `appreciation_markers`, copie exacte figée au démarrage.
-Le range conserve notation/sauvegardes ; onze points accessibles affichent la note au survol/focus,
-puis un bloc persistant à la sélection. Le descriptif utilise la borne inférieure renseignée la plus proche,
-sans changer la note réelle ; sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent
-uniquement le snapshot. Voir [persistance, migration et interface](appreciation-markers.md).
+Le range conserve toutes les notes entières 0–10 et leurs sauvegardes. Seuls les niveaux avec un
+repère explicite portent un point passif, précisément aligné avec le centre du curseur à ce score.
+Aucun survol, focus ou clic sur un point ne produit de contenu ou de sélection.
+Le descriptif persistant utilise le repère inférieur renseigné le plus proche, sans changer la note ;
+sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent uniquement le snapshot.
+Voir [persistance, migration et interface](appreciation-markers.md).
+
+La modale possède une hauteur intrinsèque, bornée par le viewport, et une largeur responsive.
+Des copies de dimensionnement invisibles et inertes représentent les questions et leurs descriptifs :
+la taille dépend des textes réels de la passation et reste stable pendant la navigation, sans hauteur fixe.
+Les copies ne sont ni lisibles par les technologies d’assistance ni interactives.
+Les erreurs remplacent le statut de sauvegarde dans sa zone dédiée ; elles ne créent pas de zone vide.
+Seul le contenu actif défile verticalement lorsque nécessaire ; titre et actions restent visibles.
+Questions et descriptifs s’écoulent naturellement sans ascenseur propre. La zone de contenu est
+remontée au changement de question. Les contenus ordinaires tiennent sans défilement sur desktop.

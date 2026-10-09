@@ -68,10 +68,13 @@ L’extension HTTP des Logs couvre les succès CRUD, les refus PATCH, 4xx/5xx, l
 les filtres seuls/combinés, les bornes inclusives et les tentatives inter-organisations. React vérifie les dix
 filtres, dépendances/reset, scopes et pagination ; Playwright crée les événements HTTP avant de les filtrer.
 
-Les repères `EVAL-004` ajoutent `appreciation-markers.spec.ts` (range/reprise, focus/survol,
-consultation immuable, mobile, thèmes/palettes et infobulles bornées), `evaluation-versions.spec.ts`
+Les repères `EVAL-004` ajoutent `appreciation-markers.spec.ts` (range/reprise, absence de hover,
+consultation immuable, mobile, thèmes/palettes et points alignés), `evaluation-versions.spec.ts`
 (édition et texte v1 conservé après v2) et `demo-e2e/appreciation-markers.spec.ts` (édition locale/snapshot sans API).
-L’ergonomie de passation ajoute la sélection des onze points sans chiffres et le descriptif de borne
-inférieure (6 affiche 5 mais persiste 6), le repli sans texte et les refus en consultation/sauvegarde.
-`evaluation-taking-layout.spec.ts` mesure dimensions et navigation constantes sur cinq viewports,
-espacement/cibles, zones réservées et défilement au clavier des questions et descriptions longues.
+L’ergonomie de passation préserve les onze notes au curseur, les seuls points explicitement définis,
+le descriptif inférieur (6 affiche 5 mais persiste 6), le repli sans texte et les refus de sauvegarde.
+`evaluation-taking-layout.spec.ts` mesure dimensions et navigation constantes à 1366×768,
+1920×1080 et sur trois viewports mobiles, sans scroll desktop ordinaire ni overflow horizontal.
+Les textes réellement longs partagent un seul scroll de contenu avec actions visibles ; les captures
+clair/sombre complètent les assertions géométriques. Les tests unitaires des points et du hover
+échouent avec l’ancien composant et passent avec les indicateurs passifs.

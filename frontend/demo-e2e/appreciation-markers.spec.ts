@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { expectMarkerTooltip } from "../e2e/appreciation-assertions";
+import { expectPassiveMarker } from "../e2e/appreciation-assertions";
 
 test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur mobile sans API", async ({
   page,
@@ -39,8 +39,9 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
     .click();
   const original =
     "Les objectifs sont connus, leur compréhension reste à partager.";
-  await expectMarkerTooltip(page, 5, original);
-  await page.getByRole("button", { name: "5 sur 10 : " + original }).click();
+  await expectPassiveMarker(page, 5);
+  const slider = page.getByRole("slider");
+  await page.getByRole("button", { name: "Enregistrer la note" }).click();
   await expect(page.locator(".selected-appreciation")).toContainText(original);
   await expect(page.getByRole("dialog")).not.toContainText(
     "Brouillon fictif distinct",
@@ -50,16 +51,11 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
     document.documentElement.dataset.theme = "night";
   });
   await page.setViewportSize({ width: 375, height: 667 });
-  await expectMarkerTooltip(
-    page,
-    10,
-    "Chaque membre relie ses décisions aux objectifs partagés.",
-  );
-  await page
-    .getByRole("button", {
-      name: "8 sur 10 : L’équipe partage des objectifs clairs et les ajuste ensemble.",
-    })
-    .click();
+  await expectPassiveMarker(page, 10);
+  await slider.focus();
+  await slider.press("End");
+  await slider.press("ArrowLeft");
+  await slider.press("ArrowLeft");
   await expect(page.locator(".selected-appreciation")).toContainText(
     "L’équipe partage",
   );
@@ -69,9 +65,7 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
   await page.screenshot({
     path: test.info().outputPath("markers-mobile-night.png"),
   });
-  await page
-    .getByRole("button", { name: "7 sur 10 : " + original, exact: true })
-    .click();
+  await slider.press("ArrowLeft");
   await expect(page.getByRole("slider")).toHaveValue("7");
   await expect(page.locator(".selected-appreciation")).toContainText(original);
   expect(apiCalls).toEqual([]);

@@ -1,80 +1,25 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { expect, it } from "vitest";
 import { AppreciationScale } from "./AppreciationScale";
 
-beforeEach(() => vi.useFakeTimers());
-afterEach(() => vi.useRealTimers());
-const markers = [
-  { score: 0, text: "À construire" },
-  { score: 10, text: "Partagé" },
-];
-const level = (score: number) =>
-  screen.getByRole("button", { name: new RegExp(`^${score} sur 10`) });
-const tooltip = () => screen.getByRole("tooltip", { hidden: true });
-const absent = () =>
-  expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();
-const setup = () =>
-  render(
+it("never adds hover, focus or click content and keeps points out of keyboard navigation", () => {
+  const { container } = render(
     <AppreciationScale
-      markers={markers}
-      score={null}
-      disabled
-      onSelect={vi.fn()}
+      markers={[{ score: 5, text: "Accompagné" }]}
+      score={6}
     />,
   );
-
-it("maintient le repère sous le pointeur et permet son défilement", () => {
-  setup();
-  fireEvent.mouseEnter(level(0));
-  fireEvent.mouseLeave(level(0));
-  fireEvent.mouseEnter(tooltip());
-  act(() => vi.advanceTimersByTime(120));
-  fireEvent.scroll(tooltip());
-  expect(tooltip()).toHaveTextContent("À construire");
-  fireEvent.mouseLeave(tooltip());
-  act(() => vi.advanceTimersByTime(120));
-  absent();
-});
-
-it("un ancien départ du pointeur ne ferme pas le nouveau niveau survolé", () => {
-  setup();
-  fireEvent.mouseEnter(level(0));
-  fireEvent.mouseEnter(level(10));
-  fireEvent.mouseLeave(level(0));
-  act(() => vi.advanceTimersByTime(120));
-  expect(tooltip()).toHaveTextContent("Partagé");
-  fireEvent.mouseEnter(level(5));
-  expect(tooltip()).toHaveTextContent("5 / 10 · À construire");
-});
-
-it("Échap ferme un repère survolé depuis tout contrôle sans fermer la modale", () => {
-  const key = vi.fn();
-  render(
-    <div onKeyDown={key}>
-      <input aria-label="Autre contrôle" />
-      <AppreciationScale
-        markers={markers}
-        score={null}
-        disabled
-        onSelect={vi.fn()}
-      />
-    </div>,
+  const point = container.querySelector<HTMLElement>(".marker-dot")!;
+  const original = container.innerHTML;
+  fireEvent.mouseEnter(point);
+  fireEvent.focus(point);
+  fireEvent.click(point);
+  expect(container.innerHTML).toBe(original);
+  expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();
+  expect(point).not.toHaveAttribute("title");
+  expect(point).not.toHaveAttribute("tabindex");
+  expect(point.parentElement).toHaveAttribute("aria-hidden", "true");
+  expect(screen.getByText(/Repère pour 6/).parentElement).toHaveTextContent(
+    "Accompagné",
   );
-  fireEvent.mouseEnter(level(10));
-  fireEvent.keyDown(screen.getByRole("textbox"), { key: "Escape" });
-  absent();
-  expect(key).not.toHaveBeenCalled();
-});
-
-it("annule la fermeture différée et les listeners au démontage", () => {
-  const { unmount } = setup();
-  fireEvent.mouseEnter(level(0));
-  fireEvent.mouseLeave(level(0));
-  unmount();
-  act(() => vi.advanceTimersByTime(120));
-  const key = vi.fn();
-  document.addEventListener("keydown", key);
-  fireEvent.keyDown(document, { key: "Escape" });
-  expect(key).toHaveBeenCalledOnce();
-  document.removeEventListener("keydown", key);
 });

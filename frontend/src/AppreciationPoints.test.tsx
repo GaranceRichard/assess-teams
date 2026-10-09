@@ -1,45 +1,38 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { expect, it } from "vitest";
 import { AppreciationScale } from "./AppreciationScale";
 
-it("offers eleven unnumbered targets and reveals scores even without descriptions", () => {
-  const onSelect = vi.fn();
-  const { container, rerender } = render(
+it("draws only explicitly described levels at their proportional slider positions", () => {
+  const { container } = render(
     <AppreciationScale
-      markers={[]}
-      score={null}
-      disabled={false}
-      onSelect={onSelect}
-    />,
-  );
-  const buttons = screen.getAllByRole("button");
-  expect(buttons).toHaveLength(11);
-  for (const [level, button] of buttons.entries()) {
-    expect(button).toHaveAccessibleName(`${level} sur 10`);
-    expect(button.textContent).toBe("");
-    fireEvent.focus(button);
-    expect(screen.getByRole("tooltip", { hidden: true })).toHaveTextContent(
-      `${level} / 10`,
-    );
-    fireEvent.click(button);
-    expect(onSelect).toHaveBeenLastCalledWith(level);
-  }
-  rerender(
-    <AppreciationScale
-      markers={[]}
+      markers={[
+        { score: 0, text: "Initial" },
+        { score: 5, text: "Accompagné" },
+        { score: 7, text: "Autonome" },
+        { score: 10, text: "Partagé" },
+        { score: 3, text: "  " },
+      ]}
       score={6}
-      disabled={false}
-      onSelect={onSelect}
     />,
   );
-  expect(buttons[6]).toHaveAttribute("aria-pressed", "true");
-  expect(buttons[5]).toHaveAttribute("aria-pressed", "false");
-  expect(
-    container.querySelector(".appreciation-description"),
-  ).toBeEmptyDOMElement();
-  fireEvent.blur(buttons[10]);
-  fireEvent.mouseEnter(buttons[0]);
-  expect(screen.getByRole("tooltip", { hidden: true })).toHaveTextContent(
-    "0 / 10",
-  );
+  const dots = container.querySelectorAll<HTMLElement>(".marker-dot");
+  expect([...dots].map((dot) => dot.dataset.score)).toEqual([
+    "0",
+    "5",
+    "7",
+    "10",
+  ]);
+  expect([...dots].map((dot) => dot.style.left)).toEqual([
+    "0%",
+    "50%",
+    "70%",
+    "100%",
+  ]);
+  expect(screen.queryByRole("button")).toBeNull();
+});
+
+it("adds no points or description when no markers are defined", () => {
+  const { container } = render(<AppreciationScale markers={[]} score={6} />);
+  expect(container.querySelector(".marker-dot")).toBeNull();
+  expect(screen.queryByText(/Repère pour/)).toBeNull();
 });
