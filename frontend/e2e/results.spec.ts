@@ -30,17 +30,13 @@ test("compares latest completed team runs on a persistent radar without navigati
     "aria-label",
     /0 équipe\(s\), 3 axe\(s\), échelle 0 à 10/,
   );
-  await page.getByText("Historique par critère", { exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "1. Collaboration" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "2. Livraison" }),
-  ).toBeVisible();
+    page.getByText("Historique par critère", { exact: true }),
+  ).toHaveCount(0);
+  await expect(page.locator(".results-radar details")).toHaveCount(0);
   await expect(
     page.getByRole("checkbox", { name: /^Équipe A/ }),
   ).not.toBeChecked();
-  await page.getByText("Historique par critère", { exact: true }).click();
   const loadedRequests = resultsRequests;
   const emptyDrawing = await radar.evaluate((canvas: HTMLCanvasElement) =>
     canvas.toDataURL(),
@@ -106,10 +102,9 @@ test("compares latest completed team runs on a persistent radar without navigati
       radar.evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL()),
     )
     .toBe(emptyDrawing);
-  await page.getByText("Historique par critère", { exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "3. Amélioration" }),
-  ).toBeVisible();
+    page.getByText("Historique par critère", { exact: true }),
+  ).toHaveCount(0);
   expect(resultsRequests).toBe(loadedRequests);
   await expect(page).toHaveURL(/\/results$/);
 });

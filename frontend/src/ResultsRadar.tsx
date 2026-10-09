@@ -70,22 +70,6 @@ export function ResultsRadar({
             ),
         )}
       </ul>
-      <details className="results-criteria">
-        <summary>Historique par critère</summary>
-        <div role="group" aria-label="Historique par critère">
-          {axes.map((axis, index) => (
-            <button
-              key={axis.question_id}
-              type="button"
-              className="result-criterion"
-              disabled={!axis.lineage_id}
-              onClick={() => onCriterion?.(axis)}
-            >
-              {index + 1}. {axis.text}
-            </button>
-          ))}
-        </div>
-      </details>
     </section>
   );
 }

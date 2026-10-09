@@ -20,7 +20,7 @@ test("longitudinal fits its panel with readable axes after resize, tab changes a
   await page.getByLabel("Modèle").selectOption({ label: "Radar E2E" });
   await page.getByRole("checkbox", { name: /^Équipe A/ }).check();
   await page.getByRole("checkbox", { name: /^Équipe B/ }).check();
-  await page.getByText("Historique par critère", { exact: true }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await page.getByRole("button", { name: "1. Collaboration v2" }).click();
   for (const size of desktopSizes) {
     await page.setViewportSize(size);
@@ -65,7 +65,7 @@ test("longitudinal fits its panel with readable axes after resize, tab changes a
   await expectChartFits(page, /Radar des résultats/);
   await expect(page.getByRole("checkbox", { name: /^Équipe A/ })).toBeChecked();
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByText("Historique par critère", { exact: true }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await page.getByRole("button", { name: "1. Collaboration v2" }).click();
   await expect(page.getByRole("img", { name: /Évolution de/ })).toBeVisible();
   expect(

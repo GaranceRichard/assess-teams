@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import type { Chart, ChartEvent, ChartOptions } from "chart.js";
 import { expect, it, vi } from "vitest";
 
@@ -19,6 +19,8 @@ it("opens the explicit criterion through the chart label and ignores axes withou
       onCriterion={select}
     />,
   );
+  expect(screen.queryByText("Historique par critère")).not.toBeInTheDocument();
+  expect(view.container.querySelector("details")).toBeNull();
   const chart = {
     data: { labels: ["First criterion"] },
     scales: {

@@ -106,7 +106,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   await page.getByRole("tab", { name: "Graphique" }).click();
   await page.getByRole("checkbox", { name: /^Boréal/ }).uncheck();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
-  await page.getByText("Historique par critère", { exact: true }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await page.getByRole("button", { name: "1. Clarté des objectifs" }).click();
   await expect(page.getByRole("table")).toHaveCount(0);
   await page.getByRole("tab", { name: "Données détaillées" }).click();

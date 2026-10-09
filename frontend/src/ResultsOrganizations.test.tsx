@@ -79,6 +79,7 @@ it("Superadmin explicitly chooses organization; changing it clears model, teams 
   });
   await choose();
   fireEvent.click(screen.getByRole("checkbox", { name: /^Alpha/ }));
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   fireEvent.click(screen.getByRole("button", { name: "1. Collaboration" }));
   await screen.findByRole("img", { name: /Évolution/ });
   fireEvent.change(screen.getByLabelText("Organisation"), {

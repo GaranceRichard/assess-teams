@@ -40,7 +40,7 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   await expect(page.getByLabel("Critère", { exact: true })).toBeVisible();
   expect(historyRequests).toBe(0);
   await analysis.click();
-  await page.getByText("Historique par critère", { exact: true }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   const criterion = page.getByRole("button", { name: "1. Collaboration v2" });
   await criterion.focus();
   await page.keyboard.press("Enter");

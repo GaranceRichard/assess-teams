@@ -16,7 +16,7 @@ test("static demo fits longitudinal and radar through resize and tabs without an
   });
   await observeChartText(page);
   await page.goto("./#/results");
-  await page.getByText("Historique par critère", { exact: true }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await page.getByRole("button", { name: "1. Clarté des objectifs" }).click();
   for (const size of desktopSizes) {
     await page.setViewportSize(size);
@@ -60,7 +60,7 @@ test("static demo fits longitudinal and radar through resize and tabs without an
   await page.getByRole("tab", { name: "Graphique" }).click();
   await expectChartFits(page, /Radar des résultats/);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByText("Historique par critère", { exact: true }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await page.getByRole("button", { name: "1. Clarté des objectifs" }).click();
   await expect(page.getByRole("img", { name: /Évolution de/ })).toBeVisible();
   expect(

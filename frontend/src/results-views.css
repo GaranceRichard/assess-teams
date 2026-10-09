@@ -86,29 +86,6 @@
   margin: 0;
   gap: 0.5rem 1rem;
 }
-.results-criteria {
-  flex: 0 0 auto;
-}
-.results-criteria summary {
-  color: var(--accent);
-  cursor: pointer;
-  padding: 0.25rem;
-}
-.results-criteria > div {
-  position: absolute;
-  bottom: 2rem;
-  left: 0;
-  right: 0;
-  max-height: calc(100% - 2rem);
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  z-index: 2;
-}
 .results-table-scroll {
   flex: 1 1 0;
   min-height: 0;

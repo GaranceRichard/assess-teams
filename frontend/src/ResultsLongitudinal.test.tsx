@@ -41,7 +41,7 @@ async function choose() {
   await screen.findByRole("option", { name: "Maturité" });
   fireEvent.change(screen.getByLabelText("Modèle"), { target: { value: "4" } });
   await screen.findByRole("img");
-  fireEvent.click(screen.getByText("Historique par critère"));
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
 }
 it("loads history only on criterion opening and returns with model and team selections intact", async () => {
   render(<ResultsPage actor={resultActor} theme="day" />);
