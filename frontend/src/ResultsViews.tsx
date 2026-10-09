@@ -3,10 +3,9 @@ import { useId, useState } from "react";
 import { ResultsDetails } from "./ResultsDetails";
 import { ResultsHistory } from "./ResultsHistory";
 import { ResultsRadar } from "./ResultsRadar";
+import { ResultsViewSelector } from "./ResultsViewSelector";
 import type { ResultAxis, ResultComparison } from "./results";
 import type { Theme } from "./theme";
-
-const tabs = ["Radar", "Résultats détaillés"];
 
 export function ResultsViews({
   comparison,
@@ -20,79 +19,94 @@ export function ResultsViews({
   theme: Theme;
 }) {
   const id = useId();
-  const [tab, setTab] = useState(0);
+  const [analysis, setAnalysis] = useState(0);
+  const [restitution, setRestitution] = useState(0);
   const [criterion, setCriterion] = useState<ResultAxis | null>(null);
-  function backToRadar() {
-    setCriterion(null);
-    setTab(0);
+  function openCriterion(axis: ResultAxis) {
+    setCriterion(axis);
+    setAnalysis(1);
+    setRestitution(0);
+    document.getElementById(id + "-analysis-tab-1")?.focus();
   }
   return (
     <div className="results-views">
-      <div
-        role="tablist"
-        aria-label="Vues des résultats"
-        className="results-tabs"
-      >
-        {tabs.map((label, index) => (
-          <button
-            key={label}
-            type="button"
-            role="tab"
-            className="results-tab"
-            id={id + "-tab-" + index}
-            aria-selected={tab === index}
-            aria-controls={id + "-panel"}
-            tabIndex={tab === index ? 0 : -1}
-            onClick={() => setTab(index)}
-            onKeyDown={(event) => {
-              const next = {
-                ArrowRight: 1 - index,
-                ArrowLeft: 1 - index,
-                Home: 0,
-                End: 1,
-              }[event.key];
-              if (next === undefined) return;
-              event.preventDefault();
-              setTab(next);
-              document.getElementById(id + "-tab-" + next)?.focus();
-            }}
-          >
-            {label}
-          </button>
-        ))}
+      <div className="results-view-selectors">
+        <ResultsViewSelector
+          id={id + "-analysis"}
+          panelId={id + "-panel"}
+          label="Analyse"
+          options={["Radar", "Dans le temps"]}
+          selected={analysis}
+          onSelect={setAnalysis}
+        />
+        <ResultsViewSelector
+          id={id + "-restitution"}
+          panelId={id + "-panel"}
+          label="Restitution"
+          options={["Graphique", "Données détaillées"]}
+          selected={restitution}
+          onSelect={setRestitution}
+        />
       </div>
+      {analysis === 1 && (
+        <label className="results-model results-history-criterion">
+          Critère
+          <select
+            value={criterion?.question_id ?? ""}
+            onChange={(event) =>
+              setCriterion(
+                comparison.axes.find(
+                  (axis) => axis.question_id === Number(event.target.value),
+                ) ?? null,
+              )
+            }
+          >
+            <option value="">Sélectionner un critère</option>
+            {comparison.axes.map((axis) => (
+              <option
+                key={axis.question_id}
+                value={axis.question_id}
+                disabled={!axis.lineage_id}
+              >
+                {axis.index}. {axis.text}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <div
         role="tabpanel"
         id={id + "-panel"}
-        aria-labelledby={id + "-tab-" + tab}
+        aria-labelledby={`${id}-analysis-tab-${analysis} ${id}-restitution-tab-${restitution}`}
         tabIndex={0}
         className="results-tab-panel"
       >
-        {tab === 1 ? (
+        {analysis === 1 ? (
+          criterion ? (
+            <ResultsHistory
+              key={criterion.lineage_id}
+              familyId={familyId}
+              criterion={criterion}
+              teams={comparison.teams}
+              selected={selected}
+              theme={theme}
+              detailed={restitution === 1}
+            />
+          ) : (
+            <p>Sélectionnez un critère pour consulter son évolution.</p>
+          )
+        ) : restitution === 1 ? (
           <ResultsDetails
             {...comparison}
             selected={selected}
-            onCriterion={(axis) => {
-              setCriterion(axis);
-              setTab(0);
-            }}
-          />
-        ) : criterion ? (
-          <ResultsHistory
-            key={criterion.lineage_id}
-            familyId={familyId}
-            criterion={criterion}
-            teams={comparison.teams}
-            selected={selected}
-            theme={theme}
-            onBack={backToRadar}
+            onCriterion={openCriterion}
           />
         ) : (
           <ResultsRadar
             {...comparison}
             selected={selected}
             theme={theme}
-            onCriterion={setCriterion}
+            onCriterion={openCriterion}
           />
         )}
       </div>

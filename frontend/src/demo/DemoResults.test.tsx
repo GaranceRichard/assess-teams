@@ -13,8 +13,8 @@ vi.mock("../ResultsRadar", () => ({
   ),
 }));
 vi.mock("../ResultsHistory", () => ({
-  ResultsHistory: (p: { onBack: () => void }) => (
-    <button onClick={p.onBack}>Retour au radar</button>
+  ResultsHistory: (p: { detailed: boolean }) => (
+    <p>{p.detailed ? "Historique détaillé" : "Courbe historique"}</p>
   ),
 }));
 import { DemoResults } from "./DemoResults";
@@ -24,14 +24,18 @@ it("sélectionne, désélectionne et ouvre la trajectoire puis revient", () => {
   expect(screen.getByText("Radar 3")).toBeInTheDocument();
   fireEvent.click(screen.getAllByRole("checkbox")[0]);
   expect(screen.getByText("Radar 2")).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("tab", { name: "Résultats détaillés" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   expect(screen.getAllByRole("columnheader")).toHaveLength(3);
   expect(screen.getAllByRole("checkbox")[0]).not.toBeChecked();
-  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
   expect(screen.getByText("Radar 2")).toBeInTheDocument();
   fireEvent.click(screen.getAllByRole("checkbox")[0]);
   fireEvent.click(screen.getByText("Radar 3"));
-  fireEvent.click(screen.getByText("Retour au radar"));
+  expect(screen.getByText("Courbe historique")).toBeVisible();
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
+  expect(screen.getByText("Historique détaillé")).toBeVisible();
+  fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
   expect(screen.getByText("Radar 3")).toBeInTheDocument();
   expect(screen.getByText(/observations « simulation »/)).toBeInTheDocument();
 });

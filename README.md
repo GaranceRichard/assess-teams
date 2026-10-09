@@ -25,7 +25,7 @@ Le Journal d’activité conserve l’audit métier ; les Logs applicatifs INFO,
 
 Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DELETE et proposent dix filtres structurés, avec contexte sûr et isolation par organisation. Les données sensibles restent exclues ; le Journal métier reste séparé.
 
-Les [Résultats](docs/architecture/results-api.md) proposent les onglets Radar / Résultats détaillés avec filtres et équipes communs, des graphiques radar et longitudinal dimensionnés dans le shell fixe, dans l’application réelle et la démo, et des tableaux à scroll interne. Ils utilisent la dernière version ayant des résultats par organisation et famille, sans modifier les calculs, la récence ni les accès. Un clic sur un critère ouvre l’historique longitudinal ; la continuité inter-version exige une lignée explicite, sans agrégation ni rapprochement implicite.
+Les [Résultats](docs/architecture/results-api.md) séparent Analyse (Radar / Dans le temps) et Restitution (Graphique / Données détaillées), avec filtres et équipes communs, dans l’application réelle et la démo. Les quatre combinaisons affichent une seule restitution à la fois : graphiques dimensionnés dans le shell fixe et tableaux à scroll interne. Le critère sélectionné est conservé lors des transitions. La dernière version ayant des résultats reste utilisée par organisation et famille, sans modifier les calculs, la récence ni les accès. Un clic sur un critère ouvre Dans le temps / Graphique ; la continuité inter-version exige une lignée explicite, sans agrégation ni rapprochement implicite.
 
 ## CI — feedback qualité
 

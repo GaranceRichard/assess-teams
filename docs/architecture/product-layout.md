@@ -50,11 +50,12 @@ Journal et Logs réutilisent leur pagination backend existante de 20 éléments.
 Les petites collections ne montrent pas de pagination. Le Dashboard conserve son contrat métier
 limité aux dix événements récents, dans une zone bornée. Results conserve les jeux complets nécessaires
 aux comparaisons et courbes ; les sélections et observations sont consultables par scroll interne.
-Les onglets Radar / Résultats détaillés partagent une sélection unique. Radar et longitudinal utilisent la hauteur
+Les sélecteurs Analyse (Radar / Dans le temps) et Restitution (Graphique / Données détaillées) sont indépendants
+et partagent une sélection unique. Radar et longitudinal utilisent la hauteur
 disponible du panneau avec `min-height: 0` et un canvas responsive ; le tableau détaillé est dans
 une région clavier à scroll interne, avec dates de complétion et en-tête sticky.
-Le longitudinal réserve titre/retour, axes et légende ; son tableau est borné sous le canvas ou
-placé à côté sur desktop court, avec une seule région de scroll. Les deux builds partagent ces composants.
+Le longitudinal réserve critère, axes et légende ; sa restitution détaillée remplace le canvas par
+le tableau historique, avec une seule région de scroll. Les deux builds partagent ces composants.
 Les sélecteurs des formulaires gardent leurs collections complètes pour ne rendre aucun choix inaccessible.
 
 `usePagedCollection` conserve page/scope, remet la page à 1 lors d’un changement de filtre, ignore les

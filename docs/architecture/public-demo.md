@@ -24,9 +24,10 @@ Le mapper de liens conserve les chemins applicatifs et fournit des fragments dan
   Le réordonnancement est une commande locale de démonstration, pas une capacité de production annoncée.
 - Évaluations : une passation préparée par équipe sur la v1 validée. Notes entières 0–10, reprise dans la même ouverture,
   confirmation des notes et finalisation complètes selon le hook existant. Une réponse invalide ou incomplète est refusée.
-- Résultats : même modèle, trois équipes présélectionnées, onglets Radar/Résultats détaillés accessibles et sélections communes,
+- Résultats : même modèle, trois équipes présélectionnées, sélecteurs Analyse et Restitution accessibles et sélections communes,
   radar et longitudinal dimensionnés dans la hauteur disponible, tableaux à scroll interne
-  et clic sur un critère puis courbe/table historiques. Les trois observations préchargées sont étiquetées
+  et clic sur un critère vers Dans le temps / Graphique ; courbe ou tableau historiques exclusifs,
+  avec critère conservé entre restitutions et retour par Analyse. Les trois observations préchargées sont étiquetées
   « simulation » ; la passation du visiteur est étiquetée « votre passation », avec ses vrais scores et sa date.
 - Pilotage : équipes actives, couverture, complétions et retards ; les mêmes passations alimentent les projections.
   La date du scénario est le 8 octobre 2026. Aucun score global ni classement individuel n’est ajouté.

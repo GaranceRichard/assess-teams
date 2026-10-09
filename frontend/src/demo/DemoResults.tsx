@@ -22,8 +22,7 @@ export function DemoResults({ theme }: { theme: Theme }) {
       <p>Atelier Horizon · Coopération d’équipe · v1</p>
       <p className="results-note">
         Les observations « simulation » sont fictives. « Votre passation »
-        reprend vos scores de cette session. Cliquez sur un critère pour
-        explorer son historique, sans classement des équipes.
+        reprend vos scores de cette session.
       </p>
       <div className="results-layout page-content">
         <ResultTeamSelection

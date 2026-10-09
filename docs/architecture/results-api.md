@@ -88,29 +88,33 @@ organisation et équipe ne peuvent élargir ce scope ni mélanger plusieurs orga
 
 ## React et graphiques
 
-Parcours : Organisation → Modèle (famille) → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
+Parcours : Organisation → Modèle (famille) → Équipe(s) → Analyse / Restitution → Critère si temporel.
 Sans intention URL de Pilotage, aucune organisation préchoisie pour le Superadmin ni équipe préchoisie ; l’organisation de l’Admin et du Viewer est imposée.
 Changer d’organisation ou de famille remet à zéro les sélections et ferme le longitudinal.
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
 Le radar conserve axes et échelle 0–10 avec zéro série. Avec 1/N équipes, il conserve séries superposées,
-styles par équipe, légende et dates. Deux onglets accessibles, Radar / Résultats détaillés, partagent
-les mêmes filtres et équipes ; les flèches, Home et End déplacent le focus et activent la vue.
-Changer d’onglet ne réinitialise aucune sélection. Le tableau détaillé reprend les scores et dates
+styles par équipe, légende et dates. Deux sélecteurs accessibles indépendants, Analyse (Radar / Dans le temps)
+et Restitution (Graphique / Données détaillées), partagent les mêmes filtres et équipes.
+Les flèches, Home et End déplacent le focus et activent le choix dans chaque sélecteur.
+Changer de restitution conserve le critère et les observations chargées. Le tableau radar reprend les scores et dates
 des passations retenues, avec scroll interne uniquement en cas de dépassement. Les critères s’ouvrent
 par clic sur leur libellé ou point dans le radar, ou par bouton clavier dans le menu
-Historique par critère sous le radar et dans le tableau.
+Historique par critère sous le radar et dans le tableau : ce clic active Dans le temps / Graphique.
+Dans le temps propose un sélecteur de critère, sans continuité possible pour les axes sans lignée.
+Sans critère choisi, un message invite à le sélectionner sans charger d’historique.
 Le radar remplit la hauteur restante du panneau flex, sans hauteur fixe ni scroll de page desktop ;
 ses libellés radar abrégés existants passent à la ligne selon la largeur disponible. Les textes
 intégraux restent accessibles dans le tableau et le menu Historique par critère. Le mobile conserve le flux naturel.
-Le longitudinal partage le conteneur flex responsive du radar : titre/retour, note et légende
-réservent leur espace, puis le canvas et le tableau se répartissent la hauteur restante. Sur desktop
-court, une grille place le tableau à côté du graphique ; seul le tableau peut scroller, sans scroll
-du panneau. Les dates restent horizontales et leurs graduations suivent la largeur du canvas.
+Le longitudinal partage le conteneur flex responsive du radar : la note et la légende
+réservent leur espace, puis le canvas remplit la hauteur restante. Données détaillées affiche uniquement
+le tableau historique à scroll interne ; aucun empilement ni juxtaposition avec la courbe.
+Les dates restent horizontales et leurs graduations suivent la largeur du canvas.
 Le titre de l’axe des scores adapte sa police entre 10 et 12 px ; aucune donnée ni échelle ne change.
 L’application et la démo composent le même ResultsHistory. Le mobile garde son flux naturel.
 L’historique est chargé uniquement quand cette vue s’ouvre, et pour la sélection courante.
-Le retour garde organisation, modèle et équipes, sans recharger la projection radar.
+Le retour par le sélecteur Analyse garde organisation, modèle, équipes et restitution, sans recharger
+la projection radar ni ajouter un bouton de retour. Le critère reste choisi pour la prochaine visite temporelle.
 
 Le longitudinal réutilise Chart.js : X numérique en timestamps de complétion (espacement temporel réel),
 Y fixe 0–10, une courbe par équipe, chaque point correspondant à une passation compatible.

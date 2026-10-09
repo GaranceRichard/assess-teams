@@ -60,7 +60,7 @@ test("compares latest completed team runs on a persistent radar without navigati
       .locator("time")
       .first(),
   ).toHaveAttribute("datetime", "2026-10-02T08:00:00-04:00");
-  await page.getByRole("tab", { name: "Résultats détaillés" }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await expect(
     page.getByRole("cell", { name: "0 / 10", exact: true }),
   ).toBeVisible();
@@ -71,7 +71,7 @@ test("compares latest completed team runs on a persistent radar without navigati
     page.getByRole("cell", { name: "2 / 10", exact: true }),
   ).toHaveCount(0);
 
-  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await page.getByRole("tab", { name: "Graphique", exact: true }).click();
   await page.getByRole("checkbox", { name: /^Équipe B/ }).check();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await expect(legend.getByRole("listitem")).toHaveCount(2);

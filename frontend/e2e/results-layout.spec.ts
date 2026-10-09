@@ -101,15 +101,15 @@ test("fits the entire radar, shares selections across accessible tabs and confin
     current.canvas.y + (label.top + label.bottom) / 2,
   );
   await expect(
-    page.getByRole("button", { name: "Retour au radar" }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Retour au radar" }).click();
+    page.getByRole("tab", { name: "Dans le temps" }),
+  ).toHaveAttribute("aria-selected", "true");
+  await page.getByRole("tab", { name: "Radar", exact: true }).click();
   await expect(
     page.getByRole("img", { name: /Radar des résultats/ }),
   ).toBeVisible();
   const model = await page.getByLabel("Modèle").inputValue();
-  const radarTab = page.getByRole("tab", { name: "Radar", exact: true });
-  const detailsTab = page.getByRole("tab", { name: "Résultats détaillés" });
+  const radarTab = page.getByRole("tab", { name: "Graphique", exact: true });
+  const detailsTab = page.getByRole("tab", { name: "Données détaillées" });
   await radarTab.focus();
   await page.keyboard.press("ArrowRight");
   await detailsTab.hover();

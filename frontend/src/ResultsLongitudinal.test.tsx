@@ -18,36 +18,12 @@ const api = vi.hoisted(() => ({
   getCriterionHistory: vi.fn(),
 }));
 vi.mock("./results", () => api);
-vi.mock("react-chartjs-2", () => ({
-  Radar: ({
-    data,
-    options,
-    ...props
-  }: {
-    data: ChartData;
-    options: unknown;
-  }) => (
-    <canvas
-      {...props}
-      data-chart={JSON.stringify(data)}
-      data-options={JSON.stringify(options)}
-    />
-  ),
-  Line: ({
-    data,
-    options,
-    ...props
-  }: {
-    data: ChartData;
-    options: unknown;
-  }) => (
-    <canvas
-      {...props}
-      data-chart={JSON.stringify(data)}
-      data-options={JSON.stringify(options)}
-    />
-  ),
-}));
+vi.mock("react-chartjs-2", () => {
+  function ChartStub({ data, ...props }: { data: ChartData }) {
+    return <canvas {...props} data-chart={JSON.stringify(data)} />;
+  }
+  return { Radar: ChartStub, Line: ChartStub };
+});
 beforeEach(() => {
   vi.clearAllMocks();
   api.listResultOrganizations.mockResolvedValue([resultOrganizations[0]]);
@@ -80,13 +56,21 @@ it("loads history only on criterion opening and returns with model and team sele
     name: /Évolution de Collaboration/,
   });
   const data = JSON.parse(chart.getAttribute("data-chart")!);
-  fireEvent.click(screen.getByRole("tab", { name: "Résultats détaillés" }));
+  expect(screen.queryByRole("table")).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole("button", { name: "Retour au radar" }),
+  ).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   expect(screen.getByRole("table")).toHaveAccessibleName(
-    "Critères et scores des équipes sélectionnées",
+    "Observations historiques du critère sélectionné",
   );
-  fireEvent.click(screen.getByRole("button", { name: "1. Collaboration" }));
+  expect(screen.queryByRole("img")).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole("list", { name: "Légende des équipes" }),
+  ).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
   await screen.findByRole("img", { name: /Évolution de Collaboration/ });
-  expect(screen.getByRole("tab", { name: "Radar" })).toHaveAttribute(
+  expect(screen.getByRole("tab", { name: "Dans le temps" })).toHaveAttribute(
     "aria-selected",
     "true",
   );
@@ -107,6 +91,9 @@ it("loads history only on criterion opening and returns with model and team sele
     resultHistory.lineage_id,
     [10, 20],
   );
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
+  expect(screen.getByLabelText("Critère")).toHaveValue("1");
+  expect(api.getCriterionHistory).toHaveBeenCalledTimes(1);
   expect(
     screen.getByRole("table", {
       name: "Observations historiques du critère sélectionné",
@@ -114,7 +101,11 @@ it("loads history only on criterion opening and returns with model and team sele
   ).toBeVisible();
   expect(screen.getAllByRole("cell", { name: "v1" })).toHaveLength(2);
   expect(screen.getAllByRole("cell", { name: "v2" })).toHaveLength(2);
-  fireEvent.click(screen.getByRole("button", { name: "Retour au radar" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
+  expect(screen.getByRole("table")).toHaveAccessibleName(
+    "Critères et scores des équipes sélectionnées",
+  );
+  fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
   const radar = await screen.findByRole("img", { name: /Radar des résultats/ });
   expect(JSON.parse(radar.getAttribute("data-chart")!).datasets).toHaveLength(
     2,
@@ -151,7 +142,7 @@ it("shows history failures and lets the user return to the radar", async () => {
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger l’historique",
   );
-  fireEvent.click(screen.getByRole("button", { name: "Retour au radar" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
   expect(await screen.findByRole("img")).toBeVisible();
 });
 it.each(["success", "error"])(

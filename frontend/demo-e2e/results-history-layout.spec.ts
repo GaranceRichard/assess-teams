@@ -21,8 +21,10 @@ test("static demo fits longitudinal and radar through resize and tabs without an
   for (const size of desktopSizes) {
     await page.setViewportSize(size);
     await expectChartFits(page, /Évolution de/);
-    await page.getByRole("tab", { name: "Résultats détaillés" }).click();
-    await page.getByRole("tab", { name: "Radar", exact: true }).click();
+    await page.getByRole("tab", { name: "Données détaillées" }).click();
+    await expect(page.getByRole("img")).toHaveCount(0);
+    await expect(page.getByRole("table")).toBeVisible();
+    await page.getByRole("tab", { name: "Graphique" }).click();
     await expectChartFits(page, /Évolution de/);
     await page.screenshot({
       path: test
@@ -34,6 +36,8 @@ test("static demo fits longitudinal and radar through resize and tabs without an
   await expectChartFits(page, /Évolution de/);
   await page.getByRole("button", { name: "Activer le mode jour" }).click();
   await expectChartFits(page, /Évolution de/);
+  await expect(page.getByRole("table")).toHaveCount(0);
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   const observations = page.getByRole("region", {
     name: "Observations historiques",
     exact: true,
@@ -49,7 +53,11 @@ test("static demo fits longitudinal and radar through resize and tabs without an
       .getByRole("region", { name: "Évolution temporelle du critère" })
       .evaluate((element) => element.scrollTop),
   ).toBe(0);
-  await page.getByRole("button", { name: "Retour au radar" }).click();
+  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await expect(page.getByRole("table")).toHaveAccessibleName(
+    "Critères et scores des équipes sélectionnées",
+  );
+  await page.getByRole("tab", { name: "Graphique" }).click();
   await expectChartFits(page, /Radar des résultats/);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByText("Historique par critère", { exact: true }).click();

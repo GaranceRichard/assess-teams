@@ -21,6 +21,25 @@
   flex-wrap: wrap;
   border-bottom: 1px solid var(--border);
 }
+.results-view-selectors {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 0.5rem 1.5rem;
+}
+.results-view-selector {
+  min-width: 0;
+}
+.results-view-selector .results-tabs {
+  flex-wrap: nowrap;
+}
+.results-view-selector [role="tab"] {
+  min-width: 0;
+}
+.results-view-selector > span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
 .results-tabs [role="tab"] {
   background: transparent;
   color: var(--text);

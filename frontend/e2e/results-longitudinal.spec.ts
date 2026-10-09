@@ -42,6 +42,9 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   ).toBeVisible();
   expect(historyRequests).toBeGreaterThan(0);
   const loadedHistoryRequests = historyRequests;
+  await expect(page.getByRole("table")).toHaveCount(0);
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
+  await expect(page.getByRole("img")).toHaveCount(0);
   const table = page.getByRole("table", {
     name: "Observations historiques du critère sélectionné",
   });
@@ -70,7 +73,8 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
     path: test.info().outputPath("longitudinal-dark.png"),
     fullPage: true,
   });
-  await page.getByRole("button", { name: "Retour au radar" }).click();
+  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await page.getByRole("tab", { name: "Graphique" }).click();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await expect(page.getByRole("checkbox", { name: /^Équipe A/ })).toBeChecked();
   await expect(page.getByRole("checkbox", { name: /^Équipe B/ })).toBeChecked();

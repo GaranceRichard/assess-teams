@@ -93,18 +93,20 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   const radar = page.getByRole("img", { name: /Radar des résultats/ });
   await expect(radar).toHaveAttribute("aria-label", /3 équipe/);
   await page.screenshot({ path: test.info().outputPath("results-day.png") });
-  await page.getByRole("tab", { name: "Résultats détaillés" }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await expect(
     page.getByRole("row").filter({ hasText: "1. Clarté des objectifs" }),
   ).toContainText("0 / 10");
   await expect(
     page.getByRole("columnheader", { name: /^Aurore · votre passation/ }),
   ).toBeVisible();
-  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await page.getByRole("tab", { name: "Graphique" }).click();
   await page.getByRole("checkbox", { name: /^Boréal/ }).uncheck();
   await expect(radar).toHaveAttribute("aria-label", /2 équipe/);
   await page.getByText("Historique par critère", { exact: true }).click();
   await page.getByRole("button", { name: "1. Clarté des objectifs" }).click();
+  await expect(page.getByRole("table")).toHaveCount(0);
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   const observations = page.getByRole("table");
   await expect(
     observations
@@ -114,7 +116,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   await expect(
     observations.getByRole("row").filter({ hasText: "Aurore · simulation" }),
   ).toHaveCount(3);
-  await page.getByRole("button", { name: "Retour au radar" }).click();
+  await page.getByRole("tab", { name: "Radar", exact: true }).click();
   await page.getByRole("link", { name: "Pilotage", exact: true }).click();
   await expect(
     page.getByRole("row").filter({ hasText: "Aurore · votre passation" }),
@@ -128,7 +130,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   await page.getByRole("button", { name: "Réinitialiser la démo" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-palette", "green");
   await page.getByRole("link", { name: "Résultats", exact: true }).click();
-  await page.getByRole("tab", { name: "Résultats détaillés" }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await expect(
     page.getByRole("columnheader", { name: /^Aurore · simulation/ }),
   ).toBeVisible();

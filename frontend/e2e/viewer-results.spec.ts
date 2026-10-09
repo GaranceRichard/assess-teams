@@ -37,7 +37,7 @@ test("Viewer consults its organization radar and longitudinal without administra
   await expect(
     page.getByRole("img", { name: /Radar des résultats/ }),
   ).toHaveAttribute("aria-label", /1 équipe/);
-  await page.getByRole("tab", { name: "Résultats détaillés" }).click();
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
   await expect(
     page.getByRole("cell", { name: "6 / 10", exact: true }),
   ).toBeVisible();
@@ -45,6 +45,9 @@ test("Viewer consults its organization radar and longitudinal without administra
   await expect(
     page.getByRole("img", { name: /Évolution de Collaboration v2/ }),
   ).toBeVisible();
+  await expect(page.getByRole("table")).toHaveCount(0);
+  await page.getByRole("tab", { name: "Données détaillées" }).click();
+  await expect(page.getByRole("img")).toHaveCount(0);
   const table = page.getByRole("table", {
     name: "Observations historiques du critère sélectionné",
   });
@@ -55,7 +58,8 @@ test("Viewer consults its organization radar and longitudinal without administra
   await expect(
     table.getByRole("cell", { name: "v2", exact: true }),
   ).toHaveCount(1);
-  await page.getByRole("button", { name: "Retour au radar" }).click();
+  await page.getByRole("tab", { name: "Radar", exact: true }).click();
+  await page.getByRole("tab", { name: "Graphique" }).click();
   await expect(page.getByRole("checkbox", { name: /^Équipe A/ })).toBeChecked();
   await expect(
     page.getByRole("button", { name: /Modifier|Supprimer|Créer|Valider/ }),

@@ -39,9 +39,9 @@ it("separates radar from scores and preserves shared selections when switching v
   await open();
   expect(screen.queryByRole("table")).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("checkbox", { name: /^Alpha/ }));
-  fireEvent.click(screen.getByRole("tab", { name: "Résultats détaillés" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   expect(
-    screen.getByRole("tabpanel", { name: "Résultats détaillés" }),
+    screen.getByRole("tabpanel", { name: "Radar Données détaillées" }),
   ).toBeVisible();
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   const table = screen.getByRole("table");
@@ -61,7 +61,7 @@ it("separates radar from scores and preserves shared selections when switching v
   expect(
     within(table).getByRole("columnheader", { name: /Beta/ }),
   ).toBeVisible();
-  fireEvent.click(screen.getByRole("tab", { name: "Radar" }));
+  fireEvent.click(screen.getByRole("tab", { name: "Graphique" }));
   expect(screen.getByRole("img")).toHaveAccessibleName(/2 équipe/);
   expect(screen.getByLabelText("Modèle")).toHaveValue("4");
   expect(screen.getByLabelText("Organisation")).toHaveValue("1");
@@ -70,8 +70,8 @@ it("separates radar from scores and preserves shared selections when switching v
 
 it("supports arrow, Home and End keys with roving focus and does not invent scores with no team selected", async () => {
   await open();
-  const radar = screen.getByRole("tab", { name: "Radar" });
-  const details = screen.getByRole("tab", { name: "Résultats détaillés" });
+  const radar = screen.getByRole("tab", { name: "Graphique" });
+  const details = screen.getByRole("tab", { name: "Données détaillées" });
   radar.focus();
   fireEvent.keyDown(radar, { key: "ArrowRight" });
   expect(details).toHaveFocus();
