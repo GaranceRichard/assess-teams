@@ -13,7 +13,7 @@ const markers = [
   { score: 8, text: "Partagé" },
 ];
 
-it("reveals exact markers on hover/focus, keeps the selected marker and leaves gaps empty", async () => {
+it("reveals markers on hover/focus and uses the nearest lower description in gaps", async () => {
   const onSelect = vi.fn();
   const { rerender } = render(
     <AppreciationScale
@@ -62,10 +62,16 @@ it("reveals exact markers on hover/focus, keeps the selected marker and leaves g
   fireEvent.mouseEnter(configured);
   fireEvent.resize(window);
   expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();
-  const gap = screen.getByRole("button", { name: "7 sur 10" });
+  const gap = screen.getByRole("button", { name: "7 sur 10 : À construire" });
   fireEvent.focus(gap);
   fireEvent.mouseEnter(gap);
-  expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();
+  expect(screen.getByRole("tooltip", { hidden: true })).toHaveTextContent(
+    "7 / 10 · À construire",
+  );
+  expect(gap).toHaveAttribute(
+    "aria-describedby",
+    screen.getByRole("tooltip", { hidden: true }).id,
+  );
   rerender(
     <AppreciationScale
       markers={markers}
@@ -74,7 +80,9 @@ it("reveals exact markers on hover/focus, keeps the selected marker and leaves g
       onSelect={onSelect}
     />,
   );
-  expect(screen.queryByText(/Repère pour/)).toBeNull();
+  expect(screen.getByText(/Repère pour 7/).parentElement).toHaveTextContent(
+    "À construire",
+  );
 });
 
 it("keeps readonly markers available without modifying any score", () => {

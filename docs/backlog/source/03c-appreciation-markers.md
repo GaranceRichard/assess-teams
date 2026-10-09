@@ -8,7 +8,8 @@
   un seul par niveau/question ; ajout/modification/suppression en DRAFT ;
   copies indépendantes par version et immutabilité VALIDATED/ARCHIVED.
 - **Passation :** infobulle au-dessus du niveau au survol/focus, texte sélectionné persistant,
-  clavier/mobile, aucune interpolation ; range et calculs conservés.
+  clavier/mobile, aucun texte inventé ; descriptif de la borne inférieure renseignée la plus proche,
+  note réelle, range et calculs conservés. Onze points discrets et modale stable à défilement interne.
 - **Histoire :** référence exacte question/version et copie au démarrage dans les snapshots ;
   anciennes passations sans repères ajoutés, résultats jamais reconstruits depuis une version récente.
 - **Preuves :** migration 0015, API/ORM/OpenAPI, tests React et Playwright v1/v2/mobile/démo ;

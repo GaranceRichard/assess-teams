@@ -76,6 +76,8 @@ Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestri
 
 ## Périmètre livré — passation des évaluations planifiées
 
+La modale « Passer l’évaluation » propose onze points accessibles avec infobulles, des dimensions et une navigation fixes, des zones réservées à défilement interne et le descriptif de la borne inférieure renseignée la plus proche, sans changer les notes ni les contrats API.
+
 La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant. Après une passation ponctuelle complétée, une équipe peut replanifier le même modèle : une nouvelle passation indépendante conserve l’historique et les anciens résultats. Les planifications encore actives bloquent les doublons.
 
 ## Installation

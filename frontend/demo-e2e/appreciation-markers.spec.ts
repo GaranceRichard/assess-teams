@@ -69,7 +69,10 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
   await page.screenshot({
     path: test.info().outputPath("markers-mobile-night.png"),
   });
-  await page.getByRole("button", { name: "7 sur 10", exact: true }).click();
-  await expect(page.locator(".selected-appreciation")).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "7 sur 10 : " + original, exact: true })
+    .click();
+  await expect(page.getByRole("slider")).toHaveValue("7");
+  await expect(page.locator(".selected-appreciation")).toContainText(original);
   expect(apiCalls).toEqual([]);
 });

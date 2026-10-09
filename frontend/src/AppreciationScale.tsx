@@ -1,5 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import type { AppreciationMarker } from "./evaluations";
+import { appreciationForScore } from "./appreciationForScore";
 import "./appreciation-markers.css";
 
 type Props = {
@@ -19,10 +20,11 @@ export function AppreciationScale({
   const tooltip = useRef<HTMLDivElement>(null);
   const dismissal = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [active, setActive] = useState<{
-    marker: AppreciationMarker;
+    level: number;
+    text?: string;
     anchor: HTMLButtonElement;
   } | null>(null);
-  const selected = markers.find((marker) => marker.score === score);
+  const selected = appreciationForScore(markers, score);
   const retain = () => {
     if (dismissal.current) clearTimeout(dismissal.current);
   };
@@ -91,30 +93,34 @@ export function AppreciationScale({
         aria-label="Niveaux de notation de 0 à 10"
       >
         {Array.from({ length: 11 }, (_, level) => {
-          const marker = markers.find((item) => item.score === level);
+          const marker = appreciationForScore(markers, level);
           return (
             <button
               key={level}
               type="button"
               className="secondary"
-              data-configured={Boolean(marker)}
               aria-pressed={score === level}
+              aria-disabled={disabled}
               data-readonly={disabled}
               aria-label={
                 level + " sur 10" + (marker ? " : " + marker.text : "")
               }
-              aria-describedby={active?.marker.score === level ? id : undefined}
+              aria-describedby={active?.level === level ? id : undefined}
               onMouseEnter={(event) => {
                 retain();
-                setActive(
-                  marker ? { marker, anchor: event.currentTarget } : null,
-                );
+                setActive({
+                  level,
+                  text: marker?.text,
+                  anchor: event.currentTarget,
+                });
               }}
               onMouseLeave={(event) => leave(event.currentTarget)}
               onFocus={(event) =>
-                setActive(
-                  marker ? { marker, anchor: event.currentTarget } : null,
-                )
+                setActive({
+                  level,
+                  text: marker?.text,
+                  anchor: event.currentTarget,
+                })
               }
               onBlur={() => setActive(null)}
               onKeyDown={(event) => {
@@ -125,12 +131,15 @@ export function AppreciationScale({
                 }
               }}
               onClick={(event) => {
-                if (marker) setActive({ marker, anchor: event.currentTarget });
+                setActive({
+                  level,
+                  text: marker?.text,
+                  anchor: event.currentTarget,
+                });
                 if (!disabled) onSelect(level);
               }}
             >
-              {level}
-              {marker && <span className="marker-dot" aria-hidden="true" />}
+              <span className="marker-dot" aria-hidden="true" />
             </button>
           );
         })}
@@ -145,14 +154,17 @@ export function AppreciationScale({
           onMouseEnter={retain}
           onMouseLeave={() => leave()}
         >
-          <strong>{active.marker.score} / 10</strong> · {active.marker.text}
+          <strong>{active.level} / 10</strong>
+          {active.text && <> · {active.text}</>}
         </div>
       )}
-      {selected && (
-        <p className="selected-appreciation" aria-live="polite">
-          <strong>Repère pour {score} / 10 :</strong> {selected.text}
-        </p>
-      )}
+      <div className="appreciation-description">
+        {selected && (
+          <p className="selected-appreciation" aria-live="polite" tabIndex={0}>
+            <strong>Repère pour {score} / 10 :</strong> {selected.text}
+          </p>
+        )}
+      </div>
     </>
   );
 }

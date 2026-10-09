@@ -71,3 +71,7 @@ filtres, dépendances/reset, scopes et pagination ; Playwright crée les événe
 Les repères `EVAL-004` ajoutent `appreciation-markers.spec.ts` (range/reprise, focus/survol,
 consultation immuable, mobile, thèmes/palettes et infobulles bornées), `evaluation-versions.spec.ts`
 (édition et texte v1 conservé après v2) et `demo-e2e/appreciation-markers.spec.ts` (édition locale/snapshot sans API).
+L’ergonomie de passation ajoute la sélection des onze points sans chiffres et le descriptif de borne
+inférieure (6 affiche 5 mais persiste 6), le repli sans texte et les refus en consultation/sauvegarde.
+`evaluation-taking-layout.spec.ts` mesure dimensions et navigation constantes sur cinq viewports,
+espacement/cibles, zones réservées et défilement au clavier des questions et descriptions longues.

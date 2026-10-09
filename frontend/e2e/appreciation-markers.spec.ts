@@ -7,7 +7,7 @@ import {
 } from "./identity-fixture";
 import { expectMarkerTooltip } from "./appreciation-assertions";
 
-test("Coach accesses exact markers with hover, keyboard and mobile while preserving slider saves", async ({
+test("Coach accesses lower-bound markers with hover, keyboard and mobile while preserving slider saves", async ({
   page,
 }) => {
   seedIdentity("markers-coach-e2e", "Coach");
@@ -34,8 +34,12 @@ test("Coach accesses exact markers with hover, keyboard and mobile while preserv
   await page.getByRole("button", { name: "Passer l’évaluation" }).click();
   await page.getByRole("button", { name: "8 sur 10 : Partagé" }).hover();
   await expect(page.getByRole("tooltip")).toContainText("Partagé");
-  await page.getByRole("button", { name: "7 sur 10", exact: true }).hover();
-  await expect(page.getByRole("tooltip")).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "7 sur 10 : À construire", exact: true })
+    .hover();
+  await expect(page.getByRole("tooltip")).toContainText(
+    "7 / 10 · À construire",
+  );
   for (const mode of ["day", "night"]) {
     await page.evaluate((theme) => {
       document.documentElement.dataset.theme = theme;
@@ -70,12 +74,19 @@ test("Coach accesses exact markers with hover, keyboard and mobile while preserv
   await page.getByRole("button", { name: "8 sur 10 : Partagé" }).click();
   await expect(slider).toHaveValue("8");
   await expect(page.locator(".selected-appreciation")).toContainText("Partagé");
-  await page.getByRole("button", { name: "7 sur 10", exact: true }).click();
-  await expect(page.locator(".selected-appreciation")).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "7 sur 10 : À construire", exact: true })
+    .click();
+  await expect(slider).toHaveValue("7");
+  await expect(page.locator(".selected-appreciation")).toContainText(
+    "À construire",
+  );
   await page.getByRole("button", { name: "Valider l’évaluation" }).click();
   await page.getByRole("button", { name: "Consulter", exact: true }).click();
   await expect(slider).toBeDisabled();
   await expectMarkerTooltip(page, 0, "À construire");
-  await page.getByRole("button", { name: "0 sur 10 : À construire" }).click();
+  await page
+    .getByRole("button", { name: "0 sur 10 : À construire" })
+    .press("Enter");
   await expect(slider).toHaveValue("7");
 });

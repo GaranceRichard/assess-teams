@@ -69,6 +69,10 @@ a changé depuis la première lecture HTTP, la mutation retourne `404`, sans ré
 
 Une même modale native sert passation, consultation et révision : question X/N, range entier accessible
 au clavier, note affichée, précédent/suivant, sauvegarde ordonnée, erreurs et reprise après interruption.
+Sa largeur (34 rem maximum) et sa hauteur (46 rem maximum) restent constantes au cours du parcours,
+bornées au viewport dynamique avec marges adaptées au mobile. Le contenu défile à l’intérieur ;
+le titre et le pied de navigation restent fixes. Question, erreur et appréciation disposent d’espaces
+réservés ; les questions et descriptions longues défilent dans leur bloc accessible au clavier.
 La finalisation attend la confirmation des sauvegardes ; une révision est validée atomiquement.
 Lorsque « Suivant » confirme la note proposée, le range est temporairement désactivé jusqu’à la sauvegarde ;
 un refus laisse la même question ouverte et réactive la saisie pour réessayer.
@@ -86,6 +90,7 @@ Voir le [lifecycle User](user-lifecycle.md).
 ## Repères d’appréciation
 
 Les questions du détail ajoutent `appreciation_markers`, copie exacte figée au démarrage.
-Le range conserve notation/sauvegardes ; des niveaux accessibles affichent les textes configurés au survol/focus,
-puis un bloc persistant à la sélection. Aucun texte pour un niveau vide ; révision et reprise lisent
+Le range conserve notation/sauvegardes ; onze points accessibles affichent la note au survol/focus,
+puis un bloc persistant à la sélection. Le descriptif utilise la borne inférieure renseignée la plus proche,
+sans changer la note réelle ; sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent
 uniquement le snapshot. Voir [persistance, migration et interface](appreciation-markers.md).

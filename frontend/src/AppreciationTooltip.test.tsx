@@ -44,7 +44,7 @@ it("un ancien départ du pointeur ne ferme pas le nouveau niveau survolé", () =
   act(() => vi.advanceTimersByTime(120));
   expect(tooltip()).toHaveTextContent("Partagé");
   fireEvent.mouseEnter(level(5));
-  absent();
+  expect(tooltip()).toHaveTextContent("5 / 10 · À construire");
 });
 
 it("Échap ferme un repère survolé depuis tout contrôle sans fermer la modale", () => {
