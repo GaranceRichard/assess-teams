@@ -1,115 +1,117 @@
-# CI parallèle et gates
+﻿# CI parallèle et gates
 
 `npm run quality:full` reste le gate local canonique et le pre-push bloquant.
-La CI utilise ses scopes partagés, sans second passage global. `test:all` reste
-séquentiel localement ; chaque scope appelle uniquement sa propre suite.
+Il exécute Ruff, les migrations et toute la suite backend, puis les autres contrôles.
+La CI répartit ces contrôles sans second passage global.
 
 ## Répartition
 
-| Job | Scope | Contrôles bloquants |
+| Job | Exécution | Contrôles bloquants |
 | --- | --- | --- |
-| Repository constraints | repository | 200 lignes, secrets, cohérence Git, README, workflow documentaire, tests qualité/bootstrap/scopes/agrégation |
-| Backend quality | backend | Ruff lint/format, migrations, pytest complet avec branch coverage >= 90 %, contrats/OpenAPI inclus |
-| Frontend quality | frontend | ESLint, Prettier, seuils Vitest, typecheck/build, tests avec coverage >= 90 % sur les quatre métriques |
-| Playwright E2E | e2e | Tous les parcours existants, backend réel avec migrations et fixtures, Vite et Chromium |
-| Full quality gate | agrégation | Succès obligatoire des quatre jobs, y compris si un job échoue, est annulé, ignoré ou absent |
+| Repository constraints | scope repository | 200 lignes, secrets, cohérence Git, README, documentation, tests qualité/bootstrap/scopes/agrégation |
+| Backend static quality | scope backend-static | Ruff lint/format et migrations |
+| Backend tests (1/2), (2/2) | backend_shards.py | Tous les tests pytest, contrats/OpenAPI inclus, partitionnés par fichiers |
+| Backend global coverage | après tous les shards | Collection exhaustive sans doublons, fusion du branch coverage, seuil global >= 90 % |
+| Frontend quality | scope frontend | ESLint, Prettier, seuils Vitest, typecheck/build, tests avec coverage >= 90 % sur quatre métriques |
+| Playwright E2E | scope e2e | Tous les parcours réels et de démo, migrations/fixtures, Vite et Chromium |
+| Full quality gate | agrégation | Succès de repository, backend-static, backend-tests, backend-coverage, frontend et e2e |
 
-Les quatre contrôles partent en parallèle. Playwright utilise Vite, sans artefact
-de build ; aucun résultat de lint, coverage ou tests unitaires n'est son prérequis.
-Son job prépare ses runtimes et navigateur avant de lancer les serveurs existants.
-Le worker unique SQLite, les retries et `forbidOnly` restent inchangés.
-Le build/typecheck était absent du gate automatisé audité ; il est désormais
-explicite dans le gate complet local et le scope frontend.
+Dépôt, statiques, tests, frontend et E2E partent indépendamment.
+Seule la fusion dépend des shards. `fail-fast: false` conserve tous les résultats
+même si un shard échoue. La matrice ne comporte ni exclusion ni `continue-on-error`.
+Le gate final conserve son nom et `always()` : échec, annulation, skip ou résultat
+absent de n'importe quel job bloque la qualité complète.
 
-## Déclencheurs et caches
+## Shards et couverture exhaustive
 
-La CI tourne sur chaque PR et sur les pushes de `main`. Une branche de travail
-est contrôlée dès l'ouverture de sa PR ; ses pushes ne déclenchent plus une seconde
-suite identique. `concurrency` annule les runs obsolètes de la même PR ou référence,
-avec un groupe propre au workflow. Aucun filtre de chemins ne saute un gate.
+`scripts/quality/backend-test-durations.json` contient les secondes par fichier
+issues d'un rapport JUnit réussi, avec setup et teardown. Les fichiers les plus
+lents sont affectés d'abord au shard le moins chargé ; l'ordre pytest est conservé.
+Deux shards suffisent pour passer sous le temps E2E constaté ; en ajouter
+accroîtrait les installations sans gain attendu. Chaque fichier reste entier,
+avec ses fixtures et tests paramétrés. Un nouveau fichier est automatiquement
+affecté avec un poids conservateur, jamais exclu faute de mesure.
+Le rafraîchissement et la reproduction sont décrits dans [les commandes ciblées](test-commands.md).
 
-`setup-node` conserve les téléchargements npm selon le lockfile frontend ; `npm ci`
-réinstalle toujours les packages. `setup-python` conserve les téléchargements pip
-selon les deux requirements ; le bootstrap installe et valide un `.venv` physique
-avant les contrôles. Le serveur E2E réutilise ce runtime validé, évitant une deuxième
-installation dans un autre environnement. Ni `.venv`, ni `node_modules`, ni SQLite,
-ni résultats de tests ne sont restaurés depuis un cache.
+Chaque shard collecte toute la suite une seule fois et exécute sa partition,
+avec la même `.coveragerc`, les mêmes exclusions et le branch coverage.
+Seul le verdict de seuil est différé : une couverture partielle n'est pas un
+gate autonome. Les données `.coverage.N`, manifests et JUnit sont transférés
+par artefacts propres au run, avec les fichiers cachés explicitement inclus.
+Les chemins relatifs permettent la fusion entre les checkouts des runners.
 
-Les requirements conservent leurs plages de versions existantes : le cache pip
-ne constitue pas un lockfile Python. La résolution reste celle du bootstrap local.
+Le merger exige exactement les deux données et manifests : mêmes versions de
+coverage, mêmes collections, partitions non vides et disjointes, union égale à
+la collection complète. Il fusionne les lignes et branches, jamais les pourcentages,
+et applique le seuil `.coveragerc` avec un plancher de 90 %. Une entrée manquante
+ou incohérente bloque le job. Le XML global est conservé sept jours.
+Ses tests fusionnent de vraies données partielles sous 90 % : leur union complète
+passe, une union incomplète échoue.
 
-Seul Chromium headless est installé, avec ses dépendances système. Le cache de
-navigateurs n'est pas ajouté sans gain démontré : [Playwright](https://playwright.dev/docs/ci)
-indique que sa restauration peut coûter autant que le téléchargement, et les
-dépendances système restent à installer. [L'option `--only-shell`](https://playwright.dev/docs/browsers#installing-browsers)
-évite Chromium complet dans cette configuration sans `channel`.
-Les traces d'échec sont conservées sept jours comme artefacts.
+## Installations, caches et déclencheurs
 
-## Required checks et action administrative
+Un bootstrap backend par runner statique, shard ou E2E prépare son `.venv`
+physique et valide les dépendances. Les runtimes ne sont ni partagés ni archivés.
+Le cache pip conserve seulement les téléchargements selon les requirements.
+Le merger installe uniquement la version exacte de coverage produite par les
+shards : aucun Django, Ruff, Node, bootstrap ou nouvelle exécution de tests.
+Les shards n'installent pas Node. Les requirements applicatifs restent inchangés.
 
-L'identifiant `quality` et le nom exact **Full quality gate** sont conservés.
-Son `always()` garantit l'évaluation après chaque résultat des jobs dépendants ;
-le script exige explicitement `success` pour chacun, sans accepter `skipped`.
-Les nouveaux noms sont `Repository constraints`, `Backend quality`,
-`Frontend quality` et `Playwright E2E`. Ils servent au diagnostic ; l'agrégation
-suffit comme required check bloquant pour l'ensemble.
+Frontend/E2E conservent le cache npm et un seul `npm ci` par runner.
+Playwright installe seulement Chromium headless et ses dépendances système.
+Worker SQLite unique, retries et `forbidOnly` restent inchangés.
+Les traces E2E d'échec restent disponibles sept jours.
 
-Audit GitHub du 7 octobre 2026 : l'API de protection de `main` répond
-`Branch not protected` (404), et l'API des rulesets retourne `[]`.
-Aucun required check actuel ne nécessite donc de renommage ou migration.
-Pour activer cette protection, un administrateur doit, après un premier run,
-ajouter **Full quality gate** aux required status checks dans Settings → Rules
-ou Branches, selon la politique choisie. Cette optimisation ne modifie pas les
-protections ni les droits GitHub. Une future règle portant sur les anciens noms
-doit être vérifiée avant tout renommage ; voir [GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+Les déclencheurs push main et PR, sans filtres de chemins, et l'annulation des
+runs obsolètes par workflow/référence restent inchangés. Aucun contrôle ne devient
+facultatif. Aucun test ou seuil applicatif n'est supprimé ou abaissé.
 
-## Audit et mesures
+## Mesures du 9 octobre 2026
 
-Run de référence réussi [37620176556](https://github.com/GaranceRichard/assess-teams/actions/runs/37620176556),
-SHA `80292c22f629e260cc09fd9fc51dc9799bfb48b9` : 11 min 31 s du lancement
-à la fin ; job de 11 min 22 s, dont installation Playwright 54 s,
-pytest 349,41 s (449 tests), Vitest 47,44 s et E2E environ 164 s (35 tests).
-Le run du SHA initial `9141204`, [37622374097](https://github.com/GaranceRichard/assess-teams/actions/runs/37622374097),
-confirme 11 min 15 s, installation Playwright 51 s, pytest 346,14 s,
-Vitest 45,83 s et E2E environ 156 s, avec les mêmes effectifs.
-Le run réussi [37500819134](https://github.com/GaranceRichard/assess-teams/actions/runs/37500819134)
-durait 9 min 05 s, avec 51 s d'installation Playwright : les runners varient.
-Après intégration d'un autre chantier, la référence comparable sur `a29119a`,
-[37623953532](https://github.com/GaranceRichard/assess-teams/actions/runs/37623953532),
-passe en 11 min 50 s : pytest 381,66 s (480 tests), Vitest 44,60 s
-(65 fichiers), E2E environ 164 s (36 tests), installation Playwright 47 s.
-Le chemin critique attendu sur ce socle devient plutôt ~6 min 45 s.
+| Référence réussie | Workflow complet | Backend | E2E |
+| --- | --- | --- | --- |
+| [37928739568](https://github.com/GaranceRichard/assess-teams/actions/runs/37928739568), db94189 | 4 min 52 s | 4 min 36 s | 4 min 30 s |
+| [37926486899](https://github.com/GaranceRichard/assess-teams/actions/runs/37926486899), 76a5905 | 4 min 59 s | 4 min 47 s | 3 min 57 s |
 
-Goulot principal : addition des suites indépendantes. Les tests applicatifs
-étaient déjà exécutés une seule fois ; les relancer dans un job agrégé aurait
-annulé le gain. Le workflow installait tous les navigateurs alors que la
-configuration ne sélectionne que Chromium. Il n'avait ni cache pip ni annulation
-des runs obsolètes. Le backend était installé globalement alors que le serveur
-E2E impose son propre `.venv` : le bootstrap unique par job harmonise ce prérequis.
+Sur db94189 : 582 tests en 248,22 s, couverture globale 98,89 % ; Ruff/format
+et migrations prennent environ 3 s, préparation backend 13 s.
+Le goulot backend est pytest. La mesure locale JUnit sur ce même socle fournit
+les poids de départ ; les rapports de chaque shard permettent de les recalibrer
+sur GitHub Actions.
 
-À durées de suites identiques au run de référence, le chemin critique attendu
-est le backend (~6 min avec préparation), au lieu de la somme (~11 min 30 s).
-Cette estimation n'est pas une mesure après publication. Comparer les prochains
-runs réussis (froids puis chauds), leurs temps d'attente et durées par job :
+Validation locale du découpage : 287 tests en 226,97 s et 322 en 231,08 s,
+soit 609 tests réussis, contre 582 tests en 409,66 s pour la référence locale.
+Le chemin pytest diminue d'environ 44 %, malgré les tests CI supplémentaires.
+Ces temps Windows ne sont pas une mesure du workflow GitHub complet.
+
+À vitesse identique, deux shards visent environ la moitié du temps pytest,
+avec une préparation par runner et une fusion courte. Le temps total devient
+borné par l'E2E : le gain attendu varie de quelques secondes à environ 50 s
+sur ces références. Ce calcul est une estimation, pas une mesure après.
+Les runners et files d'attente varient : comparer plusieurs runs froids/chauds.
 
 ```powershell
 gh run list --workflow quality.yml --limit 10
 gh run view <run-id> --json createdAt,updatedAt,jobs
 ```
 
-## Validation et revue documentaire
+## Required check, documentation et Pages
 
-Les tests des scopes exécutent les orchestrateurs sur des runtimes simulés :
-chaque contrôle et suite doit tourner une fois, le scope E2E doit rester isolé,
-un build ou E2E échoué doit retourner un échec. Les tests Node de l'agrégation
-couvrent succès, échec, annulation, skip, résultat absent et JSON invalide.
-Les tests backend chargent le YAML réel pour protéger le graphe, les installations,
-les clés de cache, les déclencheurs et le check stable.
+Le check **Full quality gate** et son identifiant `quality` sont conservés.
+Il exige explicitement le succès de tous les nouveaux jobs, y compris le résultat
+agrégé de la matrice et le verdict de couverture. Aucun changement de protection
+ou de droits GitHub n'est effectué par ce chantier.
 
-README, règles des agents, charte, DoD, stratégie et commandes de tests sont
-adaptés à la répartition CI. Architecture et contrat API sont revus sans changement
-de comportement produit, d'endpoint, de modèle ou de migration.
+Les tests YAML protègent graphe, caches, installations, matrice et Pages.
+Les tests des scopes protègent le gate local complet et le scope statique.
+Les tests Node refusent échec, annulation, skip, absence et JSON invalide pour
+chacun des six jobs. Les tests pytest protègent partitionnement et fusion.
 
-## Publication de la démo
+README, stratégie, charte, DoD et commandes ciblées sont actualisés.
+Règles des agents, architecture et contrat API sont revus sans changement requis :
+aucun comportement métier, endpoint, modèle ou migration n'est modifié.
 
-Le [workflow Pages](../../.github/workflows/demo-pages.yml) publie le build DEMO isolé uniquement après un Quality gate réussi pour le SHA main concerné. Le scope E2E valide aussi cette démo statique sans backend ; voir [architecture et limites](../architecture/public-demo.md).
+Le [workflow Pages](../../.github/workflows/demo-pages.yml) reste inchangé :
+publication seulement après un workflow Quality gate entièrement réussi,
+déclenché par push main, et checkout du SHA exactement validé. La démo statique
+reste compilée et testée dans le scope E2E avant cette publication.

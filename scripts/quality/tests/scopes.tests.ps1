@@ -62,11 +62,14 @@ try {
     $frontend = @('npm run lint', 'npm run format:check', 'npm run build')
     Assert-Scope 'quality.ps1' 'repository' $repository
     Assert-Scope 'quality.ps1' 'backend' ($backend + @('suite backend'))
+    Assert-Scope 'quality.ps1' 'backend-static' $backend
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend'))
     Assert-Scope 'quality.ps1' 'e2e' @('suite e2e')
     Assert-Scope 'quality.ps1' 'all' ($repository + $backend + $frontend + @('suite all'))
     $env:SCOPE_FAILURE = 'run build'
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend')) 1
+    $env:SCOPE_FAILURE = 'makemigrations'
+    Assert-Scope 'quality.ps1' 'backend-static' $backend 1
 
     Copy-Item (Join-Path $Root 'scripts/test-all.ps1') (Join-Path $fixture 'scripts/test-all.ps1') -Force
     $env:SCOPE_FAILURE = 'NEVER_MATCH'

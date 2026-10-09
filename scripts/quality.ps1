@@ -2,7 +2,7 @@ param(
     [Parameter(Position = 0)]
     [ValidateSet('quick', 'full')]
     [string]$Mode = 'quick',
-    [ValidateSet('all', 'repository', 'backend', 'frontend', 'e2e')]
+    [ValidateSet('all', 'repository', 'backend', 'backend-static', 'frontend', 'e2e')]
     [string]$Scope = 'all'
 )
 
@@ -91,7 +91,7 @@ if ($Scope -in @('all', 'repository')) {
     Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs }
 }
 
-if ($Scope -in @('all', 'backend')) {
+if ($Scope -in @('all', 'backend', 'backend-static')) {
     $backendPath = Join-Path $root 'backend'
     $backendPresent = (Test-Path (Join-Path $backendPath 'manage.py')) -or
         (Test-Path (Join-Path $backendPath 'pyproject.toml'))
@@ -139,7 +139,7 @@ if ($Scope -in @('all', 'frontend')) {
     }
 }
 
-if ($Mode -eq 'full' -and $Scope -ne 'repository') {
+if ($Mode -eq 'full' -and $Scope -notin @('repository', 'backend-static')) {
     $allTests = Join-Path $root 'scripts\test-all.ps1'
     Invoke-QualityStep 'Suite globale test:all' {
         & $hostExecutable -NoProfile -File $allTests -Scope $Scope

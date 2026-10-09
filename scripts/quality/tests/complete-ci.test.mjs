@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
-const jobs = ["repository", "backend", "frontend", "e2e"];
+const jobs = ["repository", "backend-static", "backend-tests", "backend-coverage", "frontend", "e2e"];
 const success = () => Object.fromEntries(jobs.map((job) => [job, { result: "success" }]));
 
 function aggregate(results) {

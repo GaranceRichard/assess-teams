@@ -29,7 +29,7 @@ Les [Résultats](docs/architecture/results-api.md) séparent Analyse (Radar / Da
 
 ## CI — feedback qualité
 
-La [CI parallèle](docs/quality/ci.md) exécute les contrôles dépôt, backend, frontend et E2E indépendamment, avec caches npm/pip et annulation des runs obsolètes. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
+Le backend CI sépare Ruff et migrations des tests, répartis en deux shards équilibrés selon les durées mesurées. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
 
 ## Socle technique
 

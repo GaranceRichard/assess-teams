@@ -1,4 +1,4 @@
-const requiredJobs = ["repository", "backend", "frontend", "e2e"];
+const requiredJobs = ["repository", "backend-static", "backend-tests", "backend-coverage", "frontend", "e2e"];
 const results = JSON.parse(process.env.QUALITY_JOB_RESULTS);
 const failures = requiredJobs.filter((job) => results[job]?.result !== "success");
 
