@@ -61,10 +61,12 @@ it("uses actual completion timestamps, point metadata and fixed scales without c
   );
   expect(tooltip).toContain("Alpha");
   expect(tooltip).toContain("2 / 10 · v1");
+  expect(tooltip).toMatch(/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2} ·/);
+  expect(tooltip).not.toMatch(/\d{2}:\d{2}:\d{2}/);
   const tick = options.scales!.x!.ticks!.callback!;
   expect(
     tick.call({} as never, new Date("2026-09-01T12:00:00Z").getTime(), 0, []),
-  ).toBe("2026-09-01");
+  ).toBe("01/09/2026");
   expect(historyOptions("day").scales!.y!.ticks!.color).toBe("#171717");
 });
 
@@ -131,4 +133,21 @@ it.each([
     maintainAspectRatio: false,
     animation: false,
   });
+});
+
+it("formats the historical tooltip title instead of Chart.js' default numeric epoch", () => {
+  const title = historyOptions("day").plugins!.tooltip!.callbacks!.title!;
+  const point = historyData(resultHistory, resultComparison.teams).datasets[0]
+    .data[0];
+  const timestamp = "2026-09-01T09:05:47.123";
+  const item = {
+    raw: {
+      ...point,
+      observation: { ...point.observation, completed_at: timestamp },
+    },
+    label: String(new Date(timestamp).getTime()),
+  } as TooltipItem<"line">;
+  expect(title.call({} as never, [item])).toBe("01/09/2026 - 09:05");
+  expect(title.call({} as never, [])).toBe("");
+  expect(item.raw).toMatchObject({ observation: { completed_at: timestamp } });
 });

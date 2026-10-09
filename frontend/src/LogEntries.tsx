@@ -1,11 +1,5 @@
+import { formatDateTime } from "./dateTime";
 import type { LogEntry } from "./journals";
-
-function dateTime(value: string, full = false): string {
-  return new Intl.DateTimeFormat("fr-CA", {
-    dateStyle: full ? "full" : "short",
-    timeStyle: full ? "long" : "medium",
-  }).format(new Date(value));
-}
 
 function shown(value: string | undefined): string {
   return value || "—";
@@ -17,7 +11,7 @@ function LogDetails({ entry }: { entry: LogEntry }) {
       <summary>Détails</summary>
       <dl>
         <dt>Date/heure complète</dt>
-        <dd>{dateTime(entry.created_at, true)}</dd>
+        <dd>{formatDateTime(entry.created_at)}</dd>
         <dt>Niveau</dt>
         <dd>{entry.level}</dd>
         <dt>Source</dt>
@@ -72,7 +66,7 @@ export function LogEntries({ entries }: { entries: LogEntry[] }) {
             >
               <td>
                 <time dateTime={entry.created_at}>
-                  {dateTime(entry.created_at)}
+                  {formatDateTime(entry.created_at)}
                 </time>
               </td>
               <td>{shown(entry.method)}</td>

@@ -10,6 +10,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
     apiCalls.push(route.request().url());
     return route.abort();
   });
+  await page.clock.setFixedTime(new Date("2026-10-09T13:05:47.123Z"));
   await page.goto("./");
   await expect(
     page.getByRole("heading", { name: "Tableau de bord", exact: true }),
@@ -89,6 +90,8 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
   }
   await dialog.getByRole("button", { name: "Valider l’évaluation" }).click();
   await expect(dialog).toHaveCount(0);
+  await expect(aurore).toContainText(/09\/10\/2026 - \d{2}:05/);
+  await expect(aurore).not.toContainText(/\d{2}:05:47/);
   await page.getByRole("link", { name: "Résultats", exact: true }).click();
   const radar = page.getByRole("img", { name: /Radar des résultats/ });
   await expect(radar).toHaveAttribute("aria-label", /3 équipe/);

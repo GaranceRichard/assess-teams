@@ -27,6 +27,8 @@ Les Logs capturent toutes les réponses HTTP applicatives GET/POST/PUT/PATCH/DEL
 
 Les [Résultats](docs/architecture/results-api.md) séparent Analyse (Radar / Dans le temps) et Restitution (Graphique / Données détaillées), avec filtres et équipes communs, dans l’application réelle et la démo. La correction temporelle remplace les onglets Analyse par un sélecteur contrôlé accessible et présente une colonne par équipe : observations chronologiques `SCORE/10 (JJ/MM/AAAA - HH:mm)`, cellules restantes vides, sans alignement de dates ni zéro inventé. Les quatre combinaisons affichent une seule restitution à la fois : graphiques dimensionnés dans le shell fixe et tableaux à scroll interne. Le critère sélectionné est conservé lors des transitions. La dernière version ayant des résultats reste utilisée par organisation et famille, sans modifier les calculs, la récence, les accès ni les contrats API. Un clic sur un critère ouvre Dans le temps / Graphique ; la continuité inter-version exige une lignée explicite, sans agrégation ni rapprochement implicite. La direction artistique et le mode sombre sont conservés.
 
+Les [dates et heures](docs/architecture/date-time-presentation.md) des interfaces, de la démo et des notifications sont uniformisées en `JJ/MM/AAAA`, `HH:mm` et `JJ/MM/AAAA - HH:mm`, sans secondes visibles. Le chantier centralise la présentation en conservant les fuseaux existants, la précision persistée et les formats techniques des API et exports.
+
 ## CI — feedback qualité
 
 Le backend CI sépare Ruff et migrations des tests, répartis en deux shards équilibrés selon les durées mesurées. Les poids sont recalibrés depuis les rapports JUnit GitHub, après une première mesure locale. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
@@ -148,11 +150,6 @@ Le projet traite la qualité comme une condition de livraison : Clean Code, fich
 Le workflow attendu part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre
 dans le README, valide puis committe le changement et le resynchronise. Le Pre-push vers main exécute le gate
 complet avant la publication et le nettoyage du chantier.
-
-Sauf instruction explicite contraire dans le prompt, une tâche Codex terminée est validée, commitée puis poussée
-sur `main` selon ce flux asynchrone. [`AGENTS.md`](AGENTS.md) est la règle permanente d'entrée ; les
-[règles détaillées de travail des agents](docs/quality/agent-rules.md) définissent la procédure complète et ses
-exceptions.
 
 ## Commandes qualité
 

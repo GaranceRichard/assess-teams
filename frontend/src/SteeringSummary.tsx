@@ -1,3 +1,4 @@
+import { formatDate } from "./dateTime";
 import { completionDate } from "./evaluationRuns";
 import type { SteeringProjection } from "./steering";
 
@@ -36,7 +37,7 @@ export function SteeringSummary({ data }: { data: SteeringProjection }) {
     <>
       <p>
         Date de référence :{" "}
-        <time dateTime={data.as_of_date}>{data.as_of_date}</time>
+        <time dateTime={data.as_of_date}>{formatDate(data.as_of_date)}</time>
       </p>
       <dl className="steering-summary" aria-label="Synthèse du dispositif">
         {cards.map(([label, value]) => (

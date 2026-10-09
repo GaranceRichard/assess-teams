@@ -120,10 +120,10 @@ export async function expectChartFits(page: Page, name: RegExp) {
     ).toBe(true);
     expect(geometry.text.some((item) => item.text === "Score 0–10")).toBe(true);
     expect(
-      geometry.text.some((item) => /^\d{4}-\d{2}-\d{2}$/.test(item.text)),
+      geometry.text.some((item) => /^\d{2}\/\d{2}\/\d{4}$/.test(item.text)),
     ).toBe(true);
     const dates = geometry.text
-      .filter((item) => /^\d{4}-\d{2}-\d{2}$/.test(item.text))
+      .filter((item) => /^\d{2}\/\d{2}\/\d{4}$/.test(item.text))
       .sort((a, b) => a.bounds[0] - b.bounds[0]);
     for (let index = 1; index < dates.length; index++)
       expect(dates[index - 1].bounds[2]).toBeLessThanOrEqual(

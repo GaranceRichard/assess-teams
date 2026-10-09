@@ -1,3 +1,4 @@
+import { formatDate, formatTime } from "./dateTime";
 import type { JournalEntry } from "./journals";
 
 type Props<T extends JournalEntry> = {
@@ -8,20 +9,6 @@ type Props<T extends JournalEntry> = {
 function dayKey(value: string): string {
   const date = new Date(value);
   return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-}
-
-function dayLabel(value: string): string {
-  return new Intl.DateTimeFormat("fr-CA", { dateStyle: "long" }).format(
-    new Date(value),
-  );
-}
-
-function timeLabel(value: string): string {
-  return new Intl.DateTimeFormat("fr-CA", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
 }
 
 export function JournalEntries<T extends JournalEntry>({
@@ -47,13 +34,13 @@ export function JournalEntries<T extends JournalEntry>({
     <div className="journal-days">
       {groups.map((day) => (
         <section key={dayKey(day[0].created_at)} className="journal-day">
-          <h2>{dayLabel(day[0].created_at)}</h2>
+          <h2>{formatDate(day[0].created_at)}</h2>
           <ol>
             {day.map((entry) => (
               <li key={entry.id}>
                 <div className="journal-line">
                   <time dateTime={entry.created_at}>
-                    {timeLabel(entry.created_at)}
+                    {formatTime(entry.created_at)}
                   </time>{" "}
                   <span>{entry.organization_name || "SYSTÈME"}</span>
                   <span>{entry.actor_name || "—"}</span>

@@ -4,6 +4,7 @@ from datetime import date
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.utils.formats import date_format
 
 from assessments.application.expected_evaluations import ensure_expected_evaluation
 from assessments.models import EvaluationSchedule, ScheduleMode
@@ -73,7 +74,7 @@ def send_planning_confirmation(schedule: EvaluationSchedule) -> int:
         f"Équipe : {schedule.team.name}\n"
         f"Évaluation : {schedule.evaluation.name}\n"
         f"Fréquence : {schedule.get_mode_display()}\n"
-        f"Prochaine évaluation : {schedule.next_due_date:%Y-%m-%d}"
+        f"Prochaine évaluation : {date_format(schedule.next_due_date, 'DATE_FORMAT')}"
     )
     return _send_to_recipients(schedule, "Évaluation planifiée", body)
 

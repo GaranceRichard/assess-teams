@@ -65,6 +65,7 @@ AUTH_PASSWORD_VALIDATORS = [
 PASSWORD_RESET_TIMEOUT = 259200  # Preserve the existing three-day invitation lifetime.
 PASSWORD_RECOVERY_TIMEOUT = 3600
 LANGUAGE_CODE = "fr-fr"
+FORMAT_MODULE_PATH = "config.formats"
 TIME_ZONE = "America/Toronto"
 USE_I18N = True
 USE_TZ = True

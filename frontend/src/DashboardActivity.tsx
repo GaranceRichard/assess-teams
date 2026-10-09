@@ -1,9 +1,5 @@
+import { formatDateTime } from "./dateTime";
 import type { DashboardActivity as Activity } from "./dashboard";
-
-const dateFormat = new Intl.DateTimeFormat("fr-CA", {
-  dateStyle: "medium",
-  timeStyle: "short",
-});
 
 export function DashboardActivity({
   events,
@@ -25,7 +21,7 @@ export function DashboardActivity({
                 : "Évaluation révisée"}
             </strong>
             <time dateTime={event.occurred_at}>
-              {dateFormat.format(new Date(event.occurred_at))}
+              {formatDateTime(event.occurred_at)}
             </time>
           </div>
           {global && <p>Organisation : {event.organization_name}</p>}

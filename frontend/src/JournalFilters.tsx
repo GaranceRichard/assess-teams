@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+import { DateInput } from "./DateInput";
 import type { Organization } from "./organizations";
 import type { JournalFilters as FilterValues } from "./journals";
 
@@ -18,6 +21,8 @@ export function JournalFilters({
   onApply,
   onClear,
 }: Props) {
+  const [reset, setReset] = useState(0);
+
   function field(name: keyof FilterValues, nextValue: string) {
     onChange({ ...value, [name]: nextValue });
   }
@@ -32,10 +37,10 @@ export function JournalFilters({
     >
       <label>
         Date
-        <input
-          type="date"
+        <DateInput
+          key={reset}
           value={value.date}
-          onChange={(event) => field("date", event.target.value)}
+          onChange={(date) => field("date", date)}
         />
       </label>
       {showOrganizations && (
@@ -72,7 +77,14 @@ export function JournalFilters({
       </label>
       <div className="journal-filter-actions">
         <button type="submit">Filtrer</button>
-        <button className="secondary" type="button" onClick={onClear}>
+        <button
+          className="secondary"
+          type="button"
+          onClick={() => {
+            setReset((count) => count + 1);
+            onClear();
+          }}
+        >
           Effacer
         </button>
       </div>

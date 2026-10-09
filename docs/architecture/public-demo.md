@@ -95,3 +95,9 @@ Clarté des objectifs et Communication proposent des repères libres à certains
 Le brouillon v2 permet leur édition locale dans la section repliable partagée ; la v1 conserve ses textes.
 La passation réutilise l’échelle accessible et les infobulles au-dessus des niveaux ; sélection persistante,
 clavier/mobile et reset sont testés sans API. [Contrat fonctionnel](appreciation-markers.md).
+
+Les dates et heures des composants partagés suivent les [formats de présentation](date-time-presentation.md),
+y compris les données fictives et les passations nouvelles ; un navigateur anglais est couvert en E2E.
+
+`ASSESS_E2E_DEMO_PORT` permet un port de preview E2E dédié au worktree (défaut 4175),
+avec le même validateur de ports que les E2E applicatifs. Aucun serveur existant n’est réutilisé.

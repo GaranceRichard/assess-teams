@@ -25,6 +25,12 @@ test("an Admin consults the distinct activity journal and logs", async ({
   ).toBeVisible();
   await expect(page.getByText("Création de l’équipe")).toBeVisible();
   await expect(page.getByText("Journals E2E")).toBeVisible();
+  await expect(page.locator(".journal-day h2").first()).toHaveText(
+    /^\d{2}\/\d{2}\/\d{4}$/,
+  );
+  await expect(page.locator(".journal-line time").first()).toHaveText(
+    /^\d{2}:\d{2}$/,
+  );
 
   await page.getByRole("link", { name: "Logs" }).click();
   await expect(page.getByRole("heading", { name: "Logs" })).toBeVisible();
@@ -40,4 +46,7 @@ test("an Admin consults the distinct activity journal and logs", async ({
   await expect(errorLevel).toBeVisible();
   await errorRow.getByText("Détails", { exact: true }).click();
   await expect(page.getByText("ValidationError")).toBeVisible();
+  const displayed = await errorRow.locator("time").innerText();
+  expect(displayed).toMatch(/^\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}$/);
+  await expect(errorRow.locator("details dd").first()).toHaveText(displayed);
 });

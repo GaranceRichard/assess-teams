@@ -1,6 +1,7 @@
 import { versionLabel } from "./evaluationVersionLabel";
 import { useState } from "react";
 
+import { DateInput } from "./DateInput";
 import type { Evaluation } from "./evaluations";
 import type { OrganizationMember } from "./organizations";
 import {
@@ -146,11 +147,10 @@ export function PlanningForm({
       {mode !== "immediate" && (
         <label>
           Première date
-          <input
-            type="date"
+          <DateInput
             min={new Date().toISOString().slice(0, 10)}
             value={firstDueDate}
-            onChange={(event) => setFirstDueDate(event.target.value)}
+            onChange={setFirstDueDate}
             required
           />
         </label>

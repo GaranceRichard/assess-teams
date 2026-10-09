@@ -79,6 +79,8 @@ def test_admin_attaches_coach_and_sends_future_planning_email(
     assert "Équipe : Alpha" in mail.outbox[0].body
     assert "Évaluation : Maturité" in mail.outbox[0].body
     assert "Fréquence : Mensuelle" in mail.outbox[0].body
+    assert f"Prochaine évaluation : {schedule.next_due_date:%d/%m/%Y}" in mail.outbox[0].body
+    assert response.data["first_due_date"] == data["first_due_date"]
 
 
 @pytest.mark.django_db

@@ -115,7 +115,7 @@ it("requires a first date for a monthly schedule", async () => {
     target: { value: "monthly" },
   });
   fireEvent.change(screen.getByLabelText("Première date"), {
-    target: { value: "2026-11-01" },
+    target: { value: "01/11/2026" },
   });
   fireEvent.submit(
     screen

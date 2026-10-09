@@ -1,5 +1,6 @@
 import type { ChartData, ChartOptions, ScriptableScaleContext } from "chart.js";
 
+import { formatDate, formatDateTime } from "./dateTime";
 import { completionDate } from "./evaluationRuns";
 import { seriesStyle } from "./resultRadarConfig";
 import type { ResultHistory, ResultObservation, ResultTeam } from "./results";
@@ -72,8 +73,7 @@ export function historyOptions(theme: Theme): ChartOptions<"line"> {
           maxTicksLimit: 6,
           maxRotation: 0,
           autoSkip: false,
-          callback: (value) =>
-            new Date(Number(value)).toLocaleDateString("fr-CA"),
+          callback: (value) => formatDate(Number(value)),
         },
       },
       y: {
@@ -99,6 +99,11 @@ export function historyOptions(theme: Theme): ChartOptions<"line"> {
       legend: { display: false },
       tooltip: {
         callbacks: {
+          title: (items) => {
+            if (items.length === 0) return "";
+            const point = (items[0].raw as ObservationPoint).observation;
+            return formatDateTime(point.completed_at);
+          },
           label: (context) => {
             const point = (context.raw as ObservationPoint).observation;
             return `${point.team_name} · ${completionDate(point.completed_at)} · ${point.score} / 10 · v${point.version}`;

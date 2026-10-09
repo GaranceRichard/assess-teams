@@ -1,10 +1,5 @@
+import { formatDateTime } from "./dateTime";
 import type { ResultHistory } from "./results";
-
-function observationDate(value: string) {
-  const date = new Date(value);
-  const pad = (part: number) => String(part).padStart(2, "0");
-  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} - ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
 
 export function ResultsHistoryTable({ history }: { history: ResultHistory }) {
   const teams = history.teams.map((team) => ({
@@ -47,7 +42,7 @@ export function ResultsHistoryTable({ history }: { history: ResultHistory }) {
                       >
                         {point.score}/10 (
                         <time dateTime={point.completed_at}>
-                          {observationDate(point.completed_at)}
+                          {formatDateTime(point.completed_at)}
                         </time>
                         )
                       </span>

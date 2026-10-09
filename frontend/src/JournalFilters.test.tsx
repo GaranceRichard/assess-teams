@@ -25,7 +25,7 @@ it("edits and applies every journal filter", () => {
   );
 
   fireEvent.change(screen.getByLabelText("Date"), {
-    target: { value: "2026-09-28" },
+    target: { value: "28/09/2026" },
   });
   fireEvent.change(screen.getByLabelText("Organisation"), {
     target: { value: "7" },
@@ -57,7 +57,13 @@ describe("organization filter", () => {
     );
 
     expect(screen.queryByLabelText("Organisation")).not.toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("Date"), {
+      target: { value: "31/02/2026" },
+    });
+    expect(screen.getByLabelText("Date")).toBeInvalid();
     fireEvent.click(screen.getByRole("button", { name: "Effacer" }));
+    expect(screen.getByLabelText("Date")).toHaveValue("");
+    expect(screen.getByLabelText("Date")).toBeValid();
     expect(onClear).toHaveBeenCalledOnce();
   });
 });

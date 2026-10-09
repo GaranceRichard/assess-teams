@@ -1,3 +1,4 @@
+import { formatDateTime } from "./dateTime";
 import { pageQuery, type CollectionPage } from "./collectionPage";
 import { csrfToken } from "./auth";
 import type { AppreciationMarker } from "./evaluations";
@@ -81,7 +82,7 @@ export const reviseEvaluationRun = (id: number, questions: RunQuestion[]) =>
   });
 
 export function completionDate(date: string | null): string {
-  return date ? new Date(date).toLocaleString("fr-CA") : "—";
+  return formatDateTime(date);
 }
 
 export const runStateLabels: Record<RunState, string> = {

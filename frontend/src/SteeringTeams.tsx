@@ -1,4 +1,5 @@
 import { productHref } from "./productHref";
+import { formatDate } from "./dateTime";
 import { completionDate } from "./evaluationRuns";
 import { steeringResultsPath } from "./steering";
 import type { SteeringProjection, SteeringTeam } from "./steering";
@@ -74,7 +75,7 @@ export function SteeringTeams({
                 <td>
                   {team.next_due_date ? (
                     <time dateTime={team.next_due_date}>
-                      {team.next_due_date}
+                      {formatDate(team.next_due_date)}
                     </time>
                   ) : (
                     "Aucune échéance connue"

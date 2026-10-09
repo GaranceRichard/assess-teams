@@ -190,3 +190,7 @@ Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentai
 Les [repères EVAL-004](../architecture/appreciation-markers.md) couvrent refus atomiques API,
 autorisations, copie, snapshots commencés/finalisés/révisés, migration et OpenAPI ; React et
 Playwright protègent édition, range, focus/survol, absence d’interpolation, viewport, mobile et démo.
+
+Les [dates et heures de présentation](../architecture/date-time-presentation.md) sont couvertes en unitaires
+(fuseaux et changements de jour/heure), composants, notifications/admin Django et E2E de la démo.
+Une recherche automatisée des formatages dispersés complète les contrôles des attributs techniques conservés.

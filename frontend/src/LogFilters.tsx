@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+import { DateInput } from "./DateInput";
 import { referenceLabel } from "./evaluationVersionLabel";
 import type { LogFilters as Values } from "./logsApi";
 import type { useLogOptions } from "./useLogOptions";
@@ -19,6 +22,8 @@ export function LogFilters({
   onApply,
   onClear,
 }: Props) {
+  const [reset, setReset] = useState(0);
+
   function field(name: keyof Values, next: string) {
     onChange(
       name === "organization"
@@ -87,19 +92,21 @@ export function LogFilters({
       )}
       <label>
         Du
-        <input
-          type="datetime-local"
+        <DateInput
+          key={reset}
+          withTime
           value={value.from}
-          onChange={(event) => field("from", event.target.value)}
+          onChange={(date) => field("from", date)}
         />
       </label>
       <label>
         Au
-        <input
-          type="datetime-local"
+        <DateInput
+          key={reset}
+          withTime
           value={value.to}
           min={value.from}
-          onChange={(event) => field("to", event.target.value)}
+          onChange={(date) => field("to", date)}
         />
       </label>
       {select(
@@ -140,7 +147,14 @@ export function LogFilters({
       </label>
       <div className="journal-filter-actions">
         <button type="submit">Filtrer</button>
-        <button type="button" className="secondary" onClick={onClear}>
+        <button
+          type="button"
+          className="secondary"
+          onClick={() => {
+            setReset((count) => count + 1);
+            onClear();
+          }}
+        >
           Effacer
         </button>
       </div>

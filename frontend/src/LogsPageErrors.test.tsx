@@ -56,7 +56,13 @@ it("keeps the Admin organization after clearing", async () => {
     target: { value: "ERROR" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Filtrer" }));
+  fireEvent.change(screen.getByLabelText("Du"), {
+    target: { value: "31/02/2026 - 12:00" },
+  });
+  expect(screen.getByLabelText("Du")).toBeInvalid();
   fireEvent.click(screen.getByRole("button", { name: "Effacer" }));
+  expect(screen.getByLabelText("Du")).toHaveValue("");
+  expect(screen.getByLabelText("Du")).toBeValid();
   expect(screen.getByLabelText("Organisation")).toHaveValue("1");
   expect(screen.getByLabelText("Niveau")).toHaveValue("");
 });

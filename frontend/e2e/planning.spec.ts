@@ -43,7 +43,17 @@ test("an Admin plans a monthly evaluation in its organization", async ({
     "Tous les trimestres",
   ]);
   await page.getByLabel("Planifier").selectOption("monthly");
-  await page.getByLabel("Première date").fill("2099-10-05");
+  const dateInput = page.getByLabel("Première date");
+  await expect(dateInput).toHaveAttribute("placeholder", "JJ/MM/AAAA");
+  await dateInput.fill("31/02/2099");
+  await page.getByRole("button", { name: "Planifier l’évaluation" }).click();
+  expect(
+    await dateInput.evaluate((input: HTMLInputElement) =>
+      input.checkValidity(),
+    ),
+  ).toBe(false);
+  await expect(page.getByText("Aucune évaluation planifiée.")).toBeVisible();
+  await dateInput.fill("05/10/2099");
   await page.getByRole("button", { name: "Planifier l’évaluation" }).click();
 
   const planned = page.getByRole("region", { name: "Évaluations planifiées" });
@@ -64,12 +74,12 @@ test("an Admin plans a monthly evaluation in its organization", async ({
   await row.click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByLabel("Planifier")).toHaveValue("monthly");
-  await expect(dialog.getByLabel("Première date")).toHaveValue("2099-10-05");
+  await expect(dialog.getByLabel("Première date")).toHaveValue("05/10/2099");
   await dialog
     .getByLabel("Responsable de l’évaluation")
     .selectOption({ label: "planning-coach-e2e — Coach" });
   await dialog.getByLabel("Planifier").selectOption("fixed");
-  await dialog.getByLabel("Première date").fill("2099-11-05");
+  await dialog.getByLabel("Première date").fill("05/11/2099");
   await dialog
     .getByRole("button", { name: "Enregistrer les modifications" })
     .click();
@@ -84,7 +94,7 @@ test("an Admin plans a monthly evaluation in its organization", async ({
   );
   await expect(
     page.getByRole("dialog").getByLabel("Première date"),
-  ).toHaveValue("2099-11-05");
+  ).toHaveValue("05/11/2099");
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "Supprimer" })
