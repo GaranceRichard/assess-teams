@@ -1,4 +1,4 @@
-import { expectMarkerTooltip } from "./appreciation-assertions";
+import { expectPassiveMarker } from "./appreciation-assertions";
 import { expect, test } from "@playwright/test";
 import {
   assignOrganization,
@@ -79,7 +79,7 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .filter({ has: page.getByText("Agile versions v1", { exact: true }) });
   await oldRun.getByRole("button", { name: "Passer l’évaluation" }).click();
   await expect(page.getByRole("dialog")).toContainText("Original criterion v1");
-  await expectMarkerTooltip(page, 5, "Original marker v1");
+  await expectPassiveMarker(page, 5);
   await page.getByRole("button", { name: "Enregistrer la note" }).click();
   await expect(page.locator(".selected-appreciation")).toContainText(
     "Original marker v1",
@@ -151,5 +151,8 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .getByRole("button", { name: "Passer l’évaluation" })
     .click();
   await expect(page.getByRole("dialog")).toContainText("Changed criterion v2");
-  await expectMarkerTooltip(page, 5, "Changed marker v2");
+  await expectPassiveMarker(page, 5);
+  await expect(page.locator(".selected-appreciation")).toContainText(
+    "Changed marker v2",
+  );
 });
