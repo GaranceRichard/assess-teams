@@ -1,6 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
+> **Pré-MEP MESS :** [sept jobs successifs et GO/NO-GO](planning/pre-mep.md), avec [suivi individuel](tracking/pre-mep-view.md).
 
 ## Direction et sources de référence
 
@@ -69,12 +70,15 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 - [Pilotage P0 — STEER-001](source/04b-steering.md)
 - [Gestion des organisations](source/05-organisations.md)
 - [Journaux opérationnels](source/06-journaux.md)
+- [Préparation MEP MESS — EPIC-011, jobs 1–7](source/07-pre-mep.md)
 
 Ces documents détaillés constituent la source de vérité fonctionnelle des Epics, Features et PBIs.
 
 ## Planification
 
 - [Ordonnancement, domaines et garde-fous](planning/ordonnancement.md)
+- [Vagues pré-MEP : ordre, parallélisme et prérequis](planning/pre-mep.md)
+- [Rapprochements avec l’existant et incohérences](planning/pre-mep-rapprochements.md)
 
 ## Suivi
 

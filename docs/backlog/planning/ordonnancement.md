@@ -1,4 +1,7 @@
-﻿# Planification du backlog
+# Planification du backlog
+
+Le [plan pré-MEP MESS](pre-mep.md) organise les sept vagues obligatoires et le GO/NO-GO.
+Il complète la séquence métier historique ci-dessous sans rouvrir les PBIs réalisés ni lever ses arbitrages.
 
 ## Sprint 1 — Backend Utilisateurs
 
@@ -21,7 +24,7 @@ Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de
 4. **Rattachements historiques :** les états courants `ORG-005`, `ORG-006` et `COACH-001` sont livrés ; l’historisation de `FEAT-008`, `FEAT-009`, `FEAT-037` et `FEAT-038` reste à raffiner.
 5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local, `EVAL-002` la validation immuable et l’archivage, `EVAL-003` les familles et versions ; modalités et partage éventuel restent à raffiner/arbitrer.
 6. **Planification :** `PLAN-001` livre le planning courant ; périodes d’association, historique et calcul piloté par les finalisations restent dans `FEAT-015`, `FEAT-016` et `FEAT-018`.
-7. **Passation et preuve P0 :** raffiner puis livrer `FEAT-020` à `FEAT-024`, puis valider `PV-001` en E2E dans une organisation déterminée.
+7. **Passation et preuve P0 :** `PASS-001` livre passation, reprise, finalisation et révision ; `EVAL-004` livre les repères. Raffiner uniquement les compléments de `FEAT-020` à `FEAT-024` ; `PV-001` et ses refus restent la référence de parcours, sans refaire les acquis.
 8. **Résultats :** `RESULT-001` compare les dernières complétions interéquipes sur la dernière version ayant des résultats après `EVAL-003` et `PASS-001` ; `RESULT-002` ouvre les observations historiques d’un critère par lignée explicite.
 9. **Suite P1/P2 :** retards, rappels avancés, historique temporel et pilotage après leurs dépendances et arbitrages explicites.
 

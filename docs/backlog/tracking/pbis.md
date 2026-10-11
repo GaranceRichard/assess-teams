@@ -49,3 +49,45 @@ sources limitent explicitement leur portée ; elles ne déclarent pas réalisée
 
 `JOURNAL-002` conserve sa date initiale ; son extension du 2026-10-05 ajoute la capture HTTP exhaustive,
 les dix filtres structurés, le contexte Évaluation et les preuves de confidentialité et d’isolation.
+
+## Compléments pré-MEP — EPIC-011
+
+Les jobs sont une planification, pas de nouveaux états : un prérequis de vague non achevé ne transforme pas automatiquement un PBI Ouvert en Bloqué. Un vrai blocage doit être renseigné ici. Les dépendances et rapprochements sont dans les [sources pré-MEP](../source/07-pre-mep.md).
+
+| PBI | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage | Date de réalisation |
+| --- | --- | --- | --- | --- | --- | --- |
+| MEP-001 — Sécurisation de l’authentification | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-002 — HTTPS, proxy, cookies et CSRF | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-003 — Intégrité des transactions SQLite | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-004 — Fiabilisation SMTP et reprises | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-005 — Accessibilité des modales | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-006 — Licence Apache 2.0 | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-007 — Notation explicite sans valeur présélectionnée | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-008 — Permissions DRF restrictives | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-009 — Secrets et paramètres de production | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-010 — Concurrence et verrouillage SQLite | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-011 — Isolation inter-organisations et rôles | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-012 — Protection GitHub et CI | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-013 — Ergonomie de la passation et du curseur de notation | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-014 — Lisibilité et compréhension des résultats | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-015 — Ergonomie du radar et des comparaisons | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-016 — Simplification du vocabulaire et des indicateurs de pilotage | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-017 — Responsive et ergonomie tactile | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-018 — Cohérence des interactions, états vides, erreurs et chargements | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-019 — Cohérence visuelle des thèmes, contrastes et typographie | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-020 — Conservation et purge des journaux | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-021 — Configuration unique MESS | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-022 — Contrat d’installation et d’exploitation | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-023 — Actualisation README, backlog et architecture | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-024 — Construction du package hors ligne | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-025 — Installation automatisée | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-026 — Démarrage, arrêt et mise à jour | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-027 — Sauvegarde, restauration et rollback | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-028 — Documentation d’installation et d’exploitation | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-029 — Documentation de transfert et fork Apache 2.0 | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-030 — Préparation de la recette fonctionnelle | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-031 — Préparation de la recette technique | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-032 — Installation hors ligne sur environnement vierge | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-033 — Recette fonctionnelle et UX | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-034 — Recette technique et reprise après incident | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-035 — Décision GO/NO-GO | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | GO après satisfaction des jobs 1–7 ; NO-GO possible sur blocage | N/A |

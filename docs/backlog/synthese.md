@@ -41,6 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
+| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 0 | 0 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
 raffinées et les limites explicites des PBIs restent hors du dénominateur.
@@ -60,6 +61,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | EPIC-008 | `FEAT-035` (partielle) | `FEAT-031` à `FEAT-034` |
 | EPIC-009 | `FEAT-036`, `FEAT-037`, `FEAT-038` | aucune |
 | EPIC-010 | `FEAT-039`, `FEAT-040` | aucune |
+| EPIC-011 — Préparation de la mise en production MESS | `FEAT-042` à `FEAT-048` : jobs 1–7 | aucune |
 
 ## Suivi des PBIs raffinés
 
@@ -100,6 +102,31 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
+## Pré-MEP MESS — suivi au 2026-10-10
+
+Les [sources EPIC-011](source/07-pre-mep.md) fixent les compléments ; le [plan](planning/pre-mep.md)
+organise les prérequis et le parallélisme. Le [détail des 35 travaux et du jalon](tracking/pre-mep-view.md)
+est dérivé du registre ; les 35 nouveaux PBIs y restent Ouverts, avec dates N/A.
+Le [rapprochement](planning/pre-mep-rapprochements.md) conserve les acquis et signale les écarts.
+
+| Vague | Travaux demandés | Travaux acquis | Compléments ouverts | Entrée |
+| --- | ---: | ---: | ---: | --- |
+| Job 1 — Fondations | 8 | 0 | 8 | aucun job préalable |
+| Job 2 — Robustesse | 5 | 1 (2.4 — Journalisation HTTP et métier) | 4 | job 1 satisfait |
+| Job 3 — UI/UX | 7 | 0 | 7 | job 2 satisfait |
+| Job 4 — Exploitation et contrat de déploiement | 4 | 0 | 4 | job 3 satisfait |
+| Job 5 — Packaging et installation | 4 | 0 | 4 | job 4 satisfait |
+| Job 6 — Documentation et transfert | 4 | 0 | 4 | job 5 satisfait |
+| Job 7 — Recette préproduction | 3 | 0 | 3 | job 6 satisfait |
+| Jalon — GO/NO-GO | N/A | 0 | 1 | preuves et blocages des sept jobs |
+
+L’acquis 2.4 référence JOURNAL-001/002 sans changer leur Epic ni leurs dates ; les 34 autres travaux
+et la décision forment les 35 PBIs de EPIC-011. Aucun nouveau travail n’est En cours ou Bloqué.
+L’ordre des vagues conditionne leur lancement : Ouvert n’équivaut pas à prêt sans prérequis.
+Décision actuelle : À définir, non rendue ; aucun GO déduit du scoring.
+Audits réalisés hors dépôt, rapports non disponibles localement ; 36 entrées du prompt, jalon inclus,
+réconciliées avec les preuves disponibles. Leurs constats sont des points à vérifier, sans anomalie présumée.
+
 ## Écarts et décisions encore ouverts
 
 - `ARB-ORG-005` doit décider le traitement des équipes, modèles et planifications avant de rétablir `ORG-004`.
@@ -127,14 +154,14 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 
 | Indicateur | Valeur |
 | --- | ---: |
-| Nombre d’Epics | 11 |
-| Nombre de Features | 41 |
-| Features raffinées | 22 |
+| Nombre d’Epics | 12 |
+| Nombre de Features | 48 |
+| Features raffinées | 29 |
 | Features non raffinées | 19 |
-| Nombre total de PBIs | 34 |
-| PBIs ouverts | 8 |
+| Nombre total de PBIs | 69 |
+| PBIs ouverts | 43 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 9 |
+| PBIs non réalisés | 44 |
 | PBIs réalisés | 25 |
-| Avancement global | 74 % |
+| Avancement global | 36 % |
