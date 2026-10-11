@@ -17,7 +17,7 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 - [courriels fiables — MEP-004](../architecture/email-notifications.md) : file locale durable, reprises SMTP bornées, suivi et distinction du succès métier ;
 - passation locale persistante avec notation explicite, tableau et révision Admin avec provenance conservée ;
 - Journal d’activité et Logs distincts, filtrables, paginés et en lecture seule ;
-- health check, réglages development/production, OpenAPI, CI et quality gates documentés techniquement.
+- health check, réglages development/production, [HTTPS et proxy de confiance](../architecture/http-security.md), OpenAPI et quality gates.
 
 Le radar `/results` compare les dernières positions sur la dernière version ayant des résultats
 par famille/organisation ; le longitudinal restitue les observations d’un critère par lignée explicite.
@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 7 | 20 % |
+| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 8 | 23 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
 raffinées et les limites explicites des PBIs restent hors du dénominateur.
@@ -107,12 +107,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 
 Les [sources EPIC-011](source/07-pre-mep.md) fixent les compléments ; le [plan](planning/pre-mep.md)
 organise les prérequis et le parallélisme. Le [détail des 35 travaux et du jalon](tracking/pre-mep-view.md)
-est dérivé du registre ; MEP-001, MEP-003, MEP-004, MEP-005, MEP-006, MEP-007 et MEP-008 sont réalisés, les 28 autres PBIs restent Ouverts.
+est dérivé du registre ; MEP-001 à MEP-008 sont Réalisés, les 27 autres PBIs restent Ouverts.
 Le [rapprochement](planning/pre-mep-rapprochements.md) conserve les acquis et signale les écarts.
 
 | Vague | Travaux demandés | Travaux acquis | Compléments ouverts | Entrée |
 | --- | ---: | ---: | ---: | --- |
-| Job 1 — Fondations | 8 | 7 (1.1 — Authentification ; 1.3 — SQLite ; 1.4 — SMTP ; 1.5 — Modales ; 1.6 — Licence ; 1.7 — Notation explicite ; 1.8 — Permissions DRF) | 1 | aucun job préalable |
+| Job 1 — Fondations | 8 | 8 (1.1 — Authentification ; 1.2 — HTTPS/CSRF ; 1.3 — SQLite ; 1.4 — SMTP ; 1.5 — Modales ; 1.6 — Licence ; 1.7 — Notation explicite ; 1.8 — Permissions DRF) | 0 | aucun job préalable |
 | Job 2 — Robustesse | 5 | 1 (2.4 — Journalisation HTTP et métier) | 4 | job 1 satisfait |
 | Job 3 — UI/UX | 7 | 0 | 7 | job 2 satisfait |
 | Job 4 — Exploitation et contrat de déploiement | 4 | 0 | 4 | job 3 satisfait |
@@ -160,9 +160,9 @@ réconciliées avec les preuves disponibles. Leurs constats sont des points à v
 | Features raffinées | 29 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 69 |
-| PBIs ouverts | 36 |
+| PBIs ouverts | 35 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 37 |
-| PBIs réalisés | 32 |
-| Avancement global | 46 % |
+| PBIs non réalisés | 36 |
+| PBIs réalisés | 33 |
+| Avancement global | 48 % |

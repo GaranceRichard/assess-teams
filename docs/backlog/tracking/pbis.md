@@ -57,7 +57,7 @@ Les jobs sont une planification, pas de nouveaux états : un prérequis de vague
 | PBI | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- |
 | MEP-001 — Sécurisation de l’authentification | FEAT-042 — Fondations | À définir | À définir | Réalisé | [limites compte/origine, expiration, proxies et preuves](../../architecture/login-security.md) | 2026-10-12 |
-| MEP-002 — HTTPS, proxy, cookies et CSRF | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-002 — HTTPS, proxy, cookies et CSRF | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre applicatif ; recette TLS MESS distincte | 2026-10-12 |
 | MEP-003 — Intégrité des transactions SQLite | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre demandé ; [preuves SQLite](../../architecture/sqlite-transactions.md) | 2026-10-12 |
 | MEP-004 — Fiabilisation SMTP et reprises | FEAT-042 — Fondations | M | Codex | Réalisé | aucun dans le périmètre ; exploitation SMTP documentée | 2026-10-12 |
 | MEP-005 — Accessibilité des modales | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun ; preuves dans [le contrat des dialogues](../../architecture/dialog-accessibility.md) | 2026-10-12 |

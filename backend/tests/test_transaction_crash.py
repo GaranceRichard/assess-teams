@@ -77,7 +77,7 @@ def test_abrupt_process_exit_recovers_sqlite_without_partial_business_data(envir
                 **os.environ,
                 "DJANGO_SETTINGS_MODULE": f"config.settings_{environment}",
                 "DJANGO_SECRET_KEY": "transaction-test-" + "only",
-                "APP_BASE_URL": "http://testserver",
+                "APP_BASE_URL": f"{'https' if environment == 'production' else 'http'}://testserver",
                 "TRANSACTION_TEST_DB": str(database),
             },
             capture_output=True,

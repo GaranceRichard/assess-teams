@@ -5,14 +5,14 @@ Réconciliation limitée aux [sources du backlog](../README.md), au [registre ca
 Les audits ont été réalisés hors dépôt et leurs rapports ne sont pas disponibles localement, selon
 la clarification du demandeur. Les 36 entrées du prompt, jalon inclus, sont les points à vérifier ;
 aucune anomalie n’est présumée confirmée par un audit, aucune conclusion ni référence d’audit n’est inventée.
-Les observations étayées par le dépôt sont signalées comme telles. Aucun PBI nouveau n’est déclaré réalisé.
+Les observations étayées par le dépôt sont signalées comme telles. État initial conservé ci-dessous, actualisé pour MEP-002 selon le registre canonique.
 
 ## Acquis conservés et compléments
 
 | Travaux | Acquis et preuve existante | Complément ou réutilisation |
 | --- | --- | --- |
 | 1.1 — Authentification | AUTH-001 — Session produit ; AUTH-002 — Récupération ; AUTH-003 — Modification personnelle, réalisés | MEP-001 renforce notamment la connexion ; aucune réimplémentation des mots de passe |
-| 1.2 — HTTPS/CSRF | Middleware et vues protégées ; settings_production partiels | MEP-002 complète cookies, proxy de confiance et HTTPS cible |
+| 1.2 — HTTPS/CSRF | MEP-002 — HTTPS, pairs proxy explicites, cookies et CSRF ; tests API | [Contrat livré](../../architecture/http-security.md) ; recette TLS sur infrastructure MESS distincte |
 | 1.3 / 2.2 — Transactions/concurrence | ORG-001, USER-004, EVAL-003 et AUTH-002, réalisés ; tests SQLite ciblés | MEP-003 traite atomicité/effets externes ; MEP-010 traite contention multi-processus et charge cible |
 | 1.4 — SMTP/reprises | NOTIF-001 — Courriels de planning, réalisé ; file et reprises de récupération dans AUTH-002 | MEP-004 complète les autres remises ; aucune file de récupération à recréer |
 | 1.5 / 3.1 — Modales/passation | PASS-001 et EVAL-004 réalisés ; correctifs 1c798d8, 70766d4, preuve versionnée 0cdb1dc et focus du curseur dcbfe34 | MEP-005 complète l’accessibilité globale ; MEP-013 complète les frictions restantes |

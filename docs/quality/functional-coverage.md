@@ -97,3 +97,8 @@ les noms/descriptions, le fond inerte, les erreurs internes et les gardes de pas
 
 Les [preuves MEP-004](../architecture/email-notifications.md#validation-et-revue-documentaire) couvrent
 SMTP réel, reprises partielles/bornées, succès métier, concurrence et administration technique.
+
+Le [Job 1.2 / MEP-002](../architecture/http-security.md) ajoute les tests de configuration de production,
+HTTPS direct et proxy IPv4/IPv6, refus de headers falsifiés, cookies/cache et redirections fixes.
+Les tests API traversent session réelle, CSRF et origine/referrer avec preuve d'absence de mutation
+après refus ; les E2E existants restent exécutés dans l'environnement HTTP local.

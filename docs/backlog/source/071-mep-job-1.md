@@ -28,7 +28,7 @@ Feature de [EPIC-011 — Préparation de la mise en production MESS](07-pre-mep.
 - **Identifiant / Feature parente / job :** MEP-002 / FEAT-042 — Fondations / 1.2.
 - **User story :** en tant que responsable produit, contributeur et administrateur, je veux rendre cohérente la chaîne navigateur, proxy de confiance et API derrière HTTPS au MESS.
 - **Intention / description :** Rendre cohérente la chaîne navigateur, proxy de confiance et API derrière HTTPS au MESS.
-- **Acquis et frontière :** Middleware CSRF et protections des mutations présents ; paramètres de production partiels.
+- **Acquis et frontière :** HTTPS, pairs proxy explicites, cookies/cache et origines cohérents ; [contrat et preuves HTTP](../../architecture/http-security.md). Installation des certificats et recette TLS MESS distinctes.
 - **Critères d’acceptation :** HTTPS imposé ; cookies de session/CSRF sécurisés et politique SameSite explicite ; headers proxy acceptés uniquement du proxy autorisé ; origines, URL publique et protection CSRF cohérentes.
 - **Vrais cas de refus :** Origine non autorisée, CSRF absent/invalide ou header proxy forgé ne permettent aucune mutation.
 - **Dépendances de livraison / priorité :** AUTH-001 / P1.

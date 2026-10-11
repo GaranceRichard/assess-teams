@@ -3,14 +3,14 @@
 Détail lié à la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts et dates issus du [registre canonique](pbis.md) ; périmètres et dépendances issus des
 [sources pré-MEP](../source/07-pre-mep.md). Pour lancement, respecter le [plan des vagues](../planning/pre-mep.md).
-Les 35 travaux comprennent un acquis (2.4), sept réalisations (1.1, 1.3, 1.4, 1.5, 1.6, 1.7 et 1.8) et 27 compléments ouverts ; le jalon est suivi séparément.
+Les 35 travaux comprennent un acquis (2.4), huit réalisations (1.1 à 1.8) et 26 compléments ouverts ; le jalon est suivi séparément.
 
 ## Job 1 — Fondations
 
 | Travail | PBI et source | Statut dérivé |
 | --- | --- | --- |
 | 1.1 — Sécurisation de l’authentification | [MEP-001 — Sécurisation de l’authentification](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
-| 1.2 — HTTPS, proxy, cookies et CSRF | [MEP-002 — HTTPS, proxy, cookies et CSRF](../source/071-mep-job-1.md) | Ouvert |
+| 1.2 — HTTPS, proxy, cookies et CSRF | [MEP-002 — HTTPS, proxy, cookies et CSRF](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
 | 1.3 — Intégrité des transactions SQLite | [MEP-003 — Intégrité des transactions SQLite](../source/071-mep-job-1.md) | Réalisé — 2026-10-12 |
 | 1.4 — Fiabilisation SMTP et reprises | [MEP-004 — Fiabilisation SMTP et reprises](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
 | 1.5 — Accessibilité des modales | [MEP-005 — Accessibilité des modales](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
@@ -81,6 +81,7 @@ Les 35 travaux comprennent un acquis (2.4), sept réalisations (1.1, 1.3, 1.4, 1
 | --- | --- | --- | --- |
 | GO/NO-GO | [MEP-035 — Décision GO/NO-GO](../source/077-mep-job-7.md#mep-035--décision-gono-go) | Ouvert | À définir — non rendue |
 
-27 compléments et le jalon restent ouverts, 7 PBIs réalisés, 1 acquis ; aucun complément en cours ou bloqué.
+26 compléments et le jalon restent ouverts, 8 PBIs réalisés, 1 acquis ; aucun complément en cours ou bloqué.
+La recette TLS MESS reste distincte de la sécurisation applicative.
 Les prérequis de vague empêchent de présenter les jobs 2–7 comme immédiatement lançables.
 Un futur Réalisé sur MEP-035 atteste la décision, sans signifier automatiquement GO.

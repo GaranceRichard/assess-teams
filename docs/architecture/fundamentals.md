@@ -12,6 +12,8 @@ Ce dossier fixe les fondamentaux architecturaux de **Assess teams**. Ils défini
 
 - [Gestion du mot de passe](password-management.md) : services Django, tokens dédiés, limites atomiques et worker.
 - [Sécurisation des connexions](login-security.md) : compteurs par identifiant et origine, concurrence SQLite et proxies fiables.
+
+- [Dates et heures](date-time-presentation.md) : formats de présentation uniformes et fuseaux conservés.
 - [Dashboard personnel](dashboard-api.md) : profil, apparence, activité prouvée et raccourcis par rôle.
 
 ## Complémentarité
@@ -94,3 +96,6 @@ les annonces internes et les gardes de fermeture, dans le produit et la démo.
 
 Les [notifications fiables — MEP-004](email-notifications.md) séparent succès métier et remise SMTP,
 avec intentions persistées, deux workers locaux, reprises bornées et suivi Superadmin.
+
+La [frontière HTTP de production](http-security.md) impose HTTPS, valide les hôtes et origines,
+accepte le protocole forwarded uniquement des pairs proxy explicitement autorisés et protège les cookies.

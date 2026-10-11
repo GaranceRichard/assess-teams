@@ -13,10 +13,12 @@ Django utilise deux modules de réglages sans détection implicite :
 - `config.settings_production` active `ENVIRONMENT = "production"`, désactive le mode debug et n'installe
   jamais `development_data` ; les points d'entrée ASGI et WSGI sélectionnent ce module.
 
-`manage.py`, ASGI et WSGI utilisent par défaut `config.settings`, alias sûr vers la production. Une exécution de production doit fournir
-`DJANGO_SECRET_KEY` et `APP_BASE_URL`, URL publique utilisée dans les invitations. Elle peut aussi définir
-`DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DEFAULT_FROM_EMAIL` sous forme
-de listes séparées par des virgules. Une configuration absente ne bascule donc jamais vers le développement.
+`manage.py`, ASGI et WSGI utilisent par défaut `config.settings`, alias sûr vers la production.
+Une exécution de production doit fournir `DJANGO_SECRET_KEY` et une `APP_BASE_URL` HTTPS exacte.
+Les listes `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DJANGO_TRUSTED_PROXIES`
+restreignent hôtes, origines et pairs proxy ; leurs défauts et refus sont décrits dans la
+[sécurisation HTTP](architecture/http-security.md). `DEFAULT_FROM_EMAIL` est une adresse d'expéditeur.
+Une configuration absente ou invalide ne bascule jamais vers le développement.
 
 En développement, les emails sont écrits dans `backend/.mail/`, ignoré par Git, sans contenu dans
 le terminal. `dev:backend` lance les deux workers de [remise des courriels](architecture/email-notifications.md#exploitation-mess--on-premise).
