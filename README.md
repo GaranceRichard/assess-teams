@@ -40,7 +40,7 @@ Le backend CI sépare Ruff et migrations des tests, répartis en deux shards éq
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Le bootstrap distingue `development` et `production`, réconcilie les identités sans doublon et permet d'afficher ou masquer le mot de passe sans l'altérer. La [gestion sécurisée du mot de passe](docs/architecture/password-management.md) ajoute la récupération publique et la modification dans Mon profil, avec validateurs Django, liens à usage unique et politique des sessions.
+Job 1.8 renforce les [permissions API](docs/architecture/backend-api.md) : authentification obligatoire par défaut, accès publics déclarés explicitement et conservation des permissions métier existantes. Le bootstrap distingue `development` et `production`, réconcilie les identités sans doublon et permet d'afficher ou masquer le mot de passe sans l'altérer. La [gestion sécurisée du mot de passe](docs/architecture/password-management.md) ajoute la récupération publique et la modification dans Mon profil, avec validateurs Django, liens à usage unique et politique des sessions.
 
 ## Périmètres livrés — identités et accès
 

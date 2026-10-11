@@ -94,6 +94,7 @@ Feature de [EPIC-011 — Préparation de la mise en production MESS](07-pre-mep.
 - **Identifiant / Feature parente / job :** MEP-008 / FEAT-042 — Fondations / 1.8.
 - **User story :** en tant que responsable produit, contributeur et administrateur, je veux fermer par défaut les API et inventorier les exceptions publiques intentionnelles.
 - **Intention / description :** Fermer par défaut les API et inventorier les exceptions publiques intentionnelles.
+- **Livraison :** Socle `IsAuthenticated`, exceptions `AllowAny` et preuves de refus décrits dans le [contrat des permissions](../../architecture/api-permissions.md). Statut et date dans le [registre canonique](../tracking/pbis.md).
 - **Acquis et frontière :** Permissions explicites sur de nombreuses vues ; DEFAULT_PERMISSION_CLASSES absent des settings de base.
 - **Critères d’acceptation :** Politique DRF restrictive par défaut ; exceptions publiques limitées et documentées, avec leurs protections ; permissions et contrats existants conservés.
 - **Vrais cas de refus :** Endpoint sans permission explicite, anonyme ou rôle interdit n’accède pas aux données métier.

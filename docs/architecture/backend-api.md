@@ -4,6 +4,8 @@
 
 Django REST Framework est l'adapter HTTP de référence du backend. Il traduit les requêtes et réponses sans porter de logique métier significative. Le domaine et l'application restent indépendants de HTTP, des serializers et de la génération documentaire.
 
+Les [permissions API restrictives](api-permissions.md) imposent l'authentification par défaut, recensent les exceptions publiques explicites et conservent les permissions métier.
+
 ## Contrat permanent
 
 `drf-spectacular` produit le contrat OpenAPI de référence de l'API :

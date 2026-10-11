@@ -1,6 +1,7 @@
 from django.db import connection
 from drf_spectacular.utils import OpenApiExample, OpenApiResponse, extend_schema, inline_serializer
 from rest_framework import serializers, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -15,7 +16,7 @@ HEALTH_RESPONSE = inline_serializer(
 
 class HealthView(APIView):
     authentication_classes = []
-    permission_classes = []
+    permission_classes = [AllowAny]
 
     @extend_schema(
         operation_id="health_retrieve",

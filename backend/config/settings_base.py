@@ -74,6 +74,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "identities.User"
 
 REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "EXCEPTION_HANDLER": "journals.exceptions.journal_exception_handler",
 }
@@ -82,6 +83,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Contrat HTTP du backend Assess teams.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
         "identities.adapters.api.password_schema.strict_password_requests",
