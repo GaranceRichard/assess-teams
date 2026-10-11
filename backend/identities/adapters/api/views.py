@@ -1,11 +1,12 @@
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import serializers, status
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from identities.adapters.api.login_security import RETRY_AFTER, LimitedBasicAuthentication
 from identities.adapters.api.permissions import CanCreateUser
 from identities.adapters.api.serializers import CreateUserSerializer, UserCreatedSerializer
 from identities.adapters.repository import DjangoUserRepository
@@ -15,7 +16,7 @@ from identities.ports.users import IdentityAlreadyExists
 
 
 class UserCreateView(APIView):
-    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    authentication_classes = [LimitedBasicAuthentication, SessionAuthentication]
     permission_classes = [CanCreateUser]
 
     @extend_schema(
@@ -26,12 +27,17 @@ class UserCreateView(APIView):
             "organisationnel n'est créé."
         ),
         request=CreateUserSerializer,
+        parameters=[RETRY_AFTER],
         responses={
             201: UserCreatedSerializer,
             400: OpenApiResponse(OpenApiTypes.OBJECT, "Données invalides ou identité existante."),
             401: OpenApiResponse(description="Authentification absente, invalide ou inactive."),
             403: OpenApiResponse(
                 description="Fonction de l'appelant ou fonction demandée interdite."
+            ),
+            429: OpenApiResponse(
+                OpenApiTypes.OBJECT,
+                "Restriction de connexion temporaire ; Retry-After en secondes.",
             ),
         },
     )

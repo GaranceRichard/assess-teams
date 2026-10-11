@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { getCurrentUser, login, logout, type SessionUser } from "./auth";
+import {
+  getCurrentUser,
+  login,
+  LoginError,
+  logout,
+  type SessionUser,
+} from "./auth";
 import { PasswordRecoveryPage } from "./PasswordRecoveryPage";
 import { PasswordResetPage } from "./PasswordResetPage";
 import "./passwords.css";
@@ -67,10 +73,13 @@ export function App() {
           ? intendedRoute.path
           : "/dashboard",
       );
-    } catch {
+    } catch (error) {
       setAuth({
         kind: "anonymous",
-        error: "Identifiant ou mot de passe invalide.",
+        error:
+          error instanceof LoginError
+            ? error.message
+            : "Identifiant ou mot de passe invalide.",
       });
     }
   }

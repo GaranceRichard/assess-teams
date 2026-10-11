@@ -42,7 +42,7 @@ def test_openapi_documents_authenticated_user_creation(api_client: APIClient) ->
 
     assert response.status_code == 200
     assert {"basicAuth": []} in operation["security"]
-    assert set(operation["responses"]) == {"201", "400", "401", "403", "500"}
+    assert set(operation["responses"]) == {"201", "400", "401", "403", "429", "500"}
     assert set(request_component["required"]) == {"username", "password", "role"}
     assert role_component["enum"] == list(Role.values())
     assert "is_superuser" not in request_component["properties"]
@@ -64,7 +64,7 @@ def test_openapi_documents_product_session_contract(api_client: APIClient) -> No
 
     assert response.status_code == 200
     assert "security" not in login
-    assert set(login["responses"]) == {"200", "400", "401", "403", "500"}
+    assert set(login["responses"]) == {"200", "400", "401", "403", "429", "500"}
     assert set(request_component["required"]) == {"username", "password"}
     assert response_component["properties"]["id"]["readOnly"]
     assert "organization_name" in response_component["properties"]

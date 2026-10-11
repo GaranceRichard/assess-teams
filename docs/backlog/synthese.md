@@ -107,12 +107,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 
 Les [sources EPIC-011](source/07-pre-mep.md) fixent les compléments ; le [plan](planning/pre-mep.md)
 organise les prérequis et le parallélisme. Le [détail des 35 travaux et du jalon](tracking/pre-mep-view.md)
-est dérivé du registre ; MEP-003, MEP-006 et MEP-008 sont réalisés, les 32 autres PBIs restent Ouverts.
+est dérivé du registre ; MEP-001, MEP-003, MEP-006 et MEP-008 sont réalisés, les 31 autres PBIs restent Ouverts.
 Le [rapprochement](planning/pre-mep-rapprochements.md) conserve les acquis et signale les écarts.
 
 | Vague | Travaux demandés | Travaux acquis | Compléments ouverts | Entrée |
 | --- | ---: | ---: | ---: | --- |
-| Job 1 — Fondations | 8 | 3 (1.3 — SQLite ; 1.6 — Licence ; 1.8 — Permissions DRF) | 5 | aucun job préalable |
+| Job 1 — Fondations | 8 | 4 (1.1 — Authentification ; 1.3 — SQLite ; 1.6 — Licence ; 1.8 — Permissions DRF) | 4 | aucun job préalable |
 | Job 2 — Robustesse | 5 | 1 (2.4 — Journalisation HTTP et métier) | 4 | job 1 satisfait |
 | Job 3 — UI/UX | 7 | 0 | 7 | job 2 satisfait |
 | Job 4 — Exploitation et contrat de déploiement | 4 | 0 | 4 | job 3 satisfait |

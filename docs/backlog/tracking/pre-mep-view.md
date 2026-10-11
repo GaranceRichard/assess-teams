@@ -3,13 +3,13 @@
 Détail lié à la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts et dates issus du [registre canonique](pbis.md) ; périmètres et dépendances issus des
 [sources pré-MEP](../source/07-pre-mep.md). Pour lancement, respecter le [plan des vagues](../planning/pre-mep.md).
-Les 35 travaux comprennent un acquis (2.4), trois réalisations (1.3, 1.6 et 1.8) et 31 compléments ouverts ; le jalon est suivi séparément.
+Les 35 travaux comprennent un acquis (2.4), quatre réalisations (1.1, 1.3, 1.6 et 1.8) et 30 compléments ouverts ; le jalon est suivi séparément.
 
 ## Job 1 — Fondations
 
 | Travail | PBI et source | Statut dérivé |
 | --- | --- | --- |
-| 1.1 — Sécurisation de l’authentification | [MEP-001 — Sécurisation de l’authentification](../source/071-mep-job-1.md) | Ouvert |
+| 1.1 — Sécurisation de l’authentification | [MEP-001 — Sécurisation de l’authentification](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
 | 1.2 — HTTPS, proxy, cookies et CSRF | [MEP-002 — HTTPS, proxy, cookies et CSRF](../source/071-mep-job-1.md) | Ouvert |
 | 1.3 — Intégrité des transactions SQLite | [MEP-003 — Intégrité des transactions SQLite](../source/071-mep-job-1.md) | Réalisé — 2026-10-12 |
 | 1.4 — Fiabilisation SMTP et reprises | [MEP-004 — Fiabilisation SMTP et reprises](../source/071-mep-job-1.md) | Ouvert |
@@ -81,6 +81,6 @@ Les 35 travaux comprennent un acquis (2.4), trois réalisations (1.3, 1.6 et 1.8
 | --- | --- | --- | --- |
 | GO/NO-GO | [MEP-035 — Décision GO/NO-GO](../source/077-mep-job-7.md#mep-035--décision-gono-go) | Ouvert | À définir — non rendue |
 
-Les 35 travaux comprennent un acquis (2.4), trois réalisations (1.3, 1.6 et 1.8) et 31 compléments ouverts ; le jalon est suivi séparément.
+30 compléments ouverts, 4 réalisés, 1 acquis ; aucun complément en cours ou bloqué.
 Les prérequis de vague empêchent de présenter les jobs 2–7 comme immédiatement lançables.
 Un futur Réalisé sur MEP-035 atteste la décision, sans signifier automatiquement GO.

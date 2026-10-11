@@ -25,6 +25,7 @@ from identities.adapters.api.admin_views import (
     ManagedUserListCreateView,
 )
 from identities.adapters.api.invitation_views import AcceptInvitationView
+from identities.adapters.api.login_security import LimitedAdminAuthenticationForm
 from identities.adapters.api.organization_detail_views import OrganizationDetailView
 from identities.adapters.api.organization_views import (
     OrganizationListCreateView,
@@ -34,6 +35,8 @@ from identities.adapters.api.session_views import CurrentSessionView, LoginView,
 from identities.adapters.api.views import UserCreateView
 from journals.adapters.api.views import ActivityJournalView, LogsView
 from teams.adapters.api.views import TeamDetailView, TeamListCreateView
+
+admin.site.login_form = LimitedAdminAuthenticationForm
 
 urlpatterns = [
     path("api/dashboard/", DashboardView.as_view(), name="dashboard"),

@@ -1,5 +1,9 @@
 # Environnements et identités locales
 
+Les [limites de connexion et proxies fiables](architecture/login-security.md) utilisent les mêmes variables
+`LOGIN_ACCOUNT_LIMIT`, `LOGIN_ORIGIN_LIMIT`, `LOGIN_LIMIT_SECONDS` et `LOGIN_TRUSTED_PROXIES`
+dans les deux environnements ; les en-têtes transférés sont ignorés sans proxy explicitement fiable.
+
 ## Sélection explicite des réglages
 
 Django utilise deux modules de réglages sans détection implicite :

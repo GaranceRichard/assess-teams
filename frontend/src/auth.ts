@@ -14,6 +14,8 @@ export type SessionUser = {
 
 type Credentials = { username: string; password: string };
 
+export class LoginError extends Error {}
+
 async function parseUser(response: Response): Promise<SessionUser> {
   if (!response.ok) throw new Error("Authentication request failed");
   return (await response.json()) as SessionUser;
@@ -35,6 +37,14 @@ export async function login(credentials: Credentials): Promise<SessionUser> {
     },
     body: JSON.stringify(credentials),
   });
+  if (response.status === 429) {
+    const wait = Number(response.headers.get("Retry-After"));
+    const delay =
+      Number.isFinite(wait) && wait > 0
+        ? ` Réessayez dans ${Math.ceil(wait)} secondes.`
+        : " Réessayez dans quelques minutes.";
+    throw new LoginError(`Trop de tentatives de connexion.${delay}`);
+  }
   return parseUser(response);
 }
 

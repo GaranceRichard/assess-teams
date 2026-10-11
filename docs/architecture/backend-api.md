@@ -52,6 +52,10 @@ de Superadmin). Un refus retourne `401` sans indiquer lequel des deux identifian
 Superadmin est représenté avec le rôle effectif `Admin` sans modifier son identité ni définir un quatrième rôle.
 Un jeton CSRF absent ou invalide est refusé avec `403`.
 
+Job 1.1 ajoute les [limites persistées de connexion](login-security.md) partagées avec Basic et Django admin :
+5 échecs par identifiant et 30 par origine sur 15 minutes par défaut. Le seuil atteint retourne `429`
+avec `detail` générique et `Retry-After` ; l'expiration restaure l'accès. Les rôles et sessions sont conservés.
+
 Les réponses de session contiennent aussi `organization_name` : le nom de l’unique organisation du Coach ou
 Viewer ou Admin rattaché, et `null` pour un utilisateur sans rattachement ou un Superadmin. `team_names`
 contient, pour un Coach, les noms triés de ses équipes actives dans son organisation actuelle et vaut `[]` pour les autres cas. Le tableau de

@@ -8,6 +8,10 @@ l'héritage des capacités, l'absence des entrées interdites et le refus des ro
 le parcours critique navigateur → session Django → espace Viewer → déconnexion, ainsi que les refus de
 connexion et de route Admin.
 
+Job 1.1 ajoute les [restrictions temporaires](../architecture/login-security.md) par compte/origine,
+la non-énumération, les proxies, les entrées Basic/admin et la concurrence SQLite en API/intégration.
+React et Playwright vérifient le délai affiché, le bon mot de passe refusé pendant la restriction et la reprise.
+
 La [gestion du mot de passe](../architecture/password-management.md) ajoute API/ORM,
 expiration/usage unique concurrent, limitations partagées, non-énumération, absence de secrets,
 contrats OpenAPI/React et deux parcours Playwright avec email réel, rejeu refusé et sessions multiples.

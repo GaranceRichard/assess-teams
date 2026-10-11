@@ -11,6 +11,7 @@ Ce dossier fixe les fondamentaux architecturaux de **Assess teams**. Ils défini
 - [Environnements et identités locales](../development-environments.md) : réglages explicites et données locales isolées.
 
 - [Gestion du mot de passe](password-management.md) : services Django, tokens dédiés, limites atomiques et worker.
+- [Sécurisation des connexions](login-security.md) : compteurs par identifiant et origine, concurrence SQLite et proxies fiables.
 - [Dashboard personnel](dashboard-api.md) : profil, apparence, activité prouvée et raccourcis par rôle.
 
 ## Complémentarité

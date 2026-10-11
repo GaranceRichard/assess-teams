@@ -1,6 +1,7 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.debug import sensitive_post_parameters
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status
@@ -9,6 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from identities.adapters.api.login_security import RETRY_AFTER, authenticate_login
 from identities.adapters.api.session_serializers import (
     LoginSerializer,
     SessionPreferenceSerializer,
@@ -18,6 +20,7 @@ from identities.domain.palettes import InterfacePalette
 
 
 @method_decorator(csrf_protect, name="dispatch")
+@method_decorator(sensitive_post_parameters("password"), name="dispatch")
 class LoginView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
@@ -30,18 +33,26 @@ class LoginView(APIView):
             "sa palette d'interface personnelle."
         ),
         request=LoginSerializer,
+        parameters=[
+            OpenApiParameter("X-CSRFToken", str, OpenApiParameter.HEADER, required=True),
+            RETRY_AFTER,
+        ],
         responses={
             200: SessionUserSerializer,
             400: OpenApiResponse(OpenApiTypes.OBJECT, "Données invalides."),
             401: OpenApiResponse(description="Identifiants invalides ou compte inactif."),
             403: OpenApiResponse(description="Contrôle CSRF refusé."),
+            429: OpenApiResponse(
+                OpenApiTypes.OBJECT,
+                "Restriction temporaire par identifiant ou origine ; Retry-After en secondes.",
+            ),
         },
         auth=[],
     )
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = authenticate(request, **serializer.validated_data)
+        user = authenticate_login(request, **serializer.validated_data)
         if user is None:
             return Response(
                 {"detail": "Identifiant ou mot de passe invalide."},

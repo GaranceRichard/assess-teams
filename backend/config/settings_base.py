@@ -1,5 +1,12 @@
 from pathlib import Path
 
+from config.login_security import (  # noqa: F401
+    LOGIN_ACCOUNT_LIMIT,
+    LOGIN_LIMIT_SECONDS,
+    LOGIN_ORIGIN_LIMIT,
+    LOGIN_TRUSTED_PROXIES,
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 INSTALLED_APPS = [
