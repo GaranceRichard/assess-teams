@@ -49,3 +49,18 @@
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+
+.taking-range[data-unanswered="true"]::-webkit-slider-thumb {
+  opacity: 0;
+}
+.taking-range[data-unanswered="true"]::-moz-range-thumb {
+  opacity: 0;
+}
+.taking-range[data-unanswered="true"]:focus-visible::-webkit-slider-runnable-track {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.taking-range[data-unanswered="true"]:focus-visible::-moz-range-track {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}

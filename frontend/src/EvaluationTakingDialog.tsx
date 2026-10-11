@@ -1,6 +1,5 @@
 import { TakingContentSizing } from "./TakingContentSizing";
-import { AppreciationScale } from "./AppreciationScale";
-import { appreciationForScore } from "./appreciationForScore";
+import { EvaluationScoreInput } from "./EvaluationScoreInput";
 import { referenceLabel } from "./evaluationVersionLabel";
 import { useModalFocus } from "./useModalFocus";
 
@@ -38,12 +37,6 @@ export function EvaluationTakingDialog({
     submit,
   } = useEvaluationTaking(run, revision, onClose);
 
-  const proposedScore = question?.score ?? 5;
-  const appreciation = appreciationForScore(
-    question?.appreciation_markers ?? [],
-    proposedScore,
-  )?.text;
-
   return (
     <dialog
       ref={dialog}
@@ -78,36 +71,11 @@ export function EvaluationTakingDialog({
               <h3 id="question-text" className="taking-question-title">
                 {question.text}
               </h3>
-              <label className="taking-label" htmlFor="evaluation-score">
-                Note de la question
-              </label>
-              <input
-                className="taking-range"
-                id="evaluation-score"
-                type="range"
-                min={0}
-                max={10}
-                step={1}
-                value={question.score ?? 5}
+              <EvaluationScoreInput
+                question={question}
                 disabled={readonly || submitting || advancing}
-                aria-describedby="question-text score-status"
-                aria-valuetext={`${proposedScore} sur 10${appreciation ? " : " + appreciation : ""}`}
-                onChange={(event) =>
-                  void selectScore(Number(event.target.value))
-                }
+                onSelect={(score) => void selectScore(score)}
               />
-              <AppreciationScale
-                key={question.question_id}
-                markers={question.appreciation_markers ?? []}
-                score={proposedScore}
-              />
-              <output
-                className="taking-output"
-                htmlFor="evaluation-score"
-                aria-live="polite"
-              >
-                Note sélectionnée : {question.score ?? 5} / 10
-              </output>
               <p
                 id="score-status"
                 className="taking-status"
@@ -119,7 +87,7 @@ export function EvaluationTakingDialog({
                     : unsaved
                       ? "Note non sauvegardée"
                       : question.score === null
-                        ? "Choisissez une note ou confirmez la note proposée."
+                        ? "Choisissez une note avec le curseur (Entrée : 5)."
                         : revision
                           ? "Note à valider"
                           : "Note enregistrée")}
@@ -127,8 +95,11 @@ export function EvaluationTakingDialog({
               {!readonly && !revision && (
                 <button
                   className="secondary taking-note-action"
-                  disabled={saving}
-                  onClick={() => void selectScore(question.score ?? 5)}
+                  disabled={saving || question.score === null}
+                  onClick={() => {
+                    if (question.score !== null)
+                      void selectScore(question.score);
+                  }}
                 >
                   {unsaved ? "Réessayer la sauvegarde" : "Enregistrer la note"}
                 </button>

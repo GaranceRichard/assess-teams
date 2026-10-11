@@ -86,7 +86,8 @@ it("resumes at the unanswered question and reports save failure with a working r
     <EvaluationTakingDialog run={run} revision={false} onClose={onClose} />,
   );
   expect(screen.getByText("Question 2 / 2")).toBeVisible();
-  fireEvent.click(screen.getByRole("button", { name: "Enregistrer la note" }));
+  fireEvent.pointerDown(screen.getByRole("slider"), { button: 0 });
+  fireEvent.pointerUp(screen.getByRole("slider"), { button: 0 });
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "n’a pas été enregistrée",
   );
@@ -179,7 +180,7 @@ it("stages Admin revisions, validates atomically, and surfaces finalization refu
   expect(api.reviseEvaluationRun.mock.calls[0][1][0].score).toBe(10);
 });
 
-it("saves the proposed score when advancing and remains on the question after a save refusal", async () => {
+it("retries only a deliberately selected score when advancing after a save refusal", async () => {
   api.saveEvaluationScore.mockRejectedValueOnce(new Error("offline"));
   render(
     <EvaluationTakingDialog
@@ -188,7 +189,10 @@ it("saves the proposed score when advancing and remains on the question after a 
       onClose={vi.fn()}
     />,
   );
-  fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
+  fireEvent.change(screen.getByRole("slider"), { target: { value: "5" } });
+  // Selecting the unchanged native midpoint requires an explicit pointer gesture.
+  fireEvent.pointerDown(screen.getByRole("slider"), { button: 0 });
+  fireEvent.pointerUp(screen.getByRole("slider"), { button: 0 });
   await screen.findByRole("alert");
   expect(screen.getByText("Question 1 / 2")).toBeVisible();
   fireEvent.click(screen.getByRole("button", { name: "Suivant" }));

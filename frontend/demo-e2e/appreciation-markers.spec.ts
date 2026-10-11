@@ -41,7 +41,8 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
     "Les objectifs sont connus, leur compréhension reste à partager.";
   await expectPassiveMarker(page, 5);
   const slider = page.getByRole("slider");
-  await page.getByRole("button", { name: "Enregistrer la note" }).click();
+  await expect(page.locator(".selected-appreciation")).toHaveCount(0);
+  await slider.press("Enter");
   await expect(page.locator(".selected-appreciation")).toContainText(original);
   await expect(page.getByRole("dialog")).not.toContainText(
     "Brouillon fictif distinct",

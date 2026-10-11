@@ -71,8 +71,8 @@ export function useEvaluationTaking(
   async function next() {
     setAdvancing(true);
     try {
-      if (!readonly && (question.score === null || unsaved)) {
-        if (!(await selectScore(question.score ?? 5))) return;
+      if (!readonly && unsaved && question.score !== null) {
+        if (!(await selectScore(question.score))) return;
       }
       setPosition(position + 1);
     } finally {
@@ -81,6 +81,7 @@ export function useEvaluationTaking(
   }
 
   async function submit() {
+    if (readonly || !complete || saving || unsaved) return;
     setSubmitting(true);
     setSaving(true);
     setError(null);

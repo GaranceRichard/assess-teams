@@ -58,9 +58,10 @@ test("an Admin replans a completed team evaluation with the same model and keeps
   const pending = rows.filter({ hasText: "À passer" });
   await expect(completed.locator("td").nth(5)).toHaveText(initialCompletion);
   await pending.getByRole("button", { name: "Passer l’évaluation" }).click();
-  await expect(dialog.getByRole("slider")).toHaveValue("5");
+  await expect(dialog.getByText("Aucune note sélectionnée")).toBeVisible();
+  await dialog.getByRole("slider").click();
   await dialog.getByRole("button", { name: "Suivant" }).click();
-  await dialog.getByRole("button", { name: "Enregistrer la note" }).click();
+  await dialog.getByRole("slider").click();
   await dialog.getByRole("button", { name: "Valider l’évaluation" }).click();
   await expect(rows.filter({ hasText: "Complétée" })).toHaveCount(2);
   await page.reload();

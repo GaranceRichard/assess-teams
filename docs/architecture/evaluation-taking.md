@@ -73,8 +73,15 @@ Sa largeur responsive est bornée à 38 rem ; sa hauteur intrinsèque suit les t
 bornée au viewport dynamique. Le titre et les actions restent fixes ; seul le contenu actif défile
 si nécessaire, sans défilement propre à la question ou au descriptif.
 La finalisation attend la confirmation des sauvegardes ; une révision est validée atomiquement.
-Lorsque « Suivant » confirme la note proposée, le range est temporairement désactivé jusqu’à la sauvegarde ;
-un refus laisse la même question ouverte et réactive la saisie pour réessayer.
+Une question sans réponse affiche « Aucune note sélectionnée », sans poignée ni descriptif sélectionné.
+Le range natif conserve une position technique médiane, sans valeur métier : seul un geste de sélection
+(clic/toucher sur la piste, déplacement ou clavier) enregistre une note. Un clic au milieu choisit 5 ;
+Entrée/Espace choisissent explicitement 5 au clavier, Home choisit 0 et End choisit 10.
+Le focus, l’ouverture, la fermeture et « Suivant » ne sélectionnent aucune note. Une question peut être
+parcourue sans réponse et reste `null` lors de la reprise ; zéro et cinq enregistrés sont préservés.
+« Enregistrer la note » reste désactivé tant qu’aucune note n’est choisie. La navigation et la fermeture
+attendent les sauvegardes explicites ; un refus conserve la saisie et exige une nouvelle sauvegarde.
+La finalisation reste indisponible et refusée par l’API si une question n’est pas renseignée.
 Le tableau distingue « Assigné à » de « Rempli par » et indique « Révisé par [ADMIN] le [date/heure] ».
 
 Le Journal d’activité existant enregistre `evaluation_completed`, `evaluation_completed_by_admin`
@@ -97,9 +104,10 @@ sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent
 Voir [persistance, migration et interface](appreciation-markers.md).
 
 Le curseur exclut le contour global `input:focus` : aucun rectangle ne s’affiche au clic ou au focus.
-Seul `:focus-visible` ajoute un anneau de 2 px, décalé de 2 px autour de la poignée ronde,
+Pour une note sélectionnée, `:focus-visible` ajoute un anneau de 2 px, décalé de 2 px autour de la poignée ronde,
 pour conserver un focus clavier visible en clair et sombre. Les pistes grises, points de repère,
-dimensions et actions restent identiques. Les styles du curseur sont isolés dans `evaluation-rating.css`.
+dimensions et actions restent identiques. Les styles du curseur sont isolés dans `evaluation-rating.css`. Sans note, le focus clavier signale
+la piste sans afficher de poignée à une valeur particulière.
 
 La modale possède une hauteur intrinsèque, bornée par le viewport, et une largeur responsive.
 Des copies de dimensionnement invisibles et inertes représentent les questions et leurs descriptifs :
@@ -109,3 +117,14 @@ Les erreurs remplacent le statut de sauvegarde dans sa zone dédiée ; elles ne 
 Seul le contenu actif défile verticalement lorsque nécessaire ; titre et actions restent visibles.
 Questions et descriptifs s’écoulent naturellement sans ascenseur propre. La zone de contenu est
 remontée au changement de question. Les contenus ordinaires tiennent sans défilement sur desktop.
+
+## Preuves de notation explicite — MEP-007
+
+`EvaluationTakingNavigation.test.tsx` reproduit l’attribution implicite avant correction : absence
+sémantique, focus/navigation/fermeture sans écriture, choix clavier, gestes annulés, reprise de 0/5,
+modification volontaire et complétude. Les tests de modale conservent erreurs, file et révisions.
+`evaluation-explicit-rating.spec.ts` vérifie avec Django réel les choix souris/tactiles de 5 et 0,
+les `null` après navigation et rechargement, la modification et le refus API de finalisation incomplète.
+Le contrat `number | null`, les modèles, migrations, permissions, snapshots et OpenAPI ne changent pas.
+Revue effectuée : README, règles agents, charte, DoD, stratégie, architecture et contrat backend/API ;
+seules les descriptions de passation/repères, leurs preuves et le suivi de MEP-007 sont affectés.

@@ -80,7 +80,7 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await oldRun.getByRole("button", { name: "Passer l’évaluation" }).click();
   await expect(page.getByRole("dialog")).toContainText("Original criterion v1");
   await expectPassiveMarker(page, 5);
-  await page.getByRole("button", { name: "Enregistrer la note" }).click();
+  await page.getByRole("slider").click();
   await expect(page.locator(".selected-appreciation")).toContainText(
     "Original marker v1",
   );
@@ -152,6 +152,8 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
     .click();
   await expect(page.getByRole("dialog")).toContainText("Changed criterion v2");
   await expectPassiveMarker(page, 5);
+  await expect(page.locator(".selected-appreciation")).toHaveCount(0);
+  await page.getByRole("slider").click();
   await expect(page.locator(".selected-appreciation")).toContainText(
     "Changed marker v2",
   );

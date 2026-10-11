@@ -42,7 +42,11 @@ test("taking protects pending and refused scores from Escape, retries and restor
     });
   });
   const request = page.waitForRequest("**/api/evaluations/*/responses/*/");
-  await dialog.getByRole("button", { name: "Enregistrer la note" }).click();
+  await expect(
+    dialog.getByRole("button", { name: "Enregistrer la note" }),
+  ).toBeDisabled();
+  await dialog.getByRole("slider").focus();
+  await page.keyboard.press("Enter");
   await request;
   await page.keyboard.press("Escape");
   await expect(dialog).toBeVisible();

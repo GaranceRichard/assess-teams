@@ -68,7 +68,10 @@ et la reprise, complétion et révision de passations commencées avant l’arch
 Une non-régression E2E vérifie aussi la réinitialisation répétée des fixtures avec passations protégées,
 sans supprimer les données d’une autre organisation de test.
 Les mutations revérifient l’accès après changement d’assignation, d’organisation ou de rattachement entre
-lecture et verrouillage. React et Playwright vérifient que « Suivant » attend sa sauvegarde avant de naviguer.
+lecture et verrouillage. React et Playwright vérifient que la navigation attend toute sauvegarde explicite.
+MEP-007 ajoute l’absence de sélection/sauvegarde avant un geste, la navigation sans réponse,
+la distinction `null`/0/5, la reprise/modification et le refus de complétude, au clavier, à la souris
+et au toucher (`EvaluationTakingNavigation` et `evaluation-explicit-rating.spec.ts`).
 
 L’extension HTTP des Logs couvre les succès CRUD, les refus PATCH, 4xx/5xx, la corrélation, le contexte sûr,
 les filtres seuls/combinés, les bornes inclusives et les tentatives inter-organisations. React vérifie les dix

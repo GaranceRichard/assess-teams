@@ -89,7 +89,7 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
     has: page.getByText("Complétion Admin E2E v1", { exact: true }),
   });
   await proxyRow.getByRole("button", { name: "Passer l’évaluation" }).click();
-  await dialog.getByRole("button", { name: "Enregistrer la note" }).click();
+  await dialog.getByRole("slider").click();
   await dialog.getByRole("button", { name: "Valider l’évaluation" }).click();
   await expect(proxyRow.locator("td").nth(3)).toHaveText("taking-coach-e2e");
   await expect(proxyRow.locator("td").nth(4)).toHaveText("taking-admin-e2e");
@@ -105,7 +105,7 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
   ).toBeVisible();
 });
 
-test("Next waits for backend persistence before changing the question", async ({
+test("a deliberate midpoint choice blocks navigation until backend persistence", async ({
   page,
 }) => {
   seedTakingContext();
@@ -127,13 +127,16 @@ test("Next waits for backend persistence before changing the question", async ({
     await route.continue();
   });
   try {
-    await dialog.getByRole("button", { name: "Suivant" }).click();
-    await expect(dialog.getByRole("slider")).toBeDisabled();
+    await dialog.getByRole("slider").click();
+    await expect(
+      dialog.getByRole("button", { name: "Suivant" }),
+    ).toBeDisabled();
     await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Fermer" })).toBeDisabled();
   } finally {
     resumeSave();
   }
+  await dialog.getByRole("button", { name: "Suivant" }).click();
   await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
   await expect(dialog.getByRole("slider")).toBeEnabled();
   await dialog.getByRole("button", { name: "Fermer" }).click();

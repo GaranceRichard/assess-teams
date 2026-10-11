@@ -15,7 +15,7 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 - modèles locaux : brouillon modifiable, validation immuable, archive, versions et repères facultatifs par question/score ;
 - planification locale : équipe, modèle, responsable, immédiat/ponctuel/mensuel/trimestriel et échéances ;
 - courriels de confirmation et d’échéance, avec commande de traitement différé ;
-- passation locale persistante, tableau et révision Admin avec provenance conservée ;
+- passation locale persistante avec notation explicite, tableau et révision Admin avec provenance conservée ;
 - Journal d’activité et Logs distincts, filtrables, paginés et en lecture seule ;
 - health check, réglages development/production, OpenAPI, CI et quality gates documentés techniquement.
 
@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 5 | 14 % |
+| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 6 | 17 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
 raffinées et les limites explicites des PBIs restent hors du dénominateur.
@@ -107,12 +107,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 
 Les [sources EPIC-011](source/07-pre-mep.md) fixent les compléments ; le [plan](planning/pre-mep.md)
 organise les prérequis et le parallélisme. Le [détail des 35 travaux et du jalon](tracking/pre-mep-view.md)
-est dérivé du registre ; MEP-001, MEP-003, MEP-005, MEP-006 et MEP-008 sont réalisés, les 30 autres PBIs restent Ouverts.
+est dérivé du registre ; MEP-001, MEP-003, MEP-005, MEP-006, MEP-007 et MEP-008 sont réalisés, les 29 autres PBIs restent Ouverts.
 Le [rapprochement](planning/pre-mep-rapprochements.md) conserve les acquis et signale les écarts.
 
 | Vague | Travaux demandés | Travaux acquis | Compléments ouverts | Entrée |
 | --- | ---: | ---: | ---: | --- |
-| Job 1 — Fondations | 8 | 5 (1.1 — Authentification ; 1.3 — SQLite ; 1.5 — Modales ; 1.6 — Licence ; 1.8 — Permissions DRF) | 3 | aucun job préalable |
+| Job 1 — Fondations | 8 | 6 (1.1 — Authentification ; 1.3 — SQLite ; 1.5 — Modales ; 1.6 — Licence ; 1.7 — Notation explicite ; 1.8 — Permissions DRF) | 2 | aucun job préalable |
 | Job 2 — Robustesse | 5 | 1 (2.4 — Journalisation HTTP et métier) | 4 | job 1 satisfait |
 | Job 3 — UI/UX | 7 | 0 | 7 | job 2 satisfait |
 | Job 4 — Exploitation et contrat de déploiement | 4 | 0 | 4 | job 3 satisfait |

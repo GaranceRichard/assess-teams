@@ -33,7 +33,8 @@ sans double comptage dans EPIC-011. L’absence de preuve cible ne signifie pas 
 ## Incohérences et points ouverts à prendre en compte
 
 - **Notation :** “Note sélectionnée : 5” sur une question sans réponse et sauvegarde par Suivant
-  contredisent le choix explicite demandé. La correction est planifiée en 1.7, sans modifier PASS-001 réalisé.
+  contredisent le choix explicite demandé. Le chantier 1.7 supprime cette attribution implicite ; preuves dans
+  [la passation](../../architecture/evaluation-taking.md#preuves-de-notation-explicite--mep-007), sans modifier PASS-001 réalisé.
 - **Suppression organisationnelle :** ORG-004 reste Bloqué par ARB-ORG-005 ; la protection d’une passation
   commencée ne règle pas toutes les cascades. Une MEP exposant cette suppression exige résolution ou limitation
   explicite du périmètre avant GO. L’arbitrage reste dans son registre existant.

@@ -40,7 +40,7 @@ export function TakingContentSizing({ run, revision, readonly }: Props) {
               />
               <p
                 className="taking-status"
-                data-text="Choisissez une note ou confirmez la note proposée."
+                data-text="Choisissez une note avec le curseur (Entrée : 5)."
               />
               {!readonly && !revision && (
                 <span
