@@ -78,3 +78,5 @@ le descriptif inférieur (6 affiche 5 mais persiste 6), le repli sans texte et l
 Les textes réellement longs partagent un seul scroll de contenu avec actions visibles ; les captures
 clair/sombre complètent les assertions géométriques. Les tests unitaires des points et du hover
 échouent avec l’ancien composant et passent avec les indicateurs passifs.
+`evaluation-rating-focus.spec.ts` couvre normal, focus souris et clavier, sans contour du champ,
+avec anneau sur la poignée, repères distincts et géométrie stable en clair/sombre sur desktop/mobile.

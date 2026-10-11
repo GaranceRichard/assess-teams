@@ -96,6 +96,11 @@ Le descriptif persistant utilise le repère inférieur renseigné le plus proche
 sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent uniquement le snapshot.
 Voir [persistance, migration et interface](appreciation-markers.md).
 
+Le curseur exclut le contour global `input:focus` : aucun rectangle ne s’affiche au clic ou au focus.
+Seul `:focus-visible` ajoute un anneau de 2 px, décalé de 2 px autour de la poignée ronde,
+pour conserver un focus clavier visible en clair et sombre. Les pistes grises, points de repère,
+dimensions et actions restent identiques. Les styles du curseur sont isolés dans `evaluation-rating.css`.
+
 La modale possède une hauteur intrinsèque, bornée par le viewport, et une largeur responsive.
 Des copies de dimensionnement invisibles et inertes représentent les questions et leurs descriptifs :
 la taille dépend des textes réels de la passation et reste stable pendant la navigation, sans hauteur fixe.
