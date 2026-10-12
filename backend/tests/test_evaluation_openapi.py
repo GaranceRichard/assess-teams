@@ -25,17 +25,17 @@ def test_openapi_documents_evaluation_and_question_management() -> None:
 
     assert response.status_code == 200
     assert {"cookieAuth": []} in evaluations["get"]["security"]
-    assert set(evaluations["get"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(evaluations["post"]["responses"]) == {"201", "400", "403", "404"}
+    assert set(evaluations["get"]["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(evaluations["post"]["responses"]) == {"201", "400", "403", "404", "500"}
     assert set(component["required"]) == {"organization_id", "name"}
     assert "index" not in component["properties"]
     assert "index" not in response_component["properties"]
     assert "organization_id" in response_component["properties"]
-    assert set(evaluation["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(evaluation["delete"]["responses"]) == {"204", "400", "403", "404"}
-    assert set(questions["get"]["responses"]) == {"200", "403", "404"}
-    assert set(questions["post"]["responses"]) == {"201", "400", "403", "404"}
+    assert set(evaluation["put"]["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(evaluation["delete"]["responses"]) == {"204", "400", "403", "404", "500"}
+    assert set(questions["get"]["responses"]) == {"200", "403", "404", "500"}
+    assert set(questions["post"]["responses"]) == {"201", "400", "403", "404", "500"}
     assert set(question_component["required"]) == {"name"}
     assert "index" not in question_component["properties"]
-    assert set(question["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(question["delete"]["responses"]) == {"204", "400", "403", "404"}
+    assert set(question["put"]["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(question["delete"]["responses"]) == {"204", "400", "403", "404", "500"}

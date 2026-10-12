@@ -3,6 +3,7 @@ from datetime import date
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.db import transaction
 from django.utils import timezone
 from django.utils.formats import date_format
 
@@ -47,7 +48,10 @@ def _send_to_recipients(schedule: EvaluationSchedule, subject: str, body: str) -
             settings.DEFAULT_FROM_EMAIL,
             [recipient.email],
         )
-    count = len(recipients)
+    return len(recipients)
+
+
+def _record_notification(schedule: EvaluationSchedule, count: int) -> int:
     record_log(
         level=LogLevel.INFO if count else LogLevel.WARNING,
         source=LogSource.NOTIFICATIONS,
@@ -76,10 +80,11 @@ def send_planning_confirmation(schedule: EvaluationSchedule) -> int:
         f"Fréquence : {schedule.get_mode_display()}\n"
         f"Prochaine évaluation : {date_format(schedule.next_due_date, 'DATE_FORMAT')}"
     )
-    return _send_to_recipients(schedule, "Évaluation planifiée", body)
+    count = _send_to_recipients(schedule, "Évaluation planifiée", body)
+    return _record_notification(schedule, count)
 
 
-def send_due_notification(schedule: EvaluationSchedule) -> int:
+def _send_due_email(schedule: EvaluationSchedule) -> int:
     body = (
         f"L’évaluation prévue est disponible.\n"
         f"Équipe : {schedule.team.name}\n"
@@ -87,6 +92,10 @@ def send_due_notification(schedule: EvaluationSchedule) -> int:
         f"Accéder à l’évaluation : {_evaluation_link()}"
     )
     return _send_to_recipients(schedule, "Votre évaluation est disponible", body)
+
+
+def send_due_notification(schedule: EvaluationSchedule) -> int:
+    return _record_notification(schedule, _send_due_email(schedule))
 
 
 def _add_months(value: date, months: int, anchor_day: int) -> date:
@@ -119,16 +128,21 @@ def following_due_date(
 def deliver_due_schedule(schedule: EvaluationSchedule, reference_date: date) -> bool:
     if schedule.requires_reassignment:
         return False
-    ensure_expected_evaluation(schedule, schedule.next_due_date)
-    if send_due_notification(schedule) == 0:
-        return False
-    schedule.next_due_date = following_due_date(
-        schedule.mode,
-        schedule.next_due_date,
-        reference_date,
-        schedule.first_due_date.day,
-    )
-    schedule.save(update_fields=["next_due_date"])
+    # SMTP cannot be rolled back; it must not hold a SQLite write transaction.
+    count = _send_due_email(schedule)
+    with transaction.atomic():
+        ensure_expected_evaluation(schedule, schedule.next_due_date)
+        _record_notification(schedule, count)
+        if count == 0:
+            return False
+        next_due_date = following_due_date(
+            schedule.mode,
+            schedule.next_due_date,
+            reference_date,
+            schedule.first_due_date.day,
+        )
+        schedule.next_due_date = next_due_date
+        schedule.save(update_fields=["next_due_date"])
     return True
 
 

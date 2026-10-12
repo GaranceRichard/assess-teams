@@ -42,6 +42,7 @@ Feature de [EPIC-011 — Préparation de la mise en production MESS](07-pre-mep.
 - **Acquis et frontière :** Transactions, contraintes et protections déjà livrées dans ORG-001, USER-004, EVAL-003 et PASS-001.
 - **Critères d’acceptation :** Écritures métier et Journal cohérents ; rollback sans état partiel ; envois réseau hors transaction d’écriture ; contraintes et provenance historiques conservées.
 - **Vrais cas de refus :** Échec à mi-opération ou rejet métier ne laisse ni donnée partielle ni activité de succès.
+- **Preuves :** [Frontières et tests du Job 1.3](../../architecture/sqlite-transactions.md) : rollback API/ORM, relations, provenance, callbacks après commit, arrêt brutal SQLite et refus/reprise Playwright ; reprise durable SMTP suivie par MEP-004.
 - **Dépendances de livraison / priorité :** ORG-001, USER-004, EVAL-003, PASS-001 / P1.
 - **Valeur :** Protéger les accès, les écritures et la saisie avant les renforcements de production.
 

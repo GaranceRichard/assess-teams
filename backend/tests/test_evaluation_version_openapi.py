@@ -9,7 +9,7 @@ def test_openapi_documents_versions_and_historical_references():
     client = APIClient()
     schema = client.get(reverse("schema"), HTTP_ACCEPT="application/json").json()
     operation = schema["paths"]["/api/admin/evaluations/{evaluation_id}/versions/"]["post"]
-    assert set(operation["responses"]) == {"201", "403", "404"}
+    assert set(operation["responses"]) == {"201", "403", "404", "500"}
     assert "requestBody" not in operation
     assert {"cookieAuth": []} in operation["security"]
     models = schema["components"]["schemas"]

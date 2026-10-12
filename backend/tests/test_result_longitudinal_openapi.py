@@ -18,7 +18,7 @@ def test_openapi_documents_organization_family_and_explicit_criterion_history():
     for path, codes in expected.items():
         assert set(paths[path]) == {"get"}
         get = paths[path]["get"]
-        assert set(get["responses"]) == codes
+        assert set(get["responses"]) == codes | {"500"}
         assert {"cookieAuth": []} in get["security"]
         assert "Viewer sur les COMPLETED de son organisation" in get["description"]
     family = paths["/api/results/families/"]["get"]

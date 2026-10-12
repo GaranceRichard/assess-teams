@@ -87,5 +87,6 @@ SPECTACULAR_SETTINGS = {
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
         "identities.adapters.api.password_schema.strict_password_requests",
+        "journals.schema.operation_errors",
     ],
 }

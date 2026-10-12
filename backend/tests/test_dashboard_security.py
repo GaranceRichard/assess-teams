@@ -89,7 +89,7 @@ def test_dashboard_openapi_is_read_only_and_documents_scope_and_provenance():
     path = schema["paths"]["/api/dashboard/"]
     assert set(path) == {"get"}
     operation = path["get"]
-    assert set(operation["responses"]) == {"200", "403"}
+    assert set(operation["responses"]) == {"200", "403", "500"}
     assert {"cookieAuth": []} in operation["security"]
     assert "parameters" not in operation
     for term in ("COMPLETED", "dernière révision", "auteurs masqués", "Coach", "10"):

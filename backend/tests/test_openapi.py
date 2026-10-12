@@ -42,7 +42,7 @@ def test_openapi_documents_authenticated_user_creation(api_client: APIClient) ->
 
     assert response.status_code == 200
     assert {"basicAuth": []} in operation["security"]
-    assert set(operation["responses"]) == {"201", "400", "401", "403"}
+    assert set(operation["responses"]) == {"201", "400", "401", "403", "500"}
     assert set(request_component["required"]) == {"username", "password", "role"}
     assert role_component["enum"] == list(Role.values())
     assert "is_superuser" not in request_component["properties"]
@@ -64,16 +64,16 @@ def test_openapi_documents_product_session_contract(api_client: APIClient) -> No
 
     assert response.status_code == 200
     assert "security" not in login
-    assert set(login["responses"]) == {"200", "400", "401", "403"}
+    assert set(login["responses"]) == {"200", "400", "401", "403", "500"}
     assert set(request_component["required"]) == {"username", "password"}
     assert response_component["properties"]["id"]["readOnly"]
     assert "organization_name" in response_component["properties"]
     assert response_component["properties"]["organization_name"]["nullable"]
     assert response_component["properties"]["team_names"]["items"]["type"] == "string"
     assert {"cookieAuth": []} in current["security"]
-    assert set(current["responses"]) == {"200", "403"}
+    assert set(current["responses"]) == {"200", "403", "500"}
     assert {"cookieAuth": []} in logout["security"]
-    assert set(logout["responses"]) == {"204", "403"}
+    assert set(logout["responses"]) == {"204", "403", "500"}
 
 
 @pytest.mark.api
@@ -94,21 +94,21 @@ def test_openapi_documents_superadmin_user_management(api_client: APIClient) -> 
 
     assert response.status_code == 200
     assert {"cookieAuth": []} in collection["get"]["security"]
-    assert set(collection["post"]["responses"]) == {"201", "400", "403"}
+    assert set(collection["post"]["responses"]) == {"201", "400", "403", "500"}
     assert set(create_component["required"]) == {"identifier", "email", "role"}
     assert user_component["properties"]["organizations"]["items"]["type"] == "string"
     assert user_component["properties"]["is_active"]["type"] == "boolean"
     assert "name" not in create_component["properties"]
-    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404"}
+    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404", "500"}
     assert detail["delete"]["deprecated"] is True
     for action in ("deactivate", "reactivate"):
         operation = schema["paths"][f"/api/admin/users/{{user_id}}/{action}/"]["post"]
-        assert set(operation["responses"]) == {"200", "400", "403", "404"}
+        assert set(operation["responses"]) == {"200", "400", "403", "404", "500"}
         assert {"cookieAuth": []} in operation["security"]
         assert "requestBody" not in operation
     assert "security" not in invitation
-    assert set(invitation["responses"]) == {"204", "400", "403"}
+    assert set(invitation["responses"]) == {"204", "400", "403", "500"}
 
 
 @pytest.mark.api
@@ -126,20 +126,20 @@ def test_openapi_documents_organization_creation(api_client: APIClient) -> None:
 
     assert response.status_code == 200
     assert {"cookieAuth": []} in collection["get"]["security"]
-    assert set(collection["get"]["responses"]) == {"200", "403"}
-    assert set(collection["post"]["responses"]) == {"201", "400", "403"}
+    assert set(collection["get"]["responses"]) == {"200", "403", "500"}
+    assert set(collection["post"]["responses"]) == {"201", "400", "403", "500"}
     assert set(component["required"]) == {"name", "user_ids"}
     detail_schema = detail["requestBody"]["content"]["application/json"]["schema"]
     detail_component = schema["components"]["schemas"][detail_schema["$ref"].split("/")[-1]]
-    assert set(detail["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail_get["responses"]) == {"200", "403", "404"}
+    assert set(detail["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(detail_get["responses"]) == {"200", "403", "404", "500"}
     delete = schema["paths"]["/api/admin/organizations/{organization_id}/"]["delete"]
-    assert set(delete["responses"]) == {"204", "400", "403", "404"}
+    assert set(delete["responses"]) == {"204", "400", "403", "404", "500"}
     assert set(detail_component["required"]) == {"name"}
     member_schema = members["requestBody"]["content"]["application/json"]["schema"]
     member_component = schema["components"]["schemas"][member_schema["$ref"].split("/")[-1]]
     assert {"cookieAuth": []} in members["security"]
-    assert set(members["responses"]) == {"200", "400", "403", "404"}
+    assert set(members["responses"]) == {"200", "400", "403", "404", "500"}
     assert set(member_component["required"]) == {"user_ids"}
 
 
@@ -155,11 +155,11 @@ def test_openapi_documents_team_management(api_client: APIClient) -> None:
     component = schema["components"]["schemas"][request_schema["$ref"].split("/")[-1]]
 
     assert response.status_code == 200
-    assert set(collection["get"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(collection["post"]["responses"]) == {"201", "400", "403", "404"}
+    assert set(collection["get"]["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(collection["post"]["responses"]) == {"201", "400", "403", "404", "500"}
     assert set(component["required"]) == {"name", "coach_ids"}
-    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail["delete"]["responses"]) == {"204", "403", "404"}
+    assert set(detail["put"]["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(detail["delete"]["responses"]) == {"204", "403", "404", "500"}
 
 
 @pytest.mark.api

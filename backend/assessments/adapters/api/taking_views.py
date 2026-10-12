@@ -1,3 +1,4 @@
+from django.db import transaction
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import PermissionDenied, ValidationError
@@ -93,6 +94,7 @@ class EvaluationRunView(APIView):
             404: OpenApiResponse(),
         },
     )
+    @transaction.atomic
     def post(self, request, run_id: int):
         run = scoped_run(request, run_id)
         if request.data:
@@ -118,6 +120,7 @@ class EvaluationScoreView(APIView):
             404: OpenApiResponse(),
         },
     )
+    @transaction.atomic
     def put(self, request, run_id: int, question_id: int):
         run = scoped_run(request, run_id)
         serializer = EvaluationScoreSerializer(data=request.data)
@@ -143,6 +146,7 @@ class EvaluationFinalizeView(APIView):
             404: OpenApiResponse(),
         },
     )
+    @transaction.atomic
     def post(self, request, run_id: int):
         run = scoped_run(request, run_id)
         if request.data:
@@ -169,6 +173,7 @@ class EvaluationRevisionView(APIView):
             404: OpenApiResponse(),
         },
     )
+    @transaction.atomic
     def put(self, request, run_id: int):
         run = scoped_run(request, run_id)
         if not is_evaluation_admin(request.user):

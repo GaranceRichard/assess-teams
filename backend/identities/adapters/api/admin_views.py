@@ -102,7 +102,7 @@ class ManagedUserListCreateView(APIView):
         if organization:
             organization.users.add(user)
         record_invitation(request.user, user, organization)
-        transaction.on_commit(lambda: send_invitation(user))
+        transaction.on_commit(lambda: send_invitation(user), robust=True)
         return Response(ManagedUserSerializer(user).data, status=status.HTTP_201_CREATED)
 
 
@@ -165,7 +165,7 @@ class ManagedUserDetailView(APIView):
             mark_pending_responsibilities(user)
         user.save(update_fields=["email", "is_active", "role", "username"])
         record_user_changes(request.user, user, previous)
-        transaction.on_commit(lambda: send_update_notice(user, previous_email))
+        transaction.on_commit(lambda: send_update_notice(user, previous_email), robust=True)
         return Response(ManagedUserSerializer(user).data)
 
     @extend_schema(

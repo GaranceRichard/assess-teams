@@ -20,7 +20,7 @@ def test_password_openapi_matches_authentication_and_write_only_contract():
         ("/api/session/password/", False, "204"),
     ]:
         operation = schema["paths"][path]["post"]
-        assert set(operation["responses"]) == {code, "400", "403", "429"}
+        assert set(operation["responses"]) == {code, "400", "403", "429", "500"}
         assert (
             "security" not in operation if public else {"cookieAuth": []} in operation["security"]
         )

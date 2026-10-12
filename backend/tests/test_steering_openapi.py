@@ -12,7 +12,7 @@ def test_steering_schema_documents_read_only_scope_definitions_and_nulls():
     organizations = schema["paths"]["/api/steering/organizations/"]
     assert set(projection) == set(organizations) == {"get"}
     operation = projection["get"]
-    assert set(operation["responses"]) == {"200", "400", "403", "404"}
+    assert set(operation["responses"]) == {"200", "400", "403", "404", "500"}
     assert {"cookieAuth": []} in operation["security"]
     assert operation["parameters"][0]["name"] == "organization_id"
     assert not operation["parameters"][0].get("required", False)

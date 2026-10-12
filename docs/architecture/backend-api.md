@@ -41,6 +41,8 @@ Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métie
 ni superuser, ni rattachement organisationnel et n'expose aucune opération de lecture, modification ou
 suppression.
 
+Les [transactions métier SQLite](sqlite-transactions.md) protègent les écritures dépendantes et le Journal. Les erreurs internes retournent un JSON `detail` générique en HTTP 500, décrit dans OpenAPI, avec `X-Correlation-ID` ; aucun détail SQLite n’est exposé. Les erreurs après envoi réseau et les limites de reprise y sont explicitées.
+
 ## Session produit et navigation autorisée
 
 `POST /api/session/login/` accepte exactement un `username` et un `password` avec le jeton CSRF initialisé par

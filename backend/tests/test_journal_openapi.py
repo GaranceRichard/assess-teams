@@ -14,8 +14,8 @@ def test_openapi_documents_read_only_journals() -> None:
     logs_get = logs["get"]
     assert set(activity) == {"get"}
     assert set(logs) == {"get"}
-    assert set(activity_get["responses"]) == {"200", "400", "403"}
-    assert set(logs_get["responses"]) == {"200", "400", "403", "404"}
+    assert set(activity_get["responses"]) == {"200", "400", "403", "500"}
+    assert set(logs_get["responses"]) == {"200", "400", "403", "404", "500"}
     assert {parameter["name"] for parameter in activity_get["parameters"]} == {
         "date",
         "organization_id",

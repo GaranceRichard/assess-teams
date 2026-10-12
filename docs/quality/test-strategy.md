@@ -47,7 +47,7 @@ Ils vérifient les collaborations réelles significatives, en particulier :
 - React + couche API ;
 - frontend + backend.
 
-SQLite peut être utilisée pour la base initiale lorsque son comportement est représentatif. Toute divergence avec un environnement cible futur devra être identifiée et couverte.
+SQLite reste la base de référence en développement et production. Les [preuves transactionnelles du Job 1.3](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvrent rollback API/ORM, relations, provenance, panne réseau et arrêt brutal sur fichier, dans les deux configurations.
 
 ### Tests de contrat
 

@@ -14,12 +14,12 @@ def test_schema_documents_taking_endpoints_and_notes_contract():
     finalize = paths["/api/evaluations/{run_id}/finalize/"]["post"]
     revision = paths["/api/evaluations/{run_id}/revision/"]["put"]
     assert {"cookieAuth": []} in collection["security"]
-    assert set(collection["responses"]) == {"200", "400", "403", "404"}
-    assert set(detail["get"]["responses"]) == {"200", "403", "404"}
+    assert set(collection["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(detail["get"]["responses"]) == {"200", "403", "404", "500"}
     for operation in [detail["post"], finalize, revision]:
         assert {"cookieAuth": []} in operation["security"]
-        assert set(operation["responses"]) == {"200", "400", "403", "404"}
-    assert set(score["responses"]) == {"204", "400", "403", "404"}
+        assert set(operation["responses"]) == {"200", "400", "403", "404", "500"}
+    assert set(score["responses"]) == {"204", "400", "403", "404", "500"}
     for operation in [detail["post"], score, finalize, revision]:
         assert "périmètre est revérifié sur la passation verrouillée" in operation["description"]
     reference = score["requestBody"]["content"]["application/json"]["schema"]["$ref"]

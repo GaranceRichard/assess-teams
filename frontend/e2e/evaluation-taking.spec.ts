@@ -38,6 +38,31 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
   await dialog.getByRole("slider").focus();
   await page.keyboard.press("End");
   await expect(dialog.getByText("Note sélectionnée : 10 / 10")).toBeVisible();
+  let failedRunURL = "";
+  await page.route(
+    "**/api/evaluations/*/finalize/",
+    async (route) => {
+      failedRunURL = route.request().url().replace("finalize/", "");
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({
+          detail: "L’opération n’a pas pu être réalisée. Veuillez réessayer.",
+        }),
+      });
+    },
+    { times: 1 },
+  );
+  await dialog.getByRole("button", { name: "Valider l’évaluation" }).click();
+  await expect(dialog.getByRole("alert")).toContainText(
+    "Vos notes restent disponibles ; réessayez.",
+  );
+  const retained = await (await page.request.get(failedRunURL)).json();
+  expect(retained.state).toBe("in_progress");
+  expect(retained.completed_at).toBeNull();
+  expect(
+    retained.questions.map((question: { score: number }) => question.score),
+  ).toEqual([0, 10]);
   await dialog.getByRole("button", { name: "Valider l’évaluation" }).click();
   await expect(dialog).toHaveCount(0);
   await expect(row).toContainText("Complétée");

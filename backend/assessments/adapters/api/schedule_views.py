@@ -91,7 +91,7 @@ class EvaluationScheduleListCreateView(APIView):
             evaluation=schedule.evaluation,
         )
         evaluation_scheduled(request.user, schedule)
-        transaction.on_commit(lambda: notify_schedule_created(schedule.pk))
+        transaction.on_commit(lambda: notify_schedule_created(schedule.pk), robust=True)
         return Response(
             EvaluationScheduleSerializer(schedule).data,
             status=status.HTTP_201_CREATED,
@@ -138,7 +138,7 @@ class EvaluationScheduleDetailView(APIView):
         serializer.is_valid(raise_exception=True)
         schedule = serializer.save()
         evaluation_schedule_updated(request.user, schedule)
-        transaction.on_commit(lambda: notify_schedule_created(schedule.pk))
+        transaction.on_commit(lambda: notify_schedule_created(schedule.pk), robust=True)
         return Response(EvaluationScheduleSerializer(schedule).data)
 
     @extend_schema(

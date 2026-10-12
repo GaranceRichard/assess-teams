@@ -158,8 +158,11 @@ def test_failed_copy_rolls_back_version_allocation_and_journal(monkeypatch):
         raise RuntimeError("copy failed")
 
     monkeypatch.setattr(Question.objects, "bulk_create", fail)
-    with pytest.raises(RuntimeError, match="copy failed"):
-        new_version(client, first)
+    response = new_version(client, first)
+    assert response.status_code == 500
+    assert response.json() == {
+        "detail": "L’opération n’a pas pu être réalisée. Veuillez réessayer."
+    }
     first.family.refresh_from_db()
     assert first.family.next_version == 2
     assert first.family.versions.count() == 1

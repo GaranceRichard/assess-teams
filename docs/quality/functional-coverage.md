@@ -50,6 +50,8 @@ les sources, la migration des erreurs historiques, le filtre de niveau et l’ab
 traceback, secret, token, cookie ou credential exposé. Les tests React vérifient en plus que INFO reste discret,
 WARNING identifiable et que toute ligne ERROR reçoit le traitement rouge accessible en modes jour et nuit.
 
+Le [Job 1.3 / MEP-003](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvre les écritures métier atomiques, le Journal, les relations et l’arrêt brutal SQLite ; Playwright vérifie le refus de finalisation puis sa reprise sans perte des notes.
+
 La passation couvre accès assigné/Admin/Superadmin, refus Viewer et hors organisation, ordre et snapshot des
 questions, notes entières `0..10`, contraintes SQLite, sauvegarde/reprise, complétude, verrouillage après
 validation, auteur/date initiaux et dernière révision. Les payloads forgés et les révisions invalides sont

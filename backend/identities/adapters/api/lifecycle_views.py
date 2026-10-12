@@ -52,7 +52,7 @@ def change_activation(request, user_id: int, active: bool):
         user.is_active = active
         user.save(update_fields=["is_active"])
         record_user_changes(request.user, user, previous)
-        transaction.on_commit(lambda: send_activation_notice(user))
+        transaction.on_commit(lambda: send_activation_notice(user), robust=True)
     return user
 
 

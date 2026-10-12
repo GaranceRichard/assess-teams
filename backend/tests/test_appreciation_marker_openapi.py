@@ -24,5 +24,5 @@ def test_openapi_exposes_optional_unique_markers_and_readonly_snapshots():
     assert marker["properties"]["score"]["maximum"] == 10
     operation = schema["paths"]["/api/admin/questions/{question_id}/"]["put"]
     assert "Omettre" in operation["description"]
-    assert set(operation["responses"]) == {"200", "400", "403", "404"}
+    assert set(operation["responses"]) == {"200", "400", "403", "404", "500"}
     assert {"cookieAuth": []} in operation["security"]

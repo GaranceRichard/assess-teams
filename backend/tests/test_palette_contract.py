@@ -19,7 +19,7 @@ def test_palette_contract_documents_session_read_login_and_write():
     schema = response.json()
     patch = schema["paths"]["/api/session/"]["patch"]
     assert {"cookieAuth": []} in patch["security"]
-    assert set(patch["responses"]) == {"200", "400", "403"}
+    assert set(patch["responses"]) == {"200", "400", "403", "500"}
     request = component(schema, patch["requestBody"]["content"]["application/json"]["schema"])
     assert set(request["required"]) == {"interface_palette"}
     assert set(request["properties"]) == {"interface_palette"}

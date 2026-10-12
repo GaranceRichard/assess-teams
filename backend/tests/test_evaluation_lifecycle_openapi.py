@@ -19,4 +19,4 @@ def test_schema_documents_readonly_status_and_explicit_lifecycle_actions():
         operation = schema["paths"][f"/api/admin/evaluations/{{evaluation_id}}/{action}/"]["post"]
         assert {"cookieAuth": []} in operation["security"]
         assert "requestBody" not in operation
-        assert set(operation["responses"]) == {"200", "400", "403", "404"}
+        assert set(operation["responses"]) == {"200", "400", "403", "404", "500"}

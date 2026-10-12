@@ -40,7 +40,7 @@ Le backend CI sépare Ruff et migrations des tests, répartis en deux shards éq
 
 ## Socle technique
 
-- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite.
+- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite, y compris en production. [Job 1.3 — transactions métier](docs/architecture/sqlite-transactions.md) : modifications dépendantes et Journal validés ensemble ou annulés, données antérieures conservées et erreurs compréhensibles.
 - Frontend : React 19, TypeScript 5.9 et Vite 8.
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
