@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 
 import { ScheduleEditDialog } from "./ScheduleDialogs";
@@ -107,6 +107,9 @@ it("edits and confirms deletion in the same dialog", async () => {
     mode: "monthly",
     first_due_date: "2026-10-05",
   });
+  await waitFor(() =>
+    expect(screen.getByRole("button", { name: "Supprimer" })).toBeEnabled(),
+  );
   fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
   expect(screen.getByRole("alert")).toHaveTextContent(
     "Supprimer définitivement Maturité pour Alpha ?",

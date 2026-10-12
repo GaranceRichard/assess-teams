@@ -110,7 +110,7 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
         <p className="eyebrow">Administration</p>
         <h1>Organisations</h1>
       </div>
-      {error && (
+      {error && !editingMembers && !renaming && !deleting && (
         <p className="form-error" role="alert">
           {error}
         </p>
@@ -133,6 +133,7 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
       />
       {editingMembers && (
         <OrganizationMembersDialog
+          error={error}
           onCancel={() => setEditingMembers(null)}
           onSubmit={saveMembers}
           organization={editingMembers}
@@ -146,6 +147,7 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
       )}
       {renaming && (
         <OrganizationRenameDialog
+          error={error}
           onCancel={() => setRenaming(null)}
           onSubmit={saveName}
           organization={renaming}
@@ -153,6 +155,7 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
       )}
       {deleting && (
         <OrganizationDeleteDialog
+          error={error}
           onCancel={() => setDeleting(null)}
           onConfirm={confirmDelete}
           organization={deleting}

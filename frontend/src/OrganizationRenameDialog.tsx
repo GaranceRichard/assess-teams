@@ -1,14 +1,18 @@
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
 import { type FormEvent, useState } from "react";
 
 import type { Organization } from "./organizations";
 
 type Props = {
+  error?: string | null;
   organization: Organization;
   onCancel: () => void;
   onSubmit: (name: string) => Promise<void>;
 };
 
 export function OrganizationRenameDialog({
+  error,
   organization,
   onCancel,
   onSubmit,
@@ -27,17 +31,18 @@ export function OrganizationRenameDialog({
   }
 
   return (
-    <div className="organization-dialog-backdrop">
-      <div
-        aria-labelledby="organization-rename-title"
-        className="organization-dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="organization-dialog-backdrop"
+      labelledBy="organization-rename-title"
+      onClose={onCancel}
+      dismissible={!saving}
+    >
+      <div className="organization-dialog">
         <h2 id="organization-rename-title">Renommer l’organisation</h2>
+        <ErrorNotice error={error} />
         <form className="organization-rename-form" onSubmit={submit}>
           <label htmlFor="organization-new-name">Nom</label>
           <input
-            autoFocus
             id="organization-new-name"
             maxLength={255}
             onChange={(event) => setName(event.target.value)}
@@ -45,7 +50,12 @@ export function OrganizationRenameDialog({
             value={name}
           />
           <div className="organization-dialog-actions">
-            <button className="secondary" onClick={onCancel} type="button">
+            <button
+              className="secondary"
+              disabled={saving}
+              onClick={onCancel}
+              type="button"
+            >
               Annuler
             </button>
             <button disabled={saving || !name.trim()} type="submit">
@@ -54,6 +64,6 @@ export function OrganizationRenameDialog({
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 }

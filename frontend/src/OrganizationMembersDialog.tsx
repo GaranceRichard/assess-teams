@@ -1,9 +1,12 @@
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
 import { useState } from "react";
 
 import type { ManagedUser } from "./managedUsers";
 import type { Organization } from "./organizations";
 
 type Props = {
+  error?: string | null;
   organization: Organization;
   users: ManagedUser[];
   unavailableUserIds: Set<number>;
@@ -13,6 +16,7 @@ type Props = {
 };
 
 export function OrganizationMembersDialog({
+  error,
   organization,
   users,
   unavailableUserIds,
@@ -45,14 +49,19 @@ export function OrganizationMembersDialog({
   }
 
   return (
-    <div className="organization-dialog-backdrop">
-      <div
-        aria-labelledby="organization-members-title"
-        className="organization-dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="organization-dialog-backdrop"
+      labelledBy="organization-members-title"
+      describedBy="OrganizationMembersDialog-description"
+      onClose={onCancel}
+      dismissible={!saving}
+    >
+      <div className="organization-dialog">
         <h2 id="organization-members-title">Membres de {organization.name}</h2>
-        <p>Conservez au moins un Admin actif.</p>
+        <ErrorNotice error={error} />
+        <p id="OrganizationMembersDialog-description">
+          Conservez au moins un Admin actif.
+        </p>
         <div className="organization-users">
           {users
             .filter(
@@ -90,7 +99,12 @@ export function OrganizationMembersDialog({
             })}
         </div>
         <div className="organization-dialog-actions">
-          <button className="secondary" onClick={onCancel} type="button">
+          <button
+            className="secondary"
+            disabled={saving}
+            onClick={onCancel}
+            type="button"
+          >
             Annuler
           </button>
           <button
@@ -102,6 +116,6 @@ export function OrganizationMembersDialog({
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

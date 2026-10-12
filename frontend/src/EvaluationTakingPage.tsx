@@ -20,6 +20,7 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
   const collection = usePagedCollection<EvaluationRunRow>(listEvaluationRuns);
   const { items: rows, setItems: setRows, loading } = collection;
   const [active, setActive] = useState<{
+    returnFocus: HTMLElement;
     run: EvaluationRun;
     revision: boolean;
   } | null>(null);
@@ -31,6 +32,7 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
   }
 
   async function open(row: EvaluationRunRow, revision = false) {
+    const returnFocus = document.activeElement as HTMLElement;
     setBusy(true);
     setError(null);
     try {
@@ -39,7 +41,7 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
           ? await getEvaluationRun(row.id)
           : await startEvaluationRun(row.id);
       updateRow(run);
-      setActive({ run, revision });
+      setActive({ run, revision, returnFocus });
     } catch {
       setError(
         "Impossible d’ouvrir cette évaluation. Vérifiez que le modèle est validé, contient des questions et que l’équipe est active.",
@@ -91,6 +93,7 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
       </CollectionFrame>
       {active && (
         <EvaluationTakingDialog
+          returnFocus={active.returnFocus}
           run={active.run}
           revision={active.revision}
           onClose={(run) => {

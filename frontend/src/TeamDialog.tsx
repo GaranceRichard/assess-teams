@@ -1,16 +1,25 @@
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
 import { type FormEvent, useState } from "react";
 
 import type { OrganizationMember } from "./organizations";
 import type { Team, TeamInput } from "./teams";
 
 type Props = {
+  error?: string | null;
   coaches: OrganizationMember[];
   team?: Team;
   onCancel: () => void;
   onSubmit: (input: TeamInput) => Promise<void>;
 };
 
-export function TeamDialog({ coaches, team, onCancel, onSubmit }: Props) {
+export function TeamDialog({
+  error,
+  coaches,
+  team,
+  onCancel,
+  onSubmit,
+}: Props) {
   const [name, setName] = useState(team?.name ?? "");
   const [coachIds, setCoachIds] = useState(
     team?.coaches.map((coach) => coach.id) ?? [],
@@ -36,20 +45,20 @@ export function TeamDialog({ coaches, team, onCancel, onSubmit }: Props) {
   }
 
   return (
-    <div className="team-dialog-backdrop">
-      <section
-        aria-labelledby="team-dialog-title"
-        aria-modal="true"
-        className="team-dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="team-dialog-backdrop"
+      labelledBy="team-dialog-title"
+      onClose={onCancel}
+      dismissible={!saving}
+    >
+      <section className="team-dialog">
         <h2 id="team-dialog-title">
           {team ? "Modifier l’équipe" : "Créer une équipe"}
         </h2>
+        <ErrorNotice error={error} />
         <form onSubmit={submit}>
           <label htmlFor="team-name">Nom de l’équipe</label>
           <input
-            autoFocus
             id="team-name"
             maxLength={255}
             onChange={(event) => setName(event.target.value)}
@@ -81,7 +90,12 @@ export function TeamDialog({ coaches, team, onCancel, onSubmit }: Props) {
             )}
           </fieldset>
           <div className="team-dialog-actions">
-            <button className="secondary" onClick={onCancel} type="button">
+            <button
+              className="secondary"
+              disabled={saving}
+              onClick={onCancel}
+              type="button"
+            >
               Annuler
             </button>
             <button disabled={saving || !name.trim()} type="submit">
@@ -90,6 +104,6 @@ export function TeamDialog({ coaches, team, onCancel, onSubmit }: Props) {
           </div>
         </form>
       </section>
-    </div>
+    </Modal>
   );
 }

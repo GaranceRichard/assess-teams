@@ -1,4 +1,6 @@
-export const evaluation = {
+import type { Evaluation } from "../evaluations";
+
+export const evaluation: Evaluation = {
   id: 2,
   family_id: 2,
   family_name: "Maturité",

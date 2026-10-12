@@ -1,38 +1,55 @@
-import type { MouseEvent } from "react";
+import { ErrorNotice } from "./ErrorNotice";
+import { useState } from "react";
+import { Modal } from "./Modal";
 
 type Props = {
+  error?: string | null;
   name: string;
   onCancel: () => void;
   onConfirm: () => Promise<void>;
 };
 
-export function ConfirmDialog({ name, onCancel, onConfirm }: Props) {
-  function closeBackdrop(event: MouseEvent<HTMLDivElement>) {
-    if (event.target === event.currentTarget) onCancel();
+export function ConfirmDialog({ error, name, onCancel, onConfirm }: Props) {
+  const [saving, setSaving] = useState(false);
+
+  async function confirm() {
+    setSaving(true);
+    try {
+      await onConfirm();
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
-    <div className="dialog-backdrop" onMouseDown={closeBackdrop}>
-      <section
-        aria-labelledby="confirm-title"
-        aria-modal="true"
-        className="dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="dialog-backdrop"
+      labelledBy="confirm-title"
+      closeOnBackdrop
+      describedBy="ConfirmDialog-description"
+      onClose={onCancel}
+      dismissible={!saving}
+    >
+      <section className="dialog">
         <h2 id="confirm-title">Désactiver l’utilisateur ?</h2>
-        <p>
+        <ErrorNotice error={error} />
+        <p id="ConfirmDialog-description">
           Le compte de {name} ne pourra plus agir. Son identité et son
           historique seront conservés.
         </p>
         <div className="dialog-actions">
-          <button className="secondary" onClick={onCancel}>
+          <button className="secondary" disabled={saving} onClick={onCancel}>
             Annuler
           </button>
-          <button className="danger" onClick={() => void onConfirm()}>
+          <button
+            className="danger"
+            disabled={saving}
+            onClick={() => void confirm()}
+          >
             Confirmer la désactivation
           </button>
         </div>
       </section>
-    </div>
+    </Modal>
   );
 }

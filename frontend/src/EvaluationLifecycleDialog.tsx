@@ -1,9 +1,12 @@
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
 import { useState } from "react";
 
 import { versionLabel } from "./evaluationVersionLabel";
 import type { Evaluation } from "./evaluations";
 
 type Props = {
+  error?: string | null;
   action: "validate" | "archive";
   evaluation: Evaluation;
   onCancel: () => void;
@@ -11,6 +14,7 @@ type Props = {
 };
 
 export function EvaluationLifecycleDialog({
+  error,
   action,
   evaluation,
   onCancel,
@@ -29,24 +33,26 @@ export function EvaluationLifecycleDialog({
   }
 
   return (
-    <div className="evaluation-dialog-backdrop">
-      <section
-        aria-labelledby="evaluation-lifecycle-title"
-        aria-modal="true"
-        className="evaluation-dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="evaluation-dialog-backdrop"
+      labelledBy="evaluation-lifecycle-title"
+      describedBy="EvaluationLifecycleDialog-description"
+      onClose={onCancel}
+      dismissible={!saving}
+    >
+      <section className="evaluation-dialog">
         <h2 id="evaluation-lifecycle-title">
           {validating ? "Valider" : "Archiver"} ce modèle ?
         </h2>
-        <p>
+        <ErrorNotice error={error} />
+        <p id="EvaluationLifecycleDialog-description">
           « {versionLabel(evaluation.family_name, evaluation.version)} »{" "}
           {validating
             ? "et ses questions deviendront définitivement non modifiables. L’ancienne version validée de cette famille sera automatiquement archivée."
             : "restera consultable, mais ne pourra plus être nouvellement planifié."}
         </p>
         <div className="evaluation-dialog-actions">
-          <button className="secondary" onClick={onCancel}>
+          <button className="secondary" disabled={saving} onClick={onCancel}>
             Annuler
           </button>
           <button disabled={saving} onClick={() => void confirm()}>
@@ -56,6 +62,6 @@ export function EvaluationLifecycleDialog({
           </button>
         </div>
       </section>
-    </div>
+    </Modal>
   );
 }

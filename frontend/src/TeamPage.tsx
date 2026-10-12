@@ -107,7 +107,7 @@ export function TeamPage({ actor }: Props) {
           <button onClick={() => setEditing("new")}>Créer une équipe</button>
         )}
       </div>
-      {error && <p role="alert">{error}</p>}
+      {error && !editing && !deleting && <p role="alert">{error}</p>}
       <label className="organization-selector" htmlFor="team-organization">
         Organisation
         <select
@@ -140,6 +140,7 @@ export function TeamPage({ actor }: Props) {
       )}
       {editing && organization && (
         <TeamDialog
+          error={error}
           coaches={coaches}
           onCancel={() => setEditing(null)}
           onSubmit={save}
@@ -148,6 +149,7 @@ export function TeamPage({ actor }: Props) {
       )}
       {deleting && (
         <TeamDeleteDialog
+          error={error}
           onCancel={() => setDeleting(null)}
           onConfirm={remove}
           team={deleting}

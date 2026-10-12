@@ -1,16 +1,25 @@
-import { type FormEvent, type MouseEvent, useState } from "react";
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
+import { type FormEvent, useState } from "react";
 
 import type { UserRole } from "./auth";
 import type { ManagedUser, UserInput } from "./managedUsers";
 
 type Props = {
+  error?: string | null;
   user?: ManagedUser;
   allowedRoles: UserRole[];
   onCancel: () => void;
   onSubmit: (input: UserInput) => Promise<void>;
 };
 
-export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
+export function UserDialog({
+  error,
+  user,
+  allowedRoles,
+  onCancel,
+  onSubmit,
+}: Props) {
   const [identifier, setIdentifier] = useState(user?.identifier ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const initialRole =
@@ -18,29 +27,30 @@ export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
   const [role, setRole] = useState<UserRole | undefined>(initialRole);
   const [saving, setSaving] = useState(false);
 
-  function closeBackdrop(event: MouseEvent<HTMLDivElement>) {
-    if (event.target === event.currentTarget) onCancel();
-  }
-
   async function submit(event: FormEvent) {
     event.preventDefault();
     setSaving(true);
     const roleInput = allowedRoles.length > 0 ? { role } : {};
-    await onSubmit({ identifier, email, ...roleInput });
-    setSaving(false);
+    try {
+      await onSubmit({ identifier, email, ...roleInput });
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
-    <div className="dialog-backdrop" onMouseDown={closeBackdrop}>
-      <section
-        aria-labelledby="user-dialog-title"
-        aria-modal="true"
-        className="dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="dialog-backdrop"
+      labelledBy="user-dialog-title"
+      closeOnBackdrop
+      onClose={onCancel}
+      dismissible={!saving}
+    >
+      <section className="dialog">
         <h2 id="user-dialog-title">
           {user ? "Modifier l’utilisateur" : "Ajouter un utilisateur"}
         </h2>
+        <ErrorNotice error={error} />
         <form onSubmit={submit}>
           <label htmlFor="managed-identifier">Identifiant</label>
           <input
@@ -72,7 +82,12 @@ export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
             </>
           )}
           <div className="dialog-actions">
-            <button className="secondary" type="button" onClick={onCancel}>
+            <button
+              className="secondary"
+              type="button"
+              disabled={saving}
+              onClick={onCancel}
+            >
               Annuler
             </button>
             <button disabled={saving} type="submit">
@@ -81,6 +96,6 @@ export function UserDialog({ user, allowedRoles, onCancel, onSubmit }: Props) {
           </div>
         </form>
       </section>
-    </div>
+    </Modal>
   );
 }

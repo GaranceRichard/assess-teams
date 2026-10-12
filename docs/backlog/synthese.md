@@ -5,7 +5,7 @@ font autorité pour le périmètre ; le [registre canonique](tracking/pbis.md) f
 Les PBIs signalés comme régularisations décrivent des comportements déjà livrés sans prétendre qu’ils avaient été
 planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés, pas la complétude du produit entier.
 
-## Produit réellement disponible au 2026-10-11
+## Produit réellement disponible au 2026-10-12
 
 - session par login/logout, reprise de session, invitations et choix du mot de passe ;
 - récupération publique et modification personnelle depuis Mon profil, avec politique des sessions et remise différée ;
@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 3 | 9 % |
+| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 5 | 14 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
 raffinées et les limites explicites des PBIs restent hors du dénominateur.
@@ -107,12 +107,12 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 
 Les [sources EPIC-011](source/07-pre-mep.md) fixent les compléments ; le [plan](planning/pre-mep.md)
 organise les prérequis et le parallélisme. Le [détail des 35 travaux et du jalon](tracking/pre-mep-view.md)
-est dérivé du registre ; MEP-001, MEP-003, MEP-006 et MEP-008 sont réalisés, les 31 autres PBIs restent Ouverts.
+est dérivé du registre ; MEP-001, MEP-003, MEP-005, MEP-006 et MEP-008 sont réalisés, les 30 autres PBIs restent Ouverts.
 Le [rapprochement](planning/pre-mep-rapprochements.md) conserve les acquis et signale les écarts.
 
 | Vague | Travaux demandés | Travaux acquis | Compléments ouverts | Entrée |
 | --- | ---: | ---: | ---: | --- |
-| Job 1 — Fondations | 8 | 4 (1.1 — Authentification ; 1.3 — SQLite ; 1.6 — Licence ; 1.8 — Permissions DRF) | 4 | aucun job préalable |
+| Job 1 — Fondations | 8 | 5 (1.1 — Authentification ; 1.3 — SQLite ; 1.5 — Modales ; 1.6 — Licence ; 1.8 — Permissions DRF) | 3 | aucun job préalable |
 | Job 2 — Robustesse | 5 | 1 (2.4 — Journalisation HTTP et métier) | 4 | job 1 satisfait |
 | Job 3 — UI/UX | 7 | 0 | 7 | job 2 satisfait |
 | Job 4 — Exploitation et contrat de déploiement | 4 | 0 | 4 | job 3 satisfait |
@@ -160,9 +160,9 @@ réconciliées avec les preuves disponibles. Leurs constats sont des points à v
 | Features raffinées | 29 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 69 |
-| PBIs ouverts | 40 |
+| PBIs ouverts | 38 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 41 |
-| PBIs réalisés | 28 |
-| Avancement global | 41 % |
+| PBIs non réalisés | 39 |
+| PBIs réalisés | 30 |
+| Avancement global | 43 % |

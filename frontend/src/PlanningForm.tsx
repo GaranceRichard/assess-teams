@@ -13,6 +13,7 @@ import {
 import type { Team } from "./teams";
 
 type Props = {
+  onSavingChange?: (saving: boolean) => void;
   organizationId: number;
   teams: Team[];
   evaluations: Evaluation[];
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export function PlanningForm({
+  onSavingChange,
   organizationId,
   teams,
   evaluations,
@@ -52,6 +54,7 @@ export function PlanningForm({
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     setSaving(true);
+    onSavingChange?.(true);
     try {
       await onSubmit({
         organization_id: organizationId,
@@ -70,6 +73,7 @@ export function PlanningForm({
       // The page owns and displays the API error.
     } finally {
       setSaving(false);
+      onSavingChange?.(false);
     }
   }
 

@@ -130,7 +130,9 @@ export function EvaluationPage() {
           </button>
         )}
       </div>
-      {error && <p role="alert">{error}</p>}
+      {error && !editing && !deleting && !lifecycle.target && (
+        <p role="alert">{error}</p>
+      )}
       <EvaluationOrganizationSelect
         organizations={organizations}
         value={organizationId}
@@ -179,6 +181,7 @@ export function EvaluationPage() {
         />
       </div>
       <EvaluationPageDialogs
+        error={error}
         deleting={deleting}
         editing={editing}
         lifecycle={lifecycle.target}

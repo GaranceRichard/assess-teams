@@ -1,3 +1,4 @@
+import { ErrorNotice } from "./ErrorNotice";
 import { CollectionFrame } from "./CollectionFrame";
 import { usePagedCollection } from "./usePagedCollection";
 import { useCallback, useState } from "react";
@@ -91,11 +92,7 @@ export function SuperadminDashboard({ actor }: Props) {
           </button>
         )}
       </div>
-      {error && (
-        <p className="form-error" role="alert">
-          {error}
-        </p>
-      )}
+      <ErrorNotice error={editing || deactivating ? null : error} />
       <label className="collection-search">
         Rechercher un utilisateur
         <input
@@ -177,6 +174,7 @@ export function SuperadminDashboard({ actor }: Props) {
       </CollectionFrame>
       {editing && (
         <UserDialog
+          error={error}
           user={editing === "new" ? undefined : editing}
           allowedRoles={
             editing === "new"
@@ -189,6 +187,7 @@ export function SuperadminDashboard({ actor }: Props) {
       )}
       {deactivating && (
         <ConfirmDialog
+          error={error}
           name={deactivating.identifier}
           onCancel={() => setDeactivating(null)}
           onConfirm={() => changeActivation(deactivating, false)}

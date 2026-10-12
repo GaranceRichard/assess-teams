@@ -2,19 +2,25 @@ import { TakingContentSizing } from "./TakingContentSizing";
 import { AppreciationScale } from "./AppreciationScale";
 import { appreciationForScore } from "./appreciationForScore";
 import { referenceLabel } from "./evaluationVersionLabel";
-import { useEffect, useRef } from "react";
+import { useModalFocus } from "./useModalFocus";
 
 import type { EvaluationRun } from "./evaluationRuns";
 import { useEvaluationTaking } from "./useEvaluationTaking";
 
 type Props = {
+  returnFocus?: HTMLElement;
   run: EvaluationRun;
   revision: boolean;
   onClose: (run: EvaluationRun) => void;
 };
 
-export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
-  const dialog = useRef<HTMLDialogElement>(null);
+export function EvaluationTakingDialog({
+  returnFocus,
+  run,
+  revision,
+  onClose,
+}: Props) {
+  const dialog = useModalFocus("taking-title", "title", returnFocus);
   const {
     current,
     position,
@@ -38,17 +44,12 @@ export function EvaluationTakingDialog({ run, revision, onClose }: Props) {
     proposedScore,
   )?.text;
 
-  useEffect(() => {
-    const element = dialog.current!;
-    element.showModal();
-    return () => element.close();
-  }, []);
-
   return (
     <dialog
       ref={dialog}
       className="evaluation-dialog taking-dialog"
       aria-labelledby="taking-title"
+      aria-modal="true"
       onCancel={(event) => {
         event.preventDefault();
         if (!saving && !unsaved) onClose(current);

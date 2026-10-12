@@ -1,14 +1,18 @@
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
 import { useState } from "react";
 
 import type { Organization } from "./organizations";
 
 type Props = {
+  error?: string | null;
   organization: Organization;
   onCancel: () => void;
   onConfirm: () => Promise<void>;
 };
 
 export function OrganizationDeleteDialog({
+  error,
   organization,
   onCancel,
   onConfirm,
@@ -25,19 +29,27 @@ export function OrganizationDeleteDialog({
   }
 
   return (
-    <div className="organization-dialog-backdrop">
-      <div
-        aria-labelledby="organization-delete-title"
-        className="organization-dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="organization-dialog-backdrop"
+      labelledBy="organization-delete-title"
+      describedBy="OrganizationDeleteDialog-description"
+      onClose={onCancel}
+      dismissible={!deleting}
+    >
+      <div className="organization-dialog">
         <h2 id="organization-delete-title">Supprimer l’organisation ?</h2>
-        <p>
+        <ErrorNotice error={error} />
+        <p id="OrganizationDeleteDialog-description">
           {organization.name} sera définitivement supprimée. Ses utilisateurs
           conserveront leurs comptes.
         </p>
         <div className="organization-dialog-actions">
-          <button className="secondary" onClick={onCancel} type="button">
+          <button
+            className="secondary"
+            disabled={deleting}
+            onClick={onCancel}
+            type="button"
+          >
             Annuler
           </button>
           <button
@@ -50,6 +62,6 @@ export function OrganizationDeleteDialog({
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

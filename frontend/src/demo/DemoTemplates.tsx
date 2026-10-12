@@ -34,7 +34,7 @@ export function DemoTemplates() {
         passations et les résultats utilisent la v1 validée, dont les{" "}
         {criteria.length} critères restent immuables.
       </p>
-      {error && <p role="alert">{error}</p>}
+      {error && !editing && !deleting && <p role="alert">{error}</p>}
       <div className="evaluation-workspace page-content">
         <EvaluationList
           evaluations={[model, draft]}
@@ -91,6 +91,7 @@ export function DemoTemplates() {
       </div>
       {editing && (
         <NameDialog
+          error={error}
           kind="question"
           value={editing === "new" ? undefined : editing}
           onCancel={() => setEditing(null)}
@@ -107,6 +108,7 @@ export function DemoTemplates() {
       )}
       {deleting && (
         <EvaluationDeleteDialog
+          error={error}
           kind="question"
           value={deleting}
           onCancel={() => setDeleting(null)}

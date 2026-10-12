@@ -88,3 +88,6 @@ La [démo publique](public-demo.md) compose le shell et ses composants avec des 
 
 Les [repères d’appréciation](appreciation-markers.md) restent dans les questions de version exacte,
 avec copie JSON au démarrage des passations. Ils guident la notation sans intervenir dans les calculs.
+
+Les [dialogues accessibles](dialog-accessibility.md) partagent la modalité native, le cycle du focus,
+les annonces internes et les gardes de fermeture, dans le produit et la démo.

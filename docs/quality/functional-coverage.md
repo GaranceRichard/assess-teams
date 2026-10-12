@@ -86,3 +86,8 @@ clair/sombre complètent les assertions géométriques. Les tests unitaires des 
 échouent avec l’ancien composant et passent avec les indicateurs passifs.
 `evaluation-rating-focus.spec.ts` couvre normal, focus souris et clavier, sans contour du champ,
 avec anneau sur la poignée, repères distincts et géométrie stable en clair/sombre sur desktop/mobile.
+
+MEP-005 : [dialogues accessibles](../architecture/dialog-accessibility.md), inventaire des douze modales,
+focus initial/confiné/restauré, ouvertures successives, confirmations et refus sans perte de saisie.
+`dialog-accessibility.spec.ts` et `dialog-taking-accessibility.spec.ts` valident le clavier et la souris,
+les noms/descriptions, le fond inerte, les erreurs internes et les gardes de passation avec Chromium/Django.

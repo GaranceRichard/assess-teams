@@ -1,3 +1,5 @@
+import { ErrorNotice } from "./ErrorNotice";
+import { Modal } from "./Modal";
 import { useState } from "react";
 
 import type { Evaluation } from "./evaluations";
@@ -7,6 +9,7 @@ import type { EvaluationSchedule, ScheduleInput } from "./planning";
 import type { Team } from "./teams";
 
 type Props = {
+  error?: string | null;
   assignees: OrganizationMember[];
   evaluations: Evaluation[];
   onCancel: () => void;
@@ -17,6 +20,7 @@ type Props = {
 };
 
 export function ScheduleEditDialog({
+  error,
   assignees,
   evaluations,
   onCancel,
@@ -26,6 +30,7 @@ export function ScheduleEditDialog({
   teams,
 }: Props) {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
   async function remove() {
@@ -38,18 +43,20 @@ export function ScheduleEditDialog({
   }
 
   return (
-    <div className="planning-dialog-backdrop">
-      <section
-        aria-labelledby="planning-dialog-title"
-        aria-modal="true"
-        className="planning-dialog"
-        role="dialog"
-      >
+    <Modal
+      backdropClassName="planning-dialog-backdrop"
+      labelledBy="planning-dialog-title"
+      onClose={onCancel}
+      dismissible={!(saving || deleting)}
+    >
+      <section className="planning-dialog">
         <h2 id="planning-dialog-title">Modifier la planification</h2>
+        <ErrorNotice error={error} />
         <PlanningForm
           assignees={assignees}
           evaluations={evaluations}
           onSubmit={onSubmit}
+          onSavingChange={setSaving}
           organizationId={schedule.organization_id}
           schedule={schedule}
           teams={teams}
@@ -61,13 +68,18 @@ export function ScheduleEditDialog({
           </p>
         )}
         <div className="schedule-actions">
-          <button className="secondary" onClick={onCancel} type="button">
+          <button
+            className="secondary"
+            disabled={saving || deleting}
+            onClick={onCancel}
+            type="button"
+          >
             Annuler
           </button>
           {confirmingDelete ? (
             <button
               className="schedule-danger"
-              disabled={deleting}
+              disabled={saving || deleting}
               onClick={() => void remove()}
               type="button"
             >
@@ -76,6 +88,7 @@ export function ScheduleEditDialog({
           ) : (
             <button
               className="schedule-danger"
+              disabled={saving}
               onClick={() => setConfirmingDelete(true)}
               type="button"
             >
@@ -84,6 +97,6 @@ export function ScheduleEditDialog({
           )}
         </div>
       </section>
-    </div>
+    </Modal>
   );
 }

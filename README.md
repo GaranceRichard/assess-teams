@@ -34,6 +34,8 @@ La vue Radar / Graphique des Résultats retire le menu dépliant « Historique p
 
 Les [dates et heures](docs/architecture/date-time-presentation.md) des interfaces, de la démo et des notifications sont uniformisées en `JJ/MM/AAAA`, `HH:mm` et `JJ/MM/AAAA - HH:mm`, sans secondes visibles. Le chantier centralise la présentation en conservant les fuseaux existants, la précision persistée et les formats techniques des API et exports.
 
+Le [Job 1.5](docs/architecture/dialog-accessibility.md) harmonise l’accessibilité de tous les dialogues : focus initial et contenu, retour au déclencheur ou à un repère pertinent, fermeture par Échap selon les protections existantes, titres et descriptions accessibles. Les saisies et les parcours métier restent protégés, sans refonte graphique ni changement du curseur de notation.
+
 ## CI — feedback qualité
 
 Le backend CI sépare Ruff et migrations des tests, répartis en deux shards équilibrés selon les durées mesurées. Les poids sont recalibrés depuis les rapports JUnit GitHub, après une première mesure locale. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
@@ -146,9 +148,7 @@ Elle délègue à `scripts/test-all.ps1`, exécute successivement backend, front
 
 Les [commandes ciblées backend, frontend et E2E](docs/quality/test-commands.md) complètent cette suite.
 
-Les suites backend, React et Playwright couvrent authentification, scopes, CRUD, contrats et parcours métier.
-La [stratégie de tests](docs/quality/test-strategy.md) décrit leur couverture, y compris la conservation
-historique, les responsabilités à réaffecter et la concurrence du dernier Admin actif de USER-004.
+La [stratégie de tests](docs/quality/test-strategy.md) détaille les preuves backend, React et Playwright par parcours, dont la conservation historique et les invariants USER-004.
 
 ## Approche quality-first
 

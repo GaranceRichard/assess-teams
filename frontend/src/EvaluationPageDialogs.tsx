@@ -15,6 +15,7 @@ export type LifecycleTarget = {
 };
 
 type Props = {
+  error?: string | null;
   deleting: DeleteTarget | null;
   editing: EditTarget | null;
   lifecycle: LifecycleTarget | null;
@@ -31,6 +32,7 @@ export function EvaluationPageDialogs(props: Props) {
     <>
       {props.editing && (
         <NameDialog
+          error={props.error}
           kind={props.editing.kind}
           value={props.editing.value}
           onCancel={props.onCloseEdit}
@@ -39,6 +41,7 @@ export function EvaluationPageDialogs(props: Props) {
       )}
       {props.deleting && (
         <EvaluationDeleteDialog
+          error={props.error}
           kind={props.deleting.kind}
           value={props.deleting.value}
           onCancel={props.onCloseDelete}
@@ -47,6 +50,7 @@ export function EvaluationPageDialogs(props: Props) {
       )}
       {props.lifecycle && (
         <EvaluationLifecycleDialog
+          error={props.error}
           action={props.lifecycle.action}
           evaluation={props.lifecycle.value}
           onCancel={props.onCloseLifecycle}

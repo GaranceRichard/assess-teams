@@ -125,7 +125,7 @@ export function PlanningPage({ actor }: Props) {
         <p className="eyebrow">Administration</p>
         <h1>Planification</h1>
       </div>
-      {error && <p role="alert">{error}</p>}
+      {error && !editing && <p role="alert">{error}</p>}
       <label className="planning-organization" htmlFor="planning-organization">
         Organisation
         <select
@@ -173,6 +173,7 @@ export function PlanningPage({ actor }: Props) {
       )}
       {editing && (
         <ScheduleEditDialog
+          error={error}
           assignees={organizationAssignees}
           evaluations={editingEvaluations}
           onCancel={() => setEditing(null)}
