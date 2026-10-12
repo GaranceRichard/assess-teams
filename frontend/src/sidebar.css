@@ -167,3 +167,12 @@
     flex: 0 0 auto;
   }
 }
+
+.sidebar-legal {
+  font-size: 0.75rem;
+  text-align: center;
+  padding-top: 0.75rem;
+}
+.sidebar-legal a {
+  color: var(--navigation-text);
+}

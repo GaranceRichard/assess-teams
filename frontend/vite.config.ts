@@ -1,10 +1,13 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
+// @ts-expect-error Shared build plugin is authored in JavaScript.
+import { legalNotices } from "../scripts/legal/vite-legal.mjs";
+
 const backendUrl = process.env.ASSESS_BACKEND_URL ?? "http://127.0.0.1:8000";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), legalNotices()],
   server: {
     host: "127.0.0.1",
     port: 5173,

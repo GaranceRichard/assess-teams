@@ -88,6 +88,7 @@ if ($Scope -in @('all', 'repository')) {
     Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
     Invoke-PowerShellCheck 'Tests des scopes qualite' 'scripts\quality\tests\scopes.tests.ps1'
     Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
+    Invoke-QualityStep 'Tests des licences et attributions' { & node --test scripts/legal/npm-notices.test.mjs }
     Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs }
 }
 

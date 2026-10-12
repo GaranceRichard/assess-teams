@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from "react";
 
+import { LegalLink } from "./LegalLink";
 import "./login.css";
 
 type Props = {
@@ -66,6 +67,7 @@ export function LoginPage({ error, onLogin }: Props) {
             {submitting ? "Connexion…" : "Se connecter"}
           </button>
         </form>
+        <LegalLink />
         <a href="/password/forgot">Mot de passe oublié ?</a>
       </section>
     </main>

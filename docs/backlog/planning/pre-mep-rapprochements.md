@@ -16,7 +16,7 @@ Les observations étayées par le dépôt sont signalées comme telles. Aucun PB
 | 1.3 / 2.2 — Transactions/concurrence | ORG-001, USER-004, EVAL-003 et AUTH-002, réalisés ; tests SQLite ciblés | MEP-003 traite atomicité/effets externes ; MEP-010 traite contention multi-processus et charge cible |
 | 1.4 — SMTP/reprises | NOTIF-001 — Courriels de planning, réalisé ; file et reprises de récupération dans AUTH-002 | MEP-004 complète les autres remises ; aucune file de récupération à recréer |
 | 1.5 / 3.1 — Modales/passation | PASS-001 et EVAL-004 réalisés ; correctifs 1c798d8, 70766d4, preuve versionnée 0cdb1dc et focus du curseur dcbfe34 | MEP-005 complète l’accessibilité globale ; MEP-013 complète les frictions restantes |
-| 1.6 / 6.2 — Apache/transfert | Aucun LICENSE/NOTICE racine retrouvé | MEP-006 prépare les droits de distribution ; MEP-029 documente ensuite le fork |
+| 1.6 / 6.2 — Apache/transfert | LICENSE/NOTICE et inventaire tiers du job 1.6 | MEP-006 prépare les droits de distribution ; MEP-029 documente ensuite le fork |
 | 1.7 — Note explicite | score null dans le brouillon ; interface propose 5, next sauvegarde score ?? 5 | MEP-007 supprime cette attribution implicite tout en gardant curseur/repères |
 | 1.8 / 2.3 — Permissions/isolation | Permissions de vues et scopes existants ; pas de DEFAULT_PERMISSION_CLASSES dans settings_base | MEP-008 ferme le défaut DRF ; MEP-011 complète les frontières, sans refaire les rôles |
 | 2.4 — Journalisation | JOURNAL-001 — Activités réussies et JOURNAL-002 — Logs réalisés ; extension HTTP 2026-10-05 | Aucun nouveau PBI ; états et dates conservés ; purge 4.1 et qualification 7.3 distinctes |

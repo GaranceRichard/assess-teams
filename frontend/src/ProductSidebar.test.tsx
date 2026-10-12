@@ -67,7 +67,11 @@ describe("ProductSidebar", () => {
 
     const button = screen.getByRole("button", { name: "Replier le menu" });
     const navigation = screen.getByRole("navigation");
-    expect(button.previousElementSibling).toBe(navigation);
+    expect(button.parentElement?.lastElementChild).toBe(button);
+    expect(button).toHaveAttribute("aria-controls", navigation.id);
+    expect(
+      screen.getByRole("link", { name: "Mentions légales et licence" }),
+    ).toBeVisible();
     expect(button).toHaveAttribute("aria-expanded", "true");
     fireEvent.click(button);
 

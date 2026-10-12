@@ -1,0 +1,12 @@
+Assess Teams
+Copyright 2026 Assess Teams contributors
+
+Assess Teams is distributed under the Apache License, Version 2.0.
+See LICENSE for the complete terms.
+Original project: https://github.com/GaranceRichard/assess-teams
+Initial development: Garance Richard.
+
+Third-party components retain their own copyrights and licenses.
+See docs/legal/third-party.md and the license files supplied with each package.
+Redistributed frontend builds include legal/THIRD-PARTY.txt.
+This NOTICE is informational and does not modify the License.

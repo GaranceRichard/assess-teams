@@ -6,6 +6,11 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 - [Vision produit](product/vision.md) : finalité, publics, valeur, principes d’arbitrage et non-objectifs.
 
+## Licence et distribution
+
+- [Apache License 2.0](../LICENSE) et [NOTICE](../NOTICE).
+- [Fork et redistribution](legal/redistribution.md) ; [inventaire tiers](legal/third-party.md).
+
 ## Architecture
 
 - [Démo publique interactive](architecture/public-demo.md) : composants réutilisés, fixtures, limites et GitHub Pages.

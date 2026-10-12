@@ -102,3 +102,6 @@ y compris les données fictives et les passations nouvelles ; un navigateur angl
 
 `ASSESS_E2E_DEMO_PORT` permet un port de preview E2E dédié au worktree (défaut 4175),
 avec le même validateur de ports que les E2E applicatifs. Aucun serveur existant n’est réutilisé.
+
+Le build contient aussi `legal/` avec licence, NOTICE et attributions complètes du frontend ;
+le lien public respecte la base `/assess-teams/` et fonctionne sans API. [Redistribution](../legal/redistribution.md).

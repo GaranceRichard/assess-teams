@@ -3,7 +3,7 @@
 Détail lié à la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts et dates issus du [registre canonique](pbis.md) ; périmètres et dépendances issus des
 [sources pré-MEP](../source/07-pre-mep.md). Pour lancement, respecter le [plan des vagues](../planning/pre-mep.md).
-Les 35 travaux comprennent deux acquis (1.8 et 2.4) et 33 compléments ouverts ; le jalon est suivi séparément.
+Les 35 travaux comprennent deux acquis (1.8 et 2.4), MEP-006 réalisé et 32 compléments ouverts ; le jalon est suivi séparément.
 
 ## Job 1 — Fondations
 
@@ -14,7 +14,7 @@ Les 35 travaux comprennent deux acquis (1.8 et 2.4) et 33 compléments ouverts ;
 | 1.3 — Intégrité des transactions SQLite | [MEP-003 — Intégrité des transactions SQLite](../source/071-mep-job-1.md) | Ouvert |
 | 1.4 — Fiabilisation SMTP et reprises | [MEP-004 — Fiabilisation SMTP et reprises](../source/071-mep-job-1.md) | Ouvert |
 | 1.5 — Accessibilité des modales | [MEP-005 — Accessibilité des modales](../source/071-mep-job-1.md) | Ouvert |
-| 1.6 — Licence Apache 2.0 | [MEP-006 — Licence Apache 2.0](../source/071-mep-job-1.md) | Ouvert |
+| 1.6 — Licence Apache 2.0 | [MEP-006 — Licence Apache 2.0](../source/071-mep-job-1.md) | Réalisé |
 | 1.7 — Notation explicite sans valeur présélectionnée | [MEP-007 — Notation explicite sans valeur présélectionnée](../source/071-mep-job-1.md) | Ouvert |
 | 1.8 — Permissions DRF restrictives | [MEP-008 — Permissions DRF restrictives](../source/071-mep-job-1.md) | Réalisé ; 2026-10-11 |
 
@@ -81,6 +81,6 @@ Les 35 travaux comprennent deux acquis (1.8 et 2.4) et 33 compléments ouverts ;
 | --- | --- | --- | --- |
 | GO/NO-GO | [MEP-035 — Décision GO/NO-GO](../source/077-mep-job-7.md#mep-035--décision-gono-go) | Ouvert | À définir — non rendue |
 
-34 compléments ouverts, 1 acquis, aucun complément en cours ou bloqué au registre initial.
+32 compléments ouverts, 2 acquis et MEP-006 réalisé ; aucun complément en cours ou bloqué.
 Les prérequis de vague empêchent de présenter les jobs 2–7 comme immédiatement lançables.
 Un futur Réalisé sur MEP-035 atteste la décision, sans signifier automatiquement GO.

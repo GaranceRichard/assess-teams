@@ -5,7 +5,7 @@ font autorité pour le périmètre ; le [registre canonique](tracking/pbis.md) f
 Les PBIs signalés comme régularisations décrivent des comportements déjà livrés sans prétendre qu’ils avaient été
 planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés, pas la complétude du produit entier.
 
-## Produit réellement disponible au 2026-10-08
+## Produit réellement disponible au 2026-10-11
 
 - session par login/logout, reprise de session, invitations et choix du mot de passe ;
 - récupération publique et modification personnelle depuis Mon profil, avec politique des sessions et remise différée ;
@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 1 | 3 % |
+| EPIC-011 — Préparation de la mise en production MESS | 7 | 35 | 2 | 6 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
 raffinées et les limites explicites des PBIs restent hors du dénominateur.
@@ -101,12 +101,13 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | NOTIF-001 — Remettre les notifications de planification par courriel | Réalisé | confirmation, échéance et récurrence ; 2026-09-28 |
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
+| MEP-006 — Licence Apache 2.0 | Réalisé | licence intégrale, notices, mentions publiques, audit tiers et exports ; 2026-10-11 |
 
 ## Pré-MEP MESS — suivi au 2026-10-11
 
 Les [sources EPIC-011](source/07-pre-mep.md) fixent les compléments ; le [plan](planning/pre-mep.md)
 organise les prérequis et le parallélisme. Le [détail des 35 travaux et du jalon](tracking/pre-mep-view.md)
-est dérivé du registre ; MEP-008 est réalisé au 2026-10-11, les 34 autres PBIs restent Ouverts.
+est dérivé du registre ; MEP-006 et MEP-008 sont réalisés au 2026-10-11, les 33 autres PBIs restent Ouverts.
 Le [rapprochement](planning/pre-mep-rapprochements.md) conserve les acquis et signale les écarts.
 
 | Vague | Travaux demandés | Travaux acquis | Compléments ouverts | Entrée |
@@ -159,9 +160,9 @@ réconciliées avec les preuves disponibles. Leurs constats sont des points à v
 | Features raffinées | 29 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 69 |
-| PBIs ouverts | 42 |
+| PBIs ouverts | 41 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 43 |
-| PBIs réalisés | 26 |
-| Avancement global | 38 % |
+| PBIs non réalisés | 42 |
+| PBIs réalisés | 27 |
+| Avancement global | 39 % |

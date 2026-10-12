@@ -1,3 +1,4 @@
+import { LegalLink } from "./LegalLink";
 import { productHref } from "./productHref";
 import type { UserRole } from "./auth";
 import { SidebarLink } from "./SidebarLink";
@@ -57,6 +58,9 @@ export function ProductSidebar({
           />
         ))}
       </nav>
+      <div className="sidebar-legal">
+        <LegalLink collapsed={collapsed} />
+      </div>
       <button
         aria-controls="product-navigation"
         aria-expanded={!collapsed}

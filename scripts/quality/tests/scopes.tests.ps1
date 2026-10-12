@@ -56,7 +56,8 @@ try {
         'param($Scope); Add-Content -LiteralPath $env:SCOPE_CALLS "suite $Scope"; exit 0'
 
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
-    $repository = @('npm run check:lines', 'node --test scripts/quality/tests/complete-ci.test.mjs')
+    $repository = @('npm run check:lines', 'node --test scripts/legal/npm-notices.test.mjs',
+        'node --test scripts/quality/tests/complete-ci.test.mjs')
     $backend = @('python -m ruff check .', 'python -m ruff format --check .',
         'python manage.py makemigrations --check --dry-run --settings=config.settings_development')
     $frontend = @('npm run lint', 'npm run format:check', 'npm run build')
@@ -66,6 +67,8 @@ try {
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend'))
     Assert-Scope 'quality.ps1' 'e2e' @('suite e2e')
     Assert-Scope 'quality.ps1' 'all' ($repository + $backend + $frontend + @('suite all'))
+    $env:SCOPE_FAILURE = 'npm-notices.test'
+    Assert-Scope 'quality.ps1' 'repository' $repository 1
     $env:SCOPE_FAILURE = 'run build'
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend')) 1
     $env:SCOPE_FAILURE = 'makemigrations'

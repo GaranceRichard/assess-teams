@@ -61,7 +61,7 @@ Les jobs sont une planification, pas de nouveaux états : un prérequis de vague
 | MEP-003 — Intégrité des transactions SQLite | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
 | MEP-004 — Fiabilisation SMTP et reprises | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
 | MEP-005 — Accessibilité des modales | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-006 — Licence Apache 2.0 | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
+| MEP-006 — Licence Apache 2.0 | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun ; LICENSE/NOTICE, mentions publiques et audit tiers documentés | 2026-10-11 |
 | MEP-007 — Notation explicite sans valeur présélectionnée | FEAT-042 — Fondations | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
 | MEP-008 — Permissions DRF restrictives | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre demandé | 2026-10-11 |
 | MEP-009 — Secrets et paramètres de production | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |

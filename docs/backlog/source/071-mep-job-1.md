@@ -72,7 +72,7 @@ Feature de [EPIC-011 — Préparation de la mise en production MESS](07-pre-mep.
 - **Identifiant / Feature parente / job :** MEP-006 / FEAT-042 — Fondations / 1.6.
 - **User story :** en tant que responsable produit, contributeur et administrateur, je veux permettre la reprise et la modification du produit sous Apache 2.0.
 - **Intention / description :** Permettre la reprise et la modification du produit sous Apache 2.0.
-- **Acquis et frontière :** Aucun LICENSE ou NOTICE racine identifié lors de la réconciliation.
+- **Acquis et frontière :** Licence et NOTICE racine, mentions publiques, exports tiers et [guide de redistribution](../../legal/redistribution.md) ajoutés par le job 1.6 ; transfert contractuel hors périmètre.
 - **Critères d’acceptation :** Licence Apache 2.0 intégrale, attribution et notices applicables présentes ; inventaire des licences des éléments distribués et conditions de redistribution vérifiés.
 - **Vrais cas de refus :** Dépendance ou asset aux droits incompatibles/non établis empêche la distribution.
 - **Dépendances de livraison / priorité :** aucune / P1.

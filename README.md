@@ -1,5 +1,10 @@
 # Assess teams
 
+## Licence et réutilisation
+
+Assess Teams est distribué sous **[Apache License 2.0](LICENSE)** ; voir le [NOTICE](NOTICE).
+[Conditions de fork et redistribution, notamment au MESS](docs/legal/redistribution.md) ; [licences tierces](docs/legal/third-party.md).
+
 ## Vision produit
 
 **Assess Teams** vise à transformer l’évaluation ponctuelle des équipes en un dispositif continu d’évaluation, d’accompagnement et de pilotage de leur progression dans le temps.
@@ -191,9 +196,4 @@ puis exige leur succès dans `Full quality gate`, sans réexécuter les contrôl
 
 ## Documentation
 
-L’[index de la documentation](docs/README.md) donne accès à l’ensemble des références :
-
-- [synthèse du backlog](docs/backlog/synthese.md) — point d’entrée du suivi d’avancement ;
-- [architecture](docs/architecture/fundamentals.md) ;
-- [qualité](docs/README.md#qualité) ;
-- [backlog et gouvernance](docs/backlog/README.md).
+L’[index documentaire](docs/README.md) regroupe les références et le suivi du backlog.
