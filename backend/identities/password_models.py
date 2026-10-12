@@ -14,3 +14,6 @@ class PasswordResetDelivery(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     next_attempt_at = models.DateTimeField(default=timezone.now, db_index=True)
     attempts = models.PositiveSmallIntegerField(default=0)
+
+    state = models.CharField(max_length=16, default="pending", db_index=True)
+    error_code = models.CharField(max_length=40, blank=True)

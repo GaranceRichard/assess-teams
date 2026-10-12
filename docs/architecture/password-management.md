@@ -112,9 +112,10 @@ Aucune réponse ne contient le mot de passe, le token ni l’état d’un compte
 Appliquer `identities.0007` : compteurs de fréquence et file de remise seulement.
 La migration ne modifie aucun utilisateur, rattachement, invitation ni session existants.
 La file conserve l’email soumis et dates/compteurs nécessaires, jamais mot de passe ou token.
-Le worker supprime les jobs après remise, inéligibilité, 15 minutes d’âge ou trois tentatives.
-Les erreurs SMTP sont retentées après une minute. Un crash après remise mais avant suppression peut
-produire un doublon d’email ; le premier changement réussi invalide tous les liens associés.
+Le worker supprime les jobs après remise, inéligibilité ou expiration avant tentative. Les échecs
+restent visibles dans l’administration. Les refus temporaires sont repris après une minute, dans la fenêtre
+de quinze minutes et la limite de trois tentatives ; une remise incertaine exige une vérification SMTP.
+La [politique MEP-004](email-notifications.md) décrit réservation, diagnostic sûr et reprise administrative.
 L’envoi réseau intervient hors du verrou d’écriture, avec réservation atomique du job.
 
 En développement, `dev:backend` lance le worker et l’arrête avec le serveur.

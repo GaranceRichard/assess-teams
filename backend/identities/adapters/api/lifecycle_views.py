@@ -24,6 +24,7 @@ from journals.models import LogSource
 LIFECYCLE_SCOPE = (
     "Superadmin : toute identité hors soi. Admin : Coach/Viewer de son organisation. "
     "Coach : Viewer de son organisation. Session active et CSRF obligatoires. "
+    "Le succès métier reste indépendant de la remise du courriel persisté. "
 )
 
 
@@ -52,7 +53,7 @@ def change_activation(request, user_id: int, active: bool):
         user.is_active = active
         user.save(update_fields=["is_active"])
         record_user_changes(request.user, user, previous)
-        transaction.on_commit(lambda: send_activation_notice(user), robust=True)
+        send_activation_notice(user)
     return user
 
 

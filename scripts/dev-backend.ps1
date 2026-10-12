@@ -33,12 +33,18 @@ try {
     }
     if ($env:OS -eq 'Windows_NT') { $workerOptions.WindowStyle = 'Hidden' }
     $passwordWorker = Start-Process @workerOptions
+    $workerOptions.ArgumentList = @('manage.py', 'send_pending_notifications', '--watch')
+    $notificationWorker = Start-Process @workerOptions
     & $python @serverArguments
     exit $LASTEXITCODE
 } finally {
     if ($passwordWorker -and -not $passwordWorker.HasExited) {
         $passwordWorker.Kill()
         $passwordWorker.WaitForExit()
+    }
+    if ($notificationWorker -and -not $notificationWorker.HasExited) {
+        $notificationWorker.Kill()
+        $notificationWorker.WaitForExit()
     }
     Pop-Location
 }

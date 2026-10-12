@@ -45,3 +45,5 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Source fonctionnelle détaillée](backlog/README.md#source-fonctionnelle-détaillée)
 - [Planification](backlog/README.md#planification)
 - [Registre canonique du suivi](backlog/tracking/pbis.md)
+
+- [Notifications fiables — MEP-004](architecture/email-notifications.md) : file, reprises et exploitation SMTP interne.

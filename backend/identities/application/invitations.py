@@ -2,11 +2,11 @@ from urllib.parse import quote
 
 from django.conf import settings
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from identities.models import User
+from notifications.queue import enqueue_email
 
 
 def invitation_url(user: User) -> str:
@@ -16,34 +16,39 @@ def invitation_url(user: User) -> str:
 
 
 def send_invitation(user: User) -> None:
-    send_mail(
-        "Votre invitation Assess teams",
-        f"Bonjour {user.username},\n\nChoisissez votre mot de passe : {invitation_url(user)}",
-        settings.DEFAULT_FROM_EMAIL,
-        [user.email],
+    enqueue_email(
+        invitation=True,
+        subject="Votre invitation Assess teams",
+        body=f"Bonjour {user.username},\n\nChoisissez votre mot de passe : {{invitation_url}}",
+        recipient=user.email,
+        user=user,
+        organization=user.organizations.first(),
     )
 
 
 def send_update_notice(user: User, previous_email: str) -> None:
     changed = previous_email.casefold() != user.email.casefold()
     pending_message = (
-        f"\n\nChoisissez votre mot de passe : {invitation_url(user)}"
+        "\n\nChoisissez votre mot de passe : {invitation_url}"
         if user.is_active and not user.has_usable_password()
         else ""
     )
     if changed:
-        send_mail(
-            "Modification de votre compte Assess teams",
-            "L'adresse e-mail de votre compte Assess teams a été modifiée.",
-            settings.DEFAULT_FROM_EMAIL,
-            [previous_email],
+        enqueue_email(
+            subject="Modification de votre compte Assess teams",
+            body="L'adresse e-mail de votre compte Assess teams a été modifiée.",
+            recipient=previous_email,
+            user=user,
+            organization=user.organizations.first(),
         )
-    send_mail(
-        "Modification de votre compte Assess teams",
-        f"Bonjour {user.username},\n\nLes informations de votre compte ont été modifiées."
+    enqueue_email(
+        invitation=bool(pending_message),
+        subject="Modification de votre compte Assess teams",
+        body=f"Bonjour {user.username},\n\nLes informations de votre compte ont été modifiées."
         f"{pending_message}",
-        settings.DEFAULT_FROM_EMAIL,
-        [user.email],
+        recipient=user.email,
+        user=user,
+        organization=user.organizations.first(),
     )
 
 
@@ -51,11 +56,12 @@ def send_activation_notice(user: User) -> None:
     if not user.email:
         return
     activation = "actif" if user.is_active else "désactivé"
-    send_mail(
-        "Activation de votre compte Assess teams",
-        f"Bonjour {user.username},\n\nVotre compte est {activation}.",
-        settings.DEFAULT_FROM_EMAIL,
-        [user.email],
+    enqueue_email(
+        subject="Activation de votre compte Assess teams",
+        body=f"Bonjour {user.username},\n\nVotre compte est {activation}.",
+        recipient=user.email,
+        user=user,
+        organization=user.organizations.first(),
     )
 
 

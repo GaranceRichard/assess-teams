@@ -129,7 +129,9 @@ def test_immediate_planning_sends_evaluation_link(
 
 
 @pytest.mark.django_db
-def test_due_command_sends_link_and_advances_monthly_schedule(capsys) -> None:
+def test_due_command_sends_link_and_advances_monthly_schedule(
+    capsys, django_capture_on_commit_callbacks
+) -> None:
     organization, team, evaluation, coach = planning_context()
     team.coaches.add(coach)
     today = timezone.localdate()
@@ -141,7 +143,8 @@ def test_due_command_sends_link_and_advances_monthly_schedule(capsys) -> None:
         next_due_date=today,
     )
 
-    call_command("send_due_evaluation_notifications")
+    with django_capture_on_commit_callbacks(execute=True):
+        call_command("send_due_evaluation_notifications")
 
     schedule.refresh_from_db()
     assert "http://testserver/evaluations" in mail.outbox[0].body
@@ -150,7 +153,9 @@ def test_due_command_sends_link_and_advances_monthly_schedule(capsys) -> None:
 
 
 @pytest.mark.django_db
-def test_due_command_closes_fixed_schedule_after_delivery() -> None:
+def test_due_command_closes_fixed_schedule_after_delivery(
+    django_capture_on_commit_callbacks,
+) -> None:
     organization, team, evaluation, coach = planning_context()
     team.coaches.add(coach)
     today = timezone.localdate()
@@ -162,7 +167,8 @@ def test_due_command_closes_fixed_schedule_after_delivery() -> None:
         next_due_date=today,
     )
 
-    call_command("send_due_evaluation_notifications")
+    with django_capture_on_commit_callbacks(execute=True):
+        call_command("send_due_evaluation_notifications")
 
     schedule.refresh_from_db()
     assert schedule.next_due_date is None

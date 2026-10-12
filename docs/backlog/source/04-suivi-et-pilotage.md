@@ -108,7 +108,8 @@ Cet Epic rattache chaque intention et remise de notification à l’organisation
 - **User story :** en tant que responsable désigné, je veux recevoir la confirmation puis l’échéance d’une planification afin de savoir quand agir.
 - **Périmètre livré :** confirmation d’une échéance future, notification immédiate ou arrivée à échéance, lien `/evaluations`, destinataire explicite, commande Django quotidienne et avancement calendaire mensuel/trimestriel après remise.
 - **Critères d’acceptation :** aucun envoi sans responsable actif et joignable ; le destinataire appartient à l’organisation ou est le Superadmin explicitement assigné ; une remise réussie clôt le ponctuel ou avance la récurrence sans dérive.
-- **Limites explicites :** courriel directement couplé, pas de préférence de canal, d’état durable de remise, de fenêtre de rappel ni de passation derrière le lien ; `FEAT-028` à `FEAT-030` restent incomplètes au-delà de ce PBI.
+- **Limites initiales au 2026-09-28 :** courriel directement couplé, sans état durable de remise ; préférences de canal et fenêtres de rappel absentes.
+- **Évolution — 2026-10-12 :** [MEP-004](../../architecture/email-notifications.md) persiste les intentions, avance le calendrier dès la mise en file et reprend la remise séparément. La passation liée est livrée par PASS-001 ; les autres canaux et rappels restent hors périmètre.
 - **Dépendances / priorité :** `PLAN-001` / P1.
 - **Valeur apportée :** informe le responsable des échéances réellement planifiées sans supposer une passation livrée.
 - **Preuves :** service de notification, commande `send_due_evaluation_notifications` et tests de remise/récurrence.

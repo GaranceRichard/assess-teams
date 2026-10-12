@@ -19,9 +19,9 @@ Django utilise deux modules de réglages sans détection implicite :
 de listes séparées par des virgules. Une configuration absente ne bascule donc jamais vers le développement.
 
 En développement, les emails sont écrits dans `backend/.mail/`, ignoré par Git, sans contenu dans
-le terminal. `dev:backend` lance le worker de [récupération du mot de passe](architecture/password-management.md#exploitation-et-migration).
+le terminal. `dev:backend` lance les deux workers de [remise des courriels](architecture/email-notifications.md#exploitation-mess--on-premise).
 `APP_BASE_URL` configure l’URL publique ; les tests isolés utilisent aussi `ASSESS_E2E_FRONTEND_PORT`.
-En production, configurer SMTP et superviser `send_password_reset_emails --watch` ou le planifier chaque minute.
+En production, configurer SMTP et superviser `send_password_reset_emails --watch` et `send_pending_notifications --watch`, ou les planifier chaque minute.
 Les notifications
 d’évaluation arrivées à échéance peuvent être déclenchées manuellement avec :
 
@@ -30,7 +30,7 @@ d’évaluation arrivées à échéance peuvent être déclenchées manuellement
 ```
 
 En production, cette même commande doit être planifiée au moins quotidiennement par l’ordonnanceur de la
-plateforme ; elle ignore les échéances futures et avance les récurrences uniquement après un envoi réussi.
+plateforme ; elle ignore les échéances futures et avance les récurrences dès la mise en file durable, indépendamment de SMTP.
 
 ## Credentials fictifs réservés au développement local
 
@@ -73,3 +73,6 @@ L'application `development_data` n'appartient pas aux applications installées e
 n'est donc pas chargée par les points d'entrée ASGI/WSGI. Elle possède en plus un refus défensif lorsque
 `ENVIRONMENT` n'est pas `development`. Aucun démarrage, migration ou défaut de configuration de production ne
 peut créer ces trois comptes.
+
+Les [notifications fiables — MEP-004](architecture/email-notifications.md) utilisent deux workers locaux,
+lancés par `dev:backend` ; les processus de production sont supervisés séparément.

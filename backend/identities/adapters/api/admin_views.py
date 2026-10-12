@@ -64,7 +64,8 @@ class ManagedUserListCreateView(APIView):
     @extend_schema(
         description=(
             "Invite un utilisateur. Le Superadmin choisit toute fonction métier ; "
-            "l'Admin choisit uniquement Coach ou Viewer."
+            "l'Admin choisit uniquement Coach ou Viewer. Le succès confirme la création ; "
+            "la notification est persistée et sa remise SMTP suivie séparément."
         ),
         request=InviteUserSerializer,
         responses={201: ManagedUserSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
@@ -102,7 +103,7 @@ class ManagedUserListCreateView(APIView):
         if organization:
             organization.users.add(user)
         record_invitation(request.user, user, organization)
-        transaction.on_commit(lambda: send_invitation(user), robust=True)
+        send_invitation(user)
         return Response(ManagedUserSerializer(user).data, status=status.HTTP_201_CREATED)
 
 
@@ -114,7 +115,8 @@ class ManagedUserDetailView(APIView):
         description=(
             "Modifie une identité autorisée et, selon la fonction de l'appelant, "
             "sa fonction métier ou son activation. Seul le Superadmin administre "
-            "un Admin. Un Coach agit uniquement sur un Viewer de son organisation."
+            "un Admin. Un Coach agit uniquement sur un Viewer de son organisation. "
+            "Le succès confirme la modification ; la remise du courriel est suivie séparément."
         ),
         request=UpdateManagedUserSerializer,
         responses={
@@ -165,7 +167,7 @@ class ManagedUserDetailView(APIView):
             mark_pending_responsibilities(user)
         user.save(update_fields=["email", "is_active", "role", "username"])
         record_user_changes(request.user, user, previous)
-        transaction.on_commit(lambda: send_update_notice(user, previous_email), robust=True)
+        send_update_notice(user, previous_email)
         return Response(ManagedUserSerializer(user).data)
 
     @extend_schema(

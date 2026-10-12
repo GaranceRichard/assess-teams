@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "teams",
     "assessments",
     "journals",
+    "notifications",
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 PASSWORD_RESET_TIMEOUT = 259200  # Preserve the existing three-day invitation lifetime.
 PASSWORD_RECOVERY_TIMEOUT = 3600
+EMAIL_DELIVER_ON_COMMIT = True
+EMAIL_MAX_ATTEMPTS = 5
 LANGUAGE_CODE = "fr-fr"
 FORMAT_MODULE_PATH = "config.formats"
 TIME_ZONE = "America/Toronto"

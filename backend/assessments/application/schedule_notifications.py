@@ -1,9 +1,10 @@
 from calendar import monthrange
 from datetime import date
+from hashlib import sha256
 
 from django.conf import settings
-from django.core.mail import send_mail
 from django.db import transaction
+from django.db.models import F
 from django.utils import timezone
 from django.utils.formats import date_format
 
@@ -11,6 +12,7 @@ from assessments.application.expected_evaluations import ensure_expected_evaluat
 from assessments.models import EvaluationSchedule, ScheduleMode
 from journals.models import LogLevel, LogSource
 from journals.services import record_log
+from notifications.queue import enqueue_email
 
 
 def _recipient_coaches(schedule: EvaluationSchedule):
@@ -42,30 +44,31 @@ def _recipients(schedule: EvaluationSchedule):
 def _send_to_recipients(schedule: EvaluationSchedule, subject: str, body: str) -> int:
     recipients = _recipients(schedule)
     for recipient in recipients:
-        send_mail(
-            subject,
-            f"Bonjour {recipient.username},\n\n{body}",
-            settings.DEFAULT_FROM_EMAIL,
-            [recipient.email],
+        digest = sha256(f"{body}:{recipient.email}".encode()).hexdigest()[:32]
+        enqueue_email(
+            schedule_notification=True,
+            schedule=schedule,
+            subject=subject,
+            body=f"Bonjour {recipient.username},\n\n{body}",
+            recipient=recipient.email,
+            event_key=f"schedule:{schedule.pk}:{subject}:{schedule.next_due_date}:{recipient.pk}:{digest}",
+            user=recipient,
+            organization=schedule.team.organization,
+            team=schedule.team,
+            evaluation=schedule.evaluation,
         )
-    return len(recipients)
-
-
-def _record_notification(schedule: EvaluationSchedule, count: int) -> int:
-    record_log(
-        level=LogLevel.INFO if count else LogLevel.WARNING,
-        source=LogSource.NOTIFICATIONS,
-        actor=schedule.assignee,
-        organization=schedule.team.organization,
-        team=schedule.team,
-        evaluation=schedule.evaluation,
-        operation="Envoi d’une notification d’évaluation",
-        message=(
-            "Notification d’évaluation envoyée."
-            if count
-            else "Notification d’évaluation non envoyée : aucun destinataire éligible."
-        ),
-    )
+    count = len(recipients)
+    if not count:
+        record_log(
+            level=LogLevel.WARNING,
+            source=LogSource.NOTIFICATIONS,
+            actor=schedule.assignee,
+            organization=schedule.team.organization,
+            team=schedule.team,
+            evaluation=schedule.evaluation,
+            operation="Envoi d’une notification d’évaluation",
+            message="Notification d’évaluation non envoyée : aucun destinataire éligible.",
+        )
     return count
 
 
@@ -80,11 +83,10 @@ def send_planning_confirmation(schedule: EvaluationSchedule) -> int:
         f"Fréquence : {schedule.get_mode_display()}\n"
         f"Prochaine évaluation : {date_format(schedule.next_due_date, 'DATE_FORMAT')}"
     )
-    count = _send_to_recipients(schedule, "Évaluation planifiée", body)
-    return _record_notification(schedule, count)
+    return _send_to_recipients(schedule, "Évaluation planifiée", body)
 
 
-def _send_due_email(schedule: EvaluationSchedule) -> int:
+def send_due_notification(schedule: EvaluationSchedule) -> int:
     body = (
         f"L’évaluation prévue est disponible.\n"
         f"Équipe : {schedule.team.name}\n"
@@ -92,10 +94,6 @@ def _send_due_email(schedule: EvaluationSchedule) -> int:
         f"Accéder à l’évaluation : {_evaluation_link()}"
     )
     return _send_to_recipients(schedule, "Votre évaluation est disponible", body)
-
-
-def send_due_notification(schedule: EvaluationSchedule) -> int:
-    return _record_notification(schedule, _send_due_email(schedule))
 
 
 def _add_months(value: date, months: int, anchor_day: int) -> date:
@@ -125,24 +123,24 @@ def following_due_date(
     return candidate
 
 
+@transaction.atomic
 def deliver_due_schedule(schedule: EvaluationSchedule, reference_date: date) -> bool:
+    EvaluationSchedule.objects.filter(pk=schedule.pk).update(next_due_date=F("next_due_date"))
+    schedule.refresh_from_db()
+    if not schedule.next_due_date or schedule.next_due_date > reference_date:
+        return False
     if schedule.requires_reassignment:
         return False
-    # SMTP cannot be rolled back; it must not hold a SQLite write transaction.
-    count = _send_due_email(schedule)
-    with transaction.atomic():
-        ensure_expected_evaluation(schedule, schedule.next_due_date)
-        _record_notification(schedule, count)
-        if count == 0:
-            return False
-        next_due_date = following_due_date(
-            schedule.mode,
-            schedule.next_due_date,
-            reference_date,
-            schedule.first_due_date.day,
-        )
-        schedule.next_due_date = next_due_date
-        schedule.save(update_fields=["next_due_date"])
+    ensure_expected_evaluation(schedule, schedule.next_due_date)
+    if send_due_notification(schedule) == 0:
+        return False
+    schedule.next_due_date = following_due_date(
+        schedule.mode,
+        schedule.next_due_date,
+        reference_date,
+        schedule.first_due_date.day,
+    )
+    schedule.save(update_fields=["next_due_date"])
     return True
 
 

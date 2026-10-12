@@ -57,6 +57,8 @@ Feature de [EPIC-011 — Préparation de la mise en production MESS](07-pre-mep.
 - **Dépendances de livraison / priorité :** NOTIF-001, AUTH-002 / P1.
 - **Valeur :** Protéger les accès, les écritures et la saisie avant les renforcements de production.
 
+- **Livraison — 2026-10-12 :** [file persistante, reprises, suivi et exploitation SMTP](../../architecture/email-notifications.md) ; workers existants préservés, tests SMTP réel et concurrence SQLite.
+
 ## MEP-005 — Accessibilité des modales
 
 - **Identifiant / Feature parente / job :** MEP-005 / FEAT-042 — Fondations / 1.5.

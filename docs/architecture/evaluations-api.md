@@ -67,7 +67,7 @@ désactivée et impose un modèle validé pour enregistrer des modifications.
 
 Une planification future envoie au responsable une confirmation précisant équipe, modèle, cadence et prochaine
 date. À l’échéance, ou immédiatement, le responsable reçoit un lien vers `${FRONTEND_URL}/evaluations`.
-La commande idempotente `send_due_evaluation_notifications` traite les échéances dues ; après envoi, une
+La commande idempotente `send_due_evaluation_notifications` traite les échéances dues ; après mise en file durable, une
 cadence mensuelle ou trimestrielle avance sans dérive calendaire, tandis qu’une échéance ponctuelle est close.
 Après authentification, ce lien conserve `/evaluations` au lieu de renvoyer le Coach vers le tableau de bord.
 
@@ -80,3 +80,6 @@ Voir le [lifecycle User](user-lifecycle.md).
 `appreciation_markers` expose une liste `{score, text}` : entiers uniques 0–10, texte non vide.
 POST omis crée sans repères ; PUT omis les conserve, liste fournie les remplace, `[]` les supprime.
 Les mêmes permissions, verrous et refus de lifecycle s’appliquent. Voir le [contrat détaillé](appreciation-markers.md).
+
+Les [notifications fiables — MEP-004](email-notifications.md) séparent succès métier et remise SMTP,
+avec intentions persistées, deux workers locaux, reprises bornées et suivi Superadmin.

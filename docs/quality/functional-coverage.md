@@ -94,3 +94,6 @@ MEP-005 : [dialogues accessibles](../architecture/dialog-accessibility.md), inve
 focus initial/confiné/restauré, ouvertures successives, confirmations et refus sans perte de saisie.
 `dialog-accessibility.spec.ts` et `dialog-taking-accessibility.spec.ts` valident le clavier et la souris,
 les noms/descriptions, le fond inerte, les erreurs internes et les gardes de passation avec Chromium/Django.
+
+Les [preuves MEP-004](../architecture/email-notifications.md#validation-et-revue-documentaire) couvrent
+SMTP réel, reprises partielles/bornées, succès métier, concurrence et administration technique.

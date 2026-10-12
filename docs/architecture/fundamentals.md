@@ -91,3 +91,6 @@ avec copie JSON au démarrage des passations. Ils guident la notation sans inter
 
 Les [dialogues accessibles](dialog-accessibility.md) partagent la modalité native, le cycle du focus,
 les annonces internes et les gardes de fermeture, dans le produit et la démo.
+
+Les [notifications fiables — MEP-004](email-notifications.md) séparent succès métier et remise SMTP,
+avec intentions persistées, deux workers locaux, reprises bornées et suivi Superadmin.

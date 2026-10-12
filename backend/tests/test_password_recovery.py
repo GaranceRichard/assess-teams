@@ -75,8 +75,8 @@ def test_worker_retries_without_leaking_smtp_exception(password_context, capsys,
     client, user = password_context
     post(client, "password-recovery", {"email": user.email})
     with patch(
-        "identities.application.password_delivery.send_mail",
-        side_effect=RuntimeError("sensitive-url-and-token"),
+        "notifications.transport.EmailMessage.send",
+        side_effect=ConnectionRefusedError("sensitive-url-and-token"),
     ):
         call_command("send_password_reset_emails")
     delivery = PasswordResetDelivery.objects.get()
@@ -90,7 +90,7 @@ def test_worker_retries_without_leaking_smtp_exception(password_context, capsys,
 
 
 @pytest.mark.parametrize("expired", [True, False])
-def test_worker_discards_expired_or_exhausted_jobs(password_context, expired):
+def test_worker_discards_expired_or_marks_exhausted_jobs(password_context, expired):
     _, user = password_context
     delivery = PasswordResetDelivery.objects.create(email=user.email)
     if expired:
@@ -98,7 +98,7 @@ def test_worker_discards_expired_or_exhausted_jobs(password_context, expired):
     else:
         delivery.attempts = 3
     delivery.save()
-    assert deliver_password_email(delivery.pk) == "discarded"
+    assert deliver_password_email(delivery.pk) == ("discarded" if expired else "failed")
     assert not mail.outbox
 
 

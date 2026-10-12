@@ -59,7 +59,8 @@ class EvaluationScheduleListCreateView(APIView):
             "un brouillon ou modèle archivé retourne 404. Une planification ponctuelle "
             "dont toutes les passations sont complétées autorise une nouvelle planification "
             "indépendante pour la même équipe et le même modèle, avec historique conservé. "
-            "Une planification récurrente ou non complétée bloque les doublons (400)."
+            "Une planification récurrente ou non complétée bloque les doublons (400). "
+            "201 confirme la planification et sa notification persistée, pas la remise SMTP."
         ),
         request=EvaluationScheduleInputSerializer,
         responses={
@@ -91,7 +92,7 @@ class EvaluationScheduleListCreateView(APIView):
             evaluation=schedule.evaluation,
         )
         evaluation_scheduled(request.user, schedule)
-        transaction.on_commit(lambda: notify_schedule_created(schedule.pk), robust=True)
+        notify_schedule_created(schedule.pk)
         return Response(
             EvaluationScheduleSerializer(schedule).data,
             status=status.HTTP_201_CREATED,
@@ -109,7 +110,8 @@ class EvaluationScheduleDetailView(APIView):
             "même si la référence historique archivée reste consultable en lecture. "
             "Les mêmes règles de doublons qu’à la création s’appliquent : une planification "
             "ponctuelle complétée ne bloque pas ; une autre planification récurrente ou "
-            "non complétée pour la même équipe et le même modèle retourne 400."
+            "non complétée pour la même équipe et le même modèle retourne 400. "
+            "200 confirme la modification, indépendamment de la remise SMTP."
         ),
         request=EvaluationScheduleInputSerializer,
         responses={
@@ -138,7 +140,7 @@ class EvaluationScheduleDetailView(APIView):
         serializer.is_valid(raise_exception=True)
         schedule = serializer.save()
         evaluation_schedule_updated(request.user, schedule)
-        transaction.on_commit(lambda: notify_schedule_created(schedule.pk), robust=True)
+        notify_schedule_created(schedule.pk)
         return Response(EvaluationScheduleSerializer(schedule).data)
 
     @extend_schema(

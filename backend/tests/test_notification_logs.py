@@ -43,10 +43,11 @@ def schedule_context(with_assignee: bool) -> EvaluationSchedule:
 
 
 @pytest.mark.django_db
-def test_sent_evaluation_notification_records_info() -> None:
+def test_sent_evaluation_notification_records_info(django_capture_on_commit_callbacks) -> None:
     schedule = schedule_context(with_assignee=True)
 
-    assert send_due_notification(schedule) == 1
+    with django_capture_on_commit_callbacks(execute=True):
+        assert send_due_notification(schedule) == 1
 
     log = LogEntry.objects.get()
     assert log.level == LogLevel.INFO

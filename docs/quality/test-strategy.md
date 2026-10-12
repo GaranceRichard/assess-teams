@@ -137,6 +137,7 @@ La [démo statique](../architecture/public-demo.md#validation-et-revue-documenta
 La [gestion du mot de passe](../architecture/password-management.md#preuves-et-revue-documentaire) couvre
 non-énumération sans lookup synchrone, tokens/concurrence/fréquence, sessions, rôles, CSRF, logs,
 contrats OpenAPI/React et parcours navigateur avec remise réelle locale sans trace de credentials.
+Les [preuves MEP-004](../architecture/email-notifications.md#validation-et-revue-documentaire) ajoutent SMTP réel, reprises, déduplication, succès HTTP, administration et concurrence.
 
 ## Stratégie de couverture
 

@@ -21,7 +21,7 @@ forment des savepoints ; elles ne valident pas indépendamment de leur appelant.
 | Démarrage | état, nom figé, questions, lignées et repères figés |
 | Complétion | état COMPLETED, auteur/date et activité de succès |
 | Révision | toutes les notes, dernière provenance et activité ; auteur/date initiaux conservés |
-| Échéance notifiée | attente, prochaine date et log de notification |
+| Échéance mise en file | attente, prochaine date et intentions de notification |
 
 La frontière API des mutations de passation inclut la préparation de la réponse :
 un échec de sérialisation annule aussi les écritures du service.
@@ -44,18 +44,18 @@ L'interface de passation conserve sa modale et ses notes et indique le refus ava
 
 ## Réseau et commit
 
-Les invitations, informations de modification/activation et notifications de création de planning
-sont enregistrées via `on_commit(..., robust=True)`. Elles ne partent qu'après validation SQLite ;
-une erreur réseau est journalisée par Django et conserve la réponse de succès déjà acquise.
-Un rollback supprime le callback et n'envoie aucun e-mail.
+Les invitations, informations de modification/activation et notifications de planning
+sont persistées dans la transaction métier via la [file durable MEP-004](email-notifications.md).
+Un rollback annule l’intention ; le réseau SMTP intervient après commit ou dans un worker,
+sans transaction d’écriture ouverte. Une panne réseau conserve le succès métier et laisse
+une notification diagnostiquable, reprenable sans rejouer les écritures métier.
 
-Le traitement quotidien des échéances effectue l'envoi SMTP hors transaction d'écriture, puis valide
-ensemble l'attente, le log et la prochaine date dans un bloc atomique.
-Sans destinataire, l'attente éligible est conservée, le warning est enregistré et la date n'avance pas.
-Si l'envoi échoue, aucune nouvelle écriture de cette échéance n'est validée.
-Si une écriture échoue après l'envoi, les dépendances SQLite sont annulées ; l'e-mail externe ne peut
-pas être annulé. Une reprise peut donc envoyer un doublon. La file durable, la remise garantie et la
-politique de doublons relèvent de MEP-004 / Job 1.4, qui reste ouvert.
+Le traitement quotidien valide ensemble l’attente, la prochaine date et les intentions de remise.
+Sans destinataire, l’attente éligible est conservée, le warning est enregistré et la date n’avance pas.
+Une écriture refusée annule ces dépendances et ne soumet aucun courriel au relais.
+Les remises incertaines après interruption sont isolées pour vérification SMTP avant reprise ;
+les messages déjà acceptés ne sont pas volontairement renvoyés. SMTP ne garantit pas une remise
+exactement une fois sans coopération du relais.
 Les optimisations de contention, sauvegarde/restauration et changement de moteur sont hors périmètre.
 
 ## Preuves et revue documentaire

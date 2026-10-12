@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from identities.models import User
 from journals.models import ActivityEntry
+from notifications.models import EmailNotification
 from tests.managed_user_helpers import csrf_post, csrf_put
 from tests.taking_helpers import client_for, taking_context
 
@@ -17,7 +18,8 @@ pytestmark = [
 
 
 @pytest.mark.parametrize("action", ["invite", "update", "deactivate", "reactivate"])
-def test_mail_failure_after_commit_preserves_identity_success(action, caplog):
+def test_mail_failure_after_commit_preserves_identity_success(action, caplog, settings):
+    settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
     organization, coach, admin, run = taking_context()
     if action == "reactivate":
         coach.is_active = False
@@ -25,19 +27,12 @@ def test_mail_failure_after_commit_preserves_identity_success(action, caplog):
     coach.email = "coach@example.com"
     coach.save(update_fields=["email"])
     client = client_for(admin)
-    target = (
-        "identities.adapters.api.admin_views.send_invitation"
-        if action == "invite"
-        else "identities.adapters.api.admin_views.send_update_notice"
-        if action == "update"
-        else "identities.adapters.api.lifecycle_views.send_activation_notice"
-    )
 
-    def unavailable(*args):
+    def unavailable(*args, **kwargs):
         assert not connection.in_atomic_block
-        raise RuntimeError("smtp-unavailable")
+        raise ConnectionRefusedError("smtp-unavailable")
 
-    with patch(target, unavailable):
+    with patch("notifications.transport.EmailMessage.send", unavailable):
         if action == "invite":
             response = csrf_post(
                 client,
@@ -58,7 +53,9 @@ def test_mail_failure_after_commit_preserves_identity_success(action, caplog):
             )
 
     assert response.status_code == (201 if action == "invite" else 200)
-    assert "smtp-unavailable" in caplog.text
+    assert "smtp-unavailable" not in caplog.text
+    assert EmailNotification.objects.exists()
+    assert set(EmailNotification.objects.values_list("state", flat=True)) == {"retry"}
     assert ActivityEntry.objects.count() == 1
     if action == "invite":
         invited = User.objects.get(username="pending")

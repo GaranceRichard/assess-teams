@@ -8,6 +8,7 @@ from django.utils import timezone
 from assessments.application.schedule_notifications import deliver_due_schedule
 from assessments.models import EvaluationRun, EvaluationSchedule, ScheduleMode
 from journals.models import ActivityEntry, LogEntry
+from notifications.models import EmailNotification
 from tests.managed_user_helpers import csrf_post
 from tests.test_evaluation_schedules import planning_context as named_planning_context
 from tests.test_schedule_notifications import logged_in_client, payload, planning_context
@@ -44,7 +45,7 @@ def test_due_delivery_commits_run_notification_log_and_next_date(settings):
     assert LogEntry.objects.filter(source="notifications").count() == 1
 
 
-@pytest.mark.parametrize("failure", ["mail", "date_save"])
+@pytest.mark.parametrize("failure", ["queue", "date_save"])
 def test_due_failure_rolls_back_new_run_and_log_preserves_prior_commit(failure, settings):
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
     previous = due_schedule()
@@ -52,8 +53,8 @@ def test_due_failure_rolls_back_new_run_and_log_preserves_prior_commit(failure, 
     committed_date = EvaluationSchedule.objects.get(pk=previous.pk).next_due_date
     schedule = due_schedule("Other")
     target = (
-        "assessments.application.schedule_notifications._send_due_email"
-        if failure == "mail"
+        "assessments.application.schedule_notifications.enqueue_email"
+        if failure == "queue"
         else "assessments.models.EvaluationSchedule.save"
     )
     with patch(target, side_effect=IntegrityError("private-sql-detail")):
@@ -65,14 +66,15 @@ def test_due_failure_rolls_back_new_run_and_log_preserves_prior_commit(failure, 
     assert previous.runs.count() == 1
     assert EvaluationSchedule.objects.get(pk=previous.pk).next_due_date == committed_date
     assert EvaluationRun.objects.count() == LogEntry.objects.count() == 1
+    assert EmailNotification.objects.count() == 1
 
 
 def test_notification_failure_after_commit_keeps_creation_success(settings, caplog):
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
     organization, team, evaluation, _ = planning_context()
     with patch(
-        "assessments.adapters.api.schedule_views.notify_schedule_created",
-        side_effect=RuntimeError("smtp-unavailable"),
+        "notifications.transport.EmailMessage.send",
+        side_effect=ConnectionRefusedError("smtp-unavailable"),
     ):
         response = csrf_post(
             logged_in_client(),
@@ -84,17 +86,20 @@ def test_notification_failure_after_commit_keeps_creation_success(settings, capl
     assert schedule.runs.count() == 1
     assert schedule.team.coaches.filter(pk=schedule.assignee_id).exists()
     assert ActivityEntry.objects.count() == 1
-    assert "smtp-unavailable" in caplog.text
+    assert "smtp-unavailable" not in caplog.text
+    assert EmailNotification.objects.get().state == "retry"
 
 
 def test_due_smtp_runs_outside_sqlite_transaction(settings):
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
     schedule = due_schedule()
-    from assessments.application.schedule_notifications import send_mail
+    from django.core.mail import EmailMessage
 
-    def send(*args, **kwargs):
+    original_send = EmailMessage.send
+
+    def send(message, *args, **kwargs):
         assert not connection.in_atomic_block
-        return send_mail(*args, **kwargs)
+        return original_send(message, *args, **kwargs)
 
-    with patch("assessments.application.schedule_notifications.send_mail", send):
+    with patch("notifications.transport.EmailMessage.send", send):
         assert deliver_due_schedule(schedule, timezone.localdate())
