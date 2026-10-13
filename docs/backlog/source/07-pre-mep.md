@@ -1,55 +1,62 @@
-# EPIC-011 — Préparation de la mise en production MESS
+# Préparation de la mise en production MESS — référence opérationnelle
 
-## Objectif et périmètre
+La hiérarchie exclusive de préparation MESS est **Epic → Feature → PBI**.
+Cette refonte du 2026-10-13 conserve le backlog fonctionnel général, ses Epics/Features et ses arbitrages.
+Les Jobs sont uniquement des archives ; aucune unité active de planification ou de livraison n’est un Job.
 
-Préparer une livraison exploitable, sûre et utilisable au MESS à partir du socle métier existant.
-Cette source intègre les 36 entrées demandées le 2026-10-10 : 35 travaux et le jalon GO/NO-GO.
-Elle ne déclare aucune implémentation pré-MEP réalisée par cette mise à jour documentaire.
+## Structure et identifiants
 
-La hiérarchie Epic → Feature → PBI, les états, les règles de qualité, de tests et d’architecture restent ceux
-de la [gouvernance](../governance.md), de la [DoD](../../quality/definition-of-done.md), de la
-[stratégie de tests](../../quality/test-strategy.md) et de l’[architecture](../../architecture/fundamentals.md).
+E01–E04, F01–F20 et NN.NN sont des repères de la demande, mappés aux identifiants canoniques ci-dessous.
+EPIC-011 est conservé et recentré explicitement sur E01 ; EPIC-012 à EPIC-014 sont ajoutés.
+FEAT-042 à FEAT-048 sont archivées, jamais réutilisées ; FEAT-049 à FEAT-068 portent les vingt capacités.
+MEP-001 à MEP-008 restent les huit réalisations du Job 1. MEP-009 à MEP-034 sont réaffectés explicitement
+à un PBI atomique de leur découpage ; leur ancien périmètre reste archivé et les compléments reçoivent
+MEP-036 à MEP-072. Aucun identifiant fonctionnel existant n’est déplacé ou renuméroté.
+MEP-035 reste la décision finale, suivie comme jalon séparé, hors des PBI et du scoring technique.
 
-## Décisions structurantes du périmètre
+| Repère | Epic et enjeu | Features | PBI listés |
+| --- | --- | ---: | ---: |
+| E01 | [EPIC-011 — Sécurité et robustesse](mess/e01-securite.md) : Protéger les données, garantir la stabilité d’exploitation et maîtriser la traçabilité. | 4 | 13 |
+| E02 | [EPIC-012 — Expérience utilisateur](mess/e02-experience.md) : Améliorer la compréhension, l’accessibilité et la fluidité des parcours d’évaluation et de consultation des résultats. | 5 | 17 |
+| E03 | [EPIC-013 — Installation et exploitation MESS](mess/e03-exploitation.md) : Permettre une installation, une exploitation et une restauration autonomes, hors ligne et sans Node/npm en production. | 6 | 19 |
+| E04 | [EPIC-014 — Documentation, transfert et recette](mess/e04-recette.md) : Garantir l’autonomie du MESS et réunir les preuves nécessaires à la décision GO/NO-GO. | 5 | 14 |
 
-- SQLite est conservé en production ; qualification de sa contention réelle, sans migration de moteur.
-- Déploiement on-premise au MESS ; installation cible hors ligne, sans Docker ni Node.js.
-- La construction React et la préparation des dépendances ont lieu sur un poste de préparation.
+La cible confirmée par le demandeur le **2026-10-13** est **4 Epics, 20 Features et 63 PBI**
+(13 + 17 + 19 + 14). Le total initial de 61 est corrigé ; tous les PBI listés sont conservés.
+
+## Décisions structurantes conservées
+
+- SQLite est la base permanente, y compris en production ; aucun remplacement de moteur planifié.
+- Cible on-premise MESS hors ligne, sans Docker ni Node/npm ; build React et dépendances préparés ailleurs.
 - Configuration d’installation centralisée, distincte des paramètres métier et arbitrages de FEAT-031.
-- Apache 2.0 permet la reprise, le fork et la modification ; droits des dépendances/assets à vérifier.
-- Curseur entier 0–10 et repères descriptifs existants conservés ; aucune note attribuée implicitement.
-- Évaluation, résultat, accompagnement et pilotage restent distincts ; aucune surveillance individuelle.
+- Apache 2.0, LICENSE/NOTICE et droits des composants distribués conservés.
+- Curseur entier 0–10, choix explicite, absence distincte de zéro, repères et versions historiques conservés.
+- Évaluation, résultat, accompagnement et pilotage distincts ; aucune surveillance individuelle.
+- Optimisations locales de validation et CI acquises ; pre-push et Full quality gate restent bloquants.
 
-## Features et vagues obligatoires
+## Contrat commun des PBI
 
-Chaque Feature porte un job ; tous ses PBIs peuvent progresser indépendamment dans leur périmètre.
-Le job suivant démarre lorsque tous les travaux du précédent sont satisfaits. Une livraison déjà réalisée
-compte comme acquise sans être refaite. Les dépendances internes de livraison sont explicites dans les sources.
+Chaque fiche détaillée porte identifiant, parent unique, titre, user story, intention/description, valeur,
+priorité P1, acceptation, vrais refus et dépendances explicites. Taille XS/S recommandée, statut et date
+font autorité uniquement dans les sections MESS du [registre canonique](../tracking/pbis.md).
+Le périmètre est atomique : une vérification et les seuls écarts avérés de sa capacité ; pas de refonte globale.
+Les titres d’audit ne prouvent aucun défaut. Si les critères sont déjà satisfaits, réutiliser les preuves et
+qualifier le périmètre exact plutôt que produire un changement artificiel. Toute preuve cible reste distincte.
+Chaque réalisation exige tests/contrôles applicables, critères et refus satisfaits, DoD et intégration effective.
 
-- [FEAT-042 — Fondations : job 1](071-mep-job-1.md).
-- [FEAT-043 — Robustesse : job 2](072-mep-job-2.md).
-- [FEAT-044 — UI/UX : job 3](073-mep-job-3.md).
-- [FEAT-045 — Exploitation et contrat de déploiement : job 4](074-mep-job-4.md).
-- [FEAT-046 — Packaging et installation : job 5](075-mep-job-5.md).
-- [FEAT-047 — Documentation et transfert : job 6](076-mep-job-6.md).
-- [FEAT-048 — Recette préproduction : job 7](077-mep-job-7.md).
+La séparation HTTP/métier (03.01) est une régularisation documentaire déjà réalisée ; JOURNAL-001/002
+restent dans leurs Features fonctionnelles avec leurs dates initiales. Job 1 n’est jamais relancé.
+Les capacités UI, permissions et CI livrées restent des prérequis/acquis, pas des développements nouveaux.
+Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassant S impose raffinement explicite.
 
-Le jalon MEP-035 — Décision GO/NO-GO clôt la séquence après le job 7.
-Le [plan des vagues](../planning/pre-mep.md) donne les prérequis et les conditions de validation.
+## Suivi, dépendances et décision
 
-## Réconciliation et limites des preuves
+- [Ordonnancement par dépendances réelles et livraison progressive](../planning/pre-mep.md).
+- [Correspondance exhaustive des anciens travaux et preuves](../planning/pre-mep-rapprochements.md).
+- [Avancement des vingt Features](../tracking/pre-mep-view.md), dérivé du registre.
+- [Jalon MEP-035 — Décision GO/NO-GO](../tracking/mess-jalon.md), décision non rendue.
+- [Ancienne source et décisions historiques](070-mep-historique.md), sans règle de lancement active.
 
-Les [rapprochements avec les livraisons](../planning/pre-mep-rapprochements.md) expliquent les compléments
-et les écarts. Les audits technique et UI/UX ont été réalisés hors dépôt ; leurs rapports ne sont pas disponibles sous
-forme de fichiers locaux, selon la clarification du demandeur. La réconciliation repose sur le backlog,
-les 36 entrées du prompt et les éléments/preuves du dépôt. Les constats d’audit sont des points à vérifier,
-sans conclusion d’audit ni référence documentaire inventée.
-
-Chaque PBI commence par vérifier le point et les acquis : réutiliser les preuves satisfaisantes,
-compléter uniquement les écarts avérés et qualifier ce qui reste non démontré sur la cible MESS.
-Une correction ne découle pas automatiquement d’un intitulé d’audit. Les écarts observés dans le dépôt
-sont distingués des hypothèses à vérifier ; les réalisations historiques restent conservées.
-
-Priorité P1 au sens du backlog existant : préparation après le premier parcours. L’ordre impératif des jobs
-fixe la priorité d’exécution pré-MEP ; les sept vagues sont requises pour le GO, y compris le chantier UI/UX.
-Les recommandations de taille et de modèle restent À définir, sans estimation ni affectation implicite.
+Le responsable et les seuils de disponibilité/reprise sont à convenir avec MESS dans F11.
+ARB-ORG-005 et les autres arbitrages ouverts restent dans leur registre ; la préparation MESS ne les tranche pas.
+Les rapports d’audit externes ne sont pas disponibles localement ; aucune conclusion d’audit n’est inventée.

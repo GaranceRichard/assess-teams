@@ -99,3 +99,13 @@ avec intentions persistées, deux workers locaux, reprises bornées et suivi Sup
 
 La [frontière HTTP de production](http-security.md) impose HTTPS, valide les hôtes et origines,
 accepte le protocole forwarded uniquement des pairs proxy explicitement autorisés et protège les cookies.
+
+## Préparation de l’exploitation MESS
+
+Le [backlog de préparation MESS](../backlog/source/07-pre-mep.md) organise les travaux restants par
+Epic → Feature → PBI ; le socle fonctionnel et les preuves livrées restent distincts de la qualification cible.
+SQLite demeure la base permanente en production. La cible on-premise MESS doit être installable et
+exploitable hors ligne sans Docker ni Node/npm ; build React et dépendances Python se préparent ailleurs.
+Configuration unique, package autonome, installation, opérations et reprise restent à livrer/qualifier
+selon le contrat MESS, sans annoncer leur disponibilité par cette refonte documentaire.
+Les journaux HTTP et métier, transactions, contrôles d’accès et workers SMTP existants sont réutilisés.

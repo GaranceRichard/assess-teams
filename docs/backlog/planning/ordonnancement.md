@@ -1,6 +1,6 @@
 # Planification du backlog
 
-Le [plan pré-MEP MESS](pre-mep.md) organise les sept vagues obligatoires et le GO/NO-GO.
+Le [plan pré-MEP MESS](pre-mep.md) organise la livraison par Epic → Feature → PBI, selon les dépendances réelles, et le jalon GO/NO-GO séparé.
 Il complète la séquence métier historique ci-dessous sans rouvrir les PBIs réalisés ni lever ses arbitrages.
 
 ## Sprint 1 — Backend Utilisateurs
@@ -99,5 +99,5 @@ Cette cartographie est une hypothèse évolutive. Elle guide un découpage cohé
 - Le domaine métier et ses règles ne dépendront directement ni de Django REST Framework, ni de l’ORM Django, ni de SQLite, ni de HTTP, ni de React, ni de serializers, ni d’un système concret de notification.
 - Les cas d’usage orchestreront les règles et dépendront de ports définis selon les besoins métier ; les adapters porteront persistance, API, interface et canaux externes.
 - Les frontières suivront les responsabilités ci-dessus, pas des regroupements techniques génériques tels que `core`, `services`, `repositories`, `controllers` ou `utils`.
-- SQLite est un adapter de persistance initial, pas une contrainte du domaine. React et Django REST Framework exposent le produit, mais ne définissent pas ses règles.
+- SQLite est l’adapter de persistance permanent, y compris en production MESS ; le domaine reste indépendant du moteur. React et Django REST Framework exposent le produit, mais ne définissent pas ses règles.
 - La séparation restera pragmatique : aucun port, adapter ou abstraction ne sera créé sans collaboration réelle à isoler ou règle à protéger.

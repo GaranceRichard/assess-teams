@@ -61,6 +61,20 @@ Les colonnes `Taille recommandée` et `Modèle Codex recommandé` du registre co
 - Une Feature est placée sous son unique Epic. Un PBI est placé sous sa Feature et son champ `Feature parente` doit confirmer ce rattachement.
 - Un changement de rattachement est une décision explicite dans la source détaillée, jamais une correction silencieuse de synthèse.
 
+## Périmètres actifs et archives historiques
+
+La préparation MESS conserve le backlog fonctionnel général et ajoute ses enjeux/capacités spécifiques.
+E01–E04, F01–F20 et NN.NN sont des repères de navigation, liés explicitement aux identifiants canoniques ;
+ils ne remplacent pas ces identifiants ni leur unicité. Tout changement de titre/parent ou découpage
+conserve sa correspondance et son périmètre historique dans une archive identifiée.
+Une archive n’est jamais une unité active de planification/livraison ; ses dépendances datées ne pilotent
+pas les travaux courants. Les Jobs restent historiques. Les indicateurs courants excluent les Epics,
+Features et PBI archivés ainsi que les jalons décisionnels ; les acquis historiques sont présentés séparément.
+Une régularisation documentaire compte une fiche, sans prétendre livrer à nouveau la capacité référencée.
+Les sections liées depuis le registre principal sont parties du même registre canonique, pas des synthèses.
+Le jalon GO/NO-GO possède un suivi canonique séparé, une attribution, une décision et des preuves ;
+une décision NO-GO enregistrée ne clôt aucun PBI non satisfait et un jalon Réalisé ne signifie pas GO.
+
 ## Dépendances
 
 Une dépendance référence un identifiant existant et précise, si nécessaire, la portée de la relation. Elle est orientée du dépendant vers le prérequis.

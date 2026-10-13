@@ -1,87 +1,128 @@
-# Pré-MEP — suivi détaillé dérivé
+# Préparation MESS — suivi détaillé dérivé
 
-Détail lié à la [synthèse principale](../synthese.md), sans autorité concurrente.
-Statuts et dates issus du [registre canonique](pbis.md) ; périmètres et dépendances issus des
-[sources pré-MEP](../source/07-pre-mep.md). Pour lancement, respecter le [plan des vagues](../planning/pre-mep.md).
-Les 35 travaux comprennent un acquis (2.4), huit réalisations (1.1 à 1.8) et 26 compléments ouverts ; le jalon est suivi séparément.
+Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
+Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
+[sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 63 PBI : cible confirmée le 2026-10-13.
+Au 2026-10-13 : 1 acquis régularisé Réalisé (03.01), 62 Ouverts, 0 En cours, 0 Bloqué ; avancement 2 %.
+Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
-## Job 1 — Fondations
+## Avancement des capacités
 
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 1.1 — Sécurisation de l’authentification | [MEP-001 — Sécurisation de l’authentification](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
-| 1.2 — HTTPS, proxy, cookies et CSRF | [MEP-002 — HTTPS, proxy, cookies et CSRF](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
-| 1.3 — Intégrité des transactions SQLite | [MEP-003 — Intégrité des transactions SQLite](../source/071-mep-job-1.md) | Réalisé — 2026-10-12 |
-| 1.4 — Fiabilisation SMTP et reprises | [MEP-004 — Fiabilisation SMTP et reprises](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
-| 1.5 — Accessibilité des modales | [MEP-005 — Accessibilité des modales](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
-| 1.6 — Licence Apache 2.0 | [MEP-006 — Licence Apache 2.0](../source/071-mep-job-1.md) | Réalisé |
-| 1.7 — Notation explicite sans valeur présélectionnée | [MEP-007 — Notation explicite sans valeur présélectionnée](../source/071-mep-job-1.md) | Réalisé ; 2026-10-12 |
-| 1.8 — Permissions DRF restrictives | [MEP-008 — Permissions DRF restrictives](../source/071-mep-job-1.md) | Réalisé ; 2026-10-11 |
+Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance/DoD ; aucun statut autonome.
 
-## Job 2 — Robustesse
+| Epic | Feature / capacité | Réalisés / PBI | Avancement |
+| --- | --- | ---: | ---: |
+| EPIC-011 — Sécurité et robustesse | [F01 — FEAT-049 — Sécurité de production](../source/mess/f01.md) | 0 / 5 | 0 % |
+| EPIC-011 — Sécurité et robustesse | [F02 — FEAT-050 — SQLite en exploitation](../source/mess/f02.md) | 0 / 3 | 0 % |
+| EPIC-011 — Sécurité et robustesse | [F03 — FEAT-051 — Journalisation et conservation](../source/mess/f03.md) | 1 / 3 | 33 % |
+| EPIC-011 — Sécurité et robustesse | [F04 — FEAT-052 — Gouvernance Git et intégration continue](../source/mess/f04.md) | 0 / 2 | 0 % |
+| EPIC-012 — Expérience utilisateur | [F05 — FEAT-053 — Expérience de notation](../source/mess/f05.md) | 0 / 3 | 0 % |
+| EPIC-012 — Expérience utilisateur | [F06 — FEAT-054 — Résultats et comparaisons](../source/mess/f06.md) | 0 / 4 | 0 % |
+| EPIC-012 — Expérience utilisateur | [F07 — FEAT-055 — Pilotage et tableau de bord](../source/mess/f07.md) | 0 / 2 | 0 % |
+| EPIC-012 — Expérience utilisateur | [F08 — FEAT-056 — Responsive et états d’interaction](../source/mess/f08.md) | 0 / 5 | 0 % |
+| EPIC-012 — Expérience utilisateur | [F09 — FEAT-057 — Cohérence visuelle et thèmes](../source/mess/f09.md) | 0 / 3 | 0 % |
+| EPIC-013 — Installation et exploitation MESS | [F10 — FEAT-058 — Configuration unique MESS](../source/mess/f10.md) | 0 / 2 | 0 % |
+| EPIC-013 — Installation et exploitation MESS | [F11 — FEAT-059 — Contrat d’installation et d’exploitation](../source/mess/f11.md) | 0 / 4 | 0 % |
+| EPIC-013 — Installation et exploitation MESS | [F12 — FEAT-060 — Distribution autonome hors ligne](../source/mess/f12.md) | 0 / 4 | 0 % |
+| EPIC-013 — Installation et exploitation MESS | [F13 — FEAT-061 — Installation automatisée](../source/mess/f13.md) | 0 / 4 | 0 % |
+| EPIC-013 — Installation et exploitation MESS | [F14 — FEAT-062 — Cycle d’exploitation](../source/mess/f14.md) | 0 / 2 | 0 % |
+| EPIC-013 — Installation et exploitation MESS | [F15 — FEAT-063 — Sauvegarde et réversibilité](../source/mess/f15.md) | 0 / 3 | 0 % |
+| EPIC-014 — Documentation, transfert et recette | [F16 — FEAT-064 — Documentation et transfert](../source/mess/f16.md) | 0 / 3 | 0 % |
+| EPIC-014 — Documentation, transfert et recette | [F17 — FEAT-065 — Préparation des recettes](../source/mess/f17.md) | 0 / 3 | 0 % |
+| EPIC-014 — Documentation, transfert et recette | [F18 — FEAT-066 — Recette d’installation hors ligne](../source/mess/f18.md) | 0 / 2 | 0 % |
+| EPIC-014 — Documentation, transfert et recette | [F19 — FEAT-067 — Recette fonctionnelle et UX](../source/mess/f19.md) | 0 / 3 | 0 % |
+| EPIC-014 — Documentation, transfert et recette | [F20 — FEAT-068 — Recette technique et reprise après incident](../source/mess/f20.md) | 0 / 3 | 0 % |
 
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 2.1 — Secrets et paramètres de production | [MEP-009 — Secrets et paramètres de production](../source/072-mep-job-2.md) | Ouvert |
-| 2.2 — Concurrence et verrouillage SQLite | [MEP-010 — Concurrence et verrouillage SQLite](../source/072-mep-job-2.md) | Ouvert |
-| 2.3 — Isolation inter-organisations et rôles | [MEP-011 — Isolation inter-organisations et rôles](../source/072-mep-job-2.md) | Ouvert |
-| 2.4 — Journalisation HTTP et métier | [JOURNAL-001 — Consulter les activités métier réussies ; JOURNAL-002 — Consulter les logs applicatifs](../source/06-journaux.md) | Réalisé ; 2026-09-28 / 2026-09-29 ; extension 2026-10-05 |
-| 2.5 — Protection GitHub et CI | [MEP-012 — Protection GitHub et CI](../source/072-mep-job-2.md) | Ouvert |
+## E01 — EPIC-011 — Sécurité et robustesse
 
-## Job 3 — UI/UX
+| Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
+| --- | --- | --- | --- | --- |
+| 01.01 | [MEP-036 — Inventorier les paramètres sensibles et les valeurs par défaut](../source/mess/f01.md) | XS | Ouvert — N/A | aucune |
+| 01.02 | [MEP-009 — Sécuriser les secrets et vérifier la configuration au démarrage](../source/mess/f01.md) | S | Ouvert — N/A | MEP-036, MEP-002 |
+| 01.03 | [MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) | S | Ouvert — N/A | AUTH-001, ORG-005, ORG-006, COACH-001 |
+| 01.04 | [MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) | S | Ouvert — N/A | MEP-008, USER-004 |
+| 01.05 | [MEP-038 — Sécuriser les accès indirects et les exports](../source/mess/f01.md) | S | Ouvert — N/A | MEP-011, MEP-037 |
+| 02.01 | [MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) | XS | Ouvert — N/A | MEP-003 |
+| 02.02 | [MEP-010 — Gérer les verrous et les transactions concurrentes](../source/mess/f02.md) | S | Ouvert — N/A | MEP-039, MEP-003 |
+| 02.03 | [MEP-040 — Gérer les conflits sur les opérations critiques](../source/mess/f02.md) | S | Ouvert — N/A | MEP-010, EVAL-003, USER-004, AUTH-002 |
+| 03.01 | [MEP-041 — Séparer les journaux HTTP des événements métier](../source/mess/f03.md) | S | Réalisé — 2026-10-05 | JOURNAL-001, JOURNAL-002 |
+| 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | Ouvert — N/A | MEP-041 |
+| 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | S | Ouvert — N/A | MEP-042 |
+| 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | XS | Ouvert — N/A | aucune |
+| 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | S | Ouvert — N/A | MEP-012 |
 
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 3.1 — Ergonomie de la passation et du curseur de notation | [MEP-013 — Ergonomie de la passation et du curseur de notation](../source/073-mep-job-3.md) | Ouvert |
-| 3.2 — Lisibilité et compréhension des résultats | [MEP-014 — Lisibilité et compréhension des résultats](../source/073-mep-job-3.md) | Ouvert |
-| 3.3 — Ergonomie du radar et des comparaisons | [MEP-015 — Ergonomie du radar et des comparaisons](../source/073-mep-job-3.md) | Ouvert |
-| 3.4 — Simplification du vocabulaire et des indicateurs de pilotage | [MEP-016 — Simplification du vocabulaire et des indicateurs de pilotage](../source/073-mep-job-3.md) | Ouvert |
-| 3.5 — Responsive et ergonomie tactile | [MEP-017 — Responsive et ergonomie tactile](../source/073-mep-job-3.md) | Ouvert |
-| 3.6 — Cohérence des interactions, états vides, erreurs et chargements | [MEP-018 — Cohérence des interactions, états vides, erreurs et chargements](../source/073-mep-job-3.md) | Ouvert |
-| 3.7 — Cohérence visuelle des thèmes, contrastes et typographie | [MEP-019 — Cohérence visuelle des thèmes, contrastes et typographie](../source/073-mep-job-3.md) | Ouvert |
+## E02 — EPIC-012 — Expérience utilisateur
 
-## Job 4 — Exploitation et contrat de déploiement
+| Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
+| --- | --- | --- | --- | --- |
+| 05.01 | [MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) | XS | Ouvert — N/A | PASS-001, EVAL-004, MEP-007 |
+| 05.02 | [MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) | S | Ouvert — N/A | PASS-001, EVAL-004, MEP-005, MEP-007 |
+| 05.03 | [MEP-045 — Confirmer visuellement l’enregistrement de la notation](../source/mess/f05.md) | XS | Ouvert — N/A | PASS-001, MEP-007 |
+| 06.01 | [MEP-014 — Améliorer la hiérarchie visuelle des résultats](../source/mess/f06.md) | S | Ouvert — N/A | RESULT-001, RESULT-002 |
+| 06.02 | [MEP-046 — Clarifier les scores et les indicateurs](../source/mess/f06.md) | XS | Ouvert — N/A | RESULT-001, RESULT-002 |
+| 06.03 | [MEP-015 — Améliorer la présentation des graphiques radar](../source/mess/f06.md) | S | Ouvert — N/A | RESULT-001 |
+| 06.04 | [MEP-047 — Améliorer les comparaisons entre équipes et évaluations](../source/mess/f06.md) | S | Ouvert — N/A | RESULT-001, RESULT-002 |
+| 07.01 | [MEP-016 — Harmoniser le vocabulaire du tableau de bord](../source/mess/f07.md) | XS | Ouvert — N/A | STEER-001, DASH-001 |
+| 07.02 | [MEP-048 — Clarifier les indicateurs et leur interprétation](../source/mess/f07.md) | S | Ouvert — N/A | STEER-001, DASH-001 |
+| 08.01 | [MEP-017 — Adapter les tableaux et contenus aux petits écrans](../source/mess/f08.md) | S | Ouvert — N/A | PASS-001, RESULT-001, DASH-001 |
+| 08.02 | [MEP-049 — Améliorer la navigation mobile et les interactions tactiles](../source/mess/f08.md) | S | Ouvert — N/A | PASS-001, MEP-005 |
+| 08.03 | [MEP-018 — Améliorer les états de chargement](../source/mess/f08.md) | XS | Ouvert — N/A | AUTH-001, PASS-001, RESULT-001 |
+| 08.04 | [MEP-050 — Améliorer les états vides](../source/mess/f08.md) | XS | Ouvert — N/A | AUTH-001, RESULT-001 |
+| 08.05 | [MEP-051 — Améliorer la présentation des erreurs](../source/mess/f08.md) | S | Ouvert — N/A | PASS-001, MEP-004 |
+| 09.01 | [MEP-019 — Corriger les contrastes et la lisibilité du thème clair](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001 |
+| 09.02 | [MEP-052 — Harmoniser le thème sombre](../source/mess/f09.md) | XS | Ouvert — N/A | DASH-001 |
+| 09.03 | [MEP-053 — Harmoniser la typographie et la hiérarchie visuelle](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001 |
 
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 4.1 — Conservation et purge des journaux | [MEP-020 — Conservation et purge des journaux](../source/074-mep-job-4.md) | Ouvert |
-| 4.2 — Configuration unique MESS | [MEP-021 — Configuration unique MESS](../source/074-mep-job-4.md) | Ouvert |
-| 4.3 — Contrat d’installation et d’exploitation | [MEP-022 — Contrat d’installation et d’exploitation](../source/074-mep-job-4.md) | Ouvert |
-| 4.4 — Actualisation README, backlog et architecture | [MEP-023 — Actualisation README, backlog et architecture](../source/074-mep-job-4.md) | Ouvert |
+## E03 — EPIC-013 — Installation et exploitation MESS
 
-## Job 5 — Packaging et installation
+| Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
+| --- | --- | --- | --- | --- |
+| 10.01 | [MEP-054 — Définir le contrat de configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-036, MEP-055 |
+| 10.02 | [MEP-021 — Charger et valider la configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-054, MEP-009 |
+| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | XS | Ouvert — N/A | aucune |
+| 11.02 | [MEP-022 — Définir les opérations d’exploitation](../source/mess/f11.md) | S | Ouvert — N/A | MEP-055, MEP-054, MEP-042 |
+| 11.03 | [MEP-023 — Actualiser le README et l’architecture](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
+| 11.04 | [MEP-056 — Actualiser le backlog](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
+| 12.01 | [MEP-057 — Inventorier les dépendances nécessaires à la distribution](../source/mess/f12.md) | S | Ouvert — N/A | MEP-055, MEP-054, MEP-006 |
+| 12.02 | [MEP-058 — Préparer le frontend compilé pour la distribution](../source/mess/f12.md) | S | Ouvert — N/A | MEP-057 |
+| 12.03 | [MEP-059 — Préparer les dépendances Python hors ligne](../source/mess/f12.md) | S | Ouvert — N/A | MEP-057 |
+| 12.04 | [MEP-024 — Assembler le package autonome](../source/mess/f12.md) | S | Ouvert — N/A | MEP-058, MEP-059, MEP-021, MEP-022 |
+| 13.01 | [MEP-060 — Préparer les répertoires et les paramètres d’installation](../source/mess/f13.md) | S | Ouvert — N/A | MEP-024, MEP-021 |
+| 13.02 | [MEP-061 — Installer les composants et dépendances](../source/mess/f13.md) | S | Ouvert — N/A | MEP-060 |
+| 13.03 | [MEP-062 — Initialiser SQLite et les données nécessaires](../source/mess/f13.md) | S | Ouvert — N/A | MEP-061 |
+| 13.04 | [MEP-025 — Vérifier l’installation et diagnostiquer les échecs](../source/mess/f13.md) | S | Ouvert — N/A | MEP-062 |
+| 14.01 | [MEP-063 — Automatiser le démarrage et l’arrêt de l’application](../source/mess/f14.md) | S | Ouvert — N/A | MEP-025, MEP-004 |
+| 14.02 | [MEP-026 — Automatiser la mise à jour de l’application](../source/mess/f14.md) | S | Ouvert — N/A | MEP-063, MEP-064 |
+| 15.01 | [MEP-064 — Réaliser une sauvegarde cohérente de SQLite](../source/mess/f15.md) | S | Ouvert — N/A | MEP-025, MEP-022 |
+| 15.02 | [MEP-027 — Restaurer les données SQLite](../source/mess/f15.md) | S | Ouvert — N/A | MEP-064, MEP-063 |
+| 15.03 | [MEP-065 — Revenir à la version précédente après une mise à jour](../source/mess/f15.md) | S | Ouvert — N/A | MEP-026, MEP-027 |
 
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 5.1 — Construction du package hors ligne | [MEP-024 — Construction du package hors ligne](../source/075-mep-job-5.md) | Ouvert |
-| 5.2 — Installation automatisée | [MEP-025 — Installation automatisée](../source/075-mep-job-5.md) | Ouvert |
-| 5.3 — Démarrage, arrêt et mise à jour | [MEP-026 — Démarrage, arrêt et mise à jour](../source/075-mep-job-5.md) | Ouvert |
-| 5.4 — Sauvegarde, restauration et rollback | [MEP-027 — Sauvegarde, restauration et rollback](../source/075-mep-job-5.md) | Ouvert |
+## E04 — EPIC-014 — Documentation, transfert et recette
 
-## Job 6 — Documentation et transfert
+| Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
+| --- | --- | --- | --- | --- |
+| 16.01 | [MEP-028 — Rédiger le guide d’installation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-025, MEP-023 |
+| 16.02 | [MEP-066 — Rédiger le guide d’exploitation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-020, MEP-026, MEP-065, MEP-023 |
+| 16.03 | [MEP-029 — Documenter le transfert, le fork et la licence Apache 2.0](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-006, MEP-024 |
+| 17.01 | [MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) | S | Ouvert — N/A | PASS-001, EVAL-004, RESULT-001, STEER-001 |
+| 17.02 | [MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) | XS | Ouvert — N/A | MEP-005, MEP-007, DASH-001, RESULT-001 |
+| 17.03 | [MEP-031 — Définir les scénarios de recette technique](../source/mess/f17.md) | S | Ouvert — N/A | MEP-022, MEP-039 |
+| 18.01 | [MEP-032 — Installer Assess Teams sur un environnement vierge](../source/mess/f18.md) | S | Ouvert — N/A | MEP-025, MEP-028, MEP-031 |
+| 18.02 | [MEP-068 — Vérifier le fonctionnement sans connexion Internet](../source/mess/f18.md) | S | Ouvert — N/A | MEP-032, MEP-063, MEP-030 |
+| 19.01 | [MEP-033 — Vérifier les parcours d’administration](../source/mess/f19.md) | S | Ouvert — N/A | MEP-068, MEP-030, MEP-067, MEP-011, MEP-037 |
+| 19.02 | [MEP-069 — Vérifier les parcours d’évaluation et de notation](../source/mess/f19.md) | S | Ouvert — N/A | MEP-068, MEP-030, MEP-067, MEP-044, MEP-013, MEP-045, MEP-017, MEP-049, MEP-018, MEP-050, MEP-051, MEP-019, MEP-052, MEP-053 |
+| 19.03 | [MEP-070 — Vérifier les parcours de consultation des résultats](../source/mess/f19.md) | S | Ouvert — N/A | MEP-068, MEP-030, MEP-067, MEP-014, MEP-046, MEP-015, MEP-047, MEP-016, MEP-048, MEP-017, MEP-019, MEP-052, MEP-053 |
+| 20.01 | [MEP-034 — Vérifier la sécurité et l’isolation des organisations](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-009, MEP-011, MEP-037, MEP-038, MEP-020, MEP-043 |
+| 20.02 | [MEP-071 — Vérifier la concurrence et la stabilité SQLite](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-010, MEP-040, MEP-063 |
+| 20.03 | [MEP-072 — Exercer la sauvegarde, la restauration et le rollback](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-064, MEP-027, MEP-065 |
 
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 6.1 — Documentation d’installation et d’exploitation | [MEP-028 — Documentation d’installation et d’exploitation](../source/076-mep-job-6.md) | Ouvert |
-| 6.2 — Documentation de transfert et fork Apache 2.0 | [MEP-029 — Documentation de transfert et fork Apache 2.0](../source/076-mep-job-6.md) | Ouvert |
-| 6.3 — Préparation de la recette fonctionnelle | [MEP-030 — Préparation de la recette fonctionnelle](../source/076-mep-job-6.md) | Ouvert |
-| 6.4 — Préparation de la recette technique | [MEP-031 — Préparation de la recette technique](../source/076-mep-job-6.md) | Ouvert |
+## Historique et jalon
 
-## Job 7 — Recette préproduction
-
-| Travail | PBI et source | Statut dérivé |
-| --- | --- | --- |
-| 7.1 — Installation hors ligne sur environnement vierge | [MEP-032 — Installation hors ligne sur environnement vierge](../source/077-mep-job-7.md) | Ouvert |
-| 7.2 — Recette fonctionnelle et UX | [MEP-033 — Recette fonctionnelle et UX](../source/077-mep-job-7.md) | Ouvert |
-| 7.3 — Recette technique et reprise après incident | [MEP-034 — Recette technique et reprise après incident](../source/077-mep-job-7.md) | Ouvert |
-
-## Jalon après le job 7
-
-| Jalon | PBI et source | Statut dérivé | Décision |
-| --- | --- | --- | --- |
-| GO/NO-GO | [MEP-035 — Décision GO/NO-GO](../source/077-mep-job-7.md#mep-035--décision-gono-go) | Ouvert | À définir — non rendue |
-
-26 compléments et le jalon restent ouverts, 8 PBIs réalisés, 1 acquis ; aucun complément en cours ou bloqué.
-La recette TLS MESS reste distincte de la sécurisation applicative.
-Les prérequis de vague empêchent de présenter les jobs 2–7 comme immédiatement lançables.
-Un futur Réalisé sur MEP-035 atteste la décision, sans signifier automatiquement GO.
+[Job 1 — huit réalisations MEP-001 à MEP-008, avec dates et preuves](mess-historique.md) : aucune relance.
+[JOURNAL-001/002](pbis.md) restent réalisés dans leurs Features fonctionnelles avec leurs dates initiales.
+La fiche 03.01 est la seule reconnaissance MESS de la séparation HTTP/métier, sans nouveau développement.
+Les [acquis CI](../planning/pre-mep-rapprochements.md#acquis-de-validation-et-ci--aucun-pbi-de-développement-à-recréer)
+sont réutilisés par F04 ; présence de CI ne prouve pas l’activation des protections distantes.
+[MEP-035 — Décision GO/NO-GO](mess-jalon.md) : Ouvert, N/A, décision non rendue, hors scoring PBI.
+Les [PBI prêts selon les prérequis connus](../planning/pre-mep.md#pbi-prêts-au-regard-des-dépendances-connues-du-registre)
+se consultent sans l’ancien ordre de Jobs. Les arbitrages Organisation restent dans leur source canonique.

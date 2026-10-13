@@ -47,3 +47,11 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Registre canonique du suivi](backlog/tracking/pbis.md)
 
 - [Notifications fiables — MEP-004](architecture/email-notifications.md) : file, reprises et exploitation SMTP interne.
+
+## Préparation MESS
+
+- [Référence opérationnelle : quatre Epics et vingt Features](backlog/source/07-pre-mep.md).
+- [Livraison progressive et prérequis](backlog/planning/pre-mep.md).
+- [Registre canonique et sections MESS](backlog/tracking/pbis.md).
+- [Correspondance des anciens travaux et acquis](backlog/planning/pre-mep-rapprochements.md).
+- [Jalon décisionnel GO/NO-GO](backlog/tracking/mess-jalon.md).

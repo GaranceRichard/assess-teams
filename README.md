@@ -12,6 +12,8 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
+La préparation MESS est refondue en Epic → Feature → PBI : quatre Epics, vingt Features et 63 PBI, avec réconciliation des travaux historiques, acquis et dépendances. Le [backlog MESS](docs/backlog/source/07-pre-mep.md) devient la référence opérationnelle ; les Jobs restent uniquement historiques et le backlog fonctionnel général est conservé.
+
 [Démo interactive](https://GaranceRichard.github.io/assess-teams/) : shell React réel, données fictives locales, passation, radar et Pilotage sans compte ni serveur. `npm run dev:demo` et `npm run build:demo` sont isolés du build normal ; [architecture, limites et publication](docs/architecture/public-demo.md).
 
 Le [shell desktop](docs/architecture/product-layout.md) occupe 100dvh, borne les collections avec pagination serveur, adapte le mobile et conserve des surfaces neutres en mode clair. La sidebar partagée avec la démo ancre le bouton de repli en bas ; les icônes centrées ne débordent plus horizontalement et seule la navigation scrolle en faible hauteur.
@@ -31,11 +33,11 @@ Leur consultation reste en lecture seule et cloisonnée ; les données sensibles
 
 La vue Radar / Graphique des Résultats retire le menu dépliant « Historique par critère » ; les critères restent accessibles par le radar, les données détaillées et la vue Dans le temps. Les [Résultats](docs/architecture/results-api.md) séparent Analyse (Radar / Dans le temps) et Restitution (Graphique / Données détaillées), avec filtres et équipes communs, dans l’application réelle et la démo. Le contrôle Analyse devient un switch compact inspiré du mode jour/nuit, avec libellés Radar / Dans le temps visibles, curseur animé et accès clavier ; la vue temporelle présente une colonne par équipe : observations chronologiques `SCORE/10 (JJ/MM/AAAA - HH:mm)`, cellules restantes vides, sans alignement de dates ni zéro inventé. Les quatre combinaisons affichent une seule restitution à la fois : graphiques dimensionnés dans le shell fixe et tableaux à scroll interne. Le critère sélectionné est conservé lors des transitions. La dernière version ayant des résultats reste utilisée par organisation et famille, sans modifier les calculs, la récence, les accès ni les contrats API. Un clic sur un critère ouvre Dans le temps / Graphique ; la continuité inter-version exige une lignée explicite, sans agrégation ni rapprochement implicite. La direction artistique et le mode sombre sont conservés.
 
-Le [Job 1.2 — MEP-002](docs/architecture/http-security.md) impose HTTPS en production, protège cookies et CSRF, valide proxys et origines, et conserve HTTP local.
+Le [MEP-002 — HTTPS, proxy et CSRF](docs/architecture/http-security.md) impose HTTPS en production, protège cookies et CSRF, valide proxys et origines, et conserve HTTP local.
 
-Le [Job 1.5](docs/architecture/dialog-accessibility.md) harmonise l’accessibilité de tous les dialogues : focus initial et contenu, retour au déclencheur ou à un repère pertinent, fermeture par Échap selon les protections existantes, titres et descriptions accessibles. Les saisies et les parcours métier restent protégés, sans refonte graphique ni changement du curseur de notation.
+Le [MEP-005 — Accessibilité des dialogues](docs/architecture/dialog-accessibility.md) harmonise l’accessibilité de tous les dialogues : focus initial et contenu, retour au déclencheur ou à un repère pertinent, fermeture par Échap selon les protections existantes, titres et descriptions accessibles. Les saisies et les parcours métier restent protégés, sans refonte graphique ni changement du curseur de notation.
 
-Job 1.4 fiabilise les [notifications par courriel](docs/architecture/email-notifications.md) : file persistante locale, reprises SMTP bornées, prévention des doublons et suivi administratif, sans remettre en cause une opération métier validée ni ajouter de service externe obligatoire.
+MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notifications.md) : file persistante locale, reprises SMTP bornées, prévention des doublons et suivi administratif, sans remettre en cause une opération métier validée ni ajouter de service externe obligatoire.
 
 ## Validations proportionnées
 
@@ -47,12 +49,12 @@ La CI répartit les tests backend en trois partitions déterministes équilibré
 
 ## Socle technique
 
-- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite, y compris en production. [Job 1.3 — transactions métier](docs/architecture/sqlite-transactions.md) : modifications dépendantes et Journal validés ensemble ou annulés, données antérieures conservées et erreurs compréhensibles.
+- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite, y compris en production. [MEP-003 — Transactions métier](docs/architecture/sqlite-transactions.md) : modifications dépendantes et Journal validés ensemble ou annulés, données antérieures conservées et erreurs compréhensibles.
 - Frontend : React 19, TypeScript 5.9 et Vite 8.
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.
 
-Job 1.8 renforce les [permissions API](docs/architecture/backend-api.md) : authentification obligatoire par défaut, accès publics déclarés explicitement et conservation des permissions métier existantes. Le bootstrap distingue `development` et `production`, réconcilie les identités sans doublon et permet d'afficher ou masquer le mot de passe sans l'altérer. La [gestion sécurisée du mot de passe](docs/architecture/password-management.md) ajoute la récupération publique et la modification dans Mon profil, avec validateurs Django, liens à usage unique et politique des sessions. Job 1.1 — [sécurisation de l'authentification](docs/architecture/login-security.md) limite les échecs par identifiant et origine, explicite la restriction temporaire sans révéler les comptes, restaure l'accès après expiration et configure les proxies de confiance on-premise.
+MEP-008 renforce les [permissions API](docs/architecture/backend-api.md) : authentification obligatoire par défaut, accès publics déclarés explicitement et conservation des permissions métier existantes. Le bootstrap distingue `development` et `production`, réconcilie les identités sans doublon et permet d'afficher ou masquer le mot de passe sans l'altérer. La [gestion sécurisée du mot de passe](docs/architecture/password-management.md) ajoute la récupération publique et la modification dans Mon profil, avec validateurs Django, liens à usage unique et politique des sessions. MEP-001 — [sécurisation de l'authentification](docs/architecture/login-security.md) limite les échecs par identifiant et origine, explicite la restriction temporaire sans révéler les comptes, restaure l'accès après expiration et configure les proxies de confiance on-premise.
 
 ## Périmètres livrés — identités et accès
 
@@ -90,9 +92,9 @@ Ils planifient pour une équipe un modèle immédiat, fixe, mensuel ou trimestri
 
 La correction UX de la modale « Passer l’évaluation » conserve les notes entières 0–10 et le descriptif du repère inférieur le plus proche. Elle affiche uniquement les repères explicitement renseignés, sans infobulle ni interaction au survol, et organise une modale compacte et stable avec un seul défilement vertical lorsque la hauteur disponible le nécessite, sans changer les contrats API. Les parcours de versionnement vérifient que les descriptifs d’une passation restent ceux de sa version d’origine. Le focus du curseur de notation est limité à un anneau discret autour de sa poignée au clavier ; le champ entier ne reçoit aucun encadrement, sans modifier les dimensions ou les actions de la modale.
 
-Job 1.7 garantit une notation explicite : une question sans réponse reste non renseignée, distincte de 0 et de 5. Le curseur 0–10 et les repères sont conservés ; seules les notes choisies sont enregistrées, la reprise préserve les réponses et la finalisation exige toujours la complétude métier. La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant. Après une passation ponctuelle complétée, une équipe peut replanifier le même modèle : une nouvelle passation indépendante conserve l’historique et les anciens résultats. Les planifications encore actives bloquent les doublons.
+MEP-007 garantit une notation explicite : une question sans réponse reste non renseignée, distincte de 0 et de 5. Le curseur 0–10 et les repères sont conservés ; seules les notes choisies sont enregistrées, la reprise préserve les réponses et la finalisation exige toujours la complétude métier. La route `/evaluations` propose un parcours de passation persistante des modèles planifiés : l’assigné répond aux questions ordonnées, reprend un brouillon et finalise ses notes de 0 à 10. Le tableau distingue l’assigné de l’auteur réel de la complétion. Dans son organisation, un Admin peut compléter à la place de l’assigné puis réviser une évaluation finalisée sans altérer l’auteur ni la date initiaux ; la dernière révision reste attribuée et datée. Les finalisations et révisions significatives alimentent le Journal d’activité existant. Après une passation ponctuelle complétée, une équipe peut replanifier le même modèle : une nouvelle passation indépendante conserve l’historique et les anciens résultats. Les planifications encore actives bloquent les doublons.
 
-## Installation
+## Installation en développement
 
 Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell, sous Windows, macOS ou Linux.
 

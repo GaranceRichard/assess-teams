@@ -50,44 +50,22 @@ sources limitent explicitement leur portée ; elles ne déclarent pas réalisée
 `JOURNAL-002` conserve sa date initiale ; son extension du 2026-10-05 ajoute la capture HTTP exhaustive,
 les dix filtres structurés, le contexte Évaluation et les preuves de confidentialité et d’isolation.
 
-## Compléments pré-MEP — EPIC-011
+## Préparation MESS — registre courant
 
-Les jobs sont une planification, pas de nouveaux états : un prérequis de vague non achevé ne transforme pas automatiquement un PBI Ouvert en Bloqué. Un vrai blocage doit être renseigné ici. Les dépendances et rapprochements sont dans les [sources pré-MEP](../source/07-pre-mep.md).
+La [source MESS](../source/07-pre-mep.md) définit quatre Epics et vingt Features, séparées du backlog
+fonctionnel général ci-dessus. Les sections liées ci-dessous font partie de ce même registre canonique :
+aucune synthèse n’est une source de statut. Tailles XS/S recommandées, modèles Codex À définir.
 
-| PBI | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage | Date de réalisation |
-| --- | --- | --- | --- | --- | --- | --- |
-| MEP-001 — Sécurisation de l’authentification | FEAT-042 — Fondations | À définir | À définir | Réalisé | [limites compte/origine, expiration, proxies et preuves](../../architecture/login-security.md) | 2026-10-12 |
-| MEP-002 — HTTPS, proxy, cookies et CSRF | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre applicatif ; recette TLS MESS distincte | 2026-10-12 |
-| MEP-003 — Intégrité des transactions SQLite | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre demandé ; [preuves SQLite](../../architecture/sqlite-transactions.md) | 2026-10-12 |
-| MEP-004 — Fiabilisation SMTP et reprises | FEAT-042 — Fondations | M | Codex | Réalisé | aucun dans le périmètre ; exploitation SMTP documentée | 2026-10-12 |
-| MEP-005 — Accessibilité des modales | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun ; preuves dans [le contrat des dialogues](../../architecture/dialog-accessibility.md) | 2026-10-12 |
-| MEP-006 — Licence Apache 2.0 | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun ; LICENSE/NOTICE, mentions publiques et audit tiers documentés | 2026-10-11 |
-| MEP-007 — Notation explicite sans valeur présélectionnée | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre demandé ; notation explicite, reprise et refus de complétude validés | 2026-10-12 |
-| MEP-008 — Permissions DRF restrictives | FEAT-042 — Fondations | À définir | À définir | Réalisé | aucun dans le périmètre demandé | 2026-10-11 |
-| MEP-009 — Secrets et paramètres de production | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-010 — Concurrence et verrouillage SQLite | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-011 — Isolation inter-organisations et rôles | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-012 — Protection GitHub et CI | FEAT-043 — Robustesse | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-013 — Ergonomie de la passation et du curseur de notation | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-014 — Lisibilité et compréhension des résultats | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-015 — Ergonomie du radar et des comparaisons | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-016 — Simplification du vocabulaire et des indicateurs de pilotage | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-017 — Responsive et ergonomie tactile | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-018 — Cohérence des interactions, états vides, erreurs et chargements | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-019 — Cohérence visuelle des thèmes, contrastes et typographie | FEAT-044 — UI/UX | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-020 — Conservation et purge des journaux | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-021 — Configuration unique MESS | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-022 — Contrat d’installation et d’exploitation | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-023 — Actualisation README, backlog et architecture | FEAT-045 — Exploitation et contrat de déploiement | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-024 — Construction du package hors ligne | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-025 — Installation automatisée | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-026 — Démarrage, arrêt et mise à jour | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-027 — Sauvegarde, restauration et rollback | FEAT-046 — Packaging et installation | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-028 — Documentation d’installation et d’exploitation | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-029 — Documentation de transfert et fork Apache 2.0 | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-030 — Préparation de la recette fonctionnelle | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-031 — Préparation de la recette technique | FEAT-047 — Documentation et transfert | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-032 — Installation hors ligne sur environnement vierge | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-033 — Recette fonctionnelle et UX | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-034 — Recette technique et reprise après incident | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | aucun blocage constaté ; prérequis de vague dans la source | N/A |
-| MEP-035 — Décision GO/NO-GO | FEAT-048 — Recette préproduction | À définir | À définir | Ouvert | GO après satisfaction des jobs 1–7 ; NO-GO possible sur blocage | N/A |
+- [EPIC-011 — Sécurité et robustesse](mess-e01.md).
+- [EPIC-012 — Expérience utilisateur](mess-e02.md).
+- [EPIC-013 — Installation et exploitation MESS](mess-e03.md).
+- [EPIC-014 — Documentation, transfert et recette](mess-e04.md).
+
+- [Réalisations historiques MEP-001 à MEP-008 et instantané des anciens rattachements](mess-historique.md).
+- [MEP-035 — Décision GO/NO-GO : jalon canonique](mess-jalon.md), hors des PBI techniques.
+
+Les Jobs et FEAT-042 à FEAT-048 ne sont plus des unités actives. Le suivi courant de MEP-009 à MEP-034
+se trouve exclusivement dans les sections MESS ci-dessus ; leurs anciennes valeurs restent archivées.
+Le PBI de séparation des journaux est une régularisation documentaire du seul acquis du 2026-10-05,
+relié à JOURNAL-001/002 sans déplacement de ces deux PBI ni changement de leurs dates initiales.
+Le scoring MESS compte cette fiche une fois ; il ne représente pas une nouvelle livraison de journalisation.

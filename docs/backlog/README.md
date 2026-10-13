@@ -1,7 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
-> **Pré-MEP MESS :** [sept jobs successifs et GO/NO-GO](planning/pre-mep.md), avec [suivi individuel](tracking/pre-mep-view.md).
+> **Préparation MESS :** [Epic → Feature → PBI](source/07-pre-mep.md), [livraison progressive](planning/pre-mep.md), [suivi des capacités](tracking/pre-mep-view.md) et [GO/NO-GO](tracking/mess-jalon.md).
 
 ## Direction et sources de référence
 
@@ -70,17 +70,21 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 - [Pilotage P0 — STEER-001](source/04b-steering.md)
 - [Gestion des organisations](source/05-organisations.md)
 - [Journaux opérationnels](source/06-journaux.md)
-- [Préparation MEP MESS — EPIC-011, jobs 1–7](source/07-pre-mep.md)
+- [Préparation MESS — E01 à E04, F01 à F20 et PBI atomiques](source/07-pre-mep.md)
 
 Ces documents détaillés constituent la source de vérité fonctionnelle des Epics, Features et PBIs.
 
 ## Planification
 
 - [Ordonnancement, domaines et garde-fous](planning/ordonnancement.md)
-- [Vagues pré-MEP : ordre, parallélisme et prérequis](planning/pre-mep.md)
-- [Rapprochements avec l’existant et incohérences](planning/pre-mep-rapprochements.md)
+- [Livraison MESS par PBI et Feature : dépendances et prérequis](planning/pre-mep.md)
+- [Correspondance historique MEP et acquis livrés](planning/pre-mep-rapprochements.md)
 
 ## Suivi
 
 - [Synthèse du backlog et suivi d’avancement](synthese.md)
 - [Registre canonique des métadonnées PBI](tracking/pbis.md)
+
+- [Sections canoniques MESS, accessibles depuis le registre](tracking/pbis.md#préparation-mess--registre-courant)
+- [Archives des Jobs et réalisations historiques](tracking/mess-historique.md)
+- [Jalon décisionnel MEP-035 — GO/NO-GO](tracking/mess-jalon.md)

@@ -1,3 +1,5 @@
+> **Archive historique — retirée de la planification active le 2026-10-13.** Les critères, décisions, dépendances et preuves ci-dessous décrivent leur contexte d’origine ; les dépendances de vague ne s’appliquent plus. [Correspondance vers les PBI actifs](../planning/pre-mep-rapprochements.md) ; [source active MESS](07-pre-mep.md).
+
 # FEAT-044 — UI/UX
 
 Feature de [EPIC-011 — Préparation de la mise en production MESS](07-pre-mep.md), job 3.
