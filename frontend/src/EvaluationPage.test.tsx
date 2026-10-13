@@ -1,4 +1,5 @@
 import {
+  act,
   fireEvent,
   render,
   screen,
@@ -52,7 +53,8 @@ beforeEach(() => {
 });
 
 async function selectOrganization() {
-  fireEvent.change(await screen.findByLabelText("Organisation"), {
+  await screen.findByRole("option", { name: "North" });
+  fireEvent.change(screen.getByLabelText("Organisation"), {
     target: { value: "7" },
   });
 }
@@ -151,4 +153,24 @@ it("confirms evaluation deletion and reports loading failure", async () => {
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger les évaluations",
   );
+});
+
+it("waits for organization options before selecting when their response is delayed", async () => {
+  let release!: (
+    organizations: { id: number; name: string; users: never[] }[],
+  ) => void;
+  api.listOrganizations.mockReturnValue(
+    new Promise((resolve) => {
+      release = resolve;
+    }),
+  );
+  render(<EvaluationPage />);
+  const selecting = selectOrganization();
+  await screen.findByLabelText("Organisation");
+  expect(api.listEvaluations).not.toHaveBeenCalled();
+  await act(async () => {
+    release([{ id: 7, name: "North", users: [] }]);
+  });
+  await selecting;
+  expect(await screen.findByText("Initial")).toBeVisible();
 });

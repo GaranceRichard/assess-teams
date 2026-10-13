@@ -27,8 +27,9 @@ absent de n'importe quel job bloque la qualité complète.
 `scripts/quality/backend-test-durations.json` contient les secondes par fichier
 issues d'un rapport JUnit réussi, avec setup et teardown. Les fichiers les plus
 lents sont affectés d'abord au shard le moins chargé ; l'ordre pytest est conservé.
-Trois partitions utilisent les rapports des 915 tests du run 38396893519
-(Ubuntu/Python 3.13), plutôt que les anciens poids limités à 609 tests. Chaque fichier reste entier,
+Trois partitions utilisent les rapports des 922 tests backend réussis du run
+38404099056, tentative 2 (Ubuntu/Python 3.13), après un premier recalibrage
+sur les 915 tests du run 38396893519, plutôt que les anciens 609 tests. Chaque fichier reste entier,
 avec ses fixtures et tests paramétrés. Un nouveau fichier est automatiquement
 affecté avec un poids conservateur, jamais exclu faute de mesure.
 Le rafraîchissement et la reproduction sont décrits dans [les commandes ciblées](test-commands.md).

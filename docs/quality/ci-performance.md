@@ -45,6 +45,28 @@ le meilleur run. Les caches de téléchargements et la charge des runners peuven
 varier ; rapporter médiane et étendue. Évaluer l’objectif de quatre minutes sur
 le temps mural complet, consolidation incluse.
 
+## Pilote et anomalie détectée
+
+Le premier découpage, commit `a573a3f`, a donné les mesures suivantes :
+
+| Tentative du run 38404099056 | Temps mural | Somme des jobs | Résultat |
+| --- | --- | --- | --- |
+| [1](https://github.com/GaranceRichard/assess-teams/actions/runs/38404099056/attempts/1) | 266 s | 1 245 s | Succès ; dernier préalable E2E 2/2 |
+| [2](https://github.com/GaranceRichard/assess-teams/actions/runs/38404099056/attempts/2) | 277 s | 1 172 s | Échec frontend ; dernier préalable couverture backend |
+
+L’échec de la seconde tentative dans `EvaluationPage.test.tsx` expose une
+sélection d’organisation avant chargement de son option. Une régression avec
+réponse différée reproduit l’échec ; le helper attend maintenant l’option réelle.
+Les assertions métier, timeouts et retries sont conservés ; aucun code produit
+ne change. Le gate final a bien refusé cette tentative malgré le succès des
+cinq partitions/shards, démontrant le blocage global d’un échec individuel.
+
+Les poids backend sont ensuite actualisés depuis les trois rapports JUnit
+réussis de cette tentative : l’échec frontend ne contamine pas ces durées.
+Les nouvelles mesures porteront sur cet état corrigé, avec le même protocole.
+Un échec intermittent d’écriture du journal du test local de bootstrap a aussi
+bloqué le premier pre-push ; sa reprise complète a passé, sans contournement.
+
 ## Résultats après modification
 
 À compléter avec les mesures GitHub de la version intégrée ; aucun gain mesuré
