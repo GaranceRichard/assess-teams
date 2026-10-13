@@ -1,3 +1,4 @@
+import { shardReports } from "./e2e/reports";
 import { defineConfig, devices } from "@playwright/test";
 import { e2ePort } from "./e2e/port";
 
@@ -8,7 +9,7 @@ export default defineConfig({
   testDir: "./demo-e2e",
   forbidOnly: Boolean(process.env.CI),
   workers: 1,
-  reporter: "list",
+  ...shardReports("demo"),
   use: {
     baseURL,
     trace: "retain-on-failure",

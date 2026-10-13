@@ -12,7 +12,7 @@ export function isolatedEnvironment(root, original = process.env) {
   ]) {
     env[`ASSESS_E2E_${name}_PORT`] ||= String(20000 + slot * 3 + offset);
   }
-  const temporary = resolve(root, ".cache/tmp");
+  const temporary = resolve(root, ".cache/tmp", env.ASSESS_E2E_SHARD?.replace("/", "-") || ".");
   mkdirSync(temporary, { recursive: true });
   for (const name of ["TMPDIR", "TMP", "TEMP"]) env[name] = temporary;
   const directory = resolve(root, "backend/.cache");

@@ -16,11 +16,12 @@ Push-Location backend
 Pop-Location
 ```
 
-Reproduire les shards CI depuis la racine (avec les deux runtimes backend préparés en CI) :
+Reproduire les shards CI depuis la racine (avec les trois runtimes backend préparés en CI) :
 
 ```powershell
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 1
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 2
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 3
 Push-Location backend
 & .venv/Scripts/python.exe ../scripts/quality/combine_backend_coverage.py coverage
 Pop-Location
@@ -29,7 +30,7 @@ Pop-Location
 Sous Linux, remplacer `Scripts/python.exe` par `bin/python`. Les shards ne valident pas
 le seuil individuellement : la fusion exhaustive est obligatoire. Ne pas les utiliser seuls
 comme gate local ; `npm run quality:full` reste la référence sans sharding.
-Pour rafraîchir les poids : `python scripts/quality/backend_test_timings.py <junit-1.xml> <junit-2.xml> --source <run-id>`.
+Pour rafraîchir les poids : `python scripts/quality/backend_test_timings.py <junit-1.xml> <junit-2.xml> <junit-3.xml> --source <run-id>`.
 
 Tests frontend seuls, avec coverage, puis E2E :
 
@@ -57,3 +58,9 @@ Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et co
 les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
 Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
 Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.
+
+En CI, `ASSESS_E2E_SHARD=1/2` ou `2/2` transmet le shard natif aux deux
+campagnes du scope E2E. Les runners isolent base, trois ports et temporaires.
+Localement, retirer cette variable : `quality:full` reste exhaustif sans shard.
+Les inventaires et résultats sont contrôlés par le gate final ; une campagne
+partielle seule n’est jamais une preuve complète de validation.

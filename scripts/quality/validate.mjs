@@ -97,6 +97,9 @@ export function main(args = process.argv.slice(2)) {
     "e2e",
   ];
   if (!allowed.includes(scope)) throw new Error(`Scope inconnu: ${scope}`);
+  if (process.env.ASSESS_E2E_SHARD && (!process.env.CI || scope !== "e2e")) {
+    throw new Error("E2E shards require the isolated CI e2e scope; a full local proof must be exhaustive.");
+  }
   const root = fileURLToPath(new URL("../../", import.meta.url));
   const env = isolatedEnvironment(root);
   const scopes =

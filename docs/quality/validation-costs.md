@@ -123,7 +123,8 @@ runners et facturation sans connaître le tarif.
 | Version sur main | Tous les jobs CI | Tous les jobs CI indépendants conservés |
 
 Les mesures historiques et variations de runners sont dans [CI](ci.md).
-Aucune économie CI directe n’est revendiquée : le gate distant reste exhaustif.
+Le découpage CI trois backend / deux E2E conserve le gate distant exhaustif ;
+son gain mural et son coût runner sont évalués dans [le bilan CI](ci-performance.md).
 Le gain attendu vient des commits et répétitions locales évités.
 Mesure du prototype Windows avec runtimes chauds : statiques backend 1,09 s et
 frontend 24,70 s. L'ancien quick sélectionnait 725 tests backend sur 915, plus
@@ -132,3 +133,12 @@ exécutions backend et trois campagnes frontend ; il s'agit d'un décompte,
 pas d'une mesure de temps économisé. La collecte seule prenait 2,03 s.
 Les tests de preuve/ciblage/isolation et de publication sur dépôts temporaires
 vérifient succès, refus, expiration, corruption, invalidation et gates bloquants.
+
+En CI, le shard E2E est transmis aux campagnes réelle et démo du scope existant.
+Les deux runners ont des bases, ports, temporaires et rapports distincts ; aucun
+cache de preuve local n’est consulté. Le gate final consolide les résultats sans
+réexécuter de suite. Sans variable de shard, les validations locales complètes
+et le pre-push continuent d’exécuter tous les parcours.
+Une preuve locale partielle est refusée : le wrapper n’accepte le shard que
+pour `-Scope e2e` avec `CI` actif, sans cache de preuve. La suite globale
+`test:all` refuse également cette variable pour prévenir une campagne incomplète.

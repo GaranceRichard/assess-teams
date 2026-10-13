@@ -6,14 +6,14 @@ import pytest
 from tests.ci_helpers import merger
 
 
-def write_manifests(directory):
-    for index in (1, 2):
+def write_manifests(directory, count=2):
+    for index in range(1, count + 1):
         (directory / f".coverage.{index}").touch()
         manifest = {
             "shard": index,
-            "count": 2,
-            "collected": ["test_a", "test_b"],
-            "selected": ["test_a" if index == 1 else "test_b"],
+            "count": count,
+            "collected": [f"test_{chr(97 + i)}" for i in range(count)],
+            "selected": [f"test_{chr(96 + index)}"],
             "coverage_version": coverage.__version__,
             "exit_code": 0,
         }
@@ -124,3 +124,14 @@ def test_relative_branch_data_merges_across_distinct_runner_checkouts(tmp_path, 
         namespace["choose"](index == 1)
         cov.stop()
         cov.save()
+
+
+@pytest.mark.parametrize("missing", [None, ".coverage.3", "manifest-3.json"])
+def test_three_partitions_require_the_complete_third_shard(tmp_path, missing):
+    write_manifests(tmp_path, 3)
+    if missing:
+        (tmp_path / missing).unlink()
+        with pytest.raises((ValueError, FileNotFoundError)):
+            merger.validate_shards(tmp_path, 3)
+    else:
+        assert merger.validate_shards(tmp_path, 3) == 3

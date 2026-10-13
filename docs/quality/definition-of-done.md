@@ -65,7 +65,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 - [ ] Le gate rapide informatif a fourni son feedback au commit sans bloquer les commits intermédiaires.
 - [ ] `quality:full` passe localement avant le push.
 - [ ] Le pre-push bloque effectivement tout résultat non conforme.
-- [ ] La CI GitHub exécute tous les contrôles de `quality:full` ; tous les shards backend passent, leur couverture fusionnée atteint 90 % et leur agrégation `Full quality gate` passe.
+- [ ] La CI GitHub exécute tous les contrôles de `quality:full` ; les trois partitions backend et les deux shards E2E isolés passent, la consolidation des parcours est exhaustive, leur couverture fusionnée atteint 90 % et leur agrégation `Full quality gate` passe.
 - [ ] Le build et le typecheck frontend passent, localement et en CI.
 - [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.
 - [ ] Sauf instruction explicite contraire du prompt, le changement est commité puis poussé conformément aux [règles de référence](agent-rules.md).

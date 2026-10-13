@@ -6,6 +6,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $failures = 0
+if ($env:ASSESS_E2E_SHARD -and $Scope -ne 'e2e') {
+    Write-Host '[FAIL] Une suite globale ne peut pas etre partielle.' -ForegroundColor Red
+    exit 1
+}
 
 function Invoke-TestGroup {
     param(
@@ -79,12 +83,20 @@ if ($Scope -in @('all', 'frontend', 'e2e')) {
             }
         }
         if ($Scope -in @('all', 'e2e')) {
+            $shardArguments = @()
+            if ($env:ASSESS_E2E_SHARD) {
+                if ($env:ASSESS_E2E_SHARD -notmatch '^[12]/2$') {
+                    Write-Host '[FAIL] Shard E2E invalide.' -ForegroundColor Red
+                    exit 1
+                }
+                $shardArguments = @('--', "--shard=$env:ASSESS_E2E_SHARD")
+            }
             Invoke-TestGroup 'E2E - smoke test technique Playwright' $frontend {
-                & $npm run test:e2e
+                & $npm run test:e2e @shardArguments
             }
             Invoke-TestGroup 'Demo statique - build puis parcours sans backend' $frontend {
                 & $npm run build:demo
-                if ($LASTEXITCODE -eq 0) { & $npm run test:e2e:demo }
+                if ($LASTEXITCODE -eq 0) { & $npm run test:e2e:demo @shardArguments }
             }
         }
     } else {

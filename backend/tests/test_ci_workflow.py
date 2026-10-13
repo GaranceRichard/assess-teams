@@ -6,6 +6,10 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = yaml.safe_load((ROOT / ".github/workflows/quality.yml").read_text(encoding="utf-8"))
 JOBS = WORKFLOW["jobs"]
+E2E = yaml.safe_load((ROOT / ".github/workflows/e2e.yml").read_text(encoding="utf-8"))["jobs"][
+    "shards"
+]
+EXECUTION = {**JOBS, "e2e": E2E}
 GATES = {"repository", "backend-static", "backend-tests", "backend-coverage", "frontend", "e2e"}
 
 
@@ -14,7 +18,7 @@ def test_every_independent_gate_runs_once_and_is_required() -> None:
     for gate in GATES - {"backend-tests", "backend-coverage"}:
         assert "needs" not in JOBS[gate]
         assert "if" not in JOBS[gate]
-        commands = [step.get("run", "") for step in JOBS[gate]["steps"]]
+        commands = [step.get("run", "") for step in EXECUTION[gate]["steps"]]
         assert commands.count(f"npm run quality:full -- -Scope {gate}") == 1
         assert "npm run quality:full" not in commands
     assert set(JOBS["quality"]["needs"]) == GATES
@@ -26,21 +30,21 @@ def test_every_independent_gate_runs_once_and_is_required() -> None:
 
 def test_caches_preserve_fresh_installs_and_real_e2e_prerequisites() -> None:
     for gate in ("backend-static", "backend-tests", "e2e"):
-        steps = JOBS[gate]["steps"]
+        steps = EXECUTION[gate]["steps"]
         setup = next(step for step in steps if step.get("uses") == "actions/setup-python@v5")
         assert setup["with"]["cache"] == "pip"
         assert setup["with"]["cache-dependency-path"] == "backend/requirements*.txt"
         assert sum(step.get("run") == "./scripts/bootstrap/backend.ps1" for step in steps) == 1
         assert not any("pip install" in step.get("run", "") for step in steps)
     for gate in ("frontend", "e2e"):
-        steps = JOBS[gate]["steps"]
+        steps = EXECUTION[gate]["steps"]
         setup = next(step for step in steps if step.get("uses") == "actions/setup-node@v4")
         assert setup["with"]["cache"] == "npm"
         assert setup["with"]["cache-dependency-path"] == "frontend/package-lock.json"
         assert sum(step.get("run") == "npm ci --prefix frontend" for step in steps) == 1
     browser_installs = [
         step["run"]
-        for job in JOBS.values()
+        for job in EXECUTION.values()
         for step in job["steps"]
         if "playwright install" in step.get("run", "")
     ]
@@ -113,3 +117,23 @@ def test_pages_waits_for_the_complete_quality_workflow_on_the_same_main_sha():
     )
     assert build["steps"][0]["with"]["ref"] == "${{ github.event.workflow_run.head_sha }}"
     assert pages["jobs"]["deploy"]["needs"] == "build"
+
+
+def test_two_e2e_shards_are_isolated_and_reports_are_required_by_the_final_gate():
+    assert JOBS["e2e"]["uses"] == "./.github/workflows/e2e.yml"
+    assert E2E["strategy"] == {"fail-fast": False, "matrix": {"shard": [1, 2]}}
+    assert E2E["env"]["ASSESS_E2E_SHARD"] == "${{ matrix.shard }}/2"
+    for name in ("DB", "BACKEND_PORT", "FRONTEND_PORT", "DEMO_PORT"):
+        assert "matrix.shard" in E2E["env"][f"ASSESS_E2E_{name}"]
+    artifact = E2E["steps"][-1]
+    assert artifact["if"] == "${{ always() }}"
+    assert artifact["with"]["include-hidden-files"] is True
+    assert artifact["with"]["name"] == "playwright-shard-${{ matrix.shard }}"
+    commands = [step.get("run", "") for step in JOBS["quality"]["steps"]]
+    assert any(
+        "merge-reports" in command and "combine_e2e_reports.mjs" in command for command in commands
+    )
+    assert not any(
+        "quality:full" in command or "playwright test" in command for command in commands
+    )
+    assert JOBS["quality"]["steps"][-1]["if"] == "${{ always() }}"

@@ -1,0 +1,51 @@
+name: Playwright shards
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  shards:
+    name: Playwright E2E (${{ matrix.shard }}/2)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    env:
+      ASSESS_E2E_SHARD: ${{ matrix.shard }}/2
+      ASSESS_E2E_DB: ${{ github.workspace }}/backend/.cache/e2e-${{ matrix.shard }}.sqlite3
+      ASSESS_E2E_BACKEND_PORT: 810${{ matrix.shard }}
+      ASSESS_E2E_FRONTEND_PORT: 518${{ matrix.shard }}
+      ASSESS_E2E_DEMO_PORT: 417${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+      - name: Préparer le runtime backend local
+        shell: pwsh
+        run: ./scripts/bootstrap/backend.ps1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --prefix frontend
+      - name: Installer uniquement Chromium headless et ses dépendances système
+        working-directory: frontend
+        run: npx playwright install --with-deps --only-shell chromium
+      - name: Inventorier tous les parcours réels et démo sans les exécuter
+        run: node scripts/quality/e2e_collection.mjs
+      - name: Parcours Playwright avec backend et Vite réels
+        run: npm run quality:full -- -Scope e2e
+      - name: Conserver résultats, rapports et traces de chaque shard
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-shard-${{ matrix.shard }}
+          path: frontend/.cache/e2e/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7

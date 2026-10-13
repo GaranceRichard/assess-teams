@@ -57,7 +57,7 @@ try {
 
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
     $repository = @('npm run check:lines', 'node --test scripts/legal/npm-notices.test.mjs',
-        'node --test scripts/quality/tests/complete-ci.test.mjs',
+        'node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs',
         'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs')
     $backend = @('python -m ruff check .', 'python -m ruff format --check .',
         'python manage.py makemigrations --check --dry-run --settings=config.settings_development')
@@ -91,9 +91,17 @@ try {
     Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo', 'npm run test:e2e:demo') 1
     $env:SCOPE_FAILURE = 'build:demo'
     Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo') 1
+    $env:ASSESS_E2E_SHARD = '1/2'
+    $env:SCOPE_FAILURE = 'NEVER_MATCH'
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e -- --shard=1/2', 'npm run build:demo', 'npm run test:e2e:demo -- --shard=1/2')
+    $env:SCOPE_FAILURE = 'test:e2e'
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e -- --shard=1/2', 'npm run build:demo', 'npm run test:e2e:demo -- --shard=1/2') 1
+    $env:ASSESS_E2E_SHARD = '3/2'
+    Assert-Scope 'test-all.ps1' 'e2e' @() 1
+    Remove-Item Env:ASSESS_E2E_SHARD
     Write-Host '[PASS] Scopes independants, suite complete sans doublons et echecs bloquants.'
 } finally {
-    Remove-Item Env:SCOPE_CALLS, Env:SCOPE_FAILURE -ErrorAction SilentlyContinue
+    Remove-Item Env:SCOPE_CALLS, Env:SCOPE_FAILURE, Env:ASSESS_E2E_SHARD -ErrorAction SilentlyContinue
     $resolved = [IO.Path]::GetFullPath($fixture)
     if ($resolved.StartsWith($tempBase) -and (Test-Path -LiteralPath $resolved)) {
         Remove-Item -LiteralPath $resolved -Recurse -Force

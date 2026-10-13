@@ -15,18 +15,29 @@ def file_durations(reports):
             if case.find("failure") is not None or case.find("error") is not None:
                 raise ValueError("Use successful runs to refresh shard weights")
             filename = "/".join(case.attrib["classname"].split(".")[:2]) + ".py"
-            durations[filename] = durations.get(filename, 0) + float(case.attrib["time"])
-    return {filename: round(seconds, 3) for filename, seconds in sorted(durations.items())}
+            durations[filename] = durations.get(filename, 0) + float(
+                case.attrib["time"]
+            )
+    return {
+        filename: round(seconds, 3) for filename, seconds in sorted(durations.items())
+    }
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("reports", nargs="+", type=Path)
-    parser.add_argument("--source", required=True, help="Run ID or description of the measurement")
+    parser.add_argument(
+        "--source", required=True, help="Run ID or description of the measurement"
+    )
     args = parser.parse_args()
     TIMINGS.write_text(
         json.dumps(
-            {"shards": 2, "source": args.source, "seconds": file_durations(args.reports)}, indent=2
+            {
+                "shards": json.loads(TIMINGS.read_text())["shards"],
+                "source": args.source,
+                "seconds": file_durations(args.reports),
+            },
+            indent=2,
         )
         + "\n"
     )

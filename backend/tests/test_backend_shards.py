@@ -36,7 +36,7 @@ def test_real_pytest_shards_execute_the_entire_collection_once(tmp_path):
     for filename in ("test_fast.py", "test_slow.py", "test_new.py"):
         (suite / filename).write_text("def test_pass():\n    assert True\n")
     manifests = []
-    for index in (1, 2):
+    for index in (1, 2, 3):
         output = tmp_path / str(index)
         output.mkdir()
         arguments = [str(suite), "-q", f"--rootdir={tmp_path}"]
@@ -44,7 +44,7 @@ def test_real_pytest_shards_execute_the_entire_collection_once(tmp_path):
             "import sys,pytest; "
             f"sys.path.insert(0, {str(SCRIPTS)!r}); "
             "from pathlib import Path; from backend_shards import ShardSelection; "
-            f"plugin=ShardSelection({index},2,{{'suite/test_slow.py':10}},Path({str(output)!r})); "
+            f"plugin=ShardSelection({index},3,{{'suite/test_slow.py':10}},Path({str(output)!r})); "
             f"raise SystemExit(pytest.main({arguments!r},"
             "plugins=[plugin]))"
         )
@@ -79,3 +79,17 @@ def test_duration_refresh_uses_all_phases_and_rejects_failed_runs(tmp_path):
     )
     with pytest.raises(ValueError):
         timings.file_durations([report])
+
+
+def test_current_measured_files_balance_three_deterministic_partitions():
+    timing = json.loads(shards.TIMINGS.read_text())
+    durations = timing["seconds"]
+    nodeids = [f"{filename}::test_example" for filename in durations]
+    plan = shards.partition(nodeids, durations, timing["shards"])
+    assert timing["shards"] == len(plan) == 3
+    assert sorted(nodeid for part in plan for nodeid in part) == sorted(nodeids)
+    assert [set(part) for part in plan] == [
+        set(part) for part in shards.partition(list(reversed(nodeids)), durations, 3)
+    ]
+    loads = [sum(durations[nodeid.split("::")[0]] for nodeid in part) for part in plan]
+    assert max(loads) - min(loads) < 1

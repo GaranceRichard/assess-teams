@@ -10,11 +10,11 @@ La CI répartit ces contrôles sans second passage global.
 | --- | --- | --- |
 | Repository constraints | scope repository | 200 lignes, secrets, cohérence Git, README, documentation, tests qualité/bootstrap/scopes/agrégation |
 | Backend static quality | scope backend-static | Ruff lint/format et migrations |
-| Backend tests (1/2), (2/2) | backend_shards.py | Tous les tests pytest, contrats/OpenAPI inclus, partitionnés par fichiers |
+| Backend tests (1/3), (2/3), (3/3) | backend_shards.py | Tous les tests pytest, contrats/OpenAPI inclus, partitionnés par fichiers |
 | Backend global coverage | après tous les shards | Collection exhaustive sans doublons, fusion du branch coverage, seuil global >= 90 % |
 | Frontend quality | scope frontend | ESLint, Prettier, seuils Vitest, typecheck/build, tests avec coverage >= 90 % sur quatre métriques |
-| Playwright E2E | scope e2e | Tous les parcours réels et de démo, migrations/fixtures, Vite et Chromium |
-| Full quality gate | agrégation | Succès de repository, backend-static, backend-tests, backend-coverage, frontend et e2e |
+| Playwright E2E (1/2), (2/2) | scope e2e | Tous les parcours réels et de démo, migrations/fixtures, Vite et Chromium |
+| Full quality gate | fusion E2E et agrégation | Succès de repository, backend-static, backend-tests, backend-coverage, frontend et e2e |
 
 Dépôt, statiques, tests, frontend et E2E partent indépendamment.
 Seule la fusion dépend des shards. `fail-fast: false` conserve tous les résultats
@@ -27,8 +27,8 @@ absent de n'importe quel job bloque la qualité complète.
 `scripts/quality/backend-test-durations.json` contient les secondes par fichier
 issues d'un rapport JUnit réussi, avec setup et teardown. Les fichiers les plus
 lents sont affectés d'abord au shard le moins chargé ; l'ordre pytest est conservé.
-Deux shards suffisent pour passer sous le temps E2E constaté ; en ajouter
-accroîtrait les installations sans gain attendu. Chaque fichier reste entier,
+Trois partitions utilisent les rapports des 915 tests du run 38396893519
+(Ubuntu/Python 3.13), plutôt que les anciens poids limités à 609 tests. Chaque fichier reste entier,
 avec ses fixtures et tests paramétrés. Un nouveau fichier est automatiquement
 affecté avec un poids conservateur, jamais exclu faute de mesure.
 Le rafraîchissement et la reproduction sont décrits dans [les commandes ciblées](test-commands.md).
@@ -40,13 +40,41 @@ gate autonome. Les données `.coverage.N`, manifests et JUnit sont transférés
 par artefacts propres au run, avec les fichiers cachés explicitement inclus.
 Les chemins relatifs permettent la fusion entre les checkouts des runners.
 
-Le merger exige exactement les deux données et manifests : mêmes versions de
+Le merger exige exactement les trois données et manifests : mêmes versions de
 coverage, mêmes collections, partitions non vides et disjointes, union égale à
 la collection complète. Il fusionne les lignes et branches, jamais les pourcentages,
 et applique le seuil `.coveragerc` avec un plancher de 90 %. Une entrée manquante
 ou incohérente bloque le job. Le XML global est conservé sept jours.
 Ses tests fusionnent de vraies données partielles sous 90 % : leur union complète
 passe, une union incomplète échoue.
+
+## Deux shards E2E et consolidation
+
+Le workflow réutilisable `e2e.yml` lance deux runners indépendants avec
+`fail-fast: false`. Le scope E2E existant transmet `--shard=1/2` ou `2/2`
+aux campagnes réelle et démo ; le build de démo reste un préalable par runner.
+La configuration réelle garde `fullyParallel: true` pour une partition par test ;
+la démo conserve sa partition native par fichier. Chaque configuration garde
+un worker, ses retries et ses scénarios sans modification.
+
+SQLite, ports backend/Vite/démo et temporaires portent l’identité du shard.
+Chaque runner a son checkout, ses installations, services et processus ; aucun
+serveur existant n’est réutilisé. Les fixtures et Django reçoivent la même base
+jetable unique. Les rapports et traces sont séparés par campagne et shard.
+
+Chaque runner collecte aussi l’inventaire complet avec `--list`, sans services
+ni exécution des tests. Les résultats JSON effectifs doivent former une union
+exhaustive et disjointe de ces inventaires identiques. Shard absent, doublon,
+collection différente, test omis/non exécuté ou erreur du runner bloque le gate.
+Les retries existants restent des tentatives d’un même scénario, pas des doublons.
+
+Les artefacts JSON/blob/traces sont conservés sept jours, même après échec.
+Le job final existant fusionne les quatre blobs application/démo en HTML puis
+vérifie l’exhaustivité et tous les succès des jobs. Il installe seulement les
+outils frontend, sans navigateur, services ni nouvelle campagne. Un échec de
+fusion bloque aussi `Full quality gate` ; son agrégation s’exécute avec `always()`.
+Les rapports d’application et de démo ayant des racines différentes, la config
+de fusion définit explicitement leur racine commune.
 
 ## Installations, caches et déclencheurs
 
@@ -55,7 +83,7 @@ physique et valide les dépendances. Les runtimes ne sont ni partagés ni archiv
 Le cache pip conserve seulement les téléchargements selon les requirements.
 Le merger installe uniquement la version exacte de coverage produite par les
 shards : aucun Django, Ruff, Node, bootstrap ou nouvelle exécution de tests.
-Les shards n'installent pas Node. Les requirements applicatifs restent inchangés.
+Les shards backend n'installent pas Node. Les requirements applicatifs restent inchangés.
 
 Frontend/E2E conservent le cache npm et un seul `npm ci` par runner.
 Playwright installe seulement Chromium headless et ses dépendances système.
@@ -113,7 +141,7 @@ ou de droits GitHub n'est effectué par ce chantier.
 Les tests YAML protègent graphe, caches, installations, matrice et Pages.
 Les tests des scopes protègent le gate local complet et le scope statique.
 Les tests Node refusent échec, annulation, skip, absence et JSON invalide pour
-chacun des six jobs. Les tests pytest protègent partitionnement et fusion.
+chacun des six jobs, et protègent l’exhaustivité des résultats E2E. Les tests pytest protègent partitionnement et fusion.
 
 README, stratégie, charte, DoD et commandes ciblées sont actualisés.
 Règles des agents, architecture et contrat API sont revus sans changement requis :
@@ -130,3 +158,12 @@ Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et co
 les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
 Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
 Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.
+
+## Mesure du découpage trois backend / deux E2E
+
+Les références demandées sont 5 min 04 s / 3 min 48 s pour le backend et
+5 min 26 s pour E2E. Les nouvelles mesures, coûts cumulés, délais de runners,
+variations et limites sont dans [le bilan de performance](ci-performance.md).
+Il n’y a que deux runners supplémentaires (dix jobs au lieu de huit) ;
+la consolidation E2E réutilise le job final. Ne pas ajouter de partition avant
+une amélioration démontrée du chemin critique sur plusieurs exécutions.
