@@ -78,3 +78,6 @@ peut créer ces trois comptes.
 
 Les [notifications fiables — MEP-004](architecture/email-notifications.md) utilisent deux workers locaux,
 lancés par `dev:backend` ; les processus de production sont supervisés séparément.
+
+Les wrappers qualité isolent aussi la base E2E via `ASSESS_E2E_DB` et trois ports par worktree ;
+voir [validation proportionnée](quality/validation-costs.md). Le lancement normal conserve sa base locale.

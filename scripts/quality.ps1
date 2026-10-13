@@ -85,11 +85,14 @@ if ($Scope -in @('all', 'repository')) {
     Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
     Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
     Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
-    Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
-    Invoke-PowerShellCheck 'Tests des scopes qualite' 'scripts\quality\tests\scopes.tests.ps1'
-    Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
-    Invoke-QualityStep 'Tests des licences et attributions' { & node --test scripts/legal/npm-notices.test.mjs }
-    Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs }
+    if ($Mode -eq 'full') {
+        Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
+        Invoke-PowerShellCheck 'Tests des scopes qualite' 'scripts\quality\tests\scopes.tests.ps1'
+        Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
+        Invoke-QualityStep 'Tests des licences et attributions' { & node --test scripts/legal/npm-notices.test.mjs }
+        Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs }
+        Invoke-QualityStep 'Tests de validation proportionnee' { & node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs }
+    }
 }
 
 if ($Scope -in @('all', 'backend', 'backend-static')) {
@@ -102,17 +105,10 @@ if ($Scope -in @('all', 'backend', 'backend-static')) {
         $python = Get-PythonExecutable
         Invoke-QualityStep 'Backend lint' { & $python -m ruff check . } $backendPath
         Invoke-QualityStep 'Backend format check' { & $python -m ruff format --check . } $backendPath
-        $coverageConfig = Join-Path $root '.coveragerc'
-        if ($Mode -eq 'quick') {
-            Invoke-QualityStep 'Backend tests rapides et coverage courant' {
-                & $python -m pytest -m 'unit or functional' --cov=. --cov-config=$coverageConfig
+        if ($Mode -eq 'full' -and (Test-Path (Join-Path $backendPath 'manage.py'))) {
+            Invoke-QualityStep 'Coherence des migrations Django' {
+                & $python manage.py makemigrations --check --dry-run --settings=config.settings_development
             } $backendPath
-        } else {
-            if (Test-Path (Join-Path $backendPath 'manage.py')) {
-                Invoke-QualityStep 'Coherence des migrations Django' {
-                    & $python manage.py makemigrations --check --dry-run --settings=config.settings_development
-                } $backendPath
-            }
         }
     }
 }
@@ -131,11 +127,6 @@ if ($Scope -in @('all', 'frontend')) {
         } $frontendPath
         if ($Mode -eq 'full') {
             Invoke-QualityStep 'Frontend typecheck et build' { Invoke-NpmScript 'build' $package } $frontendPath
-        }
-        if ($Mode -eq 'quick') {
-            Invoke-QualityStep 'Frontend tests rapides et coverage courant' {
-                Invoke-NpmScript 'test:coverage' $package
-            } $frontendPath
         }
     }
 }

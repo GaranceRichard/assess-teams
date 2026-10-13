@@ -18,7 +18,11 @@ else
   [ "$mode" = "quick" ] && exit 0 || exit 1
 fi
 
-"$powershell_command" -NoProfile $execution_policy -File "$repo_root/scripts/quality.ps1" "$mode"
+if [ "$mode" = "full" ]; then
+  node "$repo_root/scripts/quality/validate.mjs"
+else
+  "$powershell_command" -NoProfile $execution_policy -File "$repo_root/scripts/quality.ps1" "$mode"
+fi
 status=$?
 if [ "$status" -ne 0 ] && [ "$mode" = "quick" ]; then
   echo "[WARNING] Erreur technique du pre-commit; commit autorisé."

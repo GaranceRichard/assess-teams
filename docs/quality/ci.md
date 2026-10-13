@@ -123,3 +123,10 @@ Le [workflow Pages](../../.github/workflows/demo-pages.yml) reste inchangé :
 publication seulement après un workflow Quality gate entièrement réussi,
 déclenché par push main, et checkout du SHA exactement validé. La démo statique
 reste compilée et testée dans le scope E2E avant cette publication.
+
+## Validation proportionnée
+
+Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et complet,
+les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
+Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
+Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.

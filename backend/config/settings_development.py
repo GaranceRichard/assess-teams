@@ -17,3 +17,7 @@ DEFAULT_FROM_EMAIL = "Assess teams <noreply@assess-teams.local>"
 FRONTEND_URL = os.getenv(
     "APP_BASE_URL", f"http://127.0.0.1:{os.getenv('ASSESS_E2E_FRONTEND_PORT', '5173')}"
 ).rstrip("/")
+
+# E2E services and fixture subprocesses use the same isolated database.
+if os.getenv("ASSESS_E2E_DB"):
+    DATABASES = {"default": {**DATABASES["default"], "NAME": os.environ["ASSESS_E2E_DB"]}}  # noqa: F405

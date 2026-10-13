@@ -31,3 +31,6 @@ test-results/
 !.vscode/tasks.json
 .DS_Store
 Thumbs.db
+
+# Worktree-local validation evidence and metrics
+.cache/

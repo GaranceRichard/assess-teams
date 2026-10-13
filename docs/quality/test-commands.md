@@ -38,8 +38,9 @@ npm.cmd run test:coverage --prefix frontend
 npm.cmd run test:e2e --prefix frontend
 ```
 
-Pour des validations simultanées dans plusieurs worktrees, attribuer une paire de ports libres
-à chaque exécution. Les valeurs par défaut restent 8100/5180 ; aucun serveur existant n’est réutilisé.
+Les wrappers qualité attribuent trois ports par worktree. Pour les commandes Playwright directes,
+les valeurs par défaut restent 8100/5180 et 4175 ; fournir des ports libres pour les exécutions
+simultanées. Les overrides restent disponibles dans les wrappers ; aucun serveur existant n’est réutilisé.
 La configuration de développement autorise uniquement l’origine locale E2E choisie pour le contrôle CSRF.
 
 ```powershell
@@ -49,3 +50,10 @@ npm.cmd run quality:full
 ```
 
 Ces variables s’appliquent aussi au pre-push et à `test:e2e`. Les retirer à la fin de la session dédiée.
+
+## Validation proportionnée
+
+Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et complet,
+les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
+Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
+Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.

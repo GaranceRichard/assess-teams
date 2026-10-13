@@ -5,7 +5,7 @@ $hostExecutable = (Get-Process -Id $PID).Path
 $tempBase = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
 $fixture = Join-Path $tempBase ('assess-quality-scopes-' + [guid]::NewGuid())
 $wrapper = @'
-param([string]$Script, [string]$Scope)
+param([string]$Script, [string]$Scope, [string]$Mode)
 function Invoke-FakeTool {
     Add-Content -LiteralPath $env:SCOPE_CALLS ($args -join ' ')
     $global:LASTEXITCODE = if (($args -join ' ') -match $env:SCOPE_FAILURE) { 7 } else { 0 }
@@ -15,7 +15,7 @@ function global:npm.cmd { Invoke-FakeTool npm @args }
 function global:python { Invoke-FakeTool python @args }
 function global:node { Invoke-FakeTool node @args }
 if ((Split-Path $Script -Leaf) -eq 'quality.ps1') {
-    & $Script full -Scope $Scope
+    & $Script $Mode -Scope $Scope
 } else {
     & $Script -Scope $Scope
 }
@@ -23,11 +23,11 @@ exit $LASTEXITCODE
 '@
 
 function Assert-Scope {
-    param([string]$Script, [string]$Scope, [string[]]$Expected, [int]$Code = 0)
+    param([string]$Script, [string]$Scope, [string[]]$Expected, [int]$Code = 0, [string]$Mode = 'full')
     $env:SCOPE_CALLS = Join-Path $fixture 'calls.log'
     Set-Content -LiteralPath $env:SCOPE_CALLS -Value ''
     $output = & $hostExecutable -NoProfile -ExecutionPolicy Bypass -File (Join-Path $fixture 'wrapper.ps1') `
-        -Script (Join-Path $fixture "scripts/$Script") -Scope $Scope 2>&1
+        -Script (Join-Path $fixture "scripts/$Script") -Scope $Scope -Mode $Mode 2>&1
     if ($LASTEXITCODE -ne $Code) { throw "$Script/$Scope : attendu $Code, obtenu $LASTEXITCODE : $output" }
     $calls = @(Get-Content -LiteralPath $env:SCOPE_CALLS | Where-Object { $_ })
     $difference = Compare-Object $Expected $calls
@@ -57,7 +57,8 @@ try {
 
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
     $repository = @('npm run check:lines', 'node --test scripts/legal/npm-notices.test.mjs',
-        'node --test scripts/quality/tests/complete-ci.test.mjs')
+        'node --test scripts/quality/tests/complete-ci.test.mjs',
+        'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs')
     $backend = @('python -m ruff check .', 'python -m ruff format --check .',
         'python manage.py makemigrations --check --dry-run --settings=config.settings_development')
     $frontend = @('npm run lint', 'npm run format:check', 'npm run build')
@@ -67,6 +68,9 @@ try {
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend'))
     Assert-Scope 'quality.ps1' 'e2e' @('suite e2e')
     Assert-Scope 'quality.ps1' 'all' ($repository + $backend + $frontend + @('suite all'))
+    Assert-Scope 'quality.ps1' 'all' (@('npm run check:lines') + $backend[0..1] + $frontend[0..1]) 0 'quick'
+    $env:SCOPE_FAILURE = 'ruff check'
+    Assert-Scope 'quality.ps1' 'backend-static' $backend[0..1] 0 'quick'
     $env:SCOPE_FAILURE = 'npm-notices.test'
     Assert-Scope 'quality.ps1' 'repository' $repository 1
     $env:SCOPE_FAILURE = 'run build'

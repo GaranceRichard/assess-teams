@@ -18,6 +18,7 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 
 ## Intégration asynchrone
 
+- La publication utilise `npm run publish` : verrou local, resynchronisation, pre-push, push et fast-forward sûr.
 - Le premier PBI prêt n'attend pas les autres. Il récupère le dernier `origin/main`, resynchronise sa branche,
   résout les conflits éventuels et valide exactement l'état destiné à `main`.
 - Il pousse immédiatement cet état sur `main`, sans publier sa branche de travail comme étape intermédiaire.

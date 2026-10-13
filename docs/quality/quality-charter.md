@@ -93,9 +93,9 @@ Avant même de commencer un développement, une correction, un refactoring ou un
 
 ## Workflow automatisé
 
-Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, full quality gate, commit avec gate rapide informatif, pre-push avec full gate bloquant, push, puis vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. Les [règles des agents](agent-rules.md) portent la procédure complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](../../README.md#commandes-qualité).
+Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, validation ciblée, commit avec gate rapide informatif, publication sérialisée avec full gate bloquant, push, puis vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. Les [règles des agents](agent-rules.md) portent la procédure complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](../../README.md#commandes-qualité).
 
-- `quality:quick` exécute les contrôles rapides applicables, affiche le coverage courant et signale les échecs sans empêcher un commit intermédiaire.
+- `quality:quick` exécute les contrôles rapides applicables, sans tests ni coverage et signale les échecs sans empêcher un commit intermédiaire.
 - `quality:full` exécute tous les contrôles applicables et retourne un code d'échec si l'un d'eux n'est pas conforme.
 - `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE` distinguent explicitement les résultats.
 - Un squelette backend ou frontend absent est non applicable ; un squelette détecté mais mal configuré est en échec.
@@ -118,3 +118,10 @@ Une tâche n'est pas terminée si au moins une condition est vraie :
 - la documentation est obsolète ;
 - le contrat OpenAPI d’un endpoint nouveau ou modifié est absent, invalide ou incohérent avec l’implémentation ;
 - un secret ou identifiant sensible est commité.
+
+## Validation proportionnée
+
+Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et complet,
+les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
+Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
+Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.

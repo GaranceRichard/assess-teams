@@ -126,7 +126,9 @@ resynchronise sa branche dessus, résout les conflits éventuels et exécute les
 destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
 
 Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
-antérieure à la resynchronisation ne vaut pas validation finale. Le `pre-push` applique d'abord la garde de
+antérieure à la resynchronisation ne vaut preuve finale que si ses entrées applicatives
+sont identiques, complètes et récentes selon [le dispositif de validation](validation-costs.md).
+La vérification du dépôt reste fraîche et la CI exhaustive indépendante. Le `pre-push` applique d'abord la garde de
 contribution, puis le full quality gate existant ; la CI exécute tous ses scopes indépendants et agrège
 leur succès comme frontière distante, sans répéter les mêmes contrôles.
 
@@ -155,3 +157,7 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 ## Automatisation des quality gates
 
 Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le full quality gate, exhaustif et bloquant ; la CI GitHub répartit ces mêmes contrôles par scopes indépendants et exige leur succès agrégé. Contourner le hook local ne dispense jamais du contrôle distant.
+
+La publication utilise `npm run publish` pour sérialiser les intégrations locales sans attendre les autres PBI.
+Pendant le développement, privilégier `quality:targeted` ; `quality:quick` reste statique et informatif.
+Les conditions de réutilisation du gate complet et les métriques sont définies dans [validation proportionnée](validation-costs.md).

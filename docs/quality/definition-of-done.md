@@ -73,3 +73,10 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 - [ ] Le push a été vérifié, la branche locale est synchronisée avec sa branche distante et le working tree est propre.
 
 Si une case applicable n'est pas cochée, la tâche n'est pas Done.
+
+## Validation proportionnée
+
+Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et complet,
+les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
+Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
+Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.

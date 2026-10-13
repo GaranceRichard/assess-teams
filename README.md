@@ -37,6 +37,10 @@ Le [Job 1.5](docs/architecture/dialog-accessibility.md) harmonise l’accessibil
 
 Job 1.4 fiabilise les [notifications par courriel](docs/architecture/email-notifications.md) : file persistante locale, reprises SMTP bornées, prévention des doublons et suivi administratif, sans remettre en cause une opération métier validée ni ajouter de service externe obligatoire.
 
+## Validations proportionnées
+
+Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés.
+
 ## CI — feedback qualité
 
 Le backend CI sépare Ruff et migrations des tests, répartis en deux shards équilibrés selon les durées mesurées. Les poids sont recalibrés depuis les rapports JUnit GitHub, après une première mesure locale. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
@@ -139,11 +143,7 @@ lancements suivants restent quasi immédiats sur chaque plateforme ; une erreur 
 
 ## Tests et coverages
 
-La commande de référence pour tous les tests du dépôt est :
-
-```powershell
-npm.cmd run test:all
-```
+La commande de référence pour tous les tests du dépôt est `npm run test:all`.
 
 Elle délègue à `scripts/test-all.ps1`, exécute successivement backend, frontend et E2E, affiche leur résultat séparément et retourne `0` uniquement si tout ce qui est applicable passe. Elle contrôle les seuils backend et frontend de 90 % et indique explicitement les niveaux non applicables. En CI ou avec PowerShell 7, le même orchestrateur peut être appelé par `pwsh ./scripts/test-all.ps1`.
 
@@ -155,9 +155,7 @@ La [stratégie de tests](docs/quality/test-strategy.md) détaille les preuves ba
 
 Le projet traite la qualité comme une condition de livraison : Clean Code, fichiers maintenus limités à 200 lignes, tests à plusieurs niveaux, coverage backend et frontend d'au moins 90 %, sécurité et documentation à jour.
 
-Le workflow attendu part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre
-dans le README, valide puis committe le changement et le resynchronise. Le Pre-push vers main exécute le gate
-complet avant la publication et le nettoyage du chantier.
+Le workflow part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre dans le README, valide de façon ciblée puis committe. `npm run publish` sérialise resynchronisation, Pre-push vers main, publication et fast-forward sûr du checkout principal ; nettoyer ensuite uniquement ce chantier.
 
 ## Commandes qualité
 
@@ -167,10 +165,10 @@ Depuis PowerShell à la racine du dépôt :
 # limite de 200 lignes — commande utilisateur de référence
 npm run check:lines
 
-# quality:quick — informatif, retourne toujours 0 après les contrôles
+# quality:quick — statiques informatifs, sans tests ni coverage
 npm run quality:quick
 
-# quality:full — exhaustif, retourne 1 dès que le résultat global est non conforme
+# quality:full — preuves complètes bloquantes ; -- --fresh force leur exécution
 npm run quality:full
 ```
 
@@ -193,7 +191,7 @@ le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le pu
 [GitHub Actions](.github/workflows/quality.yml) appelle le même script en mode `full` par scope indépendant,
 puis exige leur succès dans `Full quality gate`, sans réexécuter les contrôles.
 
-`quality:quick`, `quality:full` et la CI réutilisent tous `npm run check:lines`. Le gate rapide produit réellement les coverages backend et frontend courants, tout en restant informatif. `quality:full` réutilise aussi l'orchestrateur `test:all` : il n'existe donc qu'une définition de la suite complète. Il ajoute les contrôles de secrets, cohérence, documentation, lint, formatage, migrations et le build/typecheck frontend. Les scopes CI sont documentés dans [CI parallèle](docs/quality/ci.md).
+`quality:quick` conserve les statiques et les contrôles de dépôt, sans campagne de tests. `npm run quality:targeted -- frontend src/example.test.tsx` sélectionne explicitement les tests ; les changements sensibles déclenchent le niveau complet. `quality:full` conserve tous les contrôles et utilise `test:all` par scope. Il réutilise uniquement une preuve locale complète, récente et aux entrées identiques ; les contrôles du dépôt restent frais. La CI désactive cette réutilisation. Voir [conditions et responsabilités](docs/quality/validation-costs.md).
 
 ## Documentation
 
