@@ -53,7 +53,7 @@ Les huit réalisations du Job 1 restent historiques, intégralement réalisées,
 | 7.1 — MEP-032 — Installation hors ligne sur environnement vierge | Ouvert — N/A | [18.01 — MEP-032 — Installer Assess Teams sur un environnement vierge](../source/mess/f18.md); [18.02 — MEP-068 — Vérifier le fonctionnement sans connexion Internet](../source/mess/f18.md) | Identifiant conservé sur MEP-032 ; compléments atomiques distincts |
 | 7.2 — MEP-033 — Recette fonctionnelle et UX | Ouvert — N/A | [19.01 — MEP-033 — Vérifier les parcours d’administration](../source/mess/f19.md); [19.02 — MEP-069 — Vérifier les parcours d’évaluation et de notation](../source/mess/f19.md); [19.03 — MEP-070 — Vérifier les parcours de consultation des résultats](../source/mess/f19.md) | Identifiant conservé sur MEP-033 ; compléments atomiques distincts |
 | 7.3 — MEP-034 — Recette technique et reprise après incident | Ouvert — N/A | [20.01 — MEP-034 — Vérifier la sécurité et l’isolation des organisations](../source/mess/f20.md); [20.02 — MEP-071 — Vérifier la concurrence et la stabilité SQLite](../source/mess/f20.md); [20.03 — MEP-072 — Exercer la sauvegarde, la restauration et le rollback](../source/mess/f20.md) | Identifiant conservé sur MEP-034 ; compléments atomiques distincts |
-| 2.4 — JOURNAL-001 — Consulter les activités métier réussies ; JOURNAL-002 — Consulter les logs applicatifs | Réalisé — 2026-09-28 / 2026-09-29 ; extension HTTP 2026-10-05 | [03.01 — MEP-041 — Séparer les journaux HTTP des événements métier](../source/mess/f03.md) | Régularisation documentaire datée 2026-10-05 ; les deux PBI fonctionnels ne changent ni de parent ni de date |
+| 2.4 — JOURNAL-001 — Consulter les activités métier réussies ; JOURNAL-002 — Consulter les logs applicatifs | Réalisé — 2026-09-28 / 2026-09-29 ; extension HTTP 2026-10-05 | [03.01 — Séparer les journaux HTTP des événements métier : acquis référencé](../source/mess/f03.md) | Acquis référencé ; MEP-041 archivé comme doublon ; JOURNAL-001/002 gardent parents et dates |
 | GO/NO-GO — MEP-035 — Décision GO/NO-GO | Ouvert — N/A ; décision non rendue | [Jalon séparé MEP-035](../tracking/mess-jalon.md) | Identifiant, absence de décision et règles de refus conservés ; exclu des PBI techniques |
 
 ## Acquis de validation et CI — aucun PBI de développement à recréer
@@ -89,5 +89,6 @@ restent documentés dans le [rapprochement historique](pre-mep-rapprochements-hi
 - Durées de conservation sont à définir par 03.02 ; elles ne sont pas inventées par la refonte.
 - Audits externes sans rapports locaux : leurs constats sont des points à vérifier, pas des anomalies confirmées.
 
-Décision du demandeur le **2026-10-13** : conserver les **63 PBI listés** et corriger le total initial
-de 61. Aucun retrait ni regroupement ; les quatre Epics et vingt Features restent intégralement conservés.
+L’[audit du 2026-10-14](mess-audit.md) remplace l’ancienne justification par « confirmation du demandeur » :
+61 était le total annoncé, 63 le nombre de points listés, 62 le nombre de PBI actifs après consolidation
+MEP-041 → JOURNAL-001/002. Aucun point fonctionnel n’est retiré ; les vingt Features restent conservées.

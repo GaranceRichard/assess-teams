@@ -66,6 +66,7 @@ aucune synthèse n’est une source de statut. Tailles XS/S recommandées, modè
 
 Les Jobs et FEAT-042 à FEAT-048 ne sont plus des unités actives. Le suivi courant de MEP-009 à MEP-034
 se trouve exclusivement dans les sections MESS ci-dessus ; leurs anciennes valeurs restent archivées.
-Le PBI de séparation des journaux est une régularisation documentaire du seul acquis du 2026-10-05,
-relié à JOURNAL-001/002 sans déplacement de ces deux PBI ni changement de leurs dates initiales.
-Le scoring MESS compte cette fiche une fois ; il ne représente pas une nouvelle livraison de journalisation.
+03.01 référence JOURNAL-001/002 déjà réalisés ; aucun nouveau PBI de journalisation n’est créé.
+[MEP-041 — ancien alias et métadonnées conservées](mess-doublons-historique.md) est hors du suivi actif.
+Le MESS compte 62 PBI actifs, tous Ouverts ; les 63 points initiaux restent couverts avec cet acquis.
+L’[audit](../planning/mess-audit.md) distingue comptage, validation du périmètre et consolidation.

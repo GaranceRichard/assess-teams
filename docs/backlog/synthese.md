@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Sécurité et robustesse MESS | 4 | 13 | 1 | 8 % |
+| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 0 | 0 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 0 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 0 | 0 % |
@@ -108,19 +108,19 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-13
+## Préparation MESS — suivi au 2026-10-14
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
-63 PBI détaillés, total confirmé le 2026-10-13. Les Epics/Features fonctionnels généraux restent conservés.
+62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
 Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison progressive, sans ordre de Jobs.
 
 | Périmètre | PBI | Réalisés | Ouverts | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 63 | 1 | 62 | 0 | 2 % |
+| MESS actif — E01 à E04 | 62 | 0 | 62 | 0 | 0 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 100 % historique |
 
-03.01 reconnaît la séparation HTTP/métier déjà livrée le 2026-10-05 ; JOURNAL-001/002 conservent parents et dates.
+03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
 Les [huit réalisations historiques](tracking/mess-historique.md) restent prouvées et ne sont pas relancées.
 Les [correspondances MEP et acquis CI](planning/pre-mep-rapprochements.md) conservent décisions et limites.
 [MEP-035 — Décision GO/NO-GO](tracking/mess-jalon.md) : Ouvert, N/A, décision non rendue ; jalon hors PBI.
@@ -158,14 +158,16 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 | Nombre de Features | 61 |
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
-| Nombre total de PBIs | 97 |
+| Nombre total de PBIs | 96 |
 | PBIs ouverts | 70 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
 | PBIs non réalisés | 71 |
-| PBIs réalisés | 26 |
-| Avancement global | 27 % |
+| PBIs réalisés | 25 |
+| Avancement global | 26 % |
 
-Scoring courant : 34 PBI fonctionnels + 63 PBI MESS ; 25 + 1 réalisés. Les huit PBI historiques du Job 1,
+Scoring courant : 34 PBI fonctionnels + 62 PBI MESS ; 25 réalisés. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
-La hausse du dénominateur et l’exclusion des archives ne constituent ni une régression ni une nouvelle livraison.
+La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
+
+[Audit contradictoire, écarts et couverture des 63 points](planning/mess-audit.md).

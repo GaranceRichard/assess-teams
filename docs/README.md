@@ -55,3 +55,5 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Registre canonique et sections MESS](backlog/tracking/pbis.md).
 - [Correspondance des anciens travaux et acquis](backlog/planning/pre-mep-rapprochements.md).
 - [Jalon décisionnel GO/NO-GO](backlog/tracking/mess-jalon.md).
+
+- [Audit contradictoire : 61 annoncés, 63 points couverts, 62 PBI actifs](backlog/planning/mess-audit.md).

@@ -16,8 +16,10 @@ Aucun blocage supplémentaire constaté ; les arbitrages métier existants reste
 | 02.01 | [MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) | FEAT-050 — SQLite en exploitation | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 02.02 | [MEP-010 — Gérer les verrous et les transactions concurrentes](../source/mess/f02.md) | FEAT-050 — SQLite en exploitation | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 02.03 | [MEP-040 — Gérer les conflits sur les opérations critiques](../source/mess/f02.md) | FEAT-050 — SQLite en exploitation | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
-| 03.01 | [MEP-041 — Séparer les journaux HTTP des événements métier](../source/mess/f03.md) | FEAT-051 — Journalisation et conservation | S | À définir | Réalisé | régularisation de JOURNAL-001/002 ; [preuve HTTP/métier](../../architecture/journals-api.md) | 2026-10-05 |
 | 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | FEAT-051 — Journalisation et conservation | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | FEAT-051 — Journalisation et conservation | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | FEAT-052 — Gouvernance Git et intégration continue | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | FEAT-052 — Gouvernance Git et intégration continue | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
+
+03.01 est un acquis référencé : JOURNAL-001/002 restent au registre fonctionnel, avec leurs dates/parents.
+[MEP-041 — ancien alias consolidé](mess-doublons-historique.md) reste archivé, hors du dénominateur MESS.

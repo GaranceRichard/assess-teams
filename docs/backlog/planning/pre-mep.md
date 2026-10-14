@@ -20,13 +20,14 @@ après resynchronisation et gates complets. La refonte ne modifie ni AGENTS.md n
 
 ## PBI prêts au regard des dépendances connues du registre
 
-Au 2026-10-13, tous les prérequis historiques cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
+Au 2026-10-14, 24 PBI sont prêts selon les dépendances enregistrées ; tous les prérequis historiques cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
 n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
 
 - [01.01 — MEP-036 — Inventorier les paramètres sensibles et les valeurs par défaut](../source/mess/f01.md) : prérequis aucune.
 - [01.03 — MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) : prérequis AUTH-001, ORG-005, ORG-006, COACH-001.
 - [01.04 — MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) : prérequis MEP-008, USER-004.
 - [02.01 — MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) : prérequis MEP-003.
+- [03.02 — MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) : prérequis JOURNAL-001, JOURNAL-002.
 - [04.01 — MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) : prérequis aucune.
 - [05.01 — MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-007.
 - [05.02 — MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-005, MEP-007.
@@ -42,14 +43,12 @@ n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifi�
 - [08.03 — MEP-018 — Améliorer les états de chargement](../source/mess/f08.md) : prérequis AUTH-001, PASS-001, RESULT-001.
 - [08.04 — MEP-050 — Améliorer les états vides](../source/mess/f08.md) : prérequis AUTH-001, RESULT-001.
 - [08.05 — MEP-051 — Améliorer la présentation des erreurs](../source/mess/f08.md) : prérequis PASS-001, MEP-004.
-- [09.01 — MEP-019 — Corriger les contrastes et la lisibilité du thème clair](../source/mess/f09.md) : prérequis DASH-001.
 - [09.02 — MEP-052 — Harmoniser le thème sombre](../source/mess/f09.md) : prérequis DASH-001.
-- [09.03 — MEP-053 — Harmoniser la typographie et la hiérarchie visuelle](../source/mess/f09.md) : prérequis DASH-001.
 - [11.01 — MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) : prérequis aucune.
 - [17.01 — MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) : prérequis PASS-001, EVAL-004, RESULT-001, STEER-001.
 - [17.02 — MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) : prérequis MEP-005, MEP-007, DASH-001, RESULT-001.
 
-03.01 est un acquis, pas un chantier à relancer. Le responsable peut préparer les autres PBI selon leurs
+03.01 est un acquis de JOURNAL-001/002, hors PBI MESS ; MEP-041 est archivé, sans réouverture. Le responsable peut préparer les autres PBI selon leurs
 prérequis précis ; une Feature partiellement prête ne réclame pas la livraison complète d’un ancien Job.
 
 ## Chaînes et entrées de livraison par capacité
@@ -58,9 +57,9 @@ prérequis précis ; une Feature partiellement prête ne réclame pas la livrais
 | --- | --- |
 | F01 — Sécurité de production | 01.01 → 01.02 ; isolation 01.03 et rôles 01.04 indépendants → 01.05 |
 | F02 — SQLite en exploitation | MEP-003 acquis → 02.01 → 02.02 → 02.03 ; pas de changement de moteur |
-| F03 — Journalisation et conservation | 03.01 acquis → 03.02 → 03.03 ; aucune reprise du collecteur |
+| F03 — Journalisation et conservation | JOURNAL-001/002 (03.01 acquis) → 03.02 → 03.03 ; aucune reprise du collecteur |
 | F04 — Gouvernance Git et CI | 04.01 → 04.02 ; aucun écart peut être clos par preuve, sans changement artificiel |
-| F05 à F09 — UX | Socle livré comme prérequis ; les PBI de ces Features n’attendent ni F01 ni F02 |
+| F05 à F09 — UX | Socle livré ; 09.01/09.03 attendent les mesures du cahier 17.02 ; aucune attente de F01/F02 entière |
 | F10 — Configuration unique | 01.01 et 11.01 → 10.01 ; 10.01 et 01.02 → 10.02 |
 | F11 — Contrat MESS | 11.01, 10.01, 03.02 → 11.02 ; 10.02 et 11.02 → 11.03/11.04 |
 | F12 — Distribution autonome | 11.01/10.01/licence → 12.01 ; 12.02 et 12.03 indépendants → 12.04 avec configuration et contrat |
@@ -85,3 +84,5 @@ GO exige les capacités MESS satisfaites et les preuves sécurité, installation
 candidat exact, les gates conformes et aucune anomalie bloquante. Les arbitrages pertinents sont résolus
 ou le périmètre explicitement limité. NO-GO peut être enregistré avant achèvement sur blocage démontré.
 Aucun pourcentage, Job historique ni simple succès de CI n’autorise la mise en production.
+
+[Audit et matrice de couverture](mess-audit.md) : 62 PBI actifs ; les 63 points initiaux restent couverts.

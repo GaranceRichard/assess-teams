@@ -17,3 +17,5 @@ Le [registre canonique](../../tracking/mess-e04.md) porte les tailles, statuts e
 | F18 | [FEAT-066 — Recette d’installation hors ligne](f18.md) | Démontrer le fonctionnement autonome sur un environnement vierge. |
 | F19 | [FEAT-067 — Recette fonctionnelle et UX](f19.md) | Valider les parcours métier sans anomalie bloquante. |
 | F20 | [FEAT-068 — Recette technique et reprise après incident](f20.md) | Démontrer la sécurité, la stabilité et les capacités de reprise. |
+
+Après audit : 14 PBI actifs dans cette Epic ; total MESS 62. Voir l’[audit](../../planning/mess-audit.md).

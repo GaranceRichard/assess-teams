@@ -2,8 +2,8 @@
 
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
-[sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 63 PBI : cible confirmée le 2026-10-13.
-Au 2026-10-13 : 1 acquis régularisé Réalisé (03.01), 62 Ouverts, 0 En cours, 0 Bloqué ; avancement 2 %.
+[sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
+Au 2026-10-14 : 62 Ouverts, 0 Réalisé, 0 En cours, 0 Bloqué ; avancement actif 0 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 ## Avancement des capacités
@@ -14,7 +14,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | --- | --- | ---: | ---: |
 | EPIC-011 — Sécurité et robustesse | [F01 — FEAT-049 — Sécurité de production](../source/mess/f01.md) | 0 / 5 | 0 % |
 | EPIC-011 — Sécurité et robustesse | [F02 — FEAT-050 — SQLite en exploitation](../source/mess/f02.md) | 0 / 3 | 0 % |
-| EPIC-011 — Sécurité et robustesse | [F03 — FEAT-051 — Journalisation et conservation](../source/mess/f03.md) | 1 / 3 | 33 % |
+| EPIC-011 — Sécurité et robustesse | [F03 — FEAT-051 — Journalisation et conservation](../source/mess/f03.md) | 0 / 2 | 0 % |
 | EPIC-011 — Sécurité et robustesse | [F04 — FEAT-052 — Gouvernance Git et intégration continue](../source/mess/f04.md) | 0 / 2 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F05 — FEAT-053 — Expérience de notation](../source/mess/f05.md) | 0 / 3 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F06 — FEAT-054 — Résultats et comparaisons](../source/mess/f06.md) | 0 / 4 | 0 % |
@@ -45,8 +45,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 02.01 | [MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) | XS | Ouvert — N/A | MEP-003 |
 | 02.02 | [MEP-010 — Gérer les verrous et les transactions concurrentes](../source/mess/f02.md) | S | Ouvert — N/A | MEP-039, MEP-003 |
 | 02.03 | [MEP-040 — Gérer les conflits sur les opérations critiques](../source/mess/f02.md) | S | Ouvert — N/A | MEP-010, EVAL-003, USER-004, AUTH-002 |
-| 03.01 | [MEP-041 — Séparer les journaux HTTP des événements métier](../source/mess/f03.md) | S | Réalisé — 2026-10-05 | JOURNAL-001, JOURNAL-002 |
-| 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | Ouvert — N/A | MEP-041 |
+| 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | Ouvert — N/A | JOURNAL-001, JOURNAL-002 |
 | 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | S | Ouvert — N/A | MEP-042 |
 | 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | XS | Ouvert — N/A | aucune |
 | 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | S | Ouvert — N/A | MEP-012 |
@@ -69,9 +68,9 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 08.03 | [MEP-018 — Améliorer les états de chargement](../source/mess/f08.md) | XS | Ouvert — N/A | AUTH-001, PASS-001, RESULT-001 |
 | 08.04 | [MEP-050 — Améliorer les états vides](../source/mess/f08.md) | XS | Ouvert — N/A | AUTH-001, RESULT-001 |
 | 08.05 | [MEP-051 — Améliorer la présentation des erreurs](../source/mess/f08.md) | S | Ouvert — N/A | PASS-001, MEP-004 |
-| 09.01 | [MEP-019 — Corriger les contrastes et la lisibilité du thème clair](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001 |
+| 09.01 | [MEP-019 — Corriger les contrastes et la lisibilité du thème clair](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001, MEP-067 |
 | 09.02 | [MEP-052 — Harmoniser le thème sombre](../source/mess/f09.md) | XS | Ouvert — N/A | DASH-001 |
-| 09.03 | [MEP-053 — Harmoniser la typographie et la hiérarchie visuelle](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001 |
+| 09.03 | [MEP-053 — Harmoniser la typographie et la hiérarchie visuelle](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001, MEP-067 |
 
 ## E03 — EPIC-013 — Installation et exploitation MESS
 
@@ -120,7 +119,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 
 [Job 1 — huit réalisations MEP-001 à MEP-008, avec dates et preuves](mess-historique.md) : aucune relance.
 [JOURNAL-001/002](pbis.md) restent réalisés dans leurs Features fonctionnelles avec leurs dates initiales.
-La fiche 03.01 est la seule reconnaissance MESS de la séparation HTTP/métier, sans nouveau développement.
+03.01 est un acquis référencé, hors des PBI actifs ; [MEP-041 — alias consolidé](mess-doublons-historique.md) garde sa trace historique.
 Les [acquis CI](../planning/pre-mep-rapprochements.md#acquis-de-validation-et-ci--aucun-pbi-de-développement-à-recréer)
 sont réutilisés par F04 ; présence de CI ne prouve pas l’activation des protections distantes.
 [MEP-035 — Décision GO/NO-GO](mess-jalon.md) : Ouvert, N/A, décision non rendue, hors scoring PBI.

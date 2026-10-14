@@ -17,3 +17,5 @@ Le [registre canonique](../../tracking/mess-e02.md) porte les tailles, statuts e
 | F07 | [FEAT-055 — Pilotage et tableau de bord](f07.md) | Présenter des indicateurs compréhensibles et actionnables. |
 | F08 | [FEAT-056 — Responsive et états d’interaction](f08.md) | Garantir des parcours adaptés aux différents écrans et des états d’interaction explicites. |
 | F09 | [FEAT-057 — Cohérence visuelle et thèmes](f09.md) | Garantir une interface cohérente, lisible et accessible dans les deux thèmes. |
+
+Après audit : 17 PBI actifs dans cette Epic ; total MESS 62. Voir l’[audit](../../planning/mess-audit.md).

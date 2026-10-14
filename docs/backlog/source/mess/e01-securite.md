@@ -16,3 +16,6 @@ Le [registre canonique](../../tracking/mess-e01.md) porte les tailles, statuts e
 | F02 | [FEAT-050 — SQLite en exploitation](f02.md) | Préserver l’intégrité et la disponibilité en situation concurrente, en conservant SQLite comme base permanente. |
 | F03 | [FEAT-051 — Journalisation et conservation](f03.md) | Garantir une traçabilité exploitable sans accumulation incontrôlée. |
 | F04 | [FEAT-052 — Gouvernance Git et intégration continue](f04.md) | Sécuriser l’intégration et maîtriser les publications. |
+
+Après audit : 12 PBI actifs dans cette Epic ; total MESS 62. Voir l’[audit](../../planning/mess-audit.md).
+03.01 demeure un acquis référencé de F03, hors du dénominateur actif ; aucun travail réalisé n’est rouvert.

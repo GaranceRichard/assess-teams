@@ -11,18 +11,19 @@ EPIC-011 est conservé et recentré explicitement sur E01 ; EPIC-012 à EPIC-014
 FEAT-042 à FEAT-048 sont archivées, jamais réutilisées ; FEAT-049 à FEAT-068 portent les vingt capacités.
 MEP-001 à MEP-008 restent les huit réalisations du Job 1. MEP-009 à MEP-034 sont réaffectés explicitement
 à un PBI atomique de leur découpage ; leur ancien périmètre reste archivé et les compléments reçoivent
-MEP-036 à MEP-072. Aucun identifiant fonctionnel existant n’est déplacé ou renuméroté.
+MEP-036 à MEP-072 ; MEP-041 est désormais archivé comme doublon documentaire. Aucun identifiant n’est réutilisé.
 MEP-035 reste la décision finale, suivie comme jalon séparé, hors des PBI et du scoring technique.
 
-| Repère | Epic et enjeu | Features | PBI listés |
+| Repère | Epic et enjeu | Features | PBI actifs |
 | --- | --- | ---: | ---: |
-| E01 | [EPIC-011 — Sécurité et robustesse](mess/e01-securite.md) : Protéger les données, garantir la stabilité d’exploitation et maîtriser la traçabilité. | 4 | 13 |
+| E01 | [EPIC-011 — Sécurité et robustesse](mess/e01-securite.md) : Protéger les données, garantir la stabilité d’exploitation et maîtriser la traçabilité. | 4 | 12 |
 | E02 | [EPIC-012 — Expérience utilisateur](mess/e02-experience.md) : Améliorer la compréhension, l’accessibilité et la fluidité des parcours d’évaluation et de consultation des résultats. | 5 | 17 |
 | E03 | [EPIC-013 — Installation et exploitation MESS](mess/e03-exploitation.md) : Permettre une installation, une exploitation et une restauration autonomes, hors ligne et sans Node/npm en production. | 6 | 19 |
 | E04 | [EPIC-014 — Documentation, transfert et recette](mess/e04-recette.md) : Garantir l’autonomie du MESS et réunir les preuves nécessaires à la décision GO/NO-GO. | 5 | 14 |
 
-La cible confirmée par le demandeur le **2026-10-13** est **4 Epics, 20 Features et 63 PBI**
-(13 + 17 + 19 + 14). Le total initial de 61 est corrigé ; tous les PBI listés sont conservés.
+Résultat de l’[audit du 2026-10-14](../planning/mess-audit.md) : **4 Epics, 20 Features et 62 PBI actifs**.
+Le cadrage annonçait 61, mais listait 63 points ; les 63 restent couverts par 62 PBI et l’acquis 03.01.
+La justification est le rapprochement fonctionnel, pas une affirmation de validation globale du demandeur.
 
 ## Décisions structurantes conservées
 
@@ -44,14 +45,15 @@ Les titres d’audit ne prouvent aucun défaut. Si les critères sont déjà sat
 qualifier le périmètre exact plutôt que produire un changement artificiel. Toute preuve cible reste distincte.
 Chaque réalisation exige tests/contrôles applicables, critères et refus satisfaits, DoD et intégration effective.
 
-La séparation HTTP/métier (03.01) est une régularisation documentaire déjà réalisée ; JOURNAL-001/002
-restent dans leurs Features fonctionnelles avec leurs dates initiales. Job 1 n’est jamais relancé.
+La séparation HTTP/métier (03.01) est un acquis référencé, sans nouveau PBI ; JOURNAL-001/002
+restent dans leurs Features fonctionnelles avec leurs dates initiales. MEP-041 est archivé ; Job 1 n’est jamais relancé.
 Les capacités UI, permissions et CI livrées restent des prérequis/acquis, pas des développements nouveaux.
 Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassant S impose raffinement explicite.
 
 ## Suivi, dépendances et décision
 
 - [Ordonnancement par dépendances réelles et livraison progressive](../planning/pre-mep.md).
+- [Audit contradictoire et matrice des 63 points initiaux](../planning/mess-audit.md).
 - [Correspondance exhaustive des anciens travaux et preuves](../planning/pre-mep-rapprochements.md).
 - [Avancement des vingt Features](../tracking/pre-mep-view.md), dérivé du registre.
 - [Jalon MEP-035 — Décision GO/NO-GO](../tracking/mess-jalon.md), décision non rendue.

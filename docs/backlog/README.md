@@ -88,3 +88,5 @@ Ces documents détaillés constituent la source de vérité fonctionnelle des Ep
 - [Sections canoniques MESS, accessibles depuis le registre](tracking/pbis.md#préparation-mess--registre-courant)
 - [Archives des Jobs et réalisations historiques](tracking/mess-historique.md)
 - [Jalon décisionnel MEP-035 — GO/NO-GO](tracking/mess-jalon.md)
+
+- [Audit contradictoire : 61 annoncés, 63 points couverts, 62 PBI actifs](planning/mess-audit.md).
