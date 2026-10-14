@@ -92,7 +92,8 @@ Un jeton valide ne permet aucune mutation depuis une origine non autorisée ; un
 reste active après un refus CSRF. Le login renouvelle le jeton, que React relit depuis le cookie.
 
 `config.settings_development` conserve HTTP local, cookies sans `Secure` et origines Vite/E2E
-existantes ; il ne charge pas le middleware de production et n'accorde aucune confiance proxy.
+existantes ; il ne charge pas le middleware de production. Par défaut, aucune confiance proxy n'est accordée.
+Une sélection explicite de LOGIN_TRUSTED_PROXIES reste possible via le socle commun de connexion.
 Les points d'entrée déployés continuent de sélectionner la production par défaut.
 
 ## Validation et exploitation

@@ -50,6 +50,8 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Préparation MESS
 
+- [MEP-036 — Inventaire des paramètres, défauts, risques et preuves](operations/configuration/README.md).
+
 - [Référence opérationnelle : quatre Epics et vingt Features](backlog/source/07-pre-mep.md).
 - [Livraison progressive et prérequis](backlog/planning/pre-mep.md).
 - [Registre canonique et sections MESS](backlog/tracking/pbis.md).

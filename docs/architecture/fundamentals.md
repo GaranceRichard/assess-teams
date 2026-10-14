@@ -109,3 +109,6 @@ exploitable hors ligne sans Docker ni Node/npm ; build React et dépendances Pyt
 Configuration unique, package autonome, installation, opérations et reprise restent à livrer/qualifier
 selon le contrat MESS, sans annoncer leur disponibilité par cette refonte documentaire.
 Les journaux HTTP et métier, transactions, contrôles d’accès et workers SMTP existants sont réutilisés.
+
+[MEP-036 — Inventaire des paramètres](../operations/configuration/README.md) recense sources, défauts,
+obligations et risques de production pour MEP-009, sans modifier les réglages existants.

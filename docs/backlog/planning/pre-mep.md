@@ -20,10 +20,10 @@ après resynchronisation et gates complets. La refonte ne modifie ni AGENTS.md n
 
 ## PBI prêts au regard des dépendances connues du registre
 
-Au 2026-10-14, 24 PBI sont prêts selon les dépendances enregistrées ; tous les prérequis historiques cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
+Au 2026-10-14, 24 PBI sont prêts selon les dépendances enregistrées ; tous les prérequis cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
 n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
 
-- [01.01 — MEP-036 — Inventorier les paramètres sensibles et les valeurs par défaut](../source/mess/f01.md) : prérequis aucune.
+- [01.02 — MEP-009 — Sécuriser les secrets et vérifier la configuration au démarrage](../source/mess/f01.md) : prérequis MEP-036, MEP-002 réalisés.
 - [01.03 — MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) : prérequis AUTH-001, ORG-005, ORG-006, COACH-001.
 - [01.04 — MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) : prérequis MEP-008, USER-004.
 - [02.01 — MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) : prérequis MEP-003.

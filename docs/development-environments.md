@@ -13,7 +13,8 @@ Django utilise deux modules de réglages sans détection implicite :
 - `config.settings_production` active `ENVIRONMENT = "production"`, désactive le mode debug et n'installe
   jamais `development_data` ; les points d'entrée ASGI et WSGI sélectionnent ce module.
 
-`manage.py`, ASGI et WSGI utilisent par défaut `config.settings`, alias sûr vers la production.
+`manage.py` utilise par défaut `config.settings`, alias vers la production ; ASGI et WSGI sélectionnent
+directement `config.settings_production`. Une sélection externe `DJANGO_SETTINGS_MODULE` est respectée.
 Une exécution de production doit fournir `DJANGO_SECRET_KEY` et une `APP_BASE_URL` HTTPS exacte.
 Les listes `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DJANGO_TRUSTED_PROXIES`
 restreignent hôtes, origines et pairs proxy ; leurs défauts et refus sont décrits dans la
@@ -81,3 +82,6 @@ lancés par `dev:backend` ; les processus de production sont supervisés sépar�
 
 Les wrappers qualité isolent aussi la base E2E via `ASSESS_E2E_DB` et trois ports par worktree ;
 voir [validation proportionnée](quality/validation-costs.md). Le lancement normal conserve sa base locale.
+
+[Inventaire MEP-036](operations/configuration/README.md) : sources et défauts exhaustifs, sensibilité,
+obligations production et risques identifiés ; aucune configuration réelle ni secret reproduit.

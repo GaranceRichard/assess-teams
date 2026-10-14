@@ -39,13 +39,11 @@ Le [MEP-005 — Accessibilité des dialogues](docs/architecture/dialog-accessibi
 
 MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notifications.md) : file persistante locale, reprises SMTP bornées, prévention des doublons et suivi administratif, sans remettre en cause une opération métier validée ni ajouter de service externe obligatoire.
 
+[MEP-036 — Inventaire des paramètres](docs/operations/configuration/README.md) établit un inventaire exhaustif des paramètres sensibles et des valeurs par défaut (Django, environnement, scripts, SMTP, SQLite, TLS et proxy), avec sources, obligations de production et risques pour MEP-009, sans modification applicative ni secret réel.
+
 ## Validations proportionnées
 
-Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés. Les tests de configuration vérifient aussi leur indépendance de l’état Django et de l’ordre des shards.
-
-## CI — feedback qualité
-
-La CI répartit les tests backend en trois partitions déterministes équilibrées selon les durées réelles, et les parcours Playwright réels/démo en deux shards indépendants à un worker SQLite chacun. Il conserve les seuils, consolide couverture et rapports, et mesure chemin critique, démarrage des runners et coût cumulé sur plusieurs exécutions. Le test frontend de sélection des organisations attend leur chargement réel, avec une régression sur réponse différée. Trois CI réussies mesurent une médiane de 4 min 39 s contre 6 min 36 s avant, pour un coût runner cumulé accru de 17,6 % ; [bilan, variations et limite de quatre minutes](docs/quality/ci-performance.md). Le backend CI sépare Ruff et migrations des tests. Les poids sont recalibrés depuis les rapports JUnit GitHub, après une première mesure locale. Un job obligatoire fusionne leur couverture globale et applique le seuil de 90 % ; Pages attend la qualité complète. La [CI parallèle](docs/quality/ci.md) conserve les autres contrôles indépendants et les caches. `npm run quality:full` reste le gate local canonique ; `Full quality gate` agrège tous les jobs sans répéter leurs contrôles.
+Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés ; la [CI parallèle](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent documentés. Les tests de configuration vérifient aussi leur indépendance de l’état Django et de l’ordre des shards.
 
 ## Socle technique
 
