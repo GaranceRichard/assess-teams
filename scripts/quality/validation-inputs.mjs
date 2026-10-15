@@ -1,12 +1,16 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import {
+  existsSync,
+  lstatSync,
+  readlinkSync,
+  readFileSync,
+  readdirSync,
+} from "node:fs";
 import { resolve } from "node:path";
 
-export const documentationOnly = (path) =>
-  path === "README.md" ||
-  path === "AGENTS.md" ||
-  (/^docs\/.*\.md$/.test(path) && !path.startsWith("docs/legal/"));
+export { pureDocument as documentationOnly } from "./impact.mjs";
+import { pureDocument as documentationOnly } from "./impact.mjs";
 
 export function gitFiles(root) {
   return [
@@ -31,7 +35,16 @@ export function contentKey(root, files, context) {
     hash.update(JSON.stringify(file));
     const present = existsSync(path);
     hash.update(present ? "present\0" : "deleted\0");
-    if (present) hash.update(readFileSync(path));
+    if (present) {
+      const stat = lstatSync(path);
+      hash.update(
+        JSON.stringify({
+          mode: stat.mode,
+          link: stat.isSymbolicLink() ? readlinkSync(path) : null,
+        }),
+      );
+      hash.update(readFileSync(path));
+    }
     hash.update("\0");
   }
   return hash.digest("hex");
@@ -90,7 +103,7 @@ export function reusable(proof, key, now = Date.now()) {
 
 export function runtimeEnvironment(env) {
   const metadata =
-    /^(npm_(command|execpath|lifecycle_event|lifecycle_script|node_execpath|package_.*)|GIT_REFLOG_ACTION|GIT_PREFIX)$/;
+    /^(npm_(command|execpath|lifecycle_event|lifecycle_script|node_execpath|package_.*)|GIT_REFLOG_ACTION|GIT_PREFIX|QUALITY_DIFF_BASE)$/;
   return Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => !metadata.test(key))

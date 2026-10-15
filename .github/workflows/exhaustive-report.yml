@@ -1,0 +1,59 @@
+name: Exhaustive reports and proof
+on:
+  workflow_call:
+    inputs:
+      candidate:
+        type: string
+        required: true
+      results:
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  report:
+    name: Full quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.candidate }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Installer les outils de rapports
+        run: npm ci --prefix frontend
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-shard-*
+          path: frontend/.cache/e2e/
+          merge-multiple: true
+      - name: Consolider les rapports et verifier la collection exhaustive
+        working-directory: frontend
+        run: |
+          node ../scripts/quality/combine_e2e_reports.mjs .cache/e2e --prepare
+          npx playwright merge-reports --config playwright.merge.config.ts .cache/e2e/merged-blobs
+          node ../scripts/quality/combine_e2e_reports.mjs .cache/e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-global-report
+          path: frontend/playwright-report/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Exiger le succes de chaque gate sans reexecution
+        if: ${{ always() }}
+        env:
+          QUALITY_JOB_RESULTS: ${{ inputs.results }}
+        run: node scripts/quality/complete-ci.mjs
+      - name: Produire la preuve du candidat exact uniquement apres succes complet
+        env:
+          CANDIDATE: ${{ inputs.candidate }}
+        run: node scripts/quality/qualification.mjs attest-ci "$CANDIDATE"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qualification
+          path: .cache/quality/qualification.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

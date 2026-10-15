@@ -13,7 +13,8 @@ import {
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isolatedEnvironment, prepareE2E } from "./isolation.mjs";
-import { contentKey, reusable, runtimeContext } from "./validation-inputs.mjs";
+import { reusable } from "./validation-inputs.mjs";
+import { fingerprint } from "./impact-runner.mjs";
 
 export function runValidation({
   root,
@@ -24,18 +25,23 @@ export function runValidation({
   run,
   now = Date.now,
   freshScopes = [],
+  metadata = {},
 }) {
   const directory = resolve(root, ".cache/quality");
   mkdirSync(directory, { recursive: true });
   const lock = resolve(directory, "running.lock");
   const descriptor = openSync(lock, "wx");
   try {
+    const fingerprints = new Map();
     writeFileSync(descriptor, String(process.pid));
     for (const scope of scopes) {
       const started = now();
       const cacheable =
-        !fresh && !freshScopes.includes(scope) && scope !== "repository";
+        !fresh &&
+        !freshScopes.includes(scope) &&
+        !["repository", "documentation"].includes(scope);
       const fingerprint = cacheable ? key(scope) : null;
+      if (cacheable) fingerprints.set(scope, fingerprint);
       const path = resolve(directory, `${scope}.json`);
       let proof;
       try {
@@ -44,7 +50,12 @@ export function runValidation({
         /* Missing/invalid: rerun. */
       }
       const hit = cacheable && reusable(proof, fingerprint, started);
-      console.log(`[${hit ? "REUSE" : "RUN"}] ${scope}`);
+      const reason = hit
+        ? "empreinte et selection identiques, preuve valide"
+        : cacheable
+          ? "preuve absente, expiree ou entrees modifiees"
+          : "controle frais obligatoire";
+      console.log(`[${hit ? "REUSE" : "RUN"}] ${scope} - ${reason}`);
       if (!hit && existsSync(path)) unlinkSync(path);
       let status = hit ? 0 : run(scope, env);
       if (cacheable && fingerprint !== key(scope)) {
@@ -64,6 +75,7 @@ export function runValidation({
       appendFileSync(
         resolve(directory, "metrics.jsonl"),
         JSON.stringify({
+          ...metadata,
           scope,
           reused: hit,
           status,
@@ -72,6 +84,25 @@ export function runValidation({
         }) + "\n",
       );
       if (status !== 0) return status;
+    }
+    for (const [scope, fingerprint] of fingerprints) {
+      if (fingerprint !== key(scope)) {
+        unlinkSync(resolve(directory, `${scope}.json`));
+        console.error(
+          `[FAIL] Entrees de ${scope} modifiees apres son controle`,
+        );
+        appendFileSync(
+          resolve(directory, "metrics.jsonl"),
+          JSON.stringify({
+            ...metadata,
+            scope: "plan",
+            status: 1,
+            invalidated: scope,
+            timestamp: new Date(now()).toISOString(),
+          }) + "\n",
+        );
+        return 1;
+      }
     }
     return 0;
   } finally {
@@ -91,6 +122,7 @@ export function main(args = process.argv.slice(2)) {
   const allowed = [
     "all",
     "repository",
+    "documentation",
     "backend",
     "backend-static",
     "frontend",
@@ -98,16 +130,15 @@ export function main(args = process.argv.slice(2)) {
   ];
   if (!allowed.includes(scope)) throw new Error(`Scope inconnu: ${scope}`);
   if (process.env.ASSESS_E2E_SHARD && (!process.env.CI || scope !== "e2e")) {
-    throw new Error("E2E shards require the isolated CI e2e scope; a full local proof must be exhaustive.");
+    throw new Error(
+      "E2E shards require the isolated CI e2e scope; a full local proof must be exhaustive.",
+    );
   }
   const root = fileURLToPath(new URL("../../", import.meta.url));
   const env = isolatedEnvironment(root);
   const scopes =
     scope === "all" ? ["repository", "backend", "frontend", "e2e"] : [scope];
-  const key = (name) => {
-    const inputs = runtimeContext(root, env);
-    return contentKey(root, inputs.files, { ...inputs.context, scope: name });
-  };
+  const key = (name) => fingerprint(root, env, { scope: name });
   const run = (name) => {
     if (name === "e2e") prepareE2E(root, env);
     return (

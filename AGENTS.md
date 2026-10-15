@@ -35,8 +35,20 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 
 ## Règles de livraison
 
-- La séquence normale est `travail → validations ciblées → commit → resynchronisation → pre-push complet → push`.
+- La séquence normale est `travail → validations ciblées → commit → resynchronisation → pre-push proportionné → push → CI du SHA exact`.
 - Le push de publication utilise la branche dédiée comme source et `main` comme destination.
 - Toute règle qualité existante d'Assess teams demeure applicable, notamment la limite de 200 lignes, les tests,
   les couvertures, le lint, le formatage, la sécurité, les migrations et la revue documentaire.
 - Les détails techniques propres à un autre dépôt ne sont pas transposés sans équivalent dans Assess teams.
+
+## Validation selon l'impact
+
+- Pendant le développement, `npm run quality:targeted` calcule le plan local ; les tests explicites restent disponibles.
+- Le pré-push utilise le diff réel annoncé par Git et bloque tout échec requis ; jamais de `--no-verify`.
+- Prose/backlog audités : contrôles documentaires seuls, aucun test backend/frontend/E2E.
+- Risque sensible, transverse ou inconnu : validation conservatrice, exhaustive si nécessaire.
+- Les preuves sont liées aux entrées et sélections exactes, réévaluées après resynchronisation.
+- La CI sélective est indépendante ; le push direct n'a pas de barrière CI distante avant intégration.
+- `publish` attend sa réussite avant succès de livraison. Une CI rouge reste un échec même après le push.
+- Nightly quotidienne et `quality:qualify` restent exhaustifs ; promotion MESS liée au SHA exact qualifié.
+- [Matrice, commandes et preuves](docs/quality/validation-costs.md) ; [protections et limites CI](docs/quality/ci.md).

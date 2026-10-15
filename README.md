@@ -170,8 +170,8 @@ npm run check:lines
 # quality:quick — statiques informatifs, sans tests ni coverage
 npm run quality:quick
 
-# quality:full — preuves complètes bloquantes ; -- --fresh force leur exécution
-npm run quality:full
+# quality:targeted — sélection automatique ; quality:full reste exhaustif
+npm run quality:targeted
 ```
 
 `check:lines` contrôle tous les fichiers maintenus manuellement, sans liste blanche d’extensions. `scripts/quality/files.ps1` est la définition exécutable unique des exclusions : métadonnées Git ; dépendances et environnements locaux ; répertoires nommés de build, coverage, rapports E2E et caches ; migrations Django, fichiers minifiés et source maps ; lock files explicitement reconnus ; fichiers binaires détectés par extension ou contenu.
@@ -189,11 +189,11 @@ commun permettent au `post-checkout` cible de préparer ses runtimes sans partag
 
 Le `pre-commit` lance `quality:quick` sans bloquer le commit. Pour une publication, le `pre-push` impose d'abord
 la branche et le worktree dédiés, l'état entièrement commité, la destination `main` et la resynchronisation sur
-le SHA distant annoncé par Git. Il lance ensuite `quality:full` et bloque le push en cas d'échec. Le workflow
-[GitHub Actions](.github/workflows/quality.yml) appelle le même script en mode `full` par scope indépendant,
-puis exige leur succès dans `Full quality gate`, sans réexécuter les contrôles.
+le SHA distant annoncé par Git. Il calcule ensuite les contrôles requis par le diff et bloque tout échec. La
+[CI sélective](.github/workflows/quality.yml) utilise le même plan, indépendamment des preuves locales.
+`publish` attend sa réussite ; [limite du push direct, nightly et qualification MESS](docs/quality/ci.md).
 
-`quality:quick` conserve les statiques et les contrôles de dépôt, sans campagne de tests. `npm run quality:targeted -- frontend src/example.test.tsx` sélectionne explicitement les tests ; les changements sensibles déclenchent le niveau complet. `quality:full` conserve tous les contrôles et utilise `test:all` par scope. Il réutilise uniquement une preuve locale complète, récente et aux entrées identiques ; les contrôles du dépôt restent frais. La CI désactive cette réutilisation. Voir [conditions et responsabilités](docs/quality/validation-costs.md).
+`quality:targeted` sans argument sélectionne automatiquement les contrôles ; les tests explicites restent disponibles. Documentation pure : aucun test applicatif. Risque sensible ou inconnu : sélection conservatrice. `quality:full` conserve tous les contrôles, `quality:qualify -- SHA` qualifie exhaustivement le candidat MESS ; la nightly quotidienne conserve les mêmes seuils. Voir [matrice et preuves](docs/quality/validation-costs.md) et [mesures](docs/quality/validation-measurements.md).
 
 ## Documentation
 

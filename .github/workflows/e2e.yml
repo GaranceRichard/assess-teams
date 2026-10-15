@@ -1,6 +1,10 @@
 name: Playwright shards
 on:
   workflow_call:
+    inputs:
+      candidate:
+        required: false
+        type: string
 permissions:
   contents: read
 jobs:
@@ -19,6 +23,8 @@ jobs:
       ASSESS_E2E_DEMO_PORT: 417${{ matrix.shard }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.candidate || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'

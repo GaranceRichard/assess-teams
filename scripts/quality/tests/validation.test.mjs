@@ -99,12 +99,12 @@ test("age, future timestamps and unsuccessful evidence are rejected", () => {
 
 test("content and runtime determine evidence, not commit identity or document text", () =>
   fixture((root) => {
-    mkdirSync(join(root, "docs"));
+    mkdirSync(join(root, "docs/quality"), { recursive: true });
     writeFileSync(join(root, "app.py"), "original");
-    writeFileSync(join(root, "docs/guide.md"), "before");
-    const files = ["app.py", "docs/guide.md"];
+    writeFileSync(join(root, "docs/quality/guide.md"), "before");
+    const files = ["app.py", "docs/quality/guide.md"];
     const before = contentKey(root, files, { python: "3.12" });
-    writeFileSync(join(root, "docs/guide.md"), "after");
+    writeFileSync(join(root, "docs/quality/guide.md"), "after");
     assert.equal(contentKey(root, files, { python: "3.12" }), before);
     assert.notEqual(contentKey(root, files, { python: "3.13" }), before);
     writeFileSync(join(root, "app.py"), "modified");
@@ -123,4 +123,21 @@ test("same worktree rejects overlapping gates", () =>
     mkdirSync(join(root, ".cache/quality"), { recursive: true });
     writeFileSync(join(root, ".cache/quality/running.lock"), "another-process");
     assert.throws(() => runValidation(options(root, [])), /EEXIST/);
+  }));
+
+test("a later control cannot invalidate an earlier successful proof unnoticed", () =>
+  fixture((root) => {
+    let backendRevision = "before";
+    const input = options(root, [], {
+      scopes: ["backend", "frontend"],
+      key: (scope) => (scope === "backend" ? backendRevision : "frontend"),
+      run: (scope) => {
+        if (scope === "frontend") backendRevision = "after";
+        return 0;
+      },
+    });
+    assert.equal(runValidation(input), 1);
+    assert.throws(() =>
+      readFileSync(join(root, ".cache/quality/backend.json")),
+    );
   }));

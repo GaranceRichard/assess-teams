@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-15",
+  "platform": "Windows x64",
+  "node": "24.20.0",
+  "python": "3.12.10",
+  "method": "simulated impact paths, real controls, sequential warm runtimes",
+  "sourceFingerprint": "72990d50dd63988c5433b7a13be1d4635f2642d508d73da7eeb311c4513175d0",
+  "baseline": "validation-baseline.json",
+  "measurements": [
+    {
+      "scenario": "documentation",
+      "durationMs": 5472,
+      "status": 0,
+      "timestamp": "2026-10-15T20:56:47.841Z",
+      "reused": false,
+      "applicationTests": 0
+    },
+    {
+      "scenario": "backlog",
+      "durationMs": 5512,
+      "status": 0,
+      "timestamp": "2026-10-15T20:56:53.706Z",
+      "reused": false,
+      "applicationTests": 0
+    },
+    {
+      "scenario": "backend",
+      "durationMs": 48443,
+      "status": 0,
+      "timestamp": "2026-10-15T20:57:42.500Z",
+      "reused": false,
+      "applicationTests": 46
+    },
+    {
+      "scenario": "frontend",
+      "durationMs": 29530,
+      "status": 0,
+      "timestamp": "2026-10-15T20:58:12.396Z",
+      "reused": false,
+      "applicationTests": 103
+    },
+    {
+      "scenario": "backend",
+      "durationMs": 8653,
+      "status": 0,
+      "timestamp": "2026-10-15T20:58:21.444Z",
+      "reused": true,
+      "applicationTests": 0
+    },
+    {
+      "scenario": "frontend",
+      "durationMs": 8584,
+      "status": 0,
+      "timestamp": "2026-10-15T20:58:30.369Z",
+      "reused": true,
+      "applicationTests": 0
+    }
+  ]
+}

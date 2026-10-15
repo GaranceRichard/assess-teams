@@ -58,10 +58,12 @@ try {
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
     $repository = @('npm run check:lines', 'node --test scripts/legal/npm-notices.test.mjs',
         'node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs',
-        'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs')
+        'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs',
+        'node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs')
     $backend = @('python -m ruff check .', 'python -m ruff format --check .',
         'python manage.py makemigrations --check --dry-run --settings=config.settings_development')
     $frontend = @('npm run lint', 'npm run format:check', 'npm run build')
+    Assert-Scope 'quality.ps1' 'documentation' @('npm run check:lines')
     Assert-Scope 'quality.ps1' 'repository' $repository
     Assert-Scope 'quality.ps1' 'backend' ($backend + @('suite backend'))
     Assert-Scope 'quality.ps1' 'backend-static' $backend

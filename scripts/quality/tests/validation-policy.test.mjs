@@ -22,7 +22,7 @@ test("sensitive and transverse changes escalate; isolated UI stays targeted", ()
     assert.equal(requiresFull([path]), true, path);
   }
   assert.equal(
-    requiresFull(["frontend/src/Button.tsx", "docs/guide.md"]),
+    requiresFull(["frontend/src/Button.tsx", "docs/quality/guide.md"]),
     false,
   );
 });
@@ -98,26 +98,36 @@ test("an explicitly supplied E2E database forces fresh E2E tests", () =>
     ]);
   }));
 
-
 test("CI shards have independent temporary resources and preserve their own SQLite path", () =>
   fixture((root) => {
-    const first = isolatedEnvironment(root, { ASSESS_E2E_SHARD: "1/2", ASSESS_E2E_DB: join(root, "first.sqlite3") });
-    const second = isolatedEnvironment(root, { ASSESS_E2E_SHARD: "2/2", ASSESS_E2E_DB: join(root, "second.sqlite3") });
+    const first = isolatedEnvironment(root, {
+      ASSESS_E2E_SHARD: "1/2",
+      ASSESS_E2E_DB: join(root, "first.sqlite3"),
+    });
+    const second = isolatedEnvironment(root, {
+      ASSESS_E2E_SHARD: "2/2",
+      ASSESS_E2E_DB: join(root, "second.sqlite3"),
+    });
     assert.notEqual(first.TMP, second.TMP);
     assert.notEqual(first.ASSESS_E2E_DB, second.ASSESS_E2E_DB);
   }));
-
 
 test("partial E2E cannot become a full or cached local validation proof", () => {
   const saved = { shard: process.env.ASSESS_E2E_SHARD, ci: process.env.CI };
   try {
     process.env.ASSESS_E2E_SHARD = "1/2";
     delete process.env.CI;
-    assert.throws(() => main(["-Scope", "e2e"]), /full local proof must be exhaustive/);
+    assert.throws(
+      () => main(["-Scope", "e2e"]),
+      /full local proof must be exhaustive/,
+    );
     process.env.CI = "true";
     assert.throws(() => main([]), /full local proof must be exhaustive/);
   } finally {
-    for (const [name, value] of [["ASSESS_E2E_SHARD", saved.shard], ["CI", saved.ci]]) {
+    for (const [name, value] of [
+      ["ASSESS_E2E_SHARD", saved.shard],
+      ["CI", saved.ci],
+    ]) {
       if (value === undefined) delete process.env[name];
       else process.env[name] = value;
     }

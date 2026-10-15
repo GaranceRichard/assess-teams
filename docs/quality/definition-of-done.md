@@ -22,8 +22,8 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 - [ ] Chaque élément fonctionnel possède au minimum un test fonctionnel non passant représentant un vrai cas fonctionnel ou métier.
 - [ ] Les tests unitaires nécessaires couvrent la logique isolée.
 - [ ] Les tests fonctionnels et API nécessaires couvrent les comportements et endpoints modifiés.
-- [ ] Le coverage backend est **>= 90 %**.
-- [ ] Le coverage frontend est **>= 90 %**.
+- [ ] Les campagnes complètes backend conservent un coverage **>= 90 %** ; une sélection partielle ne remplace pas ce seuil global.
+- [ ] Les campagnes complètes frontend conservent les quatre seuils **>= 90 %**.
 - [ ] Tous les tests passent.
 
 ## Intégration, contrats et E2E
@@ -63,9 +63,9 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 ## Gates de livraison
 
 - [ ] Le gate rapide informatif a fourni son feedback au commit sans bloquer les commits intermédiaires.
-- [ ] `quality:full` passe localement avant le push.
+- [ ] Les contrôles requis par le plan d’impact passent avant le push ; `quality:full` reste requis pour les changements exhaustifs.
 - [ ] Le pre-push bloque effectivement tout résultat non conforme.
-- [ ] La CI GitHub exécute tous les contrôles de `quality:full` ; les trois partitions backend et les deux shards E2E isolés passent, la consolidation des parcours est exhaustive, leur couverture fusionnée atteint 90 % et leur agrégation `Full quality gate` passe.
+- [ ] La CI indépendante recalcule le plan et son `Required impact gate` passe. En exhaustif : trois shards backend, deux E2E, fusions complètes et seuils de 90 % ; en documentaire : aucun test applicatif.
 - [ ] Le build et le typecheck frontend passent, localement et en CI.
 - [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.
 - [ ] Sauf instruction explicite contraire du prompt, le changement est commité puis poussé conformément aux [règles de référence](agent-rules.md).
@@ -78,5 +78,5 @@ Si une case applicable n'est pas cochée, la tâche n'est pas Done.
 
 Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et complet,
 les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
-Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
+Dépôt/documentation restent frais ; la CI sélective ne réutilise aucune preuve locale. Nightly et qualification MESS restent exhaustives ; [garanties et limites](ci.md).
 Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.

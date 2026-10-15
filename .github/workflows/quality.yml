@@ -1,20 +1,75 @@
 name: Quality gate
-
 on:
   push:
     branches: [main]
   pull_request:
-
 permissions:
   contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.impact.outputs.full }}
+      repository: ${{ steps.impact.outputs.repository }}
+      backend: ${{ steps.impact.outputs.backend }}
+      frontend: ${{ steps.impact.outputs.frontend }}
+      e2e: ${{ steps.impact.outputs.e2e }}
+      plan: ${{ steps.impact.outputs.plan }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - id: impact
+        env:
+          QUALITY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: node scripts/quality/selective.mjs --base "$QUALITY_DIFF_BASE" --head "$GITHUB_SHA" --plan
+      - uses: actions/upload-artifact@v4
+        with:
+          name: impact-plan
+          path: .cache/quality/plan.json
+          include-hidden-files: true
+          if-no-files-found: error
+  full:
+    needs: plan
+    if: needs.plan.outputs.full == 'true'
+    uses: ./.github/workflows/exhaustive.yml
+    with:
+      candidate: ${{ github.sha }}
   repository:
-    name: Repository constraints
+    needs: plan
+    if: needs.plan.outputs.full == 'false'
+    runs-on: ubuntu-latest
+    env:
+      QUALITY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+      REQUIRED_SCOPE: ${{ needs.plan.outputs.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        if: needs.plan.outputs.repository == 'repository'
+        with:
+          python-version: '3.13'
+      - run: node scripts/quality/selective.mjs --base "$QUALITY_DIFF_BASE" --head "$GITHUB_SHA" --only "$REQUIRED_SCOPE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: repository-metrics
+          path: .cache/quality/metrics.jsonl
+          include-hidden-files: true
+          if-no-files-found: error
+  backend:
+    needs: plan
+    if: needs.plan.outputs.full == 'false' && needs.plan.outputs.backend == 'true'
     runs-on: ubuntu-latest
     env:
       QUALITY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -28,131 +83,57 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Contraintes, secrets, documentation et tests des scripts
-        run: npm run quality:full -- -Scope repository
-
-  backend-static:
-    name: Backend static quality
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
           cache: pip
           cache-dependency-path: backend/requirements*.txt
-      - name: Préparer le runtime backend local
-        shell: pwsh
+      - shell: pwsh
         run: ./scripts/bootstrap/backend.ps1
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Ruff lint, format et migrations
-        run: npm run quality:full -- -Scope backend-static
-
-  backend-tests:
-    name: Backend tests (${{ matrix.shard }}/3)
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [1, 2, 3]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          cache: pip
-          cache-dependency-path: backend/requirements*.txt
-      - name: Préparer le runtime backend local
-        shell: pwsh
-        run: ./scripts/bootstrap/backend.ps1
-      - name: Tests et données de couverture du shard
-        run: backend/.venv/bin/python scripts/quality/backend_shards.py ${{ matrix.shard }}
+      - run: node scripts/quality/selective.mjs --base "$QUALITY_DIFF_BASE" --head "$GITHUB_SHA" --only backend
       - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
+        if: always()
         with:
-          name: backend-coverage-${{ matrix.shard }}
-          path: backend/coverage/
+          name: backend-metrics
+          path: .cache/quality/metrics.jsonl
           include-hidden-files: true
           if-no-files-found: error
-          retention-days: 7
-
-  backend-coverage:
-    name: Backend global coverage
-    runs-on: ubuntu-latest
-    needs: backend-tests
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: backend-coverage-*
-          path: backend/coverage/
-          merge-multiple: true
-      - name: Installer seulement la version de coverage utilisée par les shards
-        run: python -m pip install -r backend/coverage/coverage-version-1.txt
-      - name: Fusion complète et seuil global >= 90 %
-        working-directory: backend
-        run: python ../scripts/quality/combine_backend_coverage.py coverage
-      - uses: actions/upload-artifact@v4
-        with:
-          name: backend-global-coverage
-          path: backend/coverage/backend.xml
-          if-no-files-found: error
-          retention-days: 7
-
   frontend:
-    name: Frontend quality
+    needs: plan
+    if: needs.plan.outputs.full == 'false' && needs.plan.outputs.frontend == 'true'
     runs-on: ubuntu-latest
+    env:
+      QUALITY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci --prefix frontend
-      - name: Lint, format, typecheck, build, tests et coverage frontend
-        run: npm run quality:full -- -Scope frontend
-
+      - run: node scripts/quality/selective.mjs --base "$QUALITY_DIFF_BASE" --head "$GITHUB_SHA" --only frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-metrics
+          path: .cache/quality/metrics.jsonl
+          include-hidden-files: true
+          if-no-files-found: error
   e2e:
-    uses: ./.github/workflows/e2e.yml
-
+    needs: plan
+    if: needs.plan.outputs.full == 'false' && needs.plan.outputs.e2e == 'true'
+    uses: ./.github/workflows/selective-e2e.yml
   quality:
-    name: Full quality gate
+    name: Required impact gate
+    needs: [plan, full, repository, backend, frontend, e2e]
+    if: always()
     runs-on: ubuntu-latest
-    needs: [repository, backend-static, backend-tests, backend-coverage, frontend, e2e]
-    if: ${{ always() }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Installer les outils de rapports sans navigateurs ni services
-        run: npm ci --prefix frontend
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: playwright-shard-*
-          path: frontend/.cache/e2e/
-          merge-multiple: true
-      - name: Consolider les rapports et vérifier la collection exhaustive
-        working-directory: frontend
-        run: |
-          node ../scripts/quality/combine_e2e_reports.mjs .cache/e2e --prepare
-          npx playwright merge-reports --config playwright.merge.config.ts .cache/e2e/merged-blobs
-          node ../scripts/quality/combine_e2e_reports.mjs .cache/e2e
-      - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
-        with:
-          name: playwright-global-report
-          path: frontend/playwright-report/
-          if-no-files-found: error
-          retention-days: 7
-      - name: Exiger le succès de chaque gate sans réexécuter les contrôles
-        if: ${{ always() }}
-        env:
+      - env:
+          QUALITY_PLAN: ${{ needs.plan.outputs.plan }}
           QUALITY_JOB_RESULTS: ${{ toJSON(needs) }}
-        run: node scripts/quality/complete-ci.mjs
+        run: node scripts/quality/selective-ci.mjs

@@ -1,0 +1,41 @@
+name: Selected Playwright journeys
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  journeys:
+    runs-on: ubuntu-latest
+    env:
+      QUALITY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+      - shell: pwsh
+        run: ./scripts/bootstrap/backend.ps1
+      - run: npm ci --prefix frontend
+      - working-directory: frontend
+        run: npx playwright install --with-deps --only-shell chromium
+      - run: node scripts/quality/selective.mjs --base "$QUALITY_DIFF_BASE" --head "$GITHUB_SHA" --only e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: selected-e2e-reports
+          path: |
+            frontend/playwright-report/
+            frontend/test-results/
+            .cache/quality/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

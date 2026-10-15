@@ -7,6 +7,7 @@ import {
   localInputFiles,
   runtimeEnvironment,
 } from "../validation-inputs.mjs";
+import { fingerprint } from "../impact-runner.mjs";
 import { fixture } from "./validation-fixtures.mjs";
 
 test("ignored root env files and installed npm manifests invalidate proofs", () =>
@@ -87,5 +88,42 @@ test("npm configuration affects proof identity; lifecycle metadata does not", ()
         runtimeEnvironment({ ...before, NPM_CONFIG_IGNORE_SCRIPTS: "true" }),
       ),
       key,
+    );
+  }));
+
+test("fingerprints include exact selectors and dependency closure, independent of integration SHA", () =>
+  fixture((root) => {
+    mkdirSync(join(root, "backend"));
+    mkdirSync(join(root, "frontend"));
+    writeFileSync(join(root, "backend/helper.py"), "before");
+    writeFileSync(join(root, "frontend/helper.ts"), "before");
+    const inputs = {
+      files: ["backend/helper.py", "frontend/helper.ts"],
+      context: {},
+    };
+    const check = {
+      scope: "frontend-targeted",
+      related: ["frontend/helper.ts"],
+    };
+    const key = fingerprint(root, {}, check, inputs);
+    const backendCheck = {
+      scope: "backend-targeted",
+      tests: ["backend/tests/test_one.py"],
+    };
+    const backendKey = fingerprint(root, {}, backendCheck, inputs);
+    writeFileSync(join(root, "frontend/helper.ts"), "unrelated");
+    assert.equal(fingerprint(root, {}, backendCheck, inputs), backendKey);
+    writeFileSync(join(root, "frontend/helper.ts"), "before");
+    writeFileSync(join(root, "backend/helper.py"), "after");
+    assert.equal(fingerprint(root, {}, check, inputs), key);
+    assert.notEqual(
+      fingerprint(root, {}, { ...check, tests: ["new.test.ts"] }, inputs),
+      key,
+    );
+    writeFileSync(join(root, "frontend/helper.ts"), "after");
+    assert.notEqual(fingerprint(root, {}, check, inputs), key);
+    assert.deepEqual(
+      runtimeEnvironment({ QUALITY_DIFF_BASE: "old" }),
+      runtimeEnvironment({ QUALITY_DIFF_BASE: "new" }),
     );
   }));

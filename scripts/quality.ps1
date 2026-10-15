@@ -2,7 +2,7 @@ param(
     [Parameter(Position = 0)]
     [ValidateSet('quick', 'full')]
     [string]$Mode = 'quick',
-    [ValidateSet('all', 'repository', 'backend', 'backend-static', 'frontend', 'e2e')]
+    [ValidateSet('all', 'repository', 'documentation', 'backend', 'backend-static', 'frontend', 'e2e')]
     [string]$Scope = 'all'
 )
 
@@ -79,19 +79,20 @@ function Invoke-NpmScript {
 }
 
 Write-Host "Quality gate '$Mode' ($Scope) - Assess teams" -ForegroundColor White
-if ($Scope -in @('all', 'repository')) {
+if ($Scope -in @('all', 'repository', 'documentation')) {
     Invoke-QualityStep 'Limite de 200 lignes' { & npm run check:lines }
     Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
     Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
     Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
     Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
-    if ($Mode -eq 'full') {
+    if ($Mode -eq 'full' -and $Scope -ne 'documentation') {
         Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
         Invoke-PowerShellCheck 'Tests des scopes qualite' 'scripts\quality\tests\scopes.tests.ps1'
         Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'
         Invoke-QualityStep 'Tests des licences et attributions' { & node --test scripts/legal/npm-notices.test.mjs }
         Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs }
         Invoke-QualityStep 'Tests de validation proportionnee' { & node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs }
+        Invoke-QualityStep 'Tests de la matrice et du candidat' { & node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs }
     }
 }
 
@@ -131,7 +132,7 @@ if ($Scope -in @('all', 'frontend')) {
     }
 }
 
-if ($Mode -eq 'full' -and $Scope -notin @('repository', 'backend-static')) {
+if ($Mode -eq 'full' -and $Scope -notin @('repository', 'documentation', 'backend-static')) {
     $allTests = Join-Path $root 'scripts\test-all.ps1'
     Invoke-QualityStep 'Suite globale test:all' {
         & $hostExecutable -NoProfile -File $allTests -Scope $Scope

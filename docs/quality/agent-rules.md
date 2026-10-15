@@ -104,7 +104,7 @@ Pour chaque tâche, Codex doit automatiquement :
 8. créer un commit cohérent ne contenant que les fichiers pertinents ;
 9. récupérer le dernier `origin/main`, resynchroniser le commit et résoudre les conflits éventuels ;
 10. vérifier que l'état final est entièrement commité et exécuter ses validations applicables ;
-11. pousser ce commit vers `main` sans contourner le pre-push et son full quality gate ;
+11. pousser ce commit vers `main` sans contourner le pre-push et ses contrôles requis par le diff ;
 12. confirmer que `main` distant contient le commit publié ;
 13. vérifier que le checkout principal est propre et non divergent, puis avancer son `main` local vers
     `origin/main` exclusivement en fast-forward ;
@@ -127,10 +127,10 @@ destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
 
 Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
 antérieure à la resynchronisation ne vaut preuve finale que si ses entrées applicatives
-sont identiques, complètes et récentes selon [le dispositif de validation](validation-costs.md).
-La vérification du dépôt reste fraîche et la CI exhaustive indépendante. Le `pre-push` applique d'abord la garde de
-contribution, puis le full quality gate existant ; la CI exécute tous ses scopes indépendants et agrège
-leur succès comme frontière distante, sans répéter les mêmes contrôles.
+sont identiques, complètes pour leur sélection et récentes selon [le dispositif de validation](validation-costs.md).
+La vérification du dépôt reste fraîche et la CI sélective indépendante. Le `pre-push` applique d'abord la garde de
+contribution, puis les contrôles requis par le diff ; la CI exécute les contrôles requis indépendamment et agrège
+leur succès sans prétendre protéger une intégration déjà poussée.
 
 Un travail ne prend jamais fin tant que la branche locale `main` du checkout principal est en retard sur
 `origin/main`, même d'un seul commit. Après confirmation du push, la resynchroniser exclusivement par
@@ -156,8 +156,23 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 
 ## Automatisation des quality gates
 
-Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le full quality gate, exhaustif et bloquant ; la CI GitHub répartit ces mêmes contrôles par scopes indépendants et exige leur succès agrégé. Contourner le hook local ne dispense jamais du contrôle distant.
+Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le plan d’impact bloquant ; la CI GitHub recalcule le même plan et exige le succès des contrôles requis. Contourner le hook local ne dispense jamais du contrôle distant.
 
 La publication utilise `npm run publish` pour sérialiser les intégrations locales sans attendre les autres PBI.
 Pendant le développement, privilégier `quality:targeted` ; `quality:quick` reste statique et informatif.
-Les conditions de réutilisation du gate complet et les métriques sont définies dans [validation proportionnée](validation-costs.md).
+Les conditions de réutilisation des preuves et les métriques sont définies dans [validation proportionnée](validation-costs.md).
+
+## Trois niveaux de validation
+
+`quality:targeted` sans argument est le comportement local normal : diff réel et sélection automatique.
+Les tests explicites donnent un feedback ciblé sans lancer automatiquement l'exhaustif pendant le développement.
+Prose et backlog dans les emplacements audités déclenchent seulement le scope documentaire, aucun test applicatif.
+Le plan conserve les statiques, tests et parcours adaptés ; risque inconnu/sensible/transverse : sélection conservatrice.
+Les seuils de 90 % restent ceux des campagnes complètes, pas des couvertures partielles ciblées.
+Une preuve exige les entrées effectives et la sélection identiques, y compris après rebase ; âge seul insuffisant.
+
+La nightly indépendante exécute tout sur main ; la qualification MESS exige le SHA complet exact.
+Le gate de promotion exige un run exhaustif GitHub réussi et son artefact correspondant ; une autre nightly ne suffit pas.
+`npm run publish` synchronise main après push puis attend la CI du SHA avant de déclarer le succès.
+Main reste sans protection distante préalable au push : [limite et migration explicite vers les PR](ci.md).
+Échec CI après push : livraison non terminée, correction nécessaire, aucun succès annoncé ni force-push.

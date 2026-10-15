@@ -1,144 +1,89 @@
-# Validation proportionnée et coûts
+# Validation selon l'impact
 
-## Audit au 13 octobre 2026
+## Commandes et responsabilités
 
-Le gate rapide exécutait Ruff/format, pytest `unit or functional` avec coverage,
-ESLint/Prettier et toute la suite Vitest avec coverage, plus les tests des scripts.
-Le commit pouvait rejouer des campagnes déjà exécutées pendant le PBI.
-Le pre-push répétait ensuite les suites complètes et les E2E réels/démo.
-La CI apportait une preuve indépendante Linux/Python 3.13, répartie sans doublons :
-ce contrôle distinct est conservé. `test:all` reste la définition unique des suites.
-
-Le bootstrap installe les runtimes par worktree avec caches de téléchargements
-pip/npm. Partager les installations actives créerait des interférences ; les
-runtimes physiques restent indépendants. Le post-checkout conserve son bootstrap
-conditionnel. SQLite, rapports et caches restent locaux au worktree. Les wrappers imposent
-`TMPDIR`, `TMP` et `TEMP` dans `.cache/tmp` pour isoler les ressources temporaires
-et éviter la réutilisation de répertoires pytest appartenant à une autre session.
-Les ports E2E fixes et les publications simultanées sont les collisions restantes.
-
-## Niveaux et responsabilités
-
-| Niveau | Commande | Moment et preuve |
+| Niveau | Commande | Portée |
 | --- | --- | --- |
-| Rapide | `npm run quality:quick` | Statiques et contraintes du dépôt, informatifs au commit ; sans tests/coverage |
-| Ciblé | `npm run quality:targeted -- backend tests/test_example.py` | Tests explicites et statiques bloquants pendant le PBI |
-| Complet | `npm run quality:full` | Tous les contrôles du dépôt, backend, frontend et E2E ; pre-push |
-| Frais | `npm run quality:full -- --fresh` | Rejoue les scopes ; diagnostic indépendant |
-| Distant | workflow Quality gate | Tous les jobs exhaustifs sans preuves locales ; chaque version intégrée |
+| Développement normal | `npm run quality:targeted` ou `npm run quality:check` | Plan automatique du diff `origin/main` + index, travail local et fichiers non ignorés |
+| Tests explicites | `npm run quality:targeted -- backend tests/test_health.py` | Feedback choisi par le développeur, sans escalade exhaustive automatique |
+| Plan lisible | `npm run quality:plan -- --base origin/main --head HEAD` | Classification, contrôles et exclusions, sans exécution |
+| Pré-push | hook obligatoire | SHA candidat et SHA distant annoncés par Git ; garde de contribution puis plan sélectif bloquant |
+| CI ordinaire | `quality.yml` | Même plan sur le diff publié ; exécution indépendante sans preuves locales |
+| Exhaustif | `npm run quality:full -- --fresh` | Dépôt, backend, frontend et E2E réels/démo ; seuils inchangés |
+| Nightly et qualification distante | `exhaustive.yml` | Tous les contrôles ; trois shards backend, deux E2E, rapports et preuve du SHA exact |
+| Qualification MESS locale | `npm run quality:qualify -- SHA_COMPLET` | Checkout propre du SHA, campagne exhaustive fraîche et preuve locale |
+| Promotion MESS | `npm run quality:promote -- SHA_COMPLET RUN_ID` | Refus sans qualification GitHub exhaustive réussie et artefact correspondant exactement au candidat |
 
-Pour le ciblé frontend, fournir des chemins relatifs à `frontend`, par exemple
-`src/Button.test.tsx`. Pour E2E : `e2e/results.spec.ts`. Une sélection vide,
-inexistante, hors domaine ou ne désignant pas un test est refusée.
-Backend : Ruff/format/migrations puis pytest sans couverture partielle.
-Frontend : ESLint/Prettier/typecheck puis Vitest sans coverage.
-E2E : parcours choisis avec les vrais services, aucun serveur existant réutilisé.
-Le ciblé ne remplace pas les preuves complètes finales et ne produit aucun cache.
+Les changements applicatifs localisés conservent les contraintes documentaires/structurelles du dépôt,
+sans rejouer ses tests d’outillage. Ces derniers sont requis lors des changements transversaux et en exhaustif.
 
-L’agent choisit les comportements affectés, leurs refus et les interactions.
-Le ciblé bascule en complet si le diff comporte scripts, hooks, CI, identités,
-permissions, authentification, sessions, mots de passe, modèles, services,
-transactions, migrations, configurations, vues/sérialiseurs, contrats ou dépendances.
-La garde conservative ne remplace pas la revue du risque : un contrat indirect
-ou une dépendance transverse non détectée exige le complet.
+Les tests explicites utilisent des chemins relatifs au domaine (`backend`, `frontend`, `e2e`).
+Ils ne remplacent pas le plan obligatoire de publication. Un échec applicable bloque toujours.
+`quality:quick` reste informatif au commit ; son plan statique ne lance aucun test applicatif.
+Pour la prose seule, il reste documentaire sans statiques backend/frontend.
 
-## Réutilisation locale bornée
+## Matrice exécutable
 
-Chaque scope applicatif dispose d’une preuve uniquement après son succès complet.
-Repository reste frais : 200 lignes, secrets, README, documentation et tests des
-scripts sont toujours exécutés. Backend conserve Ruff, migrations, tous les
-tests/contrats et coverage >= 90 %. Frontend conserve build/typecheck, lint/format,
-tous les tests et les quatre seuils >= 90 %. E2E conserve les parcours réels et
-la compilation/parcours de démo. Aucun contrôle n’est supprimé.
+La définition unique est [`impact.mjs`](../../scripts/quality/impact.mjs).
+Les tests `impact*.test.mjs` et les invariants YAML en protègent les décisions.
 
-L’empreinte SHA-256 couvre tous les fichiers suivis/non ignorés hors `README.md`,
-`AGENTS.md` et les Markdown de `docs/` hors `docs/legal/`, les `.env*` locaux,
-les manifests npm installés,
-Python/Node, `pip freeze --all`, OS/architecture et l’environnement d’exécution
-(hors métadonnées de lifecycle npm et deux variables Git sans effet fonctionnel).
-Les options `npm_config_*` et `NPM_CONFIG_*` restent dans l’empreinte : elles
-peuvent modifier l’exécution des outils.
-Ajout, suppression ou modification d’une entrée invalide les scopes applicatifs.
-Le SHA de commit ne suffit pas : un rebase sans changement pertinent peut
-réutiliser la preuve ; une intégration précédente changeant le code l’invalide.
-Les documents juridiques sont des entrées du bundle frontend : leur changement
-exige de nouveaux tests/builds, même sans modification de code.
-La preuve expire après huit heures ; un horodatage futur est refusé.
+| Changement | Contrôles obligatoires |
+| --- | --- |
+| Prose README/AGENTS ou Markdown dans les emplacements documentaires audités | `documentation` : lignes, secrets, conflits, README et cohérence des règles ; aucun test applicatif ni test des outils |
+| Test backend ordinaire isolé | Dépôt, Ruff/format/migrations, fichier pytest modifié |
+| Filtrage local des journaux | Dépôt, statiques backend, tests filtres/journal/logs/OpenAPI explicitement cartographiés |
+| Autre Python backend non sensible | Dépôt et backend complet avec couverture ; dépendants inconnus, donc sélection plus large |
+| Test frontend ordinaire isolé | Dépôt, lint/format/typage frontend, test Vitest modifié |
+| Feuilles frontend auditées | Dépôt, statiques frontend, tests dépendants transitifs via `vitest related --run` |
+| Autre source frontend, composant ou CSS | Statiques et tests dépendants ; parcours cartographiés ou tous les E2E si inconnus ; build et parcours démo pour les composants partagés |
+| Test E2E isolé | Dépôt et parcours explicite, sans autre suite applicative |
+| Authentification, permissions, contrats, modèles, transactions, SQLite, migrations | Exhaustif |
+| Configuration, dépendances, hooks, scripts, CI, documents juridiques distribués | Exhaustif |
+| Suppression applicative, fichier/type inconnu, lien symbolique ou sous-module | Exhaustif ; type non ordinaire sans réutilisation de preuve |
 
-Une preuve échouée, absente ou corrompue est refusée. L’ancienne preuve est retirée
-avant une nouvelle exécution. Le gate bloque si ses entrées évoluent pendant les
-tests. Aucun partage entre worktrees, machines ou CI. `CI` et `--fresh` forcent
-l’exécution et ne produisent pas de preuve locale réutilisable.
-Le cache est une aide de travail, pas une attestation de sécurité : les runtimes
-restent gérés par les bootstraps et la CI demeure indépendante.
-Toute évolution faisant lire des documents par une suite applicative doit les
-inclure dans l’empreinte avant utilisation du cache.
+Les emplacements de prose sont explicitement bornés, pas déduits de la seule extension.
+`frontend/src/README.md`, un Markdown arbitraire ou `docs/legal/*` ne sont pas de la prose sans impact.
+Les deux côtés d'un renommage sont examinés ; un déplacement de documentation vers le runtime élargit le plan.
+Le diff inclut les modes et les ajouts de déclarations critiques connues, même dans un fichier au nom anodin.
+Une nouvelle dépendance applicative vers un document doit modifier cette matrice et ses tests dans le même lot.
+La carte reste volontairement prudente : elle n'infère pas automatiquement tous les imports Python dynamiques.
+Aucun `--passWithNoTests` n'est accepté : une sélection frontend sans test échoue.
+Les tests ciblés n'appliquent pas un seuil global à une couverture partielle ; les seuils globaux de 90 %
+restent appliqués aux campagnes exhaustives et aux scopes applicatifs complets.
 
-## Isolation et publication
+## Preuves et resynchronisation
 
-Le wrapper complet/ciblé dérive trois ports locaux distincts du chemin du worktree.
-`ASSESS_E2E_BACKEND_PORT`, `ASSESS_E2E_FRONTEND_PORT` et `ASSESS_E2E_DEMO_PORT`
-remplacent un port occupé ou une collision de hachage ; Playwright échoue sans
-réutiliser un serveur existant. `ASSESS_E2E_DB` désigne par défaut la base jetable
-`backend/.cache/e2e.sqlite3`, commune aux services et fixtures du même worktree.
-Elle est réinitialisée avant chaque campagne E2E exécutée. Une base explicitement
-fournie est préservée et impose une campagne E2E fraîche. Le développement normal
-reste sur `backend/db.sqlite3` ; la production n’utilise pas cet override.
-SQLite E2E reste à un worker ; les transactions applicatives ne changent pas.
+Chaque contrôle ciblé possède une preuve distincte, liée à sa sélection exacte.
+Le SHA seul et l'âge seul ne constituent jamais une preuve suffisante.
+L'empreinte SHA-256 couvre le contenu des entrées suivies/non ignorées, ajouts/suppressions,
+les types et modes locaux, les `.env*`, les manifests npm installés, Python/Node,
+`pip freeze --all`, OS/architecture et l'environnement pertinent.
+La prose auditée est exclue des entrées applicatives ; les documents juridiques restent inclus.
+Les contrôles backend excluent le frontend, et réciproquement ; scripts, configuration et documents distribués
+restent inclus dans les deux domaines. Les E2E conservent toutes les entrées applicatives et transversales.
+L'empreinte inclut le contrôle et les sélecteurs : élargir une sélection invalide sa preuve.
+Les métadonnées npm de lifecycle, Git de navigation et `QUALITY_DIFF_BASE` ne changent pas les entrées applicatives.
+Une resynchronisation modifiant seulement le SHA ou la prose peut donc réutiliser les preuves.
+Une modification de dépendance pertinente les invalide, même pendant la validité de huit heures.
 
-Deux validations complètes dans le même worktree sont refusées. Après un arrêt
-brutal, vérifier que le PID de `.cache/quality/running.lock` est terminé avant
-de retirer uniquement ce fichier du chantier et de recommencer.
+Échec, absence, corruption, expiration ou horodatage futur imposent une nouvelle exécution.
+Une preuve antérieure est supprimée avant réexécution ; les entrées sont revérifiées après chaque contrôle
+et à la fin du plan. Le hook vérifie aussi que HEAD et le checkout n'ont pas changé.
+`CI` et `--fresh` ne consultent ni ne produisent de preuve locale réutilisable.
+Les contraintes documentaires et de dépôt restent fraîches. Aucun partage de preuve entre worktrees ou machines.
+Le cache accélère le travail ; il n'est pas une attestation de sécurité contre un utilisateur local malveillant.
 
-Après le commit, `npm run publish` prend un verrou OS dans le Git commun puis
-vérifie les checkouts, fetch/rebase, pousse la branche dédiée vers main avec le
-pre-push obligatoire, confirme le candidat distant et avance le main principal
-uniquement en fast-forward. Le premier PBI prêt publie immédiatement ; un second
-éditeur local reçoit un diagnostic et réessaie après libération du verrou.
-Le verrou est libéré à la fin/arrêt du processus ; son fichier reste en place
-pour éviter une course entre fichiers/verrous différents.
+## Isolation, publication et exploitation
 
-Un autre ordinateur n’est pas couvert : Git refuse un push non fast-forward,
-sans force. Refaire fetch/rebase/validation via `publish`. Un conflit de rebase
-conserve le chantier pour résolution et bloque le push. Un checkout principal
-sale/divergent bloque sans écraser les données. Après confirmation, nettoyer
-uniquement le worktree et la branche terminés.
+Ports dérivés du chemin, temporaires et SQLite restent isolés par worktree/shard.
+Les overrides `ASSESS_E2E_*` restent disponibles ; une base E2E explicitement choisie impose une exécution fraîche.
+Seule la base jetable canonique est réinitialisée. Deux gates simultanés dans le même worktree sont refusés.
+Après arrêt brutal, vérifier le PID de `.cache/quality/running.lock` avant de retirer uniquement ce verrou.
 
-## Mesure avant/après et limites
-
-`.cache/quality/metrics.jsonl` conserve par scope durée, statut, réutilisation et
-horodatage, sans variables d’environnement ni credentials. Les diagnostics des
-outils restent visibles ; les scopes s’arrêtent au premier échec exploitable.
-Comparer même machine/version/dépendances et états chaud/froid sur plusieurs PBI.
-Compter campagnes exécutées/réutilisées, temps Codex d’attente, temps muraux et
-somme des durées CI, distincte du chemin critique. Ne pas assimiler minutes de
-runners et facturation sans connaître le tarif.
-
-| Scénario | Avant | Après |
-| --- | --- | --- |
-| 3 commits après tests ciblés | 3 pytest partiels + 3 Vitest complets avec coverage | 0 campagne applicative au commit |
-| Retry sans entrée changée | Backend/frontend/E2E à nouveau | Repository frais ; scopes réussis réutilisés |
-| Rebase/documents seuls, preuve récente | Campagne locale complète | Repository frais ; preuve applicative identique réutilisée |
-| Rebase ajoutant code/configuration | Campagne complète | Campagne complète, aucune preuve invalide réutilisée |
-| Version sur main | Tous les jobs CI | Tous les jobs CI indépendants conservés |
-
-Les mesures historiques et variations de runners sont dans [CI](ci.md).
-Le découpage CI trois backend / deux E2E conserve le gate distant exhaustif ;
-son gain mural et son coût runner sont évalués dans [le bilan CI](ci-performance.md).
-Le gain attendu vient des commits et répétitions locales évités.
-Mesure du prototype Windows avec runtimes chauds : statiques backend 1,09 s et
-frontend 24,70 s. L'ancien quick sélectionnait 725 tests backend sur 915, plus
-toute la suite frontend avec couverture. Trois commits évitent donc 2 175
-exécutions backend et trois campagnes frontend ; il s'agit d'un décompte,
-pas d'une mesure de temps économisé. La collecte seule prenait 2,03 s.
-Les tests de preuve/ciblage/isolation et de publication sur dépôts temporaires
-vérifient succès, refus, expiration, corruption, invalidation et gates bloquants.
-
-En CI, le shard E2E est transmis aux campagnes réelle et démo du scope existant.
-Les deux runners ont des bases, ports, temporaires et rapports distincts ; aucun
-cache de preuve local n’est consulté. Le gate final consolide les résultats sans
-réexécuter de suite. Sans variable de shard, les validations locales complètes
-et le pre-push continuent d’exécuter tous les parcours.
-Une preuve locale partielle est refusée : le wrapper n’accepte le shard que
-pour `-Scope e2e` avec `CI` actif, sans cache de preuve. La suite globale
-`test:all` refuse également cette variable pour prévenir une campagne incomplète.
+`npm run publish` conserve verrou OS commun, fetch/rebase, garde de contribution, pré-push bloquant,
+push direct de la branche dédiée vers main et fast-forward sûr du checkout principal.
+Il attend ensuite la CI du SHA exact : échec, annulation, absence ou délai dépassé refusent le succès de livraison.
+Le push existe alors déjà ; aucune réécriture distante n'est tentée. Corriger par un nouveau chantier.
+Le suivi GitHub requiert `gh` authentifié sur le poste de contribution, sans dépendance d'exploitation MESS.
+Les limites de protection avant intégration et la transition PR sont dans [CI](ci.md).
+Les [mesures reproductibles](validation-measurements.md) distinguent temps local, chemin CI et coût cumulé runners.

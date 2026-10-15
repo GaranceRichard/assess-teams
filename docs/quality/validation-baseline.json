@@ -1,0 +1,45 @@
+{
+  "status": 0,
+  "commit": "a699981b73ee9708836c2a57b7e83c913138804f",
+  "durationMs": 1097063,
+  "scopes": [
+    {
+      "scope": "repository",
+      "reused": false,
+      "status": 0,
+      "durationMs": 64959,
+      "timestamp": "2026-10-15T20:33:54.772Z"
+    },
+    {
+      "scope": "backend",
+      "reused": false,
+      "status": 0,
+      "durationMs": 567164,
+      "timestamp": "2026-10-15T20:43:21.937Z"
+    },
+    {
+      "scope": "frontend",
+      "reused": false,
+      "status": 0,
+      "durationMs": 51395,
+      "timestamp": "2026-10-15T20:44:13.332Z"
+    },
+    {
+      "scope": "e2e",
+      "reused": false,
+      "status": 0,
+      "durationMs": 413138,
+      "timestamp": "2026-10-15T20:51:06.470Z"
+    }
+  ],
+  "counts": {
+    "backend": 1026,
+    "frontend": 393,
+    "e2e": 73
+  },
+  "ci": {
+    "runId": 38801566219,
+    "wallSeconds": 275,
+    "sha": "a699981b73ee9708836c2a57b7e83c913138804f"
+  }
+}

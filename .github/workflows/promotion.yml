@@ -1,0 +1,27 @@
+name: MESS promotion gate
+on:
+  workflow_dispatch:
+    inputs:
+      candidate:
+        description: SHA complet exact destine a la production
+        required: true
+      qualification_run:
+        description: Run Exhaustive qualification reussi pour ce SHA
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  promotion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Refuser tout candidat sans qualification exhaustive correspondante
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE: ${{ inputs.candidate }}
+          QUALIFICATION_RUN: ${{ inputs.qualification_run }}
+        run: npm run quality:promote -- "$CANDIDATE" "$QUALIFICATION_RUN"

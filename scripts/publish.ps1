@@ -45,8 +45,12 @@ try {
     $local = (Invoke-Git @('rev-parse', 'HEAD') $primary).Trim()
     $remote = (Invoke-Git @('rev-parse', 'origin/main')).Trim()
     if ($local -ne $remote) { throw 'Main local reste en retard.' }
-    Write-Host "[PASS] Publie $candidate ; main local synchronise. Nettoyer uniquement ce chantier."
+    Write-Host "[PUSH] Publie $candidate ; main local synchronise. Attente CI apres liberation du verrou."
 } finally {
     $lock.Dispose()
     # Keep the inode: deleting the lock file could let another process lock a different one.
 }
+
+& node (Join-Path $PSScriptRoot 'quality/wait-ci.mjs') $Root $candidate
+if ($LASTEXITCODE -ne 0) { throw "Push effectue et main synchronise, mais CI non verte : livraison non terminee ($candidate)." }
+Write-Host "[PASS] Livraison $candidate ; CI verte et main synchronise. Nettoyer uniquement ce chantier."

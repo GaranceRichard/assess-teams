@@ -21,7 +21,7 @@ fi
 if [ "$mode" = "full" ]; then
   node "$repo_root/scripts/quality/validate.mjs"
 else
-  "$powershell_command" -NoProfile $execution_policy -File "$repo_root/scripts/quality.ps1" "$mode"
+  node "$repo_root/scripts/quality/quick.mjs"
 fi
 status=$?
 if [ "$status" -ne 0 ] && [ "$mode" = "quick" ]; then

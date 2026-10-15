@@ -1,21 +1,14 @@
-import { execFileSync, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { resolve, relative, isAbsolute } from "node:path";
 import { fileURLToPath } from "node:url";
-import { main as fullValidation } from "./validate.mjs";
+import { main as selective } from "./selective.mjs";
+import { planImpact } from "./impact.mjs";
 import { pythonPath } from "./validation-inputs.mjs";
 import { isolatedEnvironment, prepareE2E } from "./isolation.mjs";
 
-export function requiresFull(files) {
-  return files.some(
-    (file) =>
-      /^(scripts|\.github|\.githooks|docs\/legal)\//.test(file) ||
-      /(^|\/)(config|migrations|identities)\//.test(file) ||
-      /(permission|auth|session|password|transaction|contract|serializ|models|services|views|requirements|package|lock|coveragerc)/i.test(
-        file,
-      ),
-  );
-}
+export const requiresFull = (files) =>
+  planImpact(files.filter(Boolean)).exhaustive;
 
 export function selectedFiles(root, domain, selectors) {
   const base = resolve(root, domain === "backend" ? "backend" : "frontend");
@@ -43,31 +36,16 @@ export function selectedFiles(root, domain, selectors) {
 }
 
 export function main(args = process.argv.slice(2)) {
+  if (!args.length || args[0].startsWith("--")) return selective(args);
   const [domain, ...selectors] = args;
   if (!["backend", "frontend", "e2e"].includes(domain))
     throw new Error("Domaine: backend, frontend ou e2e.");
   const root = fileURLToPath(new URL("../../", import.meta.url));
   const tests = selectedFiles(root, domain, selectors);
-  const changes = [
-    ...execFileSync("git", ["diff", "--name-only", "-z", "origin/main"], {
-      cwd: root,
-    })
-      .toString()
-      .split("\0"),
-    ...execFileSync(
-      "git",
-      ["ls-files", "-z", "--others", "--exclude-standard"],
-      { cwd: root },
-    )
-      .toString()
-      .split("\0"),
-  ];
-  if (requiresFull(changes)) {
-    console.log(
-      "[RISK] Changement transverse/sensible: validation complete obligatoire.",
-    );
-    return fullValidation([]);
-  }
+  // Explicit development tests stay narrow; publication recomputes the mandatory plan.
+  console.log(
+    "[DEV] Tests explicites; le pre-push verifiera tous les controles requis par le diff.",
+  );
   const env = isolatedEnvironment(root);
   const run = (executable, argv, cwd = root) =>
     spawnSync(executable, argv, { cwd, env, stdio: "inherit" }).status ?? 1;

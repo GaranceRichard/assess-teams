@@ -56,7 +56,7 @@ Ces variables s’appliquent aussi au pre-push et à `test:e2e`. Les retirer à 
 
 Le [dispositif de validation](validation-costs.md) définit rapide, ciblé et complet,
 les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
-Repository reste frais ; la CI exécute tous les jobs sans réutilisation locale.
+Dépôt/documentation restent frais ; la CI sélective ne réutilise aucune preuve locale. Nightly et qualification MESS restent exhaustives ; [garanties et limites](ci.md).
 Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.
 
 En CI, `ASSESS_E2E_SHARD=1/2` ou `2/2` transmet le shard natif aux deux

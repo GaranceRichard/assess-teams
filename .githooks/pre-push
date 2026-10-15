@@ -12,9 +12,11 @@ else
   exit 1
 fi
 
-"$powershell_command" -NoProfile $execution_policy \
+updates=$(cat)
+
+printf '%s\n' "$updates" | "$powershell_command" -NoProfile $execution_policy \
   -File "$repo_root/scripts/quality/check-contribution-workflow.ps1" \
   -Root "$repo_root" -RemoteName "$1"
 [ "$?" -eq 0 ] || exit 1
 
-exec "$repo_root/.githooks/run-quality" full
+printf '%s\n' "$updates" | node "$repo_root/scripts/quality/selective.mjs" --pre-push
