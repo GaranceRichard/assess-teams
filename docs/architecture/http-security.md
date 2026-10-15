@@ -19,7 +19,7 @@ L'hôte public doit appartenir aux hôtes autorisés, et son origine aux origine
 Les valeurs invalides, entrées vides, CIDR avec bits d'hôte et réseaux universels `/0`
 empêchent le démarrage. Une origine CSRF supplémentaire ne crée pas un accès CORS :
 aucun CORS permissif n'est activé, et le client React reste sur l'origine publique.
-La gestion de `DJANGO_SECRET_KEY` reste hors du Job 1.2.
+La gestion de `DJANGO_SECRET_KEY` est définie par [MEP-009](../operations/configuration/startup-security.md).
 
 ## Contrat du proxy de confiance
 
@@ -32,6 +32,8 @@ d'en-têtes clients. Limiter aussi l'accès réseau au backend aux proxys néces
 Les [limites de connexion](login-security.md) utilisent séparément `LOGIN_TRUSTED_PROXIES`
 pour identifier les clients via `X-Forwarded-For` ; cette liste n’accorde aucune confiance TLS.
 Configurer les deux listes selon les pairs réels ; seul `DJANGO_TRUSTED_PROXIES` autorise le protocole.
+MEP-009 refuse au démarrage un pair HTTP non couvert par LOGIN, les réseaux LOGIN universels
+et une confiance LOGIN sans proxy HTTP ; les intermédiaires supplémentaires restent permis dans LOGIN.
 
 Le proxy TLS transmet le `Host` public, port compris, et **remplace** `X-Forwarded-Proto`
 par une valeur unique, exactement `https` ou `http`, calculée sur sa connexion entrante.

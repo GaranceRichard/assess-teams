@@ -1,4 +1,3 @@
-import os
 import sqlite3
 import subprocess
 import sys
@@ -7,6 +6,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import pytest
+
+from tests.startup_helpers import production_environment
 
 SCRIPT = """
 import os
@@ -74,9 +75,8 @@ def test_abrupt_process_exit_recovers_sqlite_without_partial_business_data(envir
             [sys.executable, "-c", SCRIPT],
             cwd=backend,
             env={
-                **os.environ,
+                **production_environment(),
                 "DJANGO_SETTINGS_MODULE": f"config.settings_{environment}",
-                "DJANGO_SECRET_KEY": "transaction-test-" + "only",
                 "APP_BASE_URL": f"{'https' if environment == 'production' else 'http'}://testserver",
                 "TRANSACTION_TEST_DB": str(database),
             },

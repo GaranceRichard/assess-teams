@@ -112,3 +112,5 @@ Les journaux HTTP et métier, transactions, contrôles d’accès et workers SMT
 
 [MEP-036 — Inventaire des paramètres](../operations/configuration/README.md) recense sources, défauts,
 obligations et risques de production pour MEP-009, sans modifier les réglages existants.
+Le [contrôle MEP-009](../operations/configuration/startup-security.md) valide ensuite secrets,
+SMTP et protections HTTP effectives au démarrage Django, sans accès réseau ni migration.

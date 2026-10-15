@@ -5,6 +5,7 @@ import pytest
 from django.core.exceptions import ImproperlyConfigured
 
 from config.http_security import production_http_settings
+from tests.startup_helpers import configure_production
 
 pytestmark = pytest.mark.functional
 
@@ -81,10 +82,10 @@ def test_unsafe_configuration_prevents_startup(name, value):
 
 
 def test_production_module_installs_http_boundary(monkeypatch):
+    configure_production(monkeypatch)
     for name in ["DJANGO_ALLOWED_HOSTS", "DJANGO_CSRF_TRUSTED_ORIGINS", "DJANGO_TRUSTED_PROXIES"]:
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("APP_BASE_URL", "https://assess.example")
-    monkeypatch.setenv("DJANGO_SECRET_KEY", "production-test-key")
     module = runpy.run_path(
         str(Path(__file__).resolve().parents[1] / "config/settings_production.py")
     )

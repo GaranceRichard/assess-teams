@@ -1,5 +1,4 @@
 import importlib
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -17,6 +16,7 @@ from development_data.management.commands.seed_development_users import (
 from identities.domain.users import Role
 from identities.models import User
 from tests.identity_helpers import TEST_CREDENTIAL, create_user
+from tests.startup_helpers import configure_production, production_environment
 
 
 @pytest.mark.django_db
@@ -113,7 +113,7 @@ def test_bootstrap_is_blocked_in_production() -> None:
 
 
 def test_production_settings_do_not_load_development_mechanism(monkeypatch) -> None:
-    monkeypatch.setenv("DJANGO_SECRET_KEY", "production-test-key")
+    configure_production(monkeypatch)
     monkeypatch.setenv("APP_BASE_URL", "https://assess-teams.example")
     production = importlib.import_module("config.settings_production")
 
@@ -124,9 +124,8 @@ def test_production_settings_do_not_load_development_mechanism(monkeypatch) -> N
 
 def test_manage_py_defaults_to_production_without_seed_command() -> None:
     backend = Path(__file__).resolve().parents[1]
-    environment = os.environ.copy()
+    environment = production_environment()
     environment.pop("DJANGO_SETTINGS_MODULE", None)
-    environment["DJANGO_SECRET_KEY"] = "production-test-key"
     environment["APP_BASE_URL"] = "https://assess-teams.example"
 
     environment_result = subprocess.run(

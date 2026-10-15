@@ -80,6 +80,9 @@ Aucun broker, fournisseur de messagerie ou service externe supplémentaire n’e
 Le relais SMTP interne se configure avec `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`,
 `EMAIL_USE_SSL`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` et `DEFAULT_FROM_EMAIL`.
 TLS explicite et SSL implicite sont exclusifs ; SMTP interne sans authentification accepte des credentials vides.
+Les [contrôles MEP-009](../operations/configuration/startup-security.md) valident ces paramètres au
+démarrage : expéditeur explicite hors développement, credential externe fort et TLS obligatoire
+hors loopback ou avec authentification. Protection et rotation sont décrites dans ce contrat.
 Le timeout réseau reste borné à dix secondes par opération socket. Les workers traitent cent jobs par passe.
 L’URL publique `APP_BASE_URL` reste configurée comme dans la [gestion du mot de passe](password-management.md).
 

@@ -23,7 +23,7 @@ LOGIN_TRUSTED_PROXIES = [
 try:
     for proxy in LOGIN_TRUSTED_PROXIES:
         ip_network(proxy)
-except ValueError as error:
+except ValueError:
     raise ImproperlyConfigured(
         "LOGIN_TRUSTED_PROXIES exige des IP ou réseaux CIDR valides."
-    ) from error
+    ) from None

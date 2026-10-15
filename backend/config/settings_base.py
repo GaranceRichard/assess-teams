@@ -10,6 +10,7 @@ from config.login_security import (  # noqa: F401
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 INSTALLED_APPS = [
+    "config.apps.ConfigurationConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

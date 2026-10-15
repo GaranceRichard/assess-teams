@@ -41,6 +41,8 @@ MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notif
 
 [MEP-036 — Inventaire des paramètres](docs/operations/configuration/README.md) établit un inventaire exhaustif des paramètres sensibles et des valeurs par défaut (Django, environnement, scripts, SMTP, SQLite, TLS et proxy), avec sources, obligations de production et risques pour MEP-009, sans modification applicative ni secret réel.
 
+[MEP-009 — Configuration sûre au démarrage](docs/operations/configuration/startup-security.md) refuse les secrets absents/faibles/de développement et les combinaisons DEBUG, SMTP et proxy dangereuses, avec diagnostics confidentiels, droits et rotation documentés à partir de MEP-036.
+
 ## Validations proportionnées
 
 Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés ; la [CI parallèle](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent documentés. Les tests de configuration vérifient aussi leur indépendance de l’état Django et de l’ordre des shards.

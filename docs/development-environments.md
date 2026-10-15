@@ -15,7 +15,8 @@ Django utilise deux modules de réglages sans détection implicite :
 
 `manage.py` utilise par défaut `config.settings`, alias vers la production ; ASGI et WSGI sélectionnent
 directement `config.settings_production`. Une sélection externe `DJANGO_SETTINGS_MODULE` est respectée.
-Une exécution de production doit fournir `DJANGO_SECRET_KEY` et une `APP_BASE_URL` HTTPS exacte.
+Une exécution de production doit fournir `DJANGO_SECRET_KEY` aléatoire, une `APP_BASE_URL` HTTPS
+exacte et `DEFAULT_FROM_EMAIL` explicite hors développement ; [refus et rotation MEP-009](operations/configuration/startup-security.md).
 Les listes `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DJANGO_TRUSTED_PROXIES`
 restreignent hôtes, origines et pairs proxy ; leurs défauts et refus sont décrits dans la
 [sécurisation HTTP](architecture/http-security.md). `DEFAULT_FROM_EMAIL` est une adresse d'expéditeur.

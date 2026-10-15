@@ -102,3 +102,7 @@ Le [Job 1.2 / MEP-002](../architecture/http-security.md) ajoute les tests de con
 HTTPS direct et proxy IPv4/IPv6, refus de headers falsifiés, cookies/cache et redirections fixes.
 Les tests API traversent session réelle, CSRF et origine/referrer avec preuve d'absence de mutation
 après refus ; les E2E existants restent exécutés dans l'environnement HTTP local.
+
+Les [preuves MEP-009](../operations/configuration/startup-validation.md) couvrent les démarrages
+réels Django/WSGI/ASGI/workers, les refus de configuration et la confidentialité des diagnostics.
+Les clés synthétiques acceptées sont générées à l'exécution, jamais des secrets MESS.

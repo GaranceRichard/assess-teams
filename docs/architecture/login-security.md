@@ -75,6 +75,8 @@ Le proxy doit écraser ou compléter correctement `X-Forwarded-For` à partir de
 l'accès direct au backend doit être limité conformément à l'installation.
 Exemple pour un proxy local maîtrisé : `LOGIN_TRUSTED_PROXIES=127.0.0.1/32,::1/128`.
 Sans ce réglage, les utilisateurs derrière le proxy partagent son compteur d'origine.
+En production, [MEP-009](../operations/configuration/startup-security.md) refuse les réseaux
+universels et exige une couverture cohérente des pairs HTTP par cette liste LOGIN.
 Un NAT d'entreprise partage également ce compteur : ajuster le seuil d'origine à l'usage.
 
 ## Preuves et revue documentaire
