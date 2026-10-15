@@ -88,3 +88,15 @@ publication refusée et cohérence du candidat. Un vrai rebase Git documentaire 
 un rebase apportant une dépendance l'invalide. Les tests YAML préservent déclencheurs, SHA, shards et rapports.
 Les exécutions distantes de livraison sont consultables dans Actions ; un résultat rouge reste bloquant.
 Les limites de protection du push direct et de remise MESS hors dépôt sont explicites dans [CI](ci.md).
+
+## Publication réelle du pipeline
+
+Le commit `22c0bfaa3bdf649da93822eff0a78a85dca2d500` a passé le pré-push exhaustif :
+1 029 tests backend (97,27 % de couverture), 393 frontend et 73 E2E, avec tous les statiques.
+La [CI indépendante 38809104099](https://github.com/GaranceRichard/assess-teams/actions/runs/38809104099)
+a réussi sur ce même SHA, y compris les fusions backend/E2E et le required impact gate.
+Cette campagne transversale a pris 308 s murales et 1157 s cumulées de jobs, contre 275 s et 1 264 s initialement.
+Aucun gain n'est revendiqué pour l'exhaustif : le plan et l'identification du candidat ajoutent des étapes,
+et les durées des runners varient. Les économies viennent de la sélection des changements ordinaires.
+L'ajout documentaire de ce compte rendu sert aussi de publication réelle sans tests applicatifs.
+Le déclenchement manuel du workflow exhaustif et le gate de promotion sont vérifiés séparément sur le SHA final.
