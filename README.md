@@ -45,7 +45,7 @@ MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notif
 
 ## Validations proportionnées
 
-Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés ; la [CI parallèle](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent documentés. Les tests de configuration vérifient aussi leur indépendance de l’état Django et de l’ordre des shards.
+Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés ; la [CI parallèle](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent documentés. Les tests de configuration restent indépendants de l’état Django et de l’ordre des shards ; les probes SQLite sont isolées pour terminer leurs auxiliaires avant la fusion de couverture.
 
 ## Socle technique
 

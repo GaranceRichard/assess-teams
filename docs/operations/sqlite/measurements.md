@@ -107,3 +107,18 @@ Le plafond synthétique DELETE observé d’environ 50 transactions/s dépend du
 et du disque : il ne vaut ni objectif MESS ni garantie. L’absence de corruption ici ne qualifie pas WAL 3.49.1.
 La recette sur la machine MESS doit reprendre ces essais et ajouter les parcours réels et leur volumétrie.
 MEP-010/040 traiteront les refus et conflits ; MEP-071 qualifiera la stabilité cible.
+
+## Régression CI — durée de vie des processus auxiliaires
+
+La [CI initiale c7cf5bf](https://github.com/GaranceRichard/assess-teams/actions/runs/38733045558)
+a passé tous les tests mais refusé la fusion globale : les trois fichiers attendus étaient présents
+à leur emplacement normal et le shard 1 ajoutait un fragment `.coverage.1.<hôte>.<pid>...`, sans ligne ni arc exécuté.
+Les artefacts téléchargés n’ont pas de chemin `backend/coverage` doublé. Modifier le chemin de téléchargement
+ne corrigerait pas ce fichier supplémentaire.
+
+Les probes sont désormais exécutées via `tests/sqlite_probe_helpers.py` dans un interpréteur isolé.
+L’attente des deux flux capturés termine aussi les auxiliaires `multiprocessing` (dont le `resource_tracker`
+POSIX) avant la fusion pytest-cov du shard appelant. Les scénarios, assertions et mesures restent identiques.
+La vérification ciblée sous coverage exige un seul fichier consolidé, sans fragment tardif.
+La fusion CI stricte des trois shards reste la preuve de non-régression sur Linux ; aucun fichier inconnu
+n’est ignoré, aucun chemin recherché récursivement et aucun seuil abaissé.
