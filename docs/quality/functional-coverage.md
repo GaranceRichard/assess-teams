@@ -54,6 +54,9 @@ les sources, la migration des erreurs historiques, le filtre de niveau et l’ab
 traceback, secret, token, cookie ou credential exposé. Les tests React vérifient en plus que INFO reste discret,
 WARNING identifiable et que toute ligne ERROR reçoit le traitement rouge accessible en modes jour et nuit.
 
+Les [preuves MEP-039](../operations/sqlite/measurements.md) couvrent les processus sur fichier,
+les refus de verrou, les PRAGMA Django, select_for_update et une passation API avec deux workers.
+
 Le [Job 1.3 / MEP-003](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvre les écritures métier atomiques, le Journal, les relations et l’arrêt brutal SQLite ; Playwright vérifie le refus de finalisation puis sa reprise sans perte des notes.
 
 La passation couvre accès assigné/Admin/Superadmin, refus Viewer et hors organisation, ordre et snapshot des

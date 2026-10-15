@@ -26,13 +26,13 @@ Les constantes B s'appliquent aux deux environnements sauf surcharge D/P.
 | `DATABASES.default.ENGINE` | B | `django.db.backends.sqlite3` | P | Fixe, SQLite permanent |
 | `DATABASES.default.NAME` | B / D | `BASE_DIR/db.sqlite3` ; D peut surcharger via ASSESS_E2E_DB | I | Exploitation : persistance/droits/backups ; R07 |
 | `ASSESS_E2E_DB` | D | absent : DB ordinaire ; chemin non vide : DB E2E | I | Interdit ; ignoré par P |
-| `DATABASES.default.OPTIONS` | B absent | `{}` ajouté par Django, aucune variable SQLite lue | C | Défaut ; MEP-039 qualifie les options |
-| `OPTIONS.timeout` | Python sqlite3, non surchargé | 5 s d'attente de verrou | C | Défaut ; à qualifier MEP-039 |
-| `OPTIONS.transaction_mode` / `init_command` | backend SQLite Django | `None` (BEGIN différé) / chaîne vide ; pas d'initialisation WAL explicite | C | Défaut ; à qualifier MEP-039 |
+| `DATABASES.default.OPTIONS` | B | timeout, transaction_mode et init_command explicites ; aucune variable SQLite lue | C | [Référence mesurée MEP-039](../sqlite/README.md) |
+| `OPTIONS.timeout` | B | 5 s d’attente SQLite, pas une deadline HTTP | C | Référence MEP-039 ; refus d’upgrade possible avant ce délai |
+| `OPTIONS.transaction_mode` / `init_command` | B | `DEFERRED` / `PRAGMA journal_mode=DELETE; PRAGMA synchronous=FULL;` | C | Explicite à chaque connexion |
 | `PRAGMA foreign_keys` / `legacy_alter_table` | backend SQLite Django | `ON` / `OFF` à chaque connexion | C | Défaut moteur conservé |
-| `journal_mode` / `synchronous` | fichier/moteur SQLite | non fixés par le dépôt ; état réel non inspecté | C | Exploitation ; aucune valeur runtime présumée |
-| `DATABASES.default.ATOMIC_REQUESTS` / `AUTOCOMMIT` | Django ConnectionHandler | `False` / `True` | C | Défaut ; transactions métier explicites préservées |
-| `DATABASES.default.CONN_MAX_AGE` / `CONN_HEALTH_CHECKS` | Django ConnectionHandler | `0` / `False` | P | Défaut |
+| `journal_mode` / `synchronous` | B, init_command | `DELETE` / `FULL` ; testés sur fichier | C | WAL non retenu ; contrôle du fichier cible au déploiement |
+| `DATABASES.default.ATOMIC_REQUESTS` / `AUTOCOMMIT` | B / Django ConnectionHandler | `False` explicite / `True` par défaut | C | Transactions métier explicites préservées |
+| `DATABASES.default.CONN_MAX_AGE` / `CONN_HEALTH_CHECKS` | B / Django ConnectionHandler | `0` explicite / `False` par défaut | P | Fin de requête ; workers : fermeture à chaque passe |
 | `DATABASES.default.USER` / `PASSWORD` / `HOST` / `PORT` | Django ConnectionHandler | chaînes vides ; SQLite fichier n'utilise pas ces credentials | S/I | Sans objet pour SQLite |
 | `DATABASES.default.TIME_ZONE` / `DATABASE_ROUTERS` | Django ConnectionHandler / G | `None` / `[]` | P | Défaut |
 | `DATABASES.default.TEST.CHARSET` / `COLLATION` / `MIGRATE` / `MIRROR` | Django ConnectionHandler | `None` / `None` / `True` / `None` | P | N/A tests |

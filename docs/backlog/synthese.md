@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 1 | 8 % |
+| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 3 | 25 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 0 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 0 | 0 % |
@@ -115,10 +115,11 @@ La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
 Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison progressive, sans ordre de Jobs.
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
+MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées ; MEP-010/040 restent ouverts.
 
 | Périmètre | PBI | Réalisés | Ouverts | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 2 | 60 | 0 | 3 % |
+| MESS actif — E01 à E04 | 62 | 3 | 59 | 0 | 5 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -160,14 +161,14 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 68 |
+| PBIs ouverts | 67 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 69 |
-| PBIs réalisés | 27 |
-| Avancement global | 28 % |
+| PBIs non réalisés | 68 |
+| PBIs réalisés | 28 |
+| Avancement global | 29 % |
 
-Scoring courant : 34 PBI fonctionnels + 62 PBI MESS ; 27 réalisés. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring courant : 34 PBI fonctionnels + 62 PBI MESS ; 28 réalisés. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 

@@ -30,6 +30,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Charte qualité](quality/quality-charter.md)
 - [Definition of Done](quality/definition-of-done.md)
 - [Stratégie de tests](quality/test-strategy.md)
+- [Référence de concurrence SQLite MEP-039 et mesures](operations/sqlite/README.md)
 - [CI parallèle, audit et required checks](quality/ci.md)
 
 ## Développement

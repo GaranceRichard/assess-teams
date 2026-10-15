@@ -56,7 +56,9 @@ Une écriture refusée annule ces dépendances et ne soumet aucun courriel au re
 Les remises incertaines après interruption sont isolées pour vérification SMTP avant reprise ;
 les messages déjà acceptés ne sont pas volontairement renvoyés. SMTP ne garantit pas une remise
 exactement une fois sans coopération du relais.
-Les optimisations de contention, sauvegarde/restauration et changement de moteur sont hors périmètre.
+La [référence MEP-039](../operations/sqlite/README.md) qualifie timeout, journal et connexions sur fichier.
+Les reprises de contention et conflits restent MEP-010/040 ; sauvegarde/restauration restent distinctes.
+SQLite demeure définitivement le moteur de production.
 
 ## Preuves et revue documentaire
 

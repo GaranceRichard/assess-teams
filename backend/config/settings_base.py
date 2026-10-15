@@ -59,6 +59,13 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        "CONN_MAX_AGE": 0,
+        "ATOMIC_REQUESTS": False,
+        "OPTIONS": {
+            "timeout": 5,
+            "transaction_mode": "DEFERRED",
+            "init_command": "PRAGMA journal_mode=DELETE; PRAGMA synchronous=FULL;",
+        },
     }
 }
 

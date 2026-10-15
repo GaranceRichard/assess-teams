@@ -104,7 +104,9 @@ accepte le protocole forwarded uniquement des pairs proxy explicitement autoris�
 
 Le [backlog de préparation MESS](../backlog/source/07-pre-mep.md) organise les travaux restants par
 Epic → Feature → PBI ; le socle fonctionnel et les preuves livrées restent distincts de la qualification cible.
-SQLite demeure la base permanente en production. La cible on-premise MESS doit être installable et
+SQLite demeure la base permanente en production. La [référence MEP-039](../operations/sqlite/README.md)
+fixe DELETE/FULL, timeout 5 s, connexions API/workers et limites mesurées sur fichier réel.
+La cible on-premise MESS doit être installable et
 exploitable hors ligne sans Docker ni Node/npm ; build React et dépendances Python se préparent ailleurs.
 Configuration unique, package autonome, installation, opérations et reprise restent à livrer/qualifier
 selon le contrat MESS, sans annoncer leur disponibilité par cette refonte documentaire.

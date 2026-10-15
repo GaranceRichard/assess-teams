@@ -1,6 +1,7 @@
 import time
 
 from django.core.management.base import BaseCommand
+from django.db import close_old_connections
 
 from identities.application.password_delivery import deliver_pending_password_emails
 
@@ -15,7 +16,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         while True:
-            counts = deliver_pending_password_emails()
+            close_old_connections()
+            try:
+                counts = deliver_pending_password_emails()
+            finally:
+                close_old_connections()
             if not options["watch"]:
                 self.stdout.write(f"Récupération : {counts}")
                 return

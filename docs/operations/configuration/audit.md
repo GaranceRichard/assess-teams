@@ -25,6 +25,10 @@ R07/R08 constatent une frontière de capacités, sans présumer un défaut d'inf
 
 ## Matrice des critères et des vrais refus
 
+Actualisation MEP-039 du 2026-10-15 : la partie concurrence de R07 est qualifiée dans la
+[référence SQLite](../sqlite/README.md), avec paramètres explicites et mesures sur fichiers jetables.
+Le constat historique ci-dessus est conservé ; chemin de production, rétention et sauvegarde restent ouverts.
+
 | Usage / critère | Vérification / preuve |
 | --- | --- |
 | CU01, couverture settings/env/scripts/SMTP/SQLite/TLS/proxy | Relecture des sources suivies et dépendances locales ; rapprochement des noms AST settings/imports/retours H et variables nommées vers les tableaux ; aucun nom manquant |

@@ -25,7 +25,7 @@ n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifi�
 
 - [01.03 — MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) : prérequis AUTH-001, ORG-005, ORG-006, COACH-001.
 - [01.04 — MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) : prérequis MEP-008, USER-004.
-- [02.01 — MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) : prérequis MEP-003.
+- [02.02 — MEP-010 — Gérer les verrous et les transactions concurrentes](../source/mess/f02.md) : prérequis MEP-039 et MEP-003 réalisés ; MEP-040 attend encore MEP-010.
 - [03.02 — MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) : prérequis JOURNAL-001, JOURNAL-002.
 - [04.01 — MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) : prérequis aucune.
 - [05.01 — MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-007.

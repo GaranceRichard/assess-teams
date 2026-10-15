@@ -47,7 +47,7 @@ Ils vérifient les collaborations réelles significatives, en particulier :
 - React + couche API ;
 - frontend + backend.
 
-SQLite reste la base de référence en développement et production. Les [preuves transactionnelles du Job 1.3](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvrent rollback API/ORM, relations, provenance, panne réseau et arrêt brutal sur fichier, dans les deux configurations.
+SQLite reste la base de référence en développement et production. Les [preuves transactionnelles du Job 1.3](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvrent rollback API/ORM, relations, provenance, panne réseau et arrêt brutal sur fichier, dans les deux configurations. La [qualification MEP-039](../operations/sqlite/measurements.md) couvre paramètres, contention API/workers, connexions et refus sur fichier avec processus distincts.
 
 ### Tests de contrat
 

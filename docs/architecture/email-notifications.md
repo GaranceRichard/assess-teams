@@ -84,6 +84,8 @@ Les [contrôles MEP-009](../operations/configuration/startup-security.md) valide
 démarrage : expéditeur explicite hors développement, credential externe fort et TLS obligatoire
 hors loopback ou avec authentification. Protection et rotation sont décrites dans ce contrat.
 Le timeout réseau reste borné à dix secondes par opération socket. Les workers traitent cent jobs par passe.
+La [référence SQLite MEP-039](../operations/sqlite/README.md) libère les connexions avant/après chaque passe,
+y compris sur exception ; le transport ne conserve aucun verrou transactionnel.
 L’URL publique `APP_BASE_URL` reste configurée comme dans la [gestion du mot de passe](password-management.md).
 
 En production, les requêtes métier font uniquement la mise en file (`EMAIL_DELIVER_ON_COMMIT=False`).

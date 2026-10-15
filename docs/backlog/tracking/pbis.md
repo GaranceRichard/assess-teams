@@ -68,5 +68,5 @@ Les Jobs et FEAT-042 à FEAT-048 ne sont plus des unités actives. Le suivi cour
 se trouve exclusivement dans les sections MESS ci-dessus ; leurs anciennes valeurs restent archivées.
 03.01 référence JOURNAL-001/002 déjà réalisés ; aucun nouveau PBI de journalisation n’est créé.
 [MEP-041 — ancien alias et métadonnées conservées](mess-doublons-historique.md) est hors du suivi actif.
-Le MESS compte 62 PBI actifs : 60 Ouverts et 2 Réalisés (MEP-036 — Inventaire des paramètres ; MEP-009 — Secrets et démarrage) ; les 63 points initiaux restent couverts.
+Le MESS compte 62 PBI actifs : 59 Ouverts et 3 Réalisés (MEP-036 — Inventaire ; MEP-009 — Secrets et démarrage ; MEP-039 — Paramètres SQLite) ; les 63 points initiaux restent couverts.
 L’[audit](../planning/mess-audit.md) distingue comptage, validation du périmètre et consolidation.

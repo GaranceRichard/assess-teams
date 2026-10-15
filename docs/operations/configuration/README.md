@@ -5,6 +5,8 @@ Audit documentaire du 2026-10-14 sur `origin/main` à `fd6a533`, pour
 Les sources relatives du présent dossier pointent vers les fichiers audités ; aucune valeur de configuration
 réelle MESS, variable du processus, base métier, boîte mail ou fichier `.env` privé n'a été extraite dans l'inventaire.
 Les valeurs ci-dessous sont exclusivement des constantes publiques ou des descriptions masquées.
+Les lignes SQLite sont actualisées par la [qualification MEP-039](../sqlite/README.md) du 2026-10-15 ;
+le rapport d’audit conserve ses constats historiques et indique les suites livrées.
 
 ## Lecture de l'inventaire
 
