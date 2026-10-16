@@ -1,8 +1,9 @@
 import time
 
 from django.core.management.base import BaseCommand
-from django.db import close_old_connections
+from django.db import OperationalError, close_old_connections
 
+from config.sqlite_contention import worker_contention
 from notifications.delivery import deliver_pending_emails
 
 
@@ -17,6 +18,8 @@ class Command(BaseCommand):
             close_old_connections()
             try:
                 counts = deliver_pending_emails()
+            except OperationalError as error:
+                raise worker_contention(error, "notification_delivery") from None
             finally:
                 close_old_connections()
             if counts or not options["watch"]:

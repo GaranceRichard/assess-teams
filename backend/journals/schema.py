@@ -1,3 +1,4 @@
+from config.sqlite_contention import CONTENTION_FAILED
 from journals.exceptions import OPERATION_FAILED
 
 
@@ -12,7 +13,10 @@ def operation_errors(result, generator, request, public):
             operation["responses"].setdefault(
                 "500",
                 {
-                    "description": "Erreur interne : opération non réalisée.",
+                    "description": (
+                        "Erreur interne : opération non réalisée. "
+                        f"Contention SQLite : {CONTENTION_FAILED}"
+                    ),
                     "content": {
                         "application/json": {
                             "schema": {

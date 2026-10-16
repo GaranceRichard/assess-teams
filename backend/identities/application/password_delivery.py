@@ -1,10 +1,10 @@
 from datetime import timedelta
 
 from django.conf import settings
-from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
 
+from config.sqlite_contention import retryable_sqlite_atomic
 from identities.application.passwords import public_password_url
 from identities.models import User
 from identities.password_models import PasswordResetDelivery
@@ -15,7 +15,7 @@ from notifications.models import DeliveryState
 from notifications.transport import send_email
 
 
-@transaction.atomic
+@retryable_sqlite_atomic
 def claim_password_email(delivery_id: int):
     PasswordResetDelivery.objects.filter(pk=delivery_id).update(attempts=F("attempts"))
     delivery = PasswordResetDelivery.objects.select_for_update().filter(pk=delivery_id).first()

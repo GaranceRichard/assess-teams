@@ -1,7 +1,7 @@
 # MEP-039 — Référence de concurrence SQLite MESS
 
 SQLite reste définitivement le moteur de production. Cette référence qualifie les paramètres ;
-elle ne livre ni reprise de contention (MEP-010), ni arbitrage des mutations incompatibles (MEP-040).
+les [corrections MEP-010](contention.md) complètent cette référence ; les conflits métier restent MEP-040.
 [Mesures et protocole](measurements.md) ; [résultats bruts JSONL](mep-039-measurements.jsonl).
 
 ## Configuration appliquée
@@ -12,7 +12,7 @@ et production, sans variable nouvelle, dépendance supplémentaire, serveur ou a
 | Paramètre | Référence | Justification / limite |
 | --- | --- | --- |
 | Moteur / fichier | `django.db.backends.sqlite3`, `backend/db.sqlite3` | Fichier local partagé par API et workers sur une même machine |
-| `OPTIONS.timeout` | 5 secondes | 100 ms refuse un verrou de 200 ms ; 1 s et 5 s attendent avec succès. Conserver 5 s laisse une marge aux rafales, sans multiplier l’attente par un retry |
+| `OPTIONS.timeout` | 5 secondes | 100 ms refuse un verrou de 200 ms ; 1 s et 5 s attendent avec succès. Conserver 5 s laisse une marge aux rafales ; reprises bornées MEP-010 distinctes |
 | `OPTIONS.init_command` | `PRAGMA journal_mode=DELETE; PRAGMA synchronous=FULL;` | État explicite, journal rollback qualifié ; synchronisation durable conservée |
 | `OPTIONS.transaction_mode` | `DEFERRED` | Conserve les frontières MEP-003 et leurs savepoints ; une lecture préalable peut rendre l’attente de verrou inopérante |
 | `ATOMIC_REQUESTS` / autocommit | `False` / défaut Django `True` | Blocs métier explicites ; aucune transaction élargie à toute requête |
@@ -22,7 +22,7 @@ et production, sans variable nouvelle, dépendance supplémentaire, serveur ou a
 
 Le timeout est une attente SQLite, pas une borne HTTP de cinq secondes : les expirations mesurées
 atteignent 5,62 s sur ce poste. Un refus d’upgrade après lecture peut au contraire être immédiat.
-Il ne corrige ni une transaction longue, ni un conflit métier ; aucune boucle de reprise n’est ajoutée.
+Il ne corrige ni transaction longue ni conflit métier ; les reprises opt-in bornées relèvent de [MEP-010](contention.md).
 
 ## Choix du journal et des transactions
 
@@ -38,7 +38,7 @@ Il ne nécessite jamais un changement de moteur.
 `IMMEDIATE` prend le verrou d’écriture dès l’entrée dans une transaction, y compris avant une lecture.
 Ce comportement est exercé par les probes `BEGIN IMMEDIATE` : attente possible puis refus borné.
 Le généraliser modifierait tous les blocs `atomic`, y compris ceux qui ne font finalement qu’une lecture.
-MEP-039 conserve donc `DEFERRED` ; MEP-010 dispose de la mesure et de cette limite pour gérer la contention.
+MEP-039 conserve donc `DEFERRED` ; [MEP-010](contention.md) traite les refus sans modifier ce choix.
 `EXCLUSIVE` n’est pas retenu : aucun besoin d’exclure davantage les lecteurs n’est démontré.
 Les [notes Django SQLite](https://docs.djangoproject.com/en/5.2/ref/databases/#sqlite-notes)
 décrivent ces modes, l’attente et les limites de concurrence.

@@ -41,7 +41,7 @@ Le Superadmin reste créé par `manage.py createsuperuser`, sans fonction métie
 ni superuser, ni rattachement organisationnel et n'expose aucune opération de lecture, modification ou
 suppression.
 
-Les [transactions métier SQLite](sqlite-transactions.md) protègent les écritures dépendantes et le Journal. Les erreurs internes retournent un JSON `detail` générique en HTTP 500, décrit dans OpenAPI, avec `X-Correlation-ID` ; aucun détail SQLite n’est exposé. Les [notifications fiables — MEP-004](email-notifications.md) sont persistées avec le métier, puis remises après commit : 201/200 confirment le succès métier, indépendamment du statut SMTP suivi par les workers et le Superadmin.
+Les [transactions métier SQLite](sqlite-transactions.md) protègent les écritures dépendantes et le Journal. Les erreurs internes retournent un JSON `detail` générique en HTTP 500, décrit dans OpenAPI, avec `X-Correlation-ID` ; un BUSY natif utilise « La base est occupée. Veuillez réessayer dans quelques instants. », sans détail technique ni reprise automatique ([MEP-010](../operations/sqlite/contention.md)). Les [notifications fiables — MEP-004](email-notifications.md) sont persistées avec le métier, puis remises après commit : 201/200 confirment le succès métier, indépendamment du statut SMTP suivi par les workers et le Superadmin.
 
 ## Session produit et navigation autorisée
 

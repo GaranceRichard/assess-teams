@@ -86,6 +86,8 @@ hors loopback ou avec authentification. Protection et rotation sont décrites da
 Le timeout réseau reste borné à dix secondes par opération socket. Les workers traitent cent jobs par passe.
 La [référence SQLite MEP-039](../operations/sqlite/README.md) libère les connexions avant/après chaque passe,
 y compris sur exception ; le transport ne conserve aucun verrou transactionnel.
+[MEP-010](../operations/sqlite/contention.md) reprend seulement réservation de récupération et mise en file
+d’échéance après rollback complet ; aucun rejeu après commit/SMTP. Un BUSY non résolu arrête explicitement la passe.
 L’URL publique `APP_BASE_URL` reste configurée comme dans la [gestion du mot de passe](password-management.md).
 
 En production, les requêtes métier font uniquement la mise en file (`EMAIL_DELIVER_ON_COMMIT=False`).

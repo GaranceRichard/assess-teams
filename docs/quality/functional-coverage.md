@@ -57,6 +57,9 @@ WARNING identifiable et que toute ligne ERROR reçoit le traitement rouge access
 Les [preuves MEP-039](../operations/sqlite/measurements.md) couvrent les processus sur fichier,
 les refus de verrou, les PRAGMA Django, select_for_update et une passation API avec deux workers.
 
+Les [preuves MEP-010](../operations/sqlite/contention.md) ajoutent 22 cas API/workers multiprocessus
+sur fichier (développement/production), rollback au commit, reprises bornées, non-rejeu SMTP et Journal cohérent.
+
 Le [Job 1.3 / MEP-003](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvre les écritures métier atomiques, le Journal, les relations et l’arrêt brutal SQLite ; Playwright vérifie le refus de finalisation puis sa reprise sans perte des notes.
 
 La passation couvre accès assigné/Admin/Superadmin, refus Viewer et hors organisation, ordre et snapshot des

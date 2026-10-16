@@ -3,13 +3,13 @@ from datetime import date
 from hashlib import sha256
 
 from django.conf import settings
-from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
 from django.utils.formats import date_format
 
 from assessments.application.expected_evaluations import ensure_expected_evaluation
 from assessments.models import EvaluationSchedule, ScheduleMode
+from config.sqlite_contention import retryable_sqlite_atomic
 from journals.models import LogLevel, LogSource
 from journals.services import record_log
 from notifications.queue import enqueue_email
@@ -123,7 +123,7 @@ def following_due_date(
     return candidate
 
 
-@transaction.atomic
+@retryable_sqlite_atomic
 def deliver_due_schedule(schedule: EvaluationSchedule, reference_date: date) -> bool:
     EvaluationSchedule.objects.filter(pk=schedule.pk).update(next_due_date=F("next_due_date"))
     schedule.refresh_from_db()

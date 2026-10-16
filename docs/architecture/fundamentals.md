@@ -106,6 +106,7 @@ Le [backlog de préparation MESS](../backlog/source/07-pre-mep.md) organise les 
 Epic → Feature → PBI ; le socle fonctionnel et les preuves livrées restent distincts de la qualification cible.
 SQLite demeure la base permanente en production. La [référence MEP-039](../operations/sqlite/README.md)
 fixe DELETE/FULL, timeout 5 s, connexions API/workers et limites mesurées sur fichier réel.
+[MEP-010](../operations/sqlite/contention.md) ajoute les reprises sûres bornées et les refus diagnostiqués.
 La cible on-premise MESS doit être installable et
 exploitable hors ligne sans Docker ni Node/npm ; build React et dépendances Python se préparent ailleurs.
 Configuration unique, package autonome, installation, opérations et reprise restent à livrer/qualifier

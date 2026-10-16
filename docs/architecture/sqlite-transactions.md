@@ -35,7 +35,8 @@ Les refus de validation et de permissions conservent leurs codes et messages exi
 Une exception interne, notamment une erreur SQLite, retourne HTTP 500 avec le JSON :
 `{"detail": "L’opération n’a pas pu être réalisée. Veuillez réessayer."}`.
 Le schéma OpenAPI décrit ce contrat commun ; Swagger reste accessible.
-Les détails techniques ne sont pas exposés dans cette réponse.
+Un BUSY natif conserve HTTP 500 et `detail`, avec « La base est occupée. Veuillez réessayer dans quelques instants. ».
+Les détails techniques ne sont pas exposés ; OpenAPI décrit cette variante sans nouveau contrat.
 
 Le Log HTTP est enregistré après rollback, avec `X-Correlation-ID` et contexte vérifié.
 Il peut donc tracer l'échec sans ajouter une activité de succès ni référencer une création annulée.
@@ -57,7 +58,8 @@ Les remises incertaines après interruption sont isolées pour vérification SMT
 les messages déjà acceptés ne sont pas volontairement renvoyés. SMTP ne garantit pas une remise
 exactement une fois sans coopération du relais.
 La [référence MEP-039](../operations/sqlite/README.md) qualifie timeout, journal et connexions sur fichier.
-Les reprises de contention et conflits restent MEP-010/040 ; sauvegarde/restauration restent distinctes.
+Les [reprises MEP-010](../operations/sqlite/contention.md) sont opt-in, après rollback, sans rejeu HTTP/SMTP ;
+les conflits métier restent MEP-040 et sauvegarde/restauration demeurent distinctes.
 SQLite demeure définitivement le moteur de production.
 
 ## Preuves et revue documentaire
