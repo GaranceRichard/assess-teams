@@ -45,6 +45,8 @@ Les raisons et frontières exactes figurent dans la [matrice](validation-costs.m
 | CU12 | `impact-git` : même vrai diff avant/après commit ; `sensitive-impact` et `impact-execution` : jobs requis, refus et skips |
 
 115 tests Node des scripts qualité passent ; les quatre invariants Python des workflows passent.
+Le fixture PowerShell des scopes exige aussi les nouvelles suites ; son ancienne attente a bloqué
+la première tentative de publication, avant tout push, puis a été corrigée et revérifiée.
 Les essais applicatifs ciblés exécutent réellement 46 tests backend et 103 tests frontend, tous réussis.
 Ruff, formatage, migrations et contrôles documentaires sont inclus dans ces essais selon leur scope.
 Le lot modifie l'infrastructure : son propre plan est exhaustif. Le pré-push et la CI du SHA publié
@@ -132,6 +134,7 @@ node --test scripts/quality/tests/*.test.mjs
 - `scripts/quality/tests/evidence-regression.test.mjs`
 - `scripts/quality/tests/impact-git.test.mjs`
 - `scripts/quality/tests/impact.test.mjs`
+- `scripts/quality/tests/scopes.tests.ps1`
 - `scripts/quality/tests/runtime-inputs.test.mjs`
 - `scripts/quality/tests/sensitive-impact.test.mjs`
 - `scripts/quality/tests/validation-policy.test.mjs`
