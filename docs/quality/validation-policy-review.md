@@ -50,6 +50,9 @@ la première tentative de publication, avant tout push, puis a été corrigée e
 Le runner Linux fournit `LD_LIBRARY_PATH` : le test de cache local isole désormais ses chargeurs
 externes, et un cas distinct impose le frais avec un chargeur externe. Le garde-fou de production
 reste inchangé ; la CI initiale a refusé cette attente de test incohérente.
+Le fixture existant de bootstrap a présenté un signal worker manquant intermittent. Ses traces
+concurrentes sont désormais atomiques par PID : délai de cinq secondes, cinq appels exacts, ordre,
+absence de doublons et arrêt des workers restent contrôlés. Aucun worker applicatif n'est modifié.
 Les essais applicatifs ciblés exécutent réellement 46 tests backend et 103 tests frontend, tous réussis.
 Ruff, formatage, migrations et contrôles documentaires sont inclus dans ces essais selon leur scope.
 Le lot modifie l'infrastructure : son propre plan est exhaustif. Le pré-push et la CI du SHA publié
@@ -130,6 +133,7 @@ node --test scripts/quality/tests/*.test.mjs
 - `docs/quality/validation-policy-metrics.jsonl`
 - `docs/quality/validation-policy-plans.json`
 - `docs/quality/validation-policy-review.md`
+- `scripts/bootstrap/tests/backend.tests.ps1`
 - `scripts/quality.ps1`
 - `scripts/quality/benchmark.mjs`
 - `scripts/quality/impact-classification.mjs`

@@ -37,7 +37,7 @@ try {
     $changed = & $bootstrap -Root $testRoot 6>&1 | Out-String
     Assert-True ($changed.Contains('requirements modifies')) 'Le changement de requirements est ignore.'
 
-    $records = Join-Path $backend 'runtime-records.jsonl'
+    $records = Join-Path $backend 'runtime-records'
     $manage = @'
 import json
 import pathlib
@@ -45,15 +45,19 @@ import sys
 import os
 import time
 
-record = {"args": sys.argv[1:], "prefix": str(pathlib.Path(sys.prefix).resolve()), "pid": os.getpid()}
-with open(pathlib.Path(__file__).with_name("runtime-records.jsonl"), "a", encoding="utf-8") as stream:
-    stream.write(json.dumps(record) + "\n")
+record = {"args": sys.argv[1:], "prefix": str(pathlib.Path(sys.prefix).resolve()),
+          "pid": os.getpid(), "started": time.monotonic_ns()}
+records = pathlib.Path(__file__).with_name("runtime-records")
+records.mkdir(exist_ok=True)
+path = records / f"{sys.argv[1]}-{os.getpid()}.json"
+temporary = path.with_suffix(".tmp")
+temporary.write_text(json.dumps(record), encoding="utf-8")
+temporary.replace(path)
 if sys.argv[1] in {"send_password_reset_emails", "send_pending_notifications"}:
     time.sleep(60)
 if sys.argv[1] == "runserver":
-    records = pathlib.Path(__file__).with_name("runtime-records.jsonl")
     deadline = time.monotonic() + 5
-    while not all(command in records.read_text(encoding="utf-8") for command in
+    while not all(list(records.glob(f"{command}-*.json")) for command in
                   ["send_password_reset_emails", "send_pending_notifications"]):
         if time.monotonic() > deadline:
             raise RuntimeError("Email worker missing")
@@ -61,7 +65,9 @@ if sys.argv[1] == "runserver":
 '@
     Set-Content (Join-Path $backend 'manage.py') $manage
     & $dev -Root $testRoot -NoReload
-    $calls = @(Get-Content $records | ForEach-Object { $_ | ConvertFrom-Json })
+    $calls = @(Get-ChildItem -LiteralPath $records -Filter '*.json' |
+        ForEach-Object { Get-Content -LiteralPath $_.FullName -Raw | ConvertFrom-Json } |
+        Sort-Object started)
     Assert-True ($calls.Count -eq 5) 'Django ne lance pas migrate, seed, deux workers et runserver.'
     foreach ($command in @('send_password_reset_emails', 'send_pending_notifications')) {
         $worker = @($calls | Where-Object { $_.args[0] -eq $command })
