@@ -1,3 +1,5 @@
+import { planImpact } from "../impact.mjs";
+import { validatePlan } from "../selective.mjs";
 import assert from "node:assert/strict";
 import { mkdirSync, writeFileSync, utimesSync, rmSync } from "node:fs";
 import { join } from "node:path";
@@ -8,7 +10,7 @@ import {
   unboundedPython,
 } from "../runtime-inputs.mjs";
 import { fingerprint } from "../impact-runner.mjs";
-import { fixture } from "./validation-fixtures.mjs";
+import { fixture, boundedEnvironment } from "./validation-fixtures.mjs";
 
 test("CU03: installed bytes invalidate even when version and file timestamps stay identical", () =>
   fixture((root) => {
@@ -107,3 +109,32 @@ test("audited wheel loaders are bounded; editable packages or unknown .pth requi
       true,
     );
   }));
+
+test("external runtime loaders force fresh selected checks and cannot reuse local evidence", () =>
+  boundedEnvironment(() =>
+    fixture((root) => {
+      process.env.NODE_PATH = "/unbounded/external/modules";
+      const plan = planImpact(["backend/tests/test_health.py"]);
+      const calls = [];
+      const options = {
+        key: () => {
+          throw Error("unbounded inputs cannot use a cached fingerprint");
+        },
+        run: (scope) => {
+          calls.push(scope);
+          return 0;
+        },
+      };
+      const range = { base: "base", candidate: "candidate" };
+      assert.equal(validatePlan(root, range, plan, options), 0);
+      assert.equal(validatePlan(root, range, plan, options), 0);
+      assert.deepEqual(calls, [
+        "documentation",
+        "backend-static",
+        "backend-targeted",
+        "documentation",
+        "backend-static",
+        "backend-targeted",
+      ]);
+    }),
+  ));

@@ -1,3 +1,4 @@
+import { requiresFreshRuntime } from "../runtime-inputs.mjs";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -24,4 +25,23 @@ export function options(root, calls, extra = {}) {
     },
     ...extra,
   };
+}
+
+// A simulated local cache must not inherit external loaders from the CI host.
+// Preserve and restore only these variables; never weaken the production guard.
+export function boundedEnvironment(action) {
+  const loaders = () =>
+    Object.keys(process.env).filter((name) =>
+      requiresFreshRuntime({ [name]: "present" }),
+    );
+  const saved = Object.fromEntries(
+    loaders().map((name) => [name, process.env[name]]),
+  );
+  for (const name of loaders()) delete process.env[name];
+  try {
+    return action();
+  } finally {
+    for (const name of loaders()) delete process.env[name];
+    Object.assign(process.env, saved);
+  }
 }

@@ -6,35 +6,37 @@ import { validatePlan } from "../selective.mjs";
 import { checkResults } from "../selective-ci.mjs";
 import { conclusion } from "../wait-ci.mjs";
 import { verifyQualification } from "../qualification.mjs";
-import { fixture } from "./validation-fixtures.mjs";
+import { fixture, boundedEnvironment } from "./validation-fixtures.mjs";
 
 test("required failures stop execution; selected evidence is reused, then invalidated", () =>
-  fixture((root) => {
-    const range = { base: "base", candidate: "candidate" };
-    const plan = planImpact(["backend/tests/test_health.py"]);
-    const calls = [];
-    let revision = "one";
-    const options = {
-      key: (scope) => revision + scope,
-      run: (scope) => {
-        calls.push(scope);
-        return 0;
-      },
-    };
-    assert.equal(validatePlan(root, range, plan, options), 0);
-    calls.length = 0;
-    assert.equal(validatePlan(root, range, plan, options), 0);
-    assert.deepEqual(calls, ["documentation"]);
-    revision = "two";
-    assert.equal(
-      validatePlan(root, range, plan, { ...options, run: () => 9 }),
-      9,
-    );
-    assert.throws(
-      () => validatePlan(root, range, plan, { ...options, only: "frontend" }),
-      /non requis/,
-    );
-  }));
+  boundedEnvironment(() =>
+    fixture((root) => {
+      const range = { base: "base", candidate: "candidate" };
+      const plan = planImpact(["backend/tests/test_health.py"]);
+      const calls = [];
+      let revision = "one";
+      const options = {
+        key: (scope) => revision + scope,
+        run: (scope) => {
+          calls.push(scope);
+          return 0;
+        },
+      };
+      assert.equal(validatePlan(root, range, plan, options), 0);
+      calls.length = 0;
+      assert.equal(validatePlan(root, range, plan, options), 0);
+      assert.deepEqual(calls, ["documentation"]);
+      revision = "two";
+      assert.equal(
+        validatePlan(root, range, plan, { ...options, run: () => 9 }),
+        9,
+      );
+      assert.throws(
+        () => validatePlan(root, range, plan, { ...options, only: "frontend" }),
+        /non requis/,
+      );
+    }),
+  ));
 
 test("targeted execution uses real test commands and propagates failure without unrelated tools", () =>
   fixture((root) => {
