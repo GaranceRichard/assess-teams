@@ -38,6 +38,18 @@ réévaluer et réexécuter les contrôles expirés avant publication. Aucun seu
 
 ## Intégration et clôture
 
-La publication utilise `npm run publish` et attend la CI du SHA applicatif exact.
-Le registre canonique reste ouvert jusqu’à cette confirmation ; sa clôture et les vues dérivées seront
-publiées ensuite avec le lien CI. Aucune qualification cible MESS ni GO n’est déduit de ces campagnes.
+Publication applicative du **2026-10-16**, depuis le worktree et la branche dédiés via `npm run publish` :
+
+- SHA intégré : `6ed187e5fc3978431e9926d8a4851f65519f556b` ; source branche de chantier, destination main.
+- Pré-push : quatre contrôles frais réussis, sans contournement : dépôt 61 s, backend 769 s,
+  frontend 97 s et E2E 422 s. 1 061 tests backend, 393 frontend, 64 E2E applicatifs et 9 démo passent.
+- Couvertures inchangées : backend 97,24 % ; quatre métriques frontend toutes supérieures à 90 %.
+- Un seul fichier `.coverage` consolidé après cette réexécution, sans fragment auxiliaire tardif.
+- [CI indépendante du SHA exact — run 38897236783](https://github.com/GaranceRichard/assess-teams/actions/runs/38897236783) : **success**.
+  Trois shards backend, deux shards E2E, fusion stricte de couverture et gate final réussis.
+- Checkout principal vérifié propre et avancé exclusivement en fast-forward au SHA intégré.
+
+Le registre MEP-010 est clôturé après ces confirmations, avec date du 2026-10-16 et vues dérivées alignées.
+La clôture documentaire suit le même circuit `npm run publish`, avec le plan documentaire seul.
+Le succès final de cette publication reste exigé avant nettoyage du seul worktree et de la branche MEP-010.
+Aucune qualification cible MESS ni GO n’est déduit de ces campagnes ; MEP-040 demeure ouvert.
