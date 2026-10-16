@@ -1,5 +1,7 @@
 # Audit et mesures du pipeline — 15 octobre 2026
 
+Ce bilan historique précède la [correction ciblée du 16 octobre](validation-policy-review.md), qui retire le TTL et différencie les risques sensibles.
+
 ## Référence avant modification technique
 
 Aucun historique `.cache/quality/metrics.jsonl` n'était présent dans le checkout principal.

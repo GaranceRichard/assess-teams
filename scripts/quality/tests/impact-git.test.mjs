@@ -124,3 +124,25 @@ test("real rebase reuses unchanged application inputs but invalidates a new depe
     command("rebase", "main");
     assert.notEqual(key(), beforeKey);
   }));
+
+test("CU12: a real SQLite diff has identical development and committed CI plans", () =>
+  isolated((root) => {
+    const command = initialize(root);
+    const base = command("rev-parse", "HEAD");
+    mkdirSync(join(root, "backend/config"), { recursive: true });
+    writeFileSync(
+      join(root, "backend/config/sqlite_contention.py"),
+      "with transaction.atomic(): pass\n",
+    );
+    const local = planImpact(
+      changesBetween(root, base, "HEAD", { working: true }).changes,
+    );
+    command("add", ".");
+    command("commit", "-m", "transaction helper");
+    const ci = planImpact(changesBetween(root, base, "HEAD").changes);
+    assert.deepEqual(ci, local);
+    assert.deepEqual(ci.checks, [
+      { scope: "documentation" },
+      { scope: "backend" },
+    ]);
+  }));

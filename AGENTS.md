@@ -46,8 +46,8 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 - Pendant le développement, `npm run quality:targeted` calcule le plan local ; les tests explicites restent disponibles.
 - Le pré-push utilise le diff réel annoncé par Git et bloque tout échec requis ; jamais de `--no-verify`.
 - Prose/backlog audités : contrôles documentaires seuls, aucun test backend/frontend/E2E.
-- Risque sensible, transverse ou inconnu : validation conservatrice, exhaustive si nécessaire.
-- Les preuves sont liées aux entrées et sélections exactes, réévaluées après resynchronisation.
+- SQLite/sécurité internes : backend complet renforcé ; contrats utilisateur : frontend/E2E requis ; transverse ou inconnu : exhaustif conservateur.
+- Les preuves versionnées restent valides sans expiration temporelle si leurs entrées et sélections exactes sont inchangées, y compris après resynchronisation.
 - La CI sélective est indépendante ; le push direct n'a pas de barrière CI distante avant intégration.
 - `publish` attend sa réussite avant succès de livraison. Une CI rouge reste un échec même après le push.
 - Nightly quotidienne et `quality:qualify` restent exhaustifs ; promotion MESS liée au SHA exact qualifié.

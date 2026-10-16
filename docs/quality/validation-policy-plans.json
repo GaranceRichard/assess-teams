@@ -1,0 +1,92 @@
+{
+  "base": "1bb4db6",
+  "method": "same representative paths, actual shared planner before/after",
+  "scenarios": [
+    {
+      "scenario": "documentation",
+      "path": "docs/backlog/source/07-pre-mep.md",
+      "before": [
+        "documentation"
+      ],
+      "after": [
+        "documentation"
+      ],
+      "reason": "Prose dans un emplacement audite"
+    },
+    {
+      "scenario": "business",
+      "path": "backend/notifications/errors.py",
+      "before": [
+        "documentation",
+        "backend"
+      ],
+      "after": [
+        "documentation",
+        "backend"
+      ],
+      "reason": "Backend sans dependances ciblees prouvees: suite complete"
+    },
+    {
+      "scenario": "sqlite",
+      "path": "backend/config/sqlite_contention.py",
+      "before": [
+        "repository",
+        "backend",
+        "frontend",
+        "e2e"
+      ],
+      "after": [
+        "documentation",
+        "backend"
+      ],
+      "reason": "SQLite/transactions/workers: backend complet, rollback, Journal et multiprocessus"
+    },
+    {
+      "scenario": "permissions",
+      "path": "backend/identities/adapters/api/permissions.py",
+      "before": [
+        "repository",
+        "backend",
+        "frontend",
+        "e2e"
+      ],
+      "after": [
+        "documentation",
+        "backend"
+      ],
+      "reason": "Securite backend: suite complete, autorisations, refus, roles et sessions"
+    },
+    {
+      "scenario": "frontend",
+      "path": "frontend/src/dateInputValue.ts",
+      "before": [
+        "documentation",
+        "frontend-static",
+        "frontend-targeted"
+      ],
+      "after": [
+        "documentation",
+        "frontend-static",
+        "frontend-targeted"
+      ],
+      "reason": "Dependants transitifs Vitest"
+    },
+    {
+      "scenario": "transverse",
+      "path": "scripts/quality/impact.mjs",
+      "before": [
+        "repository",
+        "backend",
+        "frontend",
+        "e2e"
+      ],
+      "after": [
+        "repository",
+        "backend",
+        "frontend",
+        "e2e"
+      ],
+      "reason": "Infrastructure de validation ou dependance transverse"
+    }
+  ]
+}

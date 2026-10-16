@@ -39,7 +39,8 @@ Elle constitue une vérification indépendante, même lorsque les preuves locale
 
 Un changement documentaire n'installe ni Django, ni le frontend, ni Chromium et ne lance aucun test applicatif.
 Un changement local exécute ses contrôles de domaine et ses parcours requis.
-Les changements sensibles, transversaux et inconnus appellent le workflow exhaustif réutilisable.
+Les changements sensibles internes utilisent le backend complet ; les contrats produit ajoutent frontend/E2E.
+Les changements transversaux et inconnus appellent le workflow exhaustif réutilisable.
 Métriques JSONL, rapports frontend et traces E2E sélectionnées sont archivés même en cas d'échec.
 La publication Pages reste conditionnée au workflow Quality gate réussi pour son SHA exact.
 

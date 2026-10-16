@@ -14,6 +14,10 @@ export const scenarios = {
   backend: ["backend/journals/adapters/api/filters.py"],
   frontend: ["frontend/src/dateInputValue.ts"],
   sensitive: ["backend/identities/adapters/api/login_security.py"],
+  business: ["backend/notifications/errors.py"],
+  sqlite: ["backend/config/sqlite_contention.py"],
+  permissions: ["backend/identities/adapters/api/permissions.py"],
+  productSecurity: ["backend/identities/adapters/api/admin_permissions.py"],
   transverse: ["scripts/quality/impact.mjs"],
 };
 
@@ -30,7 +34,10 @@ if (mode === "plans") {
     );
 } else {
   const files = scenarios[mode];
-  if (!files || ["sensitive", "transverse"].includes(mode))
+  if (
+    !files ||
+    !["backlog", "documentation", "backend", "frontend"].includes(mode)
+  )
     throw new Error(
       "Mesures simples: backlog, documentation, backend ou frontend; plans pour tous les scenarios",
     );

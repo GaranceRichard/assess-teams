@@ -2,7 +2,12 @@ import assert from "node:assert/strict";
 import { mkdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import test from "node:test";
-import { contentKey, reusable } from "../validation-inputs.mjs";
+import {
+  contentKey,
+  reusable,
+  proofVersion,
+  proofProvenance,
+} from "../validation-inputs.mjs";
 import { runValidation } from "../validate.mjs";
 
 import { fixture, options } from "./validation-fixtures.mjs";
@@ -88,12 +93,20 @@ test("inputs changed during validation invalidate success", () =>
     assert.equal(calls.length, 1);
   }));
 
-test("age, future timestamps and unsuccessful evidence are rejected", () => {
-  const proof = { key: "key", success: true, finished: 100 };
+test("old evidence remains valid; future timestamps and unsuccessful evidence are rejected", () => {
+  const proof = {
+    version: proofVersion,
+    provenance: proofProvenance,
+    scope: "backend",
+    key: "key",
+    success: true,
+    started: 90,
+    finished: 100,
+  };
   assert.equal(reusable(proof, "key", 101), true);
   assert.equal(reusable(proof, "different", 101), false);
   assert.equal(reusable(proof, "key", 99), false);
-  assert.equal(reusable(proof, "key", 100 + 8 * 3600000), false);
+  assert.equal(reusable(proof, "key", 100 + 8 * 3600000), true);
   assert.equal(reusable({ ...proof, success: false }, "key", 101), false);
 });
 

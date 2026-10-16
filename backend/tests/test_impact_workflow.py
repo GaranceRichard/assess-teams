@@ -56,3 +56,26 @@ def test_promotion_requires_remote_qualification_and_never_deploys_on_failed_gat
     command = config["jobs"]["promotion"]["steps"][-1]
     assert command["run"] == 'npm run quality:promote -- "$CANDIDATE" "$QUALIFICATION_RUN"'
     assert "continue-on-error" not in command
+
+
+def test_exhaustive_domains_cannot_be_skipped_by_daily_impact_selection():
+    jobs = workflow("exhaustive")["jobs"]
+    assert jobs["backend-tests"]["strategy"]["matrix"]["shard"] == [1, 2, 3]
+    assert jobs["backend-tests"]["strategy"]["fail-fast"] is False
+    assert set(jobs["backend-coverage"]["needs"]) == {"identity", "backend-tests"}
+    assert set(jobs["quality"]["needs"]) == {
+        "repository",
+        "backend-static",
+        "backend-tests",
+        "backend-coverage",
+        "frontend",
+        "e2e",
+    }
+    for name, job in jobs.items():
+        if name != "quality":
+            assert "if" not in job
+        for step in job.get("steps", []):
+            command = step.get("run", "")
+            assert "selective.mjs" not in command and "quality:targeted" not in command
+    qualifier = (ROOT / "scripts/quality/qualification.mjs").read_text(encoding="utf-8")
+    assert '"--fresh"' in qualifier

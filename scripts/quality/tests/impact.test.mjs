@@ -18,11 +18,8 @@ for (const path of [
   "docs/legal/redistribution.md",
   "docs/new-input.md",
   "unknown.txt",
-  "backend/a/models.py",
   "backend/a/migrations/0001.py",
   "backend/config/x.py",
-  "backend/a/permissions.py",
-  "frontend/src/auth.ts",
   "scripts/quality/impact.mjs",
   ".github/workflows/quality.yml",
   "frontend/package-lock.json",
@@ -36,7 +33,6 @@ test("type changes, deletions and critical code escalate independently of suffix
     { path: "docs/backlog/x.md", mode: "120000" },
     { path: "docs/backlog/x.md", mode: "160000" },
     { path: "frontend/src/helper.ts", status: "D" },
-    { path: "backend/helper.py", patch: "permission_classes = [AllowAny]" },
   ])
     assert.equal(planImpact([change]).exhaustive, true);
 });
@@ -108,5 +104,19 @@ test("quick remains static and follows the same impact decisions", () => {
     "documentation",
     "frontend-static",
     "e2e-targeted",
+  ]);
+});
+
+test("security introduced in an innocuous filename retains every affected application domain", () => {
+  assert.deepEqual(
+    scopes([
+      { path: "backend/helper.py", patch: "permission_classes = [AllowAny]" },
+    ]),
+    ["documentation", "backend", "frontend", "e2e"],
+  );
+  assert.deepEqual(scopes(["frontend/src/auth.ts"]), [
+    "documentation",
+    "frontend",
+    "e2e",
   ]);
 });

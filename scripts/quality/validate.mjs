@@ -1,3 +1,4 @@
+import { requiresFreshRuntime } from "./runtime-inputs.mjs";
 import { spawnSync } from "node:child_process";
 import {
   appendFileSync,
@@ -13,7 +14,11 @@ import {
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isolatedEnvironment, prepareE2E } from "./isolation.mjs";
-import { reusable } from "./validation-inputs.mjs";
+import {
+  reusable,
+  proofVersion,
+  proofProvenance,
+} from "./validation-inputs.mjs";
 import { fingerprint } from "./impact-runner.mjs";
 
 export function runValidation({
@@ -36,11 +41,12 @@ export function runValidation({
     writeFileSync(descriptor, String(process.pid));
     for (const scope of scopes) {
       const started = now();
-      const cacheable =
+      const requestedCache =
         !fresh &&
         !freshScopes.includes(scope) &&
         !["repository", "documentation"].includes(scope);
-      const fingerprint = cacheable ? key(scope) : null;
+      const fingerprint = requestedCache ? key(scope) : null;
+      const cacheable = requestedCache && fingerprint !== null;
       if (cacheable) fingerprints.set(scope, fingerprint);
       const path = resolve(directory, `${scope}.json`);
       let proof;
@@ -49,11 +55,11 @@ export function runValidation({
       } catch {
         /* Missing/invalid: rerun. */
       }
-      const hit = cacheable && reusable(proof, fingerprint, started);
+      const hit = cacheable && reusable(proof, fingerprint, started, scope);
       const reason = hit
         ? "empreinte et selection identiques, preuve valide"
         : cacheable
-          ? "preuve absente, expiree ou entrees modifiees"
+          ? "preuve absente, incompatible ou entrees modifiees"
           : "controle frais obligatoire";
       console.log(`[${hit ? "REUSE" : "RUN"}] ${scope} - ${reason}`);
       if (!hit && existsSync(path)) unlinkSync(path);
@@ -62,13 +68,22 @@ export function runValidation({
         console.error(
           `[FAIL] Entrees modifiees pendant ${scope} ; validation a recommencer.`,
         );
+        if (existsSync(path)) unlinkSync(path);
         status = 1;
       }
       if (!hit && cacheable && status === 0) {
         const temporary = `${path}.tmp`;
         writeFileSync(
           temporary,
-          JSON.stringify({ key: fingerprint, success: true, finished: now() }),
+          JSON.stringify({
+            version: proofVersion,
+            provenance: proofProvenance,
+            scope,
+            key: fingerprint,
+            success: true,
+            started,
+            finished: now(),
+          }),
         );
         renameSync(temporary, path);
       }
@@ -156,7 +171,15 @@ export function main(args = process.argv.slice(2)) {
     );
   };
   const freshScopes = process.env.ASSESS_E2E_DB ? ["e2e"] : [];
-  return runValidation({ root, scopes, fresh, env, key, run, freshScopes });
+  return runValidation({
+    root,
+    scopes,
+    fresh: fresh || requiresFreshRuntime(env),
+    env,
+    key,
+    run,
+    freshScopes,
+  });
 }
 
 if (

@@ -24,7 +24,7 @@ Pour la prose seule, il reste documentaire sans statiques backend/frontend.
 
 ## Matrice exécutable
 
-La définition unique est [`impact.mjs`](../../scripts/quality/impact.mjs).
+La définition unique associe [`impact-classification.mjs`](../../scripts/quality/impact-classification.mjs) et le plan [`impact.mjs`](../../scripts/quality/impact.mjs).
 Les tests `impact*.test.mjs` et les invariants YAML en protègent les décisions.
 
 | Changement | Contrôles obligatoires |
@@ -37,7 +37,11 @@ Les tests `impact*.test.mjs` et les invariants YAML en protègent les décisions
 | Feuilles frontend auditées | Dépôt, statiques frontend, tests dépendants transitifs via `vitest related --run` |
 | Autre source frontend, composant ou CSS | Statiques et tests dépendants ; parcours cartographiés ou tous les E2E si inconnus ; build et parcours démo pour les composants partagés |
 | Test E2E isolé | Dépôt et parcours explicite, sans autre suite applicative |
-| Authentification, permissions, contrats, modèles, transactions, SQLite, migrations | Exhaustif |
+| SQLite/transactions/workers internes, tests sensibles | Dépôt et backend complet, couverture >= 90 %, intégration et multiprocessus inclus ; pas de frontend/E2E automatique |
+| Permissions techniques `/api/users/` | Dépôt et backend complet : autorisations, refus sans effet, rôles/rattachements, sessions et contrats |
+| Sécurité ou contrat backend produit, adapters API, domaines et modèles | Dépôt, backend complet, frontend complet et tous les E2E ; dépendances UI non bornées |
+| Sécurité/contrat frontend | Dépôt, frontend complet et tous les E2E |
+| Configuration backend et migrations | Exhaustif, sauf helper interne `config/sqlite_contention.py` audité ci-dessous |
 | Configuration, dépendances, hooks, scripts, CI, documents juridiques distribués | Exhaustif |
 | Suppression applicative, fichier/type inconnu, lien symbolique ou sous-module | Exhaustif ; type non ordinaire sans réutilisation de preuve |
 
@@ -56,22 +60,57 @@ restent appliqués aux campagnes exhaustives et aux scopes applicatifs complets.
 Chaque contrôle ciblé possède une preuve distincte, liée à sa sélection exacte.
 Le SHA seul et l'âge seul ne constituent jamais une preuve suffisante.
 L'empreinte SHA-256 couvre le contenu des entrées suivies/non ignorées, ajouts/suppressions,
-les types et modes locaux, les `.env*`, les manifests npm installés, Python/Node,
-`pip freeze --all`, OS/architecture et l'environnement pertinent.
+les types et modes locaux, les `.env*`, les manifests et les octets des dépendances installées,
+Python/Node, SQLite, PowerShell/npm, `pip freeze --all`, OS/architecture et l'environnement.
+La politique d'empreinte est explicitement versionnée (`fingerprintPolicy = 3`) ; scripts et règles
+exécutables restent inclus dans chaque domaine. Les valeurs sensibles ne sont jamais persistées :
+seules leurs empreintes contribuent à la clé ; les preuves/métriques ne contiennent pas l'environnement.
+Les arbres npm et Python sont relus sans confiance dans leurs dates ou seules versions déclarées.
+Seuls `__pycache__` et les caches générés Vite à la racine de node_modules sont exclus des arbres installés.
+Les navigateurs Chromium/headless réellement sélectionnés et leurs bibliothèques sont inclus en E2E.
 La prose auditée est exclue des entrées applicatives ; les documents juridiques restent inclus.
 Les contrôles backend excluent le frontend, et réciproquement ; scripts, configuration et documents distribués
 restent inclus dans les deux domaines. Les E2E conservent toutes les entrées applicatives et transversales.
 L'empreinte inclut le contrôle et les sélecteurs : élargir une sélection invalide sa preuve.
 Les métadonnées npm de lifecycle, Git de navigation et `QUALITY_DIFF_BASE` ne changent pas les entrées applicatives.
 Une resynchronisation modifiant seulement le SHA ou la prose peut donc réutiliser les preuves.
-Une modification de dépendance pertinente les invalide, même pendant la validité de huit heures.
+Une preuve réussie reste réutilisable sans limite d'âge si toutes ces entrées sont identiques.
+Le format v3 exige version, provenance `assess-teams/local-validation`, scope, clé et horodatages
+cohérents (début <= fin <= maintenant). Une ancienne preuve sans ce format est incompatible.
+Un changement de code, test, dépendance, runtime, configuration, environnement, règle ou sélection
+applicable invalide la preuve ; l'évolution de la politique invalide les anciennes clés.
+Le frontend ne dépend pas du runtime Python : ses empreintes n'interrogent plus Python/pip.
+Le backend conserve tout son arbre et les outils partagés ; aucune nouvelle réduction intra-domaine.
+Les E2E conservent backend + frontend + outils ; les contrats ne sont pas assimilés à une feuille isolée.
+Les chargeurs externes (`NODE_OPTIONS`, `NODE_PATH`, `PYTHONPATH`, `PYTHONHOME`, préchargement de
+bibliothèques), installations Python éditables ou `.pth` non audités imposent une exécution fraîche
+sans preuve réutilisable, car leurs entrées externes ne sont pas suffisamment bornées.
+Les seuls `.pth` audités sont ceux de setuptools, coverage et pytest-cov ; une configuration
+coverage externe (`COVERAGE_PROCESS_*`, `COV_CORE_*`) impose aussi une validation fraîche.
 
-Échec, absence, corruption, expiration ou horodatage futur imposent une nouvelle exécution.
+Échec, absence, corruption, format/provenance incohérents ou horodatage futur imposent une nouvelle exécution.
 Une preuve antérieure est supprimée avant réexécution ; les entrées sont revérifiées après chaque contrôle
 et à la fin du plan. Le hook vérifie aussi que HEAD et le checkout n'ont pas changé.
 `CI` et `--fresh` ne consultent ni ne produisent de preuve locale réutilisable.
+Forcer le plan quotidien : `npm run quality:targeted -- --fresh` ; un domaine complet :
+`npm run quality:full -- -Scope backend --fresh`. La qualification MESS reste toujours fraîche.
 Les contraintes documentaires et de dépôt restent fraîches. Aucun partage de preuve entre worktrees ou machines.
 Le cache accélère le travail ; il n'est pas une attestation de sécurité contre un utilisateur local malveillant.
+
+## Limites vérifiées des changements sensibles
+
+La catégorie est justifiée dans chaque diagnostic `[WHY]`. La présence du mot `transaction` ou
+`permission` ne suffit plus à imposer les quatre domaines. La suite backend entière reste obligatoire,
+sans carte pytest partielle inventée : elle couvre notamment `test_transaction_*`, `test_sqlite_*`,
+les 22 scénarios développement/production de `test_sqlite_contention_operational`, Journal, refus API,
+rôles/rattachements et sessions. Aucun filtre de marqueur n'exclut les tests multiprocessus.
+
+L'exception SQLite est le helper DB-only `backend/config/sqlite_contention.py` : aucune vue ni
+sérialisation n'y est définie. Une modification d'adapter API, modèle, configuration globale ou contrat
+reste élargie. Changer `CONTENTION_FAILED` ou introduire une réponse API dans le helper élargit aussi le plan. `/api/users/` utilise `CanCreateUser`, sans consommateur dans `frontend/src` ou
+`frontend/e2e` ; les permissions `/api/admin/users/` utilisées par `managedUsers.ts` restent élargies.
+Toute création de consommateur ou modification de frontière doit mettre à jour cette carte et ses tests.
+Les dépendances transversales/inconnues, suppressions et types non ordinaires restent exhaustifs.
 
 ## Isolation, publication et exploitation
 

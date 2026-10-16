@@ -1,3 +1,4 @@
+import { requiresFreshRuntime } from "./runtime-inputs.mjs";
 import {
   appendFileSync,
   mkdirSync,
@@ -37,7 +38,7 @@ export function validatePlan(
   return runValidation({
     root,
     scopes: checks.map(({ scope }) => scope),
-    fresh,
+    fresh: fresh || requiresFreshRuntime(env),
     env,
     key: key || ((scope) => fingerprint(root, env, selection[scope])),
     run: run || ((scope) => executeCheck(root, env, selection[scope])),

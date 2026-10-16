@@ -8,6 +8,7 @@ import {
   readdirSync,
 } from "node:fs";
 import { resolve } from "node:path";
+import { toolContext } from "./runtime-inputs.mjs";
 
 export { pureDocument as documentationOnly } from "./impact.mjs";
 import { pureDocument as documentationOnly } from "./impact.mjs";
@@ -59,22 +60,21 @@ export function pythonPath(root) {
   );
 }
 
-export function runtimeContext(root, env) {
-  const python = pythonPath(root);
+export function runtimeContext(root, env, scope = "e2e") {
   const context = {
     platform: process.platform,
     arch: process.arch,
     node: process.version,
-    python: execFileSync(python, ["--version"], { env }).toString().trim(),
-    packages: execFileSync(python, ["-m", "pip", "freeze", "--all"], {
-      env,
-    }).toString(),
+    ...toolContext(root, env, pythonPath(root), scope),
     environment: runtimeEnvironment(env),
   };
-  return { files: [...gitFiles(root), ...localInputFiles(root)], context };
+  return {
+    files: [...gitFiles(root), ...localInputFiles(root, scope)],
+    context,
+  };
 }
 
-export function localInputFiles(root) {
+export function localInputFiles(root, scope = "e2e") {
   const files = [];
   for (const directory of ["", "backend", "frontend"]) {
     for (const name of readdirSync(resolve(root, directory))) {
@@ -82,7 +82,9 @@ export function localInputFiles(root) {
         files.push(`${directory ? directory + "/" : ""}${name}`);
     }
   }
-  for (const directory of ["", "frontend"]) {
+  for (const directory of scope.startsWith("backend")
+    ? [""]
+    : ["", "frontend"]) {
     const file = `${directory ? directory + "/" : ""}node_modules/.package-lock.json`;
     if (!existsSync(resolve(root, file)))
       throw new Error(`Runtime npm absent: ${file}`);
@@ -91,13 +93,25 @@ export function localInputFiles(root) {
   return files;
 }
 
-export function reusable(proof, key, now = Date.now()) {
+export const proofVersion = 3;
+export const proofProvenance = "assess-teams/local-validation";
+export const fingerprintPolicy = 3;
+
+export function reusable(proof, key, now = Date.now(), scope = proof?.scope) {
   return (
-    proof?.key === key &&
+    proof?.version === proofVersion &&
+    proof.provenance === proofProvenance &&
+    typeof proof.key === "string" &&
+    proof.key.length > 0 &&
+    proof.key === key &&
+    typeof proof.scope === "string" &&
+    proof.scope === scope &&
+    Number.isFinite(proof.started) &&
+    proof.started >= 0 &&
+    proof.started <= proof.finished &&
     proof.success === true &&
     Number.isFinite(proof.finished) &&
-    now >= proof.finished &&
-    now - proof.finished < 8 * 60 * 60 * 1000
+    now >= proof.finished
   );
 }
 

@@ -4,6 +4,7 @@ import {
   pythonPath,
   runtimeContext,
   contentKey,
+  fingerprintPolicy,
 } from "./validation-inputs.mjs";
 import { prepareE2E } from "./isolation.mjs";
 
@@ -11,8 +12,9 @@ export function fingerprint(
   root,
   env,
   check,
-  inputs = runtimeContext(root, env),
+  inputs = runtimeContext(root, env, check.scope),
 ) {
+  if (inputs.context.unbounded) return null;
   // Preserve shared scripts/configuration, but avoid invalidating an unrelated domain.
   const excluded = check.scope.startsWith("frontend")
     ? "backend/"
@@ -22,7 +24,11 @@ export function fingerprint(
   const files = inputs.files.filter(
     (path) => !excluded || !path.startsWith(excluded),
   );
-  return contentKey(root, files, { ...inputs.context, policy: 2, check });
+  return contentKey(root, files, {
+    ...inputs.context,
+    policy: fingerprintPolicy,
+    check,
+  });
 }
 
 export function executeCheck(root, env, check, invoke) {

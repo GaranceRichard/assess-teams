@@ -127,7 +127,7 @@ destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
 
 Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
 antérieure à la resynchronisation ne vaut preuve finale que si ses entrées applicatives
-sont identiques, complètes pour leur sélection et récentes selon [le dispositif de validation](validation-costs.md).
+sont identiques, complètes pour leur sélection et compatibles avec la politique versionnée selon [le dispositif de validation](validation-costs.md).
 La vérification du dépôt reste fraîche et la CI sélective indépendante. Le `pre-push` applique d'abord la garde de
 contribution, puis les contrôles requis par le diff ; la CI exécute les contrôles requis indépendamment et agrège
 leur succès sans prétendre protéger une intégration déjà poussée.
@@ -169,7 +169,7 @@ Les tests explicites donnent un feedback ciblé sans lancer automatiquement l'ex
 Prose et backlog dans les emplacements audités déclenchent seulement le scope documentaire, aucun test applicatif.
 Le plan conserve les statiques, tests et parcours adaptés ; risque inconnu/sensible/transverse : sélection conservatrice.
 Les seuils de 90 % restent ceux des campagnes complètes, pas des couvertures partielles ciblées.
-Une preuve exige les entrées effectives et la sélection identiques, y compris après rebase ; âge seul insuffisant.
+Une preuve versionnée exige entrées effectives et sélection identiques, y compris après rebase ; aucune expiration temporelle.
 
 La nightly indépendante exécute tout sur main ; la qualification MESS exige le SHA complet exact.
 Le gate de promotion exige un run exhaustif GitHub réussi et son artefact correspondant ; une autre nightly ne suffit pas.

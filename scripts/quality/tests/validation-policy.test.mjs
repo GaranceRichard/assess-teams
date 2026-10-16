@@ -9,11 +9,7 @@ import { fixture, options } from "./validation-fixtures.mjs";
 
 test("sensitive and transverse changes escalate; isolated UI stays targeted", () => {
   for (const path of [
-    "backend/identities/views.py",
-    "backend/a/models.py",
-    "backend/a/services.py",
     "backend/a/migrations/1.py",
-    "frontend/src/api/contracts.ts",
     "scripts/check.ps1",
     ".github/workflows/quality.yml",
     "frontend/package-lock.json",
