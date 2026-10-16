@@ -1,10 +1,13 @@
 {
   "date": "2026-10-16",
-  "base": "1bb4db6",
+  "base": "1bb4db697d6282473116d8d5c3490ce1345a721a",
+  "afterFingerprintPolicy": 4,
+  "proofVersion": 3,
+  "workingTree": true,
   "platform": "Windows x64",
   "node": "v24.20.0",
   "python": "3.12.10",
-  "method": "simulated paths, real controls, warm isolated runtimes; one trial per phase; source fingerprint before result export",
+  "method": "simulated paths, real controls, warm isolated runtimes; one retained trial per phase; source fingerprint before result export",
   "measurements": [
     {
       "scenario": "documentation",
@@ -52,9 +55,9 @@
     {
       "scenario": "backend",
       "phase": "after-fresh",
-      "durationMs": 68919,
-      "sourceFingerprint": "6fb51adf41ec8e9fcbea1dae6c878157e3edfb19f278f86eae8fdcfd3f9cf952",
-      "timestamp": "2026-10-16T12:30:35.880Z",
+      "durationMs": 77925,
+      "sourceFingerprint": "bcf5eea87e4c12fa5f9974b17cbcf95b9e951c13cd4f09dcbeadd0df3f5b60fa",
+      "timestamp": "2026-10-16T13:32:08.699Z",
       "checks": [
         "documentation",
         "backend-static",
@@ -67,9 +70,9 @@
     {
       "scenario": "frontend",
       "phase": "after-fresh",
-      "durationMs": 47621,
-      "sourceFingerprint": "6fb51adf41ec8e9fcbea1dae6c878157e3edfb19f278f86eae8fdcfd3f9cf952",
-      "timestamp": "2026-10-16T12:31:23.893Z",
+      "durationMs": 47734,
+      "sourceFingerprint": "bcf5eea87e4c12fa5f9974b17cbcf95b9e951c13cd4f09dcbeadd0df3f5b60fa",
+      "timestamp": "2026-10-16T13:32:56.841Z",
       "checks": [
         "documentation",
         "frontend-static",
@@ -82,9 +85,9 @@
     {
       "scenario": "backend",
       "phase": "after-reuse",
-      "durationMs": 28646,
-      "sourceFingerprint": "6fb51adf41ec8e9fcbea1dae6c878157e3edfb19f278f86eae8fdcfd3f9cf952",
-      "timestamp": "2026-10-16T12:31:52.918Z",
+      "durationMs": 27887,
+      "sourceFingerprint": "bcf5eea87e4c12fa5f9974b17cbcf95b9e951c13cd4f09dcbeadd0df3f5b60fa",
+      "timestamp": "2026-10-16T13:33:25.103Z",
       "checks": [
         "documentation",
         "backend-static",
@@ -97,9 +100,9 @@
     {
       "scenario": "frontend",
       "phase": "after-reuse",
-      "durationMs": 26753,
-      "sourceFingerprint": "6fb51adf41ec8e9fcbea1dae6c878157e3edfb19f278f86eae8fdcfd3f9cf952",
-      "timestamp": "2026-10-16T12:32:20.041Z",
+      "durationMs": 25972,
+      "sourceFingerprint": "bcf5eea87e4c12fa5f9974b17cbcf95b9e951c13cd4f09dcbeadd0df3f5b60fa",
+      "timestamp": "2026-10-16T13:33:51.434Z",
       "checks": [
         "documentation",
         "frontend-static",
@@ -113,17 +116,17 @@
   "fingerprintTimings": [
     {
       "scope": "backend",
-      "durationMs": 3358,
+      "durationMs": 3730,
       "bounded": true
     },
     {
       "scope": "frontend",
-      "durationMs": 3304,
+      "durationMs": 3403,
       "bounded": true
     },
     {
       "scope": "e2e",
-      "durationMs": 6892,
+      "durationMs": 6819,
       "bounded": true
     }
   ]

@@ -62,11 +62,13 @@ Le SHA seul et l'âge seul ne constituent jamais une preuve suffisante.
 L'empreinte SHA-256 couvre le contenu des entrées suivies/non ignorées, ajouts/suppressions,
 les types et modes locaux, les `.env*`, les manifests et les octets des dépendances installées,
 Python/Node, SQLite, PowerShell/npm, `pip freeze --all`, OS/architecture et l'environnement.
-La politique d'empreinte est explicitement versionnée (`fingerprintPolicy = 3`) ; scripts et règles
+La politique d'empreinte est explicitement versionnée (`fingerprintPolicy = 4`) ; scripts et règles
 exécutables restent inclus dans chaque domaine. Les valeurs sensibles ne sont jamais persistées :
 seules leurs empreintes contribuent à la clé ; les preuves/métriques ne contiennent pas l'environnement.
 Les arbres npm et Python sont relus sans confiance dans leurs dates ou seules versions déclarées.
-Seuls `__pycache__` et les caches générés Vite à la racine de node_modules sont exclus des arbres installés.
+Seuls `__pycache__`, les caches Vite et les deux `.tmp/tsconfig.{app,node}.tsbuildinfo`
+produits par les tsconfig versionnés sont exclus. Les caches npm doivent être directement sous
+`node_modules` ; tout autre fichier dans `.tmp` rétablit son empreinte conservatrice complète.
 Les navigateurs Chromium/headless réellement sélectionnés et leurs bibliothèques sont inclus en E2E.
 La prose auditée est exclue des entrées applicatives ; les documents juridiques restent inclus.
 Les contrôles backend excluent le frontend, et réciproquement ; scripts, configuration et documents distribués

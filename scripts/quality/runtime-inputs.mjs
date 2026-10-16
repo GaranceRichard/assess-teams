@@ -7,13 +7,22 @@ import {
   readlinkSync,
   realpathSync,
 } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, basename } from "node:path";
 
 // Hash installed bytes, not timestamps or just declared versions. Never persist raw inputs.
 // Only interpreter bytecode and tool caches are generated from already covered sources.
 export function installedKey(directory) {
   const hash = createHash("sha256");
   const stack = new Set();
+  const npmRoot = basename(directory) === "node_modules";
+  const typeScriptCache = (path) =>
+    lstatSync(path).isDirectory() &&
+    readdirSync(path).every(
+      (name) =>
+        ["tsconfig.app.tsbuildinfo", "tsconfig.node.tsbuildinfo"].includes(
+          name,
+        ) && lstatSync(resolve(path, name)).isFile(),
+    );
   function visit(path, name) {
     const stat = lstatSync(path);
     hash.update(JSON.stringify([name, stat.mode]));
@@ -28,7 +37,10 @@ export function installedKey(directory) {
       for (const entry of readdirSync(path).sort()) {
         if (
           entry === "__pycache__" ||
-          (name === "." && [".vite", ".vite-temp"].includes(entry))
+          (npmRoot &&
+            name === "." &&
+            ([".vite", ".vite-temp"].includes(entry) ||
+              (entry === ".tmp" && typeScriptCache(resolve(path, entry)))))
         )
           continue;
         visit(resolve(path, entry), name + "/" + entry);

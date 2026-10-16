@@ -95,7 +95,7 @@ export function localInputFiles(root, scope = "e2e") {
 
 export const proofVersion = 3;
 export const proofProvenance = "assess-teams/local-validation";
-export const fingerprintPolicy = 3;
+export const fingerprintPolicy = 4;
 
 export function reusable(proof, key, now = Date.now(), scope = proof?.scope) {
   return (

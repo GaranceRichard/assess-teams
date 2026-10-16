@@ -44,7 +44,7 @@ Les raisons et frontières exactes figurent dans la [matrice](validation-costs.m
 | CU10 | `test_impact_workflow.py` : déclencheurs, SHA, trois shards, couverture et absence de conditions sélectives dans l'exhaustif |
 | CU12 | `impact-git` : même vrai diff avant/après commit ; `sensitive-impact` et `impact-execution` : jobs requis, refus et skips |
 
-116 tests Node des scripts qualité passent ; les quatre invariants Python des workflows passent.
+118 tests Node des scripts qualité passent ; les quatre invariants Python des workflows passent.
 Le fixture PowerShell des scopes exige aussi les nouvelles suites ; son ancienne attente a bloqué
 la première tentative de publication, avant tout push, puis a été corrigée et revérifiée.
 Le runner Linux fournit `LD_LIBRARY_PATH` : le test de cache local isole désormais ses chargeurs
@@ -77,12 +77,12 @@ il ne s'agit pas d'une attente réelle de sept jours. Aucune campagne exhaustive
 
 | Essai réel | Avant frais | Après frais | Après reprise | Tests en reprise / preuves réutilisées |
 | --- | --- | --- | --- | --- |
-| Backend : filtres journaux | 52,833 s | 68,919 s | 28,646 s | 0 / 2 ; 46 tests évités |
-| Frontend : dateInputValue | 33,029 s | 47,621 s | 26,753 s | 0 / 2 ; 103 tests évités |
+| Backend : filtres journaux | 52,833 s | 77,925 s | 27,887 s | 0 / 2 ; 46 tests évités |
+| Frontend : dateInputValue | 33,029 s | 47,734 s | 25,972 s | 0 / 2 ; 103 tests évités |
 
-La reprise corrigée réduit le temps de 58,4 % et 43,8 % par rapport à sa campagne fraîche.
-La lecture renforcée coûte aussi : les campagnes fraîches augmentent ici de 16,086 s et 14,592 s.
-Une empreinte complète seule coûte 3,358 s backend, 3,304 s frontend et 6,892 s E2E sur ce poste.
+La reprise corrigée réduit le temps de 64,2 % et 45,6 % par rapport à sa campagne fraîche.
+La lecture renforcée coûte aussi : les campagnes fraîches augmentent ici de 25,092 s et 14,705 s.
+Une empreinte complète seule coûte 3,730 s backend, 3,403 s frontend et 6,819 s E2E sur ce poste.
 Ces coûts sont inclus dans les temps muraux des plans ; la vérification finale reste obligatoire.
 La référence documentaire initiale est 5,514 s, sans suite applicative.
 
@@ -99,6 +99,9 @@ et tests ; sinon sélectionner conservativement. Toute l'arborescence du domaine
 Les charges externes Python/Node non bornées imposent du frais, sans preuve réutilisable.
 L'inventaire Chromium repose sur le runtime Playwright installé : une interface incompatible échoue
 fermée et demande une adaptation, jamais l'acceptation silencieuse d'une ancienne preuve.
+La politique d’empreinte v4 exclut aussi les deux sorties TypeScript déclarées dans les tsconfig :
+un test a reproduit leur fausse invalidation pendant un contrôle. Un fichier inconnu dans `.tmp`
+reste couvert, ainsi que les fichiers homonymes dans un package imbriqué.
 Les caches générés sont exclus ; les octets applicatifs et dépendances distribuées restent vérifiés.
 Le cache local n'est pas une signature contre un utilisateur local hostile. La CI reste indépendante.
 La limite historique du push direct après pré-push est inchangée et explicitée dans [CI](ci.md).
@@ -137,6 +140,7 @@ node --test scripts/quality/tests/*.test.mjs
 - `scripts/quality/tests/evidence-regression.test.mjs`
 - `scripts/quality/tests/impact-execution.test.mjs`
 - `scripts/quality/tests/impact-git.test.mjs`
+- `scripts/quality/tests/installed-cache.test.mjs`
 - `scripts/quality/tests/impact.test.mjs`
 - `scripts/quality/tests/scopes.tests.ps1`
 - `scripts/quality/tests/runtime-inputs.test.mjs`
