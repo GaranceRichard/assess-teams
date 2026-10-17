@@ -18,7 +18,7 @@ def visible_evaluation_runs(user: User) -> QuerySet[EvaluationRun]:
             "completed_by",
             "revised_by",
         )
-        .prefetch_related("questions")
+        .prefetch_related("questions", "assignee__organizations")
     )
 
 

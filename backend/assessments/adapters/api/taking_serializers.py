@@ -4,6 +4,7 @@ from assessments.adapters.api.marker_serializers import AppreciationMarkerSerial
 from assessments.adapters.api.score_fields import StrictScoreField
 from assessments.application.taking_scope import is_evaluation_admin
 from assessments.models import EvaluationRun, EvaluationRunQuestion, EvaluationRunState
+from identities.adapters.api.organization_scope import has_current_organization_context
 
 
 class EvaluationRunListSerializer(serializers.ModelSerializer):
@@ -25,9 +26,12 @@ class EvaluationRunListSerializer(serializers.ModelSerializer):
     requires_reassignment = serializers.BooleanField(
         source="schedule.requires_reassignment", read_only=True
     )
-    assignee_active = serializers.BooleanField(
-        source="assignee.is_active", read_only=True, allow_null=True
-    )
+    assignee_active = serializers.SerializerMethodField()
+
+    def get_assignee_active(self, run: EvaluationRun) -> bool | None:
+        if not has_current_organization_context(run.assignee, run.organization_id):
+            return None
+        return run.assignee.is_active
 
     def get_is_assignee(self, run: EvaluationRun) -> bool:
         return run.assignee_id == self.context["request"].user.pk

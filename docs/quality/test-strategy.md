@@ -165,7 +165,7 @@ Le **code coverage** indique quelles lignes et branches ont été exécutées. L
 Vitest limite la concurrence à quatre workers pour borner les instances jsdom et éviter la contention
 sur les machines locales et CI ; assertions, délais et seuils de couverture restent inchangés.
 
-Les tests sont déterministes, indépendants et reproductibles. Chaque test crée les données minimales nécessaires, contrôle le temps et les dépendances externes si besoin, et nettoie son état via les mécanismes du framework. Les données sensibles réelles sont interdites dans les fixtures.
+Les tests sont déterministes, indépendants et reproductibles. Chaque test crée les données minimales nécessaires, contrôle le temps et les dépendances externes si besoin, et nettoie son état via les mécanismes du framework. Les données sensibles réelles sont interdites dans les fixtures. La [matrice MEP-011 et ses preuves API](../architecture/organization-isolation-validation.md) couvrent deux organisations réelles, quatre acteurs, références forgées, sessions après rattachement, historique et refus sans effet persistant.
 
 ## Exécution et quality gates
 

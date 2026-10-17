@@ -59,10 +59,17 @@ def _send_to_recipients(schedule: EvaluationSchedule, subject: str, body: str) -
         )
     count = len(recipients)
     if not count:
+        assignee = schedule.assignee
+        if (
+            assignee
+            and not assignee.is_superuser
+            and not schedule.team.organization.users.filter(pk=assignee.pk).exists()
+        ):
+            assignee = None
         record_log(
             level=LogLevel.WARNING,
             source=LogSource.NOTIFICATIONS,
-            actor=schedule.assignee,
+            actor=assignee,
             organization=schedule.team.organization,
             team=schedule.team,
             evaluation=schedule.evaluation,

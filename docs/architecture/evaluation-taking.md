@@ -63,6 +63,9 @@ Un Coach membre de l’organisation lit/remplit seulement ses assignations, puis
 Un Admin lit toutes les attentes et complétions de son organisation, peut répondre à la place de l’assigné
 et réviser les complétions. Le Superadmin conserve son périmètre global. Aucun droit Viewer n’est ajouté.
 Les scopes se basent sur l’organisation historique de la passation, jamais sur un ID fourni dans le payload.
+Après changement de rattachement, la même session perd l’accès à l’ancien périmètre ; les noms
+snapshotés restent inchangés. `assignee_active` est null si l’assigné a quitté l’organisation,
+hors Superadmin global. La [matrice MEP-011](organization-isolation.md) et ses preuves couvrent ces cas.
 Le scope de lecture est aussi utilisé par les mutations : après verrouillage de la passation courante,
 le service revérifie l’assignation et l’appartenance à l’organisation dans sa transaction. Si ce contexte
 a changé depuis la première lecture HTTP, la mutation retourne `404`, sans réponse modifiée ni activité métier.

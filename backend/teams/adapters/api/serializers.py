@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from identities.domain.users import Role
@@ -15,7 +16,17 @@ class TeamCoachSerializer(serializers.ModelSerializer):
 
 class TeamSerializer(serializers.ModelSerializer):
     organization_id = serializers.IntegerField(read_only=True)
-    coaches = TeamCoachSerializer(many=True, read_only=True)
+    coaches = serializers.SerializerMethodField()
+
+    @extend_schema_field(TeamCoachSerializer(many=True))
+    def get_coaches(self, team: Team) -> list[dict]:
+        coaches = [
+            coach
+            for coach in team.coaches.all()
+            if coach.role == Role.COACH.value
+            and any(org.pk == team.organization_id for org in coach.organizations.all())
+        ]
+        return TeamCoachSerializer(coaches, many=True).data
 
     class Meta:
         model = Team
@@ -29,11 +40,21 @@ class TeamListFilterSerializer(serializers.Serializer):
 class TeamInputSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255, allow_blank=False)
     coach_ids = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        queryset=User.objects.none(),
         many=True,
         allow_empty=True,
         source="coaches",
+        error_messages={
+            "does_not_exist": "Chaque Coach doit être actif et membre de l'organisation."
+        },
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if "organization" in self.context:
+            self.fields["coach_ids"].child_relation.queryset = self.context[
+                "organization"
+            ].users.all()
 
     def validate_name(self, value: str) -> str:
         return value.strip()

@@ -116,11 +116,12 @@ Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est d�
 Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison progressive, sans ordre de Jobs.
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
 MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte ; MEP-040 reste ouvert.
+MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est en cours : matrice et corrections API validées localement, intégration et CI attendues avant réalisation canonique.
 
-| Périmètre | PBI | Réalisés | Ouverts | Bloqués | Avancement |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 4 | 58 | 0 | 6 % |
-| Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 100 % historique |
+| Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| MESS actif — E01 à E04 | 62 | 4 | 57 | 1 | 0 | 6 % |
+| Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
 Les [huit réalisations historiques](tracking/mess-historique.md) restent prouvées et ne sont pas relancées.
@@ -161,8 +162,8 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 67 |
-| PBIs en cours | 0 |
+| PBIs ouverts | 66 |
+| PBIs en cours | 1 |
 | PBIs bloqués | 1 |
 | PBIs non réalisés | 68 |
 | PBIs réalisés | 28 |

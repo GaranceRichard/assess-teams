@@ -28,7 +28,9 @@ class TeamListCreateView(APIView):
         description=(
             "Liste les équipes actives d'une organisation accessible au Superadmin "
             "ou à un Admin qui en est membre. "
-            "include_archived inclut les archives pour les filtres Logs."
+            "include_archived inclut les archives pour les filtres Logs. "
+            "Les Coachs retournés sont encore membres de cette organisation ; "
+            "un ancien lien ne révèle pas leur identité courante hors organisation."
         ),
         parameters=[TeamListFilterSerializer, PageQuerySerializer],
         responses={
@@ -43,7 +45,7 @@ class TeamListCreateView(APIView):
         describe_log_attempt(request, "team-list", LogSource.TEAMS, organization=organization)
         filters = TeamListFilterSerializer(data=request.query_params)
         filters.is_valid(raise_exception=True)
-        teams = organization.teams.prefetch_related("coaches")
+        teams = organization.teams.prefetch_related("coaches__organizations")
         if not filters.validated_data["include_archived"]:
             teams = teams.filter(is_active=True)
         return collection_response(request, teams, TeamSerializer)
@@ -94,7 +96,8 @@ class TeamDetailView(APIView):
 
     @extend_schema(
         description=(
-            "Renomme une équipe active et remplace ses Coachs sans changer son organisation."
+            "Renomme une équipe active et remplace ses Coachs sans changer son organisation. "
+            "Un ancien Coach désormais hors organisation ne peut pas être conservé (400)."
         ),
         request=TeamInputSerializer,
         responses={
@@ -116,7 +119,12 @@ class TeamDetailView(APIView):
             team=team,
         )
         previous_name = team.name
-        previous_coaches = {coach.pk: coach.username for coach in team.coaches.all()}
+        previous_coaches = {
+            coach.pk: coach.username
+            if any(org.pk == team.organization_id for org in coach.organizations.all())
+            else f"#{coach.pk}"
+            for coach in team.coaches.all()
+        }
         serializer = TeamInputSerializer(
             team,
             data=request.data,

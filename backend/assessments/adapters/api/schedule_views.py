@@ -34,7 +34,9 @@ class EvaluationScheduleListCreateView(APIView):
     @extend_schema(
         description=(
             "Liste les planifications de toutes les organisations pour un Superadmin "
-            "et uniquement celles de l’organisation d’un Admin."
+            "et uniquement celles de l’organisation d’un Admin. "
+            "L’identifiant du responsable historique reste présent ; son nom courant et "
+            "sa fonction sont null s’il a quitté l’organisation (hors Superadmin global)."
         ),
         parameters=[CollectionQuerySerializer],
         responses={
@@ -60,6 +62,7 @@ class EvaluationScheduleListCreateView(APIView):
             "dont toutes les passations sont complétées autorise une nouvelle planification "
             "indépendante pour la même équipe et le même modèle, avec historique conservé. "
             "Une planification récurrente ou non complétée bloque les doublons (400). "
+            "Le Superadmin peut se désigner lui-même, sans affecter un autre Superadmin. "
             "201 confirme la planification et sa notification persistée, pas la remise SMTP."
         ),
         request=EvaluationScheduleInputSerializer,

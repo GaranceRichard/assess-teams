@@ -13,6 +13,17 @@ def visible_organizations(user: User) -> QuerySet[Organization]:
     return organizations.filter(users=user).distinct()
 
 
+def has_current_organization_context(user: User | None, organization_id: int) -> bool:
+    """Current identity metadata, including the explicit global schedule assignee."""
+    return bool(
+        user
+        and (
+            user.is_superuser
+            or any(organization.pk == organization_id for organization in user.organizations.all())
+        )
+    )
+
+
 def manageable_organization(user: User, organization_id: int) -> Organization:
     return get_object_or_404(visible_organizations(user), pk=organization_id)
 

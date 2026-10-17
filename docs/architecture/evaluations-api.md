@@ -42,6 +42,10 @@ Les réponses planning ajoutent `family_id`, `family_name`, `evaluation_version`
 
 ## Planification des évaluations
 
+Les [protections MEP-011](organization-isolation.md) valident séparément chaque référence et limitent
+l’exception Superadmin à l’auto-affectation. Après départ du responsable, son ID reste historique,
+mais `assignee_identifier` et `assignee_role` sont null hors organisation (hors Superadmin global).
+
 `GET /api/admin/planning/` liste toutes les planifications pour le Superadmin et uniquement celles de l’organisation de l’Admin. React les présente sur une ligne cliquable `ORGANISATION - FAMILLE vN - ÉQUIPE - RESPONSABLE`, surlignée au survol, qui ouvre la modification et la suppression dans une même modale. `POST` accepte `organization_id`, `team_id`, `evaluation_id`, `assignee_id`, `mode` et, sauf pour le mode immédiat, `first_due_date`. Les modes autorisés sont `immediate`, `fixed`, `monthly` et `quarterly`.
 
 Le mode immédiat fixe la première échéance à la date locale du serveur et refuse une date fournie. Les trois

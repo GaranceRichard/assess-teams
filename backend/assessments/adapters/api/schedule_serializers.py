@@ -11,7 +11,10 @@ from assessments.models import (
     EvaluationStatus,
     ScheduleMode,
 )
-from identities.adapters.api.organization_scope import manageable_organization
+from identities.adapters.api.organization_scope import (
+    has_current_organization_context,
+    manageable_organization,
+)
 from identities.domain.users import Role
 from identities.models import User
 from teams.models import Team
@@ -28,15 +31,16 @@ class EvaluationScheduleSerializer(serializers.ModelSerializer):
     evaluation_version = serializers.IntegerField(source="evaluation.version", read_only=True)
     evaluation_name = serializers.CharField(source="evaluation.name", read_only=True)
     assignee_id = serializers.IntegerField(read_only=True, allow_null=True)
-    assignee_identifier = serializers.CharField(
-        source="assignee.username",
-        read_only=True,
-        allow_null=True,
-    )
+    assignee_identifier = serializers.SerializerMethodField()
     assignee_role = serializers.SerializerMethodField()
 
+    def get_assignee_identifier(self, schedule: EvaluationSchedule) -> str | None:
+        if not has_current_organization_context(schedule.assignee, schedule.team.organization_id):
+            return None
+        return schedule.assignee.username
+
     def get_assignee_role(self, schedule: EvaluationSchedule) -> str | None:
-        if schedule.assignee is None:
+        if not has_current_organization_context(schedule.assignee, schedule.team.organization_id):
             return None
         return "Superadmin" if schedule.assignee.is_superuser else schedule.assignee.role
 
@@ -91,7 +95,7 @@ class EvaluationScheduleInputSerializer(serializers.Serializer):
         assignee_id = attrs.pop("assignee_id")
         actor = self.context["request"].user
         assignee = None
-        if actor.is_superuser:
+        if actor.is_superuser and assignee_id == actor.pk:
             assignee = User.objects.filter(
                 pk=assignee_id,
                 is_superuser=True,

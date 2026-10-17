@@ -11,6 +11,11 @@ def ensure_expected_evaluation(schedule: EvaluationSchedule, due_date=None) -> E
         or not schedule.assignee.is_active
     ):
         return None
+    if (
+        not schedule.assignee.is_superuser
+        and not schedule.team.organization.users.filter(pk=schedule.assignee_id).exists()
+    ):
+        return None
     context = {
         "organization": schedule.team.organization,
         "organization_name": schedule.team.organization.name,

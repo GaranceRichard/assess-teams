@@ -53,4 +53,5 @@ les parcours publics existants ; les E2E d'authentification et de permissions re
 La revue concerne README, contrat API, stratégie de tests et suivi MEP-008. Les règles des agents,
 la charte qualité, la Definition of Done et les principes d'architecture restent applicables sans
 modification : aucune migration, aucun rôle nouveau et aucun mécanisme d'authentification modifié.
-La refonte des rôles et l'audit approfondi inter-organisations restent hors périmètre.
+La refonte des rôles reste hors MEP-008. [MEP-011](organization-isolation.md) complète les scopes
+organisationnels, les références courantes et les [preuves API](organization-isolation-validation.md).

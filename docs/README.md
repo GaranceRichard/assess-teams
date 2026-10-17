@@ -23,6 +23,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Dashboard personnel](architecture/dashboard-api.md) : profil, apparence, activité prouvée et raccourcis par rôle.
 - [Pilotage P0](architecture/steering-api.md) : couverture et échéances des actifs, API read-only et drill-down Results.
 - [API backend et OpenAPI](architecture/backend-api.md) : contrat DRF, schéma et Swagger UI.
+- [Isolation organisationnelle MEP-011](architecture/organization-isolation.md) : matrice, endpoints, règles et preuves API sur deux organisations.
 
 ## Qualité
 

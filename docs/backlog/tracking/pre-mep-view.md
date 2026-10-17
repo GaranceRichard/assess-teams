@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-16 : 58 Ouverts, 4 Réalisés, 0 En cours, 0 Bloqué ; avancement actif 6 %. Les acquis restent séparés.
+Au 2026-10-16 : 57 Ouverts, 4 Réalisés, 1 En cours, 0 Bloqué ; avancement actif 6 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 ## Avancement des capacités
@@ -39,7 +39,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | --- | --- | --- | --- | --- |
 | 01.01 | [MEP-036 — Inventorier les paramètres sensibles et les valeurs par défaut](../source/mess/f01.md) | XS | Réalisé — 2026-10-14 | aucune |
 | 01.02 | [MEP-009 — Sécuriser les secrets et vérifier la configuration au démarrage](../source/mess/f01.md) | S | Réalisé — 2026-10-15 | MEP-036, MEP-002 |
-| 01.03 | [MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) | S | Ouvert — N/A | AUTH-001, ORG-005, ORG-006, COACH-001 |
+| 01.03 | [MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) | S | En cours — N/A | AUTH-001, ORG-005, ORG-006, COACH-001 |
 | 01.04 | [MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) | S | Ouvert — N/A | MEP-008, USER-004 |
 | 01.05 | [MEP-038 — Sécuriser les accès indirects et les exports](../source/mess/f01.md) | S | Ouvert — N/A | MEP-011, MEP-037 |
 | 02.01 | [MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) | XS | Réalisé — 2026-10-15 | MEP-003 |

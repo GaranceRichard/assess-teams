@@ -10,7 +10,7 @@ def visible_schedules(user: User) -> QuerySet[EvaluationSchedule]:
         "team__organization",
         "evaluation__family",
         "assignee",
-    )
+    ).prefetch_related("assignee__organizations")
     if user.is_superuser:
         return schedules
     return schedules.filter(team__organization__users=user).distinct()

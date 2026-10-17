@@ -49,7 +49,9 @@ class EvaluationRunListView(APIView):
         operation_id="api_evaluations_list",
         description=(
             "Liste les évaluations assignées au Coach ou attendues dans le périmètre "
-            "administratif, avec auteur, complétion et dernière révision."
+            "administratif, avec auteur, complétion et dernière révision. "
+            "Les noms snapshotés restent historiques ; assignee_active est null "
+            "si l’assigné a quitté l’organisation (hors Superadmin global)."
         ),
         parameters=[PageQuerySerializer],
         responses={
@@ -73,7 +75,9 @@ class EvaluationRunView(APIView):
     permission_classes = [CanTakeEvaluations]
 
     @extend_schema(
-        description="Récupère une passation ; les questions ordonnées sont figées au démarrage.",
+        description="Récupère une passation ; les questions ordonnées sont figées au démarrage. "
+        "Les noms restent snapshotés ; assignee_active est null hors rattachement courant "
+        "(hors Superadmin global).",
         responses={200: EvaluationRunSerializer, 403: OpenApiResponse(), 404: OpenApiResponse()},
     )
     def get(self, request, run_id: int):
