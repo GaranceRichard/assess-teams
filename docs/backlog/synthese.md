@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 4 | 33 % |
+| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 5 | 42 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 0 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 0 | 0 % |
@@ -108,7 +108,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-16
+## Préparation MESS — suivi au 2026-10-17
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
@@ -116,11 +116,11 @@ Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est d�
 Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison progressive, sans ordre de Jobs.
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
 MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte ; MEP-040 reste ouvert.
-MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est en cours : matrice et corrections API validées localement, intégration et CI attendues avant réalisation canonique.
+MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est réalisé le 2026-10-17 : matrice et 39 cas API réels, refus sans effet, historique conservé, exceptions Superadmin bornées, pré-push et CI exhaustive du SHA intégré verts.
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 4 | 57 | 1 | 0 | 6 % |
+| MESS actif — E01 à E04 | 62 | 5 | 57 | 0 | 0 | 8 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -163,13 +163,13 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
 | PBIs ouverts | 66 |
-| PBIs en cours | 1 |
+| PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 68 |
-| PBIs réalisés | 28 |
-| Avancement global | 29 % |
+| PBIs non réalisés | 67 |
+| PBIs réalisés | 29 |
+| Avancement global | 30 % |
 
-Scoring courant : 34 PBI fonctionnels + 62 PBI MESS ; 28 réalisés. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring courant : 34 PBI fonctionnels + 62 PBI MESS ; 29 réalisés. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 

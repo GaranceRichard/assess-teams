@@ -68,7 +68,8 @@ Les campagnes frontend et E2E restent imposées par le pipeline pour ces adapter
 
 README annoncé avant toute correction ; revue effectuée sur règles agents, charte qualité, DoD,
 stratégie de tests, architecture fondamentale, contrat API/OpenAPI et backlog. Les politiques,
-transactions et règles qualité ne changent pas ; aucune migration ni script de validation modifié.
+transactions et règles qualité ne changent pas ; aucune migration. L’extension du test de bootstrap
+et les modes des hooks relèvent du seul défaut CI bloquant documenté ci-dessous.
 Les arbitrages et écarts fonctionnels sont explicités dans la matrice, sans déclaration de capacité voisine livrée.
 Les corrections empêchent les nouvelles copies interorganisation ; elles ne requalifient pas les
 snapshots déjà persistés avant correction. Sans historique daté des rattachements ni données de
@@ -80,8 +81,8 @@ production accessibles, aucun nettoyage ou diagnostic rétrospectif de ces donn�
   véritables endpoints et vérifications persistantes ; pas une matrice de permissions simulées.
 - `npm run quality:plan` classe les changements en sécurité/contrat backend produit : documentation,
   backend complet renforcé avec couverture, frontend complet et tous les E2E, conformément au pipeline intégré.
-- Les gates obligatoires, le pré-push et la CI du SHA publié doivent être verts avant réalisation canonique.
-  La campagne locale finale `npm run quality:targeted` est verte ; pré-push et CI restent attendus.
+- La campagne locale `npm run quality:targeted` et les pré-push obligatoires ont réussi.
+  Le dernier pré-push de `2bd6eff` exécute aussi les contraintes et tests d’outillage exhaustifs.
 - Backend final : 1 101 tests passent, couverture globale branches incluses 97,37 % ;
   Ruff, formatage, cohérence des migrations et contrats OpenAPI réussis.
 - Frontend final : 102 fichiers / 393 tests passent ; couverture statements 96,42 %, branches 94,78 %,
@@ -111,8 +112,20 @@ second worktree depuis ce main publié. Les quatre hooks passent à `100755`, sa
 octets ni la logique de validation. Le test de bootstrap vérifie les modes versionnés, crée une
 fixture équivalente, installe les dispatchers et exige `git status --porcelain` vide après installation.
 Il échoue avant correction sur le mode de `post-checkout`, puis passe avec les modes corrigés.
-La vérification de stabilité après installation sera aussi exercée sous Linux par la CI exhaustive.
+La vérification de stabilité après installation a également réussi sous Linux dans la CI exhaustive.
 
 `quality:plan` classe automatiquement cette correction d’infrastructure en exhaustif : dépôt et
 tests d’outillage, backend, frontend et E2E. Aucun garde, seuil, sélection, cache, script de validation
 ou workflow CI n’est affaibli ; le refus de candidat modifié est conservé.
+
+## Intégration qualifiée et clôture
+
+Le commit intégré `2bd6eff36ca806a591e822f151d5b09c86e0ce78` contient les corrections applicatives
+de `d61f349` et le correctif CI. Sa [CI exhaustive indépendante](https://github.com/GaranceRichard/assess-teams/actions/runs/38989293823)
+est verte : contraintes du dépôt, statiques, trois shards backend, fusion de couverture,
+frontend, deux shards E2E, Full quality gate et Required impact gate.
+Les publications utilisent `npm run publish`, branche dédiée vers main, pré-push sans contournement
+et fast-forward sûr du checkout principal. `main` local et `origin/main` étaient propres et égaux
+à ce SHA lors de la vérification de reprise. Clôture canonique le 2026-10-17, après cette confirmation ;
+la publication documentaire de clôture est soumise à son propre contrôle et à sa propre CI.
+Cette CI verte ne vaut pas promotion MESS : nightly, qualification et gate de promotion restent distincts.
