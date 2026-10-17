@@ -95,6 +95,11 @@ Aucune dépendance d'exploitation supplémentaire n'est imposée au MESS.
 
 ## Mesures et références
 
+Les hooks `.githooks/*` sont versionnés exécutables (`100755`). Sous Linux, leur installation
+par `setup-hooks.ps1` conserve ainsi les modes du candidat ; le garde de propreté après E2E reste
+bloquant. Le test `scripts/bootstrap/tests/worktree.tests.ps1` vérifie modes Git et installation
+sans modification du checkout de fixture. Voir le [défaut bloquant révélé par MEP-011](../architecture/organization-isolation-validation.md#défaut-ci-bloquant-révélé-après-publication).
+
 L'audit et les comparaisons de cette refonte sont dans [les mesures](validation-measurements.md).
 Les anciennes mesures des shards restent dans [le bilan CI](ci-performance.md).
 Pour inspection : `gh run list --workflow quality.yml`, `gh run view RUN_ID --json jobs`.

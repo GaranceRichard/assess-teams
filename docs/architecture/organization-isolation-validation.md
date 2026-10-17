@@ -96,3 +96,23 @@ production accessibles, aucun nettoyage ou diagnostic rétrospectif de ces donn�
   Le contexte restreint a également été écarté : empreinte différente du contexte Windows de
   publication. La campagne complète finale ci-dessus a réussi dans ce dernier contexte, sans réutilisation partielle.
 - Nightly exhaustive, qualification MESS et gate de promotion restent indépendants et inchangés.
+
+## Défaut CI bloquant révélé après publication
+
+Le [run du commit applicatif d61f349](https://github.com/GaranceRichard/assess-teams/actions/runs/38987008342)
+réussit backend, frontend, contrôles du dépôt, 64 E2E applicatifs et 9 E2E démo, mais reste rouge :
+après les E2E, le garde refuse « Le candidat a change pendant le gate ».
+`git ls-files --stage .githooks` montre quatre modes `100644` ; le serveur E2E lance
+`dev-backend.ps1`, puis `setup-hooks.ps1`, qui applique `chmod +x` sous Linux. Le candidat est donc
+effectivement modifié par l’installation de ses propres hooks, malgré tous les tests réussis.
+
+Exception aux frontières de la mission : défaut bloquant démontré du pipeline, corrigé dans un
+second worktree depuis ce main publié. Les quatre hooks passent à `100755`, sans modifier leurs
+octets ni la logique de validation. Le test de bootstrap vérifie les modes versionnés, crée une
+fixture équivalente, installe les dispatchers et exige `git status --porcelain` vide après installation.
+Il échoue avant correction sur le mode de `post-checkout`, puis passe avec les modes corrigés.
+La vérification de stabilité après installation sera aussi exercée sous Linux par la CI exhaustive.
+
+`quality:plan` classe automatiquement cette correction d’infrastructure en exhaustif : dépôt et
+tests d’outillage, backend, frontend et E2E. Aucun garde, seuil, sélection, cache, script de validation
+ou workflow CI n’est affaibli ; le refus de candidat modifié est conservé.

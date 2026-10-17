@@ -14,6 +14,12 @@ function Assert-True {
     if (-not $Condition) { throw $Message }
 }
 
+$hookNames = @('post-checkout', 'pre-commit', 'pre-push', 'run-quality')
+foreach ($hookName in $hookNames) {
+    $entry = & git -C $Root ls-files --stage -- ".githooks/$hookName"
+    Assert-True ($entry -match '^100755 ') "Le hook versionne $hookName doit etre executable."
+}
+
 try {
     foreach ($name in $gitVariables) {
         $savedGitEnvironment[$name] = [Environment]::GetEnvironmentVariable($name)
@@ -37,8 +43,13 @@ printf prepared > "$repo_root/worktree-bootstrap.txt"
     & git -C $repository config user.email 'bootstrap-tests@example.invalid'
     & git -C $repository config user.name 'Bootstrap Tests'
     & git -C $repository add .githooks
+    foreach ($hookName in $hookNames) {
+        & git -C $repository update-index --chmod=+x ".githooks/$hookName"
+    }
     & git -C $repository commit -m 'fixture' | Out-Null
     & $setup -Root $repository | Out-Null
+    $status = @(& git -C $repository status --porcelain)
+    Assert-True ($status.Count -eq 0) 'Installer les hooks doit laisser le candidat Git propre.'
     $hooksPath = & git -C $repository config --get core.hooksPath
     Assert-True ([IO.Path]::IsPathRooted($hooksPath)) 'core.hooksPath doit etre stable et absolu.'
     Assert-True (-not ((Get-Item $hooksPath).Attributes -band [IO.FileAttributes]::ReparsePoint)) `
