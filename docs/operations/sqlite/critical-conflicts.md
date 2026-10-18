@@ -102,11 +102,13 @@ surveillance des latences/refus/files ; ne pas augmenter le timeout pour résoud
 
 ## Coexistence et revue documentaire
 
-MEP-037 modifie les permissions Utilisateurs et la navigation dans un autre worktree.
+MEP-037 a intégré les permissions Utilisateurs et la navigation dans `11e3a41`, avec
+[CI verte du commit intégré](https://github.com/GaranceRichard/assess-teams/actions/runs/39083777674).
 MEP-040 ne modifie aucun fichier applicatif, permission, serializer, vue ou navigation.
 Les tests utilisent les parcours Superadmin existants, sans affaiblir les refus de rôle.
-Le seul chevauchement documentaire identifié au diagnostic est README ; conserver les deux annonces
-au rebase après publication MEP-037, puis vérifier à nouveau le candidat final et sa CI.
+Le rebase sur ce commit est sans conflit : les deux annonces README sont conservées et les
+1 300 tests backend passent sur cet état commun. Le seul chevauchement documentaire initial
+est README ; les registres partagés sont actualisés depuis le dernier main au moment de la clôture.
 
 Revue : README, AGENTS/règles, charte, DoD, stratégie/inventaire, fondamentaux, transactions,
 passation, versionnement, lifecycle, provenance/Journal, API/OpenAPI et exploitation SQLite.

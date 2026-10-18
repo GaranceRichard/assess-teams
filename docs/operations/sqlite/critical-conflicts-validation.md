@@ -80,7 +80,14 @@ de la version active. Aucun mécanisme métier, permission ou preuve historique 
 Le plan automatique `quality:plan` exige documentation et **backend complet renforcé** avec couverture.
 Frontend et E2E sont exclus par le pipeline actuel : aucun contrat UI/API ou fichier applicatif modifié.
 Nightly et qualification MESS demeurent exhaustives ; cette livraison n'est pas une promotion MESS.
-Les résultats du candidat final et la CI du SHA publié sont à consigner après exécution.
+Après rebase sur MEP-037 intégré (`11e3a41`), `npm run quality:targeted` réussit :
+**1 300 tests backend passés**, dont les 42 cas MEP-040, couverture combinée **97,37 %**
+(seuil 90 %), campagne pytest de 1 045 s. Documentation, limite de 200 lignes, secrets,
+Ruff/formatage, migrations et contrats/OpenAPI passent également.
+Runtime local : Windows, Python 3.12.10, SQLite 3.49.1 et Django 5.2.18.
+La preuve locale est liée aux entrées du candidat `2b66e7b` ; les modifications documentaires
+ultérieures n'altèrent pas ses entrées applicatives. Le pré-push vérifie leur réutilisabilité exacte.
+La CI indépendante du SHA publié reste à confirmer avant clôture.
 Le registre MEP-040 reste ouvert jusqu'à satisfaction des contrôles et confirmation de la CI.
 
 ## Correspondance des cas d'usage
