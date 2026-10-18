@@ -87,8 +87,15 @@ Ruff/formatage, migrations et contrats/OpenAPI passent également.
 Runtime local : Windows, Python 3.12.10, SQLite 3.49.1 et Django 5.2.18.
 La preuve locale est liée aux entrées du candidat `2b66e7b` ; les modifications documentaires
 ultérieures n'altèrent pas ses entrées applicatives. Le pré-push vérifie leur réutilisabilité exacte.
-La CI indépendante du SHA publié reste à confirmer avant clôture.
-Le registre MEP-040 reste ouvert jusqu'à satisfaction des contrôles et confirmation de la CI.
+Le pré-push du SHA publié `b7e3242de674d31a752d703c79a203a7e7c9b2b2` réexécute le backend :
+**1 300 tests passés**, couverture **97,37 %**, 1 134 s pytest, sans contournement des hooks.
+La [CI indépendante du même SHA](https://github.com/GaranceRichard/assess-teams/actions/runs/39162211478)
+est verte en tentative 2 : **1 300 tests passés**, couverture **97,37 %**, 981 s pytest sous Linux.
+La première tentative avait été annulée par le push documentaire de clôture MEP-037 `fe342c8` ;
+après sa CI verte, le run exact MEP-040 a été relancé sans nouveau push ni modification applicative.
+La politique d'annulation du workflow main relève de la [gouvernance CI](../../quality/ci.md)
+(MEP-012/MEP-043) ; aucun script ou workflow n'a été modifié dans cette mission.
+Le registre est actualisé le 2026-10-18 après satisfaction des critères/refus et confirmation de cette CI.
 
 ## Correspondance des cas d'usage
 

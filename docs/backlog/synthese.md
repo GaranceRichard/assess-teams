@@ -115,13 +115,14 @@ La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
 Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison progressive, sans ordre de Jobs.
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
-MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte ; MEP-040 reste ouvert.
+MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte.
 MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est réalisé le 2026-10-17 : matrice et 39 cas API réels, refus sans effet, historique conservé, exceptions Superadmin bornées, pré-push et CI exhaustive du SHA intégré verts.
 MEP-037 — [Permissions par rôle](../architecture/role-permissions-validation.md) est réalisé le 2026-10-18 : matrice API/navigation, refus sans effet, champs forgés et route Équipes corrigés ; pré-push et CI du SHA intégré verts.
+MEP-040 — [Conflits des opérations critiques](../operations/sqlite/critical-conflicts-validation.md) est réalisé le 2026-10-18 : finalisation, versions et dernier Admin qualifiés par 42 cas multiprocessus sur fichier, provenance et Journal cohérents, 1 300 tests backend et CI verte ; FEAT-050 atteint 3 PBI réalisés sur 3.
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 6 | 56 | 0 | 0 | 10 % |
+| MESS actif — E01 à E04 | 62 | 7 | 55 | 0 | 0 | 11 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.

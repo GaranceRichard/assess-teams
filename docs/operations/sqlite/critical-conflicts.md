@@ -1,6 +1,7 @@
 # MEP-040 — Conflits des opérations critiques
 
-Qualification du socle `b6be4c8`, Feature FEAT-050, repère 02.03.
+Diagnostic initial du socle `b6be4c8`, qualification après intégration MEP-037,
+Feature FEAT-050, repère 02.03.
 SQLite reste le moteur permanent. [Matrice métier](critical-conflicts-matrix.md),
 [scénarios et preuves](critical-conflicts-validation.md).
 
@@ -109,6 +110,7 @@ Les tests utilisent les parcours Superadmin existants, sans affaiblir les refus 
 Le rebase sur ce commit est sans conflit : les deux annonces README sont conservées et les
 1 300 tests backend passent sur cet état commun. Le seul chevauchement documentaire initial
 est README ; les registres partagés sont actualisés depuis le dernier main au moment de la clôture.
+Le suivi final part de la clôture intégrée MEP-037 `fe342c8` et conserve ses preuves et son statut.
 
 Revue : README, AGENTS/règles, charte, DoD, stratégie/inventaire, fondamentaux, transactions,
 passation, versionnement, lifecycle, provenance/Journal, API/OpenAPI et exploitation SQLite.
