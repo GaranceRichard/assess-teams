@@ -51,7 +51,7 @@ Le correctif bloquant CI de MEP-011 versionne les modes exécutables des hooks e
 
 ## Socle technique
 
-- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite permanent en production. [MEP-003 — Transactions métier](docs/architecture/sqlite-transactions.md) préserve atomicité, Journal et données antérieures. [MEP-039 — Concurrence](docs/operations/sqlite/README.md) fixe DELETE/FULL, timeout 5 s et connexions API/workers, avec 126 mesures sur fichier et limites documentées ; [MEP-010](docs/operations/sqlite/contention.md) borne les reprises sûres et diagnostique les refus multiprocessus ; les conflits métier MEP-040 restent ouverts.
+- Backend : Python 3.12+, Django 5.2, Django REST Framework 3.16, `drf-spectacular` et SQLite permanent en production. [MEP-003 — Transactions métier](docs/architecture/sqlite-transactions.md) préserve atomicité, Journal et données antérieures. [MEP-039 — Concurrence](docs/operations/sqlite/README.md) fixe DELETE/FULL, timeout 5 s et connexions API/workers, avec 126 mesures sur fichier et limites documentées ; [MEP-010](docs/operations/sqlite/contention.md) borne les reprises sûres et diagnostique les refus multiprocessus ; [MEP-040](docs/operations/sqlite/critical-conflicts.md) qualifie les conflits métier de finalisation, versionnement et protection du dernier Admin, avec concurrence multiprocessus, atomicité et provenance préservées.
 - Frontend : React 19, TypeScript 5.9 et Vite 8.
 - Tests : pytest, Vitest, React Testing Library et Playwright.
 - Qualité : Ruff, ESLint, Prettier et coverage bloquant à 90 %.

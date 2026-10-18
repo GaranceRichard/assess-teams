@@ -84,6 +84,9 @@ inconnu n’est inventé. `journals.0007` ajoute seulement le choix d’action d
 
 Les tests couvrent création/copieur/ordre/source, contraintes DB, rollback, état actif, scopes,
 API/OpenAPI, migration avec snapshots et journaux, et concurrence sur SQLite avec fichier réel.
+La [qualification MEP-040](../operations/sqlite/critical-conflicts.md) ajoute les processus distincts,
+la source supprimée après lecture HTTP, les transitions concurrentes, les copies compatibles et
+le rollback au commit de la copie, du compteur, des questions et du Journal.
 Vitest couvre affichage, actions, erreurs, requêtes CSRF et références historiques.
 Playwright couvre v1 validée et planifiée, passation commencée, v2 copiée et modifiée puis validée,
 archivage automatique de v1, complétion historique sur v1 et nouveau planning/passation sur v2.

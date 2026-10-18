@@ -49,6 +49,9 @@ date initiale, état, date d’échéance et dernière révision. Les IDs de pro
 `is_assignee` et `can_revise` alimentent l’interface, sans remplacer la permission backend.
 Avant démarrage, le détail contient une liste de questions vide ; `POST` fige ensuite les questions.
 La finalisation exige toutes les notes ; sa répétition ne change ni date/auteur ni Journal d’activité.
+La [qualification MEP-040](../operations/sqlite/critical-conflicts.md) vérifie ces invariants avec
+processus distincts : upgrade concurrent refusé sans mutation partielle, note tardive refusée,
+répétition idempotente et copie de modèle compatible, sans changer le contrat de finalisation.
 La révision exige exactement toutes les questions, une seule fois, et ne sauvegarde rien en cas de refus.
 
 `400` refuse les notes hors bornes, flottantes, booléennes, chaînes, nulles ou structures invalides,

@@ -58,8 +58,9 @@ Les remises incertaines après interruption sont isolées pour vérification SMT
 les messages déjà acceptés ne sont pas volontairement renvoyés. SMTP ne garantit pas une remise
 exactement une fois sans coopération du relais.
 La [référence MEP-039](../operations/sqlite/README.md) qualifie timeout, journal et connexions sur fichier.
-Les [reprises MEP-010](../operations/sqlite/contention.md) sont opt-in, après rollback, sans rejeu HTTP/SMTP ;
-les conflits métier restent MEP-040 et sauvegarde/restauration demeurent distinctes.
+Les [reprises MEP-010](../operations/sqlite/contention.md) sont opt-in, après rollback, sans rejeu HTTP/SMTP.
+La [qualification MEP-040](../operations/sqlite/critical-conflicts.md) distingue conflits métier,
+contention et opérations compatibles ; sauvegarde/restauration demeurent distinctes.
 SQLite demeure définitivement le moteur de production.
 
 ## Preuves et revue documentaire

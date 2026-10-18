@@ -1,7 +1,8 @@
 # MEP-039 — Référence de concurrence SQLite MESS
 
 SQLite reste définitivement le moteur de production. Cette référence qualifie les paramètres ;
-les [corrections MEP-010](contention.md) complètent cette référence ; les conflits métier restent MEP-040.
+les [corrections MEP-010](contention.md) et la [qualification MEP-040](critical-conflicts.md)
+complètent cette référence pour les refus techniques et les invariants métier critiques.
 [Mesures et protocole](measurements.md) ; [résultats bruts JSONL](mep-039-measurements.jsonl).
 
 ## Configuration appliquée

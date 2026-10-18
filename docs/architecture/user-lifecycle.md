@@ -67,6 +67,9 @@ avec `select_for_update`, puis le User. Les opérations d’identités sont donc
 un compromis conservatoire adapté au socle actuel. Les erreurs annulent identité, affectations et Journal.
 Le test sur SQLite fichier exécute deux désactivations, rétrogradation/désactivation et retrait/désactivation
 concurrents : un succès, un refus, un Admin actif restant. Aucun retry ne contourne les refus.
+La [qualification MEP-040](../operations/sqlite/critical-conflicts.md) étend la preuve à des processus
+distincts en développement/production, aux deux rétrogradations, à l'alias DELETE, au retrait et aux
+deux désactivations compatibles avec trois Admins ; Journal, intentions de mail et historique sont vérifiés.
 
 ## Responsabilités et historique
 

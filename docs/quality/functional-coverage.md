@@ -60,6 +60,10 @@ les refus de verrou, les PRAGMA Django, select_for_update et une passation API a
 Les [preuves MEP-010](../operations/sqlite/contention.md) ajoutent 22 cas API/workers multiprocessus
 sur fichier (développement/production), rollback au commit, reprises bornées, non-rejeu SMTP et Journal cohérent.
 
+Les [preuves MEP-040](../operations/sqlite/critical-conflicts-validation.md) qualifient finalisation,
+versions et dernier Admin avec processus distincts, conflits et opérations compatibles, provenance,
+Journal, notifications et rollback complet au commit sur SQLite réel, dans les deux environnements.
+
 Le [Job 1.3 / MEP-003](../architecture/sqlite-transactions.md#preuves-et-revue-documentaire) couvre les écritures métier atomiques, le Journal, les relations et l’arrêt brutal SQLite ; Playwright vérifie le refus de finalisation puis sa reprise sans perte des notes.
 
 La passation couvre accès assigné/Admin/Superadmin, refus Viewer et hors organisation, ordre et snapshot des
