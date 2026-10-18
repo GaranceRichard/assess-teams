@@ -108,7 +108,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-17
+## Préparation MESS — suivi au 2026-10-18
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
@@ -117,10 +117,11 @@ Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison pr
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
 MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte ; MEP-040 reste ouvert.
 MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est réalisé le 2026-10-17 : matrice et 39 cas API réels, refus sans effet, historique conservé, exceptions Superadmin bornées, pré-push et CI exhaustive du SHA intégré verts.
+MEP-037 — [Permissions par rôle](../architecture/role-permissions-validation.md) est réalisé le 2026-10-18 : matrice API/navigation, refus sans effet, champs forgés et route Équipes corrigés ; pré-push et CI du SHA intégré verts.
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 5 | 57 | 0 | 0 | 8 % |
+| MESS actif — E01 à E04 | 62 | 6 | 56 | 0 | 0 | 10 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.

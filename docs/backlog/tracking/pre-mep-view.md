@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-17 : 57 Ouverts, 5 Réalisés, 0 En cours, 0 Bloqué ; avancement actif 8 %. Les acquis restent séparés.
+Au 2026-10-18 : 56 Ouverts, 6 Réalisés, 0 En cours, 0 Bloqué ; avancement actif 10 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 ## Avancement des capacités
@@ -12,7 +12,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 
 | Epic | Feature / capacité | Réalisés / PBI | Avancement |
 | --- | --- | ---: | ---: |
-| EPIC-011 — Sécurité et robustesse | [F01 — FEAT-049 — Sécurité de production](../source/mess/f01.md) | 3 / 5 | 60 % |
+| EPIC-011 — Sécurité et robustesse | [F01 — FEAT-049 — Sécurité de production](../source/mess/f01.md) | 4 / 5 | 80 % |
 | EPIC-011 — Sécurité et robustesse | [F02 — FEAT-050 — SQLite en exploitation](../source/mess/f02.md) | 2 / 3 | 67 % |
 | EPIC-011 — Sécurité et robustesse | [F03 — FEAT-051 — Journalisation et conservation](../source/mess/f03.md) | 0 / 2 | 0 % |
 | EPIC-011 — Sécurité et robustesse | [F04 — FEAT-052 — Gouvernance Git et intégration continue](../source/mess/f04.md) | 0 / 2 | 0 % |
@@ -40,7 +40,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 01.01 | [MEP-036 — Inventorier les paramètres sensibles et les valeurs par défaut](../source/mess/f01.md) | XS | Réalisé — 2026-10-14 | aucune |
 | 01.02 | [MEP-009 — Sécuriser les secrets et vérifier la configuration au démarrage](../source/mess/f01.md) | S | Réalisé — 2026-10-15 | MEP-036, MEP-002 |
 | 01.03 | [MEP-011 — Contrôler l’isolation des accès entre organisations](../source/mess/f01.md) | S | Réalisé — 2026-10-17 | AUTH-001, ORG-005, ORG-006, COACH-001 |
-| 01.04 | [MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) | S | Ouvert — N/A | MEP-008, USER-004 |
+| 01.04 | [MEP-037 — Renforcer les permissions selon les rôles](../source/mess/f01.md) | S | Réalisé — 2026-10-18 | MEP-008, USER-004 |
 | 01.05 | [MEP-038 — Sécuriser les accès indirects et les exports](../source/mess/f01.md) | S | Ouvert — N/A | MEP-011, MEP-037 |
 | 02.01 | [MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) | XS | Réalisé — 2026-10-15 | MEP-003 |
 | 02.02 | [MEP-010 — Gérer les verrous et les transactions concurrentes](../source/mess/f02.md) | S | Réalisé — 2026-10-16 | MEP-039, MEP-003 |

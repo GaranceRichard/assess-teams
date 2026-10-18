@@ -68,8 +68,17 @@ Validation locale du 2026-10-17 : npm run quality:targeted entièrement vert.
 | E2E démo | Build et 9 parcours sans backend réussis. |
 | Statiques et contrats | Lignes <= 200, secrets, cohérence, Ruff, Prettier, ESLint, migrations, typage/build et OpenAPI verts. |
 
-La clôture canonique n'est effectuée qu'après réussite de la CI du changement intégré.
-Les commandes, résultats, SHA et lien CI sont ajoutés à cette section après validation.
+Publication applicative par npm run publish : commit 11e3a4180e8ccb48fc28b7d909f30258e542cc01.
+Le pré-push a revérifié backend, frontend et les 74 parcours E2E avec succès.
+Le checkout principal propre a été avancé exclusivement en fast-forward.
+
+[CI indépendante du SHA intégré](https://github.com/GaranceRichard/assess-teams/actions/runs/39083777674) :
+succès confirmé le 2026-10-18, avec backend, frontend, documentation, parcours et
+Required impact gate verts. Le job full non requis est explicitement ignoré par le plan ;
+cette CI sélective n'est pas présentée comme une qualification MESS exhaustive.
+
+La clôture canonique du 2026-10-18 intervient après cette confirmation ; les vues dérivées
+et la liste des PBI prêts sont recalculées. MEP-038 est désormais prêt selon ses dépendances.
 
 ## Revue documentaire et risques résiduels
 
