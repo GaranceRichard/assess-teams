@@ -42,6 +42,14 @@ class InviteUserSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=254)
     role = serializers.ChoiceField(choices=Role.values())
 
+    def to_internal_value(self, data):
+        unexpected_fields = set(data) - set(self.fields) if isinstance(data, dict) else set()
+        if unexpected_fields:
+            raise serializers.ValidationError(
+                {field: ["Ce champ n'est pas accepté."] for field in unexpected_fields}
+            )
+        return super().to_internal_value(data)
+
     def validate_identifier(self, value: str) -> str:
         identifier = value.strip()
         if User.objects.filter(username__iexact=identifier).exists():
@@ -59,9 +67,7 @@ class InviteUserSerializer(serializers.Serializer):
         return email
 
 
-class UpdateManagedUserSerializer(serializers.Serializer):
-    identifier = serializers.CharField(max_length=150, allow_blank=False)
-    email = serializers.EmailField(max_length=254)
+class UpdateManagedUserSerializer(InviteUserSerializer):
     role = serializers.ChoiceField(choices=Role.values(), required=False)
     is_active = serializers.BooleanField(required=False)
 

@@ -63,9 +63,9 @@ class ManagedUserListCreateView(APIView):
 
     @extend_schema(
         description=(
-            "Invite un utilisateur. Le Superadmin choisit toute fonction métier ; "
-            "l'Admin choisit uniquement Coach ou Viewer. Le succès confirme la création ; "
-            "la notification est persistée et sa remise SMTP suivie séparément."
+            "Invite Admin/Coach/Viewer pour Superadmin ; Coach/Viewer pour Admin local. "
+            "Champs supplémentaires refusés (400), sans création ni notification. "
+            "Le succès confirme la création ; remise SMTP persistée et suivie séparément."
         ),
         request=InviteUserSerializer,
         responses={201: ManagedUserSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
@@ -116,7 +116,8 @@ class ManagedUserDetailView(APIView):
             "Modifie une identité autorisée et, selon la fonction de l'appelant, "
             "sa fonction métier ou son activation. Seul le Superadmin administre "
             "un Admin. Un Coach agit uniquement sur un Viewer de son organisation. "
-            "Le succès confirme la modification ; la remise du courriel est suivie séparément."
+            "Le succès confirme la modification ; la remise du courriel est suivie séparément. "
+            "Champs supplémentaires refusés (400), sans modification ni notification."
         ),
         request=UpdateManagedUserSerializer,
         responses={

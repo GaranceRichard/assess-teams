@@ -66,9 +66,8 @@ aux écritures authentifiées. Une requête anonyme est refusée avec `403`. `PO
 session et son jeton CSRF, invalide la session puis retourne `204`; une session ou un jeton absent est refusé
 avec `403`.
 
-Le frontend n’affiche que les menus associés à la fonction ; aucun menu Équipes n’est présenté au Coach. La permission de route applique la hiérarchie de
-capacités `Admin > Coach > Viewer`, y compris lors d’un accès direct. Viewer accède au tableau de bord et aux Résultats, jamais à Utilisateurs ni Équipes. Utilisateurs, Organisations, Équipes,
-Modèles, Planification, Évaluations, Résultats, Pilotage et Journaux ont des pages réelles ; le [dashboard personnel](dashboard-api.md) expose profil, apparence, activité et raccourcis.
+Menus et accès directs suivent la [matrice MEP-037](role-permissions.md) : Équipes est réservé à Admin.
+Viewer accède au [dashboard personnel](dashboard-api.md) et aux Résultats.
 
 Le [contrat Results](results-api.md) expose les versions avec complétions et les dernières passations
 complétées par équipe, sur une version radar automatique par famille/organisation, puis les observations longitudinales d’un critère
@@ -95,7 +94,8 @@ consulte uniquement les membres de son organisation et reçoit une liste vide sa
 Chaque résultat expose `organizations`, les rattachements du compte et toujours `[]` pour un Superadmin. Le menu Utilisateurs affiche cette liste à ses visiteurs Admin et Superadmin.
 Viewer n’a aucun accès à l’écran Utilisateurs. `POST` sur la collection, puis `PUT` et `DELETE` sur
 `/api/admin/users/{user_id}/`, exigent le jeton CSRF et restent interdits au Viewer. Masquer un bouton ne
-constitue jamais le contrôle d'accès. La colonne « Identifiant » correspond à `username` et reste distincte du mail.
+constitue jamais le contrôle d'accès : [matrice MEP-037](role-permissions.md). POST/PUT refusent les champs
+non contractuels (400), sans mutation ni notification. « Identifiant » reste username, distinct du mail.
 
 Le Superadmin invite des Admins, Coachs ou Viewers et administre tous les comptes sauf le sien. L'Admin invite
 des Coachs ou Viewers automatiquement rattachés à son organisation, puis modifie, désactive ou réactive

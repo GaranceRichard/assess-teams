@@ -30,7 +30,7 @@ export const routes: ProductRoute[] = [
     path: "/teams",
     title: "Équipes",
     menuRoles: ["Admin"],
-    minimumRole: "Coach",
+    minimumRole: "Admin",
   },
   {
     path: "/templates",

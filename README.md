@@ -43,6 +43,8 @@ MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notif
 
 [MEP-009 — Configuration sûre au démarrage](docs/operations/configuration/startup-security.md) refuse les secrets absents/faibles/de développement et les combinaisons DEBUG, SMTP et proxy dangereuses, avec diagnostics confidentiels, droits et rotation documentés à partir de MEP-036.
 
+[MEP-037 — Permissions par rôle](docs/architecture/role-permissions.md) confronte les actions API et la navigation aux rôles canoniques et aux exceptions publiques MEP-008 : matrice explicite, refus sans effet et correction des seules protections manquantes, sans modifier les acquis MEP-011.
+
 ## Validations proportionnées
 
 Le correctif bloquant CI de MEP-011 versionne les modes exécutables des hooks et vérifie que leur installation laisse le candidat Git propre sous Linux. Preuves sans expiration temporelle et classification SQLite/sécurité différenciée : correction ciblée du pipeline, avec ses protections conservées. Les tests de cache isolent les chargeurs du runner et vérifient le frais forcé pour les entrées externes ; les seules sorties TypeScript cartographiées sont exclues des octets installés. Les fixtures des workers utilisent des signaux atomiques par processus. Le [dispositif de validation](docs/quality/validation-costs.md) sépare le retour rapide, les tests ciblés selon le risque et les preuves complètes. Il sérialise la publication des worktrees et mesure les réexécutions. Tests, seuils et contrôles de sécurité sont conservés ; la [CI parallèle](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent documentés. Les tests de configuration restent indépendants de l’état Django et de l’ordre des shards ; les probes SQLite sont isolées pour terminer leurs auxiliaires avant la fusion de couverture.
@@ -58,13 +60,11 @@ Le correctif bloquant CI de MEP-011 versionne les modes exécutables des hooks e
 
 ## Périmètres livrés — identités et accès
 
-L'endpoint initial de création d'identité est réservé au Superadmin. Dans l'espace produit, un Admin invite
-uniquement des Coachs ou Viewers, automatiquement rattachés à son organisation unique.
+La [création technique Superadmin et l'invitation Admin](docs/architecture/backend-api.md#gestion-hiérarchique-des-identités) restent distinctes.
 
-Une identité active peut ouvrir une session produit, reprendre sur le tableau de bord depuis la racine puis accéder aux pages autorisées par sa fonction.
-Les menus et accès directs appliquent la hiérarchie `Admin > Coach > Viewer`. Le Superadmin Django obtient
-l'espace Admin sans devenir un rôle métier supplémentaire. Sans menu Équipes, le Coach retrouve sur son tableau
-de bord son organisation et ses équipes actives ; le Viewer y retrouve son organisation. La déconnexion invalide la session.
+Les sessions actives accèdent aux menus et routes autorisés selon Admin > Coach > Viewer.
+Le Superadmin Django reçoit les capacités Admin ; Coach et Viewer retrouvent leur organisation au Dashboard,
+le Coach ses équipes actives. Équipes reste réservé aux Admins ; la déconnexion invalide la session.
 La page Utilisateurs administre les identités et leurs invitations ; elle affiche `—` pour le Superadmin, conserve les cellules Actions et centre les badges Actif/Désactivé dans les thèmes et palettes. Un toggle illustré
 soleil/lune conserve le mode jour/nuit. Dans Mon profil → Apparence, le sélecteur [Couleurs](docs/architecture/interface-palettes.md) propose dix accents : les bandeaux sidebar/header clairs suivent une teinte lumineuse plus perceptible de la palette, le fond central devient un gris très clair subtilement teinté et les cartes restent blanches. Cette évolution des seuls tokens LIGHT conserve le layout, le shell, les scrolls, la pagination et les préférences. Le Dashboard clair conserve sa hiérarchie compacte et son fonctionnement ; le mode sombre validé conserve exactement son rendu. La couleur choisie reste indépendante du mode et persiste par utilisateur dans la session backend (défaut vert). Le panneau de choix doit rester contenu dans le viewport mobile avec les métriques de police Linux. Le chargement initial de la planification ignore les réponses obsolètes.
 

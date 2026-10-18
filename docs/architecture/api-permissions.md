@@ -1,5 +1,8 @@
 # Permissions API restrictives — MEP-008 / Job 1.8
 
+[MEP-037 — matrice des actions par rôle et navigation](role-permissions.md) complète ce socle,
+avec [refus API sans effet et preuves](role-permissions-validation.md), sans élargir les exceptions.
+
 ## Politique par défaut
 
 Les réglages communs à development et production définissent
