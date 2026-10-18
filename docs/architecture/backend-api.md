@@ -193,7 +193,7 @@ Admin/Superadmin uniquement, projection cohérente des actifs, complétions et a
 
 Le [contrat des journaux](journals-api.md) décrit les deux collections administratives, leurs filtres distincts, la capture HTTP exhaustive et le contexte sûr des Logs.
 
-Les [collections produit](product-layout.md#collections-et-contrats) acceptent une pagination serveur optionnelle ; OpenAPI décrit page, filtres et variantes de réponse.
+Les [collections produit](product-layout.md#collections-et-contrats) acceptent une pagination serveur optionnelle ; OpenAPI décrit page, filtres et variantes de réponse. L’[audit MEP-038](indirect-access.md) vérifie aussi les accès indirects et historiques selon MEP-011/037, sans changement du contrat ni export métier existant.
 
 Les [repères d’appréciation](appreciation-markers.md) complètent les serializers des questions et
 les snapshots de passation : liste facultative en écriture, niveaux entiers uniques 0–10, texte non vide,

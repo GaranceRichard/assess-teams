@@ -43,7 +43,7 @@ MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notif
 
 [MEP-009 — Configuration sûre au démarrage](docs/operations/configuration/startup-security.md) refuse les secrets absents/faibles/de développement et les combinaisons DEBUG, SMTP et proxy dangereuses, avec diagnostics confidentiels, droits et rotation documentés à partir de MEP-036.
 
-[MEP-037 — Permissions par rôle](docs/architecture/role-permissions.md) confronte les actions API et la navigation aux rôles canoniques et aux exceptions publiques MEP-008 : matrice explicite, refus sans effet et correction des seules protections manquantes, sans modifier les acquis MEP-011.
+[MEP-037 — Permissions par rôle](docs/architecture/role-permissions.md) confronte les actions API et la navigation aux rôles canoniques et aux exceptions publiques MEP-008 : matrice explicite, refus sans effet et correction des seules protections manquantes, sans modifier les acquis MEP-011. [MEP-038 — Accès indirects et exports](docs/architecture/indirect-access.md) qualifie filtres, liens profonds et relations historiques selon MEP-011/037 : aucun défaut démontré ni export métier existant ; preuves complétées sans modification applicative.
 
 ## Validations proportionnées
 
