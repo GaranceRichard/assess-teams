@@ -47,7 +47,7 @@ au lieu d’imposer un libellé générique différent des réponses actuelles d
 
 Playwright ciblé : `npm run quality:targeted -- e2e e2e/indirect-access.spec.ts` réussit (1/1).
 
-`npm run quality:targeted` réussit : documentation (200 lignes, secrets, cohérence), statiques backend/frontend, 12 cas API et nouveau parcours Chromium. Les 6 tests `node --test scripts/legal/npm-notices.test.mjs` passent aussi. Le plan porte uniquement sur les tests et la prose ; aucune campagne globale de couverture ni build produit supplémentaire requis. La publication et la réalisation canonique attendent la CI verte du SHA exact.
+`npm run quality:targeted` réussit : documentation (200 lignes, secrets, cohérence), statiques backend/frontend, 12 cas API et nouveau parcours Chromium. Les 6 tests `node --test scripts/legal/npm-notices.test.mjs` passent aussi. Le plan porte uniquement sur les tests et la prose ; aucune campagne globale de couverture ni build produit supplémentaire requis. Le pré-push a réexécuté ce plan avec succès avant publication.
 
 ## Revue documentaire et DoD
 
@@ -64,3 +64,18 @@ passant sur l’implémentation initiale. Les erreurs initiales du nouveau test 
 concernent sa synchronisation et ses attentes, corrigées avant publication.
 Les sélections ne remplacent pas les campagnes globales de couverture.
 Limite 200 lignes, secrets, formatage et gates applicables restent bloquants.
+
+## Intégration et clôture
+
+Publication par `npm run publish` du commit `5fadccb9b762efa70f6b54d50bc24de0397d6f2e`.
+[CI indépendante du SHA intégré](https://github.com/GaranceRichard/assess-teams/actions/runs/39166107386) :
+succès confirmé le 2026-10-18, gates documentation, backend, frontend, E2E et
+`Required impact gate` verts. La campagne exhaustive non requise est explicitement ignorée ;
+cette CI sélective ne constitue pas une qualification MESS exhaustive.
+
+Le checkout principal propre a été avancé exclusivement en fast-forward.
+La clôture canonique intervient après cette preuve ; FEAT-049 atteint 5/5,
+MESS 8 Réalisés / 62 (54 Ouverts, 13 %), E01 8/12 (67 %) et 20 PBI prêts.
+La synthèse E01 affichait encore 5/12 malgré les 7 réalisations antérieures :
+elle est recalculée depuis le registre, sans changer les statuts des autres chantiers.
+La clôture documentaire est publiée à son tour par `npm run publish`, avec ses gates propres.

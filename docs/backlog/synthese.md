@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 5 | 42 % |
+| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 8 | 67 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 0 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 0 | 0 % |
@@ -119,10 +119,11 @@ MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) 
 MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est réalisé le 2026-10-17 : matrice et 39 cas API réels, refus sans effet, historique conservé, exceptions Superadmin bornées, pré-push et CI exhaustive du SHA intégré verts.
 MEP-037 — [Permissions par rôle](../architecture/role-permissions-validation.md) est réalisé le 2026-10-18 : matrice API/navigation, refus sans effet, champs forgés et route Équipes corrigés ; pré-push et CI du SHA intégré verts.
 MEP-040 — [Conflits des opérations critiques](../operations/sqlite/critical-conflicts-validation.md) est réalisé le 2026-10-18 : finalisation, versions et dernier Admin qualifiés par 42 cas multiprocessus sur fichier, provenance et Journal cohérents, 1 300 tests backend et CI verte ; FEAT-050 atteint 3 PBI réalisés sur 3.
+MEP-038 — [Accès indirects et exports](../architecture/indirect-access-validation.md) est réalisé le 2026-10-18 : filtres, liens profonds, relations imbriquées et historique qualifiés ; aucun défaut démontré ni export métier existant ; pré-push et CI du SHA intégré verts. FEAT-049 atteint 5 PBI réalisés sur 5.
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 7 | 55 | 0 | 0 | 11 % |
+| MESS actif — E01 à E04 | 62 | 8 | 54 | 0 | 0 | 13 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.

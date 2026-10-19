@@ -20,10 +20,9 @@ après resynchronisation et gates complets. La refonte ne modifie ni AGENTS.md n
 
 ## PBI prêts au regard des dépendances connues du registre
 
-Au 2026-10-18, 21 PBI sont prêts selon les dépendances enregistrées ; tous les prérequis cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
+Au 2026-10-18, 20 PBI sont prêts selon les dépendances enregistrées ; tous les prérequis cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
 n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
 
-- [01.05 — MEP-038 — Sécuriser les accès indirects et les exports](../source/mess/f01.md) : prérequis MEP-011, MEP-037 réalisés.
 - [03.02 — MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) : prérequis JOURNAL-001, JOURNAL-002.
 - [04.01 — MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) : prérequis aucune.
 - [05.01 — MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-007.
