@@ -3,6 +3,8 @@ import uuid
 from django.conf import settings
 from django.db import models
 
+from journals.purge_models import JournalPurgeRun  # noqa: F401
+
 
 class ActivityAction(models.TextChoices):
     ORGANIZATION_CREATED = "organization_created", "Organisation créée"

@@ -120,4 +120,6 @@ obligations et risques de production pour MEP-009, sans modifier les réglages e
 Le [contrôle MEP-009](../operations/configuration/startup-security.md) valide ensuite secrets,
 SMTP et protections HTTP effectives au démarrage Django, sans accès réseau ni migration.
 La [configuration MEP-042](../operations/configuration/journal-retention.md) valide aussi la
-conservation des deux types de journaux, sans purge ni durée métier implicitement autorisée.
+conservation des deux types de journaux, sans durée métier implicitement autorisée.
+La [purge MEP-020](../operations/journal-purge.md) réutilise ces paramètres avec simulation,
+lots transactionnels bornés et reçus persistants ; elle préserve toutes les preuves métier.

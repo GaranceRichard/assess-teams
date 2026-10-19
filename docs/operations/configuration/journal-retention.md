@@ -75,10 +75,10 @@ Restent à arbitrer avec MESS, sans valeur ni responsable nominatif inventé :
 Le défaut conservatoire n'est ni une recommandation de conservation illimitée, ni une conformité
 réglementaire démontrée. Ces décisions restent à rendre avant toute destruction des preuves métier.
 
-## Frontière MEP-020
+## Consommateur MEP-020
 
-Configurer une durée ne déclenche aucune action : aucun collecteur recréé, ordonnanceur, sélection
-d'entrées échues, suppression, archivage, simulation ou commande de purge n'est ajouté.
-MEP-020 devra consommer et revalider ce contrat, respecter `keep`, les périmètres et les preuves,
-traiter les dates aux bornes et fournir simulation, bornage, traçabilité et interruption/reprise.
-Un paramètre technique valide n'est pas à lui seul une autorisation d'exécuter une purge.
+Configurer une durée ne déclenche aucune action. La [commande distincte MEP-020](../journal-purge.md)
+consomme et revalide ce contrat, respecte `keep`, les périmètres et les preuves, traite les dates
+aux bornes et fournit simulation, bornage, reçus séparés et reprise transactionnelle.
+Un paramètre technique valide n'est pas à lui seul une autorisation d'exécuter une purge :
+l'exploitant doit demander explicitement l'exécution avec une référence de décision approuvée.

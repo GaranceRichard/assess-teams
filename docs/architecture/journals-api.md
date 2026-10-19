@@ -83,4 +83,7 @@ La [configuration d'exploitation](../operations/configuration/journal-retention.
 globales et sans organisation. Sans durée configurée, aucune échéance n'est définie. Toute durée
 finie des preuves métier est refusée faute de politique autorisée ; les durées techniques sont
 des entiers positifs de jours. Les accès de consultation ci-dessus restent inchangés.
-Aucune purge n'est exécutée : MEP-020 reste distinct. [Tests et DoD](../operations/configuration/journal-retention-validation.md).
+Configurer ne déclenche aucune purge. [Tests MEP-042](../operations/configuration/journal-retention-validation.md).
+La [commande MEP-020](../operations/journal-purge.md) consomme cette politique : simulation par défaut,
+exécution technique autorisée explicitement, fenêtres/lots bornés, intégrité et reprise transactionnelle.
+Ses reçus séparés ne sont pas des `LogEntry` ; les activités et preuves métier restent protégées.

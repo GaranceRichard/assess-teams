@@ -55,6 +55,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 - [MEP-036 — Inventaire des paramètres, défauts, risques et preuves](operations/configuration/README.md).
 - [MEP-009 — Configuration sûre, protection des secrets, rotation et preuves](operations/configuration/startup-security.md).
+- [MEP-020 — Purge technique : simulation, planification, intégrité et reprise](operations/journal-purge.md).
 
 - [Référence opérationnelle : quatre Epics et vingt Features](backlog/source/07-pre-mep.md).
 - [Livraison progressive et prérequis](backlog/planning/pre-mep.md).
