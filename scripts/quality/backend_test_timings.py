@@ -33,7 +33,7 @@ def main():
     TIMINGS.write_text(
         json.dumps(
             {
-                "shards": json.loads(TIMINGS.read_text())["shards"],
+                **json.loads(TIMINGS.read_text()),
                 "source": args.source,
                 "seconds": file_durations(args.reports),
             },

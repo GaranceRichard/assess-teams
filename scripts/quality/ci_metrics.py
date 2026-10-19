@@ -19,11 +19,18 @@ def measure(run, jobs):
     finished = max(instant(job["completed_at"]) for job in jobs)
     rows = []
     for job in jobs:
-        name = job["name"]
+        name = job["name"].rsplit(" / ", 1)[-1]
         dependencies = []
         if name == "Backend global coverage":
             dependencies = [item for item in jobs if "Backend tests (" in item["name"]]
         elif name == "Full quality gate":
+            dependencies = [
+                item
+                for item in jobs
+                if item != job
+                and item["name"].rsplit(" / ", 1)[-1] != "Required impact gate"
+            ]
+        elif name == "Required impact gate":
             dependencies = [item for item in jobs if item != job]
         ready = max(
             [started] + [instant(item["completed_at"]) for item in dependencies]
@@ -43,7 +50,7 @@ def measure(run, jobs):
         )
         rows.append(
             {
-                "name": name,
+                "name": job["name"],
                 "conclusion": job["conclusion"],
                 "job_seconds": (job_end - job_start).total_seconds(),
                 "runner_delay_seconds": max(0, (job_start - ready).total_seconds()),
@@ -62,7 +69,12 @@ def measure(run, jobs):
             }
         )
     critical = max(
-        (job for job in jobs if job["name"] != "Full quality gate"),
+        (
+            job
+            for job in jobs
+            if job["name"].rsplit(" / ", 1)[-1]
+            not in {"Full quality gate", "Required impact gate"}
+        ),
         key=lambda job: instant(job["completed_at"]),
     )
     return {

@@ -126,12 +126,14 @@ def test_relative_branch_data_merges_across_distinct_runner_checkouts(tmp_path, 
         cov.save()
 
 
-@pytest.mark.parametrize("missing", [None, ".coverage.3", "manifest-3.json"])
-def test_three_partitions_require_the_complete_third_shard(tmp_path, missing):
-    write_manifests(tmp_path, 3)
+@pytest.mark.parametrize("count", [3, 8])
+@pytest.mark.parametrize("missing", [None, "coverage", "manifest"])
+def test_parallel_partitions_require_every_shard(tmp_path, missing, count):
+    write_manifests(tmp_path, count)
     if missing:
-        (tmp_path / missing).unlink()
+        filename = f".coverage.{count}" if missing == "coverage" else f"manifest-{count}.json"
+        (tmp_path / filename).unlink()
         with pytest.raises((ValueError, FileNotFoundError)):
-            merger.validate_shards(tmp_path, 3)
+            merger.validate_shards(tmp_path, count)
     else:
-        assert merger.validate_shards(tmp_path, 3) == 3
+        assert merger.validate_shards(tmp_path, count) == count

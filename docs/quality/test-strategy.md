@@ -95,13 +95,13 @@ les scores absents et les textes identiques de lignées distinctes dans les sér
 `results-analysis.spec.ts` dans la démo vérifie Espace/Entrée, focus, état et description accessibles,
 les deux thèmes, les libellés sur mobile et la réduction des animations, sans appel API.
 `results-layout.spec.ts` mesure le canvas et les bornes
-de chaque libellé sur six viewports desktop, dont 1280×480, sans scroll de document/page/panneau radar ;
+de chaque libellé sur huit viewports desktop, dont 1280×480, sans scroll de document/page/panneau radar ;
 il vérifie le scroll interne du tableau, la conservation des sélections et l’accès mobile.
 Le longitudinal ajoute les tests `test_result_longitudinal*` et `test_question_lineage*` : lignées
 explicites, migration conservatrice, v1/v2, isolement et IDs forgés. `results-longitudinal.spec.ts`
 vérifie le radar automatique, le chargement à la demande, les observations accessibles et le retour.
 Les tests de layout longitudinal de l’application et du build statique partagent leurs assertions :
-six viewports desktop, texte du canvas non rogné, dates sans chevauchement, titre/légende contenus,
+huit viewports desktop, texte du canvas non rogné, dates sans chevauchement, titre/légende contenus,
 resize, mises à jour jour/nuit et changements de restitution, retour par Analyse, tableau seul scrollable
 au clavier et flux mobile. Les assertions vérifient l’absence de tableau avec la courbe et inversement,
 ainsi que la restitution détaillée radar après le retour depuis le tableau historique.
@@ -182,7 +182,7 @@ Tout échec constitue un blocage, jamais une simple alerte.
 
 Le gate de commit constitue l'exception explicitement informative : `quality:quick` exécute uniquement les statiques et contraintes du dépôt, mais retourne zéro afin d'autoriser les commits intermédiaires. Les échecs restent visibles comme `FAIL informatif` et `WARNING`.
 
-Les [niveaux et preuves locales](validation-costs.md) bornent la réutilisation par les entrées et la politique, sans expiration temporelle, et sérialisent la publication. Le pre-push calcule le plan du diff réel ; la [CI](ci.md) vérifie indépendamment les contrôles requis et leur agrégation. Nightly et qualification MESS restent exhaustives sur leur SHA exact. Le build frontend inclut le typecheck. Les tests des scopes et de l’agrégation couvrent succès, refus et absence de doublons ; les invariants YAML protègent dépendances, caches, déclencheurs et Pages. Localement, pytest exécute tout le backend avec branch coverage et seuil de 90 % porté par `.coveragerc`. En CI, trois partitions équilibrées exécutent chacun une partition exhaustive, sans test perdu ni répété ; leurs données sont fusionnées avant le seuil global de 90 %, jamais appliqué séparément à chaque shard. Les tests vérifient cette union avec de vraies données de couverture et refusent les shards absents, incohérents ou superposés. Côté frontend, `test:coverage` couvre toutes les catégories existantes ; Vitest porte les seuils d'au moins 90 % pour branches, fonctions, lignes et statements. `test:e2e` exécute séparément les parcours Playwright inventoriés depuis le backlog.
+Les [niveaux et preuves locales](validation-costs.md) bornent la réutilisation par les entrées et la politique, sans expiration temporelle, et sérialisent la publication. Le pre-push calcule le plan du diff réel ; la [CI](ci.md) vérifie indépendamment les contrôles requis et leur agrégation. Nightly et qualification MESS restent exhaustives sur leur SHA exact. Le build frontend inclut le typecheck. Les tests des scopes et de l’agrégation couvrent succès, refus et absence de doublons ; les invariants YAML protègent dépendances, caches, déclencheurs et Pages. Localement, pytest exécute tout le backend avec branch coverage et seuil de 90 % porté par `.coveragerc`. En CI, huit partitions équilibrées exécutent chacun une partition exhaustive, sans test perdu ni répété ; leurs données sont fusionnées avant le seuil global de 90 %, jamais appliqué séparément à chaque shard. Les tests vérifient cette union avec de vraies données de couverture et refusent les shards absents, incohérents ou superposés. Côté frontend, `test:coverage` couvre toutes les catégories existantes ; Vitest porte les seuils d'au moins 90 % pour branches, fonctions, lignes et statements. `test:e2e` exécute séparément les parcours Playwright inventoriés depuis le backlog.
 
 Le coverage backend exclut les migrations générées, les tests, les points d'entrée et les fichiers Django purement déclaratifs (`settings`, ASGI et WSGI). Le coverage frontend exclut seulement les sorties générées, l'entrée de rendu et les fichiers de configuration ou de test ; il ne retire pas du calcul le code applicatif testable.
 
@@ -192,7 +192,7 @@ Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentai
 
 Les [repères EVAL-004](../architecture/appreciation-markers.md) couvrent contrats, permissions, versions et snapshots.
 React et Playwright vérifient édition, notes réelles, descriptifs de borne inférieure, repli et accès clavier/mobile.
-Le [parcours de stabilité](functional-coverage.md) mesure géométrie et navigation sur cinq viewports,
+Le [parcours de stabilité](functional-coverage.md) mesure géométrie et navigation sur huit viewports,
 avec les seuls repères passifs, onze notes au curseur, un défilement unique et refus de sauvegarde ; la démo reste sans API. Le test `evaluation-rating-focus.spec.ts` couvre les états normal, focus et focus-visible, sans rectangle, avec anneau sur la poignée uniquement, en clair/sombre sur desktop/mobile et sans déplacement des actions.
 
 Les [dates et heures de présentation](../architecture/date-time-presentation.md) sont couvertes en unitaires

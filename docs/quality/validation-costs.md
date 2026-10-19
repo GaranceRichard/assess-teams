@@ -10,7 +10,7 @@
 | Pré-push | hook obligatoire | SHA candidat et SHA distant annoncés par Git ; garde de contribution puis plan sélectif bloquant |
 | CI ordinaire | `quality.yml` | Même plan sur le diff publié ; exécution indépendante sans preuves locales |
 | Exhaustif | `npm run quality:full -- --fresh` | Dépôt, backend, frontend et E2E réels/démo ; seuils inchangés |
-| Nightly et qualification distante | `exhaustive.yml` | Tous les contrôles ; trois shards backend, deux E2E, rapports et preuve du SHA exact |
+| Nightly et qualification distante | `exhaustive.yml` | Tous les contrôles ; huit partitions backend, deux E2E, rapports et preuve du SHA exact |
 | Qualification MESS locale | `npm run quality:qualify -- SHA_COMPLET` | Checkout propre du SHA, campagne exhaustive fraîche et preuve locale |
 | Promotion MESS | `npm run quality:promote -- SHA_COMPLET RUN_ID` | Refus sans qualification GitHub exhaustive réussie et artefact correspondant exactement au candidat |
 

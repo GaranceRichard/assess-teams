@@ -1,37 +1,57 @@
-"""Partition the complete pytest collection by measured file duration."""
+"""Partition pytest by file duration, splitting only audited independent cases."""
 
 import argparse
 import json
 import os
 import sys
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TIMINGS = Path(__file__).with_name("backend-test-durations.json")
 
 
-def partition(nodeids, durations, count):
+def partition(nodeids, durations, count, split_files=()):
     if count < 1 or len(nodeids) != len(set(nodeids)):
         raise ValueError("Invalid shard count or duplicate collected tests")
     files = {}
+    sizes = Counter(nodeid.split("::", 1)[0] for nodeid in nodeids)
+
+    def group(nodeid):
+        filename = nodeid.split("::", 1)[0]
+        return nodeid if filename in split_files else filename
+
     for nodeid in nodeids:
-        files.setdefault(nodeid.split("::", 1)[0], []).append(nodeid)
+        files.setdefault(group(nodeid), []).append(nodeid)
     loads = [0.0] * count
     assignments = {}
     # Unknown files are still executed, with a conservative default weight.
-    default = max(durations.values(), default=1.0)
-    for filename in sorted(files, key=lambda name: (-durations.get(name, default), name)):
+    default = max(
+        (
+            seconds / sizes.get(filename, 1) if filename in split_files else seconds
+            for filename, seconds in durations.items()
+        ),
+        default=1.0,
+    )
+
+    def weight(name):
+        filename = name.split("::", 1)[0]
+        seconds = durations.get(filename, default)
+        return seconds / sizes[filename] if filename in split_files else seconds
+
+    for filename in sorted(files, key=lambda name: (-weight(name), name)):
         shard = min(range(count), key=lambda index: (loads[index], index))
         assignments[filename] = shard
-        loads[shard] += durations.get(filename, default)
+        loads[shard] += weight(filename)
     return [
-        [nodeid for nodeid in nodeids if assignments[nodeid.split("::", 1)[0]] == shard]
+        [nodeid for nodeid in nodeids if assignments[group(nodeid)] == shard]
         for shard in range(count)
     ]
 
 
 class ShardSelection:
-    def __init__(self, index, count, durations, output):
+    def __init__(self, index, count, durations, output, split_files=()):
+        self.split_files = split_files
         self.index, self.count, self.durations, self.output = (
             index,
             count,
@@ -44,7 +64,9 @@ class ShardSelection:
         import pytest
 
         collected = [item.nodeid for item in items]
-        selected = partition(collected, self.durations, self.count)[self.index - 1]
+        selected = partition(collected, self.durations, self.count, self.split_files)[
+            self.index - 1
+        ]
         if not selected:
             raise pytest.UsageError("Empty backend shard")
         selected_ids = set(selected)
@@ -86,7 +108,9 @@ def main():
     output = Path("coverage")
     output.mkdir(exist_ok=True)
     os.environ["COVERAGE_FILE"] = str(output / f".coverage.{args.shard}")
-    plugin = ShardSelection(args.shard, count, timing["seconds"], output)
+    plugin = ShardSelection(
+        args.shard, count, timing["seconds"], output, timing.get("split_files", ())
+    )
     return pytest.main(
         [
             "--cov=.",

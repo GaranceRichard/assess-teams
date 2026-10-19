@@ -16,12 +16,17 @@ Push-Location backend
 Pop-Location
 ```
 
-Reproduire les shards CI depuis la racine (avec les trois runtimes backend préparés en CI) :
+Reproduire les shards CI depuis la racine (avec les huit runtimes backend préparés en CI) :
 
 ```powershell
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 1
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 2
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 3
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 4
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 5
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 6
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 7
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 8
 Push-Location backend
 & .venv/Scripts/python.exe ../scripts/quality/combine_backend_coverage.py coverage
 Pop-Location
@@ -30,7 +35,8 @@ Pop-Location
 Sous Linux, remplacer `Scripts/python.exe` par `bin/python`. Les shards ne valident pas
 le seuil individuellement : la fusion exhaustive est obligatoire. Ne pas les utiliser seuls
 comme gate local ; `npm run quality:full` reste la référence sans sharding.
-Pour rafraîchir les poids : `python scripts/quality/backend_test_timings.py <junit-1.xml> <junit-2.xml> <junit-3.xml> --source <run-id>`.
+Pour rafraîchir les poids, fournir les huit rapports : `python scripts/quality/backend_test_timings.py <junit-1.xml> <junit-2.xml> <junit-3.xml> <junit-4.xml> <junit-5.xml> <junit-6.xml> <junit-7.xml> <junit-8.xml> --source <run-id>`.
+La commande conserve le nombre de partitions et la liste auditée des fichiers répartis par cas.
 
 Tests frontend seuls, avec coverage, puis E2E :
 

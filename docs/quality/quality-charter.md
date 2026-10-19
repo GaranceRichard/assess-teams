@@ -101,7 +101,7 @@ Le workflow de référence est : mise à jour préalable du README lorsque néce
 - Un squelette backend ou frontend absent est non applicable ; un squelette détecté mais mal configuré est en échec.
 - Les hooks ne contiennent pas la logique qualité : ils appellent la commande commune, répartie par scopes en [CI](ci.md) et agrégée sans doublons.
 - Le build frontend et son typecheck sont bloquants dans le gate complet et la CI.
-- Les trois partitions backend CI exécutent tous les tests une fois ; le seuil de 90 % s'applique à leur couverture fusionnée. Les deux shards E2E isolés exécutent tous les parcours réels/démo sans doublon, avec consolidation bloquante. Contrôles statiques, shards et fusions sont tous obligatoires ; Pages attend la réussite complète.
+- Les huit partitions backend CI exécutent tous les tests une fois ; le seuil de 90 % s'applique à leur couverture fusionnée. Les deux shards E2E isolés exécutent tous les parcours réels/démo sans doublon, avec consolidation bloquante. Contrôles statiques, shards et fusions sont tous obligatoires ; Pages attend la réussite complète.
 - Aucun push ne contourne le pre-push avec `--no-verify`.
 
 ## Quality gates bloquants

@@ -34,7 +34,7 @@ def test_nightly_and_manual_qualification_are_exhaustive_on_one_immutable_candid
     assert "workflow_dispatch" in config[True] and "workflow_call" in config[True]
     jobs = config["jobs"]
     assert "concurrency" not in config  # A new push must not cancel qualification.
-    for name in ("repository", "backend-static", "backend-tests", "frontend"):
+    for name in ("repository", "frontend"):
         assert jobs[name]["needs"] == "identity"
         checkout = jobs[name]["steps"][0]
         assert checkout["with"]["ref"] == "${{ inputs.candidate || github.sha }}"
@@ -60,14 +60,13 @@ def test_promotion_requires_remote_qualification_and_never_deploys_on_failed_gat
 
 def test_exhaustive_domains_cannot_be_skipped_by_daily_impact_selection():
     jobs = workflow("exhaustive")["jobs"]
-    assert jobs["backend-tests"]["strategy"]["matrix"]["shard"] == [1, 2, 3]
-    assert jobs["backend-tests"]["strategy"]["fail-fast"] is False
-    assert set(jobs["backend-coverage"]["needs"]) == {"identity", "backend-tests"}
+    backend = workflow("backend")["jobs"]
+    assert backend["backend-tests"]["strategy"]["matrix"]["shard"] == [1, 2, 3, 4, 5, 6, 7, 8]
+    assert backend["backend-tests"]["strategy"]["fail-fast"] is False
+    assert backend["backend-coverage"]["needs"] == "backend-tests"
     assert set(jobs["quality"]["needs"]) == {
         "repository",
-        "backend-static",
-        "backend-tests",
-        "backend-coverage",
+        "backend",
         "frontend",
         "e2e",
     }

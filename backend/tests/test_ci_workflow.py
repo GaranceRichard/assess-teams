@@ -13,13 +13,16 @@ REPORT = yaml.safe_load((ROOT / ".github/workflows/exhaustive-report.yml").read_
 E2E = yaml.safe_load((ROOT / ".github/workflows/e2e.yml").read_text(encoding="utf-8"))["jobs"][
     "shards"
 ]
-EXECUTION = {**JOBS, "e2e": E2E}
-GATES = {"repository", "backend-static", "backend-tests", "backend-coverage", "frontend", "e2e"}
+BACKEND = yaml.safe_load((ROOT / ".github/workflows/backend.yml").read_text(encoding="utf-8"))[
+    "jobs"
+]
+EXECUTION = {**JOBS, **BACKEND, "e2e": E2E}
+GATES = {"repository", "backend", "frontend", "e2e"}
 
 
 def test_every_independent_gate_runs_once_and_is_required() -> None:
     assert set(JOBS) == GATES | {"quality", "identity"}
-    for gate in GATES - {"backend-tests", "backend-coverage"}:
+    for gate in GATES - {"backend"}:
         assert JOBS[gate]["needs"] == "identity"
         assert "if" not in JOBS[gate]
         commands = [step.get("run", "") for step in EXECUTION[gate]["steps"]]
@@ -72,8 +75,8 @@ def test_obsolete_runs_are_cancelled_without_duplicate_push_and_pr_suites() -> N
 
 
 def test_backend_tests_collect_once_per_shard_and_defer_only_the_global_coverage_gate():
-    job = JOBS["backend-tests"]
-    assert job["needs"] == "identity" and "if" not in job
+    job = BACKEND["backend-tests"]
+    assert "needs" not in job and job["if"] == "inputs.complete"
     assert job["strategy"]["fail-fast"] is False
     timing = ROOT / "scripts/quality/backend-test-durations.json"
     count = json.loads(timing.read_text())["shards"]
@@ -94,9 +97,9 @@ def test_backend_tests_collect_once_per_shard_and_defer_only_the_global_coverage
 
 
 def test_global_coverage_requires_all_shards_without_installing_or_running_backend_again():
-    job = JOBS["backend-coverage"]
-    assert job["needs"] == ["identity", "backend-tests"]
-    assert "if" not in job
+    job = BACKEND["backend-coverage"]
+    assert job["needs"] == "backend-tests"
+    assert job["if"] == "inputs.complete"
     commands = [step.get("run", "") for step in job.get("steps", [])]
     assert "python -m pip install -r backend/coverage/coverage-version-1.txt" in commands
     assert "python ../scripts/quality/combine_backend_coverage.py coverage" in commands

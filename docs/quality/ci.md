@@ -56,13 +56,13 @@ Le job identity vérifie le SHA immuable et le publie dans son résumé ; tous l
 | --- | --- |
 | Dépôt | Lignes, secrets, README, cohérence, règles, tests qualité/bootstrap/licences/validation |
 | Statiques backend | Ruff lint/format et migrations manquantes |
-| Backend | Trois shards pytest, tous les tests, contrats/OpenAPI/sécurité/transactions/SQLite/exploitation existants |
+| Backend | Huit partitions pytest, tous les tests, contrats/OpenAPI/sécurité/transactions/SQLite/exploitation existants |
 | Couverture backend | Fusion des données et collections disjointes/exhaustives ; branch coverage global >= 90 % |
 | Frontend | Lint, format, typecheck/build, tous les Vitest, quatre seuils >= 90 % |
 | E2E | Deux shards isolés ; tous les parcours réels et démo, build de démo inclus |
 | Rapport final | Fusion HTML et inventaires E2E exhaustifs, tous les jobs requis réussis |
 
-Le partitionnement existant reste intact : fichiers pytest entiers, poids conservateurs pour les nouveaux,
+Le moteur partagé `backend.yml` sert aussi le backend complet sélectif ; voir le [diagnostic MEP-037](backend-ci-performance.md). Le partitionnement conserve ses garanties : fichiers pytest entiers sauf les cas autonomes de conflits SQLite, poids conservateurs pour les nouveaux,
 `fail-fast: false`, union sans omissions/doublons et mêmes seuils. Les fusions ne relancent pas les suites.
 SQLite, ports, installations et temporaires restent propres à chaque runner ; un worker E2E par shard.
 Les caches pip/npm accélèrent les téléchargements, sans partager les runtimes ni les verdicts.
