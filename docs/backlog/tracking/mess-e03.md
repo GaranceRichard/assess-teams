@@ -4,13 +4,13 @@ Section du [registre canonique unique](pbis.md), selon la [gouvernance](../gover
 Les repères E/F et NN.NN sont des alias de navigation, pas de nouveaux identifiants.
 Les tailles sont des recommandations XS/S ; aucun modèle n’est affecté.
 Ouvert ne signifie pas prêt : consulter les dépendances de la source et le [plan](../planning/pre-mep.md).
-Aucun blocage supplémentaire constaté ; les arbitrages métier existants restent dans leur registre.
+MEP-055 attend la validation MESS du contrat des prérequis (D01–D09) ; les arbitrages métier existants restent dans leur registre.
 
 | Repère | PBI et source | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage ou preuve | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 10.01 | [MEP-054 — Définir le contrat de configuration unique](../source/mess/f10.md) | FEAT-058 — Configuration unique MESS | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 10.02 | [MEP-021 — Charger et valider la configuration unique](../source/mess/f10.md) | FEAT-058 — Configuration unique MESS | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
-| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | FEAT-059 — Contrat d’installation et d’exploitation | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
+| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | FEAT-059 — Contrat d’installation et d’exploitation | XS | À définir | Bloqué | [Contrat préparé, décisions MESS D01–D09 en attente](../../operations/installation-prerequisites-validation.md) ; critère « définis avec MESS » non satisfait, aucune cible qualifiée | N/A |
 | 11.02 | [MEP-022 — Définir les opérations d’exploitation](../source/mess/f11.md) | FEAT-059 — Contrat d’installation et d’exploitation | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 11.03 | [MEP-023 — Actualiser le README et l’architecture](../source/mess/f11.md) | FEAT-059 — Contrat d’installation et d’exploitation | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
 | 11.04 | [MEP-056 — Actualiser le backlog](../source/mess/f11.md) | FEAT-059 — Contrat d’installation et d’exploitation | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |

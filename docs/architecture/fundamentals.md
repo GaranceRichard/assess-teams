@@ -109,6 +109,7 @@ fixe DELETE/FULL, timeout 5 s, connexions API/workers et limites mesurées sur f
 [MEP-010](../operations/sqlite/contention.md) ajoute les reprises sûres bornées et les refus diagnostiqués.
 La cible on-premise MESS doit être installable et
 exploitable hors ligne sans Docker ni Node/npm ; build React et dépendances Python se préparent ailleurs.
+Le [contrat des prérequis MEP-055](../operations/installation-prerequisites.md) distingue exigences démontrées, propositions et décisions MESS en attente ; aucune cible approuvée ni installation qualifiée.
 Configuration unique, package autonome, installation, opérations et reprise restent à livrer/qualifier
 selon le contrat MESS, sans annoncer leur disponibilité par cette refonte documentaire.
 Les journaux HTTP et métier, transactions, contrôles d’accès et workers SMTP existants sont réutilisés.

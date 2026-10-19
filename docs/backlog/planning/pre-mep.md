@@ -20,8 +20,8 @@ après resynchronisation et gates complets. La refonte ne modifie ni AGENTS.md n
 
 ## PBI prêts au regard des dépendances connues du registre
 
-Au 2026-10-19, 19 PBI sont prêts selon les dépendances enregistrées ; tous les prérequis cités ci-dessous sont Réalisés ; aucun blocage supplémentaire
-n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
+Au 2026-10-19, 18 PBI sont prêts selon les dépendances enregistrées ; leurs prérequis sont Réalisés. MEP-055 attend la validation MESS du contrat ; un blocage
+est donc constaté au registre. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
 
 - [04.01 — MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) : prérequis aucune.
 - [05.01 — MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-007.
@@ -39,12 +39,13 @@ n’est constaté. La disponibilité réelle des accès GitHub/MESS est vérifi�
 - [08.04 — MEP-050 — Améliorer les états vides](../source/mess/f08.md) : prérequis AUTH-001, RESULT-001.
 - [08.05 — MEP-051 — Améliorer la présentation des erreurs](../source/mess/f08.md) : prérequis PASS-001, MEP-004.
 - [09.02 — MEP-052 — Harmoniser le thème sombre](../source/mess/f09.md) : prérequis DASH-001.
-- [11.01 — MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) : prérequis aucune.
 - [17.01 — MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) : prérequis PASS-001, EVAL-004, RESULT-001, STEER-001.
 - [17.02 — MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) : prérequis MEP-005, MEP-007, DASH-001, RESULT-001.
 
 03.01 est un acquis de JOURNAL-001/002, hors PBI MESS ; MEP-041 est archivé, sans réouverture. Le responsable peut préparer les autres PBI selon leurs
 prérequis précis ; une Feature partiellement prête ne réclame pas la livraison complète d’un ancien Job.
+
+MEP-055 — Définir les prérequis d’installation reste [Bloqué](../../operations/installation-prerequisites-validation.md) : aucune dépendance PBI, mais décisions MESS D01–D09 indispensables non attestées. Sa préparation documentaire ne vaut pas clôture.
 
 ## Chaînes et entrées de livraison par capacité
 

@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-19 : 52 Ouverts, 10 Réalisés, 0 En cours, 0 Bloqué ; avancement actif 16 %. Les acquis restent séparés.
+Au 2026-10-19 : 51 Ouverts, 10 Réalisés, 0 En cours, 1 Bloqué ; avancement actif 16 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 ## Avancement des capacités
@@ -78,7 +78,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | --- | --- | --- | --- | --- |
 | 10.01 | [MEP-054 — Définir le contrat de configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-036, MEP-055 |
 | 10.02 | [MEP-021 — Charger et valider la configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-054, MEP-009 |
-| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | XS | Ouvert — N/A | aucune |
+| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | XS | Bloqué — N/A | aucune ; validation MESS D01–D09 en attente |
 | 11.02 | [MEP-022 — Définir les opérations d’exploitation](../source/mess/f11.md) | S | Ouvert — N/A | MEP-055, MEP-054, MEP-042 |
 | 11.03 | [MEP-023 — Actualiser le README et l’architecture](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
 | 11.04 | [MEP-056 — Actualiser le backlog](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |

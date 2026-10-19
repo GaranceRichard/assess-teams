@@ -39,11 +39,11 @@ Le [MEP-005 — Accessibilité des dialogues](docs/architecture/dialog-accessibi
 
 MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notifications.md) : file persistante locale, reprises SMTP bornées, prévention des doublons et suivi administratif, sans remettre en cause une opération métier validée ni ajouter de service externe obligatoire.
 
-[MEP-036 — Inventaire des paramètres](docs/operations/configuration/README.md) établit un inventaire exhaustif des paramètres sensibles et des valeurs par défaut (Django, environnement, scripts, SMTP, SQLite, TLS et proxy), avec sources, obligations de production et risques pour MEP-009, sans modification applicative ni secret réel.
-
-[MEP-009 — Configuration sûre au démarrage](docs/operations/configuration/startup-security.md) refuse les secrets absents/faibles/de développement et les combinaisons DEBUG, SMTP et proxy dangereuses, avec diagnostics confidentiels, droits et rotation documentés à partir de MEP-036.
+La configuration de production s’appuie sur l’[inventaire MEP-036](docs/operations/configuration/README.md) et les [contrôles de démarrage MEP-009](docs/operations/configuration/startup-security.md) : paramètres, défauts et risques documentés ; secrets absents/faibles, DEBUG, SMTP et proxy dangereux refusés, avec protection et rotation des secrets.
 
 [MEP-037 — Permissions par rôle](docs/architecture/role-permissions.md) confronte les actions API et la navigation aux rôles canoniques et aux exceptions publiques MEP-008 : matrice explicite, refus sans effet et correction des seules protections manquantes, sans modifier les acquis MEP-011. [MEP-038 — Accès indirects et exports](docs/architecture/indirect-access.md) qualifie filtres, liens profonds et relations historiques selon MEP-011/037 : aucun défaut démontré ni export métier existant ; preuves complétées sans modification applicative.
+
+MEP-055 prépare le [contrat des prérequis d’installation MESS](docs/operations/installation-prerequisites.md) : exigences démontrées, propositions et validations MESS en attente, sans installateur ni qualification d’une cible.
 
 ## Validations proportionnées
 
