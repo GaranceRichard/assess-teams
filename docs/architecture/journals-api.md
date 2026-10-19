@@ -75,3 +75,12 @@ Playwright crée des logs par des requêtes réelles, filtre dans l’UI et vér
 Les transitions User enregistrent acteur, organisation, `target_user` et `target_user_name` dans le Journal.
 Les anciennes entrées restent intactes ; les refus métier restent dans les Logs HTTP opérationnels.
 Voir le [lifecycle User](user-lifecycle.md).
+
+## Conservation configurée — MEP-042
+
+La [configuration d'exploitation](../operations/configuration/journal-retention.md) distingue
+`ActivityEntry` et `LogEntry`, avec validation au démarrage et portée instance incluant les entrées
+globales et sans organisation. Sans durée configurée, aucune échéance n'est définie. Toute durée
+finie des preuves métier est refusée faute de politique autorisée ; les durées techniques sont
+des entiers positifs de jours. Les accès de consultation ci-dessus restent inchangés.
+Aucune purge n'est exécutée : MEP-020 reste distinct. [Tests et DoD](../operations/configuration/journal-retention-validation.md).

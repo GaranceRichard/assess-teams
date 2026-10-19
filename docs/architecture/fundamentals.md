@@ -119,3 +119,5 @@ avec refus des références croisées et exceptions Superadmin explicitement bor
 obligations et risques de production pour MEP-009, sans modifier les réglages existants.
 Le [contrôle MEP-009](../operations/configuration/startup-security.md) valide ensuite secrets,
 SMTP et protections HTTP effectives au démarrage Django, sans accès réseau ni migration.
+La [configuration MEP-042](../operations/configuration/journal-retention.md) valide aussi la
+conservation des deux types de journaux, sans purge ni durée métier implicitement autorisée.

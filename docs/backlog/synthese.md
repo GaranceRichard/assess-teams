@@ -123,7 +123,7 @@ MEP-038 — [Accès indirects et exports](../architecture/indirect-access-valida
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 8 | 54 | 0 | 0 | 13 % |
+| MESS actif — E01 à E04 | 62 | 8 | 53 | 1 | 0 | 13 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -165,8 +165,8 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 66 |
-| PBIs en cours | 0 |
+| PBIs ouverts | 65 |
+| PBIs en cours | 1 |
 | PBIs bloqués | 1 |
 | PBIs non réalisés | 67 |
 | PBIs réalisés | 29 |

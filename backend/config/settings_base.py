@@ -1,5 +1,7 @@
+import os
 from pathlib import Path
 
+from config.journal_retention import journal_retention_settings
 from config.login_security import (  # noqa: F401
     LOGIN_ACCOUNT_LIMIT,
     LOGIN_LIMIT_SECONDS,
@@ -8,6 +10,7 @@ from config.login_security import (  # noqa: F401
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+JOURNAL_RETENTION = journal_retention_settings(os.environ)
 
 INSTALLED_APPS = [
     "config.apps.ConfigurationConfig",

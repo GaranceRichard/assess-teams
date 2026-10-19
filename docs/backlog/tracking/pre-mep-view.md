@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-18 : 54 Ouverts, 8 Réalisés, 0 En cours, 0 Bloqué ; avancement actif 13 %. Les acquis restent séparés.
+Au 2026-10-18 : 53 Ouverts, 8 Réalisés, 1 En cours, 0 Bloqué ; avancement actif 13 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 ## Avancement des capacités
@@ -45,7 +45,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 02.01 | [MEP-039 — Définir les paramètres de concurrence SQLite](../source/mess/f02.md) | XS | Réalisé — 2026-10-15 | MEP-003 |
 | 02.02 | [MEP-010 — Gérer les verrous et les transactions concurrentes](../source/mess/f02.md) | S | Réalisé — 2026-10-16 | MEP-039, MEP-003 |
 | 02.03 | [MEP-040 — Gérer les conflits sur les opérations critiques](../source/mess/f02.md) | S | Réalisé — 2026-10-18 | MEP-010, EVAL-003, USER-004, AUTH-002 |
-| 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | Ouvert — N/A | JOURNAL-001, JOURNAL-002 |
+| 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | En cours — N/A | JOURNAL-001, JOURNAL-002 |
 | 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | S | Ouvert — N/A | MEP-042 |
 | 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | XS | Ouvert — N/A | aucune |
 | 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | S | Ouvert — N/A | MEP-012 |

@@ -41,6 +41,9 @@ valeur calculée/héritée utilisée. **Conditionnel** : nécessaire selon la to
 Le [contrat courant MEP-009](startup-security.md) et ses [preuves](startup-validation.md)
 ajoutent désormais les contrôles de démarrage, la protection et la rotation des secrets.
 Les tables MEP-036 ci-dessus restent l'instantané audité du 2026-10-14, avant ces corrections.
+Le [contrat courant MEP-042](journal-retention.md) ajoute les deux variables de conservation
+des journaux, leurs défauts sans échéance, refus, périmètres et responsabilités ;
+ses [preuves](journal-retention-validation.md) sont distinctes de l'inventaire historique.
 
 MEP-036 livre l'analyse et la traçabilité ; aucune correction de paramètre, validation de secret,
 provisionnement, purge, migration, nouveau service ni configuration MESS n'est ajouté.
