@@ -39,5 +39,18 @@ et arbitrages MEP-042. Aucun test synthétique ne prétend approuver ces décisi
 Campagne ciblée du candidat stabilisé : **110 tests réussis** (48 purge et 62 MEP-042), Ruff/format
 et migrations conformes. Elle inclut SIGTERM, arrêt brutal, concurrence et absence de résultat anticipé
 avant revalidation. Liens locaux des documents modifiés vérifiés.
-Les résultats exhaustifs finaux seront consignés après les gates obligatoires.
-MEP-020 reste ouvert tant que la CI du commit intégré n'est pas verte.
+
+Pré-push exhaustif du candidat final : **1 434 tests backend réussis, couverture 97,48 %**.
+Commande, politique et modèle de purge : 100 % ; service : 98 %. Ruff, format, migrations,
+lignes, secrets, cohérence documentaire et tests de l'outillage conformes.
+Frontend : **428 tests réussis**, couvertures statements 96,42 %, branches 94,78 %,
+fonctions 96,63 %, lignes 97,30 % ; lint, format, typecheck et build verts.
+**66 E2E réels et 9 E2E démo réussis**, dont les parcours HTTP Logs et Journal.
+
+Publication par `npm run publish`, push de la branche dédiée vers main, puis fast-forward sûr
+du checkout principal, propre et synchronisé. MEP-020 est clôturé le 2026-10-19 après la
+[CI exhaustive verte](https://github.com/GaranceRichard/assess-teams/actions/runs/39322649741)
+du SHA intégré **`28a78ac0d38dd488c260547cb31494185fb9b789`** : huit partitions backend,
+couverture fusionnée, frontend, deux partitions E2E, `Full quality gate` et `Required impact gate` verts.
+La clôture documentaire est publiée ensuite avec son propre pré-push et sa CI exacte.
+FEAT-051 atteint 2/2 ; MESS compte 10/62 PBI réalisés, avancement global 35/96 (36 %).

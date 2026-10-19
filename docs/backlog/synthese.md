@@ -120,11 +120,12 @@ MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation
 MEP-037 — [Permissions par rôle](../architecture/role-permissions-validation.md) est réalisé le 2026-10-18 : matrice API/navigation, refus sans effet, champs forgés et route Équipes corrigés ; pré-push et CI du SHA intégré verts.
 MEP-040 — [Conflits des opérations critiques](../operations/sqlite/critical-conflicts-validation.md) est réalisé le 2026-10-18 : finalisation, versions et dernier Admin qualifiés par 42 cas multiprocessus sur fichier, provenance et Journal cohérents, 1 300 tests backend et CI verte ; FEAT-050 atteint 3 PBI réalisés sur 3.
 MEP-038 — [Accès indirects et exports](../architecture/indirect-access-validation.md) est réalisé le 2026-10-18 : filtres, liens profonds, relations imbriquées et historique qualifiés ; aucun défaut démontré ni export métier existant ; pré-push et CI du SHA intégré verts. FEAT-049 atteint 5 PBI réalisés sur 5.
-MEP-042 — [Conservation des journaux](../operations/configuration/journal-retention-validation.md) est réalisé le 2026-10-19 : configuration par type validée au démarrage, refus des durées invalides et des échéances métier non autorisées, périmètres et arbitrages explicites ; pré-push et CI verte du SHA `72477e4`. La purge reste MEP-020 ; FEAT-051 atteint 1 PBI réalisé sur 2.
+MEP-042 — [Conservation des journaux](../operations/configuration/journal-retention-validation.md) est réalisé le 2026-10-19 : configuration par type validée au démarrage, refus des durées invalides et des échéances métier non autorisées, périmètres et arbitrages explicites ; pré-push et CI verte du SHA `72477e4`.
+MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est réalisé le 2026-10-19 : simulation, purge technique planifiable et bornée, intégrité, reçus et reprise transactionnelle ; preuves métier protégées ; pré-push exhaustif et CI verte du SHA `28a78ac`. FEAT-051 atteint 2 PBI réalisés sur 2.
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 9 | 53 | 0 | 0 | 15 % |
+| MESS actif — E01 à E04 | 62 | 10 | 52 | 0 | 0 | 16 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -166,14 +167,14 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 61 |
+| PBIs ouverts | 60 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 62 |
-| PBIs réalisés | 34 |
-| Avancement global | 35 % |
+| PBIs non réalisés | 61 |
+| PBIs réalisés | 35 |
+| Avancement global | 36 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 34 réalisés (25 fonctionnels et 9 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; aucun autre statut n'est changé. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 35 réalisés (25 fonctionnels et 10 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; aucun autre statut n'est changé. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 
