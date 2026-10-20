@@ -1,6 +1,6 @@
 # MEP-043 — Transition et vérifications proposées
 
-**Plan soumis à accord D1–D5 ; aucune étape de mutation distante exécutée.**
+**Plan D1–D5 approuvé le 2026-10-20. L’exécution et ses preuves sont suivies séparément.**
 Voir les [décisions](README.md), les [constats distants](remote-evidence.md) et la [DoD](../definition-of-done.md).
 
 ## Modifications à réaliser après accord

@@ -121,10 +121,14 @@ Les overrides `ASSESS_E2E_*` restent disponibles ; une base E2E explicitement ch
 Seule la base jetable canonique est réinitialisée. Deux gates simultanés dans le même worktree sont refusés.
 Après arrêt brutal, vérifier le PID de `.cache/quality/running.lock` avant de retirer uniquement ce verrou.
 
-`npm run publish` conserve verrou OS commun, fetch/rebase, garde de contribution, pré-push bloquant,
-push direct de la branche dédiée vers main et fast-forward sûr du checkout principal.
-Il attend ensuite la CI du SHA exact : échec, annulation, absence ou délai dépassé refusent le succès de livraison.
-Le push existe alors déjà ; aucune réécriture distante n'est tentée. Corriger par un nouveau chantier.
-Le suivi GitHub requiert `gh` authentifié sur le poste de contribution, sans dépendance d'exploitation MESS.
-Les limites de protection avant intégration et la transition PR sont dans [CI](ci.md).
+`npm run publish` conserve verrou OS commun, fetch, garde de contribution, pré-push bloquant et
+fast-forward sûr du checkout principal. Il publie sa propre branche distante puis sa PR ; branche publiée
+resynchronisée par merge de main, sans réécriture. Le pré-push examine tout le diff main→candidat,
+y compris à la création de la branche distante ; le SHA annoncé de cette branche contrôle son ascendance.
+Le verrou reste détenu pendant CI, fusion protégée et synchronisation. Le circuit refuse une intégration
+sans règles actives, sans CI PR verte du merge synthétique ou sans le producteur de check attendu.
+Après fusion, la CI du SHA intégré est obligatoire ; main local est rattrapé sans écraser les données,
+y compris avant de signaler un échec CI post-fusion. `-Prepare` s’arrête après validation de la PR.
+Le suivi GitHub requiert `gh` authentifié sur le poste, sans dépendance d’exploitation MESS.
+Les [protections et preuves](ci.md) distinguent gate ordinaire et qualification exhaustive MESS.
 Les [mesures reproductibles](validation-measurements.md) distinguent temps local, chemin CI et coût cumulé runners.

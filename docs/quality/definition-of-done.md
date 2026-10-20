@@ -64,7 +64,11 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 - [ ] Le gate rapide informatif a fourni son feedback au commit sans bloquer les commits intermédiaires.
 - [ ] Les contrôles requis par le plan d’impact passent avant le push ; `quality:full` reste requis pour les changements exhaustifs.
-- [ ] Le pre-push bloque effectivement tout résultat non conforme.
+- [ ] Le pre-push bloque tout résultat non conforme et le push direct vers main.
+- [ ] La PR du bon HEAD/base a sa CI obligatoire verte ; les règles actives interdisent force-push,
+  suppression et bypass ; la fusion utilise le HEAD attendu et un commit de merge.
+- [ ] L’arbre intégré correspond au merge synthétique validé ; la CI du SHA intégré est verte.
+- [ ] Main local principal est propre, non divergent et rattrapé uniquement en fast-forward.
 - [ ] La CI indépendante recalcule le plan et son `Required impact gate` passe. En exhaustif : huit partitions backend, deux E2E, fusions complètes et seuils de 90 % ; en documentaire : aucun test applicatif.
 - [ ] Le build et le typecheck frontend passent, localement et en CI.
 - [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.

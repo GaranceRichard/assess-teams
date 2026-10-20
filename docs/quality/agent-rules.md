@@ -90,55 +90,51 @@ Tout endpoint backend nouveau ou modifié doit être décrit par `drf-spectacula
 
 ## Livraison complète par défaut
 
-**Sauf instruction explicite contraire dans le prompt, terminer une tâche signifie aussi la committer et la pousser.** Un prompt Codex autorise et exige donc par défaut la livraison complète du travail sur la branche distante correspondante, selon la séquence `travail → validation → commit → push`.
+Sauf instruction explicite contraire, terminer une tâche signifie aussi la committer et la publier.
+Le circuit est : travail, validations proportionnées, commit, resynchronisation, pré-push, branche
+distante, PR, CI obligatoire, fusion protégée, CI du SHA intégré et synchronisation locale sûre.
 
-Pour chaque tâche, Codex doit automatiquement :
+Pour chaque tâche :
 
-1. lire le contexte et les règles du dépôt ;
-2. mettre à jour préalablement `README.md` lorsque la règle de préparation l'exige ;
-3. réaliser le travail demandé ;
-4. mettre à jour la documentation concernée ;
-5. exécuter les contrôles et tests applicables ;
-6. corriger les erreurs liées au travail réalisé et relancer les contrôles ciblés ;
-7. vérifier `git status`, les fichiers à versionner et l'absence de secrets ou d'artefacts indésirables ;
-8. créer un commit cohérent ne contenant que les fichiers pertinents ;
-9. récupérer le dernier `origin/main`, resynchroniser le commit et résoudre les conflits éventuels ;
-10. vérifier que l'état final est entièrement commité et exécuter ses validations applicables ;
-11. pousser ce commit vers `main` sans contourner le pre-push et ses contrôles requis par le diff ;
-12. confirmer que `main` distant contient le commit publié ;
-13. vérifier que le checkout principal est propre et non divergent, puis avancer son `main` local vers
-    `origin/main` exclusivement en fast-forward ;
-14. confirmer que le `main` local n'est en retard d'aucun commit sur `origin/main` ;
-15. nettoyer uniquement le worktree et la branche du chantier terminé ;
-16. rendre compte du commit, du pre-push, du rattrapage local et du nettoyage.
+1. Lire contexte/règles et annoncer préalablement le périmètre dans README.
+2. Réaliser le changement et la revue documentaire ; valider les contrôles applicables et corriger les échecs.
+3. Vérifier fichiers, propreté et absence de secrets ; créer un commit cohérent.
+4. Utiliser `npm run publish` depuis la branche et le worktree dédiés.
+5. Récupérer le dernier origin/main, resynchroniser et résoudre les conflits ; une branche déjà publiée
+   reçoit main par merge et se pousse en fast-forward, sans réécriture distante.
+6. Le pré-push exige HEAD vers la propre branche distante du chantier, propreté et ascendance du
+   SHA distant annoncé et du main frais ; il valide tout le diff main→candidat, jamais le seul incrément.
+7. Ouvrir/réutiliser la PR de cette branche vers main et attendre son merge synthétique validé en CI.
+8. Exiger le workflow qualité réussi, le `Required impact gate` exact et son producteur GitHub Actions,
+   ainsi que le plan CI archivé pour la bonne base et le bon merge synthétique.
+9. Relire les règles actives : PR, branche à jour, conversations résolues, zéro approbation obligatoire,
+   force-push/suppression interdits et bypass vide pour tous, admins/automates compris.
+10. Fusionner avec le HEAD attendu, par commit de merge ; refuser si main ou le candidat a évolué.
+11. Confirmer la fusion et l’ascendance du candidat ; vérifier que l’arbre intégré est celui testé.
+12. Vérifier le principal propre et non divergent sur main, puis le rattraper uniquement en fast-forward.
+13. Attendre la CI push verte du SHA intégré, puis rafraîchir et synchroniser encore main local.
+14. Confirmer propreté, absence de retard/divergence et CI verte avant succès de livraison.
+15. Supprimer uniquement branche distante/locale et worktree du PBI terminé, puis rendre compte des preuves.
 
-Le commit ou le push ne sont omis que si le prompt l'ordonne explicitement, par exemple avec `ne pas commit`, `ne pas push`, `travail local uniquement`, `préparation uniquement` ou une formulation équivalente. L'absence de demande explicite de push n'est pas une exception.
-
-`main` est la branche d'intégration. Une branche de travail n'est pas publiée comme étape intermédiaire : son
-état final est poussé vers `main` depuis son worktree isolé. Ne pas réécrire inutilement l'historique. Ne jamais
-utiliser `--no-verify` pour contourner le pre-push. Si un problème externe indépendant du changement empêche
-techniquement le push, préserver l'état local validé et signaler précisément le blocage.
+Le commit/push ne sont omis que sur instruction explicite. `npm run publish -- -Prepare` prépare et valide
+une PR sans fusion ; ce mode ne constitue pas une livraison terminée. Il sert à la transition MEP-043
+avant activation des règles, puis fusion de son propre candidat sous protection active.
+Le push direct vers `main` est interdit ; aucun `--no-verify`, `--admin`, force-push ou assouplissement
+de protection n’est autorisé pour publier. Si un problème externe bloque, préserver candidat et preuves.
+Une CI post-fusion rouge laisse main synchronisé et la livraison non terminée ; corriger par une autre PR.
 
 ## Intégration asynchrone
 
-Le premier PBI terminé n'attend pas les autres. Avant de publier, il récupère le dernier `origin/main`,
-resynchronise sa branche dessus, résout les conflits éventuels et exécute les validations sur exactement l'état
-destiné à `main`. Il intègre et pousse immédiatement ce candidat sur `main`.
+Le premier PBI prêt n’attend pas les autres. Le verrou commun sérialise publication de branche,
+attente PR/CI, fusion et synchronisation. Chaque PBI parallèle retardataire repart du nouveau origin/main.
+Une validation antérieure reste valable si ses entrées et sa sélection sont identiques,
+selon le [dispositif de validation](validation-costs.md) ; dépôt/documentation restent frais.
+La CI reste indépendante. Les règles strictes GitHub arbitrent aussi les clients d’autres machines.
 
-Chaque PBI parallèle retardataire répète cette séquence sur le nouveau dernier `origin/main`. Une validation
-antérieure à la resynchronisation ne vaut preuve finale que si ses entrées applicatives
-sont identiques, complètes pour leur sélection et compatibles avec la politique versionnée selon [le dispositif de validation](validation-costs.md).
-La vérification du dépôt reste fraîche et la CI sélective indépendante. Le `pre-push` applique d'abord la garde de
-contribution, puis les contrôles requis par le diff ; la CI exécute les contrôles requis indépendamment et agrège
-leur succès sans prétendre protéger une intégration déjà poussée.
-
-Un travail ne prend jamais fin tant que la branche locale `main` du checkout principal est en retard sur
-`origin/main`, même d'un seul commit. Après confirmation du push, la resynchroniser exclusivement par
-fast-forward. Si le checkout est sale, divergent ou impossible à avancer sans écrasement, ne modifier aucune
-donnée et considérer le travail comme non terminé jusqu'à résolution du blocage.
-
-Après confirmation du push, supprimer uniquement le worktree et la branche de travail du PBI terminé. Ne jamais
-nettoyer, déplacer ou modifier le worktree ou la branche d'un autre chantier.
+Un travail ne prend jamais fin tant que le main local principal est en retard sur origin/main.
+Si son rattrapage exige d’écraser des données, si le checkout est sale, divergent ou sur une autre branche,
+ne rien écraser et conserver la livraison non terminée jusqu’à résolution.
+Ne jamais nettoyer, déplacer ou modifier les ressources d’un autre chantier.
 
 ## Procédure de livraison
 
@@ -156,11 +152,15 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 
 ## Automatisation des quality gates
 
-Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le plan d’impact bloquant ; la CI GitHub recalcule le même plan et exige le succès des contrôles requis. Contourner le hook local ne dispense jamais du contrôle distant.
-
-La publication utilise `npm run publish` pour sérialiser les intégrations locales sans attendre les autres PBI.
+Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité).
+Le pre-commit est rapide, informatif et non bloquant. Le pre-push impose isolation, propreté et push vers
+la propre branche distante ; il interdit le push direct vers `main`, suppression et réécriture.
+Le plan d’impact porte sur tout le diff main→candidat. Un échec applicable bloque toujours.
+La CI vérifie indépendamment le merge synthétique ; le ruleset actif exige son `Required impact gate`
+produit par GitHub Actions avant fusion, sans bypass.
+La publication utilise `npm run publish`, qui sérialise jusqu’au rattrapage et à la CI du SHA intégré.
 Pendant le développement, privilégier `quality:targeted` ; `quality:quick` reste statique et informatif.
-Les conditions de réutilisation des preuves et les métriques sont définies dans [validation proportionnée](validation-costs.md).
+Les preuves et métriques sont définies dans [validation proportionnée](validation-costs.md).
 
 ## Trois niveaux de validation
 
@@ -173,6 +173,6 @@ Une preuve versionnée exige entrées effectives et sélection identiques, y com
 
 La nightly indépendante exécute tout sur main ; la qualification MESS exige le SHA complet exact.
 Le gate de promotion exige un run exhaustif GitHub réussi et son artefact correspondant ; une autre nightly ne suffit pas.
-`npm run publish` synchronise main après push puis attend la CI du SHA avant de déclarer le succès.
-Main reste sans protection distante préalable au push : [limite et migration explicite vers les PR](ci.md).
-Échec CI après push : livraison non terminée, correction nécessaire, aucun succès annoncé ni force-push.
+`Full quality gate` reste exhaustif ; il ne remplace pas le gate ordinaire obligatoire sur chaque PR.
+Le ruleset doit être actif avant fusion ; [circuit et preuves MEP-043](ci.md).
+Un échec CI post-fusion refuse la livraison ; corriger par PR, sans force-push ni bypass.

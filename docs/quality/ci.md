@@ -1,30 +1,30 @@
 # CI sélective, nightly et qualification MESS
 
-## Intégration actuelle et limite explicite
+## Intégration par PR et protections
 
-L’[audit MEP-012 du 20 octobre 2026](mep-012/README.md), avec réponses API datées, confirme
-`Branch not protected` pour `main`, aucun ruleset ni check obligatoire. Le PBI reste Bloqué ;
-les écarts pour MEP-043 et l’inventaire Apps refusé sont explicités dans la matrice.
-Le compte connecté dispose de droits admin, mais le circuit autorisé du dépôt exige le push direct
-branche de chantier → main. Activer une obligation de PR sans modifier ce circuit le bloquerait.
-Aucune protection ni méthode de publication n'est donc changée silencieusement.
+MEP-043 met en œuvre les [décisions D1–D5 approuvées le 2026-10-20](mep-043/README.md).
+L’[audit MEP-012](mep-012/README.md) et ses preuves restent l’acquis historique inchangé.
+La [transition et les refus](mep-043/transition.md) distinguent préparation, activation et conformité démontrée.
 
-**La CI exécutée après ce push ne protège pas l'intégration.** La barrière avant intégration est le
-pré-push local obligatoire : garde d'isolation/branche/SHA/propreté puis contrôles requis par le diff réel.
-Ce circuit reste dépendant de postes coopératifs ; GitHub ne peut pas empêcher un autre client de le contourner.
-`npm run publish` attend en plus la réussite CI du SHA publié avant d'annoncer une livraison réussie.
-Un échec post-push laisse main synchronisé, rend la livraison non terminée et nécessite une correction.
+`npm run publish` conserve l’isolation et le verrou commun jusqu’à la fin de publication :
+fetch, resynchronisation, pré-push obligatoire, push de la branche dédiée, PR vers main, CI indépendante,
+fusion sous ruleset actif et sans bypass, synchronisation locale sûre, CI du SHA intégré et dernier rattrapage.
+Une branche déjà distante est mise à jour sans force-push, par merge de main puis push fast-forward.
+`npm run publish -- -Prepare` valide sa PR sans la fusionner ; il ne déclare jamais une livraison terminée.
+Le push direct vers main est refusé par la garde locale et doit être interdit côté GitHub.
 
-Pour obtenir une véritable barrière distante, il faut adopter explicitement :
+Le ruleset cible `refs/heads/main` : PR obligatoire, branche à jour, conversations résolues, zéro approbation
+humaine obligatoire, force-push/suppression interdits et bypass vide, administrateurs/automates compris.
+Le check obligatoire est `Required impact gate`, producteur GitHub Actions observé, ID `15368`.
+`Full quality gate` conserve son rôle exhaustif/MESS ; il n’est pas un required check universel.
+Le publisher vérifie PR/head/base, workflow, check/suite/App, plan archivé du merge synthétique et règles
+actives avant fusion avec HEAD attendu. L’arbre intégré doit correspondre à celui testé.
+Aucune merge queue ni `merge_group` requis dans le circuit strict retenu.
 
-1. Publication de la branche de chantier puis PR, en remplaçant les gardes direct-main et le script `publish`.
-2. Protection de main exigeant PR, branche à jour ou merge queue et le check `Required impact gate`.
-3. Absence de bypass des administrateurs/automates ; vérifier les permissions du token de publication.
-4. Si merge queue retenue, ajouter `merge_group` et qualifier son SHA de fusion réel.
-5. Test réel d'une PR rouge refusée et d'une PR verte fusionnable, puis mise à jour des règles agents.
-
-Cette migration nécessite une décision de workflow explicite. Le compte a les droits de configuration,
-mais la mission conserve le circuit direct demandé tant que son remplacement n'est pas adopté et testé.
+L’absence de bypass ne retire pas au propriétaire son pouvoir de reconfiguration administrative.
+L’inventaire des acteurs et credentials est une preuve distincte : [état G05](mep-043/README.md).
+CI rouge/annulée/absente, règles incomplètes, main avancé, mauvais SHA ou checkout principal sale/divergent
+refusent la livraison. Aucun fallback direct-main, `--admin`, force-push ou désactivation temporaire.
 
 ## CI ordinaire
 

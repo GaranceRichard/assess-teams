@@ -1,15 +1,15 @@
-# MEP-043 — Décisions proposées avant mise en œuvre
+# MEP-043 — Protections et circuit PR approuvés
 
 Préparation du 2026-10-20 sur `origin/main` : `f123f77461ff43a80914864f249231dc9489d5b0`.
 Branche `codex/mep-043-protections`, worktree `C:\Users\garan\Desktop\Projets\Assess-teams-mep-043`.
 
-**État : proposition locale, accord explicite attendu. Aucune protection distante ni publication modifiée.**
+**Accord explicite D1–D5 reçu le 2026-10-20. Mise en œuvre en cours ; clôture bloquée par G05.**
 Le recadrage utilisateur du 2026-10-20 fait autorité : MEP-012 est clôturée et ses preuves sont des acquis.
 Son statut, ses critères historiques et son dossier d’audit ne sont pas modifiés par cette préparation.
 Seule MEP-043 pourra être clôturée après conformité démontrée et satisfaction de la DoD.
 Les constats historiques de l’audit ne sont pas une décision de suivi prise dans ce chantier.
 
-## Décisions à approuver
+## Décisions approuvées
 
 | Décision | Proposition | Conséquence explicite |
 | --- | --- | --- |
@@ -50,6 +50,7 @@ Revalider son identité avant activation. Ne pas activer `update`, qui interdira
         "dismiss_stale_reviews_on_push": false,
         "require_code_owner_review": false,
         "require_last_push_approval": false,
+        "allowed_merge_methods": ["merge"],
         "required_approving_review_count": 0,
         "required_review_thread_resolution": true
       }
@@ -88,11 +89,17 @@ la configuration initiale reste une opération administrative séparée. Le choi
 approuvé s’il nécessite une création, une révocation ou une réduction de droits ; aucune mutation implicite.
 Sans accès ou attestation propriétaire suffisamment précise, G05 reste non vérifié et MEP-043 non clôturée.
 
+## Preuves et état d’exécution
+
+- [Mise en œuvre, validations et blocage G05](implementation.md).
+- [Refus serveur datés et chemin vert jetables](server-refusals.md).
+- [Lectures préparatoires et acteur visible](remote-evidence.md).
+
 ## Suite après accord
 
 [Plan de transition et matrice des tests](transition.md). Aucune dépendance ni donnée de backlog modifiée.
 La source F04 et les règles de livraison seront mises à jour uniquement dans le périmètre autorisé,
-en préservant le statut MEP-012. L’accord attendu porte sur D1–D5 ; une réserve doit être explicitée.
+en préservant le statut MEP-012. L’accord D1–D5 autorise la mise en œuvre et les essais jetables ; aucune réserve ajoutée.
 
 Sources GitHub consultées le 2026-10-20 :
 [règles disponibles](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets),

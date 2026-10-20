@@ -1,13 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn, spawnSync } from "node:child_process";
 import { once } from "node:events";
-import {
-  mkdtempSync,
-  mkdirSync,
-  writeFileSync,
-  chmodSync,
-  rmSync,
-} from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -63,12 +57,12 @@ function publish(worktree) {
   );
 }
 
-test("publication pushes the candidate then fast-forwards only main", () => {
+test("unsupported transports refuse without fallback to direct-main", () => {
   const f = fixture();
   try {
-    const candidate = git(f.worktree, "rev-parse", "HEAD");
+    const candidate = git(f.primary, "rev-parse", "HEAD");
     const result = publish(f.worktree);
-    assert.equal(result.status, 0, result.stdout + result.stderr);
+    assert.notEqual(result.status, 0);
     assert.equal(git(f.primary, "rev-parse", "main"), candidate);
     assert.equal(git(f.primary, "rev-parse", "origin/main"), candidate);
     assert.equal(git(f.primary, "status", "--porcelain"), "");
@@ -122,24 +116,6 @@ test("shared integration lock rejects a second publisher before fetching", async
     const exited = once(holder, "exit");
     holder.stdin.end("release\n");
     await exited;
-    f.cleanup();
-  }
-});
-
-test("a rejecting pre-push prevents publication and main catch-up", () => {
-  const f = fixture();
-  try {
-    const before = git(f.primary, "rev-parse", "HEAD");
-    const hook = join(f.primary, ".git/hooks/pre-push");
-    writeFileSync(hook, "#!/bin/sh\nexit 1\n");
-    chmodSync(hook, 0o755);
-    assert.notEqual(publish(f.worktree).status, 0);
-    assert.equal(git(f.primary, "rev-parse", "HEAD"), before);
-    assert.equal(
-      git(f.root, "--git-dir=remote.git", "rev-parse", "main"),
-      before,
-    );
-  } finally {
     f.cleanup();
   }
 });

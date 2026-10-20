@@ -157,7 +157,7 @@ La [stratégie de tests](docs/quality/test-strategy.md) détaille les preuves ba
 
 Le projet traite la qualité comme une condition de livraison : Clean Code, fichiers maintenus limités à 200 lignes, tests à plusieurs niveaux, coverage backend et frontend d'au moins 90 %, sécurité et documentation à jour.
 
-Le workflow part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre dans le README, valide de façon ciblée puis committe. `npm run publish` sérialise resynchronisation, Pre-push vers main, publication et fast-forward sûr du checkout principal ; nettoyer ensuite uniquement ce chantier.
+Le workflow part du dernier `origin/main` dans une branche et un worktree dédiés, annonce le périmètre dans le README, valide puis committe. `npm run publish` sérialise resynchronisation, Pre-push vers la branche dediee, PR, CI obligatoire, fusion protégée et synchronisation sûre du checkout principal. `-Prepare` prépare et valide la PR sans fusion ; nettoyer uniquement le chantier effectivement livré.
 
 ## Commandes qualité
 
@@ -187,13 +187,13 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-hooks.ps
 Le premier lancement backend effectue aussi cette activation. Des dispatchers physiques dans le répertoire Git
 commun permettent au `post-checkout` cible de préparer ses runtimes sans partage, junction ni lien symbolique.
 
-Le `pre-commit` lance `quality:quick` sans bloquer le commit. Pour une publication, le `pre-push` impose d'abord
-la branche et le worktree dédiés, l'état entièrement commité, la destination `main` et la resynchronisation sur
-le SHA distant annoncé par Git. Il calcule ensuite les contrôles requis par le diff et bloque tout échec. La
-[CI sélective](.github/workflows/quality.yml) utilise le même plan, indépendamment des preuves locales.
-`publish` attend sa réussite ; [limite du push direct, nightly et qualification MESS](docs/quality/ci.md).
+Le `pre-commit` lance `quality:quick` sans bloquer le commit. Le `pre-push` impose une branche et un worktree dédiés,
+un état commité et le push de HEAD vers sa propre branche distante. Il refuse direct-main, suppression et réécriture,
+puis valide tout le diff main→candidat. La [CI sélective](.github/workflows/quality.yml) vérifie le merge synthétique.
+`Required impact gate` est obligatoire avant fusion sous règles actives sans bypass ; `publish` vérifie ensuite
+la CI du SHA intégré et synchronise main. [Circuit PR, protections et qualification MESS](docs/quality/ci.md).
 
-`quality:targeted` sans argument sélectionne automatiquement les contrôles ; les tests explicites restent disponibles. Documentation pure : aucun test applicatif. Risque sensible ou inconnu : sélection conservatrice. `quality:full` conserve tous les contrôles, `quality:qualify -- SHA` qualifie exhaustivement le candidat MESS ; la nightly quotidienne conserve les mêmes seuils. Voir [matrice et preuves](docs/quality/validation-costs.md) et [mesures](docs/quality/validation-measurements.md).
+`quality:targeted` sélectionne les contrôles ; les tests explicites restent disponibles. Documentation pure : aucun test applicatif. Risque sensible ou inconnu : sélection conservatrice. `Full quality gate` reste exhaustif pour les plans correspondants, la nightly et MESS ; `quality:qualify -- SHA` qualifie le candidat exact. Voir [matrice et preuves](docs/quality/validation-costs.md) et [mesures](docs/quality/validation-measurements.md).
 
 ## Documentation
 

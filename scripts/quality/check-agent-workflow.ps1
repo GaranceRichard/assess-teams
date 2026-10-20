@@ -6,8 +6,8 @@ $requirements = @(
     @('AGENTS.md', 'Le premier PBI'),
     @('AGENTS.md', 'workspace multi-root'),
     @('docs/quality/agent-rules.md', 'Chaque PBI parall'),
-    @('docs/quality/agent-rules.md', 'ne cible pas `main`'),
-    @('README.md', 'Pre-push vers main'),
+    @('docs/quality/agent-rules.md', 'push direct vers `main`'),
+    @('README.md', 'Pre-push vers la branche dediee'),
     @('.githooks/pre-push', 'check-contribution-workflow.ps1')
 )
 $failures = @()

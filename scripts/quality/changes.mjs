@@ -70,16 +70,26 @@ export function changesBetween(root, base, head, { working = false } = {}) {
 export function pushRange(root, input) {
   const lines = input.trim().split(/\r?\n/);
   if (lines.length !== 1)
-    throw new Error("Une seule mise a jour main est requise");
+    throw new Error("Une seule mise a jour de branche est requise");
   const fields = lines[0].split(/\s+/);
   if (fields.length !== 4) throw new Error("References de push invalides");
-  const [, head, destination, base] = fields;
+  const [source, head, destination, previous] = fields;
+  const branch = git(root, "symbolic-ref", "--quiet", "HEAD").trim();
   if (
-    destination !== "refs/heads/main" ||
-    /^0+$/.test(base) ||
+    branch === "refs/heads/main" ||
+    source !== branch ||
+    destination !== branch ||
+    !branch.startsWith("refs/heads/") ||
+    !/^[a-f0-9]{40}$/.test(head) ||
+    !/^[a-f0-9]{40}$/.test(previous) ||
     head !== commit(root, "HEAD")
   )
-    throw new Error("Le candidat pousse doit etre HEAD vers main existant");
+    throw new Error(
+      "Le candidat pousse doit etre HEAD vers sa branche dediee ; direct-main interdit",
+    );
+  if (!/^0+$/.test(previous))
+    git(root, "merge-base", "--is-ancestor", previous, head);
+  const base = commit(root, "origin/main");
   git(root, "merge-base", "--is-ancestor", base, head);
   if (git(root, "status", "--porcelain").trim())
     throw new Error("Candidat non commite");

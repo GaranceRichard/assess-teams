@@ -73,22 +73,31 @@ test("working selection includes committed, staged, unstaged and untracked paths
     assert.equal(changesBetween(root, base, "HEAD").changes.length, 1);
   }));
 
-test("pre-push selection uses announced remote SHA and refuses dirty or different candidates", () =>
+test("pre-push selection uses full main base and refuses dirty or different candidates", () =>
   isolated((root) => {
     const command = initialize(root);
     const base = command("rev-parse", "HEAD");
     writeFileSync(join(root, "docs/backlog/a.md"), "candidate\n");
     command("commit", "-am", "candidate");
     const head = git(root, "rev-parse", "HEAD").trim();
-    const line = `refs/heads/pbi ${head} refs/heads/main ${base}\n`;
+    command("update-ref", "refs/remotes/origin/main", base);
+    command("switch", "-c", "pbi");
+    const line = `refs/heads/pbi ${head} refs/heads/pbi ${base}\n`;
     assert.deepEqual(pushRange(root, line), { base, head });
     assert.equal(assertCandidate(root, head), head);
+    assert.deepEqual(pushRange(root, line.replace(base, "0".repeat(40))), {
+      base,
+      head,
+    });
+    assert.throws(() =>
+      pushRange(root, line.replaceAll("refs/heads/pbi", "refs/heads/main")),
+    );
     assert.throws(
       () => pushRange(root, line.replace(head, base)),
       /candidat pousse/,
     );
     assert.throws(() =>
-      pushRange(root, line.replace("refs/heads/main", "refs/heads/other")),
+      pushRange(root, line.replace("refs/heads/pbi", "refs/heads/other")),
     );
     assert.throws(() => pushRange(root, line + line));
     assert.throws(() => assertCandidate(root, base), /SHA complet exact/);
