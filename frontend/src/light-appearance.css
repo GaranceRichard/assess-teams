@@ -6,16 +6,26 @@
     var(--background-base)
   );
   --background: var(--light-background);
-  --light-band-background: color-mix(in srgb, var(--accent-day) 12%, #f8f8fa);
-  --light-navigation-active: color-mix(in srgb, var(--accent-day) 20%, #ffffff);
-  --light-navigation-text: var(--accent-hover);
+  --light-band-background: color-mix(in srgb, var(--accent-day) 16%, #f8f8fa);
+  --light-navigation-active: var(--accent-day);
+  --light-navigation-hover: color-mix(in srgb, var(--accent-day) 20%, #ffffff);
+  --light-navigation-text: var(--accent-contrast);
   --navigation-background: var(--light-band-background);
   --navigation-active: var(--light-navigation-active);
 }
 
-:root:not([data-theme="night"]) .product-sidebar nav a:hover,
+:root:not([data-theme="night"]) .product-sidebar nav a:hover {
+  color: var(--accent-hover);
+  background: var(--light-navigation-hover);
+}
+
+:root:not([data-theme="night"]) .sidebar-toggle:is(:hover, :focus-visible) {
+  background: var(--light-navigation-hover);
+}
+
 :root:not([data-theme="night"]) .product-sidebar nav a[aria-current="page"] {
   color: var(--light-navigation-text);
+  background: var(--light-navigation-active);
 }
 
 :root:not([data-theme="night"]) .workspace > header {

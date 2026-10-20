@@ -16,7 +16,7 @@ L’[audit contradictoire MESS](docs/backlog/planning/mess-audit.md) distingue 6
 
 [Démo interactive](https://GaranceRichard.github.io/assess-teams/) : shell React réel, données fictives locales, passation, radar et Pilotage sans compte ni serveur. `npm run dev:demo` et `npm run build:demo` sont isolés du build normal ; [architecture, limites et publication](docs/architecture/public-demo.md).
 
-Le [shell desktop](docs/architecture/product-layout.md) occupe 100dvh, borne les collections avec pagination serveur, adapte le mobile et conserve des surfaces neutres en mode clair. La sidebar partagée avec la démo ancre le bouton de repli en bas ; les icônes centrées ne débordent plus horizontalement et seule la navigation scrolle en faible hauteur.
+Le [shell desktop](docs/architecture/product-layout.md) occupe 100dvh, borne les collections avec pagination serveur, adapte le mobile et conserve des surfaces neutres en mode clair. En mode jour uniquement, la navigation renforce le conteneur de la page sélectionnée (accent plein, texte et icône blancs) et le fond des bandeaux pour identifier immédiatement la position courante, dans les dix palettes et les deux états de la sidebar. La sidebar partagée avec la démo ancre le bouton de repli en bas ; les icônes centrées ne débordent plus horizontalement et seule la navigation scrolle en faible hauteur.
 Le [Dashboard personnel — DASH-001](docs/architecture/dashboard-api.md) remplace le placeholder :
 profil, apparence, dix complétions/dernières révisions accessibles et raccourcis par rôle.
 Il réutilise la provenance EvaluationRun et les scopes Results, sans scores ni droits supplémentaires.

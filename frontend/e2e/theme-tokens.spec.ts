@@ -52,11 +52,9 @@ test("light bands and background follow each accent while cards stay white and d
             band: resolved("navigation-background"),
             active: resolved("navigation-active"),
             expectedBand: resolveColor(
-              "color-mix(in srgb, var(--accent-day) 12%, #f8f8fa)",
+              "color-mix(in srgb, var(--accent-day) 16%, #f8f8fa)",
             ),
-            expectedActive: resolveColor(
-              "color-mix(in srgb, var(--accent-day) 20%, #ffffff)",
-            ),
+            expectedActive: resolveColor("var(--accent-day)"),
             text: resolved("text"),
             muted: resolved("text-muted"),
             accent: resolved("accent"),
@@ -87,7 +85,8 @@ test("light bands and background follow each accent while cards stay white and d
         expect(luminance(tokens.surfaces[0])).toBeGreaterThan(
           luminance(tokens.band),
         );
-        expect(tokens.navigationText).toBe(tokens.hover);
+        expect(tokens.navigationText).toBe(tokens.contrast);
+        expect(contrast(tokens.active, tokens.band)).toBeGreaterThanOrEqual(3);
         expect(luminance(tokens.active)).toBeLessThan(luminance(tokens.band));
       } else {
         expect(tokens.surfaces).toEqual(tokens.nightBaseline);
