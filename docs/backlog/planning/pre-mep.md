@@ -20,10 +20,9 @@ après resynchronisation et gates complets. La refonte ne modifie ni AGENTS.md n
 
 ## PBI prêts au regard des dépendances connues du registre
 
-Au 2026-10-19, 18 PBI sont prêts selon les dépendances enregistrées ; leurs prérequis sont Réalisés. MEP-055 attend la validation MESS du contrat ; un blocage
-est donc constaté au registre. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
+Au 2026-10-20, 17 PBI sont prêts selon les dépendances enregistrées ; leurs prérequis sont Réalisés. MEP-055 attend la validation MESS du contrat ; MEP-012 reste Bloqué après audit des protections GitHub. Ces blocages
+sont constatés au registre. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
 
-- [04.01 — MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) : prérequis aucune.
 - [05.01 — MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-007.
 - [05.02 — MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-005, MEP-007.
 - [05.03 — MEP-045 — Confirmer visuellement l’enregistrement de la notation](../source/mess/f05.md) : prérequis PASS-001, MEP-007.
@@ -46,6 +45,8 @@ est donc constaté au registre. La disponibilité réelle des accès GitHub/MESS
 prérequis précis ; une Feature partiellement prête ne réclame pas la livraison complète d’un ancien Job.
 
 MEP-055 — Définir les prérequis d’installation reste [Bloqué](../../operations/installation-prerequisites-validation.md) : aucune dépendance PBI, mais décisions MESS D01–D09 indispensables non attestées. Sa préparation documentaire ne vaut pas clôture.
+
+MEP-012 — [Audit des protections GitHub](../../quality/mep-012/README.md) reste Bloqué : règles requises absentes, inventaire Apps refusé. MEP-043 peut préparer les corrections prouvées ; sa dépendance source reste conservée et nécessite une décision explicite si la clôture de 012 attend ces corrections.
 
 ## Chaînes et entrées de livraison par capacité
 

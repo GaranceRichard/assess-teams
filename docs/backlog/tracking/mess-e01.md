@@ -4,7 +4,7 @@ Section du [registre canonique unique](pbis.md), selon la [gouvernance](../gover
 Les repères E/F et NN.NN sont des alias de navigation, pas de nouveaux identifiants.
 Les tailles sont des recommandations XS/S ; aucun modèle n’est affecté.
 Ouvert ne signifie pas prêt : consulter les dépendances de la source et le [plan](../planning/pre-mep.md).
-Aucun blocage supplémentaire constaté ; les arbitrages métier existants restent dans leur registre.
+MEP-012 reste Bloqué après audit du 2026-10-20 : protections requises absentes et preuve Apps manquante ; les arbitrages métier existants restent dans leur registre.
 
 | Repère | PBI et source | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage ou preuve | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -18,8 +18,8 @@ Aucun blocage supplémentaire constaté ; les arbitrages métier existants reste
 | 02.03 | [MEP-040 — Gérer les conflits sur les opérations critiques](../source/mess/f02.md) | FEAT-050 — SQLite en exploitation | S | À définir | Réalisé | [matrice et preuves MEP-040](../../operations/sqlite/critical-conflicts-validation.md) ; 42 cas multiprocessus, finalisation/versions/dernier Admin, atomicité et provenance ; 1 300 tests, couverture 97,37 %, pré-push et CI verte du SHA `b7e3242` | 2026-10-18 |
 | 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | FEAT-051 — Journalisation et conservation | XS | À définir | Réalisé | [configuration et preuves](../../operations/configuration/journal-retention-validation.md) ; 62 tests ciblés, pré-push exhaustif et CI verte du SHA `72477e4` ; preuves métier protégées, arbitrages explicites, aucune purge | 2026-10-19 |
 | 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | FEAT-051 — Journalisation et conservation | S | À définir | Réalisé | [procédure et preuves](../../operations/journal-purge-validation.md) ; 110 tests ciblés, 1 434 backend à 97,48 %, pré-push exhaustif et CI verte du SHA `28a78ac` ; simulation, lots bornés, intégrité et reprise, preuves métier conservées | 2026-10-19 |
-| 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | FEAT-052 — Gouvernance Git et intégration continue | XS | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
-| 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | FEAT-052 — Gouvernance Git et intégration continue | S | À définir | Ouvert | aucun blocage constaté ; prérequis dans la source | N/A |
+| 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | FEAT-052 — Gouvernance Git et intégration continue | XS | À définir | Bloqué | [audit daté MEP-012](../../quality/mep-012/README.md) : G01–G04 non conformes, G05 non vérifié (403 Apps) ; clôture refusée, corrections proposées à MEP-043 | N/A |
+| 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | FEAT-052 — Gouvernance Git et intégration continue | S | À définir | Ouvert | [écarts G01–G05 et propositions](../../quality/mep-012/README.md#corrections-proposées-pour-mep-043-non-exécutées) ; dépendance MEP-012 et décision de circuit conservées, aucune correction exécutée | N/A |
 
 03.01 est un acquis référencé : JOURNAL-001/002 restent au registre fonctionnel, avec leurs dates/parents.
 [MEP-041 — ancien alias consolidé](mess-doublons-historique.md) reste archivé, hors du dénominateur MESS.

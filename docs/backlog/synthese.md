@@ -108,7 +108,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-19
+## Préparation MESS — suivi au 2026-10-20
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
@@ -125,7 +125,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 10 | 51 | 0 | 1 | 16 % |
+| MESS actif — E01 à E04 | 62 | 10 | 50 | 0 | 2 | 16 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -136,6 +136,8 @@ GO dépend des preuves du candidat livré, des gates et des arbitrages pertinent
 Les rapports d’audit externes ne sont pas disponibles localement ; aucun défaut n’est présumé par leur intitulé.
 
 MEP-055 — [Prérequis d’installation](../operations/installation-prerequisites-validation.md) : Bloqué, N/A ; contrat préparé, validation MESS D01–D09 absente, aucune cible qualifiée. Aucun PBI supplémentaire réalisé.
+
+MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, N/A ; audit distant du 2026-10-20, aucune protection/check obligatoire, pré-push local distinct de la CI après push et inventaire Apps refusé. G01–G05 proposés pour MEP-043, aucune correction exécutée.
 
 ## Écarts et décisions encore ouverts
 
@@ -169,14 +171,14 @@ MEP-055 — [Prérequis d’installation](../operations/installation-prerequisit
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 59 |
+| PBIs ouverts | 58 |
 | PBIs en cours | 0 |
-| PBIs bloqués | 2 |
+| PBIs bloqués | 3 |
 | PBIs non réalisés | 61 |
 | PBIs réalisés | 35 |
 | Avancement global | 36 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 35 réalisés (25 fonctionnels et 10 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; seul MEP-055 passe maintenant de Ouvert à Bloqué faute de validation MESS. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 35 réalisés (25 fonctionnels et 10 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 reste Bloqué faute de validation MESS et MEP-012 passe de Ouvert à Bloqué après l’audit GitHub, sans réalisation supplémentaire. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 

@@ -2,7 +2,9 @@
 
 ## Intégration actuelle et limite explicite
 
-Audit du 15 octobre 2026 : l'API GitHub renvoie `Branch not protected` pour `main` et aucun ruleset.
+L’[audit MEP-012 du 20 octobre 2026](mep-012/README.md), avec réponses API datées, confirme
+`Branch not protected` pour `main`, aucun ruleset ni check obligatoire. Le PBI reste Bloqué ;
+les écarts pour MEP-043 et l’inventaire Apps refusé sont explicités dans la matrice.
 Le compte connecté dispose de droits admin, mais le circuit autorisé du dépôt exige le push direct
 branche de chantier → main. Activer une obligation de PR sans modifier ce circuit le bloquerait.
 Aucune protection ni méthode de publication n'est donc changée silencieusement.
