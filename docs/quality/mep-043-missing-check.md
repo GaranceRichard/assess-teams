@@ -1,0 +1,1 @@
+# Disposable absent-check proof
