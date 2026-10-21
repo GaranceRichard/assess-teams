@@ -1,3 +1,5 @@
+@import "./product-typography.css";
+
 @media (min-width: 761px) {
   .evaluation-workspace,
   .planning-workspace,

@@ -12,7 +12,7 @@ export function EvaluationOrganizationSelect({
   onChange,
 }: Props) {
   return (
-    <label htmlFor="evaluation-organization">
+    <label className="organization-selector" htmlFor="evaluation-organization">
       Organisation
       <select
         id="evaluation-organization"

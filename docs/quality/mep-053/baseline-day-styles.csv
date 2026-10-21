@@ -1,0 +1,136 @@
+screen,element,text,family,size,weight,leading,margin,padding,gap,width,height
+taking-day-1280-720,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
+taking-day-1280-720,H1,Évaluations,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+taking-day-1280-720,H2,Évaluations à passer,"Inter, system-ui, sans-serif",17.6px,700,normal,0px,0px,normal,953,23
+taking-day-1280-720,BUTTON,Reprendre l’évaluation,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,131,60
+taking-day-1280-720,BUTTON,Passer l’évaluation,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,131,60
+taking-day-1280-720,H2,Passer l’évaluation,"Inter, system-ui, sans-serif",17.6px,700,normal,0px 0px 12px,0px,normal,558,23
+taking-day-1280-720,H3,Premier critère E2E,"Inter, system-ui, sans-serif",18.72px,700,normal,12px 0px,0px,normal,535,25
+taking-day-1280-720,LABEL,Note de la question,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,535,18
+taking-day-1280-720,INPUT,,"Inter, system-ui, sans-serif",16px,400,normal,0px,0px,normal,535,40
+taking-day-1280-720,BUTTON,Enregistrer la note,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,166,42
+taking-day-1280-720,BUTTON,Précédent,"Inter, system-ui, sans-serif",16px,750,normal,0px,10.4px 8px,normal,231,44
+taking-day-1280-720,BUTTON,Suivant,"Inter, system-ui, sans-serif",16px,750,normal,0px,10.4px 8px,normal,231,44
+taking-day-1280-720,BUTTON,Fermer,"Inter, system-ui, sans-serif",16px,750,normal,0px,10.4px 8px,normal,71,44
+dashboard-day,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,944,16
+dashboard-day,H1,Tableau de bord,"Inter, system-ui, sans-serif",48px,700,55.2px,0px 0px 16px,0px,normal,944,55
+dashboard-day,H2,Mon profil,"Inter, system-ui, sans-serif",20px,700,normal,0px 0px 16px,0px,normal,266,27
+dashboard-day,H3,Apparence,"Inter, system-ui, sans-serif",16px,700,normal,16px 0px 8px,16px 0px 0px,normal,266,38
+dashboard-day,INPUT,,"Inter, system-ui, sans-serif",12px,700,normal,0px,0px,normal,16,13
+dashboard-day,LABEL,Indigo,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Violet,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Rose,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Rouge,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Orange,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Ambre,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Vert,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Émeraude,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Turquoise,"Inter, system-ui, sans-serif",12px,700,normal,0px,7.2px,4.8px,116,32
+dashboard-day,LABEL,Mot de passe actuel,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,266,18
+dashboard-day,INPUT,,"Inter, system-ui, sans-serif",16px,400,normal,0px,12.8px 14.4px,normal,266,49
+dashboard-day,LABEL,Nouveau mot de passe,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,266,18
+dashboard-day,LABEL,Confirmer le nouveau mot de passe,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,266,18
+dashboard-day,BUTTON,Modifier mon mot de passe,"Inter, system-ui, sans-serif",16px,750,normal,0px,12.8px 16px,normal,266,47
+dashboard-day,H2,Activité récente,"Inter, system-ui, sans-serif",20px,700,normal,0px 0px 16px,0px,normal,574,27
+dashboard-day,H2,Raccourcis utiles,"Inter, system-ui, sans-serif",20px,700,normal,0px 0px 12px,0px,normal,902,27
+users-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,170,16
+users-day,H1,Utilisateurs,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,170,37
+users-day,BUTTON,+,"Inter, system-ui, sans-serif",27.2px,750,27.2px,0px,0px,normal,48,48
+users-day,LABEL,Rechercher un utilisateur,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,5.6px,448,60
+users-day,INPUT,,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,448,36
+users-day,BUTTON,Modifier,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,90,39
+users-day,BUTTON,Désactiver,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,102,39
+user-dialog-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,170,16
+user-dialog-day,H1,Utilisateurs,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,170,37
+user-dialog-day,BUTTON,+,"Inter, system-ui, sans-serif",27.2px,750,27.2px,0px,0px,normal,48,48
+user-dialog-day,LABEL,Rechercher un utilisateur,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,5.6px,448,60
+user-dialog-day,INPUT,,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,448,36
+user-dialog-day,BUTTON,Modifier,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,90,39
+user-dialog-day,BUTTON,Désactiver,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,102,39
+user-dialog-day,H2,Ajouter un utilisateur,"Inter, system-ui, sans-serif",17.6px,700,normal,0px 0px 16px,0px,normal,422,23
+user-dialog-day,LABEL,Identifiant,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,422,18
+user-dialog-day,INPUT,,"Inter, system-ui, sans-serif",16px,400,normal,0px,12.8px 14.4px,normal,422,49
+user-dialog-day,LABEL,Adresse mail,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,422,18
+user-dialog-day,LABEL,Type utilisateur,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,422,18
+user-dialog-day,SELECT,CoachViewer,"Inter, system-ui, sans-serif",16px,400,normal,0px,12px,normal,422,49
+user-dialog-day,BUTTON,Annuler,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,87,47
+user-dialog-day,BUTTON,Valider,"Inter, system-ui, sans-serif",16px,750,normal,0px,12.8px 16px,normal,84,47
+organization-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
+organization-day,H1,Organisations,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+organization-day,H2,Organisations existantes,"Inter, system-ui, sans-serif",17.6px,700,normal,0px,0px,normal,918,23
+teams-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,132,16
+teams-day,H1,Équipes,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,132,37
+teams-day,LABEL,OrganisationChoisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,8px,448,72
+teams-day,SELECT,Choisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,12px,normal,448,46
+teams-day,P,Sélectionnez une organisation.,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+templates-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,323,16
+templates-day,H1,Modèles d’évaluation,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,323,37
+templates-day,BUTTON,Créer une évaluation,"Inter, system-ui, sans-serif",16px,750,normal,0px,12.8px 16px,normal,188,47
+templates-day,LABEL,OrganisationChoisir une organisationResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,normal,968,22
+templates-day,SELECT,Choisir une organisationResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,normal,178,22
+templates-day,BUTTON,Radar E2ERadar E2E v1Archivée,"Inter, system-ui, sans-serif",16px,750,normal,0px,0px,12px,308,22
+templates-day,BUTTON,Créer une nouvelle version,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,228,42
+templates-day,P,Questions,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,107,16
+templates-day,H2,Radar E2E v1,"Inter, system-ui, sans-serif",17.6px,700,normal,0px,0px,normal,107,23
+planning-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
+planning-day,H1,Planification,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+planning-day,LABEL,OrganisationChoisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,8px,448,72
+planning-day,SELECT,Choisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,12px,normal,448,46
+planning-day,P,Sélectionnez une organisation.,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+evaluations-day,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
+evaluations-day,H1,Évaluations,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+evaluations-day,H2,Évaluations attendues,"Inter, system-ui, sans-serif",17.6px,700,normal,0px,0px,normal,953,23
+evaluations-day,BUTTON,Consulter,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,96,79
+evaluations-day,BUTTON,Réviser les notes,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,85,79
+evaluations-day,BUTTON,Passer l’évaluation,"Inter, system-ui, sans-serif",16px,750,normal,0px,8px 11.2px,normal,164,39
+results-day,H1,Résultats,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+results-day,LABEL,OrganisationSélectionner une organisationResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,476,66
+results-day,SELECT,Sélectionner une organisationResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,10.4px,normal,476,43
+results-day,LABEL,ModèleSélectionner un modèleRadar E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,476,66
+results-day,SELECT,Sélectionner un modèleRadar E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,10.4px,normal,476,43
+results-day,P,Version radar : v1 · Dernière version ayant des résultats accessibles,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+results-day,LABEL,Équipe AComplétée le 02/10/2026 - 08:00,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,10.4px 0px,10.4px,185,71
+results-day,INPUT,,"Inter, system-ui, sans-serif",13.6px,700,normal,3.2px 3px 3px 4px,0px,normal,18,18
+results-day,LABEL,Équipe BComplétée le 03/10/2026 - 08:00,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,10.4px 0px,10.4px,185,71
+results-day,BUTTON,,"Inter, system-ui, sans-serif",14.4px,750,normal,0px,0px,normal,54,30
+results-day,BUTTON,Graphique,"Inter, system-ui, sans-serif",16px,700,normal,0px,10.4px 12.8px,normal,104,45
+results-day,BUTTON,Données détaillées,"Inter, system-ui, sans-serif",16px,750,normal,0px,10.4px 12.8px,normal,167,45
+steering-day,H1,Pilotage,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+steering-day,P,"Couverture et échéances du dispositif, pour orienter l’accompagnement.","Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+steering-day,P,Organisation : Results E2E,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+steering-day,P,Date de référence : 21/10/2026,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+activity-journal-day,P,Actions réussies,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
+activity-journal-day,H1,Journal d’activité,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+activity-journal-day,P,"Qui a fait quoi, dans quelle organisation, sur quelle équipe et quand.","Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+activity-journal-day,LABEL,Date,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,227,60
+activity-journal-day,INPUT,,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,227,36
+activity-journal-day,LABEL,Joueur,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,227,60
+activity-journal-day,LABEL,Équipe,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,227,60
+activity-journal-day,BUTTON,Filtrer,"Inter, system-ui, sans-serif",16px,750,normal,0px,12.8px 16px,normal,77,47
+activity-journal-day,BUTTON,Effacer,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,80,42
+activity-journal-day,H2,08/10/2026,"Inter, system-ui, sans-serif",17.6px,700,normal,14.608px 0px,0px 0px 9.6px,normal,953,34
+logs-day,P,Exploitation et diagnostic,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
+logs-day,H1,Logs,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
+logs-day,P,Journal technique HTTP. Les détails d’erreur restent dans les logs ser,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
+logs-day,LABEL,OrganisationTousResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,TousResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,UtilisateurTousresults-admin-e2esteering-coach-e2e,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,Tousresults-admin-e2esteering-coach-e2e,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,ÉquipeTousArchivée E2EJamais évaluée E2EÉquipe AÉquipe B,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,TousArchivée E2EJamais évaluée E2EÉquipe AÉquipe B,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,ÉvaluationTousRadar E2E v1,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,TousRadar E2E v1,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,Du,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,INPUT,,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,37
+logs-day,LABEL,Au,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,LABEL,MéthodeTousGETPOSTPUTPATCHDELETE,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,TousGETPOSTPUTPATCHDELETE,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,NiveauTousINFOWARNINGERROR,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,TousINFOWARNINGERROR,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,SourceTousteamsassessmentsplanningnotificationsidentitiesorganizations,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,SELECT,Tousteamsassessmentsplanningnotificationsidentitiesorganizationssystem,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-day,LABEL,Statut,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-day,BUTTON,Filtrer,"Inter, system-ui, sans-serif",16px,750,normal,0px,12.8px 16px,normal,77,47
+logs-day,BUTTON,Effacer,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,80,42
+logs-day,BUTTON,Précédent,"Inter, system-ui, sans-serif",13.6px,750,normal,0px,9.6px 12.8px,normal,92,39
+logs-day,BUTTON,Suivant,"Inter, system-ui, sans-serif",13.6px,750,normal,0px,9.6px 12.8px,normal,75,39

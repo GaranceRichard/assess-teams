@@ -12,7 +12,7 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
-MEP-067 livre le [cahier de recette UX](docs/quality/ux-acceptance.md) : parcours réels, mesures et preuves pour démarrer MEP-053 (typographie/hiérarchie), MEP-019 (contrastes clairs) et MEP-052 (sombre). Le [chemin MESS](docs/backlog/planning/pre-mep.md) conserve l’installation en parallèle et le jalon MEP-035 ; MEP-055 attend D01–D09. Ce chantier documentaire s’appuie sur la refonte du backlog intégrée, sans évolution applicative ni Git/CI.
+[MEP-053](docs/quality/typography.md) harmonise la typographie et la hiérarchie des parcours existants : titres, libellés, espacements et densité, avec preuves UX-01/05 dans les deux thèmes et au zoom navigateur 200 %. Les dix palettes et les règles métier sont conservées. MEP-067 livre le [cahier de recette UX](docs/quality/ux-acceptance.md) : parcours réels, mesures et preuves pour démarrer MEP-053 (typographie/hiérarchie), MEP-019 (contrastes clairs) et MEP-052 (sombre). Le [chemin MESS](docs/backlog/planning/pre-mep.md) conserve l’installation en parallèle et le jalon MEP-035 ; MEP-055 attend D01–D09.
 
 [Démo interactive](https://GaranceRichard.github.io/assess-teams/) : shell React réel, données fictives locales, passation, radar et Pilotage sans compte ni serveur. `npm run dev:demo` et `npm run build:demo` sont isolés du build normal ; [architecture, limites et publication](docs/architecture/public-demo.md).
 
