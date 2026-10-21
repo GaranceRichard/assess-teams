@@ -1,7 +1,8 @@
 [CmdletBinding()]
-param([string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path)
+param([string]$Root)
 
 $ErrorActionPreference = 'Stop'
+if (-not $Root) { $Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path }
 function Invoke-Git {
     param([string[]]$Arguments, [string]$Directory = $Root)
     & git -C $Directory @Arguments

@@ -6,6 +6,7 @@ import {
   mkdirSync,
   writeFileSync,
   chmodSync,
+  copyFileSync,
   rmSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -66,8 +67,17 @@ function publish(worktree, extra = []) {
 test("publication pushes the candidate then fast-forwards only main", () => {
   const f = fixture();
   try {
+    // Exercise the real npm wrapper and the default Root, not only explicit -Root.
+    const scripts = resolve(script, "..");
+    mkdirSync(join(f.worktree, "scripts/quality"), { recursive: true });
+    for (const path of ["publish.ps1", "run-powershell.mjs", "quality/main-protection.mjs", "quality/changes.mjs", "quality/wait-ci.mjs"])
+      copyFileSync(join(scripts, path), join(f.worktree, "scripts", path));
+    git(f.worktree, "add", "scripts");
+    git(f.worktree, "commit", "-m", "Publisher fixture");
     const candidate = git(f.worktree, "rev-parse", "HEAD");
-    const result = publish(f.worktree);
+    const result = spawnSync(process.execPath, ["scripts/run-powershell.mjs", "scripts/publish.ps1"], {
+      cwd: f.worktree, encoding: "utf8", env: fixtureEnv, timeout: 30000,
+    });
     assert.equal(result.status, 0, result.stdout + result.stderr);
     assert.equal(git(f.primary, "rev-parse", "main"), candidate);
     assert.equal(git(f.primary, "rev-parse", "origin/main"), candidate);
