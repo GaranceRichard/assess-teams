@@ -33,6 +33,14 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 - Après confirmation du push, l'agent supprime uniquement le worktree et la branche du PBI terminé. Il ne
   nettoie, ne déplace et ne modifie jamais le worktree ou la branche d'un autre chantier.
 
+## Interdiction du circuit PR
+
+- Aucune PR dans le processus de développement et de publication d’Assess Teams.
+- Aucune création automatique de PR, demande d’approbation ou fusion via GitHub.
+- Le seul circuit est `npm run publish` : push direct depuis le worktree dédié vers main,
+  pré-push bloquant, CI après intégration sur le SHA publié et synchronisation locale sûre.
+- Aucun nouveau circuit ou changement d’architecture de publication sans accord explicite.
+
 ## Règles de livraison
 
 - La séquence normale est `travail → validations ciblées → commit → resynchronisation → pre-push proportionné → push → CI du SHA exact`.

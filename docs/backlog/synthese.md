@@ -171,14 +171,14 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 58 |
+| PBIs ouverts | 57 |
 | PBIs en cours | 0 |
-| PBIs bloqués | 3 |
+| PBIs bloqués | 4 |
 | PBIs non réalisés | 61 |
 | PBIs réalisés | 35 |
 | Avancement global | 36 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 35 réalisés (25 fonctionnels et 10 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 reste Bloqué faute de validation MESS et MEP-012 passe de Ouvert à Bloqué après l’audit GitHub, sans réalisation supplémentaire. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 35 réalisés (25 fonctionnels et 10 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 reste Bloqué faute de validation MESS et MEP-012 passe de Ouvert à Bloqué après l’audit GitHub, sans réalisation supplémentaire. MEP-043 reste Bloqué après décision sans PR du 2026-10-21 : protections compatibles appliquées, barrière CI préalable absente et inventaire G05 incomplet. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 

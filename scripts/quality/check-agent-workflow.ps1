@@ -5,6 +5,7 @@ $requirements = @(
     @('AGENTS.md', 'Aucun chantier ne modifie directement le checkout principal ouvert dans VS Code.'),
     @('AGENTS.md', 'Le premier PBI'),
     @('AGENTS.md', 'workspace multi-root'),
+    @('AGENTS.md', 'Aucune PR dans le processus'),
     @('docs/quality/agent-rules.md', 'Chaque PBI parall'),
     @('docs/quality/agent-rules.md', 'ne cible pas `main`'),
     @('README.md', 'Pre-push vers main'),

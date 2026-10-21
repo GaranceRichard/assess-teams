@@ -1,3 +1,4 @@
+[CmdletBinding()]
 param([string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path)
 
 $ErrorActionPreference = 'Stop'
@@ -37,6 +38,9 @@ try {
     Invoke-Git @('rebase', 'origin/main')
     Assert-Clean $Root
     $candidate = (Invoke-Git @('rev-parse', 'HEAD')).Trim()
+    # Direct integration only. Never create or merge a pull request.
+    & node (Join-Path $PSScriptRoot 'quality/main-protection.mjs') $Root
+    if ($LASTEXITCODE -ne 0) { throw 'Protections main incompatibles ; aucune publication effectuee.' }
     Invoke-Git @('push', 'origin', "${branch}:main")
     Invoke-Git @('fetch', 'origin', 'main')
     Invoke-Git @('merge-base', '--is-ancestor', $candidate, 'origin/main')

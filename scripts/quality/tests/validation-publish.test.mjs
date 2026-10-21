@@ -55,10 +55,10 @@ function fixture() {
   };
 }
 
-function publish(worktree) {
+function publish(worktree, extra = []) {
   return spawnSync(
     powershell,
-    ["-NoProfile", ...policy, "-File", script, "-Root", worktree],
+    ["-NoProfile", ...policy, "-File", script, "-Root", worktree, ...extra],
     { encoding: "utf8", env: fixtureEnv, timeout: 30000 },
   );
 }
@@ -138,6 +138,31 @@ test("a rejecting pre-push prevents publication and main catch-up", () => {
     assert.equal(
       git(f.root, "--git-dir=remote.git", "rev-parse", "main"),
       before,
+    );
+  } finally {
+    f.cleanup();
+  }
+});
+
+test("withdrawn Prepare mode refuses without pushing, opening a PR or changing main", () => {
+  const f = fixture();
+  try {
+    const before = git(f.primary, "rev-parse", "HEAD");
+    const result = publish(f.worktree, ["-Prepare"]);
+    assert.notEqual(result.status, 0);
+    assert.equal(git(f.primary, "rev-parse", "HEAD"), before);
+    assert.equal(
+      git(f.root, "--git-dir=remote.git", "rev-parse", "main"),
+      before,
+    );
+    assert.equal(
+      git(
+        f.root,
+        "--git-dir=remote.git",
+        "for-each-ref",
+        "--format=%(refname)",
+      ),
+      "refs/heads/main",
     );
   } finally {
     f.cleanup();

@@ -126,5 +126,5 @@ push direct de la branche dédiée vers main et fast-forward sûr du checkout pr
 Il attend ensuite la CI du SHA exact : échec, annulation, absence ou délai dépassé refusent le succès de livraison.
 Le push existe alors déjà ; aucune réécriture distante n'est tentée. Corriger par un nouveau chantier.
 Le suivi GitHub requiert `gh` authentifié sur le poste de contribution, sans dépendance d'exploitation MESS.
-Les limites de protection avant intégration et la transition PR sont dans [CI](ci.md).
+Aucune PR n’est créée ; seules les règles compatibles avec le push direct sont acceptées. La CI intervient après intégration : [limites et protections](ci.md).
 Les [mesures reproductibles](validation-measurements.md) distinguent temps local, chemin CI et coût cumulé runners.

@@ -93,7 +93,7 @@ Avant même de commencer un développement, une correction, un refactoring ou un
 
 ## Workflow automatisé
 
-Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, validation ciblée, commit avec gate rapide informatif, publication sérialisée avec plan d’impact bloquant et attente CI du SHA exact, push, puis vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. Les [règles des agents](agent-rules.md) portent la procédure complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](../../README.md#commandes-qualité).
+Le workflow de référence est : mise à jour préalable du README lorsque nécessaire, travail, tests et contrôles, validation ciblée, commit avec gate rapide informatif, publication directe sérialisée avec plan d’impact bloquant, push vers main, puis CI du SHA exact et vérification finale. Sauf instruction explicite contraire du prompt, une tâche terminée est commitée et poussée. Les [règles des agents](agent-rules.md) portent la procédure complète et ses exceptions. Les commandes et l'activation des hooks versionnés sont définies dans le [README](../../README.md#commandes-qualité).
 
 - `quality:quick` exécute les contrôles rapides applicables, sans tests ni coverage et signale les échecs sans empêcher un commit intermédiaire.
 - `quality:full` exécute tous les contrôles applicables et retourne un code d'échec si l'un d'eux n'est pas conforme.

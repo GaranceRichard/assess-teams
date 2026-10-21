@@ -154,6 +154,16 @@ Avant de déclarer une tâche terminée :
 
 Une tâche reste non terminée dès qu'un quality gate est en échec.
 
+## Publication sans PR
+
+La décision définitive du 2026-10-21 interdit toute PR dans le développement et la publication.
+Aucune création automatique de PR, approbation ou fusion via GitHub n’est autorisée.
+Le script reste un push direct branche dédiée → main, avec garde et validations proportionnées.
+Avant le push, il relit les règles effectives : suppression/réécriture interdites, bypass vide,
+aucune obligation de PR, de merge queue ou de check préalable. Il ne modifie jamais les règles.
+Un paramètre retiré comme `-Prepare` est refusé avant toute mutation.
+Tout autre circuit nécessite un nouvel accord explicite.
+
 ## Automatisation des quality gates
 
 Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le plan d’impact bloquant ; la CI GitHub recalcule le même plan et exige le succès des contrôles requis. Contourner le hook local ne dispense jamais du contrôle distant.
@@ -174,5 +184,5 @@ Une preuve versionnée exige entrées effectives et sélection identiques, y com
 La nightly indépendante exécute tout sur main ; la qualification MESS exige le SHA complet exact.
 Le gate de promotion exige un run exhaustif GitHub réussi et son artefact correspondant ; une autre nightly ne suffit pas.
 `npm run publish` synchronise main après push puis attend la CI du SHA avant de déclarer le succès.
-Main reste sans protection distante préalable au push : [limite et migration explicite vers les PR](ci.md).
+Main interdit force-push et suppression ; aucune CI distante préalable au push : [limites du circuit direct](ci.md).
 Échec CI après push : livraison non terminée, correction nécessaire, aucun succès annoncé ni force-push.
