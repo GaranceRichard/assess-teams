@@ -21,6 +21,7 @@
   align-items: center;
   flex: 0 0 auto;
   max-width: none;
+  margin: 0;
   gap: 0.5rem;
 }
 .results-history-criterion select {
