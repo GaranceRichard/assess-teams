@@ -10,7 +10,7 @@ L’audit du 2026-10-14 et ses archives restent historiques, sans réécriture d
 | Relation examinée | Nature / décision de cette refonte | Conséquence de pilotage |
 | --- | --- | --- |
 | Job 1 → Job 7 ou F01 entière avant UX | Ordre historique, aucune dépendance active | Ne pas attendre F04 pour lancer l’UX ou préparer MESS ; ne pas relancer les dix réalisés F01–F03 |
-| MEP-067 → MEP-019/053 | Entrée réelle : mesures de contraste/zoom/hiérarchie | Conserver les dépendances source ; MEP-067 en premier, avant toute installation |
+| MEP-067 → MEP-019/053 | Entrée réelle : mesures de contraste/zoom/hiérarchie | Dépendances conservées et satisfaites par le [cahier livré](../../quality/ux-acceptance.md) ; démarrage immédiat de U1 |
 | MEP-067 avant les 15 autres PBI UX prêts | Choix de cohérence des corrections | Même cahier de référence ; aucun nouvel arc technique ajouté à leurs fiches |
 | Typographie/thèmes avant notation/résultats/dashboard | Ordre pour réduire les reprises visuelles | Paralléliser les composants distincts ; ne pas sérialiser toute l’UX par Feature |
 | MEP-055 → MEP-054/057 | Profil cible indispensable, pas simple convention | Conserver ; préparer schéma/inventaire, sans figer OS, ABI, serveur ou valeurs non approuvés |
@@ -34,7 +34,7 @@ Aucune autre dépendance source n’est supprimée, aucun statut/date/parent/cri
 
 ## Activités anticipables et travaux hors chaîne technique
 
-- Dès maintenant : MEP-067 et MEP-030 livrables sur les acquis ; corrections UX prêtes, collecte D01–D09, réservation des cibles et données fictives.
+- Dès maintenant : MEP-067 réalisé ; MEP-053/019/052 et MEP-030 prêts ; collecte D01–D09, réservation des cibles et données fictives.
 - Préparation seule : MEP-054/057/031, MEP-028/066/029 ; confronter l’existant, marquer les inconnues, finaliser après les entrées canoniques.
 - MEP-023/056 avancent après le contrat sans attendre le package. Cette réorganisation du backlog n’est pas leur livraison contractuelle.
 - MEP-029 ne bloque pas les essais d’installation, mais sa documentation de reprise reste exigée avant GO. Apache 2.0/NOTICE déjà acquis, aucun travail de licence recréé.

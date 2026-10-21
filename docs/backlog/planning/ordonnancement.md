@@ -1,7 +1,7 @@
 # Planification du backlog
 
 Le [plan pré-MEP MESS](pre-mep.md) organise la livraison par Epic → Feature → PBI, selon les dépendances réelles, et le jalon GO/NO-GO séparé.
-Pour la MEP, lancer **MEP-067 — Cahier UX**, puis la cohérence visuelle et les correctifs de parcours ;
+Pour la MEP, appliquer le [cahier UX MEP-067 livré](../../quality/ux-acceptance.md) : lancer **MEP-053**, puis MEP-019/052 et les correctifs de parcours ;
 préparer MEP-055 et l’installation en parallèle. Ce chemin MESS prime pour le prochain lancement.
 La séquence métier ci-dessous reste une orientation générale, sans réouverture des acquis ni ajout
 d’automatisme exigeant tous les compléments fonctionnels avant la MEP ; ses arbitrages restent applicables.

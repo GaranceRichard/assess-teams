@@ -28,6 +28,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Qualité
 
+- [Cahier de recette UX MEP-067](quality/ux-acceptance.md) : scénarios, mesures, refus et preuves pour les correctifs esthétiques.
 - [Règle permanente d'entrée des agents](../AGENTS.md) et [règles détaillées](quality/agent-rules.md)
 - [Charte qualité](quality/quality-charter.md)
 - [Definition of Done](quality/definition-of-done.md)

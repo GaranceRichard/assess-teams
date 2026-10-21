@@ -1,13 +1,13 @@
 # Chemin vers la MEP MESS — ordre de lancement et conditions de passage
 
-**Prochain PBI recommandé : [MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md).**
-Ses prérequis sont réalisés. Il fournit les mesures de référence aux corrections visuelles et débloque
-MEP-053 et MEP-019. Ne pas attendre l’installation pour corriger l’esthétique.
+**Prochain PBI recommandé : [MEP-053 — Typographie et hiérarchie](../source/mess/f09.md).**
+MEP-067 est réalisé : le [cahier UX](../../quality/ux-acceptance.md) fournit les mesures de référence
+et débloque MEP-053 et MEP-019, puis MEP-052 par choix d’ordre. Ne pas attendre l’installation pour corriger l’esthétique.
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
-Base : `origin/main` à `7f456fd`, revue du 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 11 Réalisés, 49 Ouverts, 2 Bloqués, 0 En cours.
-Aucun PBI n’est clos par cette refonte ; les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés.
+Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
+et le [registre canonique](../tracking/pbis.md) comptent 12 Réalisés, 48 Ouverts, 2 Bloqués, 0 En cours.
+Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
 ## Règle de pilotage
@@ -27,7 +27,7 @@ Chaque clôture actualise d’abord le registre, puis la synthèse ; aucune date
 
 | Ordre recommandé | PBI et capacité | Condition objective pour poursuivre |
 | --- | --- | --- |
-| U0 — immédiatement | [MEP-067 — Cahier UX](../source/mess/f17.md) | Parcours/écrans, viewports, clavier/tactile, zoom, deux thèmes/dix palettes, mesures et vrais refus définis ; pas de PV anticipé |
+| U0 — réalisé | [MEP-067 — Cahier UX](../source/mess/f17.md) | [UX-01 à UX-09](../../quality/ux-acceptance.md) : parcours/écrans, viewports, clavier/tactile, zoom, deux thèmes/dix palettes, mesures et vrais refus définis ; pas de PV anticipé |
 | U1 — cohérence transversale | [MEP-053 — Typographie et hiérarchie](../source/mess/f09.md), puis [MEP-019 — Contrastes du clair](../source/mess/f09.md), puis [MEP-052 — Thème sombre](../source/mess/f09.md) | Mesures du cahier satisfaites, titres/libellés/densité cohérents, texte/action/focus lisibles, préférences conservées ; captures comparables |
 | U2 — notation | [MEP-044 — Notes et échelle](../source/mess/f05.md), puis [MEP-013 — Curseur et sélection](../source/mess/f05.md), puis [MEP-045 — Confirmation de sauvegarde](../source/mess/f05.md) | 0 distingué de non répondu, repères exacts, clavier/tactile/focus utilisables, succès lié au serveur et reprise sans perte |
 | U3a — résultats | [MEP-014 — Hiérarchie des résultats](../source/mess/f06.md), [MEP-046 — Sens des scores](../source/mess/f06.md), [MEP-015 — Radar](../source/mess/f06.md), [MEP-047 — Comparaisons](../source/mess/f06.md), dans cet ordre si une seule capacité | Contexte/provenance et limites explicites ; labels/légendes/tableaux lisibles, filtres conservés, aucune comparaison hors scope ou incompatible |
@@ -116,9 +116,9 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## PBI prêts au regard des dépendances connues du registre
 
-17 PBI restent prêts : 14 PBI UX de F05–F08, MEP-052, MEP-030 et MEP-067.
-MEP-019/053 attendent MEP-067.
-« Prêt » est une éligibilité, pas un ordre : lancer MEP-067 en premier, puis U1, et préparer MEP-055 en parallèle.
+18 PBI restent prêts : 14 PBI UX de F05–F08, MEP-019/052/053 et MEP-030.
+MEP-067 réalisé lève l’attente de MEP-019/053.
+« Prêt » est une éligibilité, pas un ordre : lancer U1 avec MEP-053, et préparer MEP-055 en parallèle.
 Les fiches/source et la vue détaillée donnent les dépendances exhaustives ; un accès ou une donnée manquante
 constatée au lancement est inscrit au registre, sans transformer toute attente PBI en statut Bloqué.
 
