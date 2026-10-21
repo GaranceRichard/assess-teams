@@ -53,7 +53,7 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 ## Préparation MESS — registre courant
 
 **À lancer ensuite : [MEP-053 — Typographie/hiérarchie](../source/mess/f09.md)** : [MEP-067 livré](../../quality/ux-acceptance.md)
-fournit les mesures de référence. MEP-019 puis MEP-052 suivent ; les trois PBI esthétiques sont prêts.
+fournit les mesures de référence. MEP-053 et MEP-019 restent prêts ; MEP-052 est réalisé avec ses preuves.
 En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 [Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
 [dépendances et retour confirmé du circuit direct après MEP-043](../planning/mess-dependances.md).
@@ -75,5 +75,5 @@ Les Jobs et FEAT-042 à FEAT-048 ne sont plus des unités actives. Le suivi cour
 se trouve exclusivement dans les sections MESS ci-dessus ; leurs anciennes valeurs restent archivées.
 03.01 référence JOURNAL-001/002 déjà réalisés ; aucun nouveau PBI de journalisation n’est créé.
 [MEP-041 — ancien alias et métadonnées conservées](mess-doublons-historique.md) est hors du suivi actif.
-Le MESS compte 62 PBI actifs : 48 Ouverts, 2 Bloqués (MEP-055 — Prérequis, validation MESS en attente ; MEP-012 — Protections GitHub, écarts et preuve Apps manquante) et 12 Réalisés (MEP-067 — Cahier UX ; MEP-043 — Protections compatibles et push direct, critères révisés avec réserve G05 non bloquante ; MEP-036 — Inventaire ; MEP-009 — Secrets et démarrage ; MEP-011 — Isolation organisationnelle ; MEP-037 — Permissions par rôle ; MEP-038 — Accès indirects et exports ; MEP-039 — Paramètres SQLite ; MEP-010 — Verrous et transactions concurrentes ; MEP-040 — Conflits des opérations critiques ; MEP-042 — Conservation des journaux ; MEP-020 — Purge des journaux) ; les 63 points initiaux restent couverts.
+Le MESS compte 62 PBI actifs : 47 Ouverts, 2 Bloqués (MEP-055 — Prérequis, validation MESS en attente ; MEP-012 — Protections GitHub, écarts et preuve Apps manquante) et 13 Réalisés (MEP-052 — Thème sombre ; MEP-067 — Cahier UX ; MEP-043 — Protections compatibles et push direct, critères révisés avec réserve G05 non bloquante ; MEP-036 — Inventaire ; MEP-009 — Secrets et démarrage ; MEP-011 — Isolation organisationnelle ; MEP-037 — Permissions par rôle ; MEP-038 — Accès indirects et exports ; MEP-039 — Paramètres SQLite ; MEP-010 — Verrous et transactions concurrentes ; MEP-040 — Conflits des opérations critiques ; MEP-042 — Conservation des journaux ; MEP-020 — Purge des journaux) ; les 63 points initiaux restent couverts.
 L’[audit](../planning/mess-audit.md) distingue comptage, validation du périmètre et consolidation.

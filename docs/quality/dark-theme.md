@@ -1,4 +1,4 @@
-﻿# MEP-052 — Harmonisation ciblée du thème sombre
+# MEP-052 — Harmonisation ciblée du thème sombre
 
 Audit du 2026-10-21, selon [F09](../backlog/source/mess/f09.md), le registre canonique et la
 [DoD](definition-of-done.md). Ce rapport technique est distinct du cahier de recette UX MEP-067.
@@ -55,16 +55,29 @@ réimplémentés pour cet audit. Les styles des cinq séries, formes et pointill
 Le plan automatique `npm run quality:targeted` passe sur le candidat resynchronisé après MEP-067 :
 statiques frontend, 32 tests dépendants, 69 E2E application et 10 E2E démo, zéro échec.
 Les trois nouveaux tests ciblés passent, y compris les matrices Journal/Logs et cinq séries.
-Le build démo passe. Les captures avant/après ont été inspectées : le contour du champ et la piste
+`npm run build --prefix frontend` et le build démo passent. Les captures avant/après ont été inspectées : le contour du champ et la piste
 sont nettement identifiables, sans changement de disposition. Les dix captures du dialogue clair
 restent identiques pixel à pixel. Les relevés JSON attachés aux tests sont consultables dans le
 rapport HTML Playwright (`--reporter=html`), exporté sur une base et des ports distincts.
-Le pre-push puis la CI du SHA publié restent bloquants avant clôture canonique.
+Le pre-push et la CI du SHA applicatif publié sont verts avant clôture canonique.
 Aucune qualification MESS globale ni certification normative n’est revendiquée.
 
 Revue documentaire : README préparé avant le code ; documentation des palettes ajustée.
 Règles des agents, charte, DoD, stratégie de tests, fondamentaux et contrat API relus :
 aucun changement d’architecture, d’API, de sécurité ou de règle qualité n’est nécessaire.
 Migrations et nouveaux tests API/backend non applicables : seuls des styles CSS sont modifiés.
-Les tests navigateur réutilisent les fixtures métier existantes. Aucun document de recette UX,
-script de publication, hook, configuration CI ou fichier du chantier MEP-067 n’est modifié.
+Les tests navigateur réutilisent les fixtures métier existantes. Les documents de recette UX et
+le worktree MEP-067 sont préservés ; seuls les compteurs et mentions courantes de MEP-052 changent
+dans les vues du backlog. Aucun script de publication, hook ou configuration CI n’est modifié.
+
+## Intégration et clôture
+
+Correctif `d782cbd5f77faa5ef93edfe6dd76d0d6a5d7196e`, publié par `npm run publish` :
+pre-push bloquant réussi, push direct vers main, fast-forward sûr du checkout principal et
+[CI du SHA exact verte](https://github.com/GaranceRichard/assess-teams/actions/runs/39638170718),
+dont `Required impact gate`. Le build normal complémentaire passe aussi.
+
+MEP-052 passe à Réalisé le 2026-10-21 après satisfaction de ses critères et de la DoD applicable.
+Seul ce PBI est clôturé : F09 reste partielle (1/3), MEP-019 et MEP-053 restent ouverts.
+MESS : 13 Réalisés, 47 Ouverts, 2 Bloqués ; 17 ouverts prêts. Les vues dérivées sont alignées.
+La publication documentaire de cette clôture suit le même circuit, puis seul ce chantier est nettoyé.
