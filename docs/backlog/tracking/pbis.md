@@ -52,8 +52,8 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 
 ## Préparation MESS — registre courant
 
-**À lancer ensuite : [MEP-053 — Typographie/hiérarchie](../source/mess/f09.md)** : [MEP-067 livré](../../quality/ux-acceptance.md)
-fournit les mesures de référence. MEP-053 et MEP-019 restent prêts ; MEP-052 est réalisé avec ses preuves.
+**En cours : [MEP-053 — Typographie/hiérarchie](../source/mess/f09.md)** : [MEP-067 livré](../../quality/ux-acceptance.md)
+fournit les mesures de référence. MEP-019 reste prêt ; MEP-052 est réalisé avec ses preuves.
 En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 [Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
 [dépendances et retour confirmé du circuit direct après MEP-043](../planning/mess-dependances.md).

@@ -1,9 +1,9 @@
-﻿# MEP-053 — Typographie et hiérarchie visuelle
+# MEP-053 — Typographie et hiérarchie visuelle
 
 Recette du 2026-10-21 par Codex, selon [F09](../backlog/source/mess/f09.md),
 [UX-01/05 de MEP-067](ux-acceptance.md) et la [DoD](definition-of-done.md).
 État de référence : `d782cbd5f77faa5ef93edfe6dd76d0d6a5d7196e` (MEP-052 déjà intégré).
-Le code candidat est identifié par les [empreintes des sources](mep-053/sources.csv).
+Code candidat : `e41ad45f56cd25d1044a267f637396354cab4006` ; [empreintes des sources](mep-053/sources.csv).
 Le SHA intégré et les gates seront consignés après publication ; MEP-053 reste En cours jusque-là.
 
 ## Audit et corrections observables
@@ -36,10 +36,10 @@ Aucun flux, droit, calcul, contrat API ou règle métier n’est modifié.
 
 [Clair avant](mep-053/baseline-day-styles.csv) / [après](mep-053/final-day-styles.csv) ;
 [sombre avant](mep-053/baseline-night-styles.csv) / [après](mep-053/final-night-styles.csv).
-Les dossiers `mep-053/baseline/` et `mep-053/final/` conservent les captures de même nom,
-avec mêmes fixtures, viewport et palette. Les trois événements du Dashboard sont chargés,
+Les dossiers `mep-053/baseline/` et `mep-053/final/` conservent les captures comparables de même nom,
+avec mêmes fixtures, viewport et palette. Les géométries complémentaires sont qualifiées sur le candidat final. Les trois événements du Dashboard sont chargés,
 Apparence fermée ; les dates d’événements fictifs sont stabilisées.
-Le navigateur de référence reçoit les CSS du SHA ci-dessus ; le candidat utilise ses fichiers courants.
+Le navigateur de référence reçoit les composants modifiés et les CSS du SHA initial ; le candidat utilise ses fichiers courants.
 
 Comparaisons principales :
 
@@ -75,13 +75,30 @@ Les captures utilisent le framebuffer Chromium complet pour conserver le zoom r�
 Aucun débordement horizontal du document, action perdue ou texte essentiel tronqué constaté.
 Les scénarios UX-02/03/04 restent portés par MEP-019/052 ; ils ne sont pas clôturés par MEP-053.
 
+## Densité du graphique en faible hauteur
+
+Le test existant `demo-e2e/results-history-layout.spec.ts` a refusé le candidat intermédiaire
+`f478568` : canvas de 69,4 px à 1280 × 480, sous son minimum existant de 70 px.
+Le filtre Critère cumulait une marge de label avec le gap déjà prévu entre les contrôles.
+La marge redondante est supprimée ; le canvas atteint 76,6 px dans les deux thèmes,
+sans réduire les titres, cacher un contrôle ou changer le test, les graphiques ou leurs calculs.
+[Avant clair](mep-053/demo-density/before-day.png) / [après clair](mep-053/demo-density/after-day.png) ;
+[avant sombre](mep-053/demo-density/before-night.png) / [après sombre](mep-053/demo-density/after-night.png).
+Le test existant passe après correction ; la validation exhaustive est imposée au pre-push.
+
 ## Contrôles et DoD
+
+Le contrôle complémentaire du titre mobile a reproduit un écart de −6,39 px sur le candidat
+intermédiaire : la marge compensant le gap desktop était appliquée à un conteneur bloc mobile.
+Les surtitres et titres sont maintenant regroupés avec un gap positif de 5,6 px ; le Dashboard
+mobile suit une grille en flux naturel. L’assertion d’absence de chevauchement échoue avant
+cette correction et passe après. Les captures `*-mobile-heading.png` montrent chaque titre.
 
 Les quatre tests `typography` / `taking-typography` échouent sur le rendu antérieur et passent
 sur le candidat. Ils couvrent niveaux de titres, champs, alignement, question longue, raccourcis,
 absence de débordement et contrôles atteignables, dans les deux thèmes.
 Les suites existantes de shell, surfaces, passation, résultats, dialogues, palettes et rôles
-restent les protections des interactions et refus métier ; résultats complets à consigner après le gate.
+restent les protections des interactions et refus métier. Frontend complet : 428 tests passants ; statements 96,42 %, branches 94,78 %, fonctions 96,63 %, lignes 97,30 %. Build, typecheck, lint et formatage passent ; gate complet et CI encore requis.
 
 Revue documentaire : README préparé avant le code ; shell et stratégie de tests mis à jour.
 Règles des agents, charte, DoD, fondamentaux, API et cahier UX relus : aucune évolution requise

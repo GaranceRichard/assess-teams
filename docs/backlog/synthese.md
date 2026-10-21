@@ -113,7 +113,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
-**MEP-067 réalisé : [cahier UX](../quality/ux-acceptance.md)**. Prochain : MEP-053 (typographie/hiérarchie),
+**MEP-067 réalisé : [cahier UX](../quality/ux-acceptance.md)**. En cours : MEP-053 (typographie/hiérarchie),
 puis MEP-019 (contrastes clairs), corrections notation/résultats/dashboard/responsive/interactions ; [MEP-052 (sombre)](../quality/dark-theme.md) est réalisé.
 En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
@@ -130,7 +130,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 13 | 47 | 0 | 2 | 21 % |
+| MESS actif — E01 à E04 | 62 | 13 | 46 | 1 | 2 | 21 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.

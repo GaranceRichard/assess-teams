@@ -1,12 +1,12 @@
 # Chemin vers la MEP MESS — ordre de lancement et conditions de passage
 
-**Prochain PBI recommandé : [MEP-053 — Typographie et hiérarchie](../source/mess/f09.md).**
+**Chantier en cours : [MEP-053 — Typographie et hiérarchie](../source/mess/f09.md).**
 MEP-067 est réalisé : le [cahier UX](../../quality/ux-acceptance.md) fournit les mesures de référence
 et débloque MEP-053 et MEP-019. MEP-052 est réalisé ; ne pas attendre l’installation pour corriger l’esthétique.
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 13 Réalisés, 47 Ouverts, 2 Bloqués, 0 En cours.
+et le [registre canonique](../tracking/pbis.md) comptent 13 Réalisés, 46 Ouverts, 2 Bloqués, 1 En cours.
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -116,9 +116,9 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## PBI prêts au regard des dépendances connues du registre
 
-17 PBI restent prêts : 14 PBI UX de F05–F08, MEP-019/053 et MEP-030.
+16 PBI ouverts restent prêts : 14 PBI UX de F05–F08, MEP-019 et MEP-030 ; MEP-053 est en cours.
 MEP-067 réalisé lève l’attente de MEP-019/053.
-« Prêt » est une éligibilité, pas un ordre : lancer U1 avec MEP-053, et préparer MEP-055 en parallèle.
+« Prêt » est une éligibilité, pas un ordre : poursuivre U1 avec MEP-053, et préparer MEP-055 en parallèle.
 Les fiches/source et la vue détaillée donnent les dépendances exhaustives ; un accès ou une donnée manquante
 constatée au lancement est inscrit au registre, sans transformer toute attente PBI en statut Bloqué.
 

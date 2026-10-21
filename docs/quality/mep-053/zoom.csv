@@ -11,8 +11,8 @@ cssWidth,cssHeight,dpr,outerWidth,outerHeight,scrollWidth,clientWidth,focus,acti
 1280,720,1,1296,815,1280,1280,,435,448,appearance-night-100,1
 1280,720,1,1296,815,1280,1280,Valider,518,564,user-dialog-night-100,1
 1280,720,1,1296,815,1280,1280,1. Collaboration,478,498,results-night-100,1
-640,360,2,1296,815,632,632,Voir les rÃ©sultats,307,326,dashboard-night-200,2
-640,360,2,1296,815,632,632,,294,307,appearance-night-200,2
+640,360,2,1296,815,632,632,Voir les rÃ©sultats,307,325,dashboard-night-200,2
+640,360,2,1296,815,632,632,,174,187,appearance-night-200,2
 640,360,2,1296,815,632,632,Valider,281,328,user-dialog-night-200,2
 640,360,2,1296,815,632,632,1. Collaboration,215,235,results-night-200,2
 1280,720,1,1296,815,1280,1280,Suivant,530,573,taking-day-100,1

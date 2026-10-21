@@ -1,5 +1,5 @@
 screen,element,text,family,size,weight,leading,margin,padding,gap,width,height
-taking-day-1280-720,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px -6.4px,0px,normal,968,18
+taking-day-1280-720,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,18px,0px,0px,normal,968,18
 taking-day-1280-720,H1,Évaluations,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,968,38
 taking-day-1280-720,H2,Évaluations à passer,"Inter, system-ui, sans-serif",20px,700,26px,0px 0px 12px,0px,normal,953,26
 taking-day-1280-720,BUTTON,Reprendre l’évaluation,"Inter, system-ui, sans-serif",14px,650,21px,0px,8px 11.2px,normal,94,81
@@ -12,7 +12,7 @@ taking-day-1280-720,BUTTON,Enregistrer la note,"Inter, system-ui, sans-serif",14
 taking-day-1280-720,BUTTON,Précédent,"Inter, system-ui, sans-serif",14px,650,21px,0px,10.4px 8px,normal,235,44
 taking-day-1280-720,BUTTON,Suivant,"Inter, system-ui, sans-serif",14px,650,21px,0px,10.4px 8px,normal,235,44
 taking-day-1280-720,BUTTON,Fermer,"Inter, system-ui, sans-serif",14px,650,21px,0px,10.4px 8px,normal,64,44
-dashboard-day,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px -6.4px,0px,normal,968,18
+dashboard-day,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,18px,0px,0px,normal,968,18
 dashboard-day,H1,Tableau de bord,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,968,38
 dashboard-day,H2,Mon profil,"Inter, system-ui, sans-serif",20px,700,26px,0px 0px 12px,0px,normal,283,26
 dashboard-day,H3,Apparence,"Inter, system-ui, sans-serif",16px,650,24px,16px 0px 8px,12px 0px 0px,normal,283,37
@@ -77,7 +77,7 @@ planning-day,H1,Planification,"Inter, system-ui, sans-serif",32px,700,38.4px,0px
 planning-day,LABEL,OrganisationChoisir une organisation,"Inter, system-ui, sans-serif",14px,600,21px,8.8px 0px 0px,0px,8px,448,78
 planning-day,SELECT,Choisir une organisation,"Inter, system-ui, sans-serif",16px,400,normal,0px,12px,normal,448,49
 planning-day,P,Sélectionnez une organisation.,"Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
-evaluations-day,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px -6.4px,0px,normal,968,18
+evaluations-day,P,Votre espace,"Inter, system-ui, sans-serif",12px,800,18px,0px,0px,normal,968,18
 evaluations-day,H1,Évaluations,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,968,38
 evaluations-day,H2,Évaluations attendues,"Inter, system-ui, sans-serif",20px,700,26px,0px 0px 12px,0px,normal,953,26
 evaluations-day,BUTTON,Consulter,"Inter, system-ui, sans-serif",14px,650,21px,0px,8px 11.2px,normal,50,81
@@ -99,7 +99,7 @@ steering-day,H1,Pilotage,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,
 steering-day,P,"Couverture et échéances du dispositif, pour orienter l’accompagnement.","Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
 steering-day,P,Organisation : Results E2E,"Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
 steering-day,P,Date de référence : 21/10/2026,"Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
-activity-journal-day,P,Actions réussies,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px -6.4px,0px,normal,968,18
+activity-journal-day,P,Actions réussies,"Inter, system-ui, sans-serif",12px,800,18px,0px,0px,normal,968,18
 activity-journal-day,H1,Journal d’activité,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,968,38
 activity-journal-day,P,"Qui a fait quoi, dans quelle organisation, sur quelle équipe et quand.","Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
 activity-journal-day,LABEL,Date,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,227,69
@@ -109,7 +109,7 @@ activity-journal-day,LABEL,Équipe,"Inter, system-ui, sans-serif",14px,600,21px,
 activity-journal-day,BUTTON,Filtrer,"Inter, system-ui, sans-serif",14px,650,21px,0px,12.8px 16px,normal,71,47
 activity-journal-day,BUTTON,Effacer,"Inter, system-ui, sans-serif",14px,650,21px,0px,9.6px 12.8px,normal,73,42
 activity-journal-day,H2,08/10/2026,"Inter, system-ui, sans-serif",20px,700,26px,0px 0px 12px,0px 0px 9.6px,normal,953,37
-logs-day,P,Exploitation et diagnostic,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px -6.4px,0px,normal,968,18
+logs-day,P,Exploitation et diagnostic,"Inter, system-ui, sans-serif",12px,800,18px,0px,0px,normal,968,18
 logs-day,H1,Logs,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,968,38
 logs-day,P,Journal technique HTTP. Les détails d’erreur restent dans les logs ser,"Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
 logs-day,LABEL,OrganisationTousResults E2E,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69

@@ -6,7 +6,7 @@ Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; p
 Au 2026-10-21 : 46 Ouverts, 13 Réalisés, 1 En cours, 2 Bloqués ; avancement actif 21 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
-**Prochain : [MEP-053 — Typographie/hiérarchie](../source/mess/f09.md)** ; [MEP-067 livré](../../quality/ux-acceptance.md), puis MEP-019 et corrections des parcours ; MEP-052 est réalisé.
+**En cours : [MEP-053 — Typographie/hiérarchie](../source/mess/f09.md)** ; [MEP-067 livré](../../quality/ux-acceptance.md), puis MEP-019 et corrections des parcours ; MEP-052 est réalisé.
 MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md).
 

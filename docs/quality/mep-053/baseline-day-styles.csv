@@ -60,8 +60,8 @@ organization-day,H1,Organisations,"Inter, system-ui, sans-serif",32px,700,36.8px
 organization-day,H2,Organisations existantes,"Inter, system-ui, sans-serif",17.6px,700,normal,0px,0px,normal,918,23
 teams-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,132,16
 teams-day,H1,Équipes,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,132,37
-teams-day,LABEL,OrganisationChoisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,8px,448,72
-teams-day,SELECT,Choisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,12px,normal,448,46
+teams-day,LABEL,OrganisationChoisir une organisationResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,8px,448,72
+teams-day,SELECT,Choisir une organisationResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,12px,normal,448,46
 teams-day,P,Sélectionnez une organisation.,"Inter, system-ui, sans-serif",16px,400,normal,5.6px 0px,0px,normal,968,21
 templates-day,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,323,16
 templates-day,H1,Modèles d’évaluation,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,323,37

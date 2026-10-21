@@ -35,7 +35,7 @@ fond central subtilement teinté par la palette et cartes blanches, sans modifie
 `product-typography.css`, importé par les panneaux partagés, conserve la famille existante et
 harmonise titres de page (24–32 px), sections/dialogues (20 px), sous-sections (16 px), libellés
 (14 px) et champs (16 px). Interligne courant 1,5 ; titres 1,2/1,3 ; question de passation 18/27 px.
-Le Dashboard partage cette hiérarchie entre thèmes. Les questions alignent numéro et texte ;
+Les surtitres et titres sont groupés avec un gap positif de 5,6 px, sans compensation négative sur mobile. Le Dashboard partage cette hiérarchie entre thèmes. Les questions alignent numéro et texte ;
 leurs actions se replient sur petite largeur. Les en-têtes et dialogues acceptent les textes longs.
 Les couleurs restent définies par les feuilles de thème/palette. [Audit et preuves MEP-053](../quality/typography.md).
 
