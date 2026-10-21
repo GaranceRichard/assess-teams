@@ -12,7 +12,7 @@ Des modèles maîtrisés et versionnés, des évaluations planifiées et traçab
 
 ## Cadre actuel
 
-L’[audit contradictoire MESS](docs/backlog/planning/mess-audit.md) distingue 61 PBI annoncés, 63 points détaillés et 62 PBI actifs après consolidation d’un doublon documentaire, avec historique et couverture conservés. Le [backlog MESS](docs/backlog/source/07-pre-mep.md) devient la référence opérationnelle ; les Jobs restent uniquement historiques et le backlog fonctionnel général est conservé.
+Le [chemin MESS](docs/backlog/planning/pre-mep.md) place MEP-067 (cahier UX), puis les corrections esthétiques en tête, avec préparation installation en parallèle et critères de passage jusqu’à MEP-035. Les [62 PBI actifs et leur historique](docs/backlog/planning/mess-audit.md) sont conservés ; MEP-055 attend D01–D09. Cette refonte documentaire garde le backlog fonctionnel général et les Jobs historiques ; MEP-043 livré, cette refonte est publiée par le circuit direct rétabli.
 
 [Démo interactive](https://GaranceRichard.github.io/assess-teams/) : shell React réel, données fictives locales, passation, radar et Pilotage sans compte ni serveur. `npm run dev:demo` et `npm run build:demo` sont isolés du build normal ; [architecture, limites et publication](docs/architecture/public-demo.md).
 

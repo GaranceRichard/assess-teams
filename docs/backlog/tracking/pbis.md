@@ -52,6 +52,13 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 
 ## Préparation MESS — registre courant
 
+**À lancer ensuite : [MEP-067 — Cahier UX](../source/mess/f17.md)** : mesures de référence pour les corrections
+esthétiques ; tous ses prérequis sont acquis. Puis typographie/hiérarchie, contrastes et thèmes.
+En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
+[Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
+[dépendances et retour confirmé du circuit direct après MEP-043](../planning/mess-dependances.md).
+Les mentions U/I/C dans les sections sont des recommandations de lancement, pas de nouveaux états.
+
 La [source MESS](../source/07-pre-mep.md) définit quatre Epics et vingt Features, séparées du backlog
 fonctionnel général ci-dessus. Les sections liées ci-dessous font partie de ce même registre canonique :
 aucune synthèse n’est une source de statut. Tailles XS/S recommandées, modèles Codex À définir.

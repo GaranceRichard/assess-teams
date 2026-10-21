@@ -108,12 +108,17 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-20
+## Préparation MESS — suivi au 2026-10-21
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
-Le [plan par dépendances réelles](planning/pre-mep.md) permet une livraison progressive, sans ordre de Jobs.
+**Prochain PBI : [MEP-067 — Cahier UX](source/mess/f17.md)**, prêt ; puis MEP-053 (typographie/hiérarchie),
+MEP-019 (contrastes clairs), MEP-052 (sombre), corrections notation/résultats/dashboard/responsive/interactions.
+En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
+Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
+[Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
+GO non autorisé si conformité nécessaire non démontrée. Statuts/dates inchangés par cette refonte.
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
 MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte.
 MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est réalisé le 2026-10-17 : matrice et 39 cas API réels, refus sans effet, historique conservé, exceptions Superadmin bornées, pré-push et CI exhaustive du SHA intégré verts.
@@ -137,7 +142,7 @@ Les rapports d’audit externes ne sont pas disponibles localement ; aucun défa
 
 MEP-055 — [Prérequis d’installation](../operations/installation-prerequisites-validation.md) : Bloqué, N/A ; contrat préparé, validation MESS D01–D09 absente, aucune cible qualifiée. Aucun PBI supplémentaire réalisé.
 
-MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, N/A ; audit distant du 2026-10-20, aucune protection/check obligatoire, pré-push local distinct de la CI après push et inventaire Apps refusé. G01–G05 proposés pour MEP-043, aucune correction exécutée.
+MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, N/A ; audit distant du 2026-10-20, aucune protection/check obligatoire, pré-push local distinct de la CI après push et inventaire Apps refusé. Constat historique conservé ; [MEP-043 livré selon critères révisés et réserve G05 acceptée](../quality/mep-043/closure.md). L’écart entre son récit de clôture de MEP-012 et le statut canonique encore Bloqué est [signalé](planning/mess-dependances.md), sans nouvelle clôture déduite.
 
 ## Écarts et décisions encore ouverts
 

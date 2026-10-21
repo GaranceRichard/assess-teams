@@ -1,6 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
+> **Prochain PBI :** [MEP-067 — Cahier UX](source/mess/f17.md), puis cohérence visuelle ; [séquence complète, installation parallèle et passages jusqu’au GO](planning/pre-mep.md).
 > **Préparation MESS :** [Epic → Feature → PBI](source/07-pre-mep.md), [livraison progressive](planning/pre-mep.md), [suivi des capacités](tracking/pre-mep-view.md) et [GO/NO-GO](tracking/mess-jalon.md).
 
 ## Direction et sources de référence

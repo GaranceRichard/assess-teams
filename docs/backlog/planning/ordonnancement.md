@@ -1,7 +1,10 @@
 # Planification du backlog
 
 Le [plan pré-MEP MESS](pre-mep.md) organise la livraison par Epic → Feature → PBI, selon les dépendances réelles, et le jalon GO/NO-GO séparé.
-Il complète la séquence métier historique ci-dessous sans rouvrir les PBIs réalisés ni lever ses arbitrages.
+Pour la MEP, lancer **MEP-067 — Cahier UX**, puis la cohérence visuelle et les correctifs de parcours ;
+préparer MEP-055 et l’installation en parallèle. Ce chemin MESS prime pour le prochain lancement.
+La séquence métier ci-dessous reste une orientation générale, sans réouverture des acquis ni ajout
+d’automatisme exigeant tous les compléments fonctionnels avant la MEP ; ses arbitrages restent applicables.
 
 ## Sprint 1 — Backend Utilisateurs
 

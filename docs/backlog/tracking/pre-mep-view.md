@@ -3,8 +3,12 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-20 : 50 Ouverts, 10 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 16 %. Les acquis restent séparés.
+Au 2026-10-21 : 49 Ouverts, 11 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 18 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
+
+**Prochain : [MEP-067 — Cahier UX](../source/mess/f17.md)**, puis cohérence visuelle et corrections des parcours.
+MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
+[revue des dépendances et suivi F04](../planning/mess-dependances.md).
 
 ## Avancement des capacités
 
@@ -15,7 +19,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-011 — Sécurité et robustesse | [F01 — FEAT-049 — Sécurité de production](../source/mess/f01.md) | 5 / 5 | 100 % |
 | EPIC-011 — Sécurité et robustesse | [F02 — FEAT-050 — SQLite en exploitation](../source/mess/f02.md) | 3 / 3 | 100 % |
 | EPIC-011 — Sécurité et robustesse | [F03 — FEAT-051 — Journalisation et conservation](../source/mess/f03.md) | 2 / 2 | 100 % |
-| EPIC-011 — Sécurité et robustesse | [F04 — FEAT-052 — Gouvernance Git et intégration continue](../source/mess/f04.md) | 0 / 2 | 0 % |
+| EPIC-011 — Sécurité et robustesse | [F04 — FEAT-052 — Gouvernance Git et intégration continue](../source/mess/f04.md) | 1 / 2 | 50 % |
 | EPIC-012 — Expérience utilisateur | [F05 — FEAT-053 — Expérience de notation](../source/mess/f05.md) | 0 / 3 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F06 — FEAT-054 — Résultats et comparaisons](../source/mess/f06.md) | 0 / 4 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F07 — FEAT-055 — Pilotage et tableau de bord](../source/mess/f07.md) | 0 / 2 | 0 % |
@@ -48,7 +52,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | Réalisé — 2026-10-19 | JOURNAL-001, JOURNAL-002 |
 | 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | S | Réalisé — 2026-10-19 | MEP-042 |
 | 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | XS | Bloqué — N/A | aucune ; [audit GitHub](../../quality/mep-012/README.md), G01–G05 |
-| 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | S | Ouvert — N/A | MEP-012 |
+| 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | S | Réalisé — 2026-10-21 | MEP-012 |
 
 ## E02 — EPIC-012 — Expérience utilisateur
 
@@ -111,7 +115,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 19.01 | [MEP-033 — Vérifier les parcours d’administration](../source/mess/f19.md) | S | Ouvert — N/A | MEP-068, MEP-030, MEP-067, MEP-011, MEP-037 |
 | 19.02 | [MEP-069 — Vérifier les parcours d’évaluation et de notation](../source/mess/f19.md) | S | Ouvert — N/A | MEP-068, MEP-030, MEP-067, MEP-044, MEP-013, MEP-045, MEP-017, MEP-049, MEP-018, MEP-050, MEP-051, MEP-019, MEP-052, MEP-053 |
 | 19.03 | [MEP-070 — Vérifier les parcours de consultation des résultats](../source/mess/f19.md) | S | Ouvert — N/A | MEP-068, MEP-030, MEP-067, MEP-014, MEP-046, MEP-015, MEP-047, MEP-016, MEP-048, MEP-017, MEP-019, MEP-052, MEP-053 |
-| 20.01 | [MEP-034 — Vérifier la sécurité et l’isolation des organisations](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-009, MEP-011, MEP-037, MEP-038, MEP-020, MEP-043 |
+| 20.01 | [MEP-034 — Vérifier la sécurité et l’isolation des organisations](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-009, MEP-011, MEP-037, MEP-038, MEP-020 |
 | 20.02 | [MEP-071 — Vérifier la concurrence et la stabilité SQLite](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-010, MEP-040, MEP-063 |
 | 20.03 | [MEP-072 — Exercer la sauvegarde, la restauration et le rollback](../source/mess/f20.md) | S | Ouvert — N/A | MEP-068, MEP-031, MEP-064, MEP-027, MEP-065 |
 

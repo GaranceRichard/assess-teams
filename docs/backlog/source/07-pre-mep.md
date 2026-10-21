@@ -52,6 +52,10 @@ Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassa
 
 ## Suivi, dépendances et décision
 
+Ordre de lancement du 2026-10-21 : MEP-067 (cahier UX), puis cohérence visuelle et corrections par parcours ;
+MEP-055 et la préparation installation avancent en parallèle. Le [plan pilotable](../planning/pre-mep.md)
+distingue cet ordre des dépendances techniques, sans créer de PBI ni retirer de capacité requise au GO.
+
 - [Ordonnancement par dépendances réelles et livraison progressive](../planning/pre-mep.md).
 - [Audit contradictoire et matrice des 63 points initiaux](../planning/mess-audit.md).
 - [Correspondance exhaustive des anciens travaux et preuves](../planning/pre-mep-rapprochements.md).

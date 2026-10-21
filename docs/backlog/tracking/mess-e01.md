@@ -4,7 +4,9 @@ Section du [registre canonique unique](pbis.md), selon la [gouvernance](../gover
 Les repères E/F et NN.NN sont des alias de navigation, pas de nouveaux identifiants.
 Les tailles sont des recommandations XS/S ; aucun modèle n’est affecté.
 Ouvert ne signifie pas prêt : consulter les dépendances de la source et le [plan](../planning/pre-mep.md).
-MEP-012 reste Bloqué après audit du 2026-10-20 : protections requises absentes et preuve Apps manquante ; les arbitrages métier existants restent dans leur registre.
+MEP-012 reste Bloqué selon l’audit daté du 2026-10-20 ; aucune clôture nouvelle n’est prononcée ici.
+[MEP-043 livré, réserve acceptée et suivi F04](../planning/mess-dependances.md) : le circuit direct
+et les exigences historiques restent à distinguer. F04 ne retarde ni UX ni installation ; sa conformité reste au GO.
 
 | Repère | PBI et source | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage ou preuve | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- | --- |

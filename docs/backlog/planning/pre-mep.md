@@ -1,85 +1,130 @@
-# Ordonnancement MESS — dépendances réelles et livraison progressive
+# Chemin vers la MEP MESS — ordre de lancement et conditions de passage
 
-La [source active](../source/07-pre-mep.md) remplace la succession des Jobs 1 à 7.
-Les [sections canoniques](../tracking/pbis.md#préparation-mess--registre-courant) portent les statuts et dates.
-Les dépendances des fiches sont orientées du dépendant vers son prérequis ; les repères ci-dessous
-correspondent aux identifiants de la [vue détaillée](../tracking/pre-mep-view.md).
+**Prochain PBI recommandé : [MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md).**
+Ses prérequis sont réalisés. Il fournit les mesures de référence aux corrections visuelles et débloque
+MEP-053 et MEP-019. Ne pas attendre l’installation pour corriger l’esthétique.
+En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
-## Règle de préparation et de livraison
+Base : `origin/main` à `7f456fd`, revue du 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
+et le [registre canonique](../tracking/pbis.md) comptent 11 Réalisés, 49 Ouverts, 2 Bloqués, 0 En cours.
+Aucun PBI n’est clos par cette refonte ; les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés.
+[Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
-Un PBI Ouvert est prêt lorsque tous ses prérequis de livraison sont Réalisés et qu’aucune décision,
-preuve, autorisation d’accès ou donnée d’environnement indispensable ne manque. Ouvert n’est pas Bloqué
-uniquement parce qu’un prérequis reste à réaliser. Un blocage réellement constaté est inscrit au registre.
-Une préparation indépendante (cahier, analyse, conception) peut commencer avant disponibilité d’un livrable ;
-la clôture attend les entrées concrètes listées dans la source. Aucun prérequis ne découle de l’ancien Job.
+## Règle de pilotage
 
-Une Feature est livrée lorsque tous ses PBI sont Réalisés selon la DoD, avec preuves et intégration.
-Cette livraison est calculée, sans statut autonome, et n’attend pas une Feature sans dépendance.
-Chaque PBI est intégré au fil de l’eau par `npm run publish`, depuis sa branche/worktree dédiés,
-après resynchronisation et gates complets. La refonte ne modifie ni AGENTS.md ni les gates.
+Les étapes U/I/C ci-dessous sont des repères de planification, jamais de nouveaux PBI ou des statuts.
+Les flèches indiquent un ordre recommandé ; seuls les champs Dépendances des sources imposent une attente
+technique de livraison. P1 reste la priorité canonique ; l’ordre départage concrètement ces PBI P1.
+Un PBI Ouvert est livrable quand ses prérequis sont Réalisés, ses entrées disponibles et sa DoD satisfaite.
+Préparer un cahier, un inventaire ou un guide en avance ne vaut ni livraison ni PV de recette.
+
+À chaque disponibilité : prendre le premier PBI prêt du chantier UX ; maintenir en parallèle le chantier
+installation dès que ses décisions sont obtenues. Si un PBI attend une entrée, avancer l’indépendant suivant.
+Limiter les retouches concurrentes des mêmes composants/styles et intégrer chaque PBI prêt sans attendre le lot.
+Chaque clôture actualise d’abord le registre, puis la synthèse ; aucune date de fin n’est inventée.
+
+## Chantier UX prioritaire — cahier puis 17 PBI UX avant le candidat final
+
+| Ordre recommandé | PBI et capacité | Condition objective pour poursuivre |
+| --- | --- | --- |
+| U0 — immédiatement | [MEP-067 — Cahier UX](../source/mess/f17.md) | Parcours/écrans, viewports, clavier/tactile, zoom, deux thèmes/dix palettes, mesures et vrais refus définis ; pas de PV anticipé |
+| U1 — cohérence transversale | [MEP-053 — Typographie et hiérarchie](../source/mess/f09.md), puis [MEP-019 — Contrastes du clair](../source/mess/f09.md), puis [MEP-052 — Thème sombre](../source/mess/f09.md) | Mesures du cahier satisfaites, titres/libellés/densité cohérents, texte/action/focus lisibles, préférences conservées ; captures comparables |
+| U2 — notation | [MEP-044 — Notes et échelle](../source/mess/f05.md), puis [MEP-013 — Curseur et sélection](../source/mess/f05.md), puis [MEP-045 — Confirmation de sauvegarde](../source/mess/f05.md) | 0 distingué de non répondu, repères exacts, clavier/tactile/focus utilisables, succès lié au serveur et reprise sans perte |
+| U3a — résultats | [MEP-014 — Hiérarchie des résultats](../source/mess/f06.md), [MEP-046 — Sens des scores](../source/mess/f06.md), [MEP-015 — Radar](../source/mess/f06.md), [MEP-047 — Comparaisons](../source/mess/f06.md), dans cet ordre si une seule capacité | Contexte/provenance et limites explicites ; labels/légendes/tableaux lisibles, filtres conservés, aucune comparaison hors scope ou incompatible |
+| U3b — dashboard, parallélisable avec U3a | [MEP-016 — Vocabulaire](../source/mess/f07.md), puis [MEP-048 — Interprétation des indicateurs](../source/mess/f07.md) | Dashboard/Pilotage cohérents, indicateurs reliés aux faits, sans score ou classement individuel |
+| U4 — responsive et interactions, préparables dès U0 | [MEP-017 — Petits écrans](../source/mess/f08.md), [MEP-049 — Navigation tactile](../source/mess/f08.md), [MEP-018 — Chargement](../source/mess/f08.md), [MEP-050 — États vides](../source/mess/f08.md), [MEP-051 — Erreurs](../source/mess/f08.md) | Actions accessibles aux viewports convenus ; attente/vide/erreur distincts, réponses obsolètes ignorées, reprise sans perte ni faux succès |
+
+U1 précède les retouches locales pour réduire les reprises de styles ; ce n’est pas une dépendance ajoutée.
+U2, U3a, U3b et U4 peuvent avancer en parallèle sur composants distincts après cadrage commun.
+L’ordre interne de U4 est celui du tableau si une seule capacité est disponible ; traiter plus tôt un refus
+critique démontré. Les critères/refus complets des fiches et les tests requis restent obligatoires.
+MEP-067 sert aussi de référence aux 15 PBI UX déjà prêts sans devenir une nouvelle dépendance technique.
+
+## Chantier installation et exploitation — parallèle à l’UX
+
+| Étape | Ordre et parallélisation | Sortie exigée / prochain lancement |
+| --- | --- | --- |
+| I0 — décision externe immédiate | [MEP-055 — Prérequis MESS](../source/mess/f11.md) | D01–D09 approuvées, datées, attribuées et incompatibilités résolues ; ensuite seulement clôturer et lancer I1 |
+| I1 — configuration | [MEP-054 — Contrat unique](../source/mess/f10.md) | Schéma, précédence, chemins, secrets référencés, proxy/TLS, SMTP, services, sauvegardes et journaux définis sans sources concurrentes |
+| I2 — trois PBI indépendants après I1 | [MEP-021 — Chargement/validation](../source/mess/f10.md) ; [MEP-022 — Opérations](../source/mess/f11.md) ; [MEP-057 — Inventaire de distribution](../source/mess/f12.md) | Même configuration API/workers/scripts et refus avant effet ; responsables/seuils MESS convenus ; versions/empreintes/licences de tous composants identifiées |
+| I3a — distribution après MEP-057 | [MEP-058 — Frontend compilé](../source/mess/f12.md) et [MEP-059 — Python hors ligne](../source/mess/f12.md), en parallèle | Build normal et statiques locaux ; wheelhouse complet compatible OS/ABI, installation sans résolution réseau |
+| I3b — cahier et entrées, en parallèle d’I3a | [MEP-031 — Cahier technique](../source/mess/f17.md) après MEP-022 ; [MEP-023 — README/architecture](../source/mess/f11.md) et [MEP-056 — Backlog contractuel](../source/mess/f11.md) après MEP-021/022 | Seuils/reprises/refus mesurables et documentation alignée sur le contrat réel ; la présente refonte ne réalise pas MEP-056 |
+| I4 — package | [MEP-024 — Package autonome](../source/mess/f12.md) après MEP-058/059/021/022 | Manifeste, empreintes, migrations, statiques, dépendances et notices ; aucun secret ni besoin Internet, Node/npm ou Docker sur cible |
+| I5 — installation séquentielle | [MEP-060 — Préflight/répertoires](../source/mess/f13.md) → [MEP-061 — Composants](../source/mess/f13.md) → [MEP-062 — SQLite/bootstrap](../source/mess/f13.md) → [MEP-025 — Diagnostic](../source/mess/f13.md) | Refus avant effet destructif, relance sans perte/doublon ; health, schéma, statiques, compte initial et workers vérifiés, rapport expurgé |
+| I6 — branches parallèles après MEP-025 | [MEP-063 — Services/arrêt](../source/mess/f14.md) et [MEP-064 — Sauvegarde cohérente](../source/mess/f15.md) | Services supervisés sans résidu/double worker ; sauvegarde en écritures, empreinte/version/schéma et intégrité prouvés ; MEP-022 requis pour MEP-064 |
+| I7 — branches parallèles après MEP-063/064 | [MEP-026 — Mise à jour](../source/mess/f14.md) et [MEP-027 — Restauration](../source/mess/f15.md) | Upgrade sûr conservant configuration/données ; restauration isolée avec provenance et seuil de reprise mesuré |
+| I8 — réversibilité | [MEP-065 — Retour à la version précédente](../source/mess/f15.md), après les deux branches I7 | Couple application/configuration/schéma/données rétabli, historique et seuils conservés |
+
+Les versions intermédiaires permettent de développer I5–I8 pendant les corrections UX. Elles ne sont pas
+le candidat de recette finale. Le package final reprend ensuite tous les changements utiles, notamment
+les services/outils livrés après le premier assemblage ; son manifeste est régénéré et vérifié à C0.
+Cette convergence évite une dépendance circulaire MEP-024 ↔ MEP-063, sans retirer les services du package.
+
+## Documentation et scénarios au bon moment
+
+| Travail | Préparer dès maintenant | Clôturer avec les entrées réelles |
+| --- | --- | --- |
+| [MEP-030 — Cahier fonctionnel](../source/mess/f17.md) | Après U0 ou en parallèle : rôles, données fictives, attentes et refus des parcours livrés | Dépendances déjà réalisées ; ne pas attendre le package ; pas de fonctions ouvertes supposées livrées |
+| MEP-031 — Cahier technique | Trame et cas de panne sur acquis SQLite/sécurité | Après MEP-022 (et MEP-039 acquis), seuils MESS effectivement convenus |
+| [MEP-028 — Guide installation](../source/mess/f16.md) | Trame pendant I0–I5, commandes au fil de leur livraison | Après MEP-025/023 ; guide reproductible disponible avant MEP-032 |
+| [MEP-066 — Guide exploitation](../source/mess/f16.md) | Responsabilités à I2, commandes pendant I6–I8 | Après MEP-020/026/065/023 ; commandes exercées, reprise et diagnostics documentés |
+| [MEP-029 — Transfert/fork Apache 2.0](../source/mess/f16.md) | Sources, historique, licence/notices et modalités de reprise | Après MEP-024 et MEP-006 acquis ; exemple de fork constructible, package réel documenté |
+
+Le transfert du dépôt vers **Azure DevOps Server on-premise** traite hébergement des sources, historique,
+droits et reprise. La construction du package se fait sur poste de préparation ; l’installation consomme
+ce package sur la cible applicative MESS. Ces trois opérations sont distinctes. Aucun changement d’hébergeur,
+de CI ou de circuit Git n’est un prérequis technique ajouté au package ou à l’installation.
+Le transfert effectif du dépôt n’est pas déclaré livré par MEP-029 ; voir les [frontières et arbitrages](mess-dependances.md).
+
+## Convergence du candidat et séquence complète jusqu’à MEP-035
+
+Le chemin structurel d’installation est I0 → I1 → I2 → I3a → I4 → I5 → I6 → I7 → I8.
+La branche UX U0 → U1 → U2/U3/U4 et les guides convergent à C0. MEP-055 est aujourd’hui le verrou
+externe de cette chaîne ; la conformité F04 reste un verrou de GO séparé. Sans durées/capacités décidées,
+ce chemin critique est conditionnel, sans promesse de date ni durée mathématique inventée.
+
+| Passage | Ordre recommandé / travaux parallèles | Conditions de passage vérifiables |
+| --- | --- | --- |
+| C0 — candidat réel | Converger UX U1–U4, I8 et guides ; réassembler le package final MEP-024 avec le build MEP-058 actualisé | SHA/version, manifeste/empreintes, OS/runtime, configuration expurgée, services/outils, guides et jeux fictifs identifiés ; critères F05–F15 satisfaits, aucune anomalie bloquante connue |
+| C1 — installation vierge | [MEP-032 — Installation sur environnement vierge](../source/mess/f18.md) | MEP-025/028/031 réalisés ; PV du package final posé sans téléchargement/compilation cible, migrations et vérifications réussies |
+| C2 — autonomie | [MEP-068 — Fonctionnement sans Internet](../source/mess/f18.md) | MEP-032/063/030 réalisés ; parcours/assets/services locaux éprouvés, flux externes observés absents, SMTP interne distingué |
+| C3a — recettes métier/UX parallèles | [MEP-033 — Administration](../source/mess/f19.md), [MEP-069 — Évaluation/notation](../source/mess/f19.md), [MEP-070 — Résultats](../source/mess/f19.md) | MEP-068 et cahiers réalisés, correctifs UX requis par chaque fiche intégrés ; PV par rôle avec preuves visuelles/mesures et vrais refus |
+| C3b — recettes techniques parallèles à C3a | [MEP-034 — Sécurité/isolation](../source/mess/f20.md), [MEP-071 — Charge SQLite](../source/mess/f20.md), [MEP-072 — Exercice de reprise](../source/mess/f20.md) | MEP-068/031 et capacités requises réalisées ; instance/snapshot isolé pour incidents, charge et reprise ; intégrité, provenance et seuils prouvés |
+| C4 — décision explicite | [MEP-035 — GO/NO-GO](../tracking/mess-jalon.md) | Tous les PV F18–F20, guides/transfert F16, cahiers F17, capacités F01–F20 et arbitrages applicables satisfaits ; qualification exhaustive du SHA exact, CI/pre-push conformes ; décision attribuée, motivée, datée |
+
+La convergence avant C1 est un choix pour éviter des recettes obsolètes, pas une nouvelle dépendance
+technique de MEP-032 à toute l’exploitation ou à toute l’UX. Les développements et essais ciblés continuent
+au fil de l’eau. En C3, séparer les données mutées ; garder le même candidat et des clones identifiés.
+
+Un même résultat peut alimenter plusieurs PV s’il couvre exactement scénario, candidat, environnement
+et configuration attendus ; le référencer plutôt que rejouer sans raison. Les preuves de développement
+ne remplacent pas les essais cible. Un changement de candidat exige analyse d’impact, nouvelle qualification
+exhaustive du SHA destiné à MESS et retest des scénarios affectés ; chaque maintien de preuve cible est justifié.
+La CI sélective reste indépendante ; aucune autre nightly ou version n’est substituée au SHA qualifié.
+
+## Blocages, décisions et GO/NO-GO
+
+- **MEP-055 :** D01–D09 absentes ; exploitation/sécurité/réseau/PKI/messagerie MESS selon la [matrice existante](../../operations/installation-prerequisites-validation.md). Aucun OS ni accord supposé acquis.
+- **MEP-022 :** responsables, disponibilité et seuils de reprise à convenir ; aucune valeur inventée. La réservation des environnements vierge et incident est anticipable, leur conformité reste à prouver.
+- **F04 :** MEP-043 est Réalisé selon les critères révisés et la réserve G05 acceptée ; il ne bloque plus la publication. MEP-012 reste Bloqué dans le registre intégré ; [écart de suivi explicite](mess-dependances.md), sans nouvel audit ni chantier PR/CI. La recette applicative avance indépendamment.
+- **ARB-ORG-005 :** résoudre le traitement des dépendances ou faire approuver une limitation effective et vérifiable avant recette administration/GO ; masquer une action dangereuse dans un cahier ne suffit pas.
+- Les autres capacités métier ouvertes restent hors du candidat seulement si le périmètre accepté l’explicite ; les 62 PBI MESS sont conservés. Aucun retrait de recette, sécurité, esthétique, intégrité ou reprise n’est décidé ici.
+
+GO reste interdit tant qu’un critère nécessaire ou arbitrage applicable manque. NO-GO peut être rendu
+immédiatement sur blocage démontré ; consigner une décision ne réalise aucun PBI manquant.
+Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## PBI prêts au regard des dépendances connues du registre
 
-Au 2026-10-20, 17 PBI sont prêts selon les dépendances enregistrées ; leurs prérequis sont Réalisés. MEP-055 attend la validation MESS du contrat ; MEP-012 reste Bloqué après audit des protections GitHub. Ces blocages
-sont constatés au registre. La disponibilité réelle des accès GitHub/MESS est vérifiée au lancement et tracée si manquante.
+17 PBI restent prêts : 14 PBI UX de F05–F08, MEP-052, MEP-030 et MEP-067.
+MEP-019/053 attendent MEP-067.
+« Prêt » est une éligibilité, pas un ordre : lancer MEP-067 en premier, puis U1, et préparer MEP-055 en parallèle.
+Les fiches/source et la vue détaillée donnent les dépendances exhaustives ; un accès ou une donnée manquante
+constatée au lancement est inscrit au registre, sans transformer toute attente PBI en statut Bloqué.
 
-- [05.01 — MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-007.
-- [05.02 — MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) : prérequis PASS-001, EVAL-004, MEP-005, MEP-007.
-- [05.03 — MEP-045 — Confirmer visuellement l’enregistrement de la notation](../source/mess/f05.md) : prérequis PASS-001, MEP-007.
-- [06.01 — MEP-014 — Améliorer la hiérarchie visuelle des résultats](../source/mess/f06.md) : prérequis RESULT-001, RESULT-002.
-- [06.02 — MEP-046 — Clarifier les scores et les indicateurs](../source/mess/f06.md) : prérequis RESULT-001, RESULT-002.
-- [06.03 — MEP-015 — Améliorer la présentation des graphiques radar](../source/mess/f06.md) : prérequis RESULT-001.
-- [06.04 — MEP-047 — Améliorer les comparaisons entre équipes et évaluations](../source/mess/f06.md) : prérequis RESULT-001, RESULT-002.
-- [07.01 — MEP-016 — Harmoniser le vocabulaire du tableau de bord](../source/mess/f07.md) : prérequis STEER-001, DASH-001.
-- [07.02 — MEP-048 — Clarifier les indicateurs et leur interprétation](../source/mess/f07.md) : prérequis STEER-001, DASH-001.
-- [08.01 — MEP-017 — Adapter les tableaux et contenus aux petits écrans](../source/mess/f08.md) : prérequis PASS-001, RESULT-001, DASH-001.
-- [08.02 — MEP-049 — Améliorer la navigation mobile et les interactions tactiles](../source/mess/f08.md) : prérequis PASS-001, MEP-005.
-- [08.03 — MEP-018 — Améliorer les états de chargement](../source/mess/f08.md) : prérequis AUTH-001, PASS-001, RESULT-001.
-- [08.04 — MEP-050 — Améliorer les états vides](../source/mess/f08.md) : prérequis AUTH-001, RESULT-001.
-- [08.05 — MEP-051 — Améliorer la présentation des erreurs](../source/mess/f08.md) : prérequis PASS-001, MEP-004.
-- [09.02 — MEP-052 — Harmoniser le thème sombre](../source/mess/f09.md) : prérequis DASH-001.
-- [17.01 — MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) : prérequis PASS-001, EVAL-004, RESULT-001, STEER-001.
-- [17.02 — MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) : prérequis MEP-005, MEP-007, DASH-001, RESULT-001.
+## Publication de cette refonte
 
-03.01 est un acquis de JOURNAL-001/002, hors PBI MESS ; MEP-041 est archivé, sans réouverture. Le responsable peut préparer les autres PBI selon leurs
-prérequis précis ; une Feature partiellement prête ne réclame pas la livraison complète d’un ancien Job.
-
-MEP-055 — Définir les prérequis d’installation reste [Bloqué](../../operations/installation-prerequisites-validation.md) : aucune dépendance PBI, mais décisions MESS D01–D09 indispensables non attestées. Sa préparation documentaire ne vaut pas clôture.
-
-MEP-012 — [Audit des protections GitHub](../../quality/mep-012/README.md) reste Bloqué : règles requises absentes, inventaire Apps refusé. MEP-043 peut préparer les corrections prouvées ; sa dépendance source reste conservée et nécessite une décision explicite si la clôture de 012 attend ces corrections.
-
-## Chaînes et entrées de livraison par capacité
-
-| Capacité | Dépendances de livraison et liberté de progression |
-| --- | --- |
-| F01 — Sécurité de production | 01.01 → 01.02 ; isolation 01.03 et rôles 01.04 indépendants → 01.05 |
-| F02 — SQLite en exploitation | MEP-003 acquis → 02.01 → 02.02 → 02.03 ; pas de changement de moteur |
-| F03 — Journalisation et conservation | JOURNAL-001/002 (03.01 acquis) → 03.02 → 03.03 ; aucune reprise du collecteur |
-| F04 — Gouvernance Git et CI | 04.01 → 04.02 ; aucun écart peut être clos par preuve, sans changement artificiel |
-| F05 à F09 — UX | Socle livré ; 09.01/09.03 attendent les mesures du cahier 17.02 ; aucune attente de F01/F02 entière |
-| F10 — Configuration unique | 01.01 et 11.01 → 10.01 ; 10.01 et 01.02 → 10.02 |
-| F11 — Contrat MESS | 11.01, 10.01, 03.02 → 11.02 ; 10.02 et 11.02 → 11.03/11.04 |
-| F12 — Distribution autonome | 11.01/10.01/licence → 12.01 ; 12.02 et 12.03 indépendants → 12.04 avec configuration et contrat |
-| F13 — Installation automatisée | Package/configuration → 13.01 → 13.02 → 13.03 → 13.04 |
-| F14 — Cycle d’exploitation | Installation → 14.01 ; 14.01 et sauvegarde 15.01 → 14.02 |
-| F15 — Sauvegarde et réversibilité | Installation/contrat → 15.01 ; sauvegarde et démarrage → 15.02 ; mise à jour et restauration → 15.03 |
-| F16 — Documentation et transfert | Guide installation après 13.04/11.03 ; exploitation après purge/upgrade/rollback ; transfert après package/licence |
-| F17 — Préparation des recettes | 17.01/17.02 préparables sur le socle ; 17.03 après contrat et paramètres SQLite ; aucun besoin d’attendre tout F16 |
-| F18 — Installation hors ligne | Installation vérifiée, guide et cahier technique → 18.01 ; services et cahier fonctionnel → 18.02 |
-| F19 — Recette fonctionnelle et UX | 18.02 et cahiers ; écarts UX/sécurité consommés par parcours selon les dépendances des fiches |
-| F20 — Recette technique et reprise | 18.02, cahier technique et capacités éprouvées ; instance/snapshot isolé pour les incidents |
-
-Ces flèches signifient prérequis → consommateur. Les fiches individuelles précisent la liste exhaustive
-des identifiants ; le tableau ne crée aucune dépendance supplémentaire de Feature entière.
-Les recettes F19/F20 portent la même empreinte de candidat que F18. Un correctif modifiant le candidat
-impose requalification des preuves affectées ; la préparation de scénarios peut progresser indépendamment.
-
-## GO/NO-GO
-
-[MEP-035 — Décision GO/NO-GO](../tracking/mess-jalon.md) est un jalon final explicite.
-GO exige les capacités MESS satisfaites et les preuves sécurité, installation, exploitation et recette du
-candidat exact, les gates conformes et aucune anomalie bloquante. Les arbitrages pertinents sont résolus
-ou le périmètre explicitement limité. NO-GO peut être enregistré avant achèvement sur blocage démontré.
-Aucun pourcentage, Job historique ni simple succès de CI n’autorise la mise en production.
-
-[Audit et matrice de couverture](mess-audit.md) : 62 PBI actifs ; les 63 points initiaux restent couverts.
+MEP-043 livré dans `7f456fd`, circuit direct rétabli et worktree nettoyé : la condition de conservation locale
+est levée. Aucune PR. Depuis la branche/worktree dédiés : resynchronisation, `quality:targeted`,
+`npm run publish`, pre-push, CI du SHA exact, fast-forward sûr du main principal, puis nettoyage du seul
+chantier terminé. Aucun script/protection/workflow modifié par la refonte.

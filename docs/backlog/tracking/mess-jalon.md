@@ -14,6 +14,15 @@ Aucun GO ni responsable n’est inventé par la refonte. Le statut historique Ou
 Une décision enregistrée, même NO-GO, passe le jalon à Réalisé avec date ISO, attribution, motif et preuves ;
 les PBI non satisfaits restent ouverts/bloqués. Une nouvelle décision est historisée après correction.
 
+## Chemin d’accès à la décision
+
+Le [plan de lancement](../planning/pre-mep.md) mène de MEP-067 (cahier UX) aux deux chantiers parallèles,
+puis au candidat convergé, à MEP-032/068 et aux recettes MEP-033/069/070 et MEP-034/071/072.
+[Blocages et arbitrages](../planning/mess-dependances.md) : D01–D09, seuils/responsables d’exploitation,
+suivi MEP-012 et ARB-ORG-005. La recette MEP-034 peut avancer sans MEP-043 ; F04 reste exigée ici.
+MEP-043 est Réalisé selon les critères expressément révisés ; sa réserve G05 acceptée n’est pas réouverte.
+Toute limitation de périmètre exige décision explicite et effet vérifiable ; aucun retrait n’est acté ici.
+
 ## Intention et critères
 
 En tant que responsable de MEP désigné avec le MESS, disposer des faits pour décider sur le candidat
