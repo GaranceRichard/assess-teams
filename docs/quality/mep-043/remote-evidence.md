@@ -120,4 +120,5 @@ Les listes GET réussies n’ont aucun en-tête Link : leur page de 100 élémen
 Le 403 Apps ne constitue ni une liste vide ni une preuve d’absence.
 Les credentials personnels/PAT/OAuth/SSH ne sont pas inventoriés par ces endpoints de dépôt.
 Le check vert observé est une preuve CI historique, pas une règle obligatoire avant intégration.
-Les essais de refus serveur et la preuve de conformité finale restent à produire après accord.
+Ce constat préparatoire est historique : les essais ultérieurs sont dans [server-refusals.md](server-refusals.md),
+et le retrait du circuit PR, le nettoyage et les écarts restants dans [delivery.md](delivery.md).

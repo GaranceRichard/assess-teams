@@ -3,7 +3,8 @@
 Décision définitive utilisateur du **2026-10-21** : retrait de l’accord PR.
 Aucune PR, approbation ou fusion GitHub dans le développement et la publication.
 Le chantier reste `codex/mep-043-protections` dans le worktree existant.
-MEP-012 et son dossier d’audit ne sont pas modifiés ; seules les données de suivi MEP-043 évoluent.
+MEP-012 reste clôturée selon le cadrage utilisateur ; son dossier d’audit et ses lignes de suivi
+ne sont pas modifiés. Seules les données de suivi MEP-043 évoluent.
 
 ## Travaux utiles retenus de la PR #5
 
@@ -27,7 +28,7 @@ Les PR [#2](https://github.com/GaranceRichard/assess-teams/pull/2),
 Le ruleset jetable `25482365` est supprimé après conservation de ses preuves.
 Les cinq branches `mep-043-proof/*` sont supprimées après vérification de leur SHA archivé :
 base, red, missing, advance et stale, suffixe `20261020-143946`.
-La branche distante de #5 sera supprimée après intégration directe des travaux utiles ;
+La branche distante de #5 est supprimée après intégration directe des travaux utiles et CI verte ;
 la branche locale et le worktree encore utilisés restent préservés.
 
 ## Protections et limites
@@ -56,8 +57,9 @@ Cette décision ne réécrit pas implicitement ses critères ni ceux de MEP-012.
 
 - [Réponses API préparatoires datées](remote-evidence.md), explicitement historiques.
 - [Refus et chemins verts jetables](server-refusals.md), issus du circuit PR désormais retiré.
-- Preuves du nettoyage, configuration courante et livraison directe consignées dans `delivery.md`.
+- Preuves du nettoyage, configuration courante et livraison directe consignées dans [le relevé de livraison](delivery.md).
 - Aucun essai de force-push/suppression sur main et aucune nouvelle PR après le retrait d’accord.
 - Revue README, AGENTS/règles, charte, DoD, stratégie, architecture et API effectuée ;
   aucun modèle, endpoint, migration, contrat ou parcours applicatif modifié.
-- Outillage transverse : validation exhaustive locale et CI indépendante requises avant succès.
+- Outillage transverse : validation exhaustive locale et CI indépendante vertes pour `7c00603` ;
+  [preuves de livraison](delivery.md). Le suivi documentaire utilise ensuite le plan proportionné.
