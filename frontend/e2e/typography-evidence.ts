@@ -85,6 +85,16 @@ export async function alignedQuestions(page: Page) {
 export async function openTypographyRoute(page: Page, route: string) {
   await page.goto(`/${route}`);
   await expect(page.locator(".product-page h1")).toBeVisible();
+  const gap = await page.locator(".product-page h1").evaluate((h) => {
+    const previous = h.previousElementSibling;
+    return previous?.classList.contains("eyebrow")
+      ? h.getBoundingClientRect().top - previous.getBoundingClientRect().bottom
+      : 0;
+  });
+  expect(
+    gap,
+    "The page heading must not overlap its eyebrow",
+  ).toBeGreaterThanOrEqual(0);
   await expect(
     page.locator(
       ".collection-frame[aria-busy=true], .dashboard-activity-card[aria-busy=true]",

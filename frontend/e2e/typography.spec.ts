@@ -90,7 +90,7 @@ for (const theme of ["day", "night"]) {
           .click();
       }
     }
-    expect(new Set(headings).size).toBe(1);
+    expect.soft(new Set(headings).size).toBe(1);
     for (const size of [
       { width: 1920, height: 1080 },
       { width: 1280, height: 480 },
@@ -100,6 +100,13 @@ for (const theme of ["day", "night"]) {
       const geometry = [];
       for (const route of routes) {
         await openTypographyRoute(page, route);
+        if (size.width === 390) {
+          await page.locator(".product-page h1").scrollIntoViewIfNeeded();
+          await page.screenshot({
+            path: info.outputPath(`${route}-${theme}-mobile-heading.png`),
+            animations: "disabled",
+          });
+        }
         geometry.push({ route, ...(await reachableControl(page)) });
         await page.screenshot({
           path: info.outputPath(

@@ -54,8 +54,10 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
   const pending = rows.filter((row) => row.state !== "completed");
   return (
     <section className="taking-page product-page">
-      <p className="eyebrow">Votre espace</p>
-      <h1>Évaluations</h1>
+      <div className="page-titles">
+        <p className="eyebrow">Votre espace</p>
+        <h1>Évaluations</h1>
+      </div>
       {error && <p role="alert">{error}</p>}
       <CollectionFrame {...collection} onChange={collection.changePage}>
         {collection.failed && (

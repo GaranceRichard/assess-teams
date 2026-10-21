@@ -54,8 +54,10 @@ export function LogsPage({ actor }: { actor: SessionUser }) {
 
   return (
     <section className="journal-page product-page">
-      <p className="eyebrow">Exploitation et diagnostic</p>
-      <h1>Logs</h1>
+      <div className="page-titles">
+        <p className="eyebrow">Exploitation et diagnostic</p>
+        <h1>Logs</h1>
+      </div>
       <p className="journal-intro">
         Journal technique HTTP. Les détails d’erreur restent dans les logs
         serveur.

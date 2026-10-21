@@ -88,8 +88,10 @@ export function JournalPage<T extends JournalEntry>({
 
   return (
     <section className="journal-page product-page">
-      <p className="eyebrow">{eyebrow}</p>
-      <h1>{title}</h1>
+      <div className="page-titles">
+        <p className="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+      </div>
       <p className="journal-intro">{intro}</p>
       <JournalFilters
         value={draft}

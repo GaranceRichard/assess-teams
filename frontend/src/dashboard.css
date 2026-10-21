@@ -91,6 +91,8 @@
 
 @media (max-width: 760px) {
   .dashboard {
+    display: grid;
+    gap: 0.75rem;
     padding: 1rem;
   }
 

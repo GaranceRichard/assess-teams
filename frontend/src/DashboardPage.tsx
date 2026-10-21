@@ -62,8 +62,10 @@ export function DashboardPage({
       className="dashboard product-page"
       aria-labelledby="dashboard-title"
     >
-      <p className="eyebrow">Votre espace</p>
-      <h1 id="dashboard-title">Tableau de bord</h1>
+      <div className="page-titles">
+        <p className="eyebrow">Votre espace</p>
+        <h1 id="dashboard-title">Tableau de bord</h1>
+      </div>
       <div className="dashboard-grid page-content">
         <section className="dashboard-card" aria-labelledby="profile-title">
           <h2 id="profile-title">Mon profil</h2>

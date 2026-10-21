@@ -32,8 +32,12 @@
   line-height: 1.5;
   letter-spacing: 0.1em;
 }
-.product-page > .eyebrow {
-  margin-bottom: -0.4rem;
+.product-page .page-titles {
+  display: grid;
+  gap: 0.35rem;
+}
+.product-page .page-titles .eyebrow {
+  margin: 0;
 }
 .app-shell label,
 .modal-layer label,
