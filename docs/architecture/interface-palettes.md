@@ -6,7 +6,9 @@ Le mode clair associe des bandeaux sidebar/header clairement perceptibles à un 
 très clair subtilement teinté. Les cartes restent blanches, les surfaces internes gris léger et les
 bordures discrètes. La palette colore les bandeaux, le fond central et les interactions ; jamais les cartes.
 
-Le mode sombre validé conserve ses valeurs, sa hiérarchie de surfaces, ses ombres et sa densité.
+Le mode sombre conserve ses accents, sa hiérarchie de surfaces, ses ombres et sa densité.
+[MEP-052](../quality/dark-theme.md) harmonise les bordures de contrôle et la piste de notation via
+`dark-appearance.css` : `input-border` remplace les séparateurs décoratifs sur ces seuls contrôles.
 Changer Clair/Sombre ne change jamais la couleur choisie ; changer de couleur ne change jamais le mode.
 En clair, les dix palettes suivent la même dérivation pour les accents, les bandeaux et le fond central.
 Les cartes et les surfaces internes restent identiques quelle que soit la palette ; le layout, le shell,
@@ -38,8 +40,8 @@ Les composants consomment ces rôles communs, sans thème complet ni patch Dashb
 | `surface-secondary`       | `#f3f3f3`                          | alias de `background`              |
 | `light-background`        | 3 % `accent-day` + 97 % `#f7f7f7`  | non appliqué                       |
 | `light-band-background`   | 16 % `accent-day` + 84 % `#f8f8fa` | non appliqué                       |
-| `light-navigation-active` | alias de `accent-day`             | non appliqué                       |
-| `light-navigation-text`   | alias de `accent-contrast`        | non appliqué                       |
+| `light-navigation-active` | alias de `accent-day`              | non appliqué                       |
+| `light-navigation-text`   | alias de `accent-contrast`         | non appliqué                       |
 | `border`                  | `#e3e3e3`                          | `#525252`                          |
 | `input-border`            | `#737373`                          | `#a3a3a3`                          |
 | `text`                    | `#171717`                          | `#f5f5f5`                          |
@@ -131,7 +133,7 @@ est accepté, sans utilisateur cible, rôle, organisation ni CSS libre.
 
 L’audit couvre Dashboard, shell/navigation, champs, sélecteur, formulaires/modales de gestion,
 Results/radar/historique, Pilotage et tableaux. Le fond applicatif et les bandeaux suivent les dérivés
-LIGHT de chaque palette, tandis que les cartes et champs restent blancs ; le sombre reste inchangé.
+LIGHT de chaque palette, tandis que les cartes et champs restent blancs ; les fonds sombres restent inchangés.
 Les modales Utilisateurs, Organisations, Équipes, Modèles, Planification et Passation partagent
 `surface-raised`. Les liens/focus Results et Pilotage suivent l’accent. Le danger de Planification garde
 un texte blanc indépendant du contraste des boutons primaires ; les dangers outline suivent le mode.

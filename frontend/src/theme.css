@@ -1,4 +1,5 @@
 @import "./light-appearance.css";
+@import "./dark-appearance.css";
 
 :root {
   color-scheme: light;

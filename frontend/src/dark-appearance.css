@@ -1,0 +1,27 @@
+﻿/* MEP-052: control boundaries use the existing control token, not card separators. */
+:root[data-theme="night"]
+  :is(
+    .organization-form > input,
+    .organization-rename-form input,
+    .organization-selector select,
+    .team-dialog input:not([type="checkbox"]),
+    .evaluation-dialog input:not([type="range"]),
+    .planning-page select,
+    .planning-page input,
+    .question-appreciation textarea
+  ) {
+  border-color: var(--input-border);
+}
+
+:root[data-theme="night"] .organization-selector select {
+  color: var(--text);
+  background: var(--surface);
+}
+
+:root[data-theme="night"] .taking-range::-webkit-slider-runnable-track {
+  background: var(--input-border);
+}
+
+:root[data-theme="night"] .taking-range::-moz-range-track {
+  background: var(--input-border);
+}
