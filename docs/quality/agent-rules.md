@@ -156,7 +156,8 @@ Une tâche reste non terminée dès qu'un quality gate est en échec.
 
 ## Publication sans PR
 
-La décision définitive du 2026-10-21 interdit toute PR dans le développement et la publication.
+La décision définitive du 2026-10-21 interdit toute PR dans le développement et la publication,
+sauf demande explicite de l’utilisateur ; aucune création automatique n’est autorisée.
 Aucune création automatique de PR, approbation ou fusion via GitHub n’est autorisée.
 Le script reste un push direct branche dédiée → main, avec garde et validations proportionnées.
 Avant le push, il relit les règles effectives : suppression/réécriture interdites, bypass vide,

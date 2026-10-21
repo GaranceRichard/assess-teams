@@ -35,7 +35,7 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 
 ## Interdiction du circuit PR
 
-- Aucune PR dans le processus de développement et de publication d’Assess Teams.
+- Aucune PR dans le processus de développement et de publication d’Assess Teams, sauf demande explicite de l’utilisateur.
 - Aucune création automatique de PR, demande d’approbation ou fusion via GitHub.
 - Le seul circuit est `npm run publish` : push direct depuis le worktree dédié vers main,
   pré-push bloquant, CI après intégration sur le SHA publié et synchronisation locale sûre.

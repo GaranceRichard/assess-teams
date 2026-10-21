@@ -41,7 +41,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-008 — Pilotage du dispositif | 5 | 1 | 1 | 100 % |
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
-| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 9 | 75 % |
+| EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 11 | 92 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 0 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 0 | 0 % |
@@ -125,7 +125,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 10 | 50 | 0 | 2 | 16 % |
+| MESS actif — E01 à E04 | 62 | 11 | 49 | 0 | 2 | 18 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -173,12 +173,12 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Nombre total de PBIs | 96 |
 | PBIs ouverts | 57 |
 | PBIs en cours | 0 |
-| PBIs bloqués | 4 |
-| PBIs non réalisés | 61 |
-| PBIs réalisés | 35 |
-| Avancement global | 36 % |
+| PBIs bloqués | 3 |
+| PBIs non réalisés | 60 |
+| PBIs réalisés | 36 |
+| Avancement global | 38 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 35 réalisés (25 fonctionnels et 10 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 reste Bloqué faute de validation MESS et MEP-012 passe de Ouvert à Bloqué après l’audit GitHub, sans réalisation supplémentaire. MEP-043 reste Bloqué après décision sans PR du 2026-10-21 : protections compatibles appliquées, barrière CI préalable absente et inventaire G05 incomplet. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 36 réalisés (25 fonctionnels et 11 MESS). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 reste Bloqué faute de validation MESS et MEP-012 passe de Ouvert à Bloqué après l’audit GitHub, sans réalisation supplémentaire. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 

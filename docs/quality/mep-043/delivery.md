@@ -5,7 +5,8 @@ La PR #5 a été examinée : son candidat `57f25edf115a48b73e287168cb87069cab132
 imposait le circuit PR. Il n’a pas été fusionné ; seules preuves et protections compatibles sont reprises.
 Ses commits et ceux des essais sont archivés localement avant toute suppression distante :
 tag `archive/mep-043-pr-withdrawn-20261021`, références `refs/archive/mep-043-proof/*`,
-bundle vérifié `.cache/mep-043/withdrawn-work-20261021.bundle`, historique complet.
+bundle initial `.cache/mep-043/withdrawn-work-20261021.bundle`, historique complet ;
+copie extérieure vérifiée : `C:\Users\garan\Desktop\Projets\Assess-teams-archives\mep-043-20261021`.
 
 ## PR fermées sans fusion
 
@@ -118,7 +119,9 @@ Le serveur exige un token autorisé à une GitHub App pour cette liste.
 Ce refus n’est ni une liste vide ni une preuve d’absence d’acteurs.
 Les lectures de collaborateurs, clés de déploiement, webhooks et permissions Actions sont
 conservées dans `remote-evidence.md` ; elles n’inventorient pas tous les Apps/PAT/OAuth/SSH.
-MEP-043 reste Bloqué pour la barrière CI préalable absente et G05 non vérifié.
+Verdict antérieur au recadrage final : MEP-043 était Bloqué pour CI préalable absente et G05.
+Le recadrage explicite du 2026-10-21 accepte ces limites : [clôture avec réserve G05](closure.md).
+Aucune nouvelle preuve d’inventaire ni nouvel audit n’est ajouté.
 
 ## Contrôle distant après nettoyage
 

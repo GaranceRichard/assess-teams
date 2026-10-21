@@ -3,7 +3,7 @@
 ## Publication directe sans PR
 
 La décision définitive du 2026-10-21 retire la migration PR de MEP-043.
-Aucune PR ne fait partie du développement ou de la publication ; aucune création automatique,
+Aucune PR sans demande explicite de l’utilisateur ; aucune création automatique,
 approbation obligatoire ou fusion GitHub n’est autorisée.
 Les [preuves et limites MEP-043](mep-043/README.md) documentent le nettoyage et le ruleset effectif.
 L’audit MEP-012 et son statut restent inchangés ; ses preuves constituent un acquis historique.
@@ -22,9 +22,10 @@ avant push. `Full quality gate` garde son rôle exhaustif/MESS et n’est pas un
 Un échec CI rend la livraison non terminée ; main contient déjà le candidat et reste synchronisé.
 Corriger par un nouveau commit publié selon le même circuit, sans réécriture distante.
 
-Cette décision ne satisfait pas l’exigence d’une barrière CI serveur avant intégration.
-MEP-043 demeure Bloqué pour ces écarts et G05 ; aucune conformité artificielle ni nouvelle
-architecture de publication n’est déduite du nettoyage.
+La barrière CI serveur avant intégration reste absente : limite explicitement acceptée dans
+les critères MEP-043 révisés le 2026-10-21. G05 reste une réserve documentée non bloquante
+(inventaire non vérifié, 403), sans nouvel audit. [Clôture et traçabilité](mep-043/closure.md).
+MEP-043 ne bloque plus les autres publications ; aucune nouvelle architecture n’est introduite.
 
 ## CI ordinaire
 
