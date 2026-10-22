@@ -1,0 +1,11 @@
+palette,dialog_different_pixels,full_screen_different_pixels,comment
+blue,0,2886,control dialog region x368 y242 w544 h236
+indigo,0,2887,control dialog region x368 y242 w544 h236
+violet,0,2887,control dialog region x368 y242 w544 h236
+pink,0,2886,control dialog region x368 y242 w544 h236
+red,0,2884,control dialog region x368 y242 w544 h236
+orange,0,2881,control dialog region x368 y242 w544 h236
+amber,0,2885,control dialog region x368 y242 w544 h236
+green,0,2887,control dialog region x368 y242 w544 h236
+emerald,0,2883,control dialog region x368 y242 w544 h236
+turquoise,0,2885,control dialog region x368 y242 w544 h236

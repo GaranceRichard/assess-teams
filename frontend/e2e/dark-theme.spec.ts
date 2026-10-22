@@ -72,7 +72,7 @@ async function auditControls(page: Page, selector: string, name: string) {
   });
 }
 
-test("dark controls remain legible across ten palettes without changing light borders", async ({
+test("dark controls remain legible across ten palettes with independent light control borders", async ({
   page,
 }) => {
   test.setTimeout(90_000);
@@ -123,7 +123,7 @@ test("dark controls remain legible across ten palettes without changing light bo
     .evaluateAll((elements) =>
       elements.forEach((element) => (element as HTMLElement).blur()),
     );
-  await expect(input).toHaveCSS("border-top-color", "rgb(227, 227, 227)");
+  await expect(input).toHaveCSS("border-top-color", "rgb(115, 115, 115)");
   await page.locator("html").evaluate((root) => {
     (root as HTMLElement).dataset.theme = "night";
   });

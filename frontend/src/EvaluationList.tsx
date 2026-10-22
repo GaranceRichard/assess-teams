@@ -41,9 +41,11 @@ export function EvaluationList({
           key={evaluation.id}
         >
           <button
+            aria-pressed={selectedId === evaluation.id}
             className="evaluation-select"
             onClick={() => onSelect(evaluation)}
           >
+            {selectedId === evaluation.id && <span aria-hidden="true">✓</span>}
             <strong>{evaluation.name}</strong>
             <span>
               {versionLabel(evaluation.family_name, evaluation.version)}

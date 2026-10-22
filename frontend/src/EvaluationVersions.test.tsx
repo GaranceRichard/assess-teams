@@ -65,8 +65,17 @@ it("creates a draft version then shows its validation and automatic archival of 
   expect(
     within(secondRow).getByRole("button", { name: "Modifier" }),
   ).toBeEnabled();
-  fireEvent.click(within(secondRow).getByRole("button", { name: /Agile v2/ }));
+  const secondButton = within(secondRow).getByRole("button", {
+    name: /Agile v2/,
+  });
+  expect(secondButton).toHaveAttribute("aria-pressed", "false");
+  fireEvent.click(secondButton);
   expect(await screen.findByText("Criterion")).toBeVisible();
+  expect(secondButton).toHaveAttribute("aria-pressed", "true");
+  expect(within(secondButton).getByText("✓")).toBeVisible();
+  expect(
+    within(firstRow).getByRole("button", { name: /Agile v1/ }),
+  ).toHaveAttribute("aria-pressed", "false");
   expect(
     screen.getByRole("button", { name: "Ajouter une question" }),
   ).toBeEnabled();

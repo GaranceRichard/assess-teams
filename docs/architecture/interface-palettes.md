@@ -9,6 +9,7 @@ bordures discrètes. La palette colore les bandeaux, le fond central et les inte
 Le mode sombre conserve ses accents, sa hiérarchie de surfaces, ses ombres et sa densité.
 [MEP-052](../quality/dark-theme.md) harmonise les bordures de contrôle et la piste de notation via
 `dark-appearance.css` : `input-border` remplace les séparateurs décoratifs sur ces seuls contrôles.
+[MEP-019](../quality/light-theme.md) applique le même rôle aux contrôles clairs et à la piste de notation via `light-appearance.css`, sans modifier les séparateurs décoratifs. La sélection de modèle porte aussi une coche et un état accessible.
 Changer Clair/Sombre ne change jamais la couleur choisie ; changer de couleur ne change jamais le mode.
 En clair, les dix palettes suivent la même dérivation pour les accents, les bandeaux et le fond central.
 Les cartes et les surfaces internes restent identiques quelle que soit la palette ; le layout, le shell,

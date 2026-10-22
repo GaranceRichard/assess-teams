@@ -73,3 +73,26 @@
   height: 1rem;
   flex-basis: 1rem;
 }
+
+/* MEP-019: control boundaries are distinct from decorative card separators. */
+:root:not([data-theme="night"])
+  :is(
+    .organization-form > input,
+    .organization-rename-form input,
+    .organization-selector select,
+    .team-dialog input:not([type="checkbox"]),
+    .evaluation-dialog input:not([type="range"]),
+    .planning-page select,
+    .planning-page input,
+    .question-appreciation textarea
+  ) {
+  border-color: var(--input-border);
+}
+
+:root:not([data-theme="night"]) .taking-range::-webkit-slider-runnable-track {
+  background: var(--input-border);
+}
+
+:root:not([data-theme="night"]) .taking-range::-moz-range-track {
+  background: var(--input-border);
+}

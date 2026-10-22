@@ -1,0 +1,160 @@
+screen,kind,representative_element,foreground,composited_background,ratio,threshold,result
+activity-journal,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+activity-journal,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+activity-journal,text,SPAN.sidebar-label: Journal d’activité,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+activity-journal,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+activity-journal,text,P.eyebrow: Actions réussies,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+activity-journal,text,"P.journal-intro: Qui a fait quoi, dans quelle organisation, sur quelle é","rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+activity-journal,control-boundary,INPUT.:,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+appearance,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+appearance,text,SPAN.sidebar-label: Tableau de bord,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+appearance,text,SPAN.sidebar-label: Utilisateurs,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+appearance,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+appearance,text,P.eyebrow: Votre espace,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+appearance,text,H1.: Tableau de bord,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+appearance,text,P.: Admin,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+appearance,text,LEGEND.: Couleur de l’interface,"rgb(23, 23, 23)","rgb(243, 243, 243)",16.156729,4.5,Passé
+appearance,text,SUMMARY.: Modifier mon mot de passe,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+appreciation,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+appreciation,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+appreciation,text,SPAN.sidebar-label: Modèles d’évaluation,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+appreciation,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+appreciation,text,P.eyebrow: Administration,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+appreciation,text,H1.: Modèles d’évaluation,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+appreciation,text,SELECT.: Choisir une organisationResults E2E,"rgb(0, 0, 0)","rgb(255, 255, 255)",21.000000,4.5,Passé
+appreciation,control-boundary,SELECT.: Choisir une organisationResults E2E,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+appreciation,text,SPAN.evaluation-status archived: Archivée,"rgb(82, 82, 82)","rgb(245, 241, 241)",6.971021,4.5,Passé
+appreciation,text,SPAN.evaluation-status validated: Validée,"rgb(23, 23, 23)","rgb(213, 232, 226)",14.060608,4.5,Passé
+appreciation,text,SPAN.evaluation-status draft: Brouillon,"rgb(23, 23, 23)","rgb(241, 228, 209)",14.306592,4.5,Passé
+appreciation,text,BUTTON.evaluation-danger: Supprimer,"rgb(255, 255, 255)","rgb(166, 47, 56)",6.806891,4.5,Passé
+appreciation,text,P.eyebrow: Questions,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+appreciation,text,SPAN.: 1,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+dashboard,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+dashboard,text,SPAN.sidebar-label: Tableau de bord,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+dashboard,text,SPAN.sidebar-label: Utilisateurs,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+dashboard,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+dashboard,text,P.eyebrow: Votre espace,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+dashboard,text,H1.: Tableau de bord,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+dashboard,text,P.: Admin,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+dashboard,text,SUMMARY.: Modifier mon mot de passe,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+history,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+history,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+history,text,SPAN.sidebar-label: Résultats,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+history,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+history,control-boundary,SELECT.: Sélectionner un modèleRadar E2E,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+history,text,SMALL.: Complétée le 05/10/2026 - 08:00,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+history,chart,radar-label,#171717,"rgb(255, 255, 255)",17.927840,4.5,Passé
+history,chart,grid,#737373,"rgb(255, 255, 255)",4.741667,3,Passé
+history,chart,series-0,#008c82,"rgb(255, 255, 255)",4.139094,3,Passé
+history,chart,series-1,#aa70eb,"rgb(255, 255, 255)",3.372676,3,Passé
+history,chart,series-2,#df7435,"rgb(255, 255, 255)",3.140347,3,Passé
+history,chart,series-3,#448feb,"rgb(255, 255, 255)",3.294425,3,Passé
+history,chart,series-4,#d35888,"rgb(255, 255, 255)",3.803534,3,Passé
+history-table,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+history-table,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+history-table,text,SPAN.sidebar-label: Résultats,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+history-table,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+history-table,control-boundary,SELECT.: Sélectionner un modèleRadar E2E,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+history-table,text,SMALL.: Complétée le 05/10/2026 - 08:00,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+history-table,text,TH.: Équipe A,"rgb(82, 82, 82)","rgb(243, 243, 243)",7.041941,4.5,Passé
+logs,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+logs,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+logs,text,SPAN.sidebar-label: Logs,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+logs,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+logs,text,P.eyebrow: Exploitation et diagnostic,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+logs,text,P.journal-intro: Journal technique HTTP. Les détails d’erreur restent da,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+logs,control-boundary,SELECT.: Tousresults-admin-e2e,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+logs,text,TH.: Date/heure,"rgb(82, 82, 82)","rgb(243, 243, 243)",7.041941,4.5,Passé
+navigation-collapsed,text,SPAN.: §,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+navigation-collapsed,text,STRONG.: results-admin-e2e,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+navigation-collapsed,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+navigation-collapsed,text,P.eyebrow: Votre espace,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+navigation-collapsed,text,H1.: Tableau de bord,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+navigation-collapsed,text,P.: Admin,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+navigation-collapsed,text,SUMMARY.: Modifier mon mot de passe,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+organization-create,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+organization-create,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+organization-create,text,SPAN.sidebar-label: Organisation,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+organization-create,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+organization-create,text,P.eyebrow: Administration,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+organization-create,text,H1.: Organisations,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+organization-create,control-boundary,INPUT.:,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+organization-create,text,P.: Sélectionnez au moins un Admin actif.,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+organization,text,H2.: Renommer l’organisation,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+organization,control-boundary,INPUT.:,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+organization,text,BUTTON.: Enregistrer le nom,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+palette-error,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+palette-error,text,SPAN.sidebar-label: Tableau de bord,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+palette-error,text,SPAN.sidebar-label: Résultats,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+palette-error,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+palette-error,text,P.eyebrow: Votre espace,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+palette-error,text,H1.: Tableau de bord,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+palette-error,text,P.: Viewer,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+palette-error,text,LEGEND.: Couleur de l’interface,"rgb(23, 23, 23)","rgb(243, 243, 243)",16.156729,4.5,Passé
+palette-error,text,P.form-error: Enregistrement impossible. Votre couleur précédente est,"rgb(164, 46, 53)","rgb(243, 243, 243)",6.265214,4.5,Passé
+palette-error,text,SUMMARY.: Modifier mon mot de passe,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+planning,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+planning,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+planning,text,SPAN.sidebar-label: Planification,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+planning,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+planning,text,P.eyebrow: Administration,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+planning,text,H1.: Planification,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+planning,control-boundary,SELECT.: Choisir une organisationResults E2E,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+question-dialog,text,H2.: Créer une question,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+question-dialog,control-boundary,INPUT.:,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+radar,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+radar,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+radar,text,SPAN.sidebar-label: Résultats,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+radar,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+radar,control-boundary,SELECT.: Sélectionner un modèleRadar E2E,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+radar,text,SMALL.: Complétée le 05/10/2026 - 08:00,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+radar,chart,radar-label,#171717,"rgb(255, 255, 255)",17.927840,4.5,Passé
+radar,chart,grid,#737373,"rgb(255, 255, 255)",4.741667,3,Passé
+radar,chart,series-0,#008c82,"rgb(255, 255, 255)",4.139094,3,Passé
+radar,chart,series-1,#aa70eb,"rgb(255, 255, 255)",3.372676,3,Passé
+radar,chart,series-2,#df7435,"rgb(255, 255, 255)",3.140347,3,Passé
+radar,chart,series-3,#448feb,"rgb(255, 255, 255)",3.294425,3,Passé
+radar,chart,series-4,#d35888,"rgb(255, 255, 255)",3.803534,3,Passé
+results-table,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+results-table,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+results-table,text,SPAN.sidebar-label: Résultats,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+results-table,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+results-table,control-boundary,SELECT.: Sélectionner un modèleRadar E2E,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+results-table,text,SMALL.: Complétée le 05/10/2026 - 08:00,"rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+results-table,text,TH.: Axe / critère,"rgb(82, 82, 82)","rgb(243, 243, 243)",7.041941,4.5,Passé
+results-table,text,BUTTON.result-criterion: 1. Collaboration v2,"rgb(172, 48, 54)","rgb(243, 243, 243)",5.858926,4.5,Passé
+steering,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+steering,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+steering,text,SPAN.sidebar-label: Pilotage,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+steering,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+steering,text,SUMMARY.: Comprendre les indicateurs,"rgb(172, 48, 54)","rgb(255, 255, 255)",6.501185,4.5,Passé
+steering,text,TH.: Équipe,"rgb(82, 82, 82)","rgb(243, 243, 243)",7.041941,4.5,Passé
+steering,text,"P.steering-note: Jamais évaluée : aucune complétion. Sinon, En retard :","rgb(82, 82, 82)","rgb(255, 255, 255)",7.813883,4.5,Passé
+taking-error,text,H2.: Passer l’évaluation,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+taking-error,text,SPAN.: Suivant,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+taking-saved,text,H2.: Passer l’évaluation,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+taking-saved,text,SPAN.: Suivant,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+taking-unanswered,text,H2.: Passer l’évaluation,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+taking-unanswered,text,SPAN.: Suivant,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+team-dialog,text,H2.: Créer une équipe,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+team-dialog,control-boundary,INPUT.:,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+team-selector,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+team-selector,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+team-selector,text,SPAN.sidebar-label: Équipes,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+team-selector,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+team-selector,text,P.eyebrow: Administration,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+team-selector,text,H1.: Équipes,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+team-selector,text,SELECT.: Choisir une organisationResults E2E,"rgb(0, 0, 0)","rgb(255, 255, 255)",21.000000,4.5,Passé
+team-selector,control-boundary,SELECT.: Choisir une organisationResults E2E,"rgb(227, 227, 227)","rgb(255, 255, 255)",1.283381,3,Échoué
+team-selector,text,P.team-empty: Sélectionnez une organisation.,"rgb(82, 82, 82)","rgb(245, 241, 241)",6.971021,4.5,Passé
+user-dialog,text,H2.: Ajouter un utilisateur,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+user-dialog,control-boundary,INPUT.:,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+user-dialog,text,BUTTON.: Valider,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+users,text,SPAN.brand-label: Assess teams,"rgb(23, 23, 23)","rgb(236, 216, 219)",13.157169,4.5,Passé
+users,text,SPAN.sidebar-label: Tableau de bord,"rgb(82, 82, 82)","rgb(236, 216, 219)",5.734577,4.5,Passé
+users,text,SPAN.sidebar-label: Utilisateurs,"rgb(255, 255, 255)","rgb(172, 48, 54)",6.501185,4.5,Passé
+users,text,BUTTON.secondary: Se déconnecter,"rgb(23, 23, 23)","rgb(255, 255, 255)",17.927840,4.5,Passé
+users,text,P.eyebrow: Administration,"rgb(172, 48, 54)","rgb(245, 241, 241)",5.799920,4.5,Passé
+users,text,H1.: Utilisateurs,"rgb(23, 23, 23)","rgb(245, 241, 241)",15.994014,4.5,Passé
+users,control-boundary,INPUT.:,"rgb(115, 115, 115)","rgb(255, 255, 255)",4.741667,3,Passé
+users,text,TH.: Identifiant,"rgb(82, 82, 82)","rgb(243, 243, 243)",7.041941,4.5,Passé
