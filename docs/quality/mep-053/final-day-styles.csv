@@ -116,9 +116,10 @@ logs-day,LABEL,OrganisationTousResults E2E,"Inter, system-ui, sans-serif",14px,6
 logs-day,SELECT,TousResults E2E,"Inter, system-ui, sans-serif",16px,400,normal,0px,8px,normal,179,42
 logs-day,LABEL,UtilisateurTousresults-admin-e2esteering-coach-e2e,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69
 logs-day,SELECT,Tousresults-admin-e2esteering-coach-e2e,"Inter, system-ui, sans-serif",16px,400,normal,0px,8px,normal,179,42
-logs-day,LABEL,ÉquipeTous,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69
-logs-day,SELECT,Tous,"Inter, system-ui, sans-serif",16px,400,normal,0px,8px,normal,179,42
-logs-day,LABEL,ÉvaluationTous,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69
+logs-day,LABEL,ÉquipeTousArchivée E2EJamais évaluée E2EÉquipe AÉquipe B,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69
+logs-day,SELECT,TousArchivée E2EJamais évaluée E2EÉquipe AÉquipe B,"Inter, system-ui, sans-serif",16px,400,normal,0px,8px,normal,179,42
+logs-day,LABEL,ÉvaluationTousRadar E2E v1,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69
+logs-day,SELECT,TousRadar E2E v1,"Inter, system-ui, sans-serif",16px,400,normal,0px,8px,normal,179,42
 logs-day,LABEL,Du,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69
 logs-day,INPUT,,"Inter, system-ui, sans-serif",16px,400,24px,0px,8px,normal,179,42
 logs-day,LABEL,Au,"Inter, system-ui, sans-serif",14px,600,21px,0px,0px,5.6px,179,69

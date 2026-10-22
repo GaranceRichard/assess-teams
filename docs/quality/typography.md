@@ -3,7 +3,7 @@
 Recette du 2026-10-21 par Codex, selon [F09](../backlog/source/mess/f09.md),
 [UX-01/05 de MEP-067](ux-acceptance.md) et la [DoD](definition-of-done.md).
 État de référence : `d782cbd5f77faa5ef93edfe6dd76d0d6a5d7196e` (MEP-052 déjà intégré).
-Code candidat : `4bd07a7351b0a95667914dc9a396e57916d5da46` ; [empreintes des sources](mep-053/sources.csv).
+Code candidat : `5c4c53f3fd430cd5bdb5dafc8b3e59948a554068` ; [empreintes des sources](mep-053/sources.csv).
 Le SHA intégré et les gates seront consignés après publication ; MEP-053 reste En cours jusque-là.
 
 ## Audit et corrections observables
@@ -37,7 +37,7 @@ Aucun flux, droit, calcul, contrat API ou règle métier n’est modifié.
 [Clair avant](mep-053/baseline-day-styles.csv) / [après](mep-053/final-day-styles.csv) ;
 [sombre avant](mep-053/baseline-night-styles.csv) / [après](mep-053/final-night-styles.csv).
 Les dossiers `mep-053/baseline/` et `mep-053/final/` conservent les captures comparables de même nom,
-avec mêmes fixtures, viewport et palette. Les géométries complémentaires sont qualifiées sur le candidat final. Les trois événements du Dashboard sont chargés,
+avec mêmes fixtures, viewport et palette. L’éditeur attend ses questions chargées avant capture ; les géométries complémentaires sont qualifiées sur le candidat final. Les trois événements du Dashboard sont chargés,
 Apparence fermée ; les dates d’événements fictifs sont stabilisées.
 Le navigateur de référence reçoit les composants modifiés et les CSS du SHA initial ; le candidat utilise ses fichiers courants.
 

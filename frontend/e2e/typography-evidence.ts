@@ -109,6 +109,7 @@ export async function openTypographyRoute(page: Page, route: string) {
       .selectOption({ label: "Results E2E" });
     await page.locator(".evaluation-select").first().click();
     await expect(page.locator(".question-panel h2")).toBeVisible();
+    await expect(page.locator(".question-row").first()).toBeVisible();
   }
   if (route === "results") {
     await page.getByLabel("Modèle").selectOption({ label: "Radar E2E" });

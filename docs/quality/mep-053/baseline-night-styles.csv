@@ -58,6 +58,8 @@ user-dialog-night,BUTTON,Valider,"Inter, system-ui, sans-serif",16px,750,normal,
 organization-night,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,968,16
 organization-night,H1,Organisations,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,968,37
 organization-night,H2,Organisations existantes,"Inter, system-ui, sans-serif",17.6px,700,normal,0px,0px,normal,918,23
+organization-night,BUTTON,Renommer,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,110,42
+organization-night,BUTTON,Gérer les membres,"Inter, system-ui, sans-serif",16px,750,normal,0px,9.6px 12.8px,normal,168,42
 teams-night,P,Administration,"Inter, system-ui, sans-serif",12px,800,normal,5.6px 0px,0px,normal,132,16
 teams-night,H1,Équipes,"Inter, system-ui, sans-serif",32px,700,36.8px,0px,0px,normal,132,37
 teams-night,LABEL,OrganisationChoisir une organisation,"Inter, system-ui, sans-serif",13.6px,700,normal,8.8px 0px 0px,0px,8px,448,72
@@ -116,9 +118,10 @@ logs-night,LABEL,OrganisationTousResults E2E,"Inter, system-ui, sans-serif",13.6
 logs-night,SELECT,TousResults E2E,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
 logs-night,LABEL,UtilisateurTousresults-admin-e2esteering-coach-e2e,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
 logs-night,SELECT,Tousresults-admin-e2esteering-coach-e2e,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
-logs-night,LABEL,ÉquipeTous,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
-logs-night,SELECT,Tous,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
-logs-night,LABEL,ÉvaluationTous,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-night,LABEL,ÉquipeTousArchivée E2EJamais évaluée E2EÉquipe AÉquipe B,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-night,SELECT,TousArchivée E2EJamais évaluée E2EÉquipe AÉquipe B,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
+logs-night,LABEL,ÉvaluationTousRadar E2E v1,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
+logs-night,SELECT,TousRadar E2E v1,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,38
 logs-night,LABEL,Du,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
 logs-night,INPUT,,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,8px,normal,179,37
 logs-night,LABEL,Au,"Inter, system-ui, sans-serif",13.6px,700,normal,0px,0px,5.6px,179,62
