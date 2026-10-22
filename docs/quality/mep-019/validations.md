@@ -1,4 +1,4 @@
-﻿# Commandes et résultats MEP-019
+# Commandes et résultats MEP-019
 
 Les campagnes E2E utilisent `quality:targeted e2e` : ports et base SQLite jetables propres au worktree.
 Les logs bruts restent dans `.cache/mep-019/` ; les mesures et captures utiles sont versionnées.
@@ -20,3 +20,10 @@ Le complément `palette-refusal-visible.png` est produit lors du parcours comple
 `npm run quality:targeted` calcule le plan réel : repository, backend, frontend et E2E exhaustifs,
 car les nouveaux artefacts de preuve et le helper d’audit sont classés conservativement par la politique existante.
 Son résultat, le pre-push et la CI exacte seront consignés dans le rapport après leur exécution.
+
+Backend complet : 1 434 tests passants, coverage 97,48 %. Frontend complet : 428 tests passants ;
+statements 96,42 %, branches 94,79 %, fonctions 96,63 %, lignes 97,30 %. Lint, formatage et build passent.
+
+Le plan exhaustif local resynchronisé passe : scopes repository/backend/frontend/E2E, chacun avec statut 0
+dans les métriques du runner. E2E application : 77 passants ; démo : 10 passants, dont le survol
+et la navigation dans les dix palettes. La campagne finale de préférences avec messages visibles passe (2 tests).

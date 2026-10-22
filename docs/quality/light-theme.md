@@ -69,6 +69,12 @@ Leur remplissage translucide reste décoratif ; les traits, points, légendes et
 
 ## Vérifications et DoD
 
+Le backend complet passe : 1 434 tests, couverture 97,48 %. Le frontend complet passe :
+428 tests ; statements 96,42 %, branches 94,79 %, fonctions 96,63 %, lignes 97,30 %.
+Le plan final exhaustif `quality:targeted` passe aussi : 77 E2E application et 10 E2E démo.
+Navigation/survol dans les dix palettes et les deux états de sidebar conformes ; MEP-053 reste protégé.
+Lint, formatage, typecheck et build normaux passent. [Commandes et sorties](mep-019/validations.md).
+
 `light-theme`, `light-taking` et la création globale dans `light-preferences` échouent sur
 les bordures/piste initiales à 1,283:1, puis passent sur le correctif. Le test React existant
 `EvaluationVersions.test.tsx` échoue avant la correction : `aria-pressed` attendu, reçu `null` ;
