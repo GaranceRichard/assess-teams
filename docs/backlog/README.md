@@ -1,7 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
-> **Prochain PBI :** [MEP-053 — Typographie/hiérarchie](source/mess/f09.md), puis MEP-019/052 ; [cahier UX MEP-067 livré](../quality/ux-acceptance.md), [séquence complète, installation parallèle et passages jusqu’au GO](planning/pre-mep.md).
+> **Prochain PBI :** [MEP-044 — Notes et échelle](source/mess/f05.md), après MEP-019/052/053 réalisés ; [cahier UX MEP-067 livré](../quality/ux-acceptance.md), [séquence complète, installation parallèle et passages jusqu’au GO](planning/pre-mep.md).
 > **Préparation MESS :** [Epic → Feature → PBI](source/07-pre-mep.md), [livraison progressive](planning/pre-mep.md), [suivi des capacités](tracking/pre-mep-view.md) et [GO/NO-GO](tracking/mess-jalon.md).
 
 ## Direction et sources de référence

@@ -1,12 +1,12 @@
 # Chemin vers la MEP MESS — ordre de lancement et conditions de passage
 
-**Prochain PBI recommandé : [MEP-019 — Contrastes du clair](../source/mess/f09.md).**
+**Prochain PBI recommandé : [MEP-044 — Notes et échelle](../source/mess/f05.md).**
 MEP-067 est réalisé : le [cahier UX](../../quality/ux-acceptance.md) fournit les mesures de référence
-et débloque MEP-019. MEP-052 et [MEP-053](../../quality/typography.md) sont réalisés ; ne pas attendre l’installation pour corriger l’esthétique.
+et a guidé [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../quality/typography.md), désormais réalisés ; poursuivre les parcours UX sans attendre l’installation.
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 15 Réalisés, 45 Ouverts, 2 Bloqués, 0 En cours.
+et le [registre canonique](../tracking/pbis.md) comptent 16 Réalisés, 44 Ouverts, 2 Bloqués, 0 En cours.
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -28,7 +28,7 @@ Chaque clôture actualise d’abord le registre, puis la synthèse ; aucune date
 | Ordre recommandé | PBI et capacité | Condition objective pour poursuivre |
 | --- | --- | --- |
 | U0 — réalisé | [MEP-067 — Cahier UX](../source/mess/f17.md) | [UX-01 à UX-09](../../quality/ux-acceptance.md) : parcours/écrans, viewports, clavier/tactile, zoom, deux thèmes/dix palettes, mesures et vrais refus définis ; pas de PV anticipé |
-| U1 — cohérence transversale | [MEP-019 — Contrastes du clair](../source/mess/f09.md) ; MEP-053 et MEP-052 réalisés | Mesures du cahier satisfaites, titres/libellés/densité cohérents, texte/action/focus lisibles, préférences conservées ; captures comparables |
+| U1 — réalisé | [MEP-019 — Contrastes du clair](../source/mess/f09.md), MEP-053 et MEP-052 réalisés | Mesures du cahier satisfaites, titres/libellés/densité cohérents, texte/action/focus lisibles, préférences conservées ; captures comparables |
 | U2 — notation | [MEP-044 — Notes et échelle](../source/mess/f05.md), puis [MEP-013 — Curseur et sélection](../source/mess/f05.md), puis [MEP-045 — Confirmation de sauvegarde](../source/mess/f05.md) | 0 distingué de non répondu, repères exacts, clavier/tactile/focus utilisables, succès lié au serveur et reprise sans perte |
 | U3a — résultats | [MEP-014 — Hiérarchie des résultats](../source/mess/f06.md), [MEP-046 — Sens des scores](../source/mess/f06.md), [MEP-015 — Radar](../source/mess/f06.md), [MEP-047 — Comparaisons](../source/mess/f06.md), dans cet ordre si une seule capacité | Contexte/provenance et limites explicites ; labels/légendes/tableaux lisibles, filtres conservés, aucune comparaison hors scope ou incompatible |
 | U3b — dashboard, parallélisable avec U3a | [MEP-016 — Vocabulaire](../source/mess/f07.md), puis [MEP-048 — Interprétation des indicateurs](../source/mess/f07.md) | Dashboard/Pilotage cohérents, indicateurs reliés aux faits, sans score ou classement individuel |
@@ -116,9 +116,9 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## PBI prêts au regard des dépendances connues du registre
 
-15 PBI ouverts restent prêts : 14 PBI UX de F05–F08 et MEP-019 ; MEP-030 et MEP-053 sont réalisés.
-MEP-067 réalisé lève l’attente de MEP-019 ; MEP-053 est réalisé.
-« Prêt » est une éligibilité, pas un ordre : poursuivre U1 avec MEP-019, et préparer MEP-055 en parallèle.
+14 PBI ouverts restent prêts : les 14 PBI UX de F05–F08 ; MEP-019/030/052/053/067 sont réalisés.
+La cohérence transversale F09 est réalisée ; les recettes cibles restent ouvertes.
+« Prêt » est une éligibilité, pas un ordre : poursuivre U2 avec MEP-044, et préparer MEP-055 en parallèle.
 Les fiches/source et la vue détaillée donnent les dépendances exhaustives ; un accès ou une donnée manquante
 constatée au lancement est inscrit au registre, sans transformer toute attente PBI en statut Bloqué.
 

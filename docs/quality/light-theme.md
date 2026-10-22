@@ -94,4 +94,11 @@ Migrations et nouveaux tests API/backend non applicables aux changements de pré
 Les gates calculés par le plan existant restent bloquants, y compris toute sélection conservatrice.
 Ce rapport qualifie seulement MEP-019 ; aucune certification normative ni GO MESS global.
 
-Publication et clôture seront consignées après les validations et la CI du SHA publié.
+## Publication et clôture
+
+Correctif `6383e450619501c6272eb4c7cb51e227627c1523`, publié directement sur main par `npm run publish`, sans PR.
+Pre-push bloquant réussi ; [CI du SHA exact verte](https://github.com/GaranceRichard/assess-teams/actions/runs/39778904027), dont `Required impact gate`.
+Le main local du checkout principal a été avancé exclusivement en fast-forward.
+MEP-019 est clôturé le 2026-10-22 après CI verte et DoD applicable satisfaite.
+F09 est complète (3/3) ; seuls MEP-019 et ses vues dérivées changent de statut.
+La publication documentaire de cette clôture suit le même circuit avant nettoyage du seul chantier.
