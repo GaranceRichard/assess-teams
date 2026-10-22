@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-21 : 46 Ouverts, 14 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 23 %. Les acquis restent séparés.
+Au 2026-10-22 : 45 Ouverts, 15 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 24 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 **Prochain : [MEP-019 — Contrastes du clair](../source/mess/f09.md)** ; MEP-067, MEP-052 et [MEP-053](../../quality/typography.md) réalisés ; corrections des parcours ensuite.
@@ -32,7 +32,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-013 — Installation et exploitation MESS | [F14 — FEAT-062 — Cycle d’exploitation](../source/mess/f14.md) | 0 / 2 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | [F15 — FEAT-063 — Sauvegarde et réversibilité](../source/mess/f15.md) | 0 / 3 | 0 % |
 | EPIC-014 — Documentation, transfert et recette | [F16 — FEAT-064 — Documentation et transfert](../source/mess/f16.md) | 0 / 3 | 0 % |
-| EPIC-014 — Documentation, transfert et recette | [F17 — FEAT-065 — Préparation des recettes](../source/mess/f17.md) | 1 / 3 | 33 % |
+| EPIC-014 — Documentation, transfert et recette | [F17 — FEAT-065 — Préparation des recettes](../source/mess/f17.md) | 2 / 3 | 67 % |
 | EPIC-014 — Documentation, transfert et recette | [F18 — FEAT-066 — Recette d’installation hors ligne](../source/mess/f18.md) | 0 / 2 | 0 % |
 | EPIC-014 — Documentation, transfert et recette | [F19 — FEAT-067 — Recette fonctionnelle et UX](../source/mess/f19.md) | 0 / 3 | 0 % |
 | EPIC-014 — Documentation, transfert et recette | [F20 — FEAT-068 — Recette technique et reprise après incident](../source/mess/f20.md) | 0 / 3 | 0 % |
@@ -107,7 +107,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 16.01 | [MEP-028 — Rédiger le guide d’installation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-025, MEP-023 |
 | 16.02 | [MEP-066 — Rédiger le guide d’exploitation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-020, MEP-026, MEP-065, MEP-023 |
 | 16.03 | [MEP-029 — Documenter le transfert, le fork et la licence Apache 2.0](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-006, MEP-024 |
-| 17.01 | [MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) | S | Ouvert — N/A | PASS-001, EVAL-004, RESULT-001, STEER-001 |
+| 17.01 | [MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) | S | Réalisé — 2026-10-22 | PASS-001, EVAL-004, RESULT-001, STEER-001 ; [cahier fonctionnel](../../quality/functional-acceptance.md) |
 | 17.02 | [MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) | XS | Réalisé — 2026-10-21 | MEP-005, MEP-007, DASH-001, RESULT-001 ; [cahier UX](../../quality/ux-acceptance.md) |
 | 17.03 | [MEP-031 — Définir les scénarios de recette technique](../source/mess/f17.md) | S | Ouvert — N/A | MEP-022, MEP-039 |
 | 18.01 | [MEP-032 — Installer Assess Teams sur un environnement vierge](../source/mess/f18.md) | S | Ouvert — N/A | MEP-025, MEP-028, MEP-031 |

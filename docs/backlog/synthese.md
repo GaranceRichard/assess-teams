@@ -44,7 +44,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 11 | 92 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 2 | 12 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
-| EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 1 | 7 % |
+| EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 2 | 14 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
 raffinées et les limites explicites des PBIs restent hors du dénominateur.
@@ -108,7 +108,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-21
+## Préparation MESS — suivi au 2026-10-22
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
@@ -118,7 +118,7 @@ MEP-019 (contrastes clairs), corrections notation/résultats/dashboard/responsiv
 En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
 [Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
-GO non autorisé si conformité nécessaire non démontrée. Seul MEP-067 est clos par le présent cahier, le 2026-10-21.
+GO non autorisé si conformité nécessaire non démontrée. MEP-030 définit le [cahier fonctionnel FON-01 à FON-18](../quality/functional-acceptance.md) le 2026-10-22 ; seul ce PBI documentaire est clôturé par cette livraison, aucun PV cible anticipé.
 MEP-036 — [Inventaire des paramètres](../operations/configuration/README.md) est réalisé le 2026-10-14 ; MEP-009 — [Secrets et démarrage](../operations/configuration/startup-validation.md) le 2026-10-15 : configuration dangereuse refusée, diagnostics confidentiels et rotation documentée.
 MEP-039 — [Paramètres de concurrence SQLite](../operations/sqlite/README.md) est réalisé le 2026-10-15 : référence DELETE/FULL, timeout 5 s, connexions et limites mesurées. MEP-010 — [Verrous et transactions concurrentes](../operations/sqlite/contention-validation.md) est réalisé le 2026-10-16 : 22 cas multiprocessus, reprises bornées, refus sûrs et CI verte.
 MEP-011 — [Isolation organisationnelle](../architecture/organization-isolation-validation.md) est réalisé le 2026-10-17 : matrice et 39 cas API réels, refus sans effet, historique conservé, exceptions Superadmin bornées, pré-push et CI exhaustive du SHA intégré verts.
@@ -130,7 +130,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 14 | 46 | 0 | 2 | 23 % |
+| MESS actif — E01 à E04 | 62 | 15 | 45 | 0 | 2 | 24 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -176,14 +176,14 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 55 |
+| PBIs ouverts | 53 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 3 |
-| PBIs non réalisés | 58 |
-| PBIs réalisés | 39 |
-| Avancement global | 41 % |
+| PBIs non réalisés | 56 |
+| PBIs réalisés | 40 |
+| Avancement global | 42 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 39 réalisés (25 fonctionnels et 14 MESS, dont MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 40 réalisés (25 fonctionnels et 15 MESS, dont MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
 

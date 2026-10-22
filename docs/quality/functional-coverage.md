@@ -1,6 +1,8 @@
 # Inventaire des couvertures fonctionnelles
 
 Cet inventaire complète la [stratégie de tests](test-strategy.md) et décrit les preuves par domaine livré.
+Le [cahier MEP-030](functional-acceptance.md) traduit ces acquis en scénarios de recette par rôle,
+avec jeux fictifs, vrais refus et preuves à recueillir ; il ne déclare aucune exécution cible réussie.
 
 Le parcours d'accès produit ajoute des tests API de connexion valide et invalide, de session protégée, de
 déconnexion et de contrôle CSRF. Les tests frontend vérifient les menus exacts Admin, Coach et Viewer,

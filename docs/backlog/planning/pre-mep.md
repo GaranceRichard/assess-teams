@@ -6,7 +6,7 @@ et débloque MEP-019. MEP-052 et [MEP-053](../../quality/typography.md) sont ré
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 14 Réalisés, 46 Ouverts, 2 Bloqués, 0 En cours.
+et le [registre canonique](../tracking/pbis.md) comptent 15 Réalisés, 45 Ouverts, 2 Bloqués, 0 En cours.
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -64,7 +64,7 @@ Cette convergence évite une dépendance circulaire MEP-024 ↔ MEP-063, sans re
 
 | Travail | Préparer dès maintenant | Clôturer avec les entrées réelles |
 | --- | --- | --- |
-| [MEP-030 — Cahier fonctionnel](../source/mess/f17.md) | Après U0 ou en parallèle : rôles, données fictives, attentes et refus des parcours livrés | Dépendances déjà réalisées ; ne pas attendre le package ; pas de fonctions ouvertes supposées livrées |
+| [MEP-030 — Cahier fonctionnel](../source/mess/f17.md) | Réalisé le 2026-10-22 : [FON-01 à FON-18](../../quality/functional-acceptance.md), jeux fictifs, attentes, refus et preuves des parcours livrés | Aucun PV cible exécuté ; capacités ouvertes/arbitrages distingués, MEP-033/069/070 restent ouverts |
 | MEP-031 — Cahier technique | Trame et cas de panne sur acquis SQLite/sécurité | Après MEP-022 (et MEP-039 acquis), seuils MESS effectivement convenus |
 | [MEP-028 — Guide installation](../source/mess/f16.md) | Trame pendant I0–I5, commandes au fil de leur livraison | Après MEP-025/023 ; guide reproductible disponible avant MEP-032 |
 | [MEP-066 — Guide exploitation](../source/mess/f16.md) | Responsabilités à I2, commandes pendant I6–I8 | Après MEP-020/026/065/023 ; commandes exercées, reprise et diagnostics documentés |
@@ -116,7 +116,7 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## PBI prêts au regard des dépendances connues du registre
 
-16 PBI ouverts restent prêts : 14 PBI UX de F05–F08, MEP-019 et MEP-030 ; MEP-053 est réalisé.
+15 PBI ouverts restent prêts : 14 PBI UX de F05–F08 et MEP-019 ; MEP-030 et MEP-053 sont réalisés.
 MEP-067 réalisé lève l’attente de MEP-019 ; MEP-053 est réalisé.
 « Prêt » est une éligibilité, pas un ordre : poursuivre U1 avec MEP-019, et préparer MEP-055 en parallèle.
 Les fiches/source et la vue détaillée donnent les dépendances exhaustives ; un accès ou une donnée manquante
