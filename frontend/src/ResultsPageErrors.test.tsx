@@ -74,6 +74,8 @@ it("shows comparison loading, failure and recovery on another selection", async 
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Impossible de charger les résultats de ce modèle.",
   );
+  expect(screen.queryByText(/Version radar/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Passation n°/)).not.toBeInTheDocument();
   await choose("5");
   expect(await screen.findByRole("img")).toBeVisible();
 });

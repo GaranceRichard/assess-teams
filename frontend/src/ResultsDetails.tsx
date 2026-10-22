@@ -36,6 +36,7 @@ export function ResultsDetails({
                       {completionDate(team.completed_at)}
                     </time>
                   </small>
+                  <small>Passation n°{team.run_id}</small>
                 </th>
               ))}
             </tr>

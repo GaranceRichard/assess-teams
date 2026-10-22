@@ -1,0 +1,82 @@
+.results-context {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface-secondary);
+}
+
+.results-context .results-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+}
+
+.results-teams legend {
+  padding-inline: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.results-page .results-teams label {
+  margin-block: 0.35rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+.results-teams label:has(:checked) {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.results-teams label:has(:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.results-teams label strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.results-page .results-teams small + small {
+  margin-top: 0;
+}
+
+.results-view-selectors {
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-table-scroll small {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+.results-details td {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 761px) and (max-height: 600px) {
+  .results-view-selectors {
+    padding-bottom: 0;
+  }
+
+  .results-context {
+    padding-block: 0.2rem;
+  }
+
+  .results-context .results-note {
+    margin-top: 0.2rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .results-page .results-view-selectors {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+}

@@ -37,15 +37,20 @@ export function ResultsHistoryTable({ history }: { history: ResultHistory }) {
                 return (
                   <td key={team.team_id}>
                     {point && (
-                      <span
-                        title={`${point.team_name} · v${point.version} · ${point.criterion_text}`}
-                      >
-                        {point.score}/10 (
-                        <time dateTime={point.completed_at}>
-                          {formatDateTime(point.completed_at)}
-                        </time>
-                        )
-                      </span>
+                      <>
+                        <span
+                          title={`${point.team_name} · v${point.version} · ${point.criterion_text}`}
+                        >
+                          {point.score}/10 (
+                          <time dateTime={point.completed_at}>
+                            {formatDateTime(point.completed_at)}
+                          </time>
+                          )
+                        </span>
+                        <small>
+                          v{point.version} · Passation n°{point.run_id}
+                        </small>
+                      </>
                     )}
                   </td>
                 );

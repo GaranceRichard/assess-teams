@@ -1,0 +1,93 @@
+
+> assess-teams-frontend@0.0.0 test:quick
+> vitest run ResultsProvenance.test.tsx
+
+
+ RUN  v5.0.1 C:/Users/garan/Desktop/Projets/Assess-teams-mep-014/frontend
+
+ ❯ src/ResultsProvenance.test.tsx (3 tests | 2 failed) 143ms
+   × keeps the authorized source beside the selected team's completion in detailed radar 119ms
+   × makes each historical version and source readable without hovering 16ms
+npm.cmd :
+Au caractère Ligne:10 : 3
++   npm.cmd run test:quick --prefix frontend -- ResultsProvenance.test. ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ResultsProvenance.test.tsx > keeps the authorized source beside the selected team's completion in detailed
+radar
+TestingLibraryElementError: Unable to find an element with the text: Passation n°101. This could be because the text
+is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher
+more flexible.
+
+Ignored nodes: comments, script, style
+[36m<th[39m
+  [33mscope[39m=[32m"col"[39m
+[36m>[39m
+  [0mAlpha[0m
+  [36m<small>[39m
+    [0mComplétée le[0m
+    [0m [0m
+    [36m<time[39m
+      [33mdatetime[39m=[32m"2026-10-02T12:00:00Z"[39m
+    [36m>[39m
+      [0m02/10/2026 - 08:00[0m
+    [36m</time>[39m
+  [36m</small>[39m
+[36m</th>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/ResultsProvenance.test.tsx:18:25
+     16|   );
+     17|   const header = screen.getByRole("columnheader", { name: /^Alpha/ });
+     18|   expect(within(header).getByText("Passation n°101")).toBeVisible();
+       |                         ^
+     19|   expect(header.querySelector("time")).toHaveAttribute(
+     20|     "datetime",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/ResultsProvenance.test.tsx > makes each historical version and source readable without hovering
+TestingLibraryElementError: Unable to find an element with the text: v1 · Passation n°91. This could be because the
+text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your
+matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<td>[39m
+  [36m<span[39m
+    [33mtitle[39m=[32m"Alpha · v1 · Ancienne collaboration"[39m
+  [36m>[39m
+    [0m2[0m
+    [0m/10 ([0m
+    [36m<time[39m
+      [33mdatetime[39m=[32m"2026-09-01T12:00:00Z"[39m
+    [36m>[39m
+      [0m01/09/2026 - 08:00[0m
+    [36m</time>[39m
+    [0m)[0m
+  [36m</span>[39m
+[36m</td>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/ResultsProvenance.test.tsx:30:23
+     28|   render(<ResultsHistoryTable history={resultHistory} />);
+     29|   const cell = screen.getAllByRole("cell")[0];
+     30|   expect(within(cell).getByText("v1 · Passation n°91")).toBeVisible();
+       |                       ^
+     31|   expect(cell.querySelector("time")).toHaveAttribute(
+     32|     "datetime",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  17:53:03
+   Duration  1.21s (environment 66%, tests 13%, setup 12%, transform 7%, import 1%)

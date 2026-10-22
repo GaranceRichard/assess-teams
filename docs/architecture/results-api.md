@@ -127,6 +127,11 @@ Les lignes correspondent au rang de l'observation dans chaque équipe, jamais à
 Le nombre de lignes est celui de l'historique le plus long ; les cellules restantes sont vides.
 Une absence de mesure ne devient jamais zéro ; un score mesuré de zéro reste `0/10`.
 Équipe historique, version et texte observé sont conservés dans le title de l'entrée et le tooltip graphique.
+MEP-014 regroupe organisation, modèle et version radar dans une région de contexte ; les équipes
+gardent date et source autorisée (`run_id`). La restitution détaillée affiche aussi cette source,
+et chaque observation historique rend sa version exacte et sa passation visibles sans survol.
+Ces repères utilisent uniquement les réponses Results existantes, sans auteur ni appel administratif.
+La [recette de hiérarchie](../quality/results-hierarchy.md) conserve les comparaisons avant/après.
 Ce format est limité au tableau temporel ; les autres formats de dates/heures ne changent pas.
 Sans observation, un état explicite remplace le graphique ; aucune date fictive n’est affichée.
 Les thèmes jour/nuit et styles des équipes restent cohérents entre les deux vues.

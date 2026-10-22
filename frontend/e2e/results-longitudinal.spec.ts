@@ -67,24 +67,30 @@ test("automatic latest-version radar opens explicit-lineage observations and ret
   await expect(table.locator('[title*="· v1 ·"]')).toHaveCount(3);
   await expect(table.locator('[title*="· v2 ·"]')).toHaveCount(2);
   await expect(
-    table.getByRole("cell", { name: /^2\/10 \(01\/09\/2026 - \d{2}:\d{2}\)$/ }),
+    table.getByRole("cell", {
+      name: /^2\/10 \(01\/09\/2026 - \d{2}:\d{2}\) v1 · Passation n°\d+$/,
+    }),
   ).toBeVisible();
   await expect(
-    table.getByRole("cell", { name: /^6\/10 \(05\/10\/2026 - \d{2}:\d{2}\)$/ }),
+    table.getByRole("cell", {
+      name: /^6\/10 \(05\/10\/2026 - \d{2}:\d{2}\) v2 · Passation n°\d+$/,
+    }),
   ).toBeVisible();
   await expect(
-    table.getByRole("cell", { name: /^7\/10 \(06\/10\/2026 - \d{2}:\d{2}\)$/ }),
+    table.getByRole("cell", {
+      name: /^7\/10 \(06\/10\/2026 - \d{2}:\d{2}\) v2 · Passation n°\d+$/,
+    }),
   ).toBeVisible();
   await expect(table.locator("tbody tr").nth(0).getByRole("cell")).toHaveText([
-    /^2\/10 \(01\/09\/2026 - \d{2}:\d{2}\)$/,
-    /^8\/10 \(03\/10\/2026 - \d{2}:\d{2}\)$/,
+    /^2\/10 \(01\/09\/2026 - \d{2}:\d{2}\)/,
+    /^8\/10 \(03\/10\/2026 - \d{2}:\d{2}\)/,
   ]);
   await expect(table.locator("tbody tr").nth(1).getByRole("cell")).toHaveText([
-    /^0\/10 \(02\/10\/2026 - \d{2}:\d{2}\)$/,
-    /^7\/10 \(06\/10\/2026 - \d{2}:\d{2}\)$/,
+    /^0\/10 \(02\/10\/2026 - \d{2}:\d{2}\)/,
+    /^7\/10 \(06\/10\/2026 - \d{2}:\d{2}\)/,
   ]);
   await expect(table.locator("tbody tr").nth(2).getByRole("cell")).toHaveText([
-    /^6\/10 \(05\/10\/2026 - \d{2}:\d{2}\)$/,
+    /^6\/10 \(05\/10\/2026 - \d{2}:\d{2}\)/,
     "",
   ]);
   await page.screenshot({

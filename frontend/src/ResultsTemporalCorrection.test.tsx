@@ -94,7 +94,7 @@ it("renders chronological, independent team columns with blank missing cells and
     rows.map((row) =>
       within(row)
         .getAllByRole("cell")
-        .map((cell) => cell.textContent),
+        .map((cell) => cell.querySelector("span")?.textContent ?? ""),
     ),
   ).toEqual([
     ["3/10 (04/08/2026 - 03:00)", "8/10 (01/07/2026 - 09:15)", ""],

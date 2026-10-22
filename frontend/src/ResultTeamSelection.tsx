@@ -21,13 +21,14 @@ export function ResultTeamSelection({
             onChange={() => onToggle(team.team_id)}
           />
           <span>
-            {team.team_name}
+            <strong>{team.team_name}</strong>
             <small>
               Complétée le{" "}
               <time dateTime={team.completed_at}>
                 {completionDate(team.completed_at)}
               </time>
             </small>
+            <small>Passation n°{team.run_id}</small>
           </span>
         </label>
       ))}

@@ -5,6 +5,7 @@ import type { Theme } from "../theme";
 import { comparison } from "./results";
 import "../results.css";
 import "../results-views.css";
+import "../results-hierarchy.css";
 export function DemoResults({ theme }: { theme: Theme }) {
   const data = comparison();
   const requestedId = Number(
