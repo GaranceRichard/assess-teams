@@ -20,6 +20,9 @@ export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
       <label className="taking-label" htmlFor="evaluation-score">
         Note de la question
       </label>
+      <span className="taking-scale" id="score-scale">
+        Échelle entière de 0 à 10
+      </span>
       <input
         className="taking-range"
         id="evaluation-score"
@@ -30,7 +33,7 @@ export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
         value={position}
         data-unanswered={score === null}
         disabled={disabled}
-        aria-describedby="question-text score-status"
+        aria-describedby="question-text score-scale score-status"
         aria-valuetext={
           score === null
             ? "Aucune note sélectionnée"

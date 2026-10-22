@@ -34,14 +34,14 @@ it("persists slider selection through the same API and preserves the fallback be
     "aria-valuetext",
     "8 sur 10 : Partagé",
   );
-  expect(screen.getByText(/Repère pour 8/).parentElement).toHaveTextContent(
+  expect(screen.getByText(/Repère 8/).parentElement).toHaveTextContent(
     "Partagé",
   );
   fireEvent.change(screen.getByRole("slider"), { target: { value: "7" } });
   await waitFor(() =>
     expect(api.saveEvaluationScore).toHaveBeenCalledWith(1, 11, 7),
   );
-  expect(screen.queryByText(/Repère pour/)).toBeNull();
+  expect(screen.queryByText(/Repère/)).toBeNull();
   expect(screen.getByRole("slider")).toHaveAttribute(
     "aria-valuetext",
     "7 sur 10",
@@ -72,7 +72,7 @@ it("saves 6 while displaying the description for 5 in every score indication", a
     "6 sur 10 : Accompagné",
   );
   expect(screen.getByText("Note sélectionnée : 6 / 10")).toBeVisible();
-  expect(screen.getByText(/Repère pour 6/).parentElement).toHaveTextContent(
+  expect(screen.getByText(/Repère 5 /).parentElement).toHaveTextContent(
     "Accompagné",
   );
   expect(screen.queryByRole("tooltip", { hidden: true })).toBeNull();

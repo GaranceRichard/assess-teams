@@ -79,7 +79,8 @@ Sa largeur responsive est bornée à 38 rem ; sa hauteur intrinsèque suit les t
 bornée au viewport dynamique. Le titre et les actions restent fixes ; seul le contenu actif défile
 si nécessaire, sans défilement propre à la question ou au descriptif.
 La finalisation attend la confirmation des sauvegardes ; une révision est validée atomiquement.
-Une question sans réponse affiche « Aucune note sélectionnée », sans poignée ni descriptif sélectionné.
+« Échelle entière de 0 à 10 » reste visible et fait partie de la description accessible du curseur,
+même avant toute sélection. Une question sans réponse affiche « Aucune note sélectionnée », sans poignée ni descriptif sélectionné.
 Le range natif conserve une position technique médiane, sans valeur métier : seul un geste de sélection
 (clic/toucher sur la piste, déplacement ou clavier) enregistre une note. Un clic au milieu choisit 5 ;
 Entrée/Espace choisissent explicitement 5 au clavier, Home choisit 0 et End choisit 10.
@@ -106,7 +107,8 @@ Le range conserve toutes les notes entières 0–10 et leurs sauvegardes. Seuls 
 repère explicite portent un point passif, précisément aligné avec le centre du curseur à ce score.
 Aucun survol, focus ou clic sur un point ne produit de contenu ou de sélection.
 Le descriptif persistant utilise le repère inférieur renseigné le plus proche, sans changer la note ;
-sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent uniquement le snapshot.
+le libellé « Repère N / 10 » donne la valeur réelle du repère utilisé (5 pour une note 6).
+Sans borne inférieure, aucun texte n’est ajouté. Révision et reprise lisent uniquement le snapshot.
 Voir [persistance, migration et interface](appreciation-markers.md).
 
 Le curseur exclut le contour global `input:focus` : aucun rectangle ne s’affiche au clic ou au focus.
@@ -134,3 +136,11 @@ les `null` après navigation et rechargement, la modification et le refus API de
 Le contrat `number | null`, les modèles, migrations, permissions, snapshots et OpenAPI ne changent pas.
 Revue effectuée : README, règles agents, charte, DoD, stratégie, architecture et contrat backend/API ;
 seules les descriptions de passation/repères, leurs preuves et le suivi de MEP-007 sont affectés.
+
+## Clarification des notes — MEP-044
+
+L’[audit et ses preuves UX-07](../quality/mep-044/README.md) distinguent échelle, note sélectionnée,
+absence et repère inférieur. Les tests existants de notation explicite, sauvegarde, navigation,
+consultation et versionnement restent la référence ; les seuls ajouts vérifient l’échelle visible et
+accessible, la valeur réelle du repère, les contrastes et les captures vierge/0/5/10/reprise.
+Les modèles, API, snapshots, calculs et mécanismes de sélection/persistance sont inchangés.

@@ -34,5 +34,5 @@ it("draws only explicitly described levels at their proportional slider position
 it("adds no points or description when no markers are defined", () => {
   const { container } = render(<AppreciationScale markers={[]} score={6} />);
   expect(container.querySelector(".marker-dot")).toBeNull();
-  expect(screen.queryByText(/Repère pour/)).toBeNull();
+  expect(screen.queryByText(/Repère/)).toBeNull();
 });

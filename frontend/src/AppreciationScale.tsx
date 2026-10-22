@@ -25,7 +25,7 @@ export function AppreciationScale({ markers, score }: Props) {
       </div>
       {selected && (
         <p className="selected-appreciation" aria-live="polite">
-          <strong>Repère pour {score} / 10 :</strong> {selected.text}
+          <strong>Repère {selected.score} / 10 :</strong> {selected.text}
         </p>
       )}
     </>

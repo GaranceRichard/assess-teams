@@ -1,3 +1,9 @@
+.taking-scale {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 .taking-dialog .taking-range {
   appearance: none;
   display: block;

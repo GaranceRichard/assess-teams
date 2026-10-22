@@ -51,6 +51,8 @@ Le curseur reste l’unique contrôle de saisie : toutes les notes entières 0�
 clavier, à la souris et au toucher, avec les mêmes sauvegardes et permissions.
 Le descriptif persistant sous le curseur et sa valeur accessible utilisent le repère inférieur
 renseigné le plus proche : 6 affiche le texte de 5 entre les repères 5 et 7, tout en enregistrant 6.
+Le libellé « Repère 5 / 10 » identifie cette borne réelle ; « Note sélectionnée : 6 / 10 »
+conserve la valeur choisie. L’échelle entière 0–10 est visible et décrite au curseur même sans réponse.
 Sans borne inférieure ou sans note choisie, aucun descriptif n’est inventé. Les points passifs restent
 visibles sur une question non renseignée, mais ne choisissent aucune note.
 Le [dimensionnement intrinsèque de la modale](evaluation-taking.md) suit ses contenus réels et

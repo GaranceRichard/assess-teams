@@ -28,6 +28,10 @@ it("leaves unanswered questions null when focusing, navigating and closing", () 
     "aria-valuetext",
     "Aucune note sélectionnée",
   );
+  expect(screen.getByText("Échelle entière de 0 à 10")).toBeVisible();
+  expect(screen.getByRole("slider")).toHaveAccessibleDescription(
+    /Échelle entière de 0 à 10/,
+  );
   fireEvent.focus(screen.getByRole("slider"));
   expect(
     screen.getByRole("button", { name: "Enregistrer la note" }),

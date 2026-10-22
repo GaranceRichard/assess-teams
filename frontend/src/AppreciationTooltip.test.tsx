@@ -19,7 +19,7 @@ it("never adds hover, focus or click content and keeps points out of keyboard na
   expect(point).not.toHaveAttribute("title");
   expect(point).not.toHaveAttribute("tabindex");
   expect(point.parentElement).toHaveAttribute("aria-hidden", "true");
-  expect(screen.getByText(/Repère pour 6/).parentElement).toHaveTextContent(
+  expect(screen.getByText(/Repère 5 /).parentElement).toHaveTextContent(
     "Accompagné",
   );
 });
