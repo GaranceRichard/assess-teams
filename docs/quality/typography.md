@@ -86,6 +86,15 @@ sans réduire les titres, cacher un contrôle ou changer le test, les graphiques
 [avant sombre](mep-053/demo-density/before-night.png) / [après sombre](mep-053/demo-density/after-night.png).
 Le test existant passe après correction ; la validation exhaustive est imposée au pre-push.
 
+## Densité de passation sur Linux
+
+La première CI du SHA `af6b600` a refusé deux scénarios desktop existants : dialogue
+à 607,9 px sur Linux, contre le maximum strict de 600 px. Les tests locaux Windows passaient.
+Le padding vertical du dialogue passe de 24 à 16 px, avec 24 px conservés horizontalement
+et la règle mobile de 12 px conservée. Titres, interlignes et cibles restent inchangés.
+La correction est vérifiée par les tests existants, sans assouplir leur seuil.
+[Échec initial](https://github.com/GaranceRichard/assess-teams/actions/runs/39656406706).
+
 ## Contrôles et DoD
 
 Le contrôle complémentaire du titre mobile a reproduit un écart de −6,39 px sur le candidat

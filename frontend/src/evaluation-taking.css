@@ -25,6 +25,7 @@
 
 .evaluation-dialog.taking-dialog {
   --rating-thumb-size: 1.25rem;
+  padding: 1rem 1.5rem;
   background: var(--surface-raised);
   border: 1px solid var(--border);
   color: var(--text);
