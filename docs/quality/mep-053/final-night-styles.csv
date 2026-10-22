@@ -26,6 +26,7 @@ dashboard-night,LABEL,Ambre,"Inter, system-ui, sans-serif",14px,600,21px,0px,7.2
 dashboard-night,LABEL,Vert,"Inter, system-ui, sans-serif",14px,600,21px,0px,7.2px,4.8px,125,37
 dashboard-night,LABEL,Émeraude,"Inter, system-ui, sans-serif",14px,600,21px,0px,7.2px,4.8px,125,62
 dashboard-night,LABEL,Turquoise,"Inter, system-ui, sans-serif",14px,600,21px,0px,7.2px,4.8px,125,62
+dashboard-night,LABEL,Mot de passe actuel,"Inter, system-ui, sans-serif",14px,600,21px,8.8px 0px 0px,0px,normal,283,21
 dashboard-night,INPUT,,"Inter, system-ui, sans-serif",16px,400,24px,0px,12.8px 14.4px,normal,283,52
 dashboard-night,LABEL,Nouveau mot de passe,"Inter, system-ui, sans-serif",14px,600,21px,8.8px 0px 0px,0px,normal,283,21
 dashboard-night,LABEL,Confirmer le nouveau mot de passe,"Inter, system-ui, sans-serif",14px,600,21px,8.8px 0px 0px,0px,normal,283,21
@@ -59,8 +60,8 @@ organization-night,H1,Organisations,"Inter, system-ui, sans-serif",32px,700,38.4
 organization-night,H2,Organisations existantes,"Inter, system-ui, sans-serif",20px,700,26px,0px 0px 12px,0px,normal,918,26
 teams-night,P,Administration,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px 5.6px,0px,normal,968,18
 teams-night,H1,Équipes,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,968,38
-teams-night,LABEL,OrganisationChoisir une organisationResults E2E,"Inter, system-ui, sans-serif",14px,600,21px,8.8px 0px 0px,0px,8px,448,78
-teams-night,SELECT,Choisir une organisationResults E2E,"Inter, system-ui, sans-serif",16px,400,normal,0px,12px,normal,448,49
+teams-night,LABEL,OrganisationChoisir une organisation,"Inter, system-ui, sans-serif",14px,600,21px,8.8px 0px 0px,0px,8px,448,78
+teams-night,SELECT,Choisir une organisation,"Inter, system-ui, sans-serif",16px,400,normal,0px,12px,normal,448,49
 teams-night,P,Sélectionnez une organisation.,"Inter, system-ui, sans-serif",16px,400,24px,5.6px 0px,0px,normal,968,24
 templates-night,P,Administration,"Inter, system-ui, sans-serif",12px,800,18px,0px 0px 5.6px,0px,normal,776,18
 templates-night,H1,Modèles d’évaluation,"Inter, system-ui, sans-serif",32px,700,38.4px,0px,0px,normal,776,38

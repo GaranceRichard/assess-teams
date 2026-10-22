@@ -3,7 +3,7 @@
 Recette du 2026-10-21 par Codex, selon [F09](../backlog/source/mess/f09.md),
 [UX-01/05 de MEP-067](ux-acceptance.md) et la [DoD](definition-of-done.md).
 État de référence : `d782cbd5f77faa5ef93edfe6dd76d0d6a5d7196e` (MEP-052 déjà intégré).
-Code candidat : `e41ad45f56cd25d1044a267f637396354cab4006` ; [empreintes des sources](mep-053/sources.csv).
+Code candidat : `4bd07a7351b0a95667914dc9a396e57916d5da46` ; [empreintes des sources](mep-053/sources.csv).
 Le SHA intégré et les gates seront consignés après publication ; MEP-053 reste En cours jusque-là.
 
 ## Audit et corrections observables
@@ -84,7 +84,8 @@ La marge redondante est supprimée ; le canvas atteint 76,6 px dans les deux th�
 sans réduire les titres, cacher un contrôle ou changer le test, les graphiques ou leurs calculs.
 [Avant clair](mep-053/demo-density/before-day.png) / [après clair](mep-053/demo-density/after-day.png) ;
 [avant sombre](mep-053/demo-density/before-night.png) / [après sombre](mep-053/demo-density/after-night.png).
-Le test existant passe après correction ; la validation exhaustive est imposée au pre-push.
+Le test existant passe après correction ; ses deux preuves démo restent liées à `e41ad45`,
+leur code Résultats étant inchangé. La validation exhaustive est imposée au pre-push.
 
 ## Densité de passation sur Linux
 
@@ -92,7 +93,9 @@ La première CI du SHA `af6b600` a refusé deux scénarios desktop existants : d
 à 607,9 px sur Linux, contre le maximum strict de 600 px. Les tests locaux Windows passaient.
 Le padding vertical du dialogue passe de 24 à 16 px, avec 24 px conservés horizontalement
 et la règle mobile de 12 px conservée. Titres, interlignes et cibles restent inchangés.
-La correction est vérifiée par les tests existants, sans assouplir leur seuil.
+Les huit tests ciblés de passation et les quatre tests de typographie passent sous Windows.
+Les vingt états de zoom natif sont rejoués après correction ; captures et styles finaux actualisés.
+Le seuil existant reste inchangé ; la CI Linux doit confirmer le résultat avant clôture.
 [Échec initial](https://github.com/GaranceRichard/assess-teams/actions/runs/39656406706).
 
 ## Contrôles et DoD
