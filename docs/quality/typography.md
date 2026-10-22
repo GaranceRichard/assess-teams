@@ -4,7 +4,7 @@ Recette du 2026-10-21 par Codex, selon [F09](../backlog/source/mess/f09.md),
 [UX-01/05 de MEP-067](ux-acceptance.md) et la [DoD](definition-of-done.md).
 État de référence : `d782cbd5f77faa5ef93edfe6dd76d0d6a5d7196e` (MEP-052 déjà intégré).
 Code candidat : `5c4c53f3fd430cd5bdb5dafc8b3e59948a554068` ; [empreintes des sources](mep-053/sources.csv).
-Le SHA intégré et les gates seront consignés après publication ; MEP-053 reste En cours jusque-là.
+Livraison intégrée : `a623caf2381e056c29cf4c5de0c6673b58adf90a` ; [CI exhaustive du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/39706576513) verte. MEP-053 clôturé le 2026-10-21.
 
 ## Audit et corrections observables
 
@@ -95,7 +95,7 @@ Le padding vertical du dialogue passe de 24 à 16 px, avec 24 px conservés hori
 et la règle mobile de 12 px conservée. Titres, interlignes et cibles restent inchangés.
 Les huit tests ciblés de passation et les quatre tests de typographie passent sous Windows.
 Les vingt états de zoom natif sont rejoués après correction ; captures et styles finaux actualisés.
-Le seuil existant reste inchangé ; la CI Linux doit confirmer le résultat avant clôture.
+Le seuil existant reste inchangé ; la CI Linux confirme le succès des deux scénarios desktop, sans défilement du corps pour ces textes courts.
 [Échec initial](https://github.com/GaranceRichard/assess-teams/actions/runs/39656406706).
 
 ## Contrôles et DoD
@@ -110,10 +110,10 @@ Les quatre tests `typography` / `taking-typography` échouent sur le rendu anté
 sur le candidat. Ils couvrent niveaux de titres, champs, alignement, question longue, raccourcis,
 absence de débordement et contrôles atteignables, dans les deux thèmes.
 Les suites existantes de shell, surfaces, passation, résultats, dialogues, palettes et rôles
-restent les protections des interactions et refus métier. Frontend complet : 428 tests passants ; statements 96,42 %, branches 94,78 %, fonctions 96,63 %, lignes 97,30 %. Build, typecheck, lint et formatage passent ; gate complet et CI encore requis.
+restent les protections des interactions et refus métier. Frontend complet : 428 tests passants ; statements 96,42 %, branches 94,78 %, fonctions 96,63 %, lignes 97,30 %. Build, typecheck, lint et formatage passent. Le pre-push exhaustif passe : 1 434 tests backend (97,48 %), 428 frontend, 73 E2E application et 10 E2E démo. Les quatre seuils frontend dépassent 90 %.
 
 Revue documentaire : README préparé avant le code ; shell et stratégie de tests mis à jour.
 Règles des agents, charte, DoD, fondamentaux, API et cahier UX relus : aucune évolution requise
 hors documentation de la présentation. Migrations, nouveaux contrats et tests métier ne sont
 pas applicables au correctif ; la campagne conservatrice existante reste exécutée par le plan.
-La CI du SHA publié et le pre-push restent bloquants avant clôture canonique.
+Le pre-push et la CI du SHA publié sont verts. La publication directe a synchronisé le main local en fast-forward ; aucune PR créée. La recette qualifie MEP-053, sans GO MESS global ni certification normative.

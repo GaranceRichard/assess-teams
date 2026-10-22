@@ -34,7 +34,7 @@ Aucune autre dépendance source n’est supprimée, aucun statut/date/parent/cri
 
 ## Activités anticipables et travaux hors chaîne technique
 
-- Dès maintenant : MEP-067 réalisé ; MEP-053 en cours ; MEP-019 et MEP-030 prêts ; MEP-052 réalisé ; collecte D01–D09, réservation des cibles et données fictives.
+- Dès maintenant : MEP-067 réalisé ; MEP-019 et MEP-030 prêts ; MEP-053 et MEP-052 réalisés ; collecte D01–D09, réservation des cibles et données fictives.
 - Préparation seule : MEP-054/057/031, MEP-028/066/029 ; confronter l’existant, marquer les inconnues, finaliser après les entrées canoniques.
 - MEP-023/056 avancent après le contrat sans attendre le package. Cette réorganisation du backlog n’est pas leur livraison contractuelle.
 - MEP-029 ne bloque pas les essais d’installation, mais sa documentation de reprise reste exigée avant GO. Apache 2.0/NOTICE déjà acquis, aucun travail de licence recréé.

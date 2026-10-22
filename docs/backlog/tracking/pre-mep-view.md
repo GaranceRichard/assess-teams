@@ -3,10 +3,10 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-21 : 46 Ouverts, 13 Réalisés, 1 En cours, 2 Bloqués ; avancement actif 21 %. Les acquis restent séparés.
+Au 2026-10-21 : 46 Ouverts, 14 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 23 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
-**En cours : [MEP-053 — Typographie/hiérarchie](../source/mess/f09.md)** ; [MEP-067 livré](../../quality/ux-acceptance.md), puis MEP-019 et corrections des parcours ; MEP-052 est réalisé.
+**Prochain : [MEP-019 — Contrastes du clair](../source/mess/f09.md)** ; MEP-067, MEP-052 et [MEP-053](../../quality/typography.md) réalisés ; corrections des parcours ensuite.
 MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md).
 
@@ -24,7 +24,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-012 — Expérience utilisateur | [F06 — FEAT-054 — Résultats et comparaisons](../source/mess/f06.md) | 0 / 4 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F07 — FEAT-055 — Pilotage et tableau de bord](../source/mess/f07.md) | 0 / 2 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F08 — FEAT-056 — Responsive et états d’interaction](../source/mess/f08.md) | 0 / 5 | 0 % |
-| EPIC-012 — Expérience utilisateur | [F09 — FEAT-057 — Cohérence visuelle et thèmes](../source/mess/f09.md) | 1 / 3 | 33 % |
+| EPIC-012 — Expérience utilisateur | [F09 — FEAT-057 — Cohérence visuelle et thèmes](../source/mess/f09.md) | 2 / 3 | 67 % |
 | EPIC-013 — Installation et exploitation MESS | [F10 — FEAT-058 — Configuration unique MESS](../source/mess/f10.md) | 0 / 2 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | [F11 — FEAT-059 — Contrat d’installation et d’exploitation](../source/mess/f11.md) | 0 / 4 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | [F12 — FEAT-060 — Distribution autonome hors ligne](../source/mess/f12.md) | 0 / 4 | 0 % |
@@ -74,7 +74,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 08.05 | [MEP-051 — Améliorer la présentation des erreurs](../source/mess/f08.md) | S | Ouvert — N/A | PASS-001, MEP-004 |
 | 09.01 | [MEP-019 — Corriger les contrastes et la lisibilité du thème clair](../source/mess/f09.md) | S | Ouvert — N/A | DASH-001, MEP-067 |
 | 09.02 | [MEP-052 — Harmoniser le thème sombre](../source/mess/f09.md) | XS | Réalisé — 2026-10-21 | DASH-001 |
-| 09.03 | [MEP-053 — Harmoniser la typographie et la hiérarchie visuelle](../source/mess/f09.md) | S | En cours — N/A | DASH-001, MEP-067 |
+| 09.03 | [MEP-053 — Harmoniser la typographie et la hiérarchie visuelle](../source/mess/f09.md) | S | Réalisé — 2026-10-21 | DASH-001, MEP-067 |
 
 ## E03 — EPIC-013 — Installation et exploitation MESS
 
