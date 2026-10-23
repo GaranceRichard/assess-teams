@@ -39,9 +39,10 @@ test("analysis selection changes all four views and keeps the criterion without 
   ]);
   await expect(table.getByRole("row")).toHaveCount(4);
   for (const cell of await table.getByRole("cell").all()) {
-    await expect(cell).toHaveText(
+    await expect(cell.locator("span")).toHaveText(
       /^\d+\/10 \(\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}\)$/,
     );
+    await expect(cell.locator("small")).toHaveText(/^v1 · Passation n°\d+$/);
   }
   await analysis.click();
   await expect(table).toHaveAccessibleName(

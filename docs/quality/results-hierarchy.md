@@ -108,6 +108,11 @@ lignes 97,30 %. Lint, formatage, typecheck et build passent. Le test démo de g�
 La première campagne backend passe ses 1 434 tests (97,48 %), mais son empreinte est refusée
 après actualisation des captures pendant l’exécution. Cette preuve n’est pas réutilisée :
 le pre-push doit revalider le commit figé et resynchronisé avant toute livraison.
+Le pre-push du 2026-10-22 valide ensuite 1 434 tests backend, 431 frontend et 79 E2E
+application ; il refuse la démo sur une assertion de cellule restée au format antérieur.
+Le 2026-10-23, cette assertion vérifie séparément le score/date exact et la provenance v1,
+sans modifier l’affichage, les données ni les calculs. Publication et clôture restent conditionnées
+au succès de tous les contrôles requis et de la CI du SHA publié.
 
 Revue documentaire : README annoncé avant code ; contrat de présentation Results actualisé.
 Règles des agents, charte, DoD, stratégie de tests, fondamentaux, contrat API/OpenAPI et cahier UX relus.
