@@ -42,7 +42,7 @@ Le test de version vérifie l’ancien descriptif v1 après activation de v2, pu
 
 Le 2026-10-23, la [CI du premier SHA `fd85621`](https://github.com/GaranceRichard/assess-teams/actions/runs/39959414795)
 refuse deux cas desktop : hauteur Linux 612,296875 px, au lieu de `<600` dans
-`evaluation-taking-layout`, malgré les campagnes Windows vertes. MEP-044 reste ouvert.
+`evaluation-taking-layout`, malgré les campagnes Windows vertes. Cette tentative n’a pas clôturé MEP-044.
 L’en-tête regroupe maintenant le libellé et l’échelle sur une ligne lorsque la largeur suffit,
 avec retour à la ligne naturel sinon. Les copies de dimensionnement suivent le même contenu.
 Le seuil de 600 px, la typographie, les actions et les règles de scroll restent inchangés.
@@ -53,7 +53,7 @@ les styles partagés. Le texte de la note est vérifié intégralement lisible d
 après le défilement prévu sur petit écran si nécessaire. Les 12 E2E ciblés échelle/layout/focus
 passent ; le contrôle final d’accès à la note et des contrastes passe sur les trois viewports.
 Les captures du 23 octobre montrent ce correctif.
-La confirmation de la hauteur Linux et les nouveaux gates exhaustifs restent attendus avant clôture.
+La [CI du SHA corrigé `1e22be2`](https://github.com/GaranceRichard/assess-teams/actions/runs/39967554796) confirme les deux hauteurs Linux `<600` et tous les gates exhaustifs.
 
 ## Preuves UX et validation
 
@@ -65,11 +65,11 @@ Le focus clavier et les petits écrans 568×320, 375×667 et 1920×1080 restent 
 Les éléments essentiels doivent rester accessibles par l’unique scroll du corps de la modale.
 
 Les campagnes locales initiales passent : 1 434 tests backend (97,48 %), 428 frontend
-(quatre seuils >90 %), 82 E2E application et 10 démo ; leur limite Linux est décrite ci-dessous.
+(quatre seuils >90 %), 82 E2E application et 10 démo ; leur limite Linux est décrite plus haut.
 Les trois contrôles de lisibilité passent ; 840 mesures, minimum 5.646:1.
 Les [exécutions et captures](executions.md) permettent la revue des six combinaisons thème/viewport.
 Les [commandes et résultats](validations.md), [mesures](mesures.md) et
-[entrées exactes](sources.md) complètent ce rapport. Publication et CI restent à confirmer.
+[entrées exactes](sources.md) complètent ce rapport. Publication directe `1e22be2` et [CI exacte](https://github.com/GaranceRichard/assess-teams/actions/runs/39967554796) confirmées.
 
 ## Revue documentaire et DoD
 
@@ -80,13 +80,13 @@ Sécurité, permissions et règles de finalisation inchangées ; vrais refus cou
 Nouveaux tests backend/API et migrations non applicables à ce correctif de présentation.
 Les contraintes de 200 lignes, lint, formatage, typecheck, build, couverture et gates calculés restent bloquants.
 MEP-013/045, la recette cible MEP-069 et le GO MESS restent distincts de ce correctif.
-Le registre reste ouvert jusqu’à validation de la CI du SHA publié.
+MEP-044 est réalisé le 2026-10-23 après pre-push exhaustif et CI verte du SHA `1e22be2aacc6c63d64c5b27a915eb0c91c6ed673`.
 
 ## Coordination avec MEP-014
 
 Lecture seule du chantier `feat/mep-014-resultats` : aucun fichier applicatif commun.
 Les fichiers communs sont documentaires : README et registre canonique. MEP-044 complète
 le paragraphe de passation et sa propre ligne de PBI ; les résultats conservent leurs fichiers dédiés.
-Les mises à jour du registre et des vues dérivées seront limitées à MEP-044 et ses compteurs,
-après resynchronisation sur origin/main, en conservant toutes les évolutions MEP-014.
+Après le push MEP-014 `2fbfb9e`, la clôture est resynchronisée sur origin/main sans conflit.
+Sa ligne « En cours » et son README sont conservés ; les compteurs dérivent du registre canonique.
 `npm run publish` sérialise l’intégration par son verrou commun et resynchronise avant le push direct.

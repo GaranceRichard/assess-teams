@@ -59,7 +59,7 @@ Les preuves UX se recueillent séparément selon MEP-067 ; aucun correctif UX ou
 ## FON-11 — Choix explicite, sauvegarde, interruption et reprise
 
 - **PBI / préconditions :** PASS-001, EVAL-004, MEP-007 ; G3 vierge, Coach assigné ; deux questions dont une sans repères.
-  MEP-044/013/045 restent ouverts pour leur qualification UX.
+  MEP-013/045 restent ouverts ; [MEP-044 qualifié séparément](mep-044/README.md).
 - **Actions :** ouvrir Évaluations → Démarrer ; parcourir aller/retour sans noter, fermer/recharger/reprendre.
   Choisir volontairement 5 pour Collaboration, attendre la sauvegarde ; Livraison=0, reprendre après rechargement,
   remplacer Collaboration par 6 puis 10. Refaire le choix par clavier et toucher sur des runs vierges distincts.

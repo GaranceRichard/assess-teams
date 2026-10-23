@@ -47,8 +47,8 @@ Le statut Réalisé d'un PBI historique ne vaut pas livraison de sa Feature enti
 | Ouvert, socle partiel | ORG-002 et TEAM-002 : listes Admin/Superadmin ; consultation Coach absente | FON-05/06 : refus actuel de route/API Coach ; Viewer passe par Results selon ARB-ORG-012/015 |
 | Ouvert ou absent | TEAM-003 détail ; TEAM-005 archivage partiel ; TEAM-006 écran archives ; TEAM-007 réactivation | FON-06 teste seulement l'archivage existant ; aucun détail/réactivation ou second refus explicite supposé |
 | Bloqué | ORG-004 / ARB-ORG-005 : cascade possible sur certaines dépendances | Ne pas exécuter de suppression avec dépendances comme nominal accepté ; blocage administration/GO à traiter explicitement |
-| Ouvert | MEP-044/013/045, MEP-014/046/015/047, MEP-016/048, MEP-017/049/018/050/051 et MEP-019 | Acquis testables séparément des améliorations UX encore à qualifier ; aucun de ces PBI clôturé ici |
-| Réalisé, distinct | MEP-052/053, MEP-067 | Preuves UX conservées ; MEP-030 ne les rejoue ni ne les modifie |
+| Ouvert | MEP-013/045, MEP-014/046/015/047, MEP-016/048, MEP-017/049/018/050/051 et MEP-019 | Acquis testables séparément des améliorations UX encore à qualifier ; aucun de ces PBI clôturé ici |
+| Réalisé, distinct | MEP-044, MEP-052/053, MEP-067 | Preuves UX conservées ; MEP-030 ne les rejoue ni ne les modifie |
 | Ouvert / Bloqué | Installation, package et exploitation F10–F16, MEP-055 D01–D09, recettes F18–F20, suivi F04 | Aucun déploiement cible ni disponibilité MESS supposés ; vérifier le registre courant avant campagne |
 
 Les [arbitrages canoniques](../backlog/source/00-arbitrages-organisations.md) restent applicables :

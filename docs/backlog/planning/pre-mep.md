@@ -1,12 +1,12 @@
 # Chemin vers la MEP MESS — ordre de lancement et conditions de passage
 
-**Prochain PBI recommandé : [MEP-044 — Notes et échelle](../source/mess/f05.md).**
+**Prochain PBI recommandé : [MEP-013 — Curseur et sélection](../source/mess/f05.md).**
 MEP-067 est réalisé : le [cahier UX](../../quality/ux-acceptance.md) fournit les mesures de référence
 et a guidé [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../quality/typography.md), désormais réalisés ; poursuivre les parcours UX sans attendre l’installation.
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 16 Réalisés, 44 Ouverts, 2 Bloqués, 0 En cours.
+et le [registre canonique](../tracking/pbis.md) comptent 17 Réalisés, 42 Ouverts, 2 Bloqués, 1 En cours.
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -116,9 +116,9 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## PBI prêts au regard des dépendances connues du registre
 
-14 PBI ouverts restent prêts : les 14 PBI UX de F05–F08 ; MEP-019/030/052/053/067 sont réalisés.
+12 PBI ouverts restent prêts : les 12 PBI UX de F05–F08 ; MEP-044/019/030/052/053/067 sont réalisés.
 La cohérence transversale F09 est réalisée ; les recettes cibles restent ouvertes.
-« Prêt » est une éligibilité, pas un ordre : poursuivre U2 avec MEP-044, et préparer MEP-055 en parallèle.
+« Prêt » est une éligibilité, pas un ordre : poursuivre U2 avec MEP-013, et préparer MEP-055 en parallèle.
 Les fiches/source et la vue détaillée donnent les dépendances exhaustives ; un accès ou une donnée manquante
 constatée au lancement est inscrit au registre, sans transformer toute attente PBI en statut Bloqué.
 

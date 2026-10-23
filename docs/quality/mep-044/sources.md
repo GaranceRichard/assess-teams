@@ -1,7 +1,7 @@
 # Entrées des preuves — MEP-044
 
 Référence de l’audit : `f327f71` ; correction de hauteur depuis `fd85621` ; SHA-256 du contenu Git (LF) du candidat pour la présentation, les mesures et le refus inter-version.
-Le SHA intégré et sa CI seront consignés après publication.
+SHA intégré : `1e22be2aacc6c63d64c5b27a915eb0c91c6ed673` ; [CI verte](https://github.com/GaranceRichard/assess-teams/actions/runs/39967554796).
 
 | Fichier | SHA-256 |
 | --- | --- |

@@ -9,7 +9,7 @@ Aucun blocage supplémentaire constaté ; les arbitrages métier existants reste
 
 | Repère | PBI et source | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage ou preuve | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 05.01 | [MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) | FEAT-053 — Expérience de notation | XS | À définir | Ouvert | U2 : notes/échelle après cadrage visuel ; prérequis acquis | N/A |
+| 05.01 | [MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) | FEAT-053 — Expérience de notation | XS | À définir | Réalisé | [Audit UX-07 et preuves](../../quality/mep-044/README.md) ; pre-push exhaustif et [CI du SHA `1e22be2`](https://github.com/GaranceRichard/assess-teams/actions/runs/39967554796) verts | 2026-10-23 |
 | 05.02 | [MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) | FEAT-053 — Expérience de notation | S | À définir | Ouvert | U2 : curseur après MEP-044 par choix d’ordre ; prérequis acquis | N/A |
 | 05.03 | [MEP-045 — Confirmer visuellement l’enregistrement de la notation](../source/mess/f05.md) | FEAT-053 — Expérience de notation | XS | À définir | Ouvert | U2 : sauvegarde après curseur par choix d’ordre ; prérequis acquis | N/A |
 | 06.01 | [MEP-014 — Améliorer la hiérarchie visuelle des résultats](../source/mess/f06.md) | FEAT-054 — Résultats et comparaisons | S | À définir | En cours | [Audit, corrections et preuves UX](../../quality/results-hierarchy.md) ; clôture après pre-push et CI verte du SHA publié | N/A |

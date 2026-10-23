@@ -3,10 +3,10 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-22 : 44 Ouverts, 16 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 26 %. Les acquis restent séparés.
+Au 2026-10-23 : 42 Ouverts, 17 Réalisés, 1 En cours, 2 Bloqués ; avancement actif 27 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
-**Prochain : [MEP-044 — Notes et échelle](../source/mess/f05.md)** ; MEP-019/052/053 et les cahiers MEP-067/030 réalisés ; F09 complète.
+**Prochain : [MEP-013 — Curseur et sélection](../source/mess/f05.md)** ; MEP-019/052/053 et les cahiers MEP-067/030 réalisés ; F09 complète.
 MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md).
 
@@ -20,7 +20,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-011 — Sécurité et robustesse | [F02 — FEAT-050 — SQLite en exploitation](../source/mess/f02.md) | 3 / 3 | 100 % |
 | EPIC-011 — Sécurité et robustesse | [F03 — FEAT-051 — Journalisation et conservation](../source/mess/f03.md) | 2 / 2 | 100 % |
 | EPIC-011 — Sécurité et robustesse | [F04 — FEAT-052 — Gouvernance Git et intégration continue](../source/mess/f04.md) | 1 / 2 | 50 % |
-| EPIC-012 — Expérience utilisateur | [F05 — FEAT-053 — Expérience de notation](../source/mess/f05.md) | 0 / 3 | 0 % |
+| EPIC-012 — Expérience utilisateur | [F05 — FEAT-053 — Expérience de notation](../source/mess/f05.md) | 1 / 3 | 33 % |
 | EPIC-012 — Expérience utilisateur | [F06 — FEAT-054 — Résultats et comparaisons](../source/mess/f06.md) | 0 / 4 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F07 — FEAT-055 — Pilotage et tableau de bord](../source/mess/f07.md) | 0 / 2 | 0 % |
 | EPIC-012 — Expérience utilisateur | [F08 — FEAT-056 — Responsive et états d’interaction](../source/mess/f08.md) | 0 / 5 | 0 % |
@@ -58,7 +58,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 
 | Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
 | --- | --- | --- | --- | --- |
-| 05.01 | [MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) | XS | Ouvert — N/A | PASS-001, EVAL-004, MEP-007 |
+| 05.01 | [MEP-044 — Clarifier l’affichage des notes et de leur échelle](../source/mess/f05.md) | XS | Réalisé — 2026-10-23 | PASS-001, EVAL-004, MEP-007 |
 | 05.02 | [MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) | S | Ouvert — N/A | PASS-001, EVAL-004, MEP-005, MEP-007 |
 | 05.03 | [MEP-045 — Confirmer visuellement l’enregistrement de la notation](../source/mess/f05.md) | XS | Ouvert — N/A | PASS-001, MEP-007 |
 | 06.01 | [MEP-014 — Améliorer la hiérarchie visuelle des résultats](../source/mess/f06.md) | S | Ouvert — N/A | RESULT-001, RESULT-002 |

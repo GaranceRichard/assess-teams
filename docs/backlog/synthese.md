@@ -42,7 +42,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
 | EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 11 | 92 % |
-| EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 3 | 18 % |
+| EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 4 | 24 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 2 | 14 % |
 
@@ -114,7 +114,7 @@ La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
 **MEP-067 réalisé : [cahier UX](../quality/ux-acceptance.md)**. [MEP-019 (contrastes clairs)](../quality/light-theme.md), MEP-052 et MEP-053 réalisés : F09 complète.
-Prochain : MEP-044 (notes/échelle), puis corrections notation/résultats/dashboard/responsive/interactions.
+Prochain : MEP-013 (curseur et sélection), puis corrections notation/résultats/dashboard/responsive/interactions.
 En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
 [Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
@@ -130,7 +130,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 16 | 44 | 0 | 2 | 26 % |
+| MESS actif — E01 à E04 | 62 | 17 | 42 | 1 | 2 | 27 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
