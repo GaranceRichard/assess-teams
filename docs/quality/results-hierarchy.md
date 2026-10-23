@@ -1,9 +1,10 @@
 # MEP-014 — Hiérarchie visuelle des résultats
 
-Recette du 2026-10-22 par Codex, selon [F06](../backlog/source/mess/f06.md),
+Recette du 2026-10-22, complétée le 2026-10-23 par Codex, selon [F06](../backlog/source/mess/f06.md),
 [UX-01/02/03/05/09](ux-acceptance.md), [MEP-053](typography.md) et la [DoD](definition-of-done.md).
 Référence avant : `f327f71`. Sources du candidat : [empreintes](mep-014/sources.csv).
-Clôture en attente du pre-push et de la CI du SHA publié.
+Clôturé le 2026-10-23 après publication du SHA `2fbfb9eeba4852e1fd39647cb6b3a7a6226ef502`
+par `npm run publish` et [CI complète verte](https://github.com/GaranceRichard/assess-teams/actions/runs/40031289203).
 
 ## Audit et périmètre corrigé
 
@@ -111,8 +112,12 @@ le pre-push doit revalider le commit figé et resynchronisé avant toute livrais
 Le pre-push du 2026-10-22 valide ensuite 1 434 tests backend, 431 frontend et 79 E2E
 application ; il refuse la démo sur une assertion de cellule restée au format antérieur.
 Le 2026-10-23, cette assertion vérifie séparément le score/date exact et la provenance v1,
-sans modifier l’affichage, les données ni les calculs. Publication et clôture restent conditionnées
-au succès de tous les contrôles requis et de la CI du SHA publié.
+sans modifier l’affichage, les données ni les calculs.
+Le pre-push final, après intégration du correctif MEP-044, valide 1 434 tests backend (97,48 %),
+431 frontend, 84 E2E application et 10 E2E démo. Les seuils de couverture, lint, formatage,
+typecheck, builds, migrations, secrets et contrôles documentaires passent.
+La CI indépendante du SHA publié valide les huit partitions backend, les deux partitions E2E,
+les couvertures fusionnées et le `Required impact gate`. Main local est propre et synchronisé.
 
 Revue documentaire : README annoncé avant code ; contrat de présentation Results actualisé.
 Règles des agents, charte, DoD, stratégie de tests, fondamentaux, contrat API/OpenAPI et cahier UX relus.
@@ -120,6 +125,9 @@ Aucune migration ni modification d’API : nouveaux tests de contrat non applica
 et sécurité restent vérifiés par la campagne conservatrice. Fichiers maintenus ≤ 200 lignes.
 
 Coordination MEP-044 : worktree de notation inspecté en lecture seule ; aucun composant applicatif commun.
-README et registre sont les seuls chevauchements documentaires prévus ; resynchronisation avant publication.
-Le verrou de `publish` sérialise les intégrations sans attendre l’autre PBI.
+README, registre et vues dérivées sont les seuls chevauchements documentaires ; resynchronisation effectuée.
+La première CI MEP-044 a révélé un dialogue de notation trop haut sur Linux. Notre push a été arrêté
+avant envoi, en laissant finir ses tests ; aucun composant de notation n’a été modifié par MEP-014.
+Le correctif MEP-044 `1e22be2`, publié avec sa CI verte, a ensuite été intégré sans conflit.
+Le pre-push a revalidé le candidat figé, puis publié directement sur main sans changement Git/CI ni PR.
 Cette recette ne clôture aucun PBI voisin, aucune recette cible MESS et ne constitue aucun GO global.
