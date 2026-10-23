@@ -1,3 +1,14 @@
+.taking-score-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.75rem;
+  margin-top: 0.55rem;
+}
+.taking-score-caption .taking-label {
+  margin-top: 0;
+}
+
 .taking-scale {
   display: block;
   color: var(--muted);

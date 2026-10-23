@@ -1,6 +1,6 @@
 # Mesures UX-03/07 — MEP-044
 
-2026-10-22, Codex ; Chromium/Windows, Coach fictif, zoom 100 %.
+2026-10-23, Codex ; Chromium/Windows, Coach fictif, zoom 100 %.
 Sources : [empreintes](sources.md). Valeurs composées sur les surfaces rendues, seuil texte 4,5:1.
 840 mesures, 60 paires de rôles/couleurs distinctes ; minimum 5.646:1.
 Chaque combinaison est mesurée en 1280×720, 390×844 et 320×568, sans réponse puis 5/0/10/9.

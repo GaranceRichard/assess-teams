@@ -20,3 +20,17 @@ Les quatre scopes repository/backend/frontend/E2E ont chacun un statut 0 dans le
 Les refus affichés pendant les tests du socle qualité sont les scénarios négatifs attendus ;
 les gates réels terminent sans échec.
 Pre-push, publication et CI du SHA exact restent en attente ; MEP-044 reste ouvert.
+
+## Correction après CI Linux du premier SHA
+
+La [CI `fd85621`](https://github.com/GaranceRichard/assess-teams/actions/runs/39959414795) échoue
+sur deux hauteurs desktop de 612,296875 px, seuil existant `<600` conservé.
+Le contrôle de ligne ajouté à `evaluation-rating-scale` reproduit la cause avant correction :
+`1 failed, 2 passed`, échelle sur une ligne supplémentaire.
+Après l’en-tête compact : `quality:targeted e2e`, sélection `evaluation-rating-scale`,
+`evaluation-taking-layout`, `evaluation-rating-focus` : `12 passed (1.6m)`.
+Le correctif sera republié avec pre-push exhaustif et CI exacte ; aucun gate n’est contourné.
+
+Le contrôle d’accès final à la note utilise ses rectangles de texte rendu, après défilement
+du corps si nécessaire : `quality:targeted e2e e2e/evaluation-rating-scale.spec.ts`,
+`3 passed (39.3s)` ; 840 mesures, minimum 5,646:1. Les styles communs restent inchangés.

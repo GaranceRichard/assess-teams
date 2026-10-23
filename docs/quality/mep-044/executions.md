@@ -1,6 +1,6 @@
 # Exécutions UX-07 — MEP-044
 
-2026-10-22, Codex ; Chromium/Windows, Coach fictif `taking-fixture`, zoom 100 %, Vert.
+2026-10-23, Codex ; Chromium/Windows, Coach fictif `taking-fixture`, zoom 100 %, Vert.
 Candidat : [empreintes exactes](sources.md), comparé à `f327f71`. Aucun identifiant réel ni secret.
 
 | Scénario | Viewport | Thème | Actions et mesures | Preuve | Résultat |

@@ -71,6 +71,13 @@ for (const viewport of [
       .click();
     const dialog = page.getByRole("dialog");
     const slider = dialog.getByRole("slider");
+    if (viewport.width >= 1280) {
+      const label = (await dialog
+        .locator(".taking-content .taking-label")
+        .boundingBox())!;
+      const scale = (await dialog.locator("#score-scale").boundingBox())!;
+      expect(scale.y).toBeLessThan(label.y + label.height);
+    }
     const measurements = [];
     for (const theme of ["day", "night"]) {
       await page.locator("html").evaluate((root, value) => {
@@ -112,6 +119,19 @@ for (const viewport of [
             dialog.getByText("Note enregistrée", { exact: true }),
           ).toBeVisible();
         }
+        await dialog.locator("output").scrollIntoViewIfNeeded();
+        const noteVisible = await dialog
+          .locator("output")
+          .evaluate((element) => {
+            const text = document.createRange();
+            text.selectNodeContents(element);
+            const note = text.getBoundingClientRect();
+            const body = element
+              .closest(".taking-content")!
+              .getBoundingClientRect();
+            return note.top >= body.top && note.bottom <= body.bottom;
+          });
+        expect(noteVisible).toBe(true);
         for (const { value: palette } of palettes) {
           await page.locator("html").evaluate((root, value) => {
             (root as HTMLElement).dataset.palette = value;

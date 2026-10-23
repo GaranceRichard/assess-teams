@@ -25,11 +25,16 @@ export function TakingContentSizing({ run, revision, readonly }: Props) {
                 data-text={`Question ${run.questions.length} / ${run.questions.length}`}
               />
               <h3 className="taking-question-title" data-text={question.text} />
-              <span className="taking-label" data-text="Note de la question" />
-              <span
-                className="taking-scale"
-                data-text="Échelle entière de 0 à 10"
-              />
+              <div className="taking-score-caption">
+                <span
+                  className="taking-label"
+                  data-text="Note de la question"
+                />
+                <span
+                  className="taking-scale"
+                  data-text="Échelle entière de 0 à 10"
+                />
+              </div>
               <span className="taking-range" />
               <div className="appreciation-scale" />
               {marker?.text.trim() && (

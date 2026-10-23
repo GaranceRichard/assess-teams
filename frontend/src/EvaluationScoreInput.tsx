@@ -17,12 +17,14 @@ export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
   const position = score ?? 5;
   return (
     <>
-      <label className="taking-label" htmlFor="evaluation-score">
-        Note de la question
-      </label>
-      <span className="taking-scale" id="score-scale">
-        Échelle entière de 0 à 10
-      </span>
+      <div className="taking-score-caption">
+        <label className="taking-label" htmlFor="evaluation-score">
+          Note de la question
+        </label>
+        <span className="taking-scale" id="score-scale">
+          Échelle entière de 0 à 10
+        </span>
+      </div>
       <input
         className="taking-range"
         id="evaluation-score"

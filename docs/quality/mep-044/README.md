@@ -19,7 +19,7 @@ Chromium sur Windows, zoom 100 %, palette Vert pour les captures, dix palettes p
 | Géométrie | Copies intrinsèques et inertes stabilisent les actions | Même libellé d’échelle et de repère dans les copies ; aucun nouveau scroll |
 
 Modifications applicatives : `EvaluationScoreInput`, `AppreciationScale`,
-`TakingContentSizing` et six lignes dans `evaluation-rating.css`.
+`TakingContentSizing` et les styles de l’en-tête dans `evaluation-rating.css`.
 Aucun calcul, règle métier, contrat API, migration, mécanisme de notation ou persistance modifié.
 Aucun composant/fichier de résultats, configuration Git, hook ou workflow modifié.
 
@@ -38,6 +38,23 @@ Refus réel : finalisation incomplète désactivée et HTTP 400, notes inchangé
 puis réessai dans le parcours de layout ; aucune réponse implicite après focus/navigation.
 Le test de version vérifie l’ancien descriptif v1 après activation de v2, puis le nouveau pour v2.
 
+## Correction de hauteur détectée par la CI
+
+Le 2026-10-23, la [CI du premier SHA `fd85621`](https://github.com/GaranceRichard/assess-teams/actions/runs/39959414795)
+refuse deux cas desktop : hauteur Linux 612,296875 px, au lieu de `<600` dans
+`evaluation-taking-layout`, malgré les campagnes Windows vertes. MEP-044 reste ouvert.
+L’en-tête regroupe maintenant le libellé et l’échelle sur une ligne lorsque la largeur suffit,
+avec retour à la ligne naturel sinon. Les copies de dimensionnement suivent le même contenu.
+Le seuil de 600 px, la typographie, les actions et les règles de scroll restent inchangés.
+Le contrôle de ligne desktop ajouté à `evaluation-rating-scale` échoue avant la correction
+(307,125 attendu strictement inférieur à 307,125), puis passe après.
+Le style local `taking-score-caption` évite les espacements génériques des titres sans modifier
+les styles partagés. Le texte de la note est vérifié intégralement lisible dans le corps visible,
+après le défilement prévu sur petit écran si nécessaire. Les 12 E2E ciblés échelle/layout/focus
+passent ; le contrôle final d’accès à la note et des contrastes passe sur les trois viewports.
+Les captures du 23 octobre montrent ce correctif.
+La confirmation de la hauteur Linux et les nouveaux gates exhaustifs restent attendus avant clôture.
+
 ## Preuves UX et validation
 
 Les mesures/captures de `evaluation-rating-scale.spec.ts` complètent les suites existantes :
@@ -47,8 +64,8 @@ Les états restent distingués par leur texte et les attributs du contrôle, ind
 Le focus clavier et les petits écrans 568×320, 375×667 et 1920×1080 restent couverts par les tests existants.
 Les éléments essentiels doivent rester accessibles par l’unique scroll du corps de la modale.
 
-Le plan exhaustif local passe : 1 434 tests backend (97,48 %), 428 frontend (quatre seuils >90 %),
-82 E2E application et 10 démo ; lint, formatage, typecheck, build et 200 lignes conformes.
+Les campagnes locales initiales passent : 1 434 tests backend (97,48 %), 428 frontend
+(quatre seuils >90 %), 82 E2E application et 10 démo ; leur limite Linux est décrite ci-dessous.
 Les trois contrôles de lisibilité passent ; 840 mesures, minimum 5.646:1.
 Les [exécutions et captures](executions.md) permettent la revue des six combinaisons thème/viewport.
 Les [commandes et résultats](validations.md), [mesures](mesures.md) et
