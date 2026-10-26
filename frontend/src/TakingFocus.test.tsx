@@ -25,6 +25,7 @@ it("restores the explicit opener captured before an async load disabled and blur
   ).toHaveFocus();
   fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
   expect(screen.getByText("Question 2 / 2")).toBeVisible();
+  expect(screen.getByRole("heading", { level: 3 })).toHaveFocus();
   await act(async () => unmount());
   expect(opener).toHaveFocus();
   opener.remove();

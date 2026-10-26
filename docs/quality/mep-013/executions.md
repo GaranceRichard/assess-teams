@@ -1,0 +1,80 @@
+# Exécutions UX-07/08 — MEP-013
+
+2026-10-26, Codex ; Chromium/Windows, palette Vert, données fictives de `taking-fixture.ts`.
+Référence `4492dc8` ; candidat identifié par les [empreintes exactes](sources.md).
+Les dates du 23 octobre concernent la reproduction initiale ; les preuves finales ci-dessous sont du 26 octobre.
+
+| Scénario | Rôle / jeu | Viewport / zoom | Thème / repères | Attendu et observé | Preuves | Résultat |
+| --- | --- | --- | --- | --- | --- | --- |
+| UX-07/08 — mouse | Coach puis Admin / taking-fixture | 1280×720 / 100 % | day, repères false | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/day-mouse-markers-false/unanswered.png), [0](captures/day-mouse-markers-false/zero.png), [5](captures/day-mouse-markers-false/five.png), [7](captures/day-mouse-markers-false/seven.png), [10](captures/day-mouse-markers-false/ten.png), [Reprise](captures/day-mouse-markers-false/resumed-zero.png), [Rév. 0](captures/day-mouse-markers-false/revision-0.png), [Rév. 5](captures/day-mouse-markers-false/revision-5.png), [Rév. 7](captures/day-mouse-markers-false/revision-7.png), [Rév. 10](captures/day-mouse-markers-false/revision-10.png), [400](captures/day-mouse-markers-false/refusal.json) | Passé |
+| UX-07/08 — touch | Coach puis Admin / taking-fixture | 390×844 / 100 % | night, repères true | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/night-touch-markers-true/unanswered.png), [0](captures/night-touch-markers-true/zero.png), [5](captures/night-touch-markers-true/five.png), [7](captures/night-touch-markers-true/seven.png), [10](captures/night-touch-markers-true/ten.png), [Reprise](captures/night-touch-markers-true/resumed-zero.png), [Rév. 0](captures/night-touch-markers-true/revision-0.png), [Rév. 5](captures/night-touch-markers-true/revision-5.png), [Rév. 7](captures/night-touch-markers-true/revision-7.png), [Rév. 10](captures/night-touch-markers-true/revision-10.png), [400](captures/night-touch-markers-true/refusal.json) | Passé |
+| UX-07/08 — mouse | Coach puis Admin / taking-fixture | 1280×720 / 100 % | day, repères true | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/day-mouse-markers-true/unanswered.png), [0](captures/day-mouse-markers-true/zero.png), [5](captures/day-mouse-markers-true/five.png), [7](captures/day-mouse-markers-true/seven.png), [10](captures/day-mouse-markers-true/ten.png), [Reprise](captures/day-mouse-markers-true/resumed-zero.png), [Rév. 0](captures/day-mouse-markers-true/revision-0.png), [Rév. 5](captures/day-mouse-markers-true/revision-5.png), [Rév. 7](captures/day-mouse-markers-true/revision-7.png), [Rév. 10](captures/day-mouse-markers-true/revision-10.png), [400](captures/day-mouse-markers-true/refusal.json) | Passé |
+| UX-07/08 — touch | Coach puis Admin / taking-fixture | 390×844 / 100 % | day, repères true | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/day-touch-markers-true/unanswered.png), [0](captures/day-touch-markers-true/zero.png), [5](captures/day-touch-markers-true/five.png), [7](captures/day-touch-markers-true/seven.png), [10](captures/day-touch-markers-true/ten.png), [Reprise](captures/day-touch-markers-true/resumed-zero.png), [Rév. 0](captures/day-touch-markers-true/revision-0.png), [Rév. 5](captures/day-touch-markers-true/revision-5.png), [Rév. 7](captures/day-touch-markers-true/revision-7.png), [Rév. 10](captures/day-touch-markers-true/revision-10.png), [400](captures/day-touch-markers-true/refusal.json) | Passé |
+| UX-07/08 — touch | Coach puis Admin / taking-fixture | 390×844 / 100 % | day, repères false | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/day-touch-markers-false/unanswered.png), [0](captures/day-touch-markers-false/zero.png), [5](captures/day-touch-markers-false/five.png), [7](captures/day-touch-markers-false/seven.png), [10](captures/day-touch-markers-false/ten.png), [Reprise](captures/day-touch-markers-false/resumed-zero.png), [Rév. 0](captures/day-touch-markers-false/revision-0.png), [Rév. 5](captures/day-touch-markers-false/revision-5.png), [Rév. 7](captures/day-touch-markers-false/revision-7.png), [Rév. 10](captures/day-touch-markers-false/revision-10.png), [400](captures/day-touch-markers-false/refusal.json) | Passé |
+| UX-07/08 — touch | Coach puis Admin / taking-fixture | 390×844 / 100 % | night, repères false | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/night-touch-markers-false/unanswered.png), [0](captures/night-touch-markers-false/zero.png), [5](captures/night-touch-markers-false/five.png), [7](captures/night-touch-markers-false/seven.png), [10](captures/night-touch-markers-false/ten.png), [Reprise](captures/night-touch-markers-false/resumed-zero.png), [Rév. 0](captures/night-touch-markers-false/revision-0.png), [Rév. 5](captures/night-touch-markers-false/revision-5.png), [Rév. 7](captures/night-touch-markers-false/revision-7.png), [Rév. 10](captures/night-touch-markers-false/revision-10.png), [400](captures/night-touch-markers-false/refusal.json) | Passé |
+| UX-07/08 — mouse | Coach puis Admin / taking-fixture | 1280×720 / 100 % | night, repères false | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/night-mouse-markers-false/unanswered.png), [0](captures/night-mouse-markers-false/zero.png), [5](captures/night-mouse-markers-false/five.png), [7](captures/night-mouse-markers-false/seven.png), [10](captures/night-mouse-markers-false/ten.png), [Reprise](captures/night-mouse-markers-false/resumed-zero.png), [Rév. 0](captures/night-mouse-markers-false/revision-0.png), [Rév. 5](captures/night-mouse-markers-false/revision-5.png), [Rév. 7](captures/night-mouse-markers-false/revision-7.png), [Rév. 10](captures/night-mouse-markers-false/revision-10.png), [400](captures/night-mouse-markers-false/refusal.json) | Passé |
+| UX-07/08 — mouse | Coach puis Admin / taking-fixture | 1280×720 / 100 % | night, repères true | Onze nombres centrés et lisibles ; Entrée sans choix ni PUT ; Suivant bloqué ; choix 0–10 relus ; reprise 0/5 ; révision 0/5/7/10, serveur inchangé avant validation puis 7/5 | [Vierge](captures/night-mouse-markers-true/unanswered.png), [0](captures/night-mouse-markers-true/zero.png), [5](captures/night-mouse-markers-true/five.png), [7](captures/night-mouse-markers-true/seven.png), [10](captures/night-mouse-markers-true/ten.png), [Reprise](captures/night-mouse-markers-true/resumed-zero.png), [Rév. 0](captures/night-mouse-markers-true/revision-0.png), [Rév. 5](captures/night-mouse-markers-true/revision-5.png), [Rév. 7](captures/night-mouse-markers-true/revision-7.png), [Rév. 10](captures/night-mouse-markers-true/revision-10.png), [400](captures/night-mouse-markers-true/refusal.json) | Passé |
+
+Chaque ligne correspond à une exécution réelle du test existant `evaluation-explicit-rating`.
+Le tactile est émulé. Les captures ne représentent pas une recette sur appareil physique.
+Une révision réelle commence avec toutes les notes enregistrées ; aucune absence artificielle
+n’est introduite dans une évaluation complète. Les états vierges sont testés en passation,
+et le composant commun conserve la même absence de choix par Entrée.
+
+## Lisibilité de l’échelle et des notes
+
+`evaluation-rating-scale` mesure les couleurs réellement composées, transparences incluses,
+pour les nombres, l’échelle, la note et le repère inférieur ; seuil de texte 4,5:1.
+
+| Viewport | Thème | Mesures sur dix palettes | Ratio minimum | Résultat |
+| --- | --- | ---: | ---: | --- |
+| 390 px | day | 690 | 5.748:1 | Passé |
+| 390 px | night | 690 | 5.646:1 | Passé |
+| 1280 px | day | 690 | 5.748:1 | Passé |
+| 1280 px | night | 690 | 5.646:1 | Passé |
+| 320 px | day | 690 | 5.748:1 | Passé |
+| 320 px | night | 690 | 5.646:1 | Passé |
+
+## Focus, géométrie et zoom
+
+Les quinze scénarios complémentaires passent le 26 octobre, sur les mêmes entrées applicatives.
+
+| Scénario | Viewport / thème | Attendu et observé | Preuve | Résultat |
+| --- | --- | --- | --- | --- |
+| UX-07 focus | 1366x768 / day | Anneau du range ; géométrie stable ; nouvelle question focalisée, Tab sans note ; sélection et focus conservés | [Focus](captures/focus-1366x768-day.png), [navigation](captures/after-navigation-1366x768.png) | Passé |
+| UX-07 focus | 1366x768 / night | Anneau du range ; géométrie stable ; nouvelle question focalisée, Tab sans note ; sélection et focus conservés | [Focus](captures/focus-1366x768-night.png), [navigation](captures/after-navigation-1366x768.png) | Passé |
+| UX-07 focus | 1920x1080 / day | Anneau du range ; géométrie stable ; nouvelle question focalisée, Tab sans note ; sélection et focus conservés | [Focus](captures/focus-1920x1080-day.png), [navigation](captures/after-navigation-1920x1080.png) | Passé |
+| UX-07 focus | 1920x1080 / night | Anneau du range ; géométrie stable ; nouvelle question focalisée, Tab sans note ; sélection et focus conservés | [Focus](captures/focus-1920x1080-night.png), [navigation](captures/after-navigation-1920x1080.png) | Passé |
+| UX-07 focus | 375x667 / day | Anneau du range ; géométrie stable ; nouvelle question focalisée, Tab sans note ; sélection et focus conservés | [Focus](captures/focus-375x667-day.png), [navigation](captures/after-navigation-375x667.png) | Passé |
+| UX-07 focus | 375x667 / night | Anneau du range ; géométrie stable ; nouvelle question focalisée, Tab sans note ; sélection et focus conservés | [Focus](captures/focus-375x667-night.png), [navigation](captures/after-navigation-375x667.png) | Passé |
+| UX-07/08 géométrie | 1366x768 / day | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-1366x768-day.png) | Passé |
+| UX-07/08 géométrie | 1366x768 / night | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-1366x768-night.png) | Passé |
+| UX-07/08 géométrie | 1920x1080 / day | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-1920x1080-day.png) | Passé |
+| UX-07/08 géométrie | 1920x1080 / night | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-1920x1080-night.png) | Passé |
+| UX-07/08 géométrie | 375x667 / day | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-375x667-day.png) | Passé |
+| UX-07/08 géométrie | 375x667 / night | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-375x667-night.png) | Passé |
+| UX-07/08 géométrie | 320x568 / day | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-320x568-day.png) | Passé |
+| UX-07/08 géométrie | 320x568 / night | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-320x568-night.png) | Passé |
+| UX-07/08 géométrie | 568x320 / day | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-568x320-day.png) | Passé |
+| UX-07/08 géométrie | 568x320 / night | Dialogue borné, actions stables, scroll du seul contenu ; refus de sauvegarde et réessai sans perte ; desktop <600 px | [Capture](captures/layout-568x320-night.png) | Passé |
+| UX-07 / UX-05 actions | 1280-720 / day | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-day-1280-720.png) | Passé |
+| UX-07 / UX-05 actions | 1280-720 / night | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-night-1280-720.png) | Passé |
+| UX-07 / UX-05 actions | 1280-480 / day | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-day-1280-480.png) | Passé |
+| UX-07 / UX-05 actions | 1280-480 / night | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-night-1280-480.png) | Passé |
+| UX-07 / UX-05 actions | 390-844 / day | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-day-390-844.png) | Passé |
+| UX-07 / UX-05 actions | 390-844 / night | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-night-390-844.png) | Passé |
+| UX-07 / UX-05 actions | 320-568 / day | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-day-320-568.png) | Passé |
+| UX-07 / UX-05 actions | 320-568 / night | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-night-320-568.png) | Passé |
+| UX-07 / UX-05 actions | 568-320 / day | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-day-568-320.png) | Passé |
+| UX-07 / UX-05 actions | 568-320 / night | Suivant et Fermer dans le viewport, focus atteignable, document sans débordement horizontal | [Capture](captures/taking-night-568-320.png) | Passé |
+| UX-07 / UX-05 zoom natif | 1280×720, 100/200/100 % / day | À 200 % : 640×360 CSS et DPR 2 ; onze chiffres lisibles ; Enregistrer/Suivant/Fermer atteints ; note 5 et focus conservés, aucun PUT de navigation | [100 %](zoom/day-1.png), [200 %](zoom/day-2.png), [18 mesures](zoom/measurements.jsonl) | Passé |
+| UX-07 / UX-05 zoom natif | 1280×720, 100/200/100 % / night | À 200 % : 640×360 CSS et DPR 2 ; onze chiffres lisibles ; Enregistrer/Suivant/Fermer atteints ; note 5 et focus conservés, aucun PUT de navigation | [100 %](zoom/night-1.png), [200 %](zoom/night-2.png), [18 mesures](zoom/measurements.jsonl) | Passé |
+
+Le scénario de texte long passe avec un unique scroll et les actions visibles : [capture](captures/layout-long-question.png).
+`appreciation-markers` et `evaluation-versions` passent : points passifs, repère inférieur et ancien
+snapshot v1 conservé après activation de v2 ; le nouveau run reçoit le snapshot v2.
+Les captures `before-navigation-*` proviennent de `4492dc8` : absence de nombres et aide Entrée : 5.
+Les confirmations de sauvegarde restent celles du parcours existant, sans modification MEP-045.
+La limite Linux <600 px reste un gate du SHA publié ; les succès locaux ci-dessus sont Windows.
+Les captures ont été relues : chiffres non rognés, choix souligné/renforcé, absence distincte de zéro,
+focus visible et actions atteignables. Ces preuves ne constituent ni une certification normative, ni un GO MESS.

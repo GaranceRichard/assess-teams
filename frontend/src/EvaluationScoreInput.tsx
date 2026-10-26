@@ -11,6 +11,7 @@ type Props = {
 
 export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
   const pointerStarted = useRef(false);
+  const range = useRef<HTMLInputElement>(null);
   const { score, appreciation_markers: markers = [] } = question;
   const appreciation = appreciationForScore(markers, score)?.text;
   // A native range needs a numeric position; it is not an answer until selected.
@@ -25,7 +26,32 @@ export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
           Échelle entière de 0 à 10
         </span>
       </div>
+      <div
+        className="taking-score-values"
+        role="group"
+        aria-label="Notes de 0 à 10"
+      >
+        {Array.from({ length: 11 }, (_, value) => (
+          <button
+            key={value}
+            type="button"
+            className="taking-score-value"
+            style={{ left: `${value * 10}%` }}
+            aria-label={`Choisir la note ${value} sur 10`}
+            aria-pressed={score === value}
+            tabIndex={-1}
+            disabled={disabled}
+            onClick={() => {
+              onSelect(value);
+              range.current?.focus();
+            }}
+          >
+            {value}
+          </button>
+        ))}
+      </div>
       <input
+        ref={range}
         className="taking-range"
         id="evaluation-score"
         type="range"
@@ -55,6 +81,10 @@ export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
           pointerStarted.current = false;
         }}
         onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            return;
+          }
           if (disabled || score !== null) return;
           const initialScores: Record<string, number> = {
             Home: 0,
@@ -65,8 +95,6 @@ export function EvaluationScoreInput({ question, disabled, onSelect }: Props) {
             ArrowUp: 6,
             PageDown: 4,
             PageUp: 6,
-            Enter: 5,
-            " ": 5,
           };
           const selected = initialScores[event.key];
           if (selected === undefined) return;

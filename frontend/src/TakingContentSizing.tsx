@@ -35,6 +35,7 @@ export function TakingContentSizing({ run, revision, readonly }: Props) {
                   data-text="Échelle entière de 0 à 10"
                 />
               </div>
+              <div className="taking-score-values" />
               <span className="taking-range" />
               <div className="appreciation-scale" />
               {marker?.text.trim() && (
@@ -49,7 +50,7 @@ export function TakingContentSizing({ run, revision, readonly }: Props) {
               />
               <p
                 className="taking-status"
-                data-text="Choisissez une note avec le curseur (Entrée : 5)."
+                data-text="Choisissez une note de 0 à 10."
               />
               {!readonly && !revision && (
                 <span

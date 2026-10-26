@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0 0.75rem;
-  margin-top: 0.55rem;
+  margin-top: 0;
 }
 .taking-score-caption .taking-label {
   margin-top: 0;
@@ -13,6 +13,37 @@
   display: block;
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.taking-score-values {
+  position: relative;
+  height: 1.5rem;
+  margin-inline: calc(var(--rating-thumb-size) / 2);
+}
+.taking-dialog .taking-score-values .taking-score-value {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  width: 10%;
+  max-width: 2rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.2rem;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+}
+.taking-score-values .taking-score-value[aria-pressed="true"] {
+  color: var(--accent-text);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+.taking-score-value:disabled {
+  opacity: 1;
+  cursor: default;
 }
 
 .taking-dialog .taking-range {

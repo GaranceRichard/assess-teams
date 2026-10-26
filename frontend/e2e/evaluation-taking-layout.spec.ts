@@ -152,7 +152,7 @@ test("long question and description use only the body scroll and retain visible 
     .click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.locator(".selected-appreciation")).toHaveCount(0);
-  await dialog.getByRole("slider").press("Enter");
+  await dialog.getByRole("slider").press("Home");
   await expect(dialog.locator(".selected-appreciation")).toBeVisible();
   const initial = await geometry(dialog);
   const content = dialog.locator(".taking-content");

@@ -87,6 +87,10 @@
 .taking-dialog .taking-question-title {
   margin: 0.75rem 0;
 }
+.taking-question-title:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
 .taking-label {
   display: block;
   margin-top: 0.55rem;
@@ -99,8 +103,8 @@
   align-items: stretch;
   gap: 0.75rem;
   flex: 0 0 auto;
-  padding-top: 0.75rem;
-  margin-top: 0.75rem;
+  padding-top: 0.25rem;
+  margin-top: 0.25rem;
   border-top: 1px solid var(--border);
 }
 .taking-dialog::backdrop {

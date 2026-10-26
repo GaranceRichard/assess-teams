@@ -45,7 +45,9 @@ test("taking protects pending and refused scores from Escape, retries and restor
   await expect(
     dialog.getByRole("button", { name: "Enregistrer la note" }),
   ).toBeDisabled();
-  await dialog.getByRole("slider").focus();
+  await dialog
+    .getByRole("button", { name: "Choisir la note 5 sur 10" })
+    .focus();
   await page.keyboard.press("Enter");
   await request;
   await page.keyboard.press("Escape");

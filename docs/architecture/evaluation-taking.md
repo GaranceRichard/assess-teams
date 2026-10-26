@@ -82,11 +82,14 @@ La finalisation attend la confirmation des sauvegardes ; une révision est valid
 « Échelle entière de 0 à 10 » reste visible et fait partie de la description accessible du curseur,
 même avant toute sélection. Une question sans réponse affiche « Aucune note sélectionnée », sans poignée ni descriptif sélectionné.
 Le range natif conserve une position technique médiane, sans valeur métier : seul un geste de sélection
-(clic/toucher sur la piste, déplacement ou clavier) enregistre une note. Un clic au milieu choisit 5 ;
-Entrée/Espace choisissent explicitement 5 au clavier, Home choisit 0 et End choisit 10.
-Le focus, l’ouverture, la fermeture et « Suivant » ne sélectionnent aucune note. Une question peut être
-parcourue sans réponse et reste `null` lors de la reprise ; zéro et cinq enregistrés sont préservés.
-« Enregistrer la note » reste désactivé tant qu’aucune note n’est choisie. La navigation et la fermeture
+(clic/toucher sur la piste ou sur un nombre, déplacement ou flèches clavier) enregistre une note.
+Les onze nombres 0–10 restent visibles au-dessus de la piste, alignés sur le centre de la poignée ;
+le nombre choisi est souligné, renforcé et signalé par `aria-pressed`. Les points de repère restent passifs.
+Le curseur demeure l'entrée clavier unique : Home choisit 0, End choisit 10 et les flèches ajustent la note.
+Entrée/Espace sur le curseur, le focus, l'ouverture et la fermeture ne choisissent aucune note.
+Une réponse absente reste `null` à la reprise ; les notes enregistrées, dont zéro, sont restaurées.
+« Enregistrer la note » et « Suivant » restent désactivés sans réponse explicite à la question courante.
+Ce garde d'interface ne modifie pas les validations métier ou API. La navigation et la fermeture
 attendent les sauvegardes explicites ; un refus conserve la saisie et exige une nouvelle sauvegarde.
 La finalisation reste indisponible et refusée par l’API si une question n’est pas renseignée.
 Le tableau distingue « Assigné à » de « Rempli par » et indique « Révisé par [ADMIN] le [date/heure] ».
@@ -125,6 +128,11 @@ Les erreurs remplacent le statut de sauvegarde dans sa zone dédiée ; elles ne 
 Seul le contenu actif défile verticalement lorsque nécessaire ; titre et actions restent visibles.
 Questions et descriptifs s’écoulent naturellement sans ascenseur propre. La zone de contenu est
 remontée au changement de question. Les contenus ordinaires tiennent sans défilement sur desktop.
+Après Précédent/Suivant, le titre de la nouvelle question reçoit le focus ; Tab rejoint le
+curseur sans sélectionner de note. Son contour clavier est visible, sans changer la géométrie.
+L'ouverture garde le focus initial de la modale ; noter/sauvegarder conserve celui du curseur.
+L'[audit MEP-013 et ses preuves UX-07](../quality/mep-013/README.md) qualifie clavier,
+souris/tactile, reprise, formats UX et zoom navigateur natif, avec snapshots MEP-044 conservés.
 
 ## Preuves de notation explicite — MEP-007
 

@@ -43,6 +43,8 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
   const slider = page.getByRole("slider");
   await expect(page.locator(".selected-appreciation")).toHaveCount(0);
   await slider.press("Enter");
+  await expect(page.locator(".selected-appreciation")).toHaveCount(0);
+  await page.getByRole("button", { name: "Choisir la note 5 sur 10" }).click();
   await expect(page.locator(".selected-appreciation")).toContainText(original);
   await expect(page.getByRole("dialog")).not.toContainText(
     "Brouillon fictif distinct",

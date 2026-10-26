@@ -22,6 +22,10 @@ for (const theme of ["day", "night"]) {
       .click();
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
+    await dialog.getByRole("slider").press("Home");
+    await expect(
+      dialog.getByText("Note enregistrée", { exact: true }),
+    ).toBeVisible();
     for (const size of [
       { width: 1280, height: 720 },
       { width: 1280, height: 480 },

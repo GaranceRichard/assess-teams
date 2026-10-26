@@ -88,5 +88,33 @@ for (const viewport of [
         expect(dot.y).toBeGreaterThan(range.y + range.height / 2 + 3);
       }
     }
+    const next = dialog.getByRole("button", { name: "Suivant" });
+    await next.focus();
+    await next.press("Enter");
+    await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+    await dialog.screenshot({
+      path: testInfo.outputPath("question-navigation.png"),
+    });
+    await expect(dialog.getByRole("heading", { level: 3 })).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(slider).toBeFocused();
+    await expect(slider).toHaveAttribute("data-unanswered", "true");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Aucune note sélectionnée",
+    );
+    await slider.press("Home");
+    await expect(
+      dialog.getByText("Note enregistrée", { exact: true }),
+    ).toBeVisible();
+    await expect(slider).toBeFocused();
+    await expect(slider).toHaveValue("0");
+    const previous = dialog.getByRole("button", { name: "Précédent" });
+    await previous.focus();
+    await previous.press("Enter");
+    await expect(dialog.getByRole("heading", { level: 3 })).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(slider).toBeFocused();
+    await expect(slider).toHaveValue("5");
   });
 }

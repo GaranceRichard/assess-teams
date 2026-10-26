@@ -47,8 +47,10 @@ Les niveaux occupés sont indisponibles à l’ajout ; aucune sélection par dé
 repères dont le descriptif est explicitement renseigné. Leur position proportionnelle tient compte
 de la largeur du curseur aux deux extrémités. Les valeurs intermédiaires ne portent aucun point.
 Aucun effet visuel, infobulle, descriptif, focus clavier ou sélection n’est ajouté au survol/clic.
-Le curseur reste l’unique contrôle de saisie : toutes les notes entières 0–10 sont disponibles au
-clavier, à la souris et au toucher, avec les mêmes sauvegardes et permissions.
+Le composant de notation conserve le range clavier et affiche les onze nombres 0–10 au-dessus
+de la piste. Ces nombres sont sélectionnables au clic/toucher, indépendamment des points de repère
+passifs ; la note choisie est signalée visuellement et par `aria-pressed`. Sauvegardes et permissions
+restent identiques ; Entrée sur un curseur sans réponse ne sélectionne aucune valeur.
 Le descriptif persistant sous le curseur et sa valeur accessible utilisent le repère inférieur
 renseigné le plus proche : 6 affiche le texte de 5 entre les repères 5 et 7, tout en enregistrant 6.
 Le libellé « Repère 5 / 10 » identifie cette borne réelle ; « Note sélectionnée : 6 / 10 »

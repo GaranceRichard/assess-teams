@@ -69,6 +69,7 @@ export function useEvaluationTaking(
   }
 
   async function next() {
+    if (!readonly && question.score === null) return;
     setAdvancing(true);
     try {
       if (!readonly && unsaved && question.score !== null) {

@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import { TakingContentSizing } from "./TakingContentSizing";
 import { EvaluationScoreInput } from "./EvaluationScoreInput";
 import { referenceLabel } from "./evaluationVersionLabel";
@@ -36,6 +37,15 @@ export function EvaluationTakingDialog({
     next,
     submit,
   } = useEvaluationTaking(run, revision, onClose);
+  const questionTitle = useRef<HTMLHeadingElement>(null);
+  const previousQuestion = useRef(question?.question_id);
+
+  useLayoutEffect(() => {
+    if (previousQuestion.current !== question?.question_id) {
+      previousQuestion.current = question?.question_id;
+      questionTitle.current?.focus();
+    }
+  }, [question?.question_id]);
 
   return (
     <dialog
@@ -68,7 +78,12 @@ export function EvaluationTakingDialog({
               <p className="question-position" aria-live="polite">
                 Question {position + 1} / {current.questions.length}
               </p>
-              <h3 id="question-text" className="taking-question-title">
+              <h3
+                ref={questionTitle}
+                id="question-text"
+                className="taking-question-title"
+                tabIndex={-1}
+              >
                 {question.text}
               </h3>
               <EvaluationScoreInput
@@ -87,7 +102,7 @@ export function EvaluationTakingDialog({
                     : unsaved
                       ? "Note non sauvegardée"
                       : question.score === null
-                        ? "Choisissez une note avec le curseur (Entrée : 5)."
+                        ? "Choisissez une note de 0 à 10."
                         : revision
                           ? "Note à valider"
                           : "Note enregistrée")}
@@ -128,7 +143,10 @@ export function EvaluationTakingDialog({
               Précédent
             </button>
             {position < current.questions.length - 1 ? (
-              <button disabled={saving} onClick={() => void next()}>
+              <button
+                disabled={saving || (!readonly && question.score === null)}
+                onClick={() => void next()}
+              >
                 <span>Suivant</span>
               </button>
             ) : (

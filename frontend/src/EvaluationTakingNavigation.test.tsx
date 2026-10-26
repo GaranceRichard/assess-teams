@@ -14,7 +14,7 @@ beforeEach(() => {
   api.saveEvaluationScore.mockResolvedValue(undefined);
 });
 
-it("leaves unanswered questions null when focusing, navigating and closing", () => {
+it("refuses Enter and forward navigation without an explicit score", () => {
   const onClose = vi.fn();
   render(
     <EvaluationTakingDialog
@@ -33,15 +33,16 @@ it("leaves unanswered questions null when focusing, navigating and closing", () 
     /Échelle entière de 0 à 10/,
   );
   fireEvent.focus(screen.getByRole("slider"));
+  fireEvent.keyDown(screen.getByRole("slider"), { key: "Enter" });
+  fireEvent.keyDown(screen.getByRole("slider"), { key: " " });
+  expect(screen.getByText("Aucune note sélectionnée")).toBeVisible();
+  expect(screen.queryByText(/Entrée : 5/)).toBeNull();
   expect(
     screen.getByRole("button", { name: "Enregistrer la note" }),
   ).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Suivant" })).toBeDisabled();
   fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
-  expect(screen.getByText("Question 2 / 2")).toBeVisible();
-  expect(
-    screen.getByRole("button", { name: "Valider l’évaluation" }),
-  ).toBeDisabled();
-  fireEvent.click(screen.getByRole("button", { name: "Précédent" }));
+  expect(screen.getByText("Question 1 / 2")).toBeVisible();
   expect(screen.getByText("Aucune note sélectionnée")).toBeVisible();
   fireEvent.click(screen.getByRole("button", { name: "Fermer" }));
   expect(onClose).toHaveBeenCalledWith(evaluationRunFixture);
@@ -50,8 +51,6 @@ it("leaves unanswered questions null when focusing, navigating and closing", () 
 });
 
 it.each([
-  ["Enter", 5],
-  [" ", 5],
   ["Home", 0],
   ["End", 10],
   ["ArrowRight", 6],
@@ -91,7 +90,7 @@ it("does not infer an answer from unrelated keys or cancelled pointer gestures",
   expect(screen.getByText("Aucune note sélectionnée")).toBeVisible();
 });
 
-it("preserves resumed zero and five scores, skips a gap, and requires that gap for completion", async () => {
+it("restores zero and five and prevents advancing past an unanswered gap", async () => {
   const onClose = vi.fn();
   const run = {
     ...evaluationRunFixture,
@@ -110,12 +109,9 @@ it("preserves resumed zero and five scores, skips a gap, and requires that gap f
     <EvaluationTakingDialog run={run} revision={false} onClose={onClose} />,
   );
   expect(screen.getByText("Question 2 / 3")).toBeVisible();
+  expect(screen.getByRole("button", { name: "Suivant" })).toBeDisabled();
   fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
-  expect(screen.getByText("Note sélectionnée : 5 / 10")).toBeVisible();
-  expect(
-    screen.getByRole("button", { name: "Valider l’évaluation" }),
-  ).toBeDisabled();
-  fireEvent.click(screen.getByRole("button", { name: "Précédent" }));
+  expect(screen.getByText("Question 2 / 3")).toBeVisible();
   fireEvent.click(screen.getByRole("button", { name: "Précédent" }));
   expect(screen.getByText("Note sélectionnée : 0 / 10")).toBeVisible();
   expect(api.saveEvaluationScore).not.toHaveBeenCalled();

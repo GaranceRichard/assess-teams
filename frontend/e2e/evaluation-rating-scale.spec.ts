@@ -7,7 +7,9 @@ import { seedTakingContext } from "./taking-fixture";
 
 async function ratingColors(dialog: Locator) {
   return dialog
-    .locator(".taking-scale, .taking-output, .selected-appreciation")
+    .locator(
+      ".taking-scale, .taking-output, .selected-appreciation, .taking-score-value",
+    )
     .evaluateAll((elements) => {
       const canvas = document.createElement("canvas");
       canvas.width = canvas.height = 1;
@@ -86,13 +88,17 @@ for (const viewport of [
       // The second question is still unanswered when auditing the second theme.
       for (const [key, score, marker] of [
         [null, null, null],
-        ["Enter", 5, 5],
+        ["5", 5, 5],
         ["Home", 0, 0],
         ["End", 10, 10],
         ["ArrowLeft", 9, 7],
       ] as const) {
         await slider.focus();
-        if (key) await slider.press(key);
+        if (key === "5")
+          await dialog
+            .getByRole("button", { name: "Choisir la note 5 sur 10" })
+            .click();
+        else if (key) await slider.press(key);
         await expect(slider).toHaveAttribute("min", "0");
         await expect(slider).toHaveAttribute("max", "10");
         await expect(slider).toHaveAttribute("step", "1");

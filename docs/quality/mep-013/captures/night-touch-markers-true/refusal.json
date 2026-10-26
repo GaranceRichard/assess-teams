@@ -1,0 +1,6 @@
+{
+  "status": 400,
+  "body": [
+    "Toutes les questions doivent avoir une note valide."
+  ]
+}
