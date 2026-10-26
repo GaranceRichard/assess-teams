@@ -72,6 +72,17 @@ La palette de recette a été fixée explicitement pour éviter l’héritage d�
 Le zoom natif et les dix palettes ne sont pas une nouvelle recette MEP-046 ; les acquis
 MEP-014 sont préservés et les tests existants restent dans le gate, sans certification globale UX.
 
+## Stabilisation du test transversal
+
+Le diagnostic application du 2026-10-26 donne 84 succès et un refus reproductible
+sur `typography` sombre, dans Planification avant les Résultats : le dernier contrôle
+change pendant l’arrivée de la collection et l’assertion de focus vise alors un autre élément.
+Le correctif préparé puis repris à la demande de l’utilisateur attend uniquement la présence
+de `.planning-workspace .collection-frame` avant les attentes de chargement existantes.
+Les deux thèmes passent dans la copie temporaire ; aucune assertion, aucun délai ni seuil
+n’est affaibli. Aucun composant applicatif hors Résultats n’est modifié.
+Le fichier partagé `typography-evidence.ts` n’a aucune modification concurrente dans MEP-013.
+
 ## Validation et DoD
 
 - Tests ciblés React : 5 fichiers, 22 tests passants ; lint, formatage et typecheck passent.

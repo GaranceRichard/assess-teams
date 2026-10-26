@@ -95,6 +95,10 @@ export async function openTypographyRoute(page: Page, route: string) {
     gap,
     "The page heading must not overlap its eyebrow",
   ).toBeGreaterThanOrEqual(0);
+  if (route === "planning")
+    await expect(
+      page.locator(".planning-workspace .collection-frame"),
+    ).toBeVisible();
   await expect(
     page.locator(
       ".collection-frame[aria-busy=true], .dashboard-activity-card[aria-busy=true]",
