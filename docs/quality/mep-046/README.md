@@ -1,8 +1,9 @@
 # MEP-046 — Clarifier les scores et les indicateurs
 
 Recette ciblée [UX-09](../ux-acceptance.md), réalisée le 2026-10-23 par Codex.
-Référence auditée : `4492dc8` (MEP-014). Candidat : fichiers de cette livraison ;
-la clôture et le SHA publié seront consignés après les gates et la CI verte.
+Référence auditée : `4492dc8` (MEP-014). Reprise et clôture le 2026-10-26.
+SHA applicatif publié : `381a28978b14f9e9aae32add4fe0ed3a30ad46fa`,
+[CI verte, tentative 2](https://github.com/GaranceRichard/assess-teams/actions/runs/40377175239).
 
 ## Audit et corrections limitées
 
@@ -45,6 +46,12 @@ exécuté sans correction ; les [après correspondants](after/longitudinal-light
 reprennent la même fixture, le viewport 1280 × 720 et la palette bleue du scénario.
 Les identifiants de passation varient avec la base jetable ; scores et dates métier restent identiques.
 Ce ne sont pas des comparaisons automatiques pixel à pixel.
+
+Les captures versionnées datent du 2026-10-23 et documentent le candidat initial.
+Les captures finales du SHA publié sont livrées dans `MEP-046-preuves-381a289.zip` :
+47 PNG (40 de recette, 7 de démo), 32 mesures, SHA source et manifeste avec empreintes.
+SHA-256 de l’archive : `f0b818c40db494495eeae0575284542dbf0d4827c306de2cb5780738f6b5993f`.
+Archive externe conservée après nettoyage du worktree ; aucun journal, cookie ni trace brute.
 
 La recette finale `results-score-reading` fixe explicitement Vert puis les deux thèmes :
 1280 × 720, 1920 × 1080, 1280 × 480, 390 × 844 ; zoom 100 %.
@@ -89,17 +96,26 @@ Le fichier partagé `typography-evidence.ts` n’a aucune modification concurren
 - Tests ciblés React : 5 fichiers, 22 tests passants ; lint, formatage et typecheck passent.
 - E2E : résultats, historique, longitudinal, Viewer et recette UX-09 exécutés ;
   le test de géométrie passe sur le candidat corrigé, sans seuil affaibli.
-- Le plan du diff exige un exhaustif conservateur (captures et preuves non classifiables).
-  Le gate de publication doit donc valider backend, frontend, application et démo.
+- Pre-push exhaustif du SHA publié : 1 434 tests backend, couverture 97,48 % ;
+  433 tests frontend ; couverture instructions 96,36 %, branches 94,79 %,
+  fonctions 96,54 %, lignes 97,28 % ; 97 E2E application et 10 E2E démo passants.
+  Lint, formatage, build/typecheck, sécurité, migrations et limite de 200 lignes passent.
+- CI indépendante exhaustive verte sur ce même SHA : huit partitions backend,
+  couverture globale, deux partitions E2E, frontend et Required impact gate.
+  La tentative 1 échouait sur `test_operational_contention[apis_release-production]`
+  (verrou SQLite) ; la tentative 2 passe, sans changement du code ni des seuils.
 - Revue documentaire : README annoncé avant code puis intégré au paragraphe Résultats
   pour respecter les 200 lignes ; règles agents, charte, DoD, stratégie de tests,
   fondamentaux, API/OpenAPI et cahier UX relus ; contrat de présentation Results actualisé.
 - Aucune modification backend, migration ou contrat : nouveaux tests de contrat non applicables.
   Les contrats et refus existants restent couverts par les gates requis.
 - Coordination MEP-013 : worktree inspecté en lecture seule ; aucun fichier applicatif commun.
-  README et suivi du backlog sont les seuls chevauchements documentaires possibles,
-  à réconcilier avec le dernier origin/main via le circuit `npm run publish`.
+  Intégration resynchronisée sur `ee50313` (correctif MEP-013 à CI verte).
+  README et suivi du backlog sont les seuls chevauchements documentaires ;
+  la clôture est resynchronisée sur `f90f1d5` (clôture MEP-013) via `npm run publish`.
+  Les conflits du suivi partagé sont réconciliés : 20 MESS réalisés, aucun en cours.
 - Aucun changement Git, hooks, scripts de validation, CI, composant de notation ni PR.
 
-Livraison non clôturée tant que le pre-push, la CI du SHA publié et la synchronisation sûre
-ne sont pas confirmés. Cette recette ne clôture aucun PBI voisin ni aucun GO MESS.
+MEP-046 est Réalisé dans le registre après pre-push et CI applicative verts,
+avec main principal propre et synchronisé au SHA publié. La publication documentaire
+reste soumise à son propre gate CI. Aucun PBI voisin ni GO MESS n’est clôturé ici.
