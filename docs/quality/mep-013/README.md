@@ -8,17 +8,17 @@ Chromium/Windows, Coach fictif de `taking-fixture.ts`, palette Vert, deux thème
 
 ## Audit et correction proportionnée
 
-| Capacité | Constat sur la référence | Décision |
-| --- | --- | --- |
-| Sélection explicite | `null` distinct de 0/5, mais Entrée/Espace choisissent 5 et l'aide « Entrée : 5 » l'annonce | Supprimer ce choix et cette aide ; focus/Entrée/Espace sans écriture ; Enregistrer reste désactivé sans réponse |
-| Valeurs numériques | Aucun nombre permanent au-dessus de la piste | Afficher onze choix 0–10 centrés sur les positions du range ; clic/toucher, état choisi souligné, renforcé et accessible |
-| Focus de navigation | Suivant sur la dernière question ou Précédent sur la première supprime/désactive le contrôle actif ; le repli revient au titre général | Focaliser le titre de la nouvelle question après changement effectif ; Tab rejoint le curseur sans réponse implicite |
-| Focus du curseur | Anneau clavier sur la poignée ; piste signalée sans note ; aucun déplacement de géométrie | Conserver les styles MEP-044 et le contrôle natif |
-| Souris et tactile | Aucun survol indispensable ; 0/5/10 et reprise déjà acquis | Compléter le parcours existant avec les onze notes au clic/toucher et leur valeur serveur |
-| Progression | Suivant peut sauter une question sans réponse | Désactiver Suivant sans note explicite ; conserver la reprise sur la première absence et les notes déjà enregistrées |
-| Géométrie | Copies inertes et un seul corps défilant, actions fixes | Inclure la ligne numérique dans les copies, reprendre l'espace des marges et conserver le seuil Linux <600 px |
-| Refus sans repères | Le candidat intermédiaire `3cee9e5` gagne 24 px sur un refus mobile ; pied de dialogue déplacé de 12 px | Réserver la taille intrinsèque des messages réels dans la zone de statut et les copies, sans changer leur texte ou leur annonce |
-| Repères et snapshots | Borne inférieure explicite, points passifs et version historique | Réutiliser les tests de repères, d'échelle et de versionnement |
+| Capacité             | Constat sur la référence                                                                                                               | Décision                                                                                                                        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Sélection explicite  | `null` distinct de 0/5, mais Entrée/Espace choisissent 5 et l'aide « Entrée : 5 » l'annonce                                            | Supprimer ce choix et cette aide ; focus/Entrée/Espace sans écriture ; Enregistrer reste désactivé sans réponse                 |
+| Valeurs numériques   | Aucun nombre permanent au-dessus de la piste                                                                                           | Afficher onze choix 0–10 centrés sur les positions du range ; clic/toucher, état choisi souligné, renforcé et accessible        |
+| Focus de navigation  | Suivant sur la dernière question ou Précédent sur la première supprime/désactive le contrôle actif ; le repli revient au titre général | Focaliser le titre de la nouvelle question après changement effectif ; Tab rejoint le curseur sans réponse implicite            |
+| Focus du curseur     | Anneau clavier sur la poignée ; piste signalée sans note ; aucun déplacement de géométrie                                              | Conserver les styles MEP-044 et le contrôle natif                                                                               |
+| Souris et tactile    | Aucun survol indispensable ; 0/5/10 et reprise déjà acquis                                                                             | Compléter le parcours existant avec les onze notes au clic/toucher et leur valeur serveur                                       |
+| Progression          | Suivant peut sauter une question sans réponse                                                                                          | Désactiver Suivant sans note explicite ; conserver la reprise sur la première absence et les notes déjà enregistrées            |
+| Géométrie            | Copies inertes et un seul corps défilant, actions fixes                                                                                | Inclure la ligne numérique dans les copies, reprendre l'espace des marges et conserver le seuil Linux <600 px                   |
+| Refus sans repères   | Le candidat intermédiaire `3cee9e5` gagne 24 px sur un refus mobile ; pied de dialogue déplacé de 12 px                                | Réserver la taille intrinsèque des messages réels dans la zone de statut et les copies, sans changer leur texte ou leur annonce |
+| Repères et snapshots | Borne inférieure explicite, points passifs et version historique                                                                       | Réutiliser les tests de repères, d'échelle et de versionnement                                                                  |
 
 La correction reste dans Notation : `EvaluationScoreInput`, `EvaluationTakingDialog`,
 `useEvaluationTaking`, `TakingContentSizing`, `TakingStatusSizing` et leurs deux feuilles de style.
@@ -94,3 +94,9 @@ Nouveaux tests backend/API et migrations non applicables : aucune modification d
 Les validations calculées par le dépôt restent bloquantes, avec les seuils de couverture
 des campagnes complètes, lint, formatage, typecheck, build, sécurité et limite de 200 lignes.
 La livraison reste en cours jusqu'au pre-push, au push direct et à la CI verte du SHA publié.
+
+Le premier SHA publié `d0e37c0` a passé tous les gates locaux mais échoué en CI Linux
+sur la hauteur desktop et un défilement induit par le focus mobile. Les marges locales
+sont ajustées, sans réduction des contrôles ni assouplissement de la recette ; voir les
+[mesures de polices](font-metrics.json) et le détail dans [validations.md](validations.md).
+La clôture attend la CI verte du correctif publié.

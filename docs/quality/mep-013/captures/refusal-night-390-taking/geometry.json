@@ -8,31 +8,31 @@
   "before": {
     "dialog": {
       "x": 8,
-      "y": 151.640625,
+      "y": 161.65625,
       "width": 374,
-      "height": 540.71875
+      "height": 520.6875
     },
     "footer": {
       "x": 21,
-      "y": 574.796875,
+      "y": 564.78125,
       "width": 348,
       "height": 104.5625
     },
-    "noteActionOffset": 325.96875
+    "noteActionOffset": 305.9375
   },
   "refused": {
     "dialog": {
       "x": 8,
-      "y": 151.640625,
+      "y": 161.65625,
       "width": 374,
-      "height": 540.71875
+      "height": 520.6875
     },
     "footer": {
       "x": 21,
-      "y": 574.796875,
+      "y": 564.78125,
       "width": 348,
       "height": 104.5625
     },
-    "noteActionOffset": 325.96875
+    "noteActionOffset": 305.9375
   }
 }

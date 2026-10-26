@@ -80,12 +80,12 @@
   content: attr(data-text);
   white-space: pre-wrap;
 }
-.taking-content > p,
-.taking-size-copy > p {
-  margin: 0.35rem 0;
+.taking-dialog .taking-content > p,
+.taking-dialog .taking-size-copy > p {
+  margin: 0.2rem 0;
 }
 .taking-dialog .taking-question-title {
-  margin: 0.75rem 0;
+  margin: 0.5rem 0;
 }
 .taking-question-title:focus-visible {
   outline: 2px solid var(--focus);

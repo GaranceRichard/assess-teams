@@ -91,3 +91,26 @@ push direct de la branche dédiée vers main, fast-forward sûr puis attente de 
 Les résultats complets et le SHA sont ajoutés après leur réussite ; aucune clôture anticipée.
 
 La sélection de refus avec assertion du thème réel et capture du message visible passe aussi : 8 tests en 55,4 s.
+
+## Correction après la CI Linux
+
+Le pre-push de `d0e37c039e63af115edce25dda864998a115541b` passe : backend 1 434 tests,
+couverture 97,48 %, frontend 432 tests (lignes 97,33 %, branches 94,78 %), E2E application
+96 tests et démo 10 tests. La CI [40330422624](https://github.com/GaranceRichard/assess-teams/actions/runs/40330422624)
+reste rouge : hauteur desktop 623,90625 px au lieu de <600 et déplacement vertical de 11 px
+du range après focus du bouton sur mobile 375×667. Aucun seuil ni test n’est assoupli.
+
+Une sonde temporaire réutilise les fixtures et scénarios existants avec trois polices :
+`system-ui`, Arial et Verdana. Cette dernière reproduit localement le dépassement à
+624,296875 px. Les marges des paragraphes sont réduites à 0,2 rem avec un sélecteur local
+prioritaire sur le style général, celles du titre de question à 0,5 rem. Le contrôle tactile,
+les textes, la réserve intrinsèque des erreurs et le pied du dialogue sont conservés.
+Les [mesures avant/après](font-metrics.json) donnent respectivement 551,0625, 551,453125
+et 599,453125 px après correction : trois contrôles de hauteur réussis. Les trois variantes
+du scénario existant de focus mobile passent aussi, sans défilement induit ni changement
+des assertions. Ces sondes locales ne remplacent pas la CI Linux du nouveau SHA publié.
+
+Après ce correctif : la même sélection UX-07/08 passe 34 tests en 4,5 min ;
+les vingt tests React ciblés, lint et formatage passent. Le zoom navigateur natif est
+rejoué avec succès (1 test en 19,2 s) : les quatre captures et dix-huit mesures sont actualisées.
+Les captures des trente-quatre scénarios et les empreintes des sources ont été renouvelées.

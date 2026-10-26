@@ -1,0 +1,60 @@
+{
+  "before": [
+    {
+      "family": "system-ui",
+      "dialog": {
+        "x": 379,
+        "y": 96.046875,
+        "width": 608,
+        "height": 575.90625
+      }
+    },
+    {
+      "family": "Arial, sans-serif",
+      "dialog": {
+        "x": 379,
+        "y": 95.84375,
+        "width": 608,
+        "height": 576.296875
+      }
+    },
+    {
+      "family": "Verdana, sans-serif",
+      "dialog": {
+        "x": 379,
+        "y": 71.84375,
+        "width": 608,
+        "height": 624.296875
+      }
+    }
+  ],
+  "after": [
+    {
+      "family": "system-ui",
+      "dialog": {
+        "x": 379,
+        "y": 108.46875,
+        "width": 608,
+        "height": 551.0625
+      }
+    },
+    {
+      "family": "Arial, sans-serif",
+      "dialog": {
+        "x": 379,
+        "y": 108.265625,
+        "width": 608,
+        "height": 551.453125
+      }
+    },
+    {
+      "family": "Verdana, sans-serif",
+      "dialog": {
+        "x": 379,
+        "y": 84.265625,
+        "width": 608,
+        "height": 599.453125
+      }
+    }
+  ]
+}
