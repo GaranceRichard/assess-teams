@@ -54,6 +54,9 @@ it("explains scores, real zero, missing observations and business recency in eve
         /cellule vide.*aucune observation à ce rang/,
       );
       expect(dialog).toHaveTextContent(/date de complétion initiale/);
+      expect(dialog).toHaveTextContent(
+        /un lien ne garantit pas un sens identique des notes/,
+      );
       expect(dialog).toHaveTextContent(/révision.*ne déplace pas cette date/);
       expect(dialog).toHaveTextContent(
         /ne prouvent pas une progression continue/,

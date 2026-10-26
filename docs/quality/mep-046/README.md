@@ -11,12 +11,13 @@ la clôture et le SHA publié seront consignés après les gates et la CI verte.
 | Échelle graphique sans signification textuelle commune aux quatre vues | Aide « Scores 0–10 : mode d’emploi », toujours accessible près de Restitution ; bornes entières, note par critère et interprétation selon les repères du modèle |
 | Zéro mesuré présent mais cellules historiques vides inexpliquées | Exemple explicite 0/10 mesuré, légende « Vide : aucune observation à ce rang » et explication des colonnes indépendantes |
 | « Dernière version » et dates sans règle de récence lisible | Aide : numéro de version le plus élevé avec résultats accessibles, puis dernière complétion initiale par équipe sur cette version ; ni échéance, création ou révision ne redatent ce choix |
-| « Lignée explicite » technique et invitation à consulter une évolution | Observations historiques et limites expliquées : même modèle/critère relié, anciennes versions sans lien séparées, critères ajoutés/retirés non reconstitués, segments sans progression continue démontrée |
+| « Lignée explicite » technique et invitation à consulter une évolution | Observations historiques et limites expliquées : même modèle/critère relié, anciennes versions sans lien séparées, critères ajoutés/retirés non reconstitués, textes/repères variables selon les versions, segments sans progression continue démontrée |
 
 Les calculs, agrégations, séries, dates, sources, données, contrats et droits sont inchangés.
 Aucune moyenne, note globale, tendance ou valeur intermédiaire n’est ajoutée.
 Les cellules restent vides, les notes réellement mesurées restent 0/10.
 Aucun repère universel « bon/mauvais » n’est inventé pour les bornes.
+Un critère relié peut changer de texte ou de repères : son lien ne garantit pas un sens identique des notes.
 La modale réutilise `Modal` et sa gestion de focus ; les styles restent limités aux Résultats.
 Le contexte et la provenance MEP-014, les filtres et l’unique restitution sont conservés.
 MEP-015 (dessin du radar) et MEP-047 (comparaisons) restent hors périmètre.

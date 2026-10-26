@@ -98,6 +98,9 @@ test("UX-09 explains zero, absence, recency and continuity without altering resu
           );
           await expect(dialog).toContainText("date de complétion initiale");
           await expect(dialog).toContainText(
+            "un lien ne garantit pas un sens identique des notes",
+          );
+          await expect(dialog).toContainText(
             "ne prouvent pas une progression continue",
           );
           const measures = await dialog.evaluate((element) => {

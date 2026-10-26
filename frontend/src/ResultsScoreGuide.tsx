@@ -42,8 +42,8 @@ export function ResultsScoreGuide() {
             <p>
               Chaque score est une note enregistrée, entière de 0 à 10 : 0 est
               le minimum, 10 le maximum. Son sens dépend du critère et des
-              repères du modèle utilisé. Aucun score global ni moyenne n’est
-              calculé ici.
+              repères de la version du modèle utilisée. Aucun score global ni
+              moyenne n’est calculé ici.
             </p>
             <h3>Zéro et absence</h3>
             <p>
@@ -66,10 +66,11 @@ export function ResultsScoreGuide() {
               Seules les observations accessibles d’un même modèle et critère
               explicitement relié entre versions sont réunies. Les critères
               ajoutés ou retirés ne sont pas reconstitués ; les anciennes
-              versions sans lien démontré restent séparées. Les segments relient
-              les observations disponibles et ne prouvent pas une progression
-              continue entre deux dates. Aucune tendance ni valeur intermédiaire
-              n’est calculée.
+              versions sans lien démontré restent séparées. Les textes ou
+              repères peuvent changer entre versions : un lien ne garantit pas
+              un sens identique des notes. Les segments relient les observations
+              disponibles et ne prouvent pas une progression continue entre deux
+              dates. Aucune tendance ni valeur intermédiaire n’est calculée.
             </p>
           </section>
         </Modal>
