@@ -45,6 +45,25 @@ repository : noms ASCII employés, sans changement de Git, des scripts ou de la 
 Le verrou de la campagne interrompue a été retiré seulement après vérification de son PID absent.
 Les campagnes finales ci-dessous remplacent ces tentatives pour la validation.
 
+## Complément de stabilité UX-08
+
+Avant push, le refus sans repères a reproduit une croissance du dialogue de 24 px : le test
+versionné `evaluation-rating-refusal` échoue sur `3cee9e5`, avec pied déplacé de 12 px et
+bouton de note de 24 px. La publication est interrompue avant push ; le backend partiel
+n'est pas une preuve exhaustive. Ses seuls fragments de couverture générés ont été retirés.
+`TakingStatusSizing` réserve désormais le maximum intrinsèque des messages réels dans la
+zone de statut et les copies. Le texte, les annonces et les transitions restent inchangés.
+Les vingt tests React ciblés, lint, Prettier et limite de lignes passent sur ce correctif.
+
+```powershell
+npm.cmd run quality:targeted -- e2e e2e/evaluation-explicit-rating.spec.ts e2e/evaluation-rating-scale.spec.ts e2e/evaluation-rating-refusal.spec.ts e2e/evaluation-rating-focus.spec.ts e2e/evaluation-taking-layout.spec.ts e2e/dialog-taking-accessibility.spec.ts e2e/taking-typography.spec.ts e2e/evaluation-versions.spec.ts e2e/appreciation-markers.spec.ts
+```
+
+34 tests passés en 4,7 min. Les huit cas ajoutés vérifient passation/révision, deux thèmes,
+390×844 et 320×568, refus 400, notes retenues, géométrie inchangée et réessai réussi.
+Leur mesure exclut les copies inertes ; le défilement utilisateur est distingué d'un déplacement
+du bouton de note. Le complément de capture impose l'erreur dans le viewport après scroll.
+
 ## Zoom navigateur natif, hors collecte CI
 
 Configuration Playwright locale temporaire `frontend/.cache/taking-audit.config.ts`,
@@ -57,7 +76,7 @@ Variables locales : ports backend/frontend 8193/5193, base jetable
 npm.cmd run test:e2e --prefix frontend -- --config .cache/taking-audit.config.ts --output ../.cache/mep-013/zoom-results
 ```
 
-Rejoué sur le candidat final le 26 octobre : 1 test passé, 19,7 s.
+Rejoué avec la réserve de statut le 26 octobre : 1 test passé, 20,4 s.
 Dix-huit mesures d'action pour clair/sombre × zoom 100/200/100 %,
 sans débordement horizontal ni action hors du viewport, focus et note 5 conservés,
 aucun PUT supplémentaire à la navigation. Les quatre captures et le relevé brut sont dans
@@ -70,3 +89,5 @@ imposent le plan exhaustif conservateur : repository, backend, frontend et E2E a
 La publication utilise `npm.cmd run publish` : resynchronisation, pre-push exhaustif bloquant,
 push direct de la branche dédiée vers main, fast-forward sûr puis attente de la CI exacte.
 Les résultats complets et le SHA sont ajoutés après leur réussite ; aucune clôture anticipée.
+
+La sélection de refus avec assertion du thème réel et capture du message visible passe aussi : 8 tests en 55,4 s.

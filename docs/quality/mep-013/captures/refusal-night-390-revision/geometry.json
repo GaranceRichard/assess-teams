@@ -1,0 +1,38 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "theme": "night",
+  "revision": true,
+  "before": {
+    "dialog": {
+      "x": 8,
+      "y": 157.9375,
+      "width": 374,
+      "height": 528.125
+    },
+    "footer": {
+      "x": 21,
+      "y": 568.5,
+      "width": 348,
+      "height": 104.5625
+    },
+    "noteActionOffset": null
+  },
+  "refused": {
+    "dialog": {
+      "x": 8,
+      "y": 157.9375,
+      "width": 374,
+      "height": 528.125
+    },
+    "footer": {
+      "x": 21,
+      "y": 568.5,
+      "width": 348,
+      "height": 104.5625
+    },
+    "noteActionOffset": null
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "viewport": {
+    "width": 320,
+    "height": 568
+  },
+  "theme": "day",
+  "revision": false,
+  "before": {
+    "dialog": {
+      "x": 8,
+      "y": 8,
+      "width": 304,
+      "height": 552
+    },
+    "footer": {
+      "x": 21,
+      "y": 421.4375,
+      "width": 278,
+      "height": 125.5625
+    },
+    "noteActionOffset": 394.359375
+  },
+  "refused": {
+    "dialog": {
+      "x": 8,
+      "y": 8,
+      "width": 304,
+      "height": 552
+    },
+    "footer": {
+      "x": 21,
+      "y": 421.4375,
+      "width": 278,
+      "height": 125.5625
+    },
+    "noteActionOffset": 394.359375
+  }
+}

@@ -6,11 +6,12 @@ Les entrées couvrent le code de notation, les acquis conservés et les tests de
 
 | Fichier | SHA-256 |
 | --- | --- |
-| `frontend/src/EvaluationTakingDialog.tsx` | `8292fd18fd9a734d4a2319b16af9d4d3cd2995f897b161a67f775dc9259851e5` |
+| `frontend/src/EvaluationTakingDialog.tsx` | `869e84b8356fae5a0cd6082e2c22d43727efae7adc0834127d64e1b268c0f7a7` |
 | `frontend/src/EvaluationScoreInput.tsx` | `a57d914b69b1c199dcd6f6de30b87bfae094c33f35a291fe4bda60dbaed66224` |
-| `frontend/src/TakingContentSizing.tsx` | `aeb179efe8de1161cc59165cb4f881b3ebad58ff22442e488a49e2caec44ea7f` |
+| `frontend/src/TakingContentSizing.tsx` | `987b2785f7db925df40864348408f04428c8ae9edd5a8635817d9c6e97585159` |
+| `frontend/src/TakingStatusSizing.tsx` | `de44045d4736690d945b3c1d9e16cf2d10f3e4419292d63e3c917f7ba27b5548` |
 | `frontend/src/useEvaluationTaking.ts` | `54eb229fdefa9ab6d3af38a29c3283f337d763a475d8577455d0bf0ac697ed4b` |
-| `frontend/src/evaluation-taking.css` | `e682d7a58877a804fdcc436a04f67992584fec9b15bc5677e2efb345a58d3171` |
+| `frontend/src/evaluation-taking.css` | `cc559a74220089c7b4157628dadc281aff3f7adcd44485f5c5e1398c5e4cc933` |
 | `frontend/src/evaluation-rating.css` | `5f4f55b2afb6cf56015a7d0f74dd88b88d13fa6c6d7b1af70ace9687c63c595b` |
 | `frontend/src/AppreciationScale.tsx` | `c7d1871b0e6481fc4e9105e13f59559cae589bf30fc5c70388d66acb69098ba3` |
 | `frontend/src/appreciationForScore.ts` | `e564e25bd4b4430aba0e3446735dbd206f9443607a74cc4bb816ec253b4d56e8` |
@@ -21,6 +22,7 @@ Les entrées couvrent le code de notation, les acquis conservés et les tests de
 | `frontend/e2e/evaluation-explicit-rating.spec.ts` | `d3b2f176ac178c7af67f9ef639ad421552a38378e1b99b44735cd2322329d9ea` |
 | `frontend/e2e/rating-values.ts` | `4fd80a0972f4a67787e3a00a3e5ca2706e3c12528d098935db708da4e34672d8` |
 | `frontend/e2e/rating-revision.ts` | `3208f1e1fc8f606eb7b7536150300e57946fd23e2712bd959500008a981cd8d4` |
+| `frontend/e2e/evaluation-rating-refusal.spec.ts` | `df410de965902976603e650482c079de242bb0ba0ef079cb7000602b99b8ff9a` |
 | `frontend/e2e/evaluation-rating-focus.spec.ts` | `4aacfc099d604aea1ccf8af15390b32cac1cf65c085ce366e8ad93a2dc2fc1fd` |
 | `frontend/e2e/evaluation-rating-scale.spec.ts` | `b0b13a475ae8ebe25c553ceb92439e9ffc6d7c00710c565ee77cb7dd62c2e198` |
 | `frontend/e2e/evaluation-taking-layout.spec.ts` | `e2e1a480349c265561da46efe5ebca2044cc5dc1485435c811aed66a52bbdd89` |

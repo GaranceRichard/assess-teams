@@ -78,3 +78,19 @@ Les confirmations de sauvegarde restent celles du parcours existant, sans modifi
 La limite Linux <600 px reste un gate du SHA publié ; les succès locaux ci-dessus sont Windows.
 Les captures ont été relues : chiffres non rognés, choix souligné/renforcé, absence distincte de zéro,
 focus visible et actions atteignables. Ces preuves ne constituent ni une certification normative, ni un GO MESS.
+
+## Refus sans repères et stabilité des actions
+
+Le test versionné échoue avant correction sur `3cee9e5` (390×844, +24 px de hauteur).
+Après réserve intrinsèque des messages réels : huit cas passés, dont le message d’erreur dans le viewport après le scroll prévu.
+
+| Scénario | Viewport / thème | Attendu et observé | Preuve | Résultat |
+| --- | --- | --- | --- | --- |
+| UX-08 taking | 320×568 / day | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-day-320-taking/before.png), [refus](captures/refusal-day-320-taking/refused.png), [mesures](captures/refusal-day-320-taking/geometry.json) | Passé |
+| UX-08 taking | 320×568 / night | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-night-320-taking/before.png), [refus](captures/refusal-night-320-taking/refused.png), [mesures](captures/refusal-night-320-taking/geometry.json) | Passé |
+| UX-08 taking | 390×844 / night | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-night-390-taking/before.png), [refus](captures/refusal-night-390-taking/refused.png), [mesures](captures/refusal-night-390-taking/geometry.json) | Passé |
+| UX-08 revision | 320×568 / night | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-night-320-revision/before.png), [refus](captures/refusal-night-320-revision/refused.png), [mesures](captures/refusal-night-320-revision/geometry.json) | Passé |
+| UX-08 revision | 390×844 / day | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-day-390-revision/before.png), [refus](captures/refusal-day-390-revision/refused.png), [mesures](captures/refusal-day-390-revision/geometry.json) | Passé |
+| UX-08 revision | 320×568 / day | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-day-320-revision/before.png), [refus](captures/refusal-day-320-revision/refused.png), [mesures](captures/refusal-day-320-revision/geometry.json) | Passé |
+| UX-08 taking | 390×844 / day | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-day-390-taking/before.png), [refus](captures/refusal-day-390-taking/refused.png), [mesures](captures/refusal-day-390-taking/geometry.json) | Passé |
+| UX-08 revision | 390×844 / night | Dialogue, pied et position du bouton de note inchangés ; erreur lisible après scroll ; valeur 0/7 retenue, réessai réussi | [Avant](captures/refusal-night-390-revision/before.png), [refus](captures/refusal-night-390-revision/refused.png), [mesures](captures/refusal-night-390-revision/geometry.json) | Passé |

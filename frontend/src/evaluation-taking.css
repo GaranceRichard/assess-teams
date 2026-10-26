@@ -122,6 +122,21 @@
   font-weight: 750;
   text-align: center;
 }
+.taking-status,
+.taking-status-sizing {
+  display: grid;
+}
+.taking-status > *,
+.taking-status-sizing > * {
+  grid-area: 1 / 1;
+}
+.taking-status-sizing {
+  visibility: hidden;
+  pointer-events: none;
+}
+.taking-status-sizing [data-text]::before {
+  content: attr(data-text);
+}
 .taking-dialog .evaluation-dialog-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

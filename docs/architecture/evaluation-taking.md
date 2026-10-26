@@ -125,6 +125,9 @@ Des copies de dimensionnement invisibles et inertes représentent les questions 
 la taille dépend des textes réels de la passation et reste stable pendant la navigation, sans hauteur fixe.
 Les copies ne sont ni lisibles par les technologies d’assistance ni interactives.
 Les erreurs remplacent le statut de sauvegarde dans sa zone dédiée ; elles ne créent pas de zone vide.
+`TakingStatusSizing` réserve dans cette zone la taille intrinsèque des messages réels, avec
+copies invisibles/inertes : aide, enregistrement refusé et validation refusée. Le texte actif
+reste seul annoncé ; bouton de note et pied de dialogue restent stables au refus et au réessai.
 Seul le contenu actif défile verticalement lorsque nécessaire ; titre et actions restent visibles.
 Questions et descriptifs s’écoulent naturellement sans ascenseur propre. La zone de contenu est
 remontée au changement de question. Les contenus ordinaires tiennent sans défilement sur desktop.

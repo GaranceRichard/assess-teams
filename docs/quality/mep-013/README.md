@@ -17,10 +17,11 @@ Chromium/Windows, Coach fictif de `taking-fixture.ts`, palette Vert, deux thème
 | Souris et tactile | Aucun survol indispensable ; 0/5/10 et reprise déjà acquis | Compléter le parcours existant avec les onze notes au clic/toucher et leur valeur serveur |
 | Progression | Suivant peut sauter une question sans réponse | Désactiver Suivant sans note explicite ; conserver la reprise sur la première absence et les notes déjà enregistrées |
 | Géométrie | Copies inertes et un seul corps défilant, actions fixes | Inclure la ligne numérique dans les copies, reprendre l'espace des marges et conserver le seuil Linux <600 px |
+| Refus sans repères | Le candidat intermédiaire `3cee9e5` gagne 24 px sur un refus mobile ; pied de dialogue déplacé de 12 px | Réserver la taille intrinsèque des messages réels dans la zone de statut et les copies, sans changer leur texte ou leur annonce |
 | Repères et snapshots | Borne inférieure explicite, points passifs et version historique | Réutiliser les tests de repères, d'échelle et de versionnement |
 
 La correction reste dans Notation : `EvaluationScoreInput`, `EvaluationTakingDialog`,
-`useEvaluationTaking`, `TakingContentSizing` et leurs deux feuilles de style.
+`useEvaluationTaking`, `TakingContentSizing`, `TakingStatusSizing` et leurs deux feuilles de style.
 Le titre de la nouvelle question reçoit le focus ; l'ouverture conserve celui de la modale.
 Les nombres utilisent la même sélection et la même file de sauvegarde que le range natif.
 Ils ne multiplient pas les arrêts Tab : le range conserve toutes les commandes clavier,
@@ -40,6 +41,13 @@ Les deux nouvelles anomalies ont aussi été reproduites avant correction : cinq
 échouent dans `EvaluationScoreInput` et `EvaluationTakingNavigation` (nombres absents,
 attribution de 5 par Entrée, Suivant actif sans réponse). Les vingt tests React ciblés passent
 après correction. La campagne navigateur initiale corrigée compte 26 tests passés.
+Le contrôle complémentaire de refus sans repères a arrêté la première publication avant push.
+Le test versionné `evaluation-rating-refusal` échoue avant la réserve de statut : dialogue
+516,71875 → 540,71875 px, pied déplacé de 12 px et bouton de note de 24 px à 390×844.
+Après correction, les 34 scénarios UX passent ; le bouton de note et le pied de dialogue
+restent en place, en passation et révision, dans les deux thèmes et aux deux tailles mobiles.
+Les messages invisibles sont inertes et exclus de l'accessibilité ; le statut actif garde son
+rôle et son contenu. La hauteur résulte des textes, sans hauteur fixe ajoutée au dialogue.
 
 Les vrais refus restent ceux des parcours existants : finalisation incomplète désactivée et
 HTTP 400, notes inchangées ; sauvegarde 400 conserve la saisie et protège les actions.

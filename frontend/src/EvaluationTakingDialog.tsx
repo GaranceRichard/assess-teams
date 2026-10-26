@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { TakingContentSizing } from "./TakingContentSizing";
+import { TakingStatusSizing } from "./TakingStatusSizing";
 import { EvaluationScoreInput } from "./EvaluationScoreInput";
 import { referenceLabel } from "./evaluationVersionLabel";
 import { useModalFocus } from "./useModalFocus";
@@ -96,16 +97,19 @@ export function EvaluationTakingDialog({
                 className="taking-status"
                 role={error ? "alert" : "status"}
               >
-                {error ??
-                  (saving
-                    ? "Enregistrement…"
-                    : unsaved
-                      ? "Note non sauvegardée"
-                      : question.score === null
-                        ? "Choisissez une note de 0 à 10."
-                        : revision
-                          ? "Note à valider"
-                          : "Note enregistrée")}
+                <TakingStatusSizing />
+                <span>
+                  {error ??
+                    (saving
+                      ? "Enregistrement…"
+                      : unsaved
+                        ? "Note non sauvegardée"
+                        : question.score === null
+                          ? "Choisissez une note de 0 à 10."
+                          : revision
+                            ? "Note à valider"
+                            : "Note enregistrée")}
+                </span>
               </p>
               {!readonly && !revision && (
                 <button

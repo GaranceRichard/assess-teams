@@ -1,5 +1,6 @@
 import type { EvaluationRun } from "./evaluationRuns";
 import { referenceLabel } from "./evaluationVersionLabel";
+import { TakingStatusSizing } from "./TakingStatusSizing";
 
 type Props = { run: EvaluationRun; revision: boolean; readonly: boolean };
 
@@ -48,10 +49,9 @@ export function TakingContentSizing({ run, revision, readonly }: Props) {
                 className="taking-output"
                 data-text="Note sélectionnée : 10 / 10"
               />
-              <p
-                className="taking-status"
-                data-text="Choisissez une note de 0 à 10."
-              />
+              <p className="taking-status">
+                <TakingStatusSizing />
+              </p>
               {!readonly && !revision && (
                 <span
                   className="secondary taking-note-action"
