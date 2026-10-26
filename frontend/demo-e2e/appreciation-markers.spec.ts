@@ -27,7 +27,7 @@ test("repères fictifs éditables en v2, indépendants de v1 et accessibles sur 
     rowBounds!.y + rowBounds!.height,
   );
   await page.screenshot({ path: test.info().outputPath("markers-editor.png") });
-  await page.getByRole("button", { name: "Enregistrer les repères" }).click();
+  await page.getByRole("button", { name: "Enregistrer le repère" }).click();
   await expect(first).toContainText("Brouillon fictif distinct");
   await first.getByRole("button", { name: "Supprimer le repère 0" }).click();
   await expect(first.getByText("0 / 10", { exact: true })).toHaveCount(0);

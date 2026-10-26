@@ -191,7 +191,7 @@ Les [permissions MEP-008](../architecture/api-permissions.md) et [preuves MEP-03
 Le [shell produit](../architecture/product-layout.md#preuves-et-revue-documentaire) ajoute les invariants viewport/overflow, pagination serveur bornée, filtres et réponses obsolètes aux suites API, React et Playwright. MEP-053 : `typography.spec.ts` et `taking-typography.spec.ts` protègent la hiérarchie commune, les champs lisibles, les questions longues et les actions accessibles aux tailles UX-01/05, dans les deux thèmes. Le [rapport de recette](typography.md) conserve captures avant/après, styles calculés et contrôle distinct du zoom natif 200 %.
 
 Les [repères EVAL-004](../architecture/appreciation-markers.md) couvrent contrats, permissions, versions et snapshots.
-React et Playwright vérifient édition, notes réelles, descriptifs de borne inférieure, repli et accès clavier/mobile.
+React et Playwright vérifient sélection unique 8→9, restauration, annulation, refus sans valeur, persistance après rechargement, notes réelles, borne inférieure et accès clavier/mobile.
 Le [parcours de stabilité](functional-coverage.md) mesure géométrie et navigation sur huit viewports,
 avec les seuls repères passifs, onze notes au curseur, un défilement unique et refus de sauvegarde ; la démo reste sans API. Le test `evaluation-rating-focus.spec.ts` couvre les états normal, focus et focus-visible, sans rectangle, avec anneau sur la poignée uniquement, en clair/sombre sur desktop/mobile et sans déplacement des actions.
 

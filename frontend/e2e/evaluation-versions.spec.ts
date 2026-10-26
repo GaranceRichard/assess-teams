@@ -37,11 +37,10 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await page.getByText(/Repères d’appréciation/).click();
   await page.getByRole("button", { name: "Ajouter un repère" }).click();
   await page.getByLabel("5", { exact: true }).check();
-  await page.getByLabel("8", { exact: true }).check();
   await page
     .getByLabel("Appréciation", { exact: true })
     .fill("Original marker v1");
-  await page.getByRole("button", { name: "Enregistrer les repères" }).click();
+  await page.getByRole("button", { name: "Enregistrer le repère" }).click();
   await expect(
     page.getByRole("button", { name: "Modifier le repère 5" }),
   ).toBeVisible();
@@ -110,7 +109,7 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await page
     .getByLabel("Appréciation", { exact: true })
     .fill("Changed marker v2");
-  await page.getByRole("button", { name: "Enregistrer les repères" }).click();
+  await page.getByRole("button", { name: "Enregistrer le repère" }).click();
   await expect(page.getByText(/Changed marker v2/)).toBeVisible();
   await second.getByRole("button", { name: "Valider" }).click();
   await page.getByRole("button", { name: "Confirmer la validation" }).click();

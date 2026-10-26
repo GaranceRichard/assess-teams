@@ -21,41 +21,75 @@ function Harness({
     />
   );
 }
-it("adds a shared text to free levels, edits and removes with no required marker", async () => {
+it("selects one score, preserves other markers, edits and cancels without saving", async () => {
   const save = vi.fn().mockResolvedValue(undefined);
   render(<Harness save={save} />);
   fireEvent.click(screen.getByText(/Repères d’appréciation/));
   expect(screen.getByText("Aucun repère configuré.")).toBeVisible();
   fireEvent.click(screen.getByRole("button", { name: "Ajouter un repère" }));
-  expect(
-    screen.getByRole("button", { name: "Enregistrer les repères" }),
-  ).toBeDisabled();
-  fireEvent.click(screen.getByLabelText("0", { exact: true }));
-  fireEvent.click(screen.getByLabelText("10", { exact: true }));
-  fireEvent.click(screen.getByLabelText("10", { exact: true }));
-  fireEvent.click(screen.getByLabelText("8", { exact: true }));
+  const submit = screen.getByRole("button", { name: /Enregistrer/ });
   fireEvent.change(screen.getByLabelText("Appréciation"), {
     target: { value: "  Partagé  " },
   });
-  fireEvent.click(
-    screen.getByRole("button", { name: "Enregistrer les repères" }),
-  );
+  expect(submit).toBeDisabled();
+  fireEvent.submit(submit.closest("form")!);
+  expect(save).not.toHaveBeenCalled();
+  const eight = screen.getByLabelText("8", { exact: true });
+  const nine = screen.getByLabelText("9", { exact: true });
+  fireEvent.click(eight);
+  expect(eight).toBeChecked();
+  fireEvent.click(nine);
+  expect(eight).not.toBeChecked();
+  expect(nine).toBeChecked();
+  fireEvent.click(nine);
+  expect(nine).toBeChecked();
+  expect(submit).toHaveTextContent("Enregistrer le repère");
+  expect(nine).toHaveAttribute("type", "radio");
+  fireEvent.click(submit);
   await waitFor(() =>
-    expect(save).toHaveBeenCalledWith([
-      { score: 0, text: "Partagé" },
-      { score: 8, text: "Partagé" },
-    ]),
+    expect(save).toHaveBeenLastCalledWith([{ score: 9, text: "Partagé" }]),
   );
-  await screen.findByRole("button", { name: "Modifier le repère 0" });
-  fireEvent.click(screen.getByRole("button", { name: "Modifier le repère 0" }));
-  expect(screen.getByLabelText("8", { exact: true })).toBeDisabled();
+  await screen.findByRole("button", { name: "Modifier le repère 9" });
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter un repère" }));
+  expect(screen.getByRole("radio", { name: "9" })).toBeDisabled();
+  fireEvent.click(screen.getByRole("radio", { name: "0" }));
   fireEvent.change(screen.getByLabelText("Appréciation"), {
     target: { value: "Début" },
   });
   fireEvent.click(
-    screen.getByRole("button", { name: "Enregistrer les repères" }),
+    screen.getByRole("button", { name: "Enregistrer le repère" }),
   );
-  await screen.findByText(/Début/);
+  await screen.findByRole("button", { name: "Modifier le repère 0" });
+  fireEvent.click(screen.getByRole("button", { name: "Modifier le repère 9" }));
+  expect(screen.getByRole("radio", { name: "9" })).toBeChecked();
+  expect(screen.getByRole("radio", { name: "0" })).toBeDisabled();
+  expect(screen.getByLabelText("Appréciation")).toHaveValue("Partagé");
+  fireEvent.click(screen.getByRole("radio", { name: "8" }));
+  fireEvent.click(screen.getByRole("button", { name: "Annuler" }));
+  expect(save).toHaveBeenCalledTimes(2);
+  fireEvent.click(screen.getByRole("button", { name: "Modifier le repère 9" }));
+  expect(screen.getByRole("radio", { name: "9" })).toBeChecked();
+  fireEvent.change(screen.getByLabelText("Appréciation"), {
+    target: { value: "   " },
+  });
+  const editSubmit = screen.getByRole("button", {
+    name: "Enregistrer le repère",
+  });
+  expect(editSubmit).toBeDisabled();
+  fireEvent.submit(editSubmit.closest("form")!);
+  expect(save).toHaveBeenCalledTimes(2);
+  fireEvent.change(screen.getByLabelText("Appréciation"), {
+    target: { value: "Révisé" },
+  });
+  fireEvent.click(screen.getByRole("radio", { name: "8" }));
+  fireEvent.click(editSubmit);
+  await waitFor(() =>
+    expect(save).toHaveBeenLastCalledWith([
+      { score: 0, text: "Début" },
+      { score: 8, text: "Révisé" },
+    ]),
+  );
+  await screen.findByRole("button", { name: "Modifier le repère 8" });
   fireEvent.click(
     screen.getByRole("button", { name: "Supprimer le repère 0" }),
   );
@@ -67,6 +101,7 @@ it("adds a shared text to free levels, edits and removes with no required marker
   fireEvent.click(screen.getByRole("button", { name: "Ajouter un repère" }));
   fireEvent.click(screen.getByRole("button", { name: "Annuler" }));
   expect(screen.queryByLabelText("Appréciation")).toBeNull();
+  expect(save).toHaveBeenCalledTimes(5);
 });
 
 it("retains the editor after backend refusal and respects immutability and all occupied levels", async () => {
@@ -78,10 +113,11 @@ it("retains the editor after backend refusal and respects immutability and all o
     target: { value: "Essai" },
   });
   fireEvent.click(
-    screen.getByRole("button", { name: "Enregistrer les repères" }),
+    screen.getByRole("button", { name: "Enregistrer le repère" }),
   );
   expect(await screen.findByRole("alert")).toHaveTextContent("refusé");
   expect(screen.getByLabelText("Appréciation")).toHaveValue("Essai");
+  expect(screen.getByLabelText("3", { exact: true })).toBeChecked();
 });
 it("offers consultation only when no save is allowed and prevents duplicate occupied levels", () => {
   const full = {

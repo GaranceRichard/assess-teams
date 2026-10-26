@@ -81,7 +81,7 @@ Le menu Équipes permet de choisir une organisation accessible, puis de créer, 
 
 ## Périmètre livré — modèle d’évaluation
 
-La réconciliation des deux chantiers conserve un contrat unique pour les [repères d’appréciation](docs/architecture/appreciation-markers.md) : scores entiers 0–10 facultatifs par question, édition en brouillon, copie par version, snapshot au démarrage, curseur accessible au clavier/mobile et démo fictive, sans effet sur les calculs.
+Les [repères d’appréciation](docs/architecture/appreciation-markers.md) associent chacun un score entier 0–10 à un texte : édition en brouillon, copie par version, snapshot au démarrage, curseur accessible au clavier/mobile et démo fictive. La correction ciblée impose une sélection unique obligatoire dans l’éditeur et le bouton « Enregistrer le repère » ; la validation serveur est vérifiée, les repères historiques, versions et calculs sont conservés, sans migration.
 Les modèles suivent le cycle irréversible `DRAFT → VALIDATED → ARCHIVED` : validation et archivage explicites,
 immutabilité du modèle et de ses questions après validation, planification limitée aux modèles validés.
 Les Superadmins administrent les évaluations de toutes les organisations ; les Admins administrent uniquement celles de leur organisation.

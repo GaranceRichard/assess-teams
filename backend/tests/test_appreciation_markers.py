@@ -52,6 +52,10 @@ def test_markers_create_replace_remove_and_omission_preserves_them():
 @pytest.mark.parametrize(
     "markers",
     [
+        [{"score": [8, 9], "text": "Non"}],
+        [{"score": [], "text": "Non"}],
+        [{"score": None, "text": "Non"}],
+        [{"scores": [8, 9], "text": "Non"}],
         [{"score": -1, "text": "Non"}],
         [{"score": 11, "text": "Non"}],
         [{"score": 4.5, "text": "Non"}],
@@ -72,11 +76,13 @@ def test_markers_create_replace_remove_and_omission_preserves_them():
 def test_invalid_markers_are_rejected_atomically_on_create_and_update(markers):
     client, evaluation, question = context()
     collection = reverse("question-list", kwargs={"evaluation_id": evaluation.pk})
+    question.appreciation_markers = MARKERS
+    question.save(update_fields=["appreciation_markers"])
     body = {"name": "Forged", "appreciation_markers": markers}
     assert csrf_post(client, collection, body).status_code == 400
     assert csrf_put(client, detail(question), body).status_code == 400
     question.refresh_from_db()
-    assert (question.name, question.appreciation_markers) == ("Criterion", [])
+    assert (question.name, question.appreciation_markers) == ("Criterion", MARKERS)
     assert evaluation.questions.count() == 1
     assert not ActivityEntry.objects.exists()
 

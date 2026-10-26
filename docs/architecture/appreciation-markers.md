@@ -40,8 +40,21 @@ dates et auteurs ne sont ni recalculés ni modifiés.
 ## Interface et démo
 
 `QuestionAppreciation` ajoute la section repliable à chaque question : consultation,
-ajout d’un texte sur plusieurs niveaux libres, modification et suppression en brouillon.
-Les niveaux occupés sont indisponibles à l’ajout ; aucune sélection par défaut n’est imposée.
+ajout, modification et suppression en brouillon. Chaque formulaire édite un seul repère :
+les boutons radio 0–10 partagent un groupe propre à la question ; choisir une valeur remplace
+la précédente. La modification restaure le score initial et le texte ; les autres niveaux occupés
+restent indisponibles. Aucune valeur n’est présélectionnée en création ; sans valeur ou avec un
+texte vide, le formulaire refuse l’enregistrement. Le bouton indique « Enregistrer le repère ».
+Annuler ne sauvegarde rien ; un refus serveur conserve la saisie.
+
+Le défaut antérieur créait plusieurs objets `{score, text}` indépendants depuis une sélection
+multiple. Ces repères historiques, même de texte identique, restent tous conservés : aucune
+fusion, suppression ou migration. Le contrat existant impose déjà un entier scalaire obligatoire
+par repère ; les listes de scores, `null`, champs absents ou supplémentaires sont refusés côté
+serveur en création et modification, sans altérer les autres repères. Aucun changement du
+modèle de données ni du contrat API n’est nécessaire. Si des données hors contrat comportant
+plusieurs valeurs dans un même objet sont découvertes, leur correction exige un arbitrage
+explicite : ce chantier ne les transforme pas implicitement.
 
 `AppreciationScale` complète le range existant avec des points passifs uniquement pour les
 repères dont le descriptif est explicitement renseigné. Leur position proportionnelle tient compte
@@ -69,7 +82,8 @@ Reset restaure les fixtures ; aucun appel API n’est ajouté au build statique.
 
 Les tests backend couvrent créations/remplacements/suppressions, omission, refus atomiques,
 scopes, copie de chaque statut, historique commencé/finalisé/révisé, migration et OpenAPI.
-React couvre les niveaux libres, conflits, lecture seule, erreurs de sauvegarde,
+React couvre la sélection 8 puis 9, la restauration, l’annulation, les refus sans valeur,
+les niveaux occupés, la conservation des autres repères, la lecture seule, les erreurs de sauvegarde,
 absence de hover et de points intermédiaires, borne inférieure, absence de texte inventé et conservation du curseur et des notes.
 Playwright couvre édition v1/v2, passation historique, reprise, finalisation, consultation,
 alignement des seuls repères, absence d’infobulles, bornes du viewport, thèmes/palettes, mobile et démo sans API.
@@ -91,3 +105,6 @@ Cette décision évite deux sources de vérité et conserve les validations back
 Les anciennes interactions d’infobulle sont remplacées par les indicateurs passifs demandés.
 `AppreciationTooltip.test` protège désormais l’absence de contenu au survol/focus/clic.
 Les suites de contrat, versionnement et migration conservent leurs invariants applicables.
+
+La correction de sélection unique révise le README, ce contrat et les inventaires de tests ;
+règles agents, charte, DoD, fondamentaux et API générale ont été revus sans changement nécessaire.

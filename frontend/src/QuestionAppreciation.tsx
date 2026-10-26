@@ -11,7 +11,7 @@ export function QuestionAppreciation({ question, onSave }: Props) {
   const id = useId();
   const markers = question.appreciation_markers ?? [];
   const [original, setOriginal] = useState<number | null>(null);
-  const [levels, setLevels] = useState<number[]>([]);
+  const [score, setScore] = useState<number | null>(null);
   const [text, setText] = useState("");
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -19,7 +19,7 @@ export function QuestionAppreciation({ question, onSave }: Props) {
   function reset() {
     setEditing(false);
     setOriginal(null);
-    setLevels([]);
+    setScore(null);
     setText("");
   }
   async function save(next: AppreciationMarker[]) {
@@ -53,7 +53,7 @@ export function QuestionAppreciation({ question, onSave }: Props) {
                   aria-label={"Modifier le repère " + marker.score}
                   onClick={() => {
                     setOriginal(marker.score);
-                    setLevels([marker.score]);
+                    setScore(marker.score);
                     setText(marker.text);
                     setEditing(true);
                   }}
@@ -91,33 +91,30 @@ export function QuestionAppreciation({ question, onSave }: Props) {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!levels.length || !text.trim()) return;
+            if (score === null || !text.trim()) return;
             void save([
               ...markers.filter((m) => m.score !== original),
-              ...levels.map((score) => ({ score, text: text.trim() })),
+              { score, text: text.trim() },
             ]);
           }}
         >
           <fieldset disabled={saving}>
-            <legend>Niveaux de score</legend>
+            <legend>Valeur du repère (0 à 10)</legend>
             <div className="marker-levels">
-              {Array.from({ length: 11 }, (_, score) => (
-                <label key={score}>
+              {Array.from({ length: 11 }, (_, level) => (
+                <label key={level}>
                   <input
-                    type="checkbox"
-                    checked={levels.includes(score)}
+                    type="radio"
+                    name={id + "-score"}
+                    value={level}
+                    required
+                    checked={score === level}
                     disabled={markers.some(
-                      (m) => m.score === score && score !== original,
+                      (m) => m.score === level && level !== original,
                     )}
-                    onChange={(event) =>
-                      setLevels(
-                        event.target.checked
-                          ? [...levels, score]
-                          : levels.filter((level) => level !== score),
-                      )
-                    }
+                    onChange={() => setScore(level)}
                   />
-                  {score}
+                  {level}
                 </label>
               ))}
             </div>
@@ -131,8 +128,8 @@ export function QuestionAppreciation({ question, onSave }: Props) {
             onChange={(event) => setText(event.target.value)}
           />
           <div className="evaluation-actions">
-            <button disabled={saving || !levels.length || !text.trim()}>
-              Enregistrer les repères
+            <button disabled={saving || score === null || !text.trim()}>
+              Enregistrer le repère
             </button>
             <button
               type="button"

@@ -22,7 +22,7 @@ it("edits draft markers without changing v1 runs and restores fixtures", async (
     target: { value: "Brouillon fictif" },
   });
   fireEvent.click(
-    screen.getByRole("button", { name: "Enregistrer les repères" }),
+    screen.getByRole("button", { name: "Enregistrer le repère" }),
   );
   await waitFor(() =>
     expect(
