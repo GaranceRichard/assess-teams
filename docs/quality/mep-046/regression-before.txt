@@ -1,0 +1,22 @@
+
+> assess-teams-frontend@0.0.0 test:quick
+> vitest run ResultsScoreReading.test.tsx
+
+
+ RUN  v5.0.1 C:/Users/garan/Desktop/Projets/Assess-teams-mep-046/frontend
+
+ ❯ src/ResultsScoreReading.test.tsx (1 test | 1 failed) 118ms
+   × explains scores, real zero, missing observations and business recency in every restitution 117ms
+npm.cmd :
+Au caractère Ligne:8 : 1
++ npm.cmd run test:quick --prefix frontend -- ResultsScoreReading.test. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ResultsScoreReading.test.tsx > explains scores, real zero, missing observations and business recency in
+every restitution
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Scores 0–10 : mode
+d’emploi"

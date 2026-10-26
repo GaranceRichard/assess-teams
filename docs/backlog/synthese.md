@@ -131,7 +131,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 18 | 42 | 0 | 2 | 29 % |
+| MESS actif — E01 à E04 | 62 | 18 | 41 | 1 | 2 | 29 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -177,8 +177,8 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 50 |
-| PBIs en cours | 0 |
+| PBIs ouverts | 49 |
+| PBIs en cours | 1 |
 | PBIs bloqués | 3 |
 | PBIs non réalisés | 53 |
 | PBIs réalisés | 43 |

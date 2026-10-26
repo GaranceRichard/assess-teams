@@ -6,7 +6,7 @@ et a guidé [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 17 Réalisés, 42 Ouverts, 2 Bloqués, 1 En cours.
+et le [registre canonique](../tracking/pbis.md) comptent 18 Réalisés, 41 Ouverts, 2 Bloqués, 1 En cours (MEP-046).
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 

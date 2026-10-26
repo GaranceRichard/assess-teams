@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-23 : 42 Ouverts, 18 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 29 %. Les acquis restent séparés.
+Au 2026-10-23 : 41 Ouverts, 18 Réalisés, 1 En cours, 2 Bloqués ; avancement actif 29 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 **Prochain : [MEP-013 — Curseur et sélection](../source/mess/f05.md)** ; MEP-019/052/053 et les cahiers MEP-067/030 réalisés ; F09 complète.
@@ -63,7 +63,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 05.02 | [MEP-013 — Améliorer l’ergonomie du curseur et de la sélection](../source/mess/f05.md) | S | Ouvert — N/A | PASS-001, EVAL-004, MEP-005, MEP-007 |
 | 05.03 | [MEP-045 — Confirmer visuellement l’enregistrement de la notation](../source/mess/f05.md) | XS | Ouvert — N/A | PASS-001, MEP-007 |
 | 06.01 | [MEP-014 — Améliorer la hiérarchie visuelle des résultats](../source/mess/f06.md) | S | Réalisé — 2026-10-23 | RESULT-001, RESULT-002 |
-| 06.02 | [MEP-046 — Clarifier les scores et les indicateurs](../source/mess/f06.md) | XS | Ouvert — N/A | RESULT-001, RESULT-002 |
+| 06.02 | [MEP-046 — Clarifier les scores et les indicateurs](../source/mess/f06.md) | XS | En cours — N/A | RESULT-001, RESULT-002 |
 | 06.03 | [MEP-015 — Améliorer la présentation des graphiques radar](../source/mess/f06.md) | S | Ouvert — N/A | RESULT-001 |
 | 06.04 | [MEP-047 — Améliorer les comparaisons entre équipes et évaluations](../source/mess/f06.md) | S | Ouvert — N/A | RESULT-001, RESULT-002 |
 | 07.01 | [MEP-016 — Harmoniser le vocabulaire du tableau de bord](../source/mess/f07.md) | XS | Ouvert — N/A | STEER-001, DASH-001 |

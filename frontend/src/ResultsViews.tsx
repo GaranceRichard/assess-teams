@@ -3,6 +3,7 @@ import { useId, useState } from "react";
 import { ResultsAnalysisSwitch } from "./ResultsAnalysisSwitch";
 import { ResultsDetails } from "./ResultsDetails";
 import { ResultsHistory } from "./ResultsHistory";
+import { ResultsScoreGuide } from "./ResultsScoreGuide";
 import { ResultsRadar } from "./ResultsRadar";
 import { ResultsViewSelector } from "./ResultsViewSelector";
 import type { ResultAxis, ResultComparison } from "./results";
@@ -42,6 +43,7 @@ export function ResultsViews({
           id={id + "-restitution"}
           panelId={id + "-panel"}
           label="Restitution"
+          help={<ResultsScoreGuide />}
           options={["Graphique", "Données détaillées"]}
           selected={restitution}
           onSelect={setRestitution}
@@ -93,7 +95,10 @@ export function ResultsViews({
               detailed={restitution === 1}
             />
           ) : (
-            <p>Sélectionnez un critère pour consulter son évolution.</p>
+            <p>
+              Sélectionnez un critère pour consulter ses observations
+              historiques.
+            </p>
           )
         ) : restitution === 1 ? (
           <ResultsDetails

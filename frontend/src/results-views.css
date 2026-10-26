@@ -36,7 +36,8 @@
 .results-view-selector [role="tab"] {
   min-width: 0;
 }
-.results-view-selector > span {
+.results-view-selector > span,
+.results-view-heading > span {
   color: var(--muted);
   font-size: 0.85rem;
 }

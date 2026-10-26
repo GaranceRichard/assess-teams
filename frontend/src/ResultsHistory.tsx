@@ -69,7 +69,9 @@ export function ResultsHistory({
       aria-label="Évolution temporelle du critère"
     >
       <p className="results-note">
-        Scores de 0 à 10 · Historique compatible par lignée explicite
+        {detailed
+          ? "Notes 0–10 · Vide : aucune observation à ce rang"
+          : "Notes 0–10 · Historique limité aux observations compatibles"}
       </p>
       {loading && <p role="status">Chargement de l’historique…</p>}
       {!loading && result.error && (

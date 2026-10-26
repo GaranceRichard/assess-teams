@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export function ResultsViewSelector({
   id,
   panelId,
@@ -5,7 +7,9 @@ export function ResultsViewSelector({
   options,
   selected,
   onSelect,
+  help,
 }: {
+  help?: ReactNode;
   id: string;
   panelId: string;
   label: string;
@@ -15,7 +19,10 @@ export function ResultsViewSelector({
 }) {
   return (
     <div className="results-view-selector">
-      <span id={id + "-label"}>{label}</span>
+      <div className="results-view-heading">
+        <span id={id + "-label"}>{label}</span>
+        {help}
+      </div>
       <div
         role="tablist"
         aria-labelledby={id + "-label"}

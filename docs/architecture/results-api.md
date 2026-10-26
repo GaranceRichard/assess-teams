@@ -132,7 +132,10 @@ gardent date et source autorisée (`run_id`). La restitution détaillée affiche
 et chaque observation historique rend sa version exacte et sa passation visibles sans survol.
 Ces repères utilisent uniquement les réponses Results existantes, sans auteur ni appel administratif.
 La [recette de hiérarchie](../quality/results-hierarchy.md) conserve les comparaisons avant/après.
-Ce format est limité au tableau temporel ; les autres formats de dates/heures ne changent pas.
+MEP-046 ajoute une aide « Scores 0–10 : mode d’emploi » commune aux quatre vues, via la modale existante.
+Elle explique notes par critère, zéro mesuré, cellules vides, récence par complétion initiale et limites
+de continuité ; une légende des cellules vides accompagne le tableau historique. Aucun calcul ni accès ajouté.
+[Audit et preuves UX-09](../quality/mep-046/README.md). Ce format est limité au tableau temporel ; les autres formats de dates/heures ne changent pas.
 Sans observation, un état explicite remplace le graphique ; aucune date fictive n’est affichée.
 Les thèmes jour/nuit et styles des équipes restent cohérents entre les deux vues.
 
