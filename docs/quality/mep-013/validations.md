@@ -88,7 +88,7 @@ aucun PUT supplémentaire à la navigation. Les quatre captures et le relevé br
 imposent le plan exhaustif conservateur : repository, backend, frontend et E2E application/démo.
 La publication utilise `npm.cmd run publish` : resynchronisation, pre-push exhaustif bloquant,
 push direct de la branche dédiée vers main, fast-forward sûr puis attente de la CI exacte.
-Les résultats complets et le SHA sont ajoutés après leur réussite ; aucune clôture anticipée.
+Les résultats complets du SHA corrigé sont consignés ci-dessous après leur réussite ; aucune clôture anticipée.
 
 La sélection de refus avec assertion du thème réel et capture du message visible passe aussi : 8 tests en 55,4 s.
 
@@ -114,3 +114,28 @@ Après ce correctif : la même sélection UX-07/08 passe 34 tests en 4,5 min ;
 les vingt tests React ciblés, lint et formatage passent. Le zoom navigateur natif est
 rejoué avec succès (1 test en 19,2 s) : les quatre captures et dix-huit mesures sont actualisées.
 Les captures des trente-quatre scénarios et les empreintes des sources ont été renouvelées.
+
+## Publication validée
+
+`npm.cmd run publish` publie `ee50313b70896aa84462c50bf7be61ce80be7b9c` directement sur main après resynchronisation.
+Pre-push exhaustif : 1 434 tests backend en 1 113,24 s, couverture 97,48 % ;
+432 tests frontend, couvertures statements 96,40 %, branches 94,78 %, fonctions 96,65 %,
+lignes 97,33 % ; E2E application 96 tests en 11,7 min, démo 10 tests en 32,8 s.
+Limite de lignes, contrôles documentaires, sécurité, lint, formatage, contrats,
+build et typecheck applicables passent. Les 26 empreintes de sources sont vérifiées.
+
+La [CI exhaustive Linux du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/40371655241) est verte, y compris les huit partitions
+backend et leur couverture globale, frontend, deux partitions E2E et gate requis.
+Les tests desktop <600 px et le focus mobile passent sans assouplissement ; les trois
+échecs de `d0e37c0` sont corrigés. Main local est synchronisé par fast-forward sûr.
+La clôture canonique intervient après cette CI verte ; le commit documentaire de clôture
+suit le même circuit de publication et son propre gate avant fin de livraison.
+
+## Resynchronisation avec MEP-046
+
+La clôture est rebasée sur `381a289` : les contenus et le statut En cours de MEP-046 sont
+conservés. Sa [CI d’intégration, tentative 2](https://github.com/GaranceRichard/assess-teams/actions/runs/40377175239/attempts/2)
+est verte après relance des seuls jobs échoués : la partition 8 avait échoué sur
+`test_operational_contention[apis_release-production]`, avec un backend inchangé.
+Les sept autres partitions et les E2E Linux avaient déjà passé. Aucun code ni configuration
+CI n’est modifié pour la relance. Les 26 empreintes des sources MEP-013 restent identiques.

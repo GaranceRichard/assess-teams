@@ -93,10 +93,12 @@ ne nécessitent aucune évolution. Les preuves et le suivi canonique sont propre
 Nouveaux tests backend/API et migrations non applicables : aucune modification de ces contrats.
 Les validations calculées par le dépôt restent bloquantes, avec les seuils de couverture
 des campagnes complètes, lint, formatage, typecheck, build, sécurité et limite de 200 lignes.
-La livraison reste en cours jusqu'au pre-push, au push direct et à la CI verte du SHA publié.
+Le pre-push exhaustif et la [CI du SHA `ee50313`](https://github.com/GaranceRichard/assess-teams/actions/runs/40371655241) sont verts ; la DoD de MEP-013 est satisfaite.
 
 Le premier SHA publié `d0e37c0` a passé tous les gates locaux mais échoué en CI Linux
 sur la hauteur desktop et un défilement induit par le focus mobile. Les marges locales
 sont ajustées, sans réduction des contrôles ni assouplissement de la recette ; voir les
 [mesures de polices](font-metrics.json) et le détail dans [validations.md](validations.md).
-La clôture attend la CI verte du correctif publié.
+La CI Linux du correctif passe : hauteur desktop <600 px et focus mobile stable, sans modification des assertions.
+
+Le registre canonique et ses vues dérivées sont actualisés après cette réussite. MEP-045 reste ouvert.

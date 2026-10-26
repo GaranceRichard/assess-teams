@@ -42,7 +42,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
 | EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 11 | 92 % |
-| EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 5 | 29 % |
+| EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 6 | 35 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 2 | 14 % |
 
@@ -108,14 +108,15 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-23
+## Préparation MESS — suivi au 2026-10-26
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
 **MEP-067 réalisé : [cahier UX](../quality/ux-acceptance.md)**. [MEP-019 (contrastes clairs)](../quality/light-theme.md), MEP-052 et MEP-053 réalisés : F09 complète.
 MEP-014 réalisé le 2026-10-23 : [contexte et provenance des Résultats, preuves avant/après](../quality/results-hierarchy.md) ; vingt apparences, formats UX, pre-push et CI complète du SHA publié verts ; F06 atteint 1 PBI sur 4.
-Prochain : MEP-013 (curseur et sélection), puis corrections notation/résultats/dashboard/responsive/interactions.
+MEP-013 réalisé le 2026-10-26 : [sélection explicite, onze valeurs et preuves UX-07/08](../quality/mep-013/README.md) ; pre-push et CI du SHA `ee50313` verts.
+Prochain : MEP-045 (confirmation de sauvegarde), puis corrections notation/résultats/dashboard/responsive/interactions.
 En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
 [Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
@@ -131,7 +132,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 18 | 41 | 1 | 2 | 29 % |
+| MESS actif — E01 à E04 | 62 | 19 | 40 | 1 | 2 | 31 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.

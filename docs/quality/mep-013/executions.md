@@ -75,7 +75,7 @@ Le scénario de texte long passe avec un unique scroll et les actions visibles :
 snapshot v1 conservé après activation de v2 ; le nouveau run reçoit le snapshot v2.
 Les captures `before-navigation-*` proviennent de `4492dc8` : absence de nombres et aide Entrée : 5.
 Les confirmations de sauvegarde restent celles du parcours existant, sans modification MEP-045.
-La limite Linux <600 px reste un gate du SHA publié ; les succès locaux ci-dessus sont Windows.
+La [CI Linux du SHA `ee50313`](https://github.com/GaranceRichard/assess-teams/actions/runs/40371655241) passe le seuil desktop <600 px et la stabilité du focus mobile ; les captures ci-dessus restent celles de Windows.
 Les captures ont été relues : chiffres non rognés, choix souligné/renforcé, absence distincte de zéro,
 focus visible et actions atteignables. Ces preuves ne constituent ni une certification normative, ni un GO MESS.
 
