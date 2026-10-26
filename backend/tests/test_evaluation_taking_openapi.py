@@ -9,6 +9,8 @@ def test_schema_documents_taking_endpoints_and_notes_contract():
     schema = APIClient().get(reverse("schema"), HTTP_ACCEPT="application/json").json()
     paths = schema["paths"]
     collection = paths["/api/evaluations/"]["get"]
+    assert "created_at ASC" in collection["description"]
+    assert "completed_at DESC" in collection["description"]
     detail = paths["/api/evaluations/{run_id}/"]
     score = paths["/api/evaluations/{run_id}/responses/{question_id}/"]["put"]
     finalize = paths["/api/evaluations/{run_id}/finalize/"]["post"]

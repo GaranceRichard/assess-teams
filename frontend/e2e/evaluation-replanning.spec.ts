@@ -66,7 +66,8 @@ test("an Admin replans a completed team evaluation with the same model and keeps
   await expect(rows.filter({ hasText: "Complétée" })).toHaveCount(2);
   await page.reload();
   await expect(rows).toHaveCount(2);
-  const original = rows.first();
+  // The older completion follows the newly completed run in the history.
+  const original = rows.last();
   await expect(original.locator("td").nth(5)).toHaveText(initialCompletion);
   await original
     .getByRole("button", { name: "Consulter", exact: true })

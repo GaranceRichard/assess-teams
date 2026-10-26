@@ -7,7 +7,19 @@ function runFor(id: number) {
   if (!run) throw new Error("Passation inconnue.");
   return run;
 }
-export const listEvaluationRuns = async () => copy(state.runs);
+export const listEvaluationRuns = async () =>
+  copy(state.runs).sort((a, b) => {
+    const group =
+      Number(a.state === "completed") - Number(b.state === "completed");
+    if (group) return group;
+    if (a.state !== "completed") return a.id - b.id;
+    if (a.completed_at === null)
+      return b.completed_at === null ? a.id - b.id : 1;
+    if (b.completed_at === null) return -1;
+    return (
+      Date.parse(b.completed_at) - Date.parse(a.completed_at) || a.id - b.id
+    );
+  });
 export const getEvaluationRun = async (id: number) => copy(runFor(id));
 export const startEvaluationRun = async (id: number) => {
   const run = runFor(id);

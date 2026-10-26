@@ -101,6 +101,7 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
           onClose={(run) => {
             updateRow(run);
             setActive(null);
+            if (run.state !== active.run.state) collection.reload();
           }}
         />
       )}

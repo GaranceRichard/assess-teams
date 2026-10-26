@@ -16,6 +16,7 @@ from assessments.adapters.api.taking_serializers import (
     EvaluationRunSerializer,
     EvaluationScoreSerializer,
 )
+from assessments.application.run_ordering import ordered_evaluation_runs
 from assessments.application.taking import (
     complete_evaluation,
     revise_evaluation,
@@ -50,6 +51,8 @@ class EvaluationRunListView(APIView):
         description=(
             "Liste les évaluations assignées au Coach ou attendues dans le périmètre "
             "administratif, avec auteur, complétion et dernière révision. "
+            "Avant pagination : not_started/in_progress par created_at ASC, puis completed "
+            "par completed_at DESC ; dates absentes en fin de bloc, égalités par pk ASC. "
             "Les noms snapshotés restent historiques ; assignee_active est null "
             "si l’assigné a quitté l’organisation (hors Superadmin global)."
         ),
@@ -64,7 +67,7 @@ class EvaluationRunListView(APIView):
     def get(self, request):
         return collection_response(
             request,
-            visible_evaluation_runs(request.user),
+            ordered_evaluation_runs(visible_evaluation_runs(request.user)),
             EvaluationRunListSerializer,
             context={"request": request},
         )

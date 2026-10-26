@@ -33,6 +33,25 @@ Les modifications ultérieures du planning ne transfèrent pas une passation dé
 La suppression d’un modèle, question, planning ou organisation utilisé par une passation commencée
 est refusée avec `400` ; les attentes jamais commencées peuvent être retirées avec leur source.
 
+## Ordre de la liste
+
+Le tri SQL de `GET /api/evaluations/` s’applique après le scope d’accès et avant
+la pagination optionnelle (`page`, 20 lignes). Il ne change ni filtres ni format de réponse.
+Les `not_started` et `in_progress` partagent le premier bloc, par `created_at` croissant :
+ce champ existe et aucune date d’assignation n’est enregistrée. `due_date` est une échéance,
+pas une date de création. Le second bloc regroupe les `completed` par `completed_at` décroissant,
+sans utiliser `revised_at`. Toute égalité est départagée par `pk` croissant dans chaque bloc.
+Les dates absentes sont placées en fin de leur bloc, puis départagées par `pk` ; les contraintes
+actuelles interdisent toutefois `created_at=null` et une complétion sans `completed_at`.
+Les dates de complétion/révision nulles des passations actives restent normales et sans effet sur le tri.
+Après complétion dans la modale, React recharge la page depuis le serveur pour rétablir l’ordre
+global et compléter la page avec les bonnes lignes, sans trier un sous-ensemble local.
+La démo suit les mêmes blocs ; ses créations fictives sont départagées par leur identifiant séquentiel.
+Les tests couvrent états mixtes, dates égales/optionnelles absentes, contraintes sur les dates requises,
+ajout, complétion/refus, périmètres Coach/Admin et frontières de pagination.
+Revue documentaire : README, règles agents, charte, DoD, stratégie, fondamentaux et contrat API ;
+seule cette description de passation et le README sont affectés. Aucun modèle ni migration modifié.
+
 ## API minimale
 
 | Méthode / chemin                                         | Effet / réponse                                                                 |

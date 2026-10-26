@@ -91,9 +91,10 @@ it("shows assigned pending work and the summary table, then updates it after com
   expect(
     screen.getByRole("button", { name: "Reprendre l’évaluation" }),
   ).toBeVisible();
+  api.listEvaluationRuns.mockResolvedValue([completedRunFixture]);
   fireEvent.click(screen.getByRole("button", { name: "Terminer la modale" }));
   expect(screen.queryByRole("dialog")).toBeNull();
-  expect(screen.getByText("Complétée")).toBeVisible();
+  expect(await screen.findByText("Complétée")).toBeVisible();
   expect(screen.getByText("Aucune évaluation à passer.")).toBeVisible();
 });
 
