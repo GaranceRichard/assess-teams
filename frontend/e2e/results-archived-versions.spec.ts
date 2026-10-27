@@ -33,6 +33,15 @@ test("selects archived results, their historical teams and criteria, then return
   await version.selectOption({ label: "v1 — Archivée" });
   const archivedId = await version.inputValue();
   await expect(page.getByText("Version radar : v1")).toBeVisible();
+  await page
+    .getByRole("button", { name: "Scores 0–10 : mode d’emploi" })
+    .click();
+  const help = page.getByRole("dialog", { name: "Comprendre les résultats" });
+  await expect(help).toContainText("Vous pouvez choisir une version archivée.");
+  await expect(help).toContainText("équipe sur la version consultée");
+  await help.getByRole("button", { name: "Fermer", exact: true }).click();
+  await expect(version).toHaveValue(archivedId);
+  await expect(page.getByText("Version radar : v1")).toBeVisible();
   await expect(
     page.getByRole("checkbox", { name: /^Équipe A/ }),
   ).not.toBeChecked();
