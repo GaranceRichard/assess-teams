@@ -55,7 +55,7 @@ GET implique HEAD ; OPTIONS ne donne ni données métier ni droit de mutation.
 | evaluations/{id}/finalize/ | POST finalisation | C | C | C | I | Même permission/scope ; notes complètes, auteur déterminé par serveur. |
 | evaluations/{id}/revision/ | PUT révision | C | C | I | I | CanTakeEvaluations puis is_evaluation_admin ; COMPLETED ; provenance initiale intacte. |
 | results/organizations/, versions/, families/ | GET sélections | C | C | C | C | IsAuthenticated + projections scopées ; COMPLETED seulement, Coach assigné, Viewer organisation courante. |
-| results/versions/{id}/, families/{id}/, families/{id}/criteria/{uuid}/ | GET résultats/radar/historique | C | C | C | C | Même scope ; dernière version accessible, équipes et lignées explicites ; aucune écriture. |
+| results/versions/{id}/, families/{id}/, families/{id}/criteria/{uuid}/ | GET résultats/radar/historique | C | C | C | C | Même scope ; version exacte sélectionnable, archives comprises, équipes et lignées explicites ; aucune écriture. |
 | steering/organizations/, steering/ | GET Pilotage | C | C | I | I | CanManageEvaluations ; organisation choisie par Superadmin, imposée pour Admin ; lecture seule. |
 | admin/activity-journal/, admin/logs/ | GET journaux | C | C | I | I | Permission administrative + scope ; logs système globaux Superadmin uniquement ; lecture seule. |
 

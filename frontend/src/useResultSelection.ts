@@ -19,6 +19,9 @@ export function useResultSelection(isSuperuser: boolean) {
   const [organizationId, setOrganizationId] = useState("");
   const [families, setFamilies] = useState<ResultFamily[]>([]);
   const [familyId, setFamilyId] = useState("");
+  const [evaluationId, setEvaluationId] = useState("");
+  const family = families.find((item) => String(item.family_id) === familyId);
+  const versions = family?.versions ?? [];
   const [comparison, setComparison] = useState<ResultFamilyComparison | null>(
     null,
   );
@@ -67,6 +70,7 @@ export function useResultSelection(isSuperuser: boolean) {
         );
         if (requested && organizationId === intent.current?.organizationId) {
           setFamilyId(String(requested.family_id));
+          setEvaluationId(String(requested.id));
           setLoadingComparison(true);
         }
       },
@@ -82,9 +86,9 @@ export function useResultSelection(isSuperuser: boolean) {
   }, [organizationId]);
 
   useEffect(() => {
-    if (!familyId) return;
+    if (!familyId || !evaluationId) return;
     let current = true;
-    getFamilyComparison(Number(familyId)).then(
+    getFamilyComparison(Number(familyId), Number(evaluationId)).then(
       (data) => {
         if (!current) return;
         setComparison(data);
@@ -110,16 +114,29 @@ export function useResultSelection(isSuperuser: boolean) {
     return () => {
       current = false;
     };
-  }, [familyId]);
+  }, [familyId, evaluationId]);
 
   function selectFamily(value: string) {
     intent.current = null;
     setSelectionNotice("");
     setFamilyId(value);
+    const next = families.find((item) => String(item.family_id) === value);
+    setEvaluationId(next ? String(next.id) : "");
     setComparison(null);
     setSelected([]);
     setError("");
     setLoadingComparison(Boolean(value));
+  }
+  function selectVersion(value: string) {
+    if (value === evaluationId) return;
+    if (!versions.some((version) => String(version.id) === value)) return;
+    intent.current = null;
+    setSelectionNotice("");
+    setEvaluationId(value);
+    setComparison(null);
+    setSelected([]);
+    setError("");
+    setLoadingComparison(true);
   }
   function selectOrganization(value: string) {
     setOrganizationId(value);
@@ -139,6 +156,8 @@ export function useResultSelection(isSuperuser: boolean) {
     organizationId,
     families,
     familyId,
+    versions,
+    evaluationId,
     comparison,
     selected,
     loading: loadingOrganizations || loadingFamilies || loadingComparison,
@@ -146,6 +165,7 @@ export function useResultSelection(isSuperuser: boolean) {
     selectionNotice,
     selectOrganization,
     selectFamily,
+    selectVersion,
     toggleTeam,
   };
 }

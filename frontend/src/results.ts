@@ -4,6 +4,7 @@ export type ResultVersion = {
   family_name: string;
   version: number;
   organization_name: string;
+  status?: "DRAFT" | "VALIDATED" | "ARCHIVED";
 };
 export type ResultAxis = {
   question_id: number;
@@ -12,7 +13,10 @@ export type ResultAxis = {
   lineage_id?: string;
 };
 export type ResultOrganization = { id: number; name: string };
-export type ResultFamily = ResultVersion & { organization_id: number };
+export type ResultFamily = ResultVersion & {
+  organization_id: number;
+  versions: ResultVersion[];
+};
 export type ResultFamilyComparison = ResultComparison & {
   evaluation_id: number;
   version: number;
@@ -56,14 +60,19 @@ export const listResultOrganizations = () =>
   request<ResultOrganization[]>("organizations/");
 export const listResultFamilies = (organizationId: number) =>
   request<ResultFamily[]>(`families/?organization_id=${organizationId}`);
-export const getFamilyComparison = (familyId: number) =>
-  request<ResultFamilyComparison>(`families/${familyId}/`);
+export const getFamilyComparison = (familyId: number, evaluationId?: number) =>
+  request<ResultFamilyComparison>(
+    `families/${familyId}/${evaluationId === undefined ? "" : `?evaluation_id=${evaluationId}`}`,
+  );
 export function getCriterionHistory(
   familyId: number,
   lineageId: string,
   teamIds: number[],
+  evaluationId?: number,
 ) {
   const query = new URLSearchParams();
+  if (evaluationId !== undefined)
+    query.set("evaluation_id", String(evaluationId));
   teamIds.forEach((id) => query.append("team_ids", String(id)));
   return request<ResultHistory>(
     `families/${familyId}/criteria/${encodeURIComponent(lineageId)}/?${query}`,

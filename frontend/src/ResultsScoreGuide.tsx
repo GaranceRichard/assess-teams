@@ -54,9 +54,10 @@ export function ResultsScoreGuide() {
             </p>
             <h3>Quels résultats sont les plus récents ?</h3>
             <p>
-              Le radar retient la version au numéro le plus élevé ayant des
-              résultats accessibles, puis la dernière passation complétée par
-              équipe sur cette version. La date affichée est la date de
+              Par défaut, la version au numéro le plus élevé ayant des résultats
+              accessibles est sélectionnée. Vous pouvez choisir une version
+              archivée. Le radar utilise la dernière passation complétée par
+              équipe sur la version consultée. La date affichée est la date de
               complétion initiale ; une révision des notes ne déplace pas cette
               date. L’échéance et la date de création ne déterminent pas ce
               choix.

@@ -23,18 +23,18 @@ Cette extension appartient à `EPIC-006 — Suivi longitudinal`, défini dans
 - **User story :** en tant qu’acteur autorisé, je veux superposer les dernières passations complétées
   des équipes pour une même version afin de comparer leurs scores par critère.
 - **Intention / valeur :** rendre les profils comparables et leurs sources explicables sans inventer un score global.
-- **Description :** `/results` propose organisation + famille, choisit automatiquement la dernière version avec résultats,
+- **Description :** `/results` propose organisation + famille + version exacte (archives comprises), choisit par défaut la dernière avec résultats,
   puis propose les équipes éligibles et un radar 0–10.
   Sans lien de Pilotage, aucun choix d’équipe initial ; sélectionner ou désélectionner ne déclenche ni navigation ni requête.
 - **Critères d’acceptation :**
   - seules les familles avec une `COMPLETED` accessible sont proposées ; la dernière version ayant
-    des résultats accessibles est utilisée automatiquement, y compris après archivage ;
+    des résultats accessibles est utilisée par défaut ; toute version avec complétion accessible reste sélectionnable après archivage ;
   - chaque équipe utilise uniquement sa dernière `COMPLETED` accessible : `completed_at DESC`, puis `id DESC` ;
   - échéance, création et révision ne déterminent pas la récence ; aucune moyenne de plusieurs passations ;
   - axes, ordre, libellés et scores 0–10 proviennent des snapshots de la version exacte ;
   - 0 équipe conserve axes/échelle, 1 équipe affiche une série, N équipes superposent leurs séries ;
   - légende, tracés et marqueurs différenciés, dates de complétion, libellés complets et tableau accessible ;
-  - changement d’organisation/de famille réinitialise les sélections ; chargement, erreur et absence de données explicites ;
+  - changement d’organisation/de famille/de version réinitialise les sélections ; chargement, erreur et absence de données explicites ;
   - Superadmin global, Admin organisationnel, Coach limité à ses assignations, Viewer limité aux COMPLETED de son organisation en lecture seule.
 - **Refus / cas négatifs :** version forgée hors scope ou sans complétion : `404` ; anonyme : `403` ;
   snapshots incompatibles/incomplets exclus sans utiliser une ancienne passation en remplacement.
@@ -59,10 +59,10 @@ paire à paire d’équipes ni comparaison globale de versions n’est introduit
 - **User story :** en tant qu’acteur autorisé, je veux ouvrir un critère du radar pour consulter ses
   observations historiques compatibles par équipe, puis revenir au radar avec mes choix conservés.
 - **Intention / valeur :** rendre les observations datées explicables sans inventer de filiation ni de tendance.
-- **Description :** Organisation → Modèle → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
+- **Description :** Organisation → Modèle → Version exacte → Équipe(s) → Radar → Critère → Évolution → Retour au radar.
 - **Critères d’acceptation :**
   - Superadmin : choisit l’organisation ; Admin et Viewer : organisation imposée ; Coach : assignations inchangées ;
-  - familles avec `COMPLETED` accessibles, dernière version ayant des résultats automatiquement retenue ;
+  - familles avec `COMPLETED` accessibles, version exacte sélectionnable, archives comprises ; dernière avec résultats retenue par défaut ;
   - seules les équipes de cette version sont sélectionnables ; aucune sélection d’équipe par défaut ;
   - radar = dernière position : une `COMPLETED` par équipe, `completed_at DESC`, puis `pk DESC` ;
   - zéro équipe conserve axes/échelle ; 1/N équipes conservent séries, légende et dates ;
@@ -77,7 +77,7 @@ paire à paire d’équipes ni comparaison globale de versions n’est introduit
   - migration conservatrice : questions historiques distinctes, snapshots rattachés uniquement par FK source ;
   - retour au radar conserve organisation, modèle et équipes ; changement de contexte réinitialise les choix ;
   - tableau sémantique complet, thèmes jour/nuit et erreurs/absence de données explicites.
-- **Refus :** organisation/famille/critère/équipe forgés ou hors scope : `404` ; query invalide : `400` ;
+- **Refus :** organisation/famille/version/critère/équipe forgés ou hors scope : `404` ; query invalide : `400` ;
   anonyme/inactif : `403` ; Viewer : aucun résultat hors organisation ni non COMPLETED. Une liste mêlant équipes autorisées et forgées est refusée.
 - **Hors périmètre :** moyennes, score global, classement, tendances calculées, objectifs, rapprochement
   automatique de critères, comparaison globale de versions, Steering, exports et édition depuis Results.

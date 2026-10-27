@@ -12,11 +12,13 @@ import type { Theme } from "./theme";
 export function ResultsViews({
   comparison,
   familyId,
+  evaluationId,
   selected,
   theme,
 }: {
   comparison: ResultComparison;
   familyId: number;
+  evaluationId?: number;
   selected: number[];
   theme: Theme;
 }) {
@@ -88,6 +90,7 @@ export function ResultsViews({
             <ResultsHistory
               key={criterion.lineage_id}
               familyId={familyId}
+              evaluationId={evaluationId}
               criterion={criterion}
               teams={comparison.teams}
               selected={selected}

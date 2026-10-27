@@ -16,8 +16,17 @@ class ResultFamilyQuerySerializer(serializers.Serializer):
     organization_id = serializers.IntegerField(min_value=1)
 
 
+class ResultAvailableVersionSerializer(ResultVersionSerializer):
+    status = serializers.CharField()
+
+
 class ResultFamilySerializer(ResultVersionSerializer):
     organization_id = serializers.IntegerField()
+    versions = ResultAvailableVersionSerializer(many=True, source="result_versions")
+
+
+class ResultVersionQuerySerializer(serializers.Serializer):
+    evaluation_id = serializers.IntegerField(min_value=1, required=False)
 
 
 class ResultCriterionSerializer(ResultAxisSerializer):
@@ -31,7 +40,7 @@ class ResultFamilyComparisonSerializer(serializers.Serializer):
     teams = ResultTeamSerializer(many=True)
 
 
-class ResultHistoryQuerySerializer(serializers.Serializer):
+class ResultHistoryQuerySerializer(ResultVersionQuerySerializer):
     team_ids = serializers.ListField(
         child=serializers.IntegerField(min_value=1), required=False, default=list
     )

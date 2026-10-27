@@ -12,14 +12,16 @@ from assessments.adapters.api.result_history_serializers import (
     ResultHistoryQuerySerializer,
     ResultHistorySerializer,
     ResultOrganizationSerializer,
+    ResultVersionQuerySerializer,
 )
 from assessments.adapters.api.results_views import SCOPE_DESCRIPTION
 from assessments.application.result_history import (
     criterion_history,
     result_family_versions_for,
     result_organizations_for,
+    result_version_for,
 )
-from assessments.application.results import comparison_results
+from assessments.application.results import comparison_results, result_versions_for
 
 
 class ResultsReadView(APIView):
@@ -44,7 +46,8 @@ class ResultFamilyListView(ResultsReadView):
     @extend_schema(
         description=SCOPE_DESCRIPTION + "Familles ayant des COMPLETED accessibles dans "
         "l’organisation. Chaque famille expose sa dernière version ayant des résultats "
-        "accessibles selon version DESC, indépendamment du statut courant du modèle.",
+        "accessibles selon version DESC, indépendamment du statut courant du modèle. "
+        "versions contient toutes les versions exactes avec COMPLETED accessibles et leur statut.",
         parameters=[ResultFamilyQuerySerializer],
         responses={
             200: ResultFamilySerializer(many=True),
@@ -60,6 +63,11 @@ class ResultFamilyListView(ResultsReadView):
             result_organizations_for(request.user), pk=query.validated_data["organization_id"]
         )
         versions = result_family_versions_for(request.user, organization.pk)
+        available = {}
+        for version in result_versions_for(request.user).filter(organization_id=organization.pk):
+            available.setdefault(version.family_id, []).append(version)
+        for version in versions:
+            version.result_versions = available[version.family_id]
         return Response(ResultFamilySerializer(versions, many=True).data)
 
 
@@ -69,15 +77,20 @@ class ResultFamilyComparisonView(ResultsReadView):
         "de la famille ayant des résultats accessibles. Dernière COMPLETED par équipe selon "
         "completed_at DESC, pk DESC ; axes, lignées et scores issus des snapshots. "
         "Aucune agrégation ni retour à une passation plus ancienne "
-        "si le snapshot est inutilisable.",
+        "si le snapshot est inutilisable. evaluation_id sélectionne une version exacte accessible "
+        "de cette famille, y compris archivée ; aucun remplacement silencieux.",
+        parameters=[ResultVersionQuerySerializer],
         responses={
             200: ResultFamilyComparisonSerializer,
+            400: OpenApiResponse(),
             403: OpenApiResponse(),
             404: OpenApiResponse(),
         },
     )
     def get(self, request, family_id):
-        version = get_object_or_404(result_family_versions_for(request.user), family_id=family_id)
+        query = ResultVersionQuerySerializer(data=request.query_params.dict())
+        query.is_valid(raise_exception=True)
+        version = result_version_for(request.user, family_id, **query.validated_data)
         results = comparison_results(request.user, version.pk, include_lineage=True)
         results.update(evaluation_id=version.pk, version=version.version)
         return Response(ResultFamilyComparisonSerializer(results).data)
@@ -90,15 +103,18 @@ class ResultCriterionHistoryView(ResultsReadView):
         "versions uniquement par lignée UUID explicite, jamais texte/index/position. Ordre "
         "completed_at ASC, pk ASC, un point par passation compatible, sans moyenne, "
         "interpolation ni tendance calculée. Critère absent du radar courant ou équipe "
-        "inaccessible/non éligible sur sa version : 404. Aucun team_ids : séries vides.",
+        "inaccessible/non éligible sur sa version : 404. Aucun team_ids : séries vides. "
+        "evaluation_id choisit la version de référence des critères et équipes ; "
+        "les observations suivent uniquement leur lignée explicite.",
         parameters=[
+            ResultVersionQuerySerializer,
             OpenApiParameter(
                 "team_ids",
                 OpenApiTypes.INT,
                 many=True,
                 explode=True,
                 description="IDs répétés des équipes sélectionnées et éligibles sur le radar.",
-            )
+            ),
         ],
         responses={
             200: ResultHistorySerializer,
@@ -109,10 +125,15 @@ class ResultCriterionHistoryView(ResultsReadView):
     )
     def get(self, request, family_id, lineage_id):
         query = ResultHistoryQuerySerializer(
-            data={"team_ids": request.query_params.getlist("team_ids")}
+            data={
+                **request.query_params.dict(),
+                "team_ids": request.query_params.getlist("team_ids"),
+            }
         )
         query.is_valid(raise_exception=True)
-        version = get_object_or_404(result_family_versions_for(request.user), family_id=family_id)
+        version = result_version_for(
+            request.user, family_id, query.validated_data.get("evaluation_id")
+        )
         comparison = comparison_results(request.user, version.pk, include_lineage=True)
         history = criterion_history(
             request.user, version, comparison, lineage_id, query.validated_data["team_ids"]

@@ -30,13 +30,18 @@ Session active par cookie. Lectures GET uniquement ; anonyme/inactif : `403`.
 - `GET /api/results/organizations/` : `200`, `[{id, name}]`. Superadmin : organisations globales ;
   autres rôles : leurs rattachements. Cette collection ne donne aucun accès aux passations.
 - `GET /api/results/families/?organization_id=ID` : `200`,
-  `[{id, family_id, family_name, version, organization_id, organization_name}]`.
+  `[{id, family_id, family_name, version, organization_id, organization_name, versions}]`.
+  `versions` liste par numéro croissant les versions exactes ayant une `COMPLETED` accessible :
+  `{id, family_id, family_name, version, organization_name, status}`, archives comprises.
+  Une famille entièrement archivée reste proposée. Aucun appel administratif ni droit nouveau.
   `id` identifie la version radar, `family_id` le modèle à sélectionner. Chaque famille proposée
   possède au moins une `COMPLETED` accessible dans l’organisation. Sa plus grande version ayant
   des résultats accessibles est retenue, y compris archivée, indépendamment de la date de complétion.
   Une version plus récente sans résultat n’est pas retenue. ID absent/invalide : `400` ; hors scope : `404`.
 - `GET /api/results/families/{family_id}/` : `200`, `{evaluation_id, version, axes, teams}`.
-  La version radar est automatiquement recalculée dans le scope de l’acteur.
+  `?evaluation_id=ID` sélectionne une version exacte de cette famille dans le scope de l’acteur ;
+  sans ce paramètre, la dernière version avec résultats reste choisie. Un ID mal formé/inférieur à 1
+  donne `400` ; version hors scope, d’une autre famille ou sans complétion : `404`, sans substitution.
   `axes` contient `{question_id, lineage_id, index, text}` issus des snapshots ordonnés.
   `teams` contient `{team_id, team_name, run_id, completed_at, scores}` ; scores entiers 0–10.
   Famille inaccessible ou sans complétion accessible : `404`.
@@ -48,7 +53,9 @@ Session active par cookie. Lectures GET uniquement ; anonyme/inactif : `403`.
   Le texte observé, le score, le nom historique d’équipe et la date viennent des snapshots/runs.
   `version` provient de la FK exacte de version du run, jamais d’une version courante de substitution.
   Aucun ID d’équipe : séries vides. IDs répétés : dédupliqués. IDs mal formés : `400`.
-  Critère absent des axes du radar courant ou équipe non éligible sur sa version : `404`.
+  Le paramètre optionnel `evaluation_id` choisit la version de référence des axes et équipes,
+  avec les mêmes validations/refus que le radar. Critère absent de ces axes ou équipe non éligible
+  sur cette version : `404`. Les observations restent inter-version uniquement par lignée explicite.
   Une liste mêlant équipes accessibles et forgées est refusée intégralement.
 
 Les anciens `GET /api/results/versions/` et `GET /api/results/versions/{evaluation_id}/` sont conservés
@@ -57,7 +64,7 @@ Le schéma dynamique `/api/schema/` et Swagger `/api/docs/` décrivent paramètr
 
 ## Sélection, intégrité et coût
 
-Radar = dernière position sur la dernière version de la famille ayant des résultats accessibles.
+Radar = dernière position sur la version exacte choisie ; par défaut, la dernière avec résultats accessibles.
 Après filtrage du scope et de la version, une sous-requête par équipe choisit
 `completed_at DESC, pk DESC`. Les questions sont chargées par un prefetch unique (deux requêtes
 pour la projection radar, hors lookup/session/logs). Les équipes archivées restent éligibles.
@@ -88,9 +95,12 @@ organisation et équipe ne peuvent élargir ce scope ni mélanger plusieurs orga
 
 ## React et graphiques
 
-Parcours : Organisation → Modèle (famille) → Équipe(s) → Analyse / Restitution → Critère si temporel.
+Parcours : Organisation → Modèle (famille) → Version exacte → Équipe(s) → Analyse / Restitution → Critère si temporel.
 Sans intention URL de Pilotage, aucune organisation préchoisie pour le Superadmin ni équipe préchoisie ; l’organisation de l’Admin et du Viewer est imposée.
-Changer d’organisation ou de famille remet à zéro les sélections et ferme le longitudinal.
+Changer d’organisation, de famille ou de version remet à zéro les équipes, le critère et les vues.
+Le sélecteur affiche `v1 — Archivée` / `v2 — Validée` selon le statut disponible ; le contexte indique
+la version consultée. Une erreur de lecture retire les anciennes données sans choisir une autre version.
+Consulter une archive est exclusivement une lecture et ne réactive jamais le modèle.
 Les réponses obsolètes des listes, du radar et de l’historique sont ignorées.
 
 Le radar conserve axes et échelle 0–10 avec zéro série. Avec 1/N équipes, il conserve séries superposées,
@@ -138,6 +148,20 @@ de continuité ; une légende des cellules vides accompagne le tableau historiqu
 [Audit et preuves UX-09](../quality/mep-046/README.md). Ce format est limité au tableau temporel ; les autres formats de dates/heures ne changent pas.
 Sans observation, un état explicite remplace le graphique ; aucune date fictive n’est affichée.
 Les thèmes jour/nuit et styles des équipes restent cohérents entre les deux vues.
+
+## Diagnostic et non-régression des archives
+
+La liste exacte `result_versions_for` incluait déjà les archives autorisées. La restriction venait de
+`useResultSelection` et des lectures par famille/historique, qui imposaient la dernière version.
+Le correctif conserve ces projections et leur défaut ; la liste des familles ajoute leurs versions
+accessibles via le même scope, et les lectures acceptent un ID exact optionnel. Aucun modèle,
+archivage, snapshot, calcul de récence ni règle de continuité n’est modifié.
+`test_result_archived_versions` et `test_result_version_selection_security` vérifient snapshots,
+équipes historiques, archives seules, versions sans résultat, quatre rôles, IDs forgés et refus.
+`ResultsArchivedVersions.test.tsx` couvre le choix, zéro mesuré, détails, retour, erreur sans repli
+et réponses obsolètes ; `results-archived-versions.spec.ts` exerce ces archives avec la vraie API.
+La revue documentaire inclut README, règles agents, charte, DoD, stratégie, architecture et API ;
+les règles qualité et l’architecture générale ne nécessitent aucune modification.
 
 ## Périmètre et preuves
 

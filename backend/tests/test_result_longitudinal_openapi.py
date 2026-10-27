@@ -12,7 +12,7 @@ def test_openapi_documents_organization_family_and_explicit_criterion_history():
     expected = {
         "/api/results/organizations/": {"200", "403"},
         "/api/results/families/": {"200", "400", "403", "404"},
-        "/api/results/families/{family_id}/": {"200", "403", "404"},
+        "/api/results/families/{family_id}/": {"200", "400", "403", "404"},
         "/api/results/families/{family_id}/criteria/{lineage_id}/": {"200", "400", "403", "404"},
     }
     for path, codes in expected.items():
@@ -21,6 +21,15 @@ def test_openapi_documents_organization_family_and_explicit_criterion_history():
         assert set(get["responses"]) == codes | {"500"}
         assert {"cookieAuth": []} in get["security"]
         assert "Viewer sur les COMPLETED de son organisation" in get["description"]
+    for path in (
+        "/api/results/families/{family_id}/",
+        "/api/results/families/{family_id}/criteria/{lineage_id}/",
+    ):
+        parameter = next(
+            p for p in paths[path]["get"]["parameters"] if p["name"] == "evaluation_id"
+        )
+        assert parameter["schema"] == {"type": "integer", "minimum": 1}
+        assert parameter.get("required", False) is False
     family = paths["/api/results/families/"]["get"]
     organization = next(p for p in family["parameters"] if p["name"] == "organization_id")
     assert organization["required"] is True
@@ -32,6 +41,8 @@ def test_openapi_documents_organization_family_and_explicit_criterion_history():
     assert team_ids["explode"] is True
     assert "lignée UUID explicite" in history["description"]
     components = schema["components"]["schemas"]
+    assert "versions" in components["ResultFamily"]["required"]
+    assert "status" in components["ResultAvailableVersion"]["required"]
     assert components["ResultCriterion"]["properties"]["lineage_id"]["format"] == "uuid"
     assert components["ResultObservation"]["properties"]["score"]["maximum"] == 10
     assert "completed_at" in components["ResultObservation"]["required"]

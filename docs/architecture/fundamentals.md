@@ -59,7 +59,7 @@ décrit les données, contraintes et scopes. Le démarrage exige un modèle vali
 reste reprenable après archivage du modèle. Le référentiel est versionné.
 
 La route `/results` compare sur un radar les dernières passations complétées des équipes pour une
-version radar automatiquement choisie par famille dans l’organisation. Le [contrat Results](results-api.md)
+version exacte sélectionnable par famille dans l’organisation, archives comprises (dernière avec résultats par défaut). Le [contrat Results](results-api.md)
 décrit les snapshots, le scope des passations et l’historique à la demande d’un critère, avec continuité
 inter-version uniquement par lignée UUID explicite, sans agrégation. Viewer lit uniquement les
 COMPLETED de son organisation, sans accéder aux utilisateurs, aux équipes administratives ni aux mutations.

@@ -19,7 +19,7 @@ planifiés avant leur implémentation. L’avancement mesure les PBIs raffinés,
 - Journal d’activité et Logs distincts, filtrables, paginés et en lecture seule ;
 - health check, réglages development/production, [HTTPS et proxy de confiance](../architecture/http-security.md), OpenAPI et quality gates.
 
-Le radar `/results` compare les dernières positions sur la dernière version ayant des résultats
+Le radar `/results` compare les dernières positions sur une version exacte sélectionnable, archives comprises (dernière avec résultats par défaut)
 par famille/organisation ; le longitudinal restitue les observations d’un critère par lignée explicite.
 Le [Pilotage P0](source/04b-steering.md) `/steering` restitue couverture, complétions et retards
 des équipes actives pour Admin/Superadmin, avec drill-down Results et sans score.

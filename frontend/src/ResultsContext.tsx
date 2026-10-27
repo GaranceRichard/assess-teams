@@ -12,8 +12,7 @@ export function ResultsContext({
       {children}
       {version !== undefined && (
         <p className="results-note">
-          <strong>Version radar : v{version}</strong> · Dernière version ayant
-          des résultats accessibles
+          <strong>Version radar : v{version}</strong> · Version consultée
         </p>
       )}
     </section>

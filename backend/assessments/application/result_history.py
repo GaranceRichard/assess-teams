@@ -1,4 +1,5 @@
 from django.db.models import OuterRef, Subquery
+from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import NotFound
 
 from assessments.application.results import completed_results_for, result_versions_for
@@ -17,6 +18,13 @@ def result_family_versions_for(user, organization_id=None):
         versions = versions.filter(organization_id=organization_id)
     latest = versions.filter(family_id=OuterRef("family_id")).order_by("-version", "-pk")
     return versions.filter(pk=Subquery(latest.values("pk")[:1])).order_by("family__name", "pk")
+
+
+def result_version_for(user, family_id, evaluation_id=None):
+    versions = result_versions_for(user).filter(family_id=family_id)
+    if evaluation_id is not None:
+        return get_object_or_404(versions, pk=evaluation_id)
+    return get_object_or_404(result_family_versions_for(user), family_id=family_id)
 
 
 def criterion_history(user, version, comparison, lineage_id, team_ids):

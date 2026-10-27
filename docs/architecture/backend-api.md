@@ -70,7 +70,7 @@ Menus et accès directs suivent la [matrice MEP-037](role-permissions.md) : Équ
 Viewer accède au [dashboard personnel](dashboard-api.md) et aux Résultats.
 
 Le [contrat Results](results-api.md) expose les versions avec complétions et les dernières passations
-complétées par équipe, sur une version radar automatique par famille/organisation, puis les observations longitudinales d’un critère
+complétées par équipe, sur une version exacte sélectionnable par famille/organisation (dernière avec résultats par défaut, archives incluses), puis les observations longitudinales d’un critère
 par lignée explicite, dans le scope des passations pour Superadmin/Admin/Coach et des COMPLETED
 de son organisation pour Viewer, sans agrégation ni droit d’écriture.
 

@@ -52,6 +52,26 @@ export function ResultsPage({
               ))}
             </select>
           </label>
+          <label className="results-model">
+            Version
+            <select
+              value={state.evaluationId}
+              disabled={!state.familyId}
+              onChange={(event) => state.selectVersion(event.target.value)}
+            >
+              <option value="">Sélectionner une version</option>
+              {state.versions.map((version) => (
+                <option key={version.id} value={version.id}>
+                  v{version.version}
+                  {version.status === "ARCHIVED"
+                    ? " — Archivée"
+                    : version.status === "VALIDATED"
+                      ? " — Validée"
+                      : ""}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       </ResultsContext>
       {state.loading && <p role="status">Chargement des résultats…</p>}
@@ -89,7 +109,8 @@ export function ResultsPage({
               onToggle={state.toggleTeam}
             />
             <ResultsViews
-              key={state.familyId}
+              key={`${state.familyId}:${state.evaluationId}`}
+              evaluationId={Number(state.evaluationId)}
               comparison={state.comparison}
               familyId={Number(state.familyId)}
               selected={state.selected}

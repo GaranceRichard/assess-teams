@@ -20,6 +20,7 @@ ChartJS.register(LinearScale, LineElement, PointElement, Tooltip);
 
 type Props = {
   familyId: number;
+  evaluationId?: number;
   criterion: ResultAxis;
   teams: ResultTeam[];
   selected: number[];
@@ -29,6 +30,7 @@ type Props = {
 
 export function ResultsHistory({
   familyId,
+  evaluationId,
   criterion,
   teams,
   selected,
@@ -48,7 +50,16 @@ export function ResultsHistory({
   useEffect(() => {
     let current = true;
     const ids = teamIds ? teamIds.split(",").map(Number) : [];
-    getCriterionHistory(familyId, criterion.lineage_id!, ids).then(
+    const request =
+      evaluationId === undefined
+        ? getCriterionHistory(familyId, criterion.lineage_id!, ids)
+        : getCriterionHistory(
+            familyId,
+            criterion.lineage_id!,
+            ids,
+            evaluationId,
+          );
+    request.then(
       (data) => {
         if (current) setResult({ key: teamIds, data, error: false });
       },
@@ -59,7 +70,7 @@ export function ResultsHistory({
     return () => {
       current = false;
     };
-  }, [familyId, criterion.lineage_id, teamIds]);
+  }, [familyId, evaluationId, criterion.lineage_id, teamIds]);
   // A response for a previous selection is never displayed while the next request loads.
   const loading = result.key !== teamIds || (!result.data && !result.error);
   const history = loading ? null : result.data;

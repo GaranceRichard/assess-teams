@@ -14,6 +14,7 @@ export const resultVersions: ResultVersion[] = [
     family_name: "Maturité",
     version: 1,
     organization_name: "North",
+    status: "ARCHIVED",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ export const resultVersions: ResultVersion[] = [
     family_name: "Maturité",
     version: 2,
     organization_name: "North",
+    status: "VALIDATED",
   },
 ];
 export const resultComparison: ResultComparison = {
@@ -75,12 +77,13 @@ export const resultOrganizations = [
   { id: 2, name: "South" },
 ];
 export const resultFamilies: ResultFamily[] = [
-  { ...resultVersions[1], organization_id: 1 },
+  { ...resultVersions[1], organization_id: 1, versions: resultVersions },
   {
     ...resultVersions[0],
     family_id: 5,
     family_name: "Autre modèle",
     organization_id: 1,
+    versions: [{ ...resultVersions[0], family_id: 5 }],
   },
 ];
 export const resultFamilyComparison = {

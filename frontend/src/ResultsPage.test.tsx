@@ -59,7 +59,7 @@ it("loads ordered axes immediately with a fixed empty scale, then overlays and r
   await screen.findByText("Sélectionnez un modèle pour comparer les équipes.");
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   await chooseVersion();
-  expect(api.getFamilyComparison).toHaveBeenCalledWith(4);
+  expect(api.getFamilyComparison).toHaveBeenCalledWith(4, 2);
   expect(chartData().labels).toEqual([
     "1. Collaboration",
     "2. Critère très long qui doit rest…",

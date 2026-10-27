@@ -53,6 +53,10 @@ it("explains scores, real zero, missing observations and business recency in eve
       expect(dialog).toHaveTextContent(
         /cellule vide.*aucune observation à ce rang/,
       );
+      expect(dialog).toHaveTextContent(
+        /Vous pouvez choisir une version archivée/,
+      );
+      expect(dialog).toHaveTextContent(/par équipe sur la version consultée/);
       expect(dialog).toHaveTextContent(/date de complétion initiale/);
       expect(dialog).toHaveTextContent(
         /un lien ne garantit pas un sens identique des notes/,

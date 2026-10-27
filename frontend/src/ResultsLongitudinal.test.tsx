@@ -90,6 +90,7 @@ it("loads history only on criterion opening and returns with model and team sele
     4,
     resultHistory.lineage_id,
     [10, 20],
+    2,
   );
   fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
   expect(screen.getByLabelText("Critère")).toHaveValue("1");
@@ -132,6 +133,7 @@ it("shows zero selected teams without inventing any observation", async () => {
     4,
     resultHistory.lineage_id,
     [],
+    2,
   );
 });
 it("shows history failures and lets the user return to the radar", async () => {

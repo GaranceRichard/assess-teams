@@ -73,8 +73,10 @@ commencée reste reprenable, finalisable et révisable sur v1, indépendamment d
 
 ## Migration et vérification
 
-Le [contrat Results](results-api.md) sélectionne l’ID exact de version, y compris archivée, et conserve
-les axes/scores des snapshots. Le longitudinal compare uniquement les observations d’une lignée
+Le [contrat Results](results-api.md) propose toutes les versions ayant des complétions accessibles,
+y compris les familles entièrement archivées, et choisit la dernière par défaut. Une sélection explicite
+transmet l’ID exact de version au radar et à l’éligibilité temporelle, sans réactivation ni substitution.
+Les axes/scores restent ceux des snapshots. Le longitudinal compare uniquement les observations d’une lignée
 explicitement conservée ; la migration `0013` ne rapproche pas les anciennes copies historiques.
 
 `assessments.0011` crée une famille distincte pour chaque `Evaluation` existante et l’y rattache en

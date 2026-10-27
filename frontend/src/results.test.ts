@@ -50,3 +50,14 @@ it("requests organizations, families, automatic radar and lazy criterion history
     "/api/results/families/4/criteria/uuid%2Fforged/?team_ids=10&team_ids=20",
   ]);
 });
+
+it("pins comparison and history to the requested exact version", async () => {
+  const fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) });
+  vi.stubGlobal("fetch", fetch);
+  await getFamilyComparison(4, 1);
+  await getCriterionHistory(4, "lineage", [10], 1);
+  expect(fetch.mock.calls.map((call) => call[0])).toEqual([
+    "/api/results/families/4/?evaluation_id=1",
+    "/api/results/families/4/criteria/lineage/?evaluation_id=1&team_ids=10",
+  ]);
+});

@@ -82,7 +82,8 @@ paramètres sans nouveau routeur. Results présélectionne uniquement les IDs pr
 réponses backend autorisées ; les paramètres ne donnent aucun droit. Recharge et nouvel onglet
 sont compatibles. Un changement manuel annule l’intention initiale.
 
-**Limite explicite :** Results conserve sa dernière version ayant des résultats par famille.
+**Limite du lien :** Results sélectionne par défaut sa dernière version ayant des résultats par famille.
+Le sélecteur Version permet ensuite de consulter une archive accessible et ses équipes historiques.
 L’équipe source peut n’avoir qu’une complétion ancienne ou un snapshot inexploitable ; si elle
 n’est pas éligible sur le radar courant, un message explique l’absence et aucune équipe n’est
 sélectionnée. Le lien n’impose pas la version historique affichée dans Pilotage et ne duplique
