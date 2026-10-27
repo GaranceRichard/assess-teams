@@ -84,3 +84,10 @@ La démo applique les mêmes assertions au build Pages. Les captures sont inspec
 
 README, fondamentaux, API et stratégie de tests sont mis à jour. Agent-rules, charte qualité et DoD
 restent applicables sans changement. `quality:full`, pre-push et CI restent bloquants.
+
+## Transitions visuelles
+
+Les [transitions partagées](../quality/ux-transitions/README.md) ajoutent une entrée CSS courte
+sans attente ni changement de géométrie. Les questions seules glissent selon la navigation ;
+le shell et les dialogues conservent leur focus et leurs protections. La préférence
+`prefers-reduced-motion: reduce` rend ces changements immédiats.

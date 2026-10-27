@@ -84,6 +84,7 @@
   white-space: pre-wrap;
 }
 .taking-dialog .taking-content > p,
+.taking-dialog .taking-question > p,
 .taking-dialog .taking-size-copy > p {
   margin: 0.2rem 0;
 }

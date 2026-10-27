@@ -35,7 +35,7 @@ La vue Radar / Graphique des Résultats retire le menu dépliant « Historique p
 
 Le [MEP-002 — HTTPS, proxy et CSRF](docs/architecture/http-security.md) impose HTTPS en production, protège cookies et CSRF, valide proxys et origines, et conserve HTTP local.
 
-Le [MEP-005 — Accessibilité des dialogues](docs/architecture/dialog-accessibility.md) harmonise l’accessibilité de tous les dialogues : focus initial et contenu, retour au déclencheur ou à un repère pertinent, fermeture par Échap selon les protections existantes, titres et descriptions accessibles. Les saisies et les parcours métier restent protégés, sans refonte graphique ni changement du curseur de notation.
+Le [MEP-005 — Accessibilité des dialogues](docs/architecture/dialog-accessibility.md) harmonise l’accessibilité de tous les dialogues : focus initial et contenu, retour au déclencheur ou à un repère pertinent, fermeture par Échap selon les protections existantes, titres et descriptions accessibles. Les saisies et les parcours métier restent protégés, sans refonte graphique ni changement du curseur de notation. Les [transitions douces](docs/quality/ux-transitions/README.md) ajoutent des entrées sobres aux pages, questions et dialogues, immédiates en réduction des animations ; focus, sauvegardes et géométrie MEP-013/044 sont conservés.
 
 MEP-004 fiabilise les [notifications par courriel](docs/architecture/email-notifications.md) : file persistante locale, reprises SMTP bornées, prévention des doublons et suivi administratif, sans remettre en cause une opération métier validée ni ajouter de service externe obligatoire.
 

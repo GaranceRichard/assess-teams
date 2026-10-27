@@ -4,6 +4,11 @@ import { seedTakingContext } from "./taking-fixture";
 import { expectPassiveMarker } from "./appreciation-assertions";
 
 async function geometry(dialog: Locator) {
+  await dialog.evaluate(async (element) => {
+    await Promise.all(
+      element.getAnimations().map((animation) => animation.finished),
+    );
+  });
   return {
     modal: await dialog.boundingBox(),
     navigation: await dialog

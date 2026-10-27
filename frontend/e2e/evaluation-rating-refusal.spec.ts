@@ -11,6 +11,11 @@ async function login(page: Page, username: string) {
 }
 
 async function geometry(dialog: Locator) {
+  await dialog.evaluate(async (element) => {
+    await Promise.all(
+      element.getAnimations().map((animation) => animation.finished),
+    );
+  });
   const action = dialog.locator(".taking-content .taking-note-action");
   return {
     dialog: await dialog.boundingBox(),

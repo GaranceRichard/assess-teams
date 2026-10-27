@@ -69,3 +69,10 @@ Les règles agents, charte et DoD restent applicables ; le backend/API/OpenAPI e
 ne changent pas. `quality:full`, pre-push et CI conservent tous leurs contrôles bloquants.
 
 Référence : [modèle de dialogue modal W3C APG](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+## Transitions visuelles
+
+Les [transitions partagées](../quality/ux-transitions/README.md) ajoutent une entrée CSS courte
+sans attente ni changement de géométrie. Les questions seules glissent selon la navigation ;
+le shell et les dialogues conservent leur focus et leurs protections. La préférence
+`prefers-reduced-motion: reduce` rend ces changements immédiats.

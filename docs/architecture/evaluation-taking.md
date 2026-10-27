@@ -178,3 +178,10 @@ absence et repère inférieur. Les tests existants de notation explicite, sauveg
 consultation et versionnement restent la référence ; les seuls ajouts vérifient l’échelle visible et
 accessible, la valeur réelle du repère, les contrastes et les captures vierge/0/5/10/reprise.
 Les modèles, API, snapshots, calculs et mécanismes de sélection/persistance sont inchangés.
+
+## Transitions visuelles
+
+Les [transitions partagées](../quality/ux-transitions/README.md) ajoutent une entrée CSS courte
+sans attente ni changement de géométrie. Les questions seules glissent selon la navigation ;
+le shell et les dialogues conservent leur focus et leurs protections. La préférence
+`prefers-reduced-motion: reduce` rend ces changements immédiats.

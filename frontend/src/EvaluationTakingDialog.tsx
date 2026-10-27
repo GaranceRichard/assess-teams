@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useQuestionTransition } from "./useQuestionTransition";
 import { TakingContentSizing } from "./TakingContentSizing";
 import { TakingStatusSizing } from "./TakingStatusSizing";
 import { EvaluationScoreInput } from "./EvaluationScoreInput";
@@ -38,15 +38,10 @@ export function EvaluationTakingDialog({
     next,
     submit,
   } = useEvaluationTaking(run, revision, onClose);
-  const questionTitle = useRef<HTMLHeadingElement>(null);
-  const previousQuestion = useRef(question?.question_id);
-
-  useLayoutEffect(() => {
-    if (previousQuestion.current !== question?.question_id) {
-      previousQuestion.current = question?.question_id;
-      questionTitle.current?.focus();
-    }
-  }, [question?.question_id]);
+  const { questionTitle, questionContent } = useQuestionTransition(
+    position,
+    question?.question_id,
+  );
 
   return (
     <dialog
@@ -76,41 +71,43 @@ export function EvaluationTakingDialog({
           {revision && <p>La révision sera enregistrée à sa validation.</p>}
           {question && (
             <>
-              <p className="question-position" aria-live="polite">
-                Question {position + 1} / {current.questions.length}
-              </p>
-              <h3
-                ref={questionTitle}
-                id="question-text"
-                className="taking-question-title"
-                tabIndex={-1}
-              >
-                {question.text}
-              </h3>
-              <EvaluationScoreInput
-                question={question}
-                disabled={readonly || submitting || advancing}
-                onSelect={(score) => void selectScore(score)}
-              />
-              <p
-                id="score-status"
-                className="taking-status"
-                role={error ? "alert" : "status"}
-              >
-                <TakingStatusSizing />
-                <span>
-                  {error ??
-                    (saving
-                      ? "Enregistrement…"
-                      : unsaved
-                        ? "Note non sauvegardée"
-                        : question.score === null
-                          ? "Choisissez une note de 0 à 10."
-                          : revision
-                            ? "Note à valider"
-                            : "Note enregistrée")}
-                </span>
-              </p>
+              <div className="taking-question" ref={questionContent}>
+                <p className="question-position" aria-live="polite">
+                  Question {position + 1} / {current.questions.length}
+                </p>
+                <h3
+                  ref={questionTitle}
+                  id="question-text"
+                  className="taking-question-title"
+                  tabIndex={-1}
+                >
+                  {question.text}
+                </h3>
+                <EvaluationScoreInput
+                  question={question}
+                  disabled={readonly || submitting || advancing}
+                  onSelect={(score) => void selectScore(score)}
+                />
+                <p
+                  id="score-status"
+                  className="taking-status"
+                  role={error ? "alert" : "status"}
+                >
+                  <TakingStatusSizing />
+                  <span>
+                    {error ??
+                      (saving
+                        ? "Enregistrement…"
+                        : unsaved
+                          ? "Note non sauvegardée"
+                          : question.score === null
+                            ? "Choisissez une note de 0 à 10."
+                            : revision
+                              ? "Note à valider"
+                              : "Note enregistrée")}
+                  </span>
+                </p>
+              </div>
               {!readonly && !revision && (
                 <button
                   className="secondary taking-note-action"

@@ -17,6 +17,7 @@ import { SuperadminDashboard } from "./SuperadminDashboard";
 import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
 import { ThemeToggle } from "./ThemeToggle";
+import "./transitions.css";
 
 type Props = {
   path: string;

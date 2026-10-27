@@ -1,0 +1,52 @@
+/* Enter immediately; no exit phase, retained transforms or layout animation. */
+@media (prefers-reduced-motion: no-preference) {
+  .page-viewport {
+    animation: page-enter 180ms ease-out;
+  }
+
+  .modal-layer[open] > div > section,
+  .taking-dialog[open] {
+    animation: dialog-enter 180ms ease-out;
+  }
+
+  .taking-question[data-direction] {
+    animation: question-enter 230ms ease-out;
+  }
+
+  .taking-question[data-direction="previous"] {
+    --question-entry-x: -12px;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes question-enter {
+  from {
+    opacity: 0;
+    transform: translateX(var(--question-entry-x, 12px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
