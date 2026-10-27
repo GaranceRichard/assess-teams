@@ -33,6 +33,11 @@ for (const viewport of [
       slider: await slider.boundingBox(),
       footer: await dialog.locator(".taking-footer").boundingBox(),
     });
+    await dialog.evaluate(async (element) => {
+      await Promise.all(
+        element.getAnimations().map((animation) => animation.finished),
+      );
+    });
     const initial = await geometry();
     for (const theme of ["day", "night"]) {
       await page.evaluate((value) => {

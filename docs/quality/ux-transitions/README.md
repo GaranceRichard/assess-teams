@@ -79,3 +79,14 @@ CSS portent sur une autre règle ; aucun worktree ou fichier de ce chantier n'es
 
 Le correctif curseur `e957c09` est intégré à main pendant la campagne : resynchronisation
 avant validation finale ; ses styles et preuves sont conservés.
+
+## Mesures de référence après l’entrée
+
+Le premier pré-push a bloqué quatre références de géométrie supplémentaires :
+les trois formats de `evaluation-rating-focus` et l’état de collection `shell-states`.
+Leurs références sont maintenant prises après la fin naturelle de l’entrée de surface,
+y compris après rechargement de page. Les comparaisons exactes de dimensions/positions,
+les assertions de focus et les contrôles pendant les changements de données sont conservés.
+Les tests de mouvement continuent d’échantillonner l’animation en cours et restent distincts.
+
+Ces quatre scénarios passent après synchronisation, en 35,2 s, avec animations actives.

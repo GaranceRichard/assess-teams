@@ -33,6 +33,11 @@ test("collection geometry survives loading, empty data and a real server failure
   ).toBeVisible();
   const frame = page.locator(".collection-frame");
   await expect(frame).toHaveAttribute("aria-busy", "true");
+  await page.locator(".page-viewport").evaluate(async (element) => {
+    await Promise.all(
+      element.getAnimations().map((animation) => animation.finished),
+    );
+  });
   const initial = await frame.boundingBox();
   finish();
   await expect(frame).toHaveAttribute("aria-busy", "false");
@@ -45,6 +50,11 @@ test("collection geometry survives loading, empty data and a real server failure
   await expect(page.getByRole("alert")).toHaveText(
     "Impossible de charger les utilisateurs.",
   );
+  await page.locator(".page-viewport").evaluate(async (element) => {
+    await Promise.all(
+      element.getAnimations().map((animation) => animation.finished),
+    );
+  });
   expect(await frame.boundingBox()).toEqual(initial);
   expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(
     720,
