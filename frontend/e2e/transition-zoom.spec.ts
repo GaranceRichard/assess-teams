@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
@@ -21,8 +22,14 @@ test("native browser zoom 200% retains motion, focus and reachable actions", asy
       partition: { default_zoom_level: { x: Math.log(2) / Math.log(1.2) } },
     }),
   );
+  // CI installs only Headless Shell; its image already supplies full Chrome.
+  // Keep local cached proofs tied to the Playwright browser they fingerprint.
+  const channel =
+    process.env.CI && !existsSync(chromium.executablePath())
+      ? "chrome"
+      : "chromium";
   const context = await chromium.launchPersistentContext(profile, {
-    channel: "chromium",
+    channel,
     headless: true,
     viewport: null,
     deviceScaleFactor: undefined,
@@ -34,6 +41,9 @@ test("native browser zoom 200% retains motion, focus and reachable actions", asy
   });
   const page = context.pages()[0];
   try {
+    const protocol = await context.newCDPSession(page);
+    const version = await protocol.send("Browser.getVersion");
+    await protocol.detach();
     await page.goto(`${frontendURL}/evaluations`);
     const metrics = await page.evaluate(() => ({
       dpr: devicePixelRatio,
@@ -100,7 +110,11 @@ test("native browser zoom 200% retains motion, focus and reachable actions", asy
       motions.push(await moving(page, "page-enter", () => page.goBack()));
       await expect(row).toBeVisible();
     }
-    await attachMotion(info, "native-zoom-and-motion", { metrics, motions });
+    await attachMotion(info, "native-zoom-and-motion", {
+      browser: { channel, product: version.product },
+      metrics,
+      motions,
+    });
   } finally {
     await context.close();
     await rm(profile, { recursive: true, force: true });

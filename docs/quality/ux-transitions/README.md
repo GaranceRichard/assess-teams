@@ -90,3 +90,21 @@ les assertions de focus et les contrôles pendant les changements de données so
 Les tests de mouvement continuent d’échantillonner l’animation en cours et restent distincts.
 
 Ces quatre scénarios passent après synchronisation, en 35,2 s, avec animations actives.
+
+## Correctif de recette Linux
+
+La [CI de `6c3a608`](https://github.com/GaranceRichard/assess-teams/actions/runs/40550315660)
+a validé le backend, le frontend, les autres parcours réels et la démo, puis refusé le
+seul cas `transition-zoom` : son binaire Chromium complet n'était pas installé.
+Le workflow existant installe volontairement Headless Shell uniquement ; il reste inchangé.
+Le test utilise maintenant Chrome complet déjà fourni par le runner lorsqu'il manque
+le Chromium complet en CI. En local, le Chromium Playwright reste obligatoire afin de
+conserver la cohérence des empreintes de navigateur ; aucune preuve locale n'est réutilisée en CI.
+La [composition de l'image utilisée](https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md)
+confirme Chrome préinstallé. Aucun téléchargement, paquet, workflow ou script de publication ajouté.
+Les assertions de zoom natif, mouvement, focus et géométrie sont toutes conservées ;
+le canal et la version réelle du navigateur sont joints aux mesures.
+Le correctif part du main publié dans un nouveau worktree dédié, selon la règle après CI rouge.
+
+Validation locale du correctif : `npm run quality:targeted` réussit les contrôles
+documentaires et statiques frontend ainsi que le scénario de zoom natif (1 test, 21,7 s).
