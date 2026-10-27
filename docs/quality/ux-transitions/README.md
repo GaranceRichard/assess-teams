@@ -52,12 +52,16 @@ un parcours reduce/historique, un parcours refus/révision/dialogues et un zoom 
 Les 21 tests React ciblés initiaux passent, dont deux nouveaux cas de direction et refus.
 Le backend complet passe : 1 444 tests, couverture 97,49 %. Le frontend complet passe :
 438 tests ; statements 96,44 %, branches 94,84 %, fonctions 96,54 %, lignes 97,30 %.
-La première campagne E2E complète a révélé quatre mesures initiales prises pendant
+La première campagne E2E globale a révélé quatre mesures initiales prises pendant
 l'ouverture du dialogue dans `evaluation-rating-refusal`. Les deux helpers de géométrie
 (refus et layout) attendent maintenant la fin de l'animation propre au dialogue ;
 les égalités strictes et les mesures pendant la navigation restent inchangées.
 Cette campagne a été arrêtée pour resynchronisation après publication du chantier curseur.
-Les résultats E2E finaux et leurs mesures seront consignés après les gates.
+Après resynchronisation, les huit refus et les cinq scénarios de mouvement passent.
+Les [mesures finales](mesures.md) couvrent 238 transitions réelles, quarante combinaisons
+thème/palette/format, le zoom natif, les erreurs et la réduction des animations.
+Le pré-push canonique exécute ensuite le plan exhaustif ; la livraison exige sa réussite
+et la CI verte du SHA publié, sans contournement ni modification du circuit.
 
 ## Revue documentaire
 
