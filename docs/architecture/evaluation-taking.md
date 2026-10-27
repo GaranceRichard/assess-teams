@@ -108,6 +108,10 @@ Le curseur demeure l'entrée clavier unique : Home choisit 0, End choisit 10 et 
 Entrée/Espace sur le curseur, le focus, l'ouverture et la fermeture ne choisissent aucune note.
 Une réponse absente reste `null` à la reprise ; les notes enregistrées, dont zéro, sont restaurées.
 « Enregistrer la note » et « Suivant » restent désactivés sans réponse explicite à la question courante.
+Dans cette modale uniquement, les boutons désactivés gardent un pointeur normal (`cursor: default`),
+sans indicateur d'attente, et leur opacité réduite signale leur indisponibilité en clair comme en sombre.
+`evaluation-disabled-cursor.spec.ts` vérifie le survol, les clics inertes, le parcours clavier sans réponse
+implicite et la réactivation après sélection explicite ; le test échoue sur `wait` avant correction.
 Ce garde d'interface ne modifie pas les validations métier ou API. La navigation et la fermeture
 attendent les sauvegardes explicites ; un refus conserve la saisie et exige une nouvelle sauvegarde.
 La finalisation reste indisponible et refusée par l’API si une question n’est pas renseignée.

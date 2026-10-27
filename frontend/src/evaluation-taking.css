@@ -34,6 +34,9 @@
   max-height: calc(100dvh - 2rem);
   overflow: hidden;
 }
+.taking-dialog button:disabled {
+  cursor: default;
+}
 .taking-dialog[open] {
   display: flex;
   flex-direction: column;
