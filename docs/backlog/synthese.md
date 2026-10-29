@@ -78,11 +78,11 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | AUTH-003 — Modifier son mot de passe depuis Mon profil | Réalisé | session personnelle, refus, conservation/invalidation des sessions et E2E ; 2026-10-08 |
 | DASH-001 — Accueillir l’utilisateur sur son tableau de bord personnel | Réalisé | provenance EvaluationRun, scopes Results, API/UI/E2E et palettes ; 2026-10-06 |
 | USER-001 — Créer un utilisateur | Réalisé | contrat historique ; 2026-09-21 |
-| USER-002 — Consulter les utilisateurs | Ouvert | liste livrée ; détail et `nom`/`prénom` absents |
-| USER-003 — Modifier un utilisateur | Ouvert | édition présente, mais identifiant/fonction mutables et noms absents |
+| USER-002 — Consulter les utilisateurs | Ouvert | liste livrée ; détail/identité manquants après décisions C01/C02 |
+| USER-003 — Modifier un utilisateur | Ouvert | édition présente ; C02 champs/cibles/droits à réconcilier avant correction |
 | USER-004 — Désactiver et réactiver un utilisateur | Réalisé | lifecycle préservant historique ; dernier Admin actif protégé ; 2026-10-06 |
 | ORG-001 — Créer une organisation | Réalisé | création et rattachements atomiques ; 2026-09-24 |
-| ORG-002 — Consulter les organisations | Ouvert | Superadmin/Admin livrés ; Coach/Viewer absents |
+| ORG-002 — Consulter les organisations | Ouvert | Superadmin/Admin livrés ; projection Coach C03 à décider ; Viewer selon concepts |
 | ORG-003 — Modifier une organisation | Réalisé | renommage cloisonné ; 2026-09-24 |
 | ORG-004 — Supprimer une organisation | Bloqué | cascade actuelle sur données dépendantes ; `ARB-ORG-005` |
 | ORG-005 — Gérer le rattachement courant des Admins | Réalisé | scope et protection des pairs ; 2026-09-28 |
@@ -93,7 +93,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
 | TEAM-005 — Archiver une équipe | Ouvert | archivage livré ; restitution archivée et second refus absents |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
-| TEAM-007 — Réactiver une équipe | Ouvert | absent |
+| TEAM-007 — Réactiver une équipe | Ouvert | absent ; effets de reprise C05 à décider |
 | COACH-001 — Affecter les Coachs courants d’une équipe | Réalisé | affectation locale multi-Coachs ; 2026-09-27 |
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | Réalisé | CRUD local sans publication/version ; 2026-09-28 |
 | PLAN-001 — Planifier un modèle local pour une équipe | Réalisé | quatre modes, responsable et CRUD ; 2026-09-29 |
@@ -108,7 +108,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-26
+## Préparation MESS — suivi au 2026-10-29
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
@@ -116,7 +116,7 @@ Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est d�
 **MEP-067 réalisé : [cahier UX](../quality/ux-acceptance.md)**. [MEP-019 (contrastes clairs)](../quality/light-theme.md), MEP-052 et MEP-053 réalisés : F09 complète.
 MEP-014 réalisé le 2026-10-23 : [contexte et provenance des Résultats, preuves avant/après](../quality/results-hierarchy.md) ; vingt apparences, formats UX, pre-push et CI complète du SHA publié verts ; [MEP-046 — scores et limites explicités](../quality/mep-046/README.md) est réalisé le 2026-10-26 ; F06 atteint 2 PBI sur 4.
 MEP-013 réalisé le 2026-10-26 : [sélection explicite, onze valeurs et preuves UX-07/08](../quality/mep-013/README.md) ; pre-push et CI du SHA `ee50313` verts.
-Prochain : MEP-045 (confirmation de sauvegarde), puis corrections notation/résultats/dashboard/responsive/interactions.
+Prochain : **[MEP-045 — Qualification de conformité et décision de clôture](planning/audit-20261027/sortie-mep-045.md)**. Aucun développement identifié pour 045/047/048 ; autres qualifications UX conditionnelles, correction seulement sur défaut démontré.
 En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
 [Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
@@ -154,6 +154,7 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
 - partage, historique général, calculs d’évolution/tendance, alertes et pilotage élargi restent non réalisés.
 - les préférences de canal et les nouveaux types de notifications restent hors du périmètre livré.
+- [Consolidation : acquis, écarts et décisions attribuables](source/08-ecarts-et-qualifications.md) : C01/C02, C03/C04/C05, C06, C11, C12 et C21 restent ouverts ; correctif transitions publié `eede631`, acceptation visuelle utilisateur non acquise, sans nouveau PBI ni verdict esthétique déduit de CI.
 
 ## Matrices CRUD réellement protégées par le backend
 
@@ -187,6 +188,6 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 
 Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 45 réalisés (25 fonctionnels et 20 MESS, dont MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
-La consolidation corrige un double comptage documentaire ; aucune réalisation ni couverture fonctionnelle n’est retirée.
+Couverture analytique inchangée : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
 
 [Audit contradictoire, écarts et couverture des 63 points](planning/mess-audit.md).

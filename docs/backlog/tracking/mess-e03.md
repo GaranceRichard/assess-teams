@@ -5,7 +5,7 @@ Les repères E/F et NN.NN sont des alias de navigation, pas de nouveaux identifi
 Les tailles sont des recommandations XS/S ; aucun modèle n’est affecté.
 Ouvert ne signifie pas prêt : consulter les dépendances de la source et le [plan](../planning/pre-mep.md).
 Ordres U/I/C : recommandations du plan, sans statut ni dépendance technique supplémentaire ; dates et preuves conservées.
-MEP-055 attend la validation MESS du contrat des prérequis (D01–D09) ; les arbitrages métier existants restent dans leur registre.
+MEP-055 attend D01–D09 ; C11 fixe objectifs/responsabilités d’exploitation et C12 le maintien/absorption de MEP-056. [Natures, livrables et passages par PBI](../planning/audit-20261027/trajectoire.md) ; aucune configuration cible ou clôture supposée.
 
 | Repère | PBI et source | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage ou preuve | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- | --- |

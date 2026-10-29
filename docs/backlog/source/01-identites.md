@@ -4,6 +4,8 @@ Cet Epic applique les définitions canoniques d’[Organisation et des rôles m�
 
 `FEAT-002` est raffinée par `USER-001` à `USER-004`. Ces PBIs portent le cycle de vie des identités ; leur matrice d’autorisation est canonique dans `FEAT-004`. Le `Superadmin` qu’ils citent désigne le superuser Django défini dans les concepts transverses, jamais un quatrième rôle métier. La création, la consultation, la modification ou le retrait d’une identité ne crée, ne change ni ne supprime implicitement un rattachement organisationnel.
 
+Les [frontières et écarts consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-deltas-bornés) distinguent POST technique, invitation/gestion et données d’identité. C01/C02 restent ouverts ; aucun droit ni critère historique n’est révisé par inférence.
+
 ### FEAT-001 — Accéder de manière authentifiée au produit
 
 - **Intention métier :** garantir que chaque action sensible est attribuable à une identité reconnue.

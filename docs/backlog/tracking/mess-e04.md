@@ -5,7 +5,7 @@ Les repères E/F et NN.NN sont des alias de navigation, pas de nouveaux identifi
 Les tailles sont des recommandations XS/S ; aucun modèle n’est affecté.
 Ouvert ne signifie pas prêt : consulter les dépendances de la source et le [plan](../planning/pre-mep.md).
 Ordres U/I/C : recommandations du plan, sans statut ni dépendance technique supplémentaire ; dates et preuves conservées.
-Aucun blocage supplémentaire constaté ; les arbitrages métier existants restent dans leur registre.
+Guides/cahier : F (D si seuils manquants) ; PV : E, distincts de tests locaux ou développement. [Entrées, refus et passages](../planning/audit-20261027/trajectoire.md) ; ARB-ORG-005 pour 033, C11 pour charge/reprise, D01–D09 selon consommateurs.
 
 | Repère | PBI et source | Feature parente | Taille recommandée | Modèle Codex recommandé | Statut | Blocage ou preuve | Date de réalisation |
 | --- | --- | --- | --- | --- | --- | --- | --- |

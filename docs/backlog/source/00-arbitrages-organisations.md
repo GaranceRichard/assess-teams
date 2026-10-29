@@ -50,9 +50,11 @@ Ce registre est la source canonique des décisions et arbitrages qui structurent
 - **Décision prise :** `DELETE` réalise une suppression physique de l’organisation, réservée au `Superadmin`.
 - **Décision prise :** les rattachements de membres sont supprimés avec l’organisation, mais les identités sont conservées.
 - **État réel :** des équipes, modèles d’évaluation et planifications dépendent désormais de l’organisation ; leur suppression en cascade est actuellement possible et n’est pas couverte par la décision historique.
+- **Précision technique établie :** la vue supprime explicitement les runs NOT_STARTED ; les runs IN_PROGRESS/COMPLETED protègent les références et peuvent refuser toute la transaction. Sans protection, équipes/modèles/questions/plannings peuvent cascader ; journaux et notifications conservent des données mais perdent des liens SET_NULL, avec changement de visibilité Admin. [Graphe, refus et preuves](../planning/audit-20261027/suppression-organisation.md).
 - **Décision à arbitrer — bloquante :** refus de suppression, archivage ou suppression explicite des données dépendantes, avec règle propre pour les historiques et journaux.
 - **Décision prise :** la création initiale ne porte pas d’état de cycle de vie et n’est pas bloquée par l’absence de ce concept.
 - **Backlog bloqué :** `ORG-004` tant que le comportement avec dépendances n’est pas décidé et protégé ; la suppression d’une organisation vide livrée le 2026-09-24 reste un socle partiel.
+- **Consommateurs et autorité attendue :** produit/MESS doit décider par donnée/état ou approuver une limitation effective, puis faire démontrer intégrité, refus sans effet et concurrence. MEP-033 et GO restent non concluables si une suppression non arbitrée reste exposée ; cacher le bouton ou omettre un scénario n’est pas une protection. Aucune option choisie ici.
 
 ### ARB-ORG-006 — Changement ou transfert d’organisation d’un acteur
 

@@ -1,8 +1,9 @@
 # Planification du backlog
 
 Le [plan pré-MEP MESS](pre-mep.md) organise la livraison par Epic → Feature → PBI, selon les dépendances réelles, et le jalon GO/NO-GO séparé.
-Pour la MEP, appliquer le [cahier UX MEP-067 livré](../../quality/ux-acceptance.md) : lancer **MEP-053**, puis MEP-019/052 et les correctifs de parcours ;
-préparer MEP-055 et l’installation en parallèle. Ce chemin MESS prime pour le prochain lancement.
+Pour la MEP, appliquer le [cahier UX MEP-067 livré](../../quality/ux-acceptance.md) : **MEP-045 — Qualification de conformité et décision de clôture**,
+sans développement identifié ; 047/048 relèvent aussi de preuves ciblées. Collecter D01–D09 en parallèle.
+Ce chemin prime ; les [actions et décisions consolidées](../source/08-ecarts-et-qualifications.md) conditionnent chaque lancement.
 La séquence métier ci-dessous reste une orientation générale, sans réouverture des acquis ni ajout
 d’automatisme exigeant tous les compléments fonctionnels avant la MEP ; ses arbitrages restent applicables.
 
@@ -13,11 +14,11 @@ d’automatisme exigeant tous les compléments fonctionnels avant la MEP ; ses a
 | Ordre | PBI | État d’entrée | Condition d’enchaînement |
 | ---: | --- | --- | --- |
 | 1 | `USER-001` — Créer un utilisateur | Réalisé | Livré le 2026-09-21 |
-| 2 | `USER-002` — Consulter les utilisateurs | Ouvert | compléter le détail et `nom`/`prénom` |
-| 3 | `USER-003` — Modifier un utilisateur | Ouvert | aligner les champs modifiables sur le contrat |
+| 2 | `USER-002` — Consulter les utilisateurs | Ouvert | décider C01/C02 avant détail et données d’identité manquants |
+| 3 | `USER-003` — Modifier un utilisateur | Ouvert | décider C02 : champs/cibles/droits, puis seulement corriger le delta approuvé |
 | 3 | `USER-004` — Désactiver et réactiver un utilisateur | Réalisé | ARB-ORG-008 résolu ; livré le 2026-10-06 |
 
-Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. Le socle technique de liste, édition et suppression existe, mais `USER-002/003` restent ouverts pour leurs contrats de champs. `USER-003` peut être complété après `USER-002`; `USER-004` livre le lifecycle réversible et résout `ARB-ORG-008`.
+Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de `USER-001`, pas un PBI ni un rôle métier. Liste, édition et lifecycle sont présents ; les contrats complets `USER-002/003` attendent C01/C02. L’ordre 002 puis 003 ne remplace pas ces décisions ; `USER-004` reste livré et résout `ARB-ORG-008`.
 
 ## Ordonnancement global recommandé
 

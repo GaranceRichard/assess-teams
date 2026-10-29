@@ -1,7 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
-> **Prochain PBI :** [MEP-013 — Curseur et sélection](source/mess/f05.md), après MEP-044/019/052/053 réalisés ; [cahier UX MEP-067 livré](../quality/ux-acceptance.md), [séquence complète, installation parallèle et passages jusqu’au GO](planning/pre-mep.md).
+> **Prochain travail :** [MEP-045 — Qualification de conformité et décision de clôture](planning/audit-20261027/sortie-mep-045.md), sans développement identifié ; décisions D01–D09 en parallèle. [Séquence et passages jusqu’au GO](planning/pre-mep.md).
 > **Préparation MESS :** [Epic → Feature → PBI](source/07-pre-mep.md), [livraison progressive](planning/pre-mep.md), [suivi des capacités](tracking/pre-mep-view.md) et [GO/NO-GO](tracking/mess-jalon.md).
 
 ## Direction et sources de référence
@@ -72,6 +72,7 @@ Le [registre des arbitrages Organisation](source/00-arbitrages-organisations.md)
 - [Gestion des organisations](source/05-organisations.md)
 - [Journaux opérationnels](source/06-journaux.md)
 - [Préparation MESS — E01 à E04, F01 à F20 et PBI atomiques](source/07-pre-mep.md)
+- [Acquis, écarts, qualifications et décisions ouvertes après consolidation](source/08-ecarts-et-qualifications.md)
 
 Ces documents détaillés constituent la source de vérité fonctionnelle des Epics, Features et PBIs.
 

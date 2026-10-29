@@ -3,10 +3,10 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-10-26 : 40 Ouverts, 20 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 32 %. Les acquis restent séparés.
+Au 2026-10-29 : 40 Ouverts, 20 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 32 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
-**Prochain : [MEP-045 — Confirmation de sauvegarde](../source/mess/f05.md)** ; MEP-019/052/053 et les cahiers MEP-067/030 réalisés ; F09 complète.
+**Prochain : [MEP-045 — Qualification de conformité et décision de clôture](../planning/audit-20261027/sortie-mep-045.md)** ; parcours présent, aucun développement identifié. 047/048 : qualification également ; [natures et deltas](../source/08-ecarts-et-qualifications.md).
 MEP-014 et MEP-046 réalisés : [hiérarchie](../../quality/results-hierarchy.md) et [interprétation des scores](../../quality/mep-046/README.md) ; F06 atteint 2 PBI sur 4.
 MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md).
@@ -128,5 +128,5 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 Les [acquis CI](../planning/pre-mep-rapprochements.md#acquis-de-validation-et-ci--aucun-pbi-de-développement-à-recréer)
 sont réutilisés par F04 ; présence de CI ne prouve pas l’activation des protections distantes.
 [MEP-035 — Décision GO/NO-GO](mess-jalon.md) : Ouvert, N/A, décision non rendue, hors scoring PBI.
-Les [PBI prêts selon les prérequis connus](../planning/pre-mep.md#pbi-prêts-au-regard-des-dépendances-connues-du-registre)
+Les [actions exécutables et leur porte de sélection](../planning/pre-mep.md#actions-immédiatement-exécutables-et-porte-de-sélection)
 se consultent sans l’ancien ordre de Jobs. Les arbitrages Organisation restent dans leur source canonique.

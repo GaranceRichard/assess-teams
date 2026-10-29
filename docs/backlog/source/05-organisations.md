@@ -6,6 +6,8 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et le renommage sont livrés ; la consultation reste limitée aux Admins/Superadmins et la suppression doit être réconciliée avec les dépendances apparues depuis sa livraison initiale.
 
+Les [écarts consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-deltas-bornés) distinguent C03 (projection Coach à décider, Viewer selon concepts) et ARB-ORG-005 (politique destructive). Aucun élargissement de droit ni politique nouvelle n’est déduit du code.
+
 #### ORG-001 — Créer une organisation
 
 - **Identifiant :** `ORG-001`.

@@ -11,22 +11,22 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | AUTH-003 — Modifier son mot de passe depuis Mon profil | FEAT-001 — Accéder de manière authentifiée au produit | À définir | À définir | Réalisé | aucun dans le périmètre demandé | 2026-10-08 |
 | DASH-001 — Accueillir l’utilisateur sur son tableau de bord personnel | FEAT-001 — Accéder de manière authentifiée au produit | À définir | À définir | Réalisé | aucun dans le périmètre demandé | 2026-10-06 |
 | USER-001 — Créer un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Réalisé | aucun ; dépend de `FEAT-001` et de la matrice de `FEAT-004` | 2026-09-21 |
-| USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | liste livrée ; détail et `nom`/`prénom` absents | N/A |
-| USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | édition livrée mais contrat des champs et de l’identifiant divergent | N/A |
+| USER-002 — Consulter les utilisateurs | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | liste livrée ; détail et `nom`/`prénom` absents ; contrats C01/C02 à décider | N/A |
+| USER-003 — Modifier un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Ouvert | édition livrée ; C02 doit réconcilier champs/cibles/droits avant correction | N/A |
 | USER-004 — Désactiver et réactiver un utilisateur | FEAT-002 — Administrer le cycle de vie d’une identité | M | Sol — puissance élevée | Réalisé | aucun ; ARB-ORG-008 résolu, historique et concurrence couverts | 2026-10-06 |
 | ORG-001 — Créer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |
-| ORG-002 — Consulter les organisations | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Ouvert | lecture Superadmin/Admin livrée ; Coach/Viewer absents | N/A |
+| ORG-002 — Consulter les organisations | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Ouvert | lecture Superadmin/Admin livrée ; projection Coach C03 à décider ; Viewer limité aux résultats selon concepts | N/A |
 | ORG-003 — Modifier une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |
 | ORG-004 — Supprimer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | `ARB-ORG-005` rouvert pour les données dépendantes | N/A |
 | ORG-005 — Gérer le rattachement courant des Admins | FEAT-037 — Rattacher un Admin à une organisation | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | FEAT-038 — Rattacher un Coach à une organisation | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-28 |
 | TEAM-001 — Créer une équipe | FEAT-005 — Constituer une équipe | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-27 |
-| TEAM-002 — Lister les équipes | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | liste Admin/Superadmin livrée ; Coach absent, Viewer exclu des écrans Équipes | N/A |
-| TEAM-003 — Consulter une équipe | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | endpoint de détail absent | N/A |
+| TEAM-002 — Lister les équipes | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | liste Admin/Superadmin livrée ; scope Coach C04 à décider, Viewer exclu des écrans Équipes | N/A |
+| TEAM-003 — Consulter une équipe | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | GET de détail actif/archivé absent ; C04 ou découpage Admin/Superadmin approuvé avant développement | N/A |
 | TEAM-004 — Modifier une équipe | FEAT-006 — Faire évoluer les informations d’une équipe | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-27 |
 | TEAM-005 — Archiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | archivage livré ; détail archivé et second refus explicite absents | N/A |
 | TEAM-006 — Consulter les équipes archivées | FEAT-010 — Gérer la sortie et la reprise du suivi actif | S | Sol — puissance moyenne | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent | N/A |
-| TEAM-007 — Réactiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | capacité absente | N/A |
+| TEAM-007 — Réactiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | capacité absente ; effets affectations/planning C05 à décider | N/A |
 | COACH-001 — Affecter les Coachs courants d’une équipe | FEAT-008 — Affecter un coach à une équipe | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-27 |
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | FEAT-011 — Composer un modèle d’évaluation ordonné | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre local | 2026-09-28 |
 | PLAN-001 — Planifier un modèle local pour une équipe | FEAT-017 — Configurer la fréquence et la première échéance | L | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-29 |
@@ -52,8 +52,9 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 
 ## Préparation MESS — registre courant
 
-**À lancer ensuite : [MEP-045 — Confirmation de sauvegarde](../source/mess/f05.md)** : [MEP-067 livré](../../quality/ux-acceptance.md)
-fournit les mesures de référence. [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../quality/typography.md) sont réalisés avec leurs preuves et CI vertes.
+**Prochain travail : [MEP-045 — Qualification de conformité et décision de clôture](../planning/audit-20261027/sortie-mep-045.md)** :
+parcours présent, confronter critères/refus et preuves du SHA retenu ; aucun développement identifié.
+MEP-047/048 relèvent également de la qualification, sans clôture automatique ; [acquis, deltas et décisions](../source/08-ecarts-et-qualifications.md).
 En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 [Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
 [dépendances et retour confirmé du circuit direct après MEP-043](../planning/mess-dependances.md).

@@ -52,9 +52,11 @@ Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassa
 
 ## Suivi, dépendances et décision
 
-Ordre de lancement du 2026-10-21 : [MEP-067 livré](../../quality/ux-acceptance.md), puis MEP-053/019/052 et corrections par parcours ;
-MEP-055 et la préparation installation avancent en parallèle. Le [plan pilotable](../planning/pre-mep.md)
-distingue cet ordre des dépendances techniques, sans créer de PBI ni retirer de capacité requise au GO.
+Après MEP-067/053/019/052/013/046 réalisés : **MEP-045 — Qualification de conformité et décision de clôture**,
+puis qualifications UX conditionnelles ; aucun développement identifié pour 045/047/048. D01–D09 et
+préparation installation avancent en parallèle. Le [plan pilotable](../planning/pre-mep.md) et les
+[frontières consolidées](08-ecarts-et-qualifications.md) distinguent acquis, écarts, preuves, décisions et
+recettes cible ; aucun PBI, priorité, durée ou retrait de capacité requise au GO n’est ajouté.
 
 - [Ordonnancement par dépendances réelles et livraison progressive](../planning/pre-mep.md).
 - [Audit contradictoire et matrice des 63 points initiaux](../planning/mess-audit.md).

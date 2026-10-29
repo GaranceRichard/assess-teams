@@ -1,5 +1,7 @@
 # Revue de la refonte d’ordonnancement — 2026-10-21
 
+Instantané historique : compteurs et « prêts » ci-dessous sont datés. Pour le courant, suivre le [plan consolidé](pre-mep.md) et les [natures/deltas](../source/08-ecarts-et-qualifications.md), sans relancer les acquis.
+
 Périmètre strictement documentaire, base finale `7f456fdbb4fc3ba03e77955630ccad08537a3e5b` après resynchronisation.
 Branche `codex/mess-backlog-order`, worktree interne `C:\Users\garan\Desktop\Projets\Assess-teams-mess-backlog-order`.
 [Plan pilotable](pre-mep.md), [décisions sur les dépendances](mess-dependances.md),
