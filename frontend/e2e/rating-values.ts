@@ -7,6 +7,13 @@ import {
 } from "@playwright/test";
 
 export async function expectRatingValues(dialog: Locator) {
+  await dialog.evaluate(async (element) => {
+    await Promise.allSettled(
+      element
+        .getAnimations({ subtree: true })
+        .map((animation) => animation.finished),
+    );
+  });
   const values = dialog.getByRole("group", { name: "Notes de 0 à 10" });
   await expect(values.getByRole("button")).toHaveCount(11);
   const slider = dialog.getByRole("slider");
@@ -59,7 +66,7 @@ export async function chooseRating(
   await expect(value).toHaveAttribute("aria-pressed", "true");
   await expect(dialog.getByRole("slider")).toHaveValue(String(score));
   await expect(dialog.getByRole("slider")).toBeFocused();
-  await expect(dialog.locator("output")).toHaveText(
+  await expect(dialog.locator(".transition-live output")).toHaveText(
     `Note sélectionnée : ${score} / 10`,
   );
 }

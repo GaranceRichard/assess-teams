@@ -1,52 +1,147 @@
-/* Enter immediately; no exit phase, retained transforms or layout animation. */
-@media (prefers-reduced-motion: no-preference) {
-  .page-viewport {
-    animation: page-enter 180ms ease-out;
-  }
+/* Only content layers move; shell, modal geometry and actions stay in place. */
+.transition-surface {
+  position: relative;
+  isolation: isolate;
+}
+.transition-live {
+  min-width: 0;
+  min-height: 0;
+}
+.page-viewport {
+  overflow-x: clip;
+}
+.page-viewport > .transition-live {
+  display: inherit;
+  flex: 1 1 0;
+  width: 100%;
+}
+.transition-outgoing {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.page-viewport > .transition-outgoing {
+  display: inherit;
+}
+.dialog-exit {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
 
+@media (prefers-reduced-motion: no-preference) {
+  .transition-surface[data-moving] {
+    --motion-x: 0px;
+    --motion-y: 12px;
+    --motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .transition-surface[data-axis="question"] {
+    --motion-x: 20px;
+    --motion-y: 0px;
+  }
+  .transition-surface[data-axis="question"][data-direction="previous"] {
+    --motion-x: -20px;
+  }
+  [data-axis="page"][data-moving] > .transition-live {
+    animation: page-enter 320ms var(--motion-easing) both;
+  }
+  [data-axis="question"][data-moving] > .transition-live {
+    animation: question-enter 320ms var(--motion-easing) both;
+  }
+  [data-moving] > .transition-outgoing {
+    animation: content-exit 320ms var(--motion-easing) both;
+  }
   .modal-layer[open] > div > section,
   .taking-dialog[open] {
-    animation: dialog-enter 180ms ease-out;
+    animation: dialog-enter 240ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-
-  .taking-question[data-direction] {
-    animation: question-enter 230ms ease-out;
+  .modal-layer[open] > div {
+    animation: backdrop-enter 240ms ease-out;
   }
-
-  .taking-question[data-direction="previous"] {
-    --question-entry-x: -12px;
+  .taking-dialog[open]::backdrop {
+    animation: backdrop-enter 240ms ease-out;
+  }
+  .dialog-exit {
+    animation: backdrop-exit 220ms ease-in both;
+  }
+  .dialog-exit .taking-dialog[open],
+  .dialog-exit .modal-layer[open] > div > section {
+    animation: dialog-exit 220ms cubic-bezier(0.4, 0, 0.8, 0.3) both;
+  }
+  .dialog-exit .modal-layer[open] > div {
+    animation: none;
   }
 }
 
 @keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translate(var(--motion-x), var(--motion-y));
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(0, 0);
   }
 }
-
-@keyframes dialog-enter {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes question-enter {
   from {
     opacity: 0;
-    transform: translateX(var(--question-entry-x, 12px));
+    transform: translate(var(--motion-x), var(--motion-y));
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate(0, 0);
+  }
+}
+@keyframes content-exit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(
+      calc(-1 * var(--motion-x)),
+      calc(-1 * var(--motion-y))
+    );
+  }
+}
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes dialog-exit {
+  from {
+    opacity: var(--exit-opacity, 1);
+    transform: var(--exit-transform, none);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes backdrop-enter {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: var(--overlay);
+  }
+}
+@keyframes backdrop-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }

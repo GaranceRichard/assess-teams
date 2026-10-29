@@ -81,7 +81,7 @@ test("desktop shell bounds every collection, keeps chrome still and preserves mo
       ).toBeVisible();
       if (route === "/teams" || route === "/templates")
         await page
-          .getByLabel("Organisation")
+          .getByRole("combobox", { name: "Organisation" })
           .selectOption({ label: "Shell viewport E2E" });
       if (route === "/results") {
         await page

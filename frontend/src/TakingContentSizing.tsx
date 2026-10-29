@@ -1,6 +1,7 @@
 import type { EvaluationRun } from "./evaluationRuns";
 import { referenceLabel } from "./evaluationVersionLabel";
 import { TakingStatusSizing } from "./TakingStatusSizing";
+import "./taking-sizing.css";
 
 type Props = { run: EvaluationRun; revision: boolean; readonly: boolean };
 
@@ -21,37 +22,42 @@ export function TakingContentSizing({ run, revision, readonly }: Props) {
               {revision && (
                 <p data-text="La révision sera enregistrée à sa validation." />
               )}
-              <p
-                className="question-position"
-                data-text={`Question ${run.questions.length} / ${run.questions.length}`}
-              />
-              <h3 className="taking-question-title" data-text={question.text} />
-              <div className="taking-score-caption">
-                <span
-                  className="taking-label"
-                  data-text="Note de la question"
+              <div className="taking-size-question">
+                <p
+                  className="question-position"
+                  data-text={`Question ${run.questions.length} / ${run.questions.length}`}
                 />
-                <span
-                  className="taking-scale"
-                  data-text="Échelle entière de 0 à 10"
+                <h3
+                  className="taking-question-title"
+                  data-text={question.text}
                 />
-              </div>
-              <div className="taking-score-values" />
-              <span className="taking-range" />
-              <div className="appreciation-scale" />
-              {marker?.text.trim() && (
-                <p className="taking-size-description">
-                  <strong data-text="Repère 10 / 10 :" />
-                  <span data-text={` ${marker.text}`} />
+                <div className="taking-score-caption">
+                  <span
+                    className="taking-label"
+                    data-text="Note de la question"
+                  />
+                  <span
+                    className="taking-scale"
+                    data-text="Échelle entière de 0 à 10"
+                  />
+                </div>
+                <div className="taking-score-values" />
+                <span className="taking-range" />
+                <div className="appreciation-scale" />
+                {marker?.text.trim() && (
+                  <p className="taking-size-description">
+                    <strong data-text="Repère 10 / 10 :" />
+                    <span data-text={` ${marker.text}`} />
+                  </p>
+                )}
+                <span
+                  className="taking-output"
+                  data-text="Note sélectionnée : 10 / 10"
+                />
+                <p className="taking-status">
+                  <TakingStatusSizing />
                 </p>
-              )}
-              <span
-                className="taking-output"
-                data-text="Note sélectionnée : 10 / 10"
-              />
-              <p className="taking-status">
-                <TakingStatusSizing />
-              </p>
+              </div>
               {!readonly && !revision && (
                 <span
                   className="secondary taking-note-action"

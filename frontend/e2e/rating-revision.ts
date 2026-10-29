@@ -22,19 +22,19 @@ export async function verifyRatingRevision(
   await page.getByRole("link", { name: "Évaluations", exact: true }).click();
   await row.getByRole("button", { name: "Réviser les notes" }).click();
   const dialog = page.getByRole("dialog");
+  const question = dialog.locator(".transition-live");
   const stored = await scores();
   await expect(dialog.getByRole("slider")).toHaveValue(String(stored[0]));
   await expectRatingValues(dialog);
-  await expect(dialog.locator(".taking-content .marker-dot")).toHaveCount(
-    markers ? 4 : 0,
-  );
+  await expect(question.locator(".marker-dot")).toHaveCount(markers ? 4 : 0);
   for (const score of [0, 5, 7, 10]) {
     await chooseRating(dialog, score, touch);
     if (markers)
-      await expect(dialog.locator(".selected-appreciation strong")).toHaveText(
-        `Repère ${score} / 10 :`,
-      );
-    else await expect(dialog.locator(".selected-appreciation")).toHaveCount(0);
+      await expect(
+        question.locator(".selected-appreciation strong"),
+      ).toHaveText(`Repère ${score} / 10 :`);
+    else
+      await expect(question.locator(".selected-appreciation")).toHaveCount(0);
     await dialog.getByRole("slider").press("Enter");
     expect(await scores()).toEqual(stored);
     await dialog.screenshot({ path: info.outputPath(`revision-${score}.png`) });

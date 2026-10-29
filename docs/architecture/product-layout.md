@@ -87,7 +87,10 @@ restent applicables sans changement. `quality:full`, pre-push et CI restent bloq
 
 ## Transitions visuelles
 
-Les [transitions partagées](../quality/ux-transitions/README.md) ajoutent une entrée CSS courte
-sans attente ni changement de géométrie. Les questions seules glissent selon la navigation ;
-le shell et les dialogues conservent leur focus et leurs protections. La préférence
+Les [transitions partagées](../quality/ux-transitions/README.md) raccordent les rubriques et
+questions par un fondu croisé de 320 ms, avec copie sortante purement visuelle et inerte.
+Les questions seules glissent de 20 px selon le sens de navigation ; le shell, les métadonnées
+et les actions restent fixes. Les dialogues s’ouvrent en 240 ms et se ferment en 220 ms,
+avec fond progressif ; fermeture native, focus et protections sont conservés.
+Le nouveau contenu reste utilisable immédiatement. La préférence
 `prefers-reduced-motion: reduce` rend ces changements immédiats.

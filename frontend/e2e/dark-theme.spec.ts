@@ -5,7 +5,7 @@ import { e2eCredential } from "./identity-fixture";
 import { seedResultsContext } from "./results-fixture";
 
 async function auditControls(page: Page, selector: string, name: string) {
-  const controls = page.locator(selector);
+  const controls = page.locator(selector).and(page.locator(":not([inert] *)"));
   await expect(controls.first()).toBeVisible();
   for (const { value } of palettes) {
     await page.locator("html").evaluate((root, value) => {
@@ -90,7 +90,9 @@ test("dark controls remain legible across ten palettes with independent light co
 
   await page.getByRole("link", { name: "Équipes", exact: true }).click();
   await auditControls(page, ".organization-selector select", "team-selector");
-  await page.getByLabel("Organisation").selectOption({ label: "Results E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Results E2E" });
   await page.getByRole("button", { name: "Créer une équipe" }).click();
   await auditControls(
     page,
@@ -102,11 +104,13 @@ test("dark controls remain legible across ten palettes with independent light co
   await page
     .getByRole("link", { name: "Modèles d’évaluation", exact: true })
     .click();
-  await page.getByLabel("Organisation").selectOption({ label: "Results E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Results E2E" });
   await page.getByRole("button", { name: /Radar E2E v3/ }).click();
   await page.getByRole("button", { name: "Ajouter une question" }).click();
   await auditControls(page, ".evaluation-dialog input", "question-dialog");
-  const input = page.locator(".evaluation-dialog input");
+  const input = page.getByRole("dialog").locator(".evaluation-dialog input");
   await input.fill(" ");
   await expect(
     page.getByRole("button", { name: "Enregistrer", exact: true }),
@@ -134,7 +138,9 @@ test("dark controls remain legible across ten palettes with independent light co
   await auditControls(page, "textarea", "appreciation");
 
   await page.getByRole("link", { name: "Planification", exact: true }).click();
-  await page.getByLabel("Organisation").selectOption({ label: "Results E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Results E2E" });
   await page.getByLabel("Planifier").selectOption("fixed");
   await auditControls(
     page,

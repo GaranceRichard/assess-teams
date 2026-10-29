@@ -72,6 +72,7 @@ for (const viewport of [
       .getByRole("button", { name: "Passer l’évaluation" })
       .click();
     const dialog = page.getByRole("dialog");
+    const question = dialog.locator(".transition-live");
     const slider = dialog.getByRole("slider");
     if (viewport.width >= 1280) {
       const label = (await dialog
@@ -105,7 +106,7 @@ for (const viewport of [
         await expect(slider).toHaveAccessibleDescription(
           /Échelle entière de 0 à 10/,
         );
-        await expect(dialog.locator("output")).toHaveText(
+        await expect(question.locator("output")).toHaveText(
           score === null
             ? "Aucune note sélectionnée"
             : `Note sélectionnée : ${score} / 10`,
@@ -116,17 +117,19 @@ for (const viewport of [
             "aria-valuetext",
             "Aucune note sélectionnée",
           );
-          await expect(dialog.locator(".selected-appreciation")).toHaveCount(0);
+          await expect(question.locator(".selected-appreciation")).toHaveCount(
+            0,
+          );
         } else {
           await expect(
-            dialog.locator(".selected-appreciation strong"),
+            question.locator(".selected-appreciation strong"),
           ).toHaveText(`Repère ${marker} / 10 :`);
           await expect(
-            dialog.getByText("Note enregistrée", { exact: true }),
+            question.getByText("Note enregistrée", { exact: true }),
           ).toBeVisible();
         }
-        await dialog.locator("output").scrollIntoViewIfNeeded();
-        const noteVisible = await dialog
+        await question.locator("output").scrollIntoViewIfNeeded();
+        const noteVisible = await question
           .locator("output")
           .evaluate((element) => {
             const text = document.createRange();
@@ -142,9 +145,7 @@ for (const viewport of [
           await page.locator("html").evaluate((root, value) => {
             (root as HTMLElement).dataset.palette = value;
           }, palette);
-          for (const colors of await ratingColors(
-            dialog.locator(".taking-content"),
-          )) {
+          for (const colors of await ratingColors(question)) {
             const ratio = contrast(colors.foreground, colors.background);
             expect(
               ratio,

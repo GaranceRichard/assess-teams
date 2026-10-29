@@ -1,3 +1,4 @@
+import { retainDialogExit } from "./dialogTransition";
 import { useLayoutEffect, useRef } from "react";
 import "./transitions.css";
 
@@ -75,6 +76,7 @@ export function useModalFocus(
     return () => {
       observer.disconnect();
       dialog.removeEventListener("keydown", containTab);
+      retainDialogExit(dialog);
       dialog.close();
       queueMicrotask(() => restoreDialogFocus(opener, scope));
     };

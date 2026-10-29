@@ -27,6 +27,7 @@ for (const viewport of [
       .getByRole("button", { name: "Passer l’évaluation" })
       .click();
     const dialog = page.getByRole("dialog");
+    const question = dialog.locator(".transition-live");
     const slider = dialog.getByRole("slider");
     const geometry = async () => ({
       dialog: await dialog.boundingBox(),
@@ -96,7 +97,7 @@ for (const viewport of [
     const next = dialog.getByRole("button", { name: "Suivant" });
     await next.focus();
     await next.press("Enter");
-    await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+    await expect(question.getByText("Question 2 / 2")).toBeVisible();
     await dialog.screenshot({
       path: testInfo.outputPath("question-navigation.png"),
     });
@@ -110,7 +111,7 @@ for (const viewport of [
     );
     await slider.press("Home");
     await expect(
-      dialog.getByText("Note enregistrée", { exact: true }),
+      question.getByText("Note enregistrée", { exact: true }),
     ).toBeVisible();
     await expect(slider).toBeFocused();
     await expect(slider).toHaveValue("0");

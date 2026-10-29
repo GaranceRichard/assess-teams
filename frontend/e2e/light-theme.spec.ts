@@ -36,14 +36,18 @@ test("light screens, states and control boundaries remain readable in ten palett
   await page.getByRole("button", { name: "Annuler", exact: true }).click();
   await page.getByRole("link", { name: "Équipes", exact: true }).click();
   await auditLightScreen(page, "team-selector");
-  await page.getByLabel("Organisation").selectOption({ label: "Results E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Results E2E" });
   await page.getByRole("button", { name: "Créer une équipe" }).click();
   await auditLightScreen(page, "team-dialog");
   await page.getByRole("button", { name: "Annuler", exact: true }).click();
   await page
     .getByRole("link", { name: "Modèles d’évaluation", exact: true })
     .click();
-  await page.getByLabel("Organisation").selectOption({ label: "Results E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Results E2E" });
   const selectedModel = page.getByRole("button", { name: /Radar E2E v3/ });
   await selectedModel.click();
   await expect(selectedModel).toHaveAttribute("aria-pressed", "true");
@@ -67,7 +71,9 @@ test("light screens, states and control boundaries remain readable in ten palett
   await appreciation.getByRole("button", { name: "Ajouter un repère" }).click();
   await auditLightScreen(page, "appreciation");
   await page.getByRole("link", { name: "Planification", exact: true }).click();
-  await page.getByLabel("Organisation").selectOption({ label: "Results E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Results E2E" });
   await page.getByLabel("Planifier").selectOption("fixed");
   await auditLightScreen(page, "planning");
   await page.getByRole("link", { name: "Pilotage", exact: true }).click();

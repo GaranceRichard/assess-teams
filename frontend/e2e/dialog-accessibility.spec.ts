@@ -75,7 +75,9 @@ test("organization and team dialogs return focus after cancellation and after th
   );
   await cancelByKeyboard(page, members);
   await page.goto("/teams");
-  await page.getByLabel("Organisation").selectOption({ label: "Modal E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Modal E2E" });
   const create = page.getByRole("button", { name: "Créer une équipe" });
   dialog = await openByKeyboard(page, create);
   await dialog.getByLabel("Nom de l’équipe").fill("Équipe modal");

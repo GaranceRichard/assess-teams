@@ -109,7 +109,7 @@ export async function openTypographyRoute(page: Page, route: string) {
   ).toHaveCount(0);
   if (route === "templates") {
     await page
-      .getByLabel("Organisation")
+      .getByRole("combobox", { name: "Organisation" })
       .selectOption({ label: "Results E2E" });
     await page.locator(".evaluation-select").first().click();
     await expect(page.locator(".question-panel h2")).toBeVisible();

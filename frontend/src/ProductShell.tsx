@@ -17,7 +17,7 @@ import { SuperadminDashboard } from "./SuperadminDashboard";
 import { TeamPage } from "./TeamPage";
 import type { Theme } from "./theme";
 import { ThemeToggle } from "./ThemeToggle";
-import "./transitions.css";
+import { TransitionSurface } from "./TransitionSurface";
 
 type Props = {
   path: string;
@@ -80,7 +80,11 @@ export function ProductShell({
             </button>
           )}
         </header>
-        <div className="page-viewport" key={path}>
+        <TransitionSurface
+          className="page-viewport"
+          transitionKey={path}
+          axis="page"
+        >
           {pageNotice}
           {authorized && pageContent ? (
             pageContent
@@ -125,7 +129,7 @@ export function ProductShell({
               <p>Votre fonction ne permet pas d’accéder à cette page.</p>
             </section>
           )}
-        </div>
+        </TransitionSurface>
       </main>
     </div>
   );

@@ -25,8 +25,7 @@ async function geometry(dialog: Locator) {
           const body = element.closest(".taking-content")!;
           return (
             element.getBoundingClientRect().top -
-            body.getBoundingClientRect().top +
-            body.scrollTop
+            body.getBoundingClientRect().top
           );
         })
       : null,
@@ -57,6 +56,7 @@ for (const theme of ["day", "night"]) {
           .filter({ hasText: "Passation E2E v1" });
         await row.getByRole("button", { name: "Passer l’évaluation" }).click();
         const dialog = page.getByRole("dialog");
+        const question = dialog.locator(".transition-live");
         if (revision) {
           await chooseRating(dialog, 0, false);
           await dialog.getByRole("button", { name: "Suivant" }).click();
@@ -123,7 +123,7 @@ for (const theme of ["day", "night"]) {
             .getByRole("button", { name: "Réessayer la sauvegarde" })
             .click();
           await expect(
-            dialog.getByText("Note enregistrée", { exact: true }),
+            question.getByText("Note enregistrée", { exact: true }),
           ).toBeVisible();
           expect(await geometry(dialog)).toEqual(before);
         }

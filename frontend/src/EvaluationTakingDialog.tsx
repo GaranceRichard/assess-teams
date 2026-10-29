@@ -1,3 +1,4 @@
+import { TransitionSurface } from "./TransitionSurface";
 import { useQuestionTransition } from "./useQuestionTransition";
 import { TakingContentSizing } from "./TakingContentSizing";
 import { TakingStatusSizing } from "./TakingStatusSizing";
@@ -38,10 +39,7 @@ export function EvaluationTakingDialog({
     next,
     submit,
   } = useEvaluationTaking(run, revision, onClose);
-  const { questionTitle, questionContent } = useQuestionTransition(
-    position,
-    question?.question_id,
-  );
+  const { questionTitle } = useQuestionTransition(question?.question_id);
 
   return (
     <dialog
@@ -63,7 +61,7 @@ export function EvaluationTakingDialog({
           revision={revision}
           readonly={readonly}
         />
-        <div className="taking-content" key={question?.question_id}>
+        <div className="taking-content">
           <p>
             {referenceLabel(current)} · {current.team_name}
           </p>
@@ -71,43 +69,49 @@ export function EvaluationTakingDialog({
           {revision && <p>La révision sera enregistrée à sa validation.</p>}
           {question && (
             <>
-              <div className="taking-question" ref={questionContent}>
-                <p className="question-position" aria-live="polite">
-                  Question {position + 1} / {current.questions.length}
-                </p>
-                <h3
-                  ref={questionTitle}
-                  id="question-text"
-                  className="taking-question-title"
-                  tabIndex={-1}
-                >
-                  {question.text}
-                </h3>
-                <EvaluationScoreInput
-                  question={question}
-                  disabled={readonly || submitting || advancing}
-                  onSelect={(score) => void selectScore(score)}
-                />
-                <p
-                  id="score-status"
-                  className="taking-status"
-                  role={error ? "alert" : "status"}
-                >
-                  <TakingStatusSizing />
-                  <span>
-                    {error ??
-                      (saving
-                        ? "Enregistrement…"
-                        : unsaved
-                          ? "Note non sauvegardée"
-                          : question.score === null
-                            ? "Choisissez une note de 0 à 10."
-                            : revision
-                              ? "Note à valider"
-                              : "Note enregistrée")}
-                  </span>
-                </p>
-              </div>
+              <TransitionSurface
+                transitionKey={question.question_id}
+                axis="question"
+                order={position}
+              >
+                <div className="taking-question">
+                  <p className="question-position" aria-live="polite">
+                    Question {position + 1} / {current.questions.length}
+                  </p>
+                  <h3
+                    ref={questionTitle}
+                    id="question-text"
+                    className="taking-question-title"
+                    tabIndex={-1}
+                  >
+                    {question.text}
+                  </h3>
+                  <EvaluationScoreInput
+                    question={question}
+                    disabled={readonly || submitting || advancing}
+                    onSelect={(score) => void selectScore(score)}
+                  />
+                  <p
+                    id="score-status"
+                    className="taking-status"
+                    role={error ? "alert" : "status"}
+                  >
+                    <TakingStatusSizing />
+                    <span>
+                      {error ??
+                        (saving
+                          ? "Enregistrement…"
+                          : unsaved
+                            ? "Note non sauvegardée"
+                            : question.score === null
+                              ? "Choisissez une note de 0 à 10."
+                              : revision
+                                ? "Note à valider"
+                                : "Note enregistrée")}
+                    </span>
+                  </p>
+                </div>
+              </TransitionSurface>
               {!readonly && !revision && (
                 <button
                   className="secondary taking-note-action"

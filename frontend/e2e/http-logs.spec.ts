@@ -134,7 +134,7 @@ test("HTTP logs are created, filtered and isolated across Admin organizations an
   await page.getByRole("link", { name: "Logs", exact: true }).click();
   await expect(page.getByLabel("Organisation")).toBeEnabled();
   await page
-    .getByLabel("Organisation")
+    .getByRole("combobox", { name: "Organisation" })
     .selectOption(String(foreign.organizationId));
   await expect(page.getByRole("option", { name: "HTTP Beta" })).toBeAttached();
   await page
@@ -148,7 +148,7 @@ test("HTTP logs are created, filtered and isolated across Admin organizations an
     "HTTP Logs B",
   );
   await page
-    .getByLabel("Organisation")
+    .getByRole("combobox", { name: "Organisation" })
     .selectOption(String(own.organizationId));
   await expect(page.getByLabel("Équipe", { exact: true })).toHaveValue("");
   await expect(page.getByRole("option", { name: "HTTP Beta" })).toHaveCount(0);

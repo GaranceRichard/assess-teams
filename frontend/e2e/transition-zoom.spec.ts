@@ -31,6 +31,7 @@ test("native browser zoom 200% retains motion, focus and reachable actions", asy
   const context = await chromium.launchPersistentContext(profile, {
     channel,
     headless: true,
+    reducedMotion: "no-preference",
     viewport: null,
     deviceScaleFactor: undefined,
     args: ["--window-size=1440,1000"],
@@ -99,7 +100,9 @@ test("native browser zoom 200% retains motion, focus and reachable actions", asy
       expect(box!.y).toBeGreaterThanOrEqual(0);
       expect(box!.y + box!.height).toBeLessThanOrEqual(metrics.height);
       await page.screenshot({ path: info.outputPath(`zoom-200-${theme}.png`) });
-      await page.keyboard.press("Escape");
+      motions.push(
+        await moving(page, "dialog-exit", () => page.keyboard.press("Escape")),
+      );
       motions.push(
         await moving(page, "page-enter", () =>
           page

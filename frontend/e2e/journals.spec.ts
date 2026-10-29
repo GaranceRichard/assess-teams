@@ -24,7 +24,11 @@ test("an Admin consults the distinct activity journal and logs", async ({
     page.getByRole("heading", { name: "Journal d’activité" }),
   ).toBeVisible();
   await expect(page.getByText("Création de l’équipe")).toBeVisible();
-  await expect(page.getByText("Journals E2E")).toBeVisible();
+  await expect(
+    page
+      .getByRole("region", { name: "Contenu de la collection" })
+      .getByText("Journals E2E"),
+  ).toBeVisible();
   await expect(page.locator(".journal-day h2").first()).toHaveText(
     /^\d{2}\/\d{2}\/\d{4}$/,
   );

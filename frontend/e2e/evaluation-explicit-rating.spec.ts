@@ -50,8 +50,9 @@ for (const theme of ["day", "night"]) {
             .click();
           const dialog = page.getByRole("dialog");
           const slider = dialog.getByRole("slider");
+          const question = dialog.locator(".transition-live");
           await expect(
-            dialog.getByText("Aucune note sélectionnée"),
+            question.getByText("Aucune note sélectionnée"),
           ).toBeVisible();
           const runs = await (
             await page.request.get("/api/evaluations/")
@@ -75,7 +76,7 @@ for (const theme of ["day", "night"]) {
               writes++;
           });
           await expect(
-            dialog.getByText("Échelle entière de 0 à 10"),
+            question.getByText("Échelle entière de 0 à 10"),
           ).toBeVisible();
           await expect(slider).toHaveAccessibleDescription(
             /Échelle entière de 0 à 10/,
@@ -84,10 +85,10 @@ for (const theme of ["day", "night"]) {
           await slider.focus();
           await slider.press("Enter");
           await expectRatingValues(dialog);
-          await expect(
-            dialog.locator(".taking-content .marker-dot"),
-          ).toHaveCount(markers ? 4 : 0);
-          await expect(dialog.getByText(/Entrée : 5/)).toHaveCount(0);
+          await expect(question.locator(".marker-dot")).toHaveCount(
+            markers ? 4 : 0,
+          );
+          await expect(question.getByText(/Entrée : 5/)).toHaveCount(0);
           await expect(slider).toHaveAttribute(
             "aria-valuetext",
             "Aucune note sélectionnée",
@@ -98,7 +99,7 @@ for (const theme of ["day", "night"]) {
           await expect(
             dialog.getByRole("button", { name: "Suivant" }),
           ).toBeDisabled();
-          await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
+          await expect(question.getByText("Question 1 / 2")).toBeVisible();
           expect(await scores()).toEqual([null, null]);
           expect(writes).toBe(0);
           await dialog.getByRole("button", { name: "Fermer" }).click();
@@ -106,14 +107,14 @@ for (const theme of ["day", "night"]) {
           await row
             .getByRole("button", { name: "Reprendre l’évaluation" })
             .click();
-          await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
+          await expect(question.getByText("Question 1 / 2")).toBeVisible();
           if (mobile) await slider.tap();
           else await slider.click();
           await expect(
-            dialog.getByText("Note sélectionnée : 5 / 10"),
+            question.getByText("Note sélectionnée : 5 / 10"),
           ).toBeVisible();
           await expect(
-            dialog.getByText("Note enregistrée", { exact: true }),
+            question.getByText("Note enregistrée", { exact: true }),
           ).toBeVisible();
           await dialog.screenshot({ path: testInfo.outputPath("five.png") });
           expect(await scores()).toEqual([5, null]);
@@ -123,7 +124,7 @@ for (const theme of ["day", "night"]) {
           await row
             .getByRole("button", { name: "Reprendre l’évaluation" })
             .click();
-          await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+          await expect(question.getByText("Question 2 / 2")).toBeVisible();
           await recordIncompleteRatingRefusal(page, runId, testInfo);
           expect(await scores()).toEqual([5, null]);
           const bounds = (await slider.boundingBox())!;
@@ -131,10 +132,10 @@ for (const theme of ["day", "night"]) {
             await slider.tap({ position: { x: 1, y: bounds.height / 2 } });
           else await slider.press("Home");
           await expect(
-            dialog.getByText("Note sélectionnée : 0 / 10"),
+            question.getByText("Note sélectionnée : 0 / 10"),
           ).toBeVisible();
           await expect(
-            dialog.getByText("Note enregistrée", { exact: true }),
+            question.getByText("Note enregistrée", { exact: true }),
           ).toBeVisible();
           expect(await scores()).toEqual([5, 0]);
           await dialog.screenshot({ path: testInfo.outputPath("zero.png") });
@@ -152,18 +153,18 @@ for (const theme of ["day", "night"]) {
           });
           await dialog.getByRole("button", { name: "Précédent" }).click();
           await expect(
-            dialog.getByText("Note sélectionnée : 5 / 10"),
+            question.getByText("Note sélectionnée : 5 / 10"),
           ).toBeVisible();
           await chooseRating(dialog, 10, mobile);
           await expect(
-            dialog.getByText("Note enregistrée", { exact: true }),
+            question.getByText("Note enregistrée", { exact: true }),
           ).toBeVisible();
           expect(await scores()).toEqual([10, 0]);
           await dialog.screenshot({ path: testInfo.outputPath("ten.png") });
           for (let score = 0; score <= 10; score++) {
             await chooseRating(dialog, score, mobile);
             await expect(
-              dialog.getByText("Note enregistrée", { exact: true }),
+              question.getByText("Note enregistrée", { exact: true }),
             ).toBeVisible();
             expect(await scores()).toEqual([score, 0]);
             if (score === 7)

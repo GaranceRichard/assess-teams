@@ -22,7 +22,9 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
-  await page.getByLabel("Organisation").selectOption({ label: "Versions E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Versions E2E" });
   await page.getByRole("button", { name: "Créer une évaluation" }).click();
   await page.getByLabel("Nom de l’évaluation").fill("Agile versions");
   await page.getByRole("button", { name: "Enregistrer" }).click();
@@ -85,7 +87,9 @@ test("v1 stays attached to a run after v2 validation and new planning uses v2", 
   );
   await page.getByRole("button", { name: "Fermer" }).click();
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
-  await page.getByLabel("Organisation").selectOption({ label: "Versions E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Versions E2E" });
   await first
     .getByRole("button", { name: "Créer une nouvelle version" })
     .click();

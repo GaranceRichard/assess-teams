@@ -1,110 +1,74 @@
-# Transitions douces et cohérentes
+# Transitions continues — correctif du chantier initial
 
-## Périmètre
+Le [diagnostic avant modification](diagnostic.md) explique le défaut de `37ea6d7` :
+React supprimait le contenu précédent ; seules les entrées étaient animées.
+Les anciennes [mesures](mesures.md) attestent cette première implémentation,
+pas la continuité visuelle désormais requise.
 
-Chantier du 2026-10-27, branche `feat/ux-smooth-transitions-20261027`,
-worktree isolé depuis `713acd1`. Les deux autres worktrees présents sont laissés intacts.
-README annoncé avant le code ; aucun fichier Git/CI, dépendance ou backend modifié.
+## Rendu corrigé
 
-- Questions : entrée horizontale de 12 px avec fondu, 230 ms `ease-out` ; sens inverse au retour.
-- Rubriques : viewport existant indexé par chemin, fondu et translation verticale de 6 px, 180 ms.
-- Dialogues : même entrée verticale de 6 px, 180 ms, dans les deux présentations natives existantes.
+| Surface | Raccord | Durée | Déplacement |
+| --- | --- | --- | --- |
+| Rubriques | Ancien contenu sortant + nouveau contenu entrant | 320 ms | ±12 px verticalement |
+| Questions | Fondu croisé, sens inverse au retour | 320 ms | ±20 px horizontalement |
+| Ouverture des dialogues | Fond progressif, fondu et translation | 240 ms | 12 px verticalement |
+| Fermeture acceptée | Fondu et mouvement inverse, fond progressif | 220 ms | 12 px verticalement |
 
-Aucune sortie différée : le contenu, les commandes et le focus sont disponibles immédiatement.
-Les animations ne sont déclarées que sous `prefers-reduced-motion: no-preference`.
-En réduction des animations, aucun mouvement ni fondu, y compris si la préférence change à chaud.
-Les transforms n'ont aucun mode de remplissage persistant, aucune hauteur n'est animée.
+`TransitionSurface` capture le DOM avant sa mutation React (`getSnapshotBeforeUpdate`).
+La copie sortante est uniquement visuelle : inerte, masquée aux technologies d’assistance,
+sans identifiants dupliqués, événements React, effets, requêtes ou sauvegardes.
+Les canvas et positions de scroll sont conservés pour éviter les scintillements.
+Le nouveau contenu est immédiatement interactif ; aucune attente artificielle n’est ajoutée.
 
-## Stabilité et périmètre métier
+Le conteneur vivant reste monté pendant le raccord. Des navigations rapprochées remplacent
+sa destination sans redémarrer l’animation ni empiler les copies : la dernière intention gagne
+pendant la même fenêtre de 320 ms. Une fois le raccord terminé, la copie est supprimée.
+Les mises à jour de données, sélections, sauvegardes et refus ne déclenchent pas de mouvement.
+Le viewport découpe horizontalement la copie lors des redimensionnements mobile.
+Les pages gardent leurs états existants de chargement et leurs titres ; aucun délai réseau
+n’est introduit pour les animations et aucun montage React précédent n’est prolongé.
 
-Le cadre, le titre général, les métadonnées, l'action de sauvegarde et le pied de passation
-ne suivent pas le mouvement horizontal des questions. Les copies intrinsèques MEP-013/044
-restent responsables du dimensionnement. Le focus rejoint toujours le titre de question.
-La direction vient de la position effectivement affichée, après les gardes de navigation ;
-aucune animation sur sélection de note, sauvegarde, refus ou nouvelle tentative.
-L'ouverture ne rejoue pas en même temps l'animation de question.
-La sidebar et le header restent hors du viewport animé ; une actualisation de données
-ne remonte pas ce viewport. Historique navigateur et contrôles d'accès inchangés.
+La sidebar et le header restent hors des couches animées. En passation, seuls le numéro,
+le texte, la notation et le statut de question bougent ; métadonnées, titre général,
+action de sauvegarde, cadre et pied restent fixes. L’action de sauvegarde reste ancrée dans la zone de corps même en faible hauteur.
+La copie de dimensionnement reproduit la structure des métadonnées et de la question
+pour réserver aussi les marges exactes des repères. Le dimensionnement intrinsèque MEP-013/044, les notes explicites 0–10 et toutes les gardes métier restent inchangés.
 
-Les règles 0–10 explicites, snapshots, repères, erreurs, sauvegardes, finalisation et révision
-restent celles de MEP-013/044. `useModalFocus`, Échap et protections de saisie sont conservés.
-Aucun contrat, calcul, droit, API ou migration ne change.
+## Dialogue natif et accessibilité
+
+`useModalFocus` conserve `showModal()` / `close()`, Échap, le confinement et le retour du focus.
+Une fermeture réellement acceptée peut laisser pendant 220 ms une copie de peinture
+non modale dans un `div` inerte. Le vrai dialogue est fermé et le focus est rendu immédiatement.
+Cette copie ne bloque ni le déclencheur ni une modale suivante. StrictMode ne laisse pas
+une fausse sortie avant le premier affichage. Un refus de fermeture ne démonte rien,
+ne déplace pas le focus et ne produit aucune animation de sortie.
+
+Les courbes n’ont ni rebond ni dépassement. Aucun zoom ni dimension n’est animé.
+`prefers-reduced-motion: reduce` supprime mouvements, fondus et copies ; les changements
+restent immédiats, y compris lorsque la préférence change pendant une transition.
+Aucune dépendance, API, donnée, permission, règle métier ou infrastructure de recette ajoutée.
 
 ## Recette et preuves
 
-`transitions.spec.ts` observe `animationstart` puis échantillonne chaque frame réellement rendue
-par `requestAnimationFrame` jusqu'à la fin naturelle de l'animation CSS, sans la ralentir ni la recréer.
-Les assertions vérifient progression temporelle, opacité, direction, position finale et géométrie
-immobile du shell ou du cadre/titre/actions. Des vidéos WebM sont enregistrées par Chromium.
-Les deux thèmes et dix palettes sont parcourus sur desktop et mobile. La préférence reduce
-contrôle l'absence effective d'événements et de transforms avec focus et historique conservés.
+Les tests existants `transitions`, `transition-dialogs` et `transition-zoom` sont renforcés :
+préférence effective, ancienne et nouvelle opacité simultanées, textes distincts,
+géométrie fixe à chaque frame, fermeture réelle, clavier, refus et navigation rapide.
+Le sampler suit les frames effectivement rendues, sans ralentissement ni horloge simulée.
+La matrice couvre desktop/mobile, deux thèmes et dix palettes ; le zoom natif reste à 200 %.
+Le test React de passation exige aussi l’ancien rendu inerte et un seul curseur accessible.
+Les sélecteurs fonctionnels ciblent les contrôles accessibles ou la question vivante,
+sans confondre les copies visuelles avec le formulaire courant. Les mesures statiques
+de notation attendent seulement la fin naturelle du mouvement ; le sampler de continuité
+continue de mesurer pendant celui-ci, à chaque frame.
 
-La [vidéo Chromium à 200 %](zoom-200.webm) dure 6,28 s et montre les ouvertures,
-les changements de question et les rubriques dans les deux thèmes, à vitesse réelle.
-Le profil de recette utilise le zoom natif de Chromium : DPR 2, viewport CSS au plus 720 px,
-zoom CSS 1 et échelle de pincement 1, avec une fenêtre de 1440 × 1000 pixels.
-Le réglage de partition suit le [code source Chromium](https://chromium.googlesource.com/chromium/src/+/lkgr/chrome/browser/ui/zoom/chrome_zoom_level_prefs.cc).
-Les actions sont dans le viewport et utilisables au clavier ; le dialogue reste borné en hauteur.
-La vérification visuelle de frames décodées complète les mesures et les captures finales.
+Les preuves finales et leur lecture visuelle sont décrites dans [la recette du correctif](recette-correctif.md).
+La vidéo historique `zoom-200.webm` ne vaut pas preuve du correctif.
 
-Les 11 scénarios ciblés passent : six de géométrie, deux matrices de transitions,
-un parcours reduce/historique, un parcours refus/révision/dialogues et un zoom natif.
-Les 21 tests React ciblés initiaux passent, dont deux nouveaux cas de direction et refus.
-Le backend complet passe : 1 444 tests, couverture 97,49 %. Le frontend complet passe :
-438 tests ; statements 96,44 %, branches 94,84 %, fonctions 96,54 %, lignes 97,30 %.
-La première campagne E2E globale a révélé quatre mesures initiales prises pendant
-l'ouverture du dialogue dans `evaluation-rating-refusal`. Les deux helpers de géométrie
-(refus et layout) attendent maintenant la fin de l'animation propre au dialogue ;
-les égalités strictes et les mesures pendant la navigation restent inchangées.
-Cette campagne a été arrêtée pour resynchronisation après publication du chantier curseur.
-Après resynchronisation, les huit refus et les cinq scénarios de mouvement passent.
-Les [mesures finales](mesures.md) couvrent 238 transitions réelles, quarante combinaisons
-thème/palette/format, le zoom natif, les erreurs et la réduction des animations.
-Le pré-push canonique exécute ensuite le plan exhaustif ; la livraison exige sa réussite
-et la CI verte du SHA publié, sans contournement ni modification du circuit.
+## Revue documentaire et livraison
 
-## Revue documentaire
-
-README, règles agents, charte, DoD, stratégie de tests, fondamentaux et contrat API relus.
-Les contrats de layout, passation et dialogues référencent ce comportement ; les exigences
-qualité, API et sécurité restent exactes. Nouveaux tests backend et migrations non applicables.
-La publication doit utiliser `npm run publish` et attendre la CI du SHA exact.
-
-## Coordination
-
-Un chantier `fix/passation-disabled-cursor` est apparu pendant la recette. Lecture seule de son
-diff : curseur `default` des boutons désactivés, test E2E et documentation. Les modifications
-CSS portent sur une autre règle ; aucun worktree ou fichier de ce chantier n'est modifié.
-`npm run publish` assure la resynchronisation sur le dernier main et le verrou d'intégration.
-
-Le correctif curseur `e957c09` est intégré à main pendant la campagne : resynchronisation
-avant validation finale ; ses styles et preuves sont conservés.
-
-## Mesures de référence après l’entrée
-
-Le premier pré-push a bloqué quatre références de géométrie supplémentaires :
-les trois formats de `evaluation-rating-focus` et l’état de collection `shell-states`.
-Leurs références sont maintenant prises après la fin naturelle de l’entrée de surface,
-y compris après rechargement de page. Les comparaisons exactes de dimensions/positions,
-les assertions de focus et les contrôles pendant les changements de données sont conservés.
-Les tests de mouvement continuent d’échantillonner l’animation en cours et restent distincts.
-
-Ces quatre scénarios passent après synchronisation, en 35,2 s, avec animations actives.
-
-## Correctif de recette Linux
-
-La [CI de `6c3a608`](https://github.com/GaranceRichard/assess-teams/actions/runs/40550315660)
-a validé le backend, le frontend, les autres parcours réels et la démo, puis refusé le
-seul cas `transition-zoom` : son binaire Chromium complet n'était pas installé.
-Le workflow existant installe volontairement Headless Shell uniquement ; il reste inchangé.
-Le test utilise maintenant Chrome complet déjà fourni par le runner lorsqu'il manque
-le Chromium complet en CI. En local, le Chromium Playwright reste obligatoire afin de
-conserver la cohérence des empreintes de navigateur ; aucune preuve locale n'est réutilisée en CI.
-La [composition de l'image utilisée](https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md)
-confirme Chrome préinstallé. Aucun téléchargement, paquet, workflow ou script de publication ajouté.
-Les assertions de zoom natif, mouvement, focus et géométrie sont toutes conservées ;
-le canal et la version réelle du navigateur sont joints aux mesures.
-Le correctif part du main publié dans un nouveau worktree dédié, selon la règle après CI rouge.
-
-Validation locale du correctif : `npm run quality:targeted` réussit les contrôles
-documentaires et statiques frontend ainsi que le scénario de zoom natif (1 test, 21,7 s).
+README annoncé avant modification applicative. README, règles agents, charte, DoD,
+stratégie, fondamentaux, contrat API et contrats de layout/passation/dialogues relus.
+Les trois contrats frontend décrivent le nouveau raccord ; backend, migrations et OpenAPI
+restent inchangés. Git, workflows CI et scripts de publication ne sont pas modifiés.
+Au démarrage, seul ce worktree de chantier est présent à côté du checkout principal.
+Publication via `npm run publish`, sans PR, CI du SHA exact puis main local synchronisé.

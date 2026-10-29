@@ -22,7 +22,7 @@ test("draft validation, immutability, archive and planning history", async ({
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
   await page
-    .getByLabel("Organisation")
+    .getByRole("combobox", { name: "Organisation" })
     .selectOption({ label: "Lifecycle E2E" });
   await page.getByRole("button", { name: "Créer une évaluation" }).click();
   await page.getByLabel("Nom de l’évaluation").fill("Lifecycle model");
@@ -78,7 +78,7 @@ test("draft validation, immutability, archive and planning history", async ({
 
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
   await page
-    .getByLabel("Organisation")
+    .getByRole("combobox", { name: "Organisation" })
     .selectOption({ label: "Lifecycle E2E" });
   await model.getByRole("button", { name: "Archiver" }).click();
   await page.getByRole("button", { name: "Confirmer l’archivage" }).click();

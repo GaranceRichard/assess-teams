@@ -19,7 +19,7 @@ test("an Admin manages an evaluation and its ordered questions", async ({
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
   await page
-    .getByLabel("Organisation")
+    .getByRole("combobox", { name: "Organisation" })
     .selectOption({ label: "Evaluation E2E" });
 
   await page.getByRole("button", { name: "Créer une évaluation" }).click();

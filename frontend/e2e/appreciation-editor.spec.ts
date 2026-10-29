@@ -25,7 +25,7 @@ test("a marker has one score, persists after reload and preserves existing marke
   async function openEditor() {
     await page.getByRole("link", { name: "Modèles d’évaluation" }).click();
     await page
-      .getByLabel("Organisation")
+      .getByRole("combobox", { name: "Organisation" })
       .selectOption({ label: "Marker editor E2E" });
     await page.getByRole("button", { name: /Single marker v1/ }).click();
     await page.getByText(/Repères d’appréciation/).click();

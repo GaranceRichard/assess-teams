@@ -21,10 +21,11 @@ for (const theme of ["day", "night"]) {
       .getByRole("button", { name: "Passer l’évaluation" })
       .click();
     const dialog = page.getByRole("dialog");
+    const question = dialog.locator(".transition-live");
     await expect(dialog).toBeVisible();
     await dialog.getByRole("slider").press("Home");
     await expect(
-      dialog.getByText("Note enregistrée", { exact: true }),
+      question.getByText("Note enregistrée", { exact: true }),
     ).toBeVisible();
     for (const size of [
       { width: 1280, height: 720 },

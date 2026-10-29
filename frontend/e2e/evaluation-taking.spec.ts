@@ -16,19 +16,20 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
     .filter({ has: page.getByText("Passation E2E v1", { exact: true }) });
   await row.getByRole("button", { name: "Passer l’évaluation" }).click();
   const dialog = page.getByRole("dialog");
-  await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
-  await expect(dialog.getByText("Premier critère E2E")).toBeVisible();
-  await expect(dialog.getByText("Deuxième critère E2E")).toHaveCount(0);
+  const question = dialog.locator(".transition-live");
+  await expect(question.getByText("Question 1 / 2")).toBeVisible();
+  await expect(question.getByText("Premier critère E2E")).toBeVisible();
+  await expect(question.getByText("Deuxième critère E2E")).toHaveCount(0);
   await dialog.getByRole("slider").focus();
   await page.keyboard.press("Home");
-  await expect(dialog.getByText("Note sélectionnée : 0 / 10")).toBeVisible();
+  await expect(question.getByText("Note sélectionnée : 0 / 10")).toBeVisible();
   await expect(
-    dialog.getByText("Note enregistrée", { exact: true }),
+    question.getByText("Note enregistrée", { exact: true }),
   ).toBeVisible();
   await dialog.getByRole("button", { name: "Fermer" }).click();
   await page.reload();
   await row.getByRole("button", { name: "Reprendre l’évaluation" }).click();
-  await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+  await expect(question.getByText("Question 2 / 2")).toBeVisible();
   await expect(
     dialog.getByRole("button", { name: "Valider l’évaluation" }),
   ).toBeDisabled();
@@ -37,7 +38,7 @@ test("an assignee resumes and completes; an Admin revises and completes on behal
   await dialog.getByRole("button", { name: "Suivant" }).click();
   await dialog.getByRole("slider").focus();
   await page.keyboard.press("End");
-  await expect(dialog.getByText("Note sélectionnée : 10 / 10")).toBeVisible();
+  await expect(question.getByText("Note sélectionnée : 10 / 10")).toBeVisible();
   let failedRunURL = "";
   await page.route(
     "**/api/evaluations/*/finalize/",
@@ -118,6 +119,7 @@ test("a deliberate midpoint choice blocks navigation until backend persistence",
     .filter({ has: page.getByText("Passation E2E v1", { exact: true }) });
   await row.getByRole("button", { name: "Passer l’évaluation" }).click();
   const dialog = page.getByRole("dialog");
+  const question = dialog.locator(".transition-live");
   let resumeSave!: () => void;
   const saveGate = new Promise<void>((resolve) => {
     resumeSave = resolve;
@@ -131,18 +133,18 @@ test("a deliberate midpoint choice blocks navigation until backend persistence",
     await expect(
       dialog.getByRole("button", { name: "Suivant" }),
     ).toBeDisabled();
-    await expect(dialog.getByText("Question 1 / 2")).toBeVisible();
+    await expect(question.getByText("Question 1 / 2")).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Fermer" })).toBeDisabled();
   } finally {
     resumeSave();
   }
   await dialog.getByRole("button", { name: "Suivant" }).click();
-  await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+  await expect(question.getByText("Question 2 / 2")).toBeVisible();
   await expect(dialog.getByRole("slider")).toBeEnabled();
   await dialog.getByRole("button", { name: "Fermer" }).click();
   await page.reload();
   await row.getByRole("button", { name: "Reprendre l’évaluation" }).click();
-  await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+  await expect(question.getByText("Question 2 / 2")).toBeVisible();
   await dialog.getByRole("button", { name: "Précédent" }).click();
   await expect(dialog.getByRole("slider")).toHaveValue("5");
 });

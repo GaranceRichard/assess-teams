@@ -27,10 +27,12 @@
   flex: 1;
 }
 
-.page-viewport:has(.demo-notice) {
+.page-viewport:has(.demo-notice) > :is(.transition-live, .transition-outgoing) {
   flex-direction: column;
 }
-.page-viewport:has(.demo-notice) > .product-page {
+.page-viewport:has(.demo-notice)
+  > :is(.transition-live, .transition-outgoing)
+  > .product-page {
   flex: 1 1 0;
 }
 

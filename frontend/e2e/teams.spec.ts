@@ -23,21 +23,29 @@ test("an Admin manages an organization's team and its coaches", async ({
   await page.getByRole("button", { name: "Se connecter" }).click();
   await page.getByRole("link", { name: "Équipes" }).click();
 
-  await page.getByLabel("Organisation").selectOption({ label: "Teams E2E" });
+  await page
+    .getByRole("combobox", { name: "Organisation" })
+    .selectOption({ label: "Teams E2E" });
   await expect(
     page.getByText("Aucune équipe active pour cette organisation."),
   ).toBeVisible();
   await page.getByRole("button", { name: "Créer une équipe" }).click();
   await page.getByLabel("Nom de l’équipe").fill("Delivery");
-  await page.getByLabel("team-coach-one-e2e").check();
-  await page.getByLabel("team-coach-two-e2e").check();
+  await page
+    .getByRole("checkbox", { name: "team-coach-one-e2e", exact: true })
+    .check();
+  await page
+    .getByRole("checkbox", { name: "team-coach-two-e2e", exact: true })
+    .check();
   await page.getByRole("button", { name: "Enregistrer" }).click();
 
   const teamRow = page.getByRole("listitem").filter({ hasText: "Delivery" });
   await expect(teamRow).toContainText("team-coach-one-e2e, team-coach-two-e2e");
   await teamRow.getByRole("button", { name: "Modifier" }).click();
   await page.getByLabel("Nom de l’équipe").fill("Delivery updated");
-  await page.getByLabel("team-coach-one-e2e").uncheck();
+  await page
+    .getByRole("checkbox", { name: "team-coach-one-e2e", exact: true })
+    .uncheck();
   await page.getByRole("button", { name: "Enregistrer" }).click();
   await expect(teamRow).toContainText("Delivery updated");
   await expect(teamRow).toContainText("team-coach-two-e2e");

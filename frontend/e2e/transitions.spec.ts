@@ -10,7 +10,10 @@ import {
   type Motion,
 } from "./motion-evidence";
 
-test.use({ video: "on" });
+test.use({
+  video: { mode: "on", size: { width: 1366, height: 768 } },
+  reducedMotion: "no-preference",
+});
 
 for (const viewport of [
   { width: 1366, height: 768 },
@@ -30,6 +33,11 @@ for (const viewport of [
       .getByRole("row")
       .filter({ has: page.getByText("Passation E2E v1", { exact: true }) });
     await expect(row).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+      ),
+    ).toBe(false);
     await observeMotion(page);
     const evidence: { theme: string; palette: string; motions: Motion[] }[] =
       [];
@@ -79,9 +87,11 @@ for (const viewport of [
         expect(previous.frames[0].x).toBeLessThan(0);
         motions.push(previous);
         await expect(dialog.getByRole("slider")).toHaveValue("0");
-        await dialog
-          .getByRole("button", { name: "Fermer", exact: true })
-          .click();
+        motions.push(
+          await moving(page, "dialog-exit", () =>
+            dialog.getByRole("button", { name: "Fermer", exact: true }).click(),
+          ),
+        );
         await expect(
           row.getByRole("button", { name: "Reprendre l’évaluation" }),
         ).toBeFocused();
@@ -96,6 +106,38 @@ for (const viewport of [
         expect(motions.at(-1)!.frames[0].y).toBeGreaterThan(0);
         motions.push(await moving(page, "page-enter", () => page.goBack()));
         await expect(row).toBeVisible();
+        if (theme === "day" && palette === "green") {
+          const rapid = await page.evaluate(async () => {
+            const navigate = (path: string) =>
+              document
+                .querySelector<HTMLAnchorElement>(
+                  `.product-sidebar a[href="${path}"]`,
+                )!
+                .click();
+            navigate("/dashboard");
+            await new Promise(requestAnimationFrame);
+            const live = document.querySelector(
+              ".page-viewport > .transition-live",
+            )!;
+            const animation = live.getAnimations()[0];
+            await new Promise((resolve) => setTimeout(resolve, 80));
+            navigate("/results");
+            await new Promise((resolve) => setTimeout(resolve, 80));
+            navigate("/evaluations");
+            await new Promise(requestAnimationFrame);
+            return {
+              same: live.getAnimations()[0] === animation,
+              copies: document.querySelectorAll(
+                ".page-viewport > .transition-outgoing",
+              ).length,
+            };
+          });
+          expect(rapid).toEqual({ same: true, copies: 1 });
+          await expect(
+            page.locator(".page-viewport > .transition-outgoing"),
+          ).toHaveCount(0);
+          await expect(row).toBeVisible();
+        }
         evidence.push({ theme, palette, motions });
       }
     }
@@ -108,6 +150,11 @@ test("reduced motion keeps navigation and dialogs immediate, including browser h
 }) => {
   seedTakingContext();
   await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(
+    await page.evaluate(
+      () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+    ),
+  ).toBe(true);
   await page.goto("/evaluations");
   await page.getByLabel("Identifiant").fill("taking-admin-e2e");
   await page.getByLabel("Mot de passe", { exact: true }).fill(e2eCredential);

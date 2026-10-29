@@ -1,0 +1,26 @@
+.taking-sizing {
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  padding-right: 0.5rem;
+  scrollbar-gutter: stable;
+}
+.taking-size-copy {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.taking-sizing [data-text]::before {
+  content: attr(data-text);
+  white-space: pre-wrap;
+}
+.taking-size-question {
+  flex: 1 0 auto;
+}
+.taking-dialog .taking-size-copy > p,
+.taking-dialog .taking-size-question > p {
+  margin: 0.2rem 0;
+}
+.taking-size-copy > .taking-note-action {
+  align-self: flex-start;
+}

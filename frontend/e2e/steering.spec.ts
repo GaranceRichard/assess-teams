@@ -44,7 +44,10 @@ test("Admin reads coverage, overdue and sources with palette, keyboard and mobil
     .not.toBe(background);
   for (const color of ["Bleu", "Rose", "Rouge", "Vert"]) {
     await page.getByRole("link", { name: "Tableau de bord" }).click();
-    await page.getByText("Couleurs", { exact: true }).click();
+    await page
+      .locator(".page-viewport > .transition-live")
+      .getByText("Couleurs", { exact: true })
+      .click();
     await page.getByRole("radio", { name: color, exact: true }).check();
     await expect(page.getByRole("status")).toHaveText("Couleur enregistrée.");
     await page

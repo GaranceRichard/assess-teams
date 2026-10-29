@@ -10,6 +10,9 @@ async function geometry(dialog: Locator) {
     );
   });
   return {
+    save: await dialog
+      .locator(".taking-content > .taking-note-action")
+      .boundingBox(),
     modal: await dialog.boundingBox(),
     navigation: await dialog
       .locator(".evaluation-dialog-actions")
@@ -46,6 +49,7 @@ for (const viewport of [
       .filter({ has: page.getByText("Passation E2E v1", { exact: true }) });
     await row.getByRole("button", { name: "Passer l’évaluation" }).click();
     const dialog = page.getByRole("dialog");
+    const question = dialog.locator(".transition-live");
     const initial = await geometry(dialog);
     expect(initial.modal!.x).toBeGreaterThanOrEqual(0);
     expect(initial.modal!.y).toBeGreaterThanOrEqual(0);
@@ -86,7 +90,7 @@ for (const viewport of [
       .getByRole("button", { name: "Réessayer la sauvegarde" })
       .click();
     await expect(
-      dialog.getByText("Note enregistrée", { exact: true }),
+      question.getByText("Note enregistrée", { exact: true }),
     ).toBeVisible();
     await expect(slider).toHaveValue("6");
     await expect(content.locator(".selected-appreciation")).toContainText(
@@ -97,7 +101,7 @@ for (const viewport of [
       path: testInfo.outputPath("taking-markers.png"),
     });
     await dialog.getByRole("button", { name: "Suivant" }).click();
-    await expect(dialog.getByText("Question 2 / 2")).toBeVisible();
+    await expect(question.getByText("Question 2 / 2")).toBeVisible();
     expect(await geometry(dialog)).toEqual(initial);
     for (const theme of ["day", "night"]) {
       await page.evaluate((value) => {
@@ -176,7 +180,11 @@ test("long question and description use only the body scroll and retain visible 
   await content.evaluate((element) => {
     element.scrollTop = element.scrollHeight;
   });
-  expect(await geometry(dialog)).toEqual(initial);
+  const scrolled = await geometry(dialog);
+  expect({ ...scrolled, save: initial.save }).toEqual(initial);
+  expect({ ...scrolled.save, y: initial.save!.y }).toEqual(initial.save);
+  // Native scrollTop rounds to whole pixels at the fractional scroll limit.
+  expect(Math.abs(scrolled.save!.y - initial.save!.y)).toBeLessThan(1);
   await expect(
     dialog.getByRole("button", { name: "Fermer", exact: true }),
   ).toBeInViewport();

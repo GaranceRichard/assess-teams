@@ -74,6 +74,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
     .getByRole("button", { name: "Passer l’évaluation", exact: true })
     .click();
   const dialog = page.getByRole("dialog");
+  const question = dialog.locator(".transition-live");
   await expect(
     dialog.getByRole("heading", { name: "Clarté des objectifs" }),
   ).toBeVisible();
@@ -84,7 +85,7 @@ test("découverte, brouillon, passation et projections sans aucune API", async (
       .getByRole("button", { name: "Enregistrer la note", exact: true })
       .click();
     await expect(
-      dialog.getByText("Note enregistrée", { exact: true }),
+      question.getByText("Note enregistrée", { exact: true }),
     ).toBeVisible();
     if (i < 4) await dialog.getByRole("button", { name: "Suivant" }).click();
   }

@@ -63,29 +63,25 @@
   overflow-wrap: anywhere;
 }
 .taking-content {
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
   padding-right: 0.5rem;
 }
-.taking-sizing {
-  visibility: hidden;
-  pointer-events: none;
-  overflow: hidden;
-  padding-right: 0.5rem;
-  scrollbar-gutter: stable;
+.taking-content > .transition-surface {
+  flex: 1 0 auto;
 }
-.taking-size-copy {
-  overflow: hidden;
-}
-.taking-sizing [data-text]::before {
-  content: attr(data-text);
-  white-space: pre-wrap;
+.taking-content > .taking-note-action {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  align-self: flex-start;
 }
 .taking-dialog .taking-content > p,
-.taking-dialog .taking-question > p,
-.taking-dialog .taking-size-copy > p {
+.taking-dialog .taking-question > p {
   margin: 0.2rem 0;
 }
 .taking-dialog .taking-question-title {
