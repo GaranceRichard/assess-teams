@@ -13,6 +13,8 @@ L’extrait montre ouverture, Suivant, Précédent, fermeture, puis
 | ![Début](question-debut.png) | ![Milieu](question-milieu.png) | ![Fin](question-fin.png) |
 
 Ces images sont décodées dans la même vidéo source, à sa cadence normale.
+Les captures correspondent aux frames décodées 17, 21 et 27 du clip (25 images/s) :
+ancienne question lisible, chevauchement visible, nouvelle question stabilisée.
 Elles ne proviennent pas d’une animation mise en pause artificiellement.
 Le milieu montre simultanément les textes des deux questions et leurs notes distinctes.
 Le cadre, les métadonnées et les actions ont les mêmes coordonnées dans les trois images.
