@@ -11,7 +11,7 @@ import { resolve, basename } from "node:path";
 
 // Hash installed bytes, not timestamps or just declared versions. Never persist raw inputs.
 // Only interpreter bytecode and tool caches are generated from already covered sources.
-export function installedKey(directory) {
+export function installedKey(directory, { browser = false } = {}) {
   const hash = createHash("sha256");
   const stack = new Set();
   const npmRoot = basename(directory) === "node_modules";
@@ -35,6 +35,12 @@ export function installedKey(directory) {
         throw new Error("Cycle dans les dependances installees");
       stack.add(physical);
       for (const entry of readdirSync(path).sort()) {
+        // Chromium writes this regular diagnostic beside its executable. Nothing
+        // else (including nested logs, symlinks or libraries) is excluded.
+        if (browser && name === "." && entry === "debug.log") {
+          const log = lstatSync(resolve(path, entry));
+          if (log.isFile() && !(log.mode & 0o111)) continue;
+        }
         if (
           entry === "__pycache__" ||
           (npmRoot &&
@@ -91,7 +97,7 @@ export function toolContext(root, env, python, scope) {
     context.python = info.version;
     context.sqlite = info.sqlite;
     context.packages = query(python, ["-m", "pip", "freeze", "--all"]);
-    context.installedPython = info.paths.map(installedKey);
+    context.installedPython = info.paths.map((path) => installedKey(path));
     context.unbounded = unboundedPython(info.paths, context.packages);
   }
   if (scope.startsWith("e2e")) {
@@ -103,7 +109,9 @@ export function toolContext(root, env, python, scope) {
         "import core from './frontend/node_modules/playwright-core/lib/coreBundle.js'; const registry = core.registry.registry; console.log(JSON.stringify(['chromium','chromium-headless-shell'].map(name=>registry.findExecutable(name).executablePath())))",
       ]),
     );
-    context.browsers = paths.map((path) => installedKey(resolve(path, "..")));
+    context.browsers = paths.map((path) =>
+      installedKey(resolve(path, ".."), { browser: true }),
+    );
   }
   return context;
 }

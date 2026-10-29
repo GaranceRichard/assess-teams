@@ -29,20 +29,23 @@ Les tests `impact*.test.mjs` et les invariants YAML en protègent les décisions
 
 | Changement | Contrôles obligatoires |
 | --- | --- |
-| Prose README/AGENTS ou Markdown dans les emplacements documentaires audités | `documentation` : lignes, secrets, conflits, README et cohérence des règles ; aucun test applicatif ni test des outils |
+| Prose auditée ou cinq preuves visuelles UX inventoriées | `documentation` : lignes, secrets, conflits, README, règles, intégrité et liens des preuves ; aucun test applicatif ni suite d'outillage |
 | Test backend ordinaire isolé | Dépôt, Ruff/format/migrations, fichier pytest modifié |
 | Filtrage local des journaux | Dépôt, statiques backend, tests filtres/journal/logs/OpenAPI explicitement cartographiés |
 | Autre Python backend non sensible | Dépôt et backend complet avec couverture ; dépendants inconnus, donc sélection plus large |
 | Test frontend ordinaire isolé | Dépôt, lint/format/typage frontend, test Vitest modifié |
 | Feuilles frontend auditées | Dépôt, statiques frontend, tests dépendants transitifs via `vitest related --run` |
 | Autre source frontend, composant ou CSS | Statiques et tests dépendants ; parcours cartographiés ou tous les E2E si inconnus ; build et parcours démo pour les composants partagés |
-| Test E2E isolé | Dépôt et parcours explicite, sans autre suite applicative |
+| Test E2E applicatif isolé | Documentation, statiques frontend et spec explicite, backend réel du parcours conservé ; aucune campagne pytest |
+| Test E2E de démo isolé | Documentation, statiques frontend, typecheck/build démo et spec explicite ; aucun démarrage backend |
+| Configuration Playwright ou helper E2E TypeScript | Repository, statiques frontend, neuf contrats Vitest des configurations réelles/shards/diagnostics, puis tous les E2E applicatifs/démo ; aucune campagne backend |
+| Configurations Vite/ESLint/tsconfig auditées, src/test ou src/demo | Repository, frontend complet avec seuils et E2E complets ; aucun consommateur pytest démontré |
 | SQLite/transactions/workers internes, tests sensibles | Dépôt et backend complet, couverture >= 90 %, intégration et multiprocessus inclus ; pas de frontend/E2E automatique |
 | Permissions techniques `/api/users/` | Dépôt et backend complet : autorisations, refus sans effet, rôles/rattachements, sessions et contrats |
 | Sécurité ou contrat backend produit, adapters API, domaines et modèles | Dépôt, backend complet, frontend complet et tous les E2E ; dépendances UI non bornées |
 | Sécurité/contrat frontend | Dépôt, frontend complet et tous les E2E |
 | Configuration backend et migrations | Exhaustif, sauf helper interne `config/sqlite_contention.py` audité ci-dessous |
-| Configuration, dépendances, hooks, scripts, CI, documents juridiques distribués | Exhaustif |
+| Autre configuration, dépendances, hooks, scripts communs, CI/livraison, documents juridiques distribués | Exhaustif |
 | Suppression applicative, fichier/type inconnu, lien symbolique ou sous-module | Exhaustif ; type non ordinaire sans réutilisation de preuve |
 
 Les emplacements de prose sont explicitement bornés, pas déduits de la seule extension.
@@ -50,6 +53,9 @@ Les emplacements de prose sont explicitement bornés, pas déduits de la seule e
 Les deux côtés d'un renommage sont examinés ; un déplacement de documentation vers le runtime élargit le plan.
 Le diff inclut les modes et les ajouts de déclarations critiques connues, même dans un fichier au nom anodin.
 Une nouvelle dépendance applicative vers un document doit modifier cette matrice et ses tests dans le même lot.
+Les exceptions d'outillage et les cinq PNG/WebM sont nommées dans `impact-locations.mjs`, jamais déduites des seules extensions.
+Le gate documentaire refuse les preuves absentes référencées, conteneurs invalides et consommateurs explicites du dossier UX.
+Les composants sont cartographiés par chemin exact ; un homonyme, une primitive de focus ou un CSS partagé sans frontière prouvée garde tous les E2E.
 La carte reste volontairement prudente : elle n'infère pas automatiquement tous les imports Python dynamiques.
 Aucun `--passWithNoTests` n'est accepté : une sélection frontend sans test échoue.
 Les tests ciblés n'appliquent pas un seuil global à une couverture partielle ; les seuils globaux de 90 %
@@ -62,7 +68,7 @@ Le SHA seul et l'âge seul ne constituent jamais une preuve suffisante.
 L'empreinte SHA-256 couvre le contenu des entrées suivies/non ignorées, ajouts/suppressions,
 les types et modes locaux, les `.env*`, les manifests et les octets des dépendances installées,
 Python/Node, SQLite, PowerShell/npm, `pip freeze --all`, OS/architecture et l'environnement.
-La politique d'empreinte est explicitement versionnée (`fingerprintPolicy = 4`) ; scripts et règles
+La politique d'empreinte est explicitement versionnée (`fingerprintPolicy = 5`) ; scripts et règles
 exécutables restent inclus dans chaque domaine. Les valeurs sensibles ne sont jamais persistées :
 seules leurs empreintes contribuent à la clé ; les preuves/métriques ne contiennent pas l'environnement.
 Les arbres npm et Python sont relus sans confiance dans leurs dates ou seules versions déclarées.
@@ -70,11 +76,17 @@ Seuls `__pycache__`, les caches Vite et les deux `.tmp/tsconfig.{app,node}.tsbui
 produits par les tsconfig versionnés sont exclus. Les caches npm doivent être directement sous
 `node_modules` ; tout autre fichier dans `.tmp` rétablit son empreinte conservatrice complète.
 Les navigateurs Chromium/headless réellement sélectionnés et leurs bibliothèques sont inclus en E2E.
-La prose auditée est exclue des entrées applicatives ; les documents juridiques restent inclus.
+Seul leur `debug.log` régulier non exécutable à la racine des binaires est exclu : ni sous-dossier, ni lien,
+ni autre journal, ni bibliothèque. Un journal généré dans `.cache` reste une sortie ignorée par Git.
+La prose auditée et les cinq preuves visuelles inventoriées régulières/non exécutables sont exclues des entrées
+applicatives ; ressources runtime, autres artefacts et documents juridiques restent inclus.
 Les contrôles backend excluent le frontend, et réciproquement ; scripts, configuration et documents distribués
 restent inclus dans les deux domaines. Les E2E conservent toutes les entrées applicatives et transversales.
 L'empreinte inclut le contrôle et les sélecteurs : élargir une sélection invalide sa preuve.
 Les métadonnées npm de lifecycle, Git de navigation et `QUALITY_DIFF_BASE` ne changent pas les entrées applicatives.
+Les seuls identifiants `CODEX_TOOL_CALL_ID` et `CODEX_SESSION_ID` sont aussi exclus : ils décrivent
+la provenance de l'agent, sans consommateur trouvé. `CODEX_THREAD_ID` reste haché (Vite/std-env le consultent),
+comme les capacités, PATH, chargeurs et variables inconnues.
 Une resynchronisation modifiant seulement le SHA ou la prose peut donc réutiliser les preuves.
 Une preuve réussie reste réutilisable sans limite d'âge si toutes ces entrées sont identiques.
 Le format v3 exige version, provenance `assess-teams/local-validation`, scope, clé et horodatages
@@ -112,7 +124,7 @@ sérialisation n'y est définie. Une modification d'adapter API, modèle, config
 reste élargie. Changer `CONTENTION_FAILED` ou introduire une réponse API dans le helper élargit aussi le plan. `/api/users/` utilise `CanCreateUser`, sans consommateur dans `frontend/src` ou
 `frontend/e2e` ; les permissions `/api/admin/users/` utilisées par `managedUsers.ts` restent élargies.
 Toute création de consommateur ou modification de frontière doit mettre à jour cette carte et ses tests.
-Les dépendances transversales/inconnues, suppressions et types non ordinaires restent exhaustifs.
+Les dépendances réellement transversales/inconnues, suppressions applicatives et types non ordinaires restent exhaustifs.
 
 ## Isolation, publication et exploitation
 
@@ -128,3 +140,5 @@ Le push existe alors déjà ; aucune réécriture distante n'est tentée. Corrig
 Le suivi GitHub requiert `gh` authentifié sur le poste de contribution, sans dépendance d'exploitation MESS.
 Aucune PR n’est créée ; seules les règles compatibles avec le push direct sont acceptées. La CI intervient après intégration : [limites et protections](ci.md).
 Les [mesures reproductibles](validation-measurements.md) distinguent temps local, chemin CI et coût cumulé runners.
+La [rationalisation en revue](validation-rationalisation/README.md) fournit diagnostic, relances UX,
+plans avant/après, tests et limites ; aucun gain de temps de livraison extrapolé depuis les seules durées pytest.

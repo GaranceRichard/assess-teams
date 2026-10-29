@@ -1,15 +1,12 @@
+import {
+  pureDocument,
+  evidenceAsset,
+  toolingImpact,
+} from "./impact-locations.mjs";
+import { frontendImpact } from "./frontend-impact.mjs";
+export { pureDocument } from "./impact-locations.mjs";
 // Fail closed: only reviewed locations qualify as prose or isolated changes.
 export const fullScopes = ["repository", "backend", "frontend", "e2e"];
-export const pureDocument = (path) =>
-  [
-    "README.md",
-    "AGENTS.md",
-    "docs/README.md",
-    "docs/development-environments.md",
-  ].includes(path) ||
-  /^docs\/(backlog|quality|architecture|product|operations)\/.*\.md$/.test(
-    path,
-  );
 
 const security = /permission|auth|session|password|security/i;
 const integrity =
@@ -28,17 +25,6 @@ const backendLeaves = {
     "backend/tests/test_openapi.py",
   ],
 };
-// An explicit journey map is deliberately small. Unknown UI uses all E2E.
-const journeys = {
-  DashboardPage: ["dashboard.spec.ts"],
-  DashboardActivity: ["dashboard.spec.ts"],
-  ProductSidebar: [
-    "sidebar-layout.spec.ts",
-    "brand-logo.spec.ts",
-    "product-shell.spec.ts",
-  ],
-  SidebarLink: ["sidebar-layout.spec.ts"],
-};
 
 export function classify(change) {
   const {
@@ -52,18 +38,35 @@ export function classify(change) {
       kind: "full",
       reason: "Type de fichier inconnu ou executable indirect",
     };
-  if (pureDocument(path) && mode === "100755")
+  if ((pureDocument(path) || evidenceAsset(path)) && mode === "100755")
     return { kind: "full", reason: "Document executable" };
   if (pureDocument(path))
     return {
       kind: "documentation",
       reason: "Prose dans un emplacement audite",
     };
+  if (evidenceAsset(path))
+    return {
+      kind: "documentation",
+      reason: "Preuve visuelle inventoriee, non executable et non distribuee",
+    };
   if (status === "D")
     return {
       kind: "full",
       reason: "Suppression: dependants potentiellement disparus",
     };
+  // A spec is a consumer, not a validation engine or backend implementation.
+  if (/^frontend\/(e2e|demo-e2e)\/[^/]+\.spec\.ts$/.test(path))
+    return {
+      kind: path.startsWith("frontend/demo-e2e/")
+        ? "e2e-demo-targeted"
+        : "e2e-targeted",
+      tests: [path],
+      reason:
+        "Parcours navigateur explicite; ne qualifie pas a lui seul le comportement metier",
+    };
+  const tooling = toolingImpact(path);
+  if (tooling) return tooling;
   // Narrow audited exception: the retry helper is DB-only; settings remain transverse.
   const sqliteHelper = path === "backend/config/sqlite_contention.py";
   if (
@@ -126,54 +129,11 @@ export function classify(change) {
       reason: "Backend sans dependances ciblees prouvees: suite complete",
     };
   }
-  if (/^frontend\/src\/(test|demo)\//.test(path))
-    return {
+  return (
+    frontendImpact(path, patch, security, securityCode) || {
       kind: "full",
-      reason: "Infrastructure de tests ou distribution demo",
-    };
-  if (
-    /^frontend\/src\//.test(path) &&
-    (security.test(path) ||
-      securityCode.test(patch) ||
-      /fetch\(|localStorage|contract/i.test(path + patch))
-  )
-    return {
-      kind: "frontend-contract",
       reason:
-        "Securite ou contrat frontend: frontend complet et tous les parcours",
-    };
-  if (/^frontend\/src\/.*\.test\.tsx?$/.test(path))
-    return {
-      kind: "frontend-targeted",
-      tests: [path],
-      reason: "Test frontend isole",
-    };
-  if (/^frontend\/src\/.*\.(ts|tsx|css)$/.test(path)) {
-    const component = path
-      .split("/")
-      .pop()
-      .replace(/\.[^.]+$/, "");
-    const ui = ![
-      "frontend/src/dateInputValue.ts",
-      "frontend/src/appreciationForScore.ts",
-      "frontend/src/collectionPage.ts",
-    ].includes(path);
-    return {
-      kind: "frontend-related",
-      related: [path],
-      e2e: ui
-        ? journeys[component]?.map((name) => `frontend/e2e/${name}`) || ["*"]
-        : [],
-      reason: ui
-        ? "Composant/parcours: dependants Vitest et navigateurs"
-        : "Dependants transitifs Vitest",
-    };
-  }
-  if (/^frontend\/e2e\/[^/]+\.spec\.ts$/.test(path))
-    return {
-      kind: "e2e-targeted",
-      tests: [path],
-      reason: "Parcours navigateur explicite",
-    };
-  return { kind: "full", reason: "Changement non classifiable" };
+        "Changement non classifiable: dependances non prouvees, quatre domaines requis",
+    }
+  );
 }

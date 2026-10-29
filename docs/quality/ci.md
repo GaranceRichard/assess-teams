@@ -43,7 +43,10 @@ Elle constitue une vérification indépendante, même lorsque les preuves locale
 Un changement documentaire n'installe ni Django, ni le frontend, ni Chromium et ne lance aucun test applicatif.
 Un changement local exécute ses contrôles de domaine et ses parcours requis.
 Les changements sensibles internes utilisent le backend complet ; les contrats produit ajoutent frontend/E2E.
-Les changements transversaux et inconnus appellent le workflow exhaustif réutilisable.
+Les changements réellement transversaux et inconnus appellent le workflow exhaustif réutilisable.
+Les configurations frontend/navigateur auditées conservent repository et frontend/E2E requis sans pytest
+automatique ; les cinq preuves visuelles inventoriées restent documentaires. La [matrice](validation-costs.md)
+et son [audit avant/après](validation-rationalisation/README.md) définissent ces frontières, sans modifier les workflows.
 Métriques JSONL, rapports frontend et traces E2E sélectionnées sont archivés même en cas d'échec.
 La publication Pages reste conditionnée au workflow Quality gate réussi pour son SHA exact.
 

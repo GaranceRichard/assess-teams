@@ -56,21 +56,24 @@ try {
         'param($Scope); Add-Content -LiteralPath $env:SCOPE_CALLS "suite $Scope"; exit 0'
 
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
-    $repository = @('npm run check:lines', 'node --test scripts/legal/npm-notices.test.mjs',
+    $documentary = @('npm run check:lines', 'node scripts/quality/evidence-assets.mjs')
+    $repository = $documentary + @('node --test scripts/legal/npm-notices.test.mjs',
         'node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs',
         'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs scripts/quality/tests/evidence-regression.test.mjs scripts/quality/tests/runtime-inputs.test.mjs scripts/quality/tests/installed-cache.test.mjs',
-        'node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs')
+        'node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs scripts/quality/tests/proportionality*.test.mjs')
     $backend = @('python -m ruff check .', 'python -m ruff format --check .',
         'python manage.py makemigrations --check --dry-run --settings=config.settings_development')
     $frontend = @('npm run lint', 'npm run format:check', 'npm run build')
-    Assert-Scope 'quality.ps1' 'documentation' @('npm run check:lines')
+    Assert-Scope 'quality.ps1' 'documentation' $documentary
     Assert-Scope 'quality.ps1' 'repository' $repository
     Assert-Scope 'quality.ps1' 'backend' ($backend + @('suite backend'))
     Assert-Scope 'quality.ps1' 'backend-static' $backend
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend'))
     Assert-Scope 'quality.ps1' 'e2e' @('suite e2e')
     Assert-Scope 'quality.ps1' 'all' ($repository + $backend + $frontend + @('suite all'))
-    Assert-Scope 'quality.ps1' 'all' (@('npm run check:lines') + $backend[0..1] + $frontend[0..1]) 0 'quick'
+    Assert-Scope 'quality.ps1' 'all' ($documentary + $backend[0..1] + $frontend[0..1]) 0 'quick'
+    $env:SCOPE_FAILURE = 'evidence-assets'
+    Assert-Scope 'quality.ps1' 'documentation' $documentary 1
     $env:SCOPE_FAILURE = 'ruff check'
     Assert-Scope 'quality.ps1' 'backend-static' $backend[0..1] 0 'quick'
     $env:SCOPE_FAILURE = 'npm-notices.test'

@@ -154,7 +154,11 @@ test("SQLite API error contract and mixed UI/security changes retain frontend an
     ]),
     ["documentation", "backend", "frontend", "e2e"],
   );
-  assert.deepEqual(scopes(["frontend/src/test/authHelpers.ts"]), fullScopes);
+  assert.deepEqual(scopes(["frontend/src/test/authHelpers.ts"]), [
+    "repository",
+    "frontend",
+    "e2e",
+  ]);
 });
 
 test("identity dependencies remain conservative while password-email workers stay backend-only", () => {

@@ -178,7 +178,8 @@ Les conditions de réutilisation des preuves et les métriques sont définies da
 `quality:targeted` sans argument est le comportement local normal : diff réel et sélection automatique.
 Les tests explicites donnent un feedback ciblé sans lancer automatiquement l'exhaustif pendant le développement.
 Prose et backlog dans les emplacements audités déclenchent seulement le scope documentaire, aucun test applicatif.
-Le plan conserve les statiques, tests et parcours adaptés ; risque inconnu/sensible/transverse : sélection conservatrice.
+Le plan conserve les statiques, tests et parcours adaptés ; risque inconnu/sensible/réellement transverse : sélection conservatrice.
+Les exceptions frontend/navigateur et preuves visuelles sont explicitement auditées dans la [matrice](validation-costs.md), sans réduire CI indépendante ni qualification MESS.
 Les seuils de 90 % restent ceux des campagnes complètes, pas des couvertures partielles ciblées.
 Une preuve versionnée exige entrées effectives et sélection identiques, y compris après rebase ; aucune expiration temporelle.
 

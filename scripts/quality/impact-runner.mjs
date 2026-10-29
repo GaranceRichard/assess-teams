@@ -84,25 +84,37 @@ export function executeCheck(root, env, check, invoke) {
   }
 
   if (check.scope === "e2e-targeted") {
-    prepareE2E(root, env);
     const paths = tests.map((path) =>
       relative(frontend, path).replaceAll("\\", "/"),
     );
-    const status = node(
-      [
-        resolve(frontend, "node_modules/@playwright/test/cli.js"),
-        "test",
-        ...paths,
-      ],
-      frontend,
-    );
-    if (status || !check.demo) return status;
+    if (!paths.length && !check.demo && !check.demoTests?.length) return 1;
+    if (paths.length) prepareE2E(root, env);
+    const status = paths.length
+      ? node(
+          [
+            resolve(frontend, "node_modules/@playwright/test/cli.js"),
+            "test",
+            ...paths,
+          ],
+          frontend,
+        )
+      : 0;
+    if (status || (!check.demo && !check.demoTests?.length)) return status;
     for (const [cli, args] of [
       ["typescript/bin/tsc", ["-b"]],
       ["vite/bin/vite.js", ["build", "--config", "vite.demo.config.ts"]],
       [
         "@playwright/test/cli.js",
-        ["test", "--config", "playwright.demo.config.ts"],
+        [
+          "test",
+          "--config",
+          "playwright.demo.config.ts",
+          ...(check.demo
+            ? []
+            : check.demoTests.map((path) =>
+                relative(frontend, resolve(root, path)).replaceAll("\\", "/"),
+              )),
+        ],
       ],
     ]) {
       const code = node(

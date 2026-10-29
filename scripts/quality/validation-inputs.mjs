@@ -9,6 +9,7 @@ import {
 } from "node:fs";
 import { resolve } from "node:path";
 import { toolContext } from "./runtime-inputs.mjs";
+import { evidenceAsset } from "./impact-locations.mjs";
 
 export { pureDocument as documentationOnly } from "./impact.mjs";
 import { pureDocument as documentationOnly } from "./impact.mjs";
@@ -33,6 +34,12 @@ export function contentKey(root, files, context) {
   hash.update(JSON.stringify(context));
   for (const file of files.filter((file) => !documentationOnly(file)).sort()) {
     const path = resolve(root, file);
+    if (
+      evidenceAsset(file) &&
+      (!existsSync(path) ||
+        (lstatSync(path).isFile() && !(lstatSync(path).mode & 0o111)))
+    )
+      continue;
     hash.update(JSON.stringify(file));
     const present = existsSync(path);
     hash.update(present ? "present\0" : "deleted\0");
@@ -95,7 +102,7 @@ export function localInputFiles(root, scope = "e2e") {
 
 export const proofVersion = 3;
 export const proofProvenance = "assess-teams/local-validation";
-export const fingerprintPolicy = 4;
+export const fingerprintPolicy = 5;
 
 export function reusable(proof, key, now = Date.now(), scope = proof?.scope) {
   return (
@@ -116,8 +123,10 @@ export function reusable(proof, key, now = Date.now(), scope = proof?.scope) {
 }
 
 export function runtimeEnvironment(env) {
+  // Audited call/session IDs have no consumer in sources or installed runtimes.
+  // THREAD_ID stays covered: Vite/std-env use it to detect an agent environment.
   const metadata =
-    /^(npm_(command|execpath|lifecycle_event|lifecycle_script|node_execpath|package_.*)|GIT_REFLOG_ACTION|GIT_PREFIX|QUALITY_DIFF_BASE)$/;
+    /^(npm_(command|execpath|lifecycle_event|lifecycle_script|node_execpath|package_.*)|GIT_REFLOG_ACTION|GIT_PREFIX|QUALITY_DIFF_BASE|CODEX_(TOOL_CALL_ID|SESSION_ID))$/;
   return Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => !metadata.test(key))

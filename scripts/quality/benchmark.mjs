@@ -9,6 +9,12 @@ import { validatePlan } from "./selective.mjs";
 import { contentKey, gitFiles } from "./validation-inputs.mjs";
 
 export const scenarios = {
+  css: ["frontend/src/transitions.css"],
+  navigation: ["frontend/src/ProductSidebar.tsx"],
+  e2e: ["frontend/e2e/transitions.spec.ts"],
+  demoSelector: ["frontend/demo-e2e/date-presentation.spec.ts"],
+  playwright: ["frontend/playwright.config.ts"],
+  evidence: ["docs/quality/ux-transitions/question-milieu.png"],
   backlog: ["docs/backlog/source/07-pre-mep.md"],
   documentation: ["docs/architecture/fundamentals.md"],
   backend: ["backend/journals/adapters/api/filters.py"],

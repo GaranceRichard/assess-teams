@@ -83,6 +83,7 @@ if ($Scope -in @('all', 'repository', 'documentation')) {
     Invoke-QualityStep 'Limite de 200 lignes' { & npm run check:lines }
     Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
     Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
+    Invoke-QualityStep 'Integrite et frontiere des preuves visuelles' { & node scripts/quality/evidence-assets.mjs }
     Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
     Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
     if ($Mode -eq 'full' -and $Scope -ne 'documentation') {
@@ -92,7 +93,7 @@ if ($Scope -in @('all', 'repository', 'documentation')) {
         Invoke-QualityStep 'Tests des licences et attributions' { & node --test scripts/legal/npm-notices.test.mjs }
         Invoke-QualityStep 'Tests de l agregation CI' { & node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs }
         Invoke-QualityStep 'Tests de validation proportionnee' { & node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs scripts/quality/tests/evidence-regression.test.mjs scripts/quality/tests/runtime-inputs.test.mjs scripts/quality/tests/installed-cache.test.mjs }
-        Invoke-QualityStep 'Tests de la matrice et du candidat' { & node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs }
+        Invoke-QualityStep 'Tests de la matrice et du candidat' { & node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs scripts/quality/tests/proportionality*.test.mjs }
     }
 }
 

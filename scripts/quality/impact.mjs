@@ -25,13 +25,18 @@ export function planImpact(changes, { exhaustive = false } = {}) {
             .flatMap((entry) => entry[field] || []),
         ),
       ].sort();
-    checks = [{ scope: "documentation" }];
+    const tooling = classifications.some(({ kind }) =>
+      kind.endsWith("-tooling"),
+    );
+    checks = [{ scope: tooling ? "repository" : "documentation" }];
     const backendContract = classifications.some(
       ({ kind }) => kind === "backend-contract",
     );
     const frontendContract =
       backendContract ||
-      classifications.some(({ kind }) => kind === "frontend-contract");
+      classifications.some(({ kind }) =>
+        ["frontend-contract", "frontend-tooling"].includes(kind),
+      );
     if (
       backendContract ||
       classifications.some(({ kind }) => kind === "backend")
@@ -43,9 +48,20 @@ export function planImpact(changes, { exhaustive = false } = {}) {
         { scope: "backend-targeted", tests: selected("backend-targeted") },
       );
     const related = selected("frontend-related", "related");
-    const tests = selected("frontend-targeted");
+    const tests = [
+      ...new Set([
+        ...selected("frontend-targeted"),
+        ...selected("e2e-tooling", "frontendTests"),
+      ]),
+    ].sort();
     if (frontendContract) checks.push({ scope: "frontend" });
-    else if (related.length || tests.length || selected("e2e-targeted").length)
+    else if (
+      related.length ||
+      tests.length ||
+      tooling ||
+      selected("e2e-targeted").length ||
+      selected("e2e-demo-targeted").length
+    )
       checks.push({ scope: "frontend-static" });
     if (!frontendContract && (related.length || tests.length))
       checks.push({ scope: "frontend-targeted", tests, related });
@@ -55,11 +71,14 @@ export function planImpact(changes, { exhaustive = false } = {}) {
         ...selected("e2e-targeted"),
       ]),
     ].sort();
-    if (frontendContract || e2e.includes("*")) checks.push({ scope: "e2e" });
-    else if (e2e.length)
+    const demoTests = selected("e2e-demo-targeted");
+    if (frontendContract || e2e.includes("*") || tooling)
+      checks.push({ scope: "e2e" });
+    else if (e2e.length || demoTests.length)
       checks.push({
         scope: "e2e-targeted",
         tests: e2e,
+        ...(demoTests.length ? { demoTests } : {}),
         demo: selected("frontend-related", "e2e").length > 0,
       });
   }
@@ -67,5 +86,5 @@ export function planImpact(changes, { exhaustive = false } = {}) {
   const skipped = ["backend", "frontend", "e2e"].filter(
     (scope) => !required.has(scope),
   );
-  return { version: 2, exhaustive: full, classifications, checks, skipped };
+  return { version: 3, exhaustive: full, classifications, checks, skipped };
 }
