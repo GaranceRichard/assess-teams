@@ -1,4 +1,4 @@
-import { browserLogArgs, shardReports } from "./e2e/reports";
+import { browserLaunchOptions, shardReports } from "./e2e/reports";
 import { defineConfig, devices } from "@playwright/test";
 import { e2ePort } from "./e2e/port";
 
@@ -11,7 +11,7 @@ export default defineConfig({
   workers: 1,
   ...shardReports("demo"),
   use: {
-    launchOptions: { args: browserLogArgs("demo") },
+    launchOptions: browserLaunchOptions("demo"),
     baseURL,
     trace: "retain-on-failure",
   },

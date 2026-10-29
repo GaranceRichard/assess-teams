@@ -30,5 +30,17 @@ export function shardReports(suite: "app" | "demo") {
 export function browserLogArgs(suite: "app" | "demo") {
   const directory = resolve(import.meta.dirname, "../.cache/e2e");
   mkdirSync(directory, { recursive: true });
-  return [`--log-file=${resolve(directory, `${suite}-chromium.log`)}`];
+  return [
+    "--enable-logging",
+    `--log-file=${resolve(directory, `${suite}-chromium.log`)}`,
+  ];
+}
+
+// Windows Headless Shell leaves GPU diagnostics beside its executable.
+// Use the installed full Chromium there; Linux CI keeps its existing shell.
+export function browserLaunchOptions(suite: "app" | "demo") {
+  return {
+    channel: process.platform === "win32" ? "chromium" : undefined,
+    args: browserLogArgs(suite),
+  };
 }

@@ -113,3 +113,17 @@ le test lit désormais les dates du contenu courant. Les diagnostics Chromium
 sont dirigés vers le dossier de rapports existant : sous Windows, `debug.log`
 était sinon écrit à côté du binaire installé et modifiait son empreinte pendant
 la recette. Les scripts de validation et leurs contrôles restent inchangés.
+
+
+## Reprise du 2026-10-29
+
+Le second passage complet valide 1 456 tests backend (97,50 %), 443 tests frontend,
+109 parcours applicatifs et 10 parcours de démonstration. Le gate détecte encore
+une écriture GPU dans `debug.log` du Headless Shell Windows : le simple argument
+`--log-file` ne suffisait pas pour cette variante. Le lancement local Windows
+utilise désormais le Chromium complet déjà installé, comme le test de zoom natif.
+La CI Linux conserve son Headless Shell. Les diagnostics sont explicitement activés
+et dirigés vers les rapports existants, sans changer les scripts ni les empreintes.
+Six parcours de focus, refus et confirmations répétés passent avec ce lancement ;
+le fichier de rapports reçoit réellement les diagnostics GPU et les journaux des
+binaires installés restent inchangés. La recette des frames est ensuite revérifiée.
