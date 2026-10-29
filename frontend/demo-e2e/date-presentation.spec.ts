@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test.use({ locale: "en-US", timezoneId: "America/Toronto" });
 
 async function expectDates(page: import("@playwright/test").Page) {
-  const times = page.locator("time");
+  const times = page.locator(".page-viewport > .transition-live time");
   expect(await times.count()).toBeGreaterThan(0);
   for (const time of await times.all()) {
     const raw = (await time.getAttribute("datetime"))!;

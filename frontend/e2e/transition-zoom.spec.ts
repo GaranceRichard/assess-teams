@@ -1,3 +1,4 @@
+import { browserLogArgs } from "./reports";
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -34,7 +35,7 @@ test("native browser zoom 200% retains motion, focus and reachable actions", asy
     reducedMotion: "no-preference",
     viewport: null,
     deviceScaleFactor: undefined,
-    args: ["--window-size=1440,1000"],
+    args: ["--window-size=1440,1000", ...browserLogArgs("app")],
     recordVideo: {
       dir: info.outputPath("video"),
       size: { width: 1440, height: 1000 },

@@ -1,4 +1,4 @@
-import { shardReports } from "./e2e/reports";
+import { browserLogArgs, shardReports } from "./e2e/reports";
 import { resolve } from "node:path";
 
 import { defineConfig, devices } from "@playwright/test";
@@ -15,6 +15,7 @@ export default defineConfig({
   ...shardReports("app"),
   workers: 1,
   use: {
+    launchOptions: { args: browserLogArgs("app") },
     baseURL: frontendURL,
     trace: "on-first-retry",
   },

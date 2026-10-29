@@ -103,3 +103,11 @@ visible, sans y ajouter le défilement du document ; les égalités restent exac
 Le backend complet a validé 1 456 tests, couverture 97,50 %, et le frontend 443 tests,
 avec ses quatre seuils respectés. Le pré-push canonique et la CI du SHA publié
 restent les conditions finales de livraison ; aucune PR ou règle de publication modifiée.
+
+
+Le passage canonique a ensuite validé les 109 parcours applicatifs. Le dernier
+échec de démonstration venait de la lecture de dates dans la copie sortante ;
+le test lit désormais les dates du contenu courant. Les diagnostics Chromium
+sont dirigés vers le dossier de rapports existant : sous Windows, `debug.log`
+était sinon écrit à côté du binaire installé et modifiait son empreinte pendant
+la recette. Les scripts de validation et leurs contrôles restent inchangés.

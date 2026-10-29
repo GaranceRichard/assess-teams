@@ -1,3 +1,4 @@
+import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import type { ReporterDescription } from "@playwright/test";
 
@@ -22,4 +23,12 @@ export function shardReports(suite: "app" | "demo") {
     reporter,
     outputDir: resolve(directory, `test-results/${suite}-${index}`),
   };
+}
+
+// Chromium on Windows otherwise writes debug.log beside its installed executable.
+// Keep runtime diagnostics with reports so binary fingerprints remain immutable.
+export function browserLogArgs(suite: "app" | "demo") {
+  const directory = resolve(import.meta.dirname, "../.cache/e2e");
+  mkdirSync(directory, { recursive: true });
+  return [`--log-file=${resolve(directory, `${suite}-chromium.log`)}`];
 }
