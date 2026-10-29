@@ -1,8 +1,8 @@
-# Recette visuelle du correctif — 2026-10-27
+# Recette visuelle du correctif — 2026-10-29
 
 ## Preuves à consulter
 
-[Vidéo Chromium à vitesse réelle](continuite-desktop.webm) : 3,12 s, 1366 × 768,
+[Vidéo Chromium à vitesse réelle](continuite-desktop.webm) : 2,72 s, 1366 × 768,
 25 images/s, extrait continu du test existant `transitions.spec.ts`.
 Aucune animation ralentie, recréée ou figée ; aucun changement de vitesse au montage.
 L’extrait montre ouverture, Suivant, Précédent, fermeture, puis
@@ -13,7 +13,7 @@ L’extrait montre ouverture, Suivant, Précédent, fermeture, puis
 | ![Début](question-debut.png) | ![Milieu](question-milieu.png) | ![Fin](question-fin.png) |
 
 Ces images sont décodées dans la même vidéo source, à sa cadence normale.
-Les captures correspondent aux frames décodées 17, 21 et 27 du clip (25 images/s) :
+Les captures correspondent aux frames décodées 16, 20 et 26 du clip (25 images/s) :
 ancienne question lisible, chevauchement visible, nouvelle question stabilisée.
 Elles ne proviennent pas d’une animation mise en pause artificiellement.
 Le milieu montre simultanément les textes des deux questions et leurs notes distinctes.
@@ -37,14 +37,14 @@ commence au premier échantillon visible, donc après les premières millisecond
 
 | Format | Surface | Nombre | Durée active ms | Frames | Intervalle mesuré ms | Translation première frame px |
 | --- | --- | ---: | ---: | --- | --- | --- |
-| 1366 × 768 | Rubrique | 40 | 320 | 18–20 | 311,3–326,0 | Y +11,92 |
-| 1366 × 768 | Question | 59 | 320 | 20 | 314,5–318,1 | X −19,87 à +19,87 |
-| 1366 × 768 | Ouverture | 20 | 240 | 15–16 | 226,1–234,9 | Y +8,97 à +8,99 |
-| 1366 × 768 | Fermeture | 20 | 220 | 13–14 | 211,8–223,6 | Y +0,04 |
-| 375 × 667 | Rubrique | 40 | 320 | 20 | 313,3–319,3 | Y +11,92 |
-| 375 × 667 | Question | 59 | 320 | 20 | 315,1–319,3 | X −19,87 à +19,87 |
-| 375 × 667 | Ouverture | 20 | 240 | 15–16 | 229,9–233,7 | Y +8,98 à +8,99 |
-| 375 × 667 | Fermeture | 20 | 220 | 14 | 214,9–216,9 | Y +0,04 |
+| 1366 × 768 | Rubrique | 40 | 320 | 20 | 315,3–319,5 | Y +11,92 à +11,93 |
+| 1366 × 768 | Question | 59 | 320 | 20 | 316,8–319,4 | X −19,88 à +19,88 |
+| 1366 × 768 | Ouverture | 20 | 240 | 15–16 | 230,5–233,9 | Y +8,91 à +9,10 |
+| 1366 × 768 | Fermeture | 20 | 220 | 14 | 215,6–217,8 | Y +0,04 à +0,05 |
+| 375 × 667 | Rubrique | 40 | 320 | 20 | 311,9–319,4 | Y +11,92 à +11,93 |
+| 375 × 667 | Question | 59 | 320 | 20 | 316,0–318,8 | X −19,88 à +19,88 |
+| 375 × 667 | Ouverture | 20 | 240 | 15–16 | 231,2–234,1 | Y +8,89 à +8,99 |
+| 375 × 667 | Fermeture | 20 | 220 | 14 | 215,7–218,2 | Y +0,04 à +0,05 |
 
 278 transitions au total, dans deux thèmes × dix palettes × deux formats.
 Amplitude définie : 20 px pour les questions, 12 px pour rubriques et dialogues.
@@ -127,3 +127,20 @@ et dirigés vers les rapports existants, sans changer les scripts ni les emprein
 Six parcours de focus, refus et confirmations répétés passent avec ce lancement ;
 le fichier de rapports reçoit réellement les diagnostics GPU et les journaux des
 binaires installés restent inchangés. La recette des frames est ensuite revérifiée.
+
+
+La CI Linux du SHA `eede631` reproduit une régression de compacité : 605,4375 px
+sur les deux formats desktop au lieu du plafond existant de 600 px. Le miroir
+intrinsèque garde correctement la place des questions et repères, mais la pile
+flex réserve davantage d’espace vertical que l’ancien flux. Le padding vertical
+desktop passe de 16 à 12 px, valeur déjà utilisée sur mobile ; ni la typographie,
+ni la réserve de contenu, ni les assertions de géométrie ne sont réduites.
+Le cadre conserve ses dimensions pendant la navigation ; les seuils existants
+restent les oracles du correctif, notamment le test Linux déjà en échec.
+
+
+Les neuf scénarios ciblés passent après correction (3,2 min), dont les cinq formats
+et le contenu long, puis les deux matrices de transitions et la réduction des animations.
+La vidéo et les trois images sont renouvelées depuis ce rendu corrigé ; les mesures
+ci-dessus sont recalculées sur ses 278 transitions réelles. Maximum échantillonné :
+19,88 px horizontalement, 11,93 px pour les rubriques et 11,52 px en sortie de dialogue.
