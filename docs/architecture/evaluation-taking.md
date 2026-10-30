@@ -114,6 +114,9 @@ sans indicateur d'attente, et leur opacité réduite signale leur indisponibilit
 implicite et la réactivation après sélection explicite ; le test échoue sur `wait` avant correction.
 Ce garde d'interface ne modifie pas les validations métier ou API. La navigation et la fermeture
 attendent les sauvegardes explicites ; un refus conserve la saisie et exige une nouvelle sauvegarde.
+Pendant `saving` ou `unsaved`, le dialogue empêche Échap dès `keydown` : un `cancel` natif répété peut ne plus être annulable.
+Après sauvegarde, `onCancel` conserve la fermeture React, sa transition et la restitution du focus.
+Les deux tests `evaluation-taking-escape.spec.ts` couvrent cinq appuis en attente/refus, puis réessai 204 et fermeture autorisée.
 La finalisation reste indisponible et refusée par l’API si une question n’est pas renseignée.
 Le tableau distingue « Assigné à » de « Rempli par » et indique « Révisé par [ADMIN] le [date/heure] ».
 
