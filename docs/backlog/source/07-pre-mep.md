@@ -52,8 +52,8 @@ Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassa
 
 ## Suivi, dépendances et décision
 
-Après MEP-067/053/019/052/013/046 réalisés : **MEP-045 — Qualification de conformité et décision de clôture**,
-puis qualifications UX conditionnelles ; aucun développement identifié pour 045/047/048. D01–D09 et
+Après MEP-067/053/019/052/013/046 et [MEP-045 réalisé le 2026-10-31](../planning/qualification-mep-045/cloture.md) :
+**MEP-047 — Qualification des comparaisons**, puis qualifications UX conditionnelles ; aucun développement présumé pour 047/048. D01–D09 et
 préparation installation avancent en parallèle. Le [plan pilotable](../planning/pre-mep.md) et les
 [frontières consolidées](08-ecarts-et-qualifications.md) distinguent acquis, écarts, preuves, décisions et
 recettes cible ; aucun PBI, priorité, durée ou retrait de capacité requise au GO n’est ajouté.

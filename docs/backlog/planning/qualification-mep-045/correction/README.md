@@ -71,5 +71,5 @@ sans modifier ni requalifier le système général de transitions.
 
 ## Limite de livraison
 
-Huit critères conformes et [gates locaux verts](gates.md) ; clôture proposée, soumise à validation du verdict.
-Aucun statut canonique modifié. Aucun push, PR ou déploiement ; CI distante non exécutée avant publication.
+Huit critères conformes et [gates locaux verts](gates.md) ; [clôture canonique](../cloture.md) le 2026-10-31.
+Correctif publié `08d0263f345fa2bf83641472c05f61d607e0b577`, [CI du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/41098527407) verte. Aucun changement des sept autres comportements, aucune PR.

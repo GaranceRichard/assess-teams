@@ -1,9 +1,9 @@
-﻿# MEP-045 — Confirmation de sauvegarde et protection d’Échap
+# MEP-045 — Confirmation de sauvegarde et protection d’Échap
 
 **Qualification locale après correction : huit critères conformes.**
-**Clôture proposée, soumise à validation du verdict et à l’étape de publication autorisée.**
-Les gates locaux applicables sont verts ; intégration et CI distante attendent la publication.
-Aucun statut canonique modifié ; aucune publication effectuée.
+**MEP-045 réalisé le 2026-10-31 : [clôture canonique et publication](cloture.md).**
+Correctif intégré `08d0263f345fa2bf83641472c05f61d607e0b577`, [CI indépendante verte](https://github.com/GaranceRichard/assess-teams/actions/runs/41098527407).
+Verdict validé par l’utilisateur dans sa demande de finalisation ; registre et vues synchronisés.
 
 Base : dernier `origin/main` récupéré le 2026-10-30,
 `029857a96b730aaf6357c123b429860f56e445a0`.
@@ -41,9 +41,9 @@ initiale : aucune écriture individuelle avant validation explicite de la révis
 
 [Contrôles et DoD](validations.md) ; [correction et limites](correction/README.md).
 Le zoom sombre précédemment non démontré est désormais exécuté, ainsi que le retour à 100 %.
-Les captures courantes ont été relues par Codex ; aucune acceptation visuelle utilisateur,
-certification d’accessibilité ou recette MESS cible n’est revendiquée.
-Les contrôles de publication/CI et l’approbation du verdict restent à leur étape autorisée.
+Les captures courantes ont été relues par Codex ; le verdict des huit critères a été validé par l’utilisateur.
+Aucune certification d’accessibilité, acceptation globale des transitions ou recette MESS cible n’en est déduite.
+Le correctif a été publié avec pré-push bloquant et CI du SHA exact verte.
 
 Références : [F05](../../source/mess/f05.md),
 [dossier canonique](../audit-20261027/sortie-mep-045.md),

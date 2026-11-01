@@ -42,8 +42,8 @@ Aucun résultat d’un run interrompu n’est revendiqué comme réussite.
 - Les preuves des sept critères conformes sont conservées avec leur SHA/date, pas réexécutées
   volontairement ; les tests des gates imposés sont indépendants.
 - Les seuils de couverture, lint, formatage, build, sécurité et limite 200 lignes restent bloquants.
-- Publication et CI du commit exact : non exécutées, présentation du diff demandée avant publication.
-- Statut canonique inchangé ; verdict de clôture soumis à validation.
+- Correctif publié `08d0263f345fa2bf83641472c05f61d607e0b577`, [CI du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/41098527407) verte ; clôture documentaire avec ses contrôles propres.
+- Verdict validé par l’utilisateur ; MEP-045 Réalisé le 2026-10-31, registre et vues synchronisés.
 
 ## Bilan final local
 
@@ -51,5 +51,12 @@ Les quatre gates obligatoires sont verts : 1 456 backend (couverture 97,50 %),
 443 frontend (94,38 % statements, 92,90 % branches, 95,81 % fonctions, 95,26 % lignes),
 111 E2E application et 10 E2E démo. Lint, formatage, build et migrations conformes.
 Aucun écart fonctionnel résiduel identifié sur les huit critères.
-Clôture proposée, sous validation du verdict ; publication et CI du commit exact différées
-par instruction utilisateur. Le statut canonique reste inchangé.
+Clôture validée le 2026-10-31 après publication du correctif et CI indépendante verte.
+La publication documentaire suit le même circuit sans PR.
+
+## Publication et clôture canonique
+
+Le 2026-10-30, correctif `08d0263f345fa2bf83641472c05f61d607e0b577` publié via `npm run publish` ; pré-push bloquant réussi,
+[CI indépendante du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/41098527407) verte (push, run 41098527407).
+La demande utilisateur de finalisation valide le verdict : MEP-045 devient Réalisé, registre, synthèse et plan synchronisés.
+Les paragraphes de préparation ci-dessus restent datés de l’étape avant publication ; [preuve de clôture](cloture.md).

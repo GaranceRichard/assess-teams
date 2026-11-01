@@ -52,8 +52,8 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 
 ## Préparation MESS — registre courant
 
-**Prochain travail : [MEP-045 — Qualification de conformité et décision de clôture](../planning/audit-20261027/sortie-mep-045.md)** :
-parcours présent, confronter critères/refus et preuves du SHA retenu ; aucun développement identifié.
+**MEP-045 réalisé le 2026-10-31 : [preuves et clôture](../planning/qualification-mep-045/cloture.md).**
+Prochain travail : [MEP-047 — Qualification des comparaisons](../planning/audit-20261027/sortie-mep-047.md), sans nouvelle capacité présumée.
 MEP-047/048 relèvent également de la qualification, sans clôture automatique ; [acquis, deltas et décisions](../source/08-ecarts-et-qualifications.md).
 En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 [Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
@@ -76,5 +76,5 @@ Les Jobs et FEAT-042 à FEAT-048 ne sont plus des unités actives. Le suivi cour
 se trouve exclusivement dans les sections MESS ci-dessus ; leurs anciennes valeurs restent archivées.
 03.01 référence JOURNAL-001/002 déjà réalisés ; aucun nouveau PBI de journalisation n’est créé.
 [MEP-041 — ancien alias et métadonnées conservées](mess-doublons-historique.md) est hors du suivi actif.
-Le MESS compte 62 PBI actifs : 20 Réalisés, 40 Ouverts, 2 Bloqués, 0 En cours. Les sections canoniques ci-dessus conservent les dates, preuves et blocages ; les 63 points initiaux restent couverts.
+Le MESS compte 62 PBI actifs : 21 Réalisés, 39 Ouverts, 2 Bloqués, 0 En cours. Les sections canoniques ci-dessus conservent les dates, preuves et blocages ; les 63 points initiaux restent couverts.
 L’[audit](../planning/mess-audit.md) distingue comptage, validation du périmètre et consolidation.

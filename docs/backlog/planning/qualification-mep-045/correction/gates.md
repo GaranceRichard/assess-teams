@@ -36,4 +36,6 @@ Sélection de la sortie effective, sans en-tête sensible :
 Le plan exhaustif vient du classificateur des captures binaires et du parcours composant non cartographié.
 Aucune campagne exhaustive supplémentaire n’a été lancée pour étendre la recette MEP-045.
 Les sept critères déjà conformes conservent leurs preuves initiales.
-Le pre-push, le push et la CI du commit exact attendent l’autorisation de publication.
+Le pré-push obligatoire a de nouveau réussi avant le push du correctif `08d0263`.
+Le script de publication a atteint son délai d’attente ; le run a ensuite terminé avec succès.
+La vérification canonique `wait-ci.mjs` a confirmé la [CI verte du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/41098527407).

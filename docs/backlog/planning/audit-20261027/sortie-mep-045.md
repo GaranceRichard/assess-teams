@@ -1,5 +1,7 @@
 # MEP-045 — dossier de sortie, sans développement artificiel
 
+**Mise à jour 2026-10-31 : MEP-045 réalisé ; [clôture et preuves](../qualification-mep-045/cloture.md).** Le diagnostic daté ci-dessous est conservé comme historique.
+
 [Source F05](../../source/mess/f05.md) · [Fiche](fiches/MEP-045.md) · [Trajectoire](trajectoire.md).
 SHA cible de cette revue : `3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6`.
 Statut canonique Ouvert, inchangé ; dépendances PASS-001 et MEP-007 réalisées.
