@@ -47,17 +47,17 @@ Les champs des sources en conflit restent visibles jusqu’aux décisions C01–
 | PBI | Prochaine action et limite | Sortie attendue |
 | --- | --- | --- |
 | [MEP-045 — Confirmation de sauvegarde](../planning/qualification-mep-045/cloture.md) | Réalisé le 2026-10-31 : qualification des huit critères et correction minimale d’Échap | Huit verdicts conformes, correctif `08d0263`, CI indépendante verte ; sauvegarde, révision et sept autres comportements préservés. MEP-069 reste la recette cible. |
-| [MEP-047 — Comparaisons](../planning/audit-20261027/sortie-mep-047.md) | A : vérifier sélection conservée entre vues, version exacte/archives, lignée et scope sur données discriminantes | Verdict borné ; pas de nouvelle comparaison ni équivalence sémantique inventée. Réinitialisations volontaires de contexte conservées. |
+| [MEP-047 — Comparaisons](../../quality/mep-047/README.md) | Réalisé le 2026-11-01 : qualification sans nouveau code approuvée, sept verdicts Passé sur `2d9b6c3` | Sélection/version/archives/lignée/scopes et refus prouvés ; réserves non bloquantes conservées, recette MEP-070 indépendante. |
 | [MEP-048 — Indicateurs](../planning/audit-20261027/sortie-mep-048.md) | A : vérifier couverture/complétions/retards contre faits, date de référence et lien Results | Verdict borné ; conserver calculs, provenance, droits et absence de classement/score global. |
 | [MEP-015 — Radar](../planning/audit-20261027/fiches/MEP-015.md) | A : observer labels longs, légende, séries et tableau aux formats du cahier | Défaut localisé ou conformité documentée avant toute retouche de graphique. |
 | [MEP-016 — Vocabulaire](../planning/audit-20261027/fiches/MEP-016.md) | A puis D si nouveau sens : inventorier occurrences Dashboard/Pilotage par rôle et les confronter aux concepts | Occurrence et ambiguïté nommées ; aucune substitution lexicale présumée. |
 | [MEP-017 — Petits écrans](../planning/audit-20261027/fiches/MEP-017.md) / [MEP-049 — Navigation tactile](../planning/audit-20261027/fiches/MEP-049.md) | A : tableaux/modales/scroll/actions puis navigation/repli/focus/cibles, sans refonte du shell | Matrice de formats et refus observés ; corrections uniquement sur défaut reproduit. |
 | [MEP-018 — Attente](../planning/audit-20261027/fiches/MEP-018.md) / [MEP-050 — Vides](../planning/audit-20261027/fiches/MEP-050.md) / [MEP-051 — Erreurs](../planning/audit-20261027/fiches/MEP-051.md) | A : injecter attente/réponse obsolète, absence/filtre, refus/panne et réessai avec saisie | États distingués, pas de faux succès/divulgation/perte ; conserver les protections déjà livrées. |
 
-Pour 047/048 : critères et DoD prouvés → clôture proposée ; comportement conforme mais preuve
+Pour les qualifications restantes : critères et DoD prouvés → clôture proposée ; comportement conforme mais preuve
 manquante → qualification ciblée ; défaut reproduit → correction minimale à préparer ; nouvelle exigence
 → arbitrage séparé. **Aucune clôture des PBI restants n’est anticipée.**
-047 peut précéder 015 par économie de preuve, sans dépendance technique ; défaut de lisibilité démontré
+047 est qualifié ; sa preuve alimente 015 sans dépendance technique ajoutée ; défaut de lisibilité démontré
 prioritaire. 016 et 048 peuvent avancer ensemble. F08 suit le risque constaté, pas le rang du tableau.
 La [justification détaillée](../planning/audit-20261027/ordonnancement-ux.md) précise les conditions.
 
@@ -108,4 +108,4 @@ capacités manquantes et besoins indécis sont distingués dans la [table de fro
 Affectations courantes ≠ affectations datées ; planning courant ≠ calendrier/historique ; snapshots et
 longitudinal par lignée ≠ historique général, calcul d’évolution ou tendance. Aucun nouveau PBI/parent
 ni extension de la première MEP n’en est déduit. Aucun PBI non réalisé complet n’est déclaré prêt au
-développement sans réserve à la base auditée ; 047/048 sont prêts **pour qualification uniquement**.
+développement sans réserve à la base auditée ; 047 est réalisé sans nouveau code, 048 reste **en qualification uniquement**.

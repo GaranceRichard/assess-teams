@@ -42,7 +42,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-009 — Gestion des organisations | 3 | 6 | 4 | 67 % |
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
 | EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 11 | 92 % |
-| EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 8 | 47 % |
+| EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 9 | 53 % |
 | EPIC-013 — Installation et exploitation MESS | 6 | 19 | 0 | 0 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 2 | 14 % |
 
@@ -108,15 +108,15 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-10-31
+## Préparation MESS — suivi au 2026-11-01
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
 Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est dérivé des sections canoniques.
 **MEP-067 réalisé : [cahier UX](../quality/ux-acceptance.md)**. [MEP-019 (contrastes clairs)](../quality/light-theme.md), MEP-052 et MEP-053 réalisés : F09 complète.
-MEP-014 réalisé le 2026-10-23 : [contexte et provenance des Résultats, preuves avant/après](../quality/results-hierarchy.md) ; vingt apparences, formats UX, pre-push et CI complète du SHA publié verts ; [MEP-046 — scores et limites explicités](../quality/mep-046/README.md) est réalisé le 2026-10-26 ; F06 atteint 2 PBI sur 4.
+MEP-014 réalisé le 2026-10-23 : [contexte et provenance des Résultats, preuves avant/après](../quality/results-hierarchy.md) ; vingt apparences, formats UX, pre-push et CI complète du SHA publié verts ; [MEP-046 — scores et limites explicités](../quality/mep-046/README.md) est réalisé le 2026-10-26 ; F06 atteint 3 PBI sur 4 avec MEP-047.
 MEP-013 réalisé le 2026-10-26 : [sélection explicite, onze valeurs et preuves UX-07/08](../quality/mep-013/README.md) ; pre-push et CI du SHA `ee50313` verts.
-MEP-045 réalisé le 2026-10-31 : [huit critères conformes et clôture](planning/qualification-mep-045/cloture.md), correctif `08d0263` et CI verte ; F05 atteint 3/3. Prochain : **[MEP-047 — Qualification des comparaisons](planning/audit-20261027/sortie-mep-047.md)** ; autres qualifications UX conditionnelles.
+MEP-045 réalisé le 2026-10-31 : [huit critères conformes et clôture](planning/qualification-mep-045/cloture.md), correctif `08d0263` et CI verte ; F05 atteint 3/3. [MEP-047 réalisé le 2026-11-01](../quality/mep-047/README.md) : sept verdicts Passé, clôture sans code approuvée. Prochain : **[MEP-015 — Observation radar](planning/audit-20261027/fiches/MEP-015.md)** ; MEP-048 reste distinct.
 En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
 [Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
@@ -132,7 +132,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 21 | 39 | 0 | 2 | 34 % |
+| MESS actif — E01 à E04 | 62 | 22 | 38 | 0 | 2 | 35 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -179,14 +179,14 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 47 |
+| PBIs ouverts | 46 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 3 |
-| PBIs non réalisés | 50 |
-| PBIs réalisés | 46 |
-| Avancement global | 48 % |
+| PBIs non réalisés | 49 |
+| PBIs réalisés | 47 |
+| Avancement global | 49 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 46 réalisés (25 fonctionnels et 21 MESS, dont MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 47 réalisés (25 fonctionnels et 22 MESS, dont MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 Couverture analytique inchangée : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
 

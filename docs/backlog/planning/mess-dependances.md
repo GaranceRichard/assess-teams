@@ -39,7 +39,7 @@ Aucune autre dépendance source n’est supprimée, aucun statut/date/parent/cri
 
 ## Activités anticipables et travaux hors chaîne technique
 
-- Dès maintenant : 045/047/048 en qualification seulement, autres UX en observations ciblées ; 013/014/019/030/044/046/052/053/067 réalisés ; collecte D01–D09 et C11, réservation des cibles et données fictives.
+- Dès maintenant : 048 reste en qualification, autres UX en observations ciblées ; 045 et [047](../../quality/mep-047/README.md) réalisés, comme 013/014/019/030/044/046/052/053/067 ; collecte D01–D09 et C11, réservation des cibles et données fictives.
 - Préparation seule : MEP-054/057/031, MEP-028/066/029 ; confronter l’existant, marquer les inconnues, finaliser après les entrées canoniques.
 - MEP-023/056 avancent après le contrat sans attendre le package. Cette réorganisation du backlog n’est pas leur livraison contractuelle.
 - MEP-029 ne bloque pas les essais d’installation, mais sa documentation de reprise reste exigée avant GO. Apache 2.0/NOTICE déjà acquis, aucun travail de licence recréé.

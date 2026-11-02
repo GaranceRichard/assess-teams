@@ -4,6 +4,8 @@
 Ordre de préparation proposé, sans modifier les dépendances canoniques ni l’ordre historique archivé.
 Une sélection nécessite delta, entrées, risque et sortie vérifiés ; la position d’une ligne ne suffit pas.
 
+[MEP-047 est réalisé le 2026-11-01](../../../quality/mep-047/README.md) ; poursuivre l’observation MEP-015. La justification d’ordre ci-dessous reste historique, sans nouvelle dépendance.
+
 ## MEP-047 et MEP-015 : maintien conditionnel de 047 avant 015
 
 L’ordre antérieur 015→047 était un choix de cohérence visuelle, pas un arc technique.

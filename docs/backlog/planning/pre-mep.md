@@ -1,14 +1,14 @@
 # Chemin vers la MEP MESS — ordre de lancement et conditions de passage
 
 **MEP-045 réalisé le 2026-10-31 : [qualification et clôture](qualification-mep-045/cloture.md).**
-**Prochain travail : [MEP-047 — Qualification des comparaisons](audit-20261027/sortie-mep-047.md).**
+**MEP-047 réalisé le 2026-11-01 : [qualification et clôture approuvée](../../quality/mep-047/README.md). Prochain travail : [MEP-015 — Observation radar](audit-20261027/fiches/MEP-015.md).**
 La notation F05 est qualifiée ; poursuivre les qualifications ciblées sans refaire les comportements conformes.
 MEP-067 est réalisé : le [cahier UX](../../quality/ux-acceptance.md) fournit les mesures de référence
 et a guidé [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../quality/typography.md), désormais réalisés ; poursuivre les parcours UX sans attendre l’installation.
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 21 Réalisés, 39 Ouverts, 2 Bloqués, 0 En cours ; MEP-013 et MEP-046 sont réalisés.
+et le [registre canonique](../tracking/pbis.md) comptent 22 Réalisés, 38 Ouverts, 2 Bloqués, 0 En cours ; MEP-013 et MEP-046 sont réalisés.
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -33,15 +33,15 @@ Chaque clôture actualise d’abord le registre, puis la synthèse ; aucune date
 | U0 — réalisé | [MEP-067 — Cahier UX](../source/mess/f17.md) | [UX-01 à UX-09](../../quality/ux-acceptance.md) : parcours/écrans, viewports, clavier/tactile, zoom, deux thèmes/dix palettes, mesures et vrais refus définis ; pas de PV anticipé |
 | U1 — réalisé | [MEP-019 — Contrastes du clair](../source/mess/f09.md), MEP-053 et MEP-052 réalisés | Mesures du cahier satisfaites, titres/libellés/densité cohérents, texte/action/focus lisibles, préférences conservées ; captures comparables |
 | U2 — notation réalisée | MEP-044/013 et [MEP-045](qualification-mep-045/cloture.md) réalisés ; F05 complète | Huit critères conformes ; Échap protégé en attente/refus, réessai et zoom natif vérifiés ; correctif `08d0263`, CI verte. Preuves réutilisables par MEP-069, sans PV cible anticipé. |
-| U3a — résultats | MEP-014/046 réalisés ; [MEP-047 — Qualification des comparaisons](audit-20261027/sortie-mep-047.md), puis [MEP-015 — Observation radar](audit-20261027/fiches/MEP-015.md), ordre conditionnel | Version exacte/archives, filtres entre vues, lignée et scopes prouvés ; défaut de labels/légende/tableau démontré prioritaire, sans nouveau calcul ni dépendance 047→015 |
+| U3a — résultats | MEP-014/046 et [MEP-047](../../quality/mep-047/README.md) réalisés ; poursuivre [MEP-015 — Observation radar](audit-20261027/fiches/MEP-015.md) | Sélection/version/archives/lignée/scopes qualifiés ; observer labels/légende/tableau selon UX, défaut démontré avant correction ; aucune nouvelle dépendance technique |
 | U3b — dashboard, parallélisable avec U3a | [MEP-016 — Inventaire du vocabulaire](audit-20261027/fiches/MEP-016.md) et [MEP-048 — Qualification des indicateurs](audit-20261027/sortie-mep-048.md), ensemble si utile | Occurrences ambiguës localisées pour 016 ; couverture/complétions/retards confrontés aux faits/date/Results pour 048 ; pas de patch lexical ou calcul supplémentaire présumé |
 | U4 — observations responsive et interactions | [MEP-017 — Petits écrans](../source/mess/f08.md), [MEP-049 — Navigation tactile](../source/mess/f08.md), [MEP-018 — Chargement](../source/mess/f08.md), [MEP-050 — États vides](../source/mess/f08.md), [MEP-051 — Erreurs](../source/mess/f08.md) | Observer géométrie/actions, navigation/focus, attente/obsolescence, vides puis refus/réessai ; risque de divulgation, perte ou action inaccessible prioritaire ; correction seulement sur défaut reproduit |
 
 U1 précède les retouches locales pour réduire les reprises de styles ; ce n’est pas une dépendance ajoutée.
 U2, U3a, U3b et U4 peuvent avancer en parallèle sur composants distincts après cadrage commun.
 L’[ordre UX motivé](audit-20261027/ordonnancement-ux.md) distingue volume de preuve, risque et valeur,
-sans nouvel arc : 047 avant 015 facilite la preuve de sélection, 016 n’est pas un prérequis technique de 048.
-Pour 047/048 : conformité+DoD → clôture proposée ; preuve manquante → qualification ciblée ;
+sans nouvel arc : la qualification 047 acquise fournit la preuve de sélection pour 015 ; 016 n’est pas un prérequis technique de 048.
+Pour les qualifications restantes : conformité+DoD → clôture proposée ; preuve manquante → qualification ciblée ;
 défaut reproduit → correction minimale ; exigence nouvelle → arbitrage distinct. Aucun autre statut changé ici.
 MEP-067 reste le cahier de référence ; aucune refonte UX générale n’est justifiée.
 **C21 — transitions :** [anomalie distincte](audit-20261027/anomalie-transitions.md), sans PBI attribué ;
@@ -124,13 +124,13 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## Actions immédiatement exécutables et porte de sélection
 
-Les neuf PBI UX ouverts ont leurs prérequis canoniques réalisés ; cela n’annonce pas neuf développements.
-**047/048 sont prêts pour qualification uniquement.** Les sept autres peuvent produire observations
+Les huit PBI UX ouverts ont leurs prérequis canoniques réalisés ; cela n’annonce pas huit développements.
+**048 reste un chantier de qualification uniquement.** Les sept autres peuvent produire observations
 ou inventaire lexical, puis un défaut précisément borné si constaté. F09 reste réalisée, PV cible distincts.
 Aucun PBI non réalisé complet n’est déclaré prêt pour développement sans réserve à la base auditée.
 La [trajectoire à huit champs par PBI](audit-20261027/trajectoire.md) et les [52 actions avec passage](audit-20261027/actions.md)
 explicitent qualifications, corrections démontrées, développements conditionnels, décisions, livrables et recettes.
-Prochain : **MEP-047 — Qualification des comparaisons**, avec D01–D09 en parallèle.
+Prochain : **MEP-015 — Observation radar**, qualification MEP-047 acquise ; D01–D09 en parallèle.
 
 ## Publication documentaire
 

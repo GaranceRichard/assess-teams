@@ -1,7 +1,8 @@
 # MEP-047 — dossier de sortie, sélection et comparabilité existantes
 
 [Source F06](../../source/mess/f06.md) · [Fiche](fiches/MEP-047.md) · [Ordre motivé](ordonnancement-ux.md).
-Base `3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6`. Statut Ouvert inchangé ;
+**Suite du 2026-11-01 : [qualification et clôture approuvée](../../../quality/mep-047/README.md), sept verdicts Passé sur `2d9b6c3`, sans nouveau code.** Le dossier ci-dessous conserve sa base historique.
+Base `3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6`. Statut alors Ouvert ;
 RESULT-001/002 réalisés. Nature A. Aucun nouveau filtre, calcul, partage ou comparaison globale de versions.
 
 | Chaque critère / refus canonique | Comportement implémenté | Tests et appuis disponibles | Preuve restant à attribuer au SHA/périmètre |
@@ -74,5 +75,5 @@ le PBI ouvert. Le défaut global de transitions reste suivi séparément : il ne
 automatiquement un critère indépendant ; une gêne réelle lors d’un scénario est consignée.
 
 Cette consolidation ne produit aucun run métier/API/E2E nouveau ni acceptation visuelle du candidat.
-**Verdict actuel : comportement principal couvert, qualification ciblée restante ; aucune clôture proposée
+**Verdict de la consolidation historique : comportement principal couvert, qualification ciblée restante ; aucune clôture proposée
 comme déjà validée et aucun développement identifié.**
