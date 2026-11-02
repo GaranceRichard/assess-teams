@@ -1,8 +1,10 @@
-# Résultats locaux MEP-049
+# Qualification initiale MEP-049 — avant contrôle de l'historique
 
 Exécution Codex du 2026-11-02 sur Windows, Chromium **153.0.8010.12**, Playwright **1.63.0**.
 Base applicative `d7f67499825264194730598c2fc0bee247853f3b`, nouvelles suites identifiées ci-dessous.
-Les composants applicatifs sont identiques à cette base. [Périmètre et limites](README.md).
+Cette campagne précède le [défaut reproduit et corrigé sur Retour navigateur](history.md).
+Ses composants applicatifs sont identiques à cette base ; ses succès ne couvrent pas ce défaut.
+[Périmètre et limites](README.md).
 
 ## Attendu / observé
 

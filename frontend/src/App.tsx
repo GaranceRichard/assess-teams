@@ -15,6 +15,7 @@ import { canAccess, routeFor } from "./navigation";
 import { ProductShell } from "./ProductShell";
 import { SetPasswordPage } from "./SetPasswordPage";
 import { applyTheme, readTheme } from "./theme";
+import { useProductNavigation } from "./useProductNavigation";
 import "./styles.css";
 import "./sidebar.css";
 import "./theme.css";
@@ -29,7 +30,7 @@ type AuthState =
 
 export function App() {
   const [auth, setAuth] = useState<AuthState>({ kind: "loading" });
-  const [path, setPath] = useState(window.location.pathname);
+  const { path, navigate, replacePath } = useProductNavigation();
   const [theme, setTheme] = useState(readTheme);
 
   useEffect(() => applyTheme(theme), [theme]);
@@ -38,8 +39,7 @@ export function App() {
     getCurrentUser()
       .then((user) => {
         if (user && window.location.pathname === "/") {
-          window.history.replaceState({}, "", "/dashboard");
-          setPath("/dashboard");
+          replacePath("/dashboard");
         }
         setAuth(
           user
@@ -50,18 +50,7 @@ export function App() {
       .catch(() =>
         setAuth({ kind: "anonymous", error: "Le service est indisponible." }),
       );
-  }, []);
-
-  useEffect(() => {
-    const updatePath = () => setPath(window.location.pathname);
-    window.addEventListener("popstate", updatePath);
-    return () => window.removeEventListener("popstate", updatePath);
-  }, []);
-
-  function navigate(nextPath: string) {
-    window.history.pushState({}, "", nextPath);
-    setPath(window.location.pathname);
-  }
+  }, [replacePath]);
 
   async function handleLogin(username: string, password: string) {
     try {

@@ -47,6 +47,7 @@ export function EvaluationTakingDialog({
       className="evaluation-dialog taking-dialog"
       aria-labelledby="taking-title"
       aria-modal="true"
+      data-navigation-protected={saving || unsaved}
       onKeyDown={(event) => {
         // Repeated Escape can make the native cancel event non-cancelable.
         if (event.key === "Escape" && (saving || unsaved))

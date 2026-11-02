@@ -79,3 +79,5 @@ et les actions restent fixes. Les dialogues s’ouvrent en 240 ms et se ferment 
 avec fond progressif ; fermeture native, focus et protections sont conservés.
 Le nouveau contenu reste utilisable immédiatement. La préférence
 `prefers-reduced-motion: reduce` rend ces changements immédiats.
+
+[MEP-049](../quality/mep-049/history.md) étend la protection existante de la note non enregistrée à Retour/Avance et au rechargement/sortie du navigateur. Le dialogue expose son état saving/unsaved au shell via data-navigation-protected ; aucune règle de fermeture des autres formulaires n'est élargie. L'historique est restauré sans démonter le dialogue ; la confirmation native reste requise pour quitter une saisie protégée.
