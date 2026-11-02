@@ -31,10 +31,7 @@ export function radarData(
   selected: number[],
 ): ChartData<"radar"> {
   return {
-    labels: axes.map((axis, index) => {
-      const text = axis.text;
-      return `${index + 1}. ${text.length > 34 ? `${text.slice(0, 31)}…` : text}`;
-    }),
+    labels: axes.map((_, index) => String(index + 1)),
     datasets: teams.flatMap((team, index) => {
       if (!selected.includes(team.team_id)) return [];
       const style = seriesStyle(index);
@@ -59,6 +56,7 @@ export function radarData(
 export function radarOptions(
   theme: Theme,
   onCriterion?: (index: number) => void,
+  axes: ResultAxis[] = [],
 ): ChartOptions<"radar"> {
   const text = theme === "night" ? "#f5f5f5" : "#171717";
   const grid = theme === "night" ? "#a3a3a3" : "#737373";
@@ -104,7 +102,20 @@ export function radarOptions(
     },
     plugins: {
       legend: { display: false },
-      tooltip: { enabled: true },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          title: (items) => {
+            const item = items[0];
+            return item
+              ? wrapRadarLabel(
+                  axes[item.dataIndex]?.text ?? item.label,
+                  item.chart.width,
+                )
+              : [];
+          },
+        },
+      },
     },
   };
 }

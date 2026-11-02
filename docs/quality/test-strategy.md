@@ -125,6 +125,7 @@ sombres validées, les bandeaux dérivés de chaque accent et les contrastes en 
 représentatifs (dont Bleu/Violet/Vert en clair) et vérifie bandeaux/fond central teintés, cartes blanches, densité
 desktop et fonds sombres inchangés. La migration protège aussi les quatre préférences historiques. `results.spec.ts` et
 `results-longitudinal.spec.ts` protègent les séries du radar et des courbes historiques.
+`results-radar-presentation.spec.ts` vérifie les repères sans rognage ni collision, la clé complète accessible, les traits de légende et la concordance tabulaire aux quatre formats UX, en clair/sombre ([MEP-015](mep-015/README.md)).
 `PlanningLoading.test.tsx` reproduit la réponse initiale obsolète qui effaçait une planification créée
 sous StrictMode ; le parcours `evaluation-versions.spec.ts` vérifie le résultat dans le navigateur réel.
 

@@ -6,7 +6,9 @@ import {
   RadialLinearScale,
   Tooltip,
 } from "chart.js";
+import { useId } from "react";
 import { Radar } from "react-chartjs-2";
+import "./results-radar.css";
 
 import { radarData, radarOptions, seriesStyle } from "./resultRadarConfig";
 import type { ResultAxis, ResultComparison } from "./results";
@@ -27,22 +29,53 @@ export function ResultsRadar({
   theme,
   onCriterion,
 }: Props) {
+  const axesId = useId();
   const visible = teams.filter((team) => selected.includes(team.team_id));
   return (
     <section
       className="results-chart results-radar results-responsive-chart"
       aria-label="Comparaison des équipes"
     >
-      <div className="results-canvas">
-        <Radar
-          data={radarData(axes, teams, selected)}
-          options={radarOptions(theme, (index) => {
-            const axis = axes[index];
-            if (axis?.lineage_id) onCriterion?.(axis);
-          })}
-          role="img"
-          aria-label={`Radar des résultats : ${visible.length} équipe(s), ${axes.length} axe(s), échelle 0 à 10`}
-        />
+      <div className="results-radar-body">
+        <div className="results-canvas">
+          <Radar
+            data={radarData(axes, teams, selected)}
+            options={radarOptions(
+              theme,
+              (index) => {
+                const axis = axes[index];
+                if (axis?.lineage_id) onCriterion?.(axis);
+              },
+              axes,
+            )}
+            role="img"
+            aria-describedby={axesId}
+            aria-label={`Radar des résultats : ${visible.length} équipe(s), ${axes.length} axe(s), échelle 0 à 10`}
+          />
+        </div>
+        <div
+          id={axesId}
+          className="results-radar-axes"
+          role="region"
+          aria-label="Axes du radar"
+          tabIndex={0}
+        >
+          <p>Axes du radar</p>
+          <ol>
+            {axes.map((axis, index) => (
+              <li key={axis.question_id}>
+                <button
+                  type="button"
+                  className="result-criterion"
+                  disabled={!axis.lineage_id || !onCriterion}
+                  onClick={() => onCriterion?.(axis)}
+                >
+                  {index + 1}. {axis.text}
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
       {visible.length === 0 && (
         <p>Sélectionnez une ou plusieurs équipes pour les comparer.</p>

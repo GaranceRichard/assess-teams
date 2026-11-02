@@ -60,11 +60,7 @@ it("loads ordered axes immediately with a fixed empty scale, then overlays and r
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   await chooseVersion();
   expect(api.getFamilyComparison).toHaveBeenCalledWith(4, 2);
-  expect(chartData().labels).toEqual([
-    "1. Collaboration",
-    "2. Critère très long qui doit rest…",
-    "3. Amélioration",
-  ]);
+  expect(chartData().labels).toEqual(["1", "2", "3"]);
   expect(chartData().datasets).toHaveLength(0);
   expect(
     screen
@@ -128,7 +124,7 @@ it("resets selected teams on a version change and updates chart contrast with th
   });
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
   await screen.findByRole("img");
-  expect(chartData().labels).toEqual(["1. Nouvelle version"]);
+  expect(chartData().labels).toEqual(["1"]);
   expect(chartData().datasets).toHaveLength(0);
   expect(screen.getByRole("checkbox")).not.toBeChecked();
   fireEvent.change(screen.getByLabelText("Modèle"), {

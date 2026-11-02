@@ -110,13 +110,14 @@ Les deux contrôles indépendants partagent les mêmes filtres et équipes. Espa
 les flèches, Home et End déplacent le focus et activent le choix dans Restitution.
 Changer de restitution conserve le critère et les observations chargées. Le tableau radar reprend les scores et dates
 des passations retenues, avec scroll interne uniquement en cas de dépassement. Les critères s’ouvrent
-par clic sur leur libellé ou point dans le radar, ou par bouton clavier dans le tableau :
+par clic sur leur repère ou point dans le radar, par la clé complète ou par bouton clavier dans le tableau :
 ce clic active Dans le temps / Graphique. Le radar ne propose plus de menu dépliant d’historique.
 Dans le temps propose un sélecteur de critère, sans continuité possible pour les axes sans lignée.
 Sans critère choisi, un message invite à le sélectionner sans charger d’historique.
 Le radar remplit la hauteur restante du panneau flex, sans hauteur fixe ni scroll de page desktop ;
-ses libellés radar abrégés existants passent à la ligne selon la largeur disponible. Les textes
-intégraux restent accessibles dans le tableau et le sélecteur de critère de la vue Dans le temps. Le mobile conserve le flux naturel et empile les deux contrôles ; le switch respecte la réduction des animations.
+ses repères numériques renvoient à la clé « Axes du radar », liée au canvas par `aria-describedby`.
+La clé affiche les textes intégraux, défile au clavier sur desktop et suit le graphique en flux mobile ; les infobulles reprennent le critère complet.
+Le tableau et le sélecteur Dans le temps conservent aussi les textes intégraux. Le mobile conserve le flux naturel et empile les deux contrôles ; le switch respecte la réduction des animations.
 Le longitudinal partage le conteneur flex responsive du radar : la note et la légende
 réservent leur espace, puis le canvas remplit la hauteur restante. Données détaillées affiche uniquement
 le tableau historique à scroll interne ; aucun empilement ni juxtaposition avec la courbe.

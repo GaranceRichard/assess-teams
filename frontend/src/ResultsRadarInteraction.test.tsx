@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import type { Chart, ChartEvent, ChartOptions } from "chart.js";
 import { expect, it, vi } from "vitest";
 
@@ -51,5 +51,44 @@ it("opens the explicit criterion through the chart label and ignores axes withou
     />,
   );
   clickLabel();
+  expect(select).not.toHaveBeenCalled();
+});
+
+it("exposes complete numbered axes and opens the selected criterion", () => {
+  radar.mockImplementation(() => <canvas />);
+  const select = vi.fn();
+  render(
+    <ResultsRadar
+      {...resultFamilyComparison}
+      selected={[10]}
+      theme="day"
+      onCriterion={select}
+    />,
+  );
+  const axes = screen.getByRole("region", { name: "Axes du radar" });
+  resultFamilyComparison.axes.forEach((axis, index) => {
+    expect(
+      within(axes).getByRole("button", { name: `${index + 1}. ${axis.text}` }),
+    ).toBeEnabled();
+  });
+  fireEvent.click(within(axes).getAllByRole("button")[0]);
+  expect(select).toHaveBeenCalledWith(resultFamilyComparison.axes[0]);
+});
+
+it("does not open an axis without an explicit lineage", () => {
+  radar.mockImplementation(() => <canvas />);
+  const select = vi.fn();
+  render(
+    <ResultsRadar
+      axes={[{ question_id: 1, index: 1, text: "Archive sans lignée" }]}
+      teams={[]}
+      selected={[]}
+      theme="day"
+      onCriterion={select}
+    />,
+  );
+  const button = screen.getByRole("button", { name: "1. Archive sans lignée" });
+  expect(button).toBeDisabled();
+  fireEvent.click(button);
   expect(select).not.toHaveBeenCalled();
 });

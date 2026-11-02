@@ -1,0 +1,48 @@
+.results-radar-body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(12rem, 2fr);
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  gap: 0.75rem;
+}
+.results-radar-axes {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.results-radar-axes ol {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+}
+.results-radar-axes li + li {
+  margin-top: 0.5rem;
+}
+.results-radar-axes .result-criterion {
+  overflow-wrap: anywhere;
+}
+.results-radar-axes .result-criterion:disabled {
+  color: var(--text);
+  opacity: 1;
+  cursor: default;
+  text-decoration: none;
+}
+.results-radar-axes:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+@media (max-width: 760px) {
+  .results-radar-body {
+    display: contents;
+  }
+  .results-radar-axes {
+    order: 1;
+    overflow: visible;
+  }
+}
+.results-radar-axes > p {
+  margin: 0.25rem;
+  font-weight: 600;
+}
