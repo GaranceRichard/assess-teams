@@ -76,3 +76,11 @@ automatiquement un critère indépendant ; une gêne réelle lors d’un scénar
 Cette consolidation ne produit aucun run métier/API/E2E nouveau ni acceptation visuelle du candidat.
 **Verdict actuel : comportement principal couvert, qualification ciblée restante ; aucune clôture proposée
 comme déjà validée et aucun développement identifié.**
+
+## Actualisation après qualification et correction
+
+Le [rapport consolidé MEP-048](../qualification-mep-048/rapport.md) rapproche l’audit,
+la qualification complémentaire et la correction des écarts B01/B02 du 2026-11-02.
+Le verdict de qualification restante ci-dessus est historique ; les non-régressions rouge/vert,
+les captures et les gates du correctif fondent désormais la proposition de clôture.
+Cette référence ne modifie aucun statut canonique et ne vaut pas acceptation MESS.

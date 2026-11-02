@@ -172,6 +172,10 @@ React et Playwright vérifient sélection unique 8→9, restauration, annulation
 Le [parcours de stabilité](functional-coverage.md) mesure géométrie et navigation sur huit viewports,
 avec les seuls repères passifs, onze notes au curseur, un défilement unique et refus de sauvegarde ; la démo reste sans API. Le test `evaluation-rating-focus.spec.ts` couvre les états normal, focus et focus-visible, sans rectangle, avec anneau sur la poignée uniquement, en clair/sombre sur desktop/mobile et sans déplacement des actions.
 
+La lecture de Pilotage est protégée par `steering-readability.spec.ts` : parcours clavier jusqu'à la source
+sur mobile, note toujours cadrée, cellules sans résultat accessibles avec l'aide ouverte à 1280×720,
+mesures d'intersection et de hit-test en clair/sombre, avec preuves rouge/vert de MEP-048.
+
 Les [dates et heures de présentation](../architecture/date-time-presentation.md) sont couvertes en unitaires
 (fuseaux et changements de jour/heure), composants, notifications/admin Django et E2E de la démo.
 Une recherche automatisée des formatages dispersés complète les contrôles des attributs techniques conservés.

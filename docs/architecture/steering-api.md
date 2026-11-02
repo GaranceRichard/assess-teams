@@ -75,6 +75,11 @@ Superadmin : choisir une organisation avant tout affichage. Admin : organisation
 sélecteur. Cartes compactes avec définitions, puis tableau sémantique. Chargement, vide et erreur
 sont explicites. Réponses obsolètes ignorées, table défilable et focus clavier, tokens de thème
 et palettes existants ; aucune nouvelle dépendance ni graphique.
+La note des états reste hors du défilement horizontal du tableau. Avec les définitions ouvertes,
+la collection prend la hauteur de son contenu et la page défile verticalement si nécessaire.
+Définitions fermées, la collection reste bornée et la pagination visible sur desktop.
+Les non-régressions `steering-readability.spec.ts` vérifient cadrage et absence d'occultation dans
+les deux thèmes ; elles ne se limitent pas à la présence des textes dans le DOM.
 
 Le lien `Voir les résultats` ouvre
 `/results?organization_id=ID&family_id=ID&team_id=ID`. La navigation existante conserve les

@@ -68,6 +68,18 @@
 .steering-note {
   color: var(--muted);
 }
+/* Keep explanations outside the table's horizontal scroll and let the page
+   scroll vertically when definitions leave little room for the collection. */
+.steering-page:has(.steering-definitions[open]) > .collection-frame {
+  flex: none;
+}
+.steering-page:has(.steering-definitions[open]) .collection-scroll {
+  flex: none;
+  overflow: visible;
+}
+.steering-page .collection-scroll .steering-table {
+  overflow-x: auto;
+}
 .steering-table:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;

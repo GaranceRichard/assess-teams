@@ -20,6 +20,10 @@ La zone compacte de titre/actions/filtres précède le contenu flex occupant l�
 `CollectionFrame` contient une région scrollable accessible au clavier, un header de tableau sticky
 et une pagination séparée du scroll. Loading/empty/error gardent cette enveloppe.
 Les tableaux larges scrollent horizontalement dans la région fonctionnelle.
+Pilotage conserve ses explications hors du défilement horizontal : son tableau possède sa propre
+région. Définitions ouvertes, sa collection garde sa hauteur de contenu et la page défile verticalement
+pour ne pas coincer les lignes sous un en-tête plus haut que la zone restante. Définitions fermées,
+la collection reste bornée et sa pagination reste visible dans le viewport desktop.
 Les formulaires, questions, profil, sélection Results et observations scrollent dans leurs panneaux.
 Une page trop compacte (zoom/hauteur réduite) conserve un repli de scroll interne accessible,
 avec un minimum commun de huit rem pour garder une région interactive visible, sans hauteur par route.
