@@ -90,5 +90,18 @@ Les tests sans lignée protègent un vrai refus existant, sans règle métier no
 
 Le plan automatique classe `resultRadarConfig.ts` comme transverse et impose l’exhaustif ; aucune réduction
 manuelle des gates. La livraison exige pré-push bloquant, publication par `npm run publish`, CI du SHA exact,
-fast-forward du main principal puis nettoyage du seul chantier MEP-015. Le registre ne sera clôturé
-qu’après confirmation des contrôles et de l’intégration.
+fast-forward du main principal puis nettoyage du seul chantier MEP-015. Les contrôles et l’intégration confirmés ci-dessous permettent la clôture du registre.
+
+
+## Intégration confirmée
+
+Correctif intégré : [826cc51](https://github.com/GaranceRichard/assess-teams/commit/826cc51063ab1120ddc052f2a01bb4b77479c4b0).
+[CI exhaustive du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/41375636093) réussie après pré-push bloquant et publication par `npm run publish`.
+Le main principal a été avancé exclusivement en fast-forward. Le registre est clôturé le 2026-11-02 ;
+F06 atteint 4/4, sans clôture des recettes cible, de MEP-048 ni du GO/NO-GO.
+La présente clôture documentaire possède sa propre publication et sa CI sélective.
+
+Le pré-push final a terminé sans échec : backend 1 456 tests / 97,50 %, frontend 455 tests / quatre
+seuils de couverture au-dessus de 90 %, 112 E2E réels et 10 démo ; lint, formatage, typage,
+build, migrations et contrôles du dépôt passants. Les 16 captures finales du manifeste ont été relues.
+Qualification locale du 2026-11-01 ; clôture documentaire au 2026-11-02 après vérification de la CI.

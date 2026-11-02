@@ -89,4 +89,5 @@ Les preuves locales sont réutilisables uniquement lorsque scénario, entrées, 
 
 Le rapport initial, sa qualification et la décision approuvée restent attribués au SHA `2d9b6c3`.
 Le futur SHA documentaire de clôture ne prétend pas être un nouveau candidat applicatif qualifié MESS.
-Prochaine observation recommandée : **MEP-015**, sans dépendance technique nouvelle ; MEP-048 reste un chantier distinct.
+La recommandation d’observer MEP-015 a été suivie : [qualification radar et correction bornée](../mep-015/README.md),
+clôturées le 2026-11-02 ; MEP-048 reste un chantier distinct. Les verdicts MEP-047 ci-dessus restent inchangés.
