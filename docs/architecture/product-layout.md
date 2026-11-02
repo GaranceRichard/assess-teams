@@ -94,3 +94,5 @@ et les actions restent fixes. Les dialogues s’ouvrent en 240 ms et se ferment 
 avec fond progressif ; fermeture native, focus et protections sont conservés.
 Le nouveau contenu reste utilisable immédiatement. La préférence
 `prefers-reduced-motion: reduce` rend ces changements immédiats.
+
+La [qualification MEP-049](../quality/mep-049/README.md) exerce au tactile sans survol toutes les destinations des trois rôles, menu ouvert/replié, dans les deux thèmes à 390×844 ; clavier aussi aux trois formats desktop UX. La préférence de repli existante reste conservée entre pages dans le shell, sans promesse nouvelle après reload. Les formulaires, refus de sauvegarde et retours de focus sont vérifiés sans modification des composants MEP-048.

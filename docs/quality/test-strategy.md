@@ -175,3 +175,5 @@ avec les seuls repères passifs, onze notes au curseur, un défilement unique et
 Les [dates et heures de présentation](../architecture/date-time-presentation.md) sont couvertes en unitaires
 (fuseaux et changements de jour/heure), composants, notifications/admin Django et E2E de la démo.
 Une recherche automatisée des formatages dispersés complète les contrôles des attributs techniques conservés.
+
+La [recette MEP-049](mep-049/README.md) ajoute les suites mobile-navigation et mobile-dialogs : trois rôles, deux thèmes, tactile sans survol, repli conservé, focus clavier aux formats UX, cibles mesurées et refus sans perte de saisie protégée. Vidéos émulées, relecture visuelle et recette physique/cible restent explicitement distinctes.
