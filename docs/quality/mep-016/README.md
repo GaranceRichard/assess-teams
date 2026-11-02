@@ -1,4 +1,4 @@
-# MEP-016 — Qualification du vocabulaire Dashboard / Pilotage
+# MEP-016 — Qualification et clôture approuvée
 
 Revue Codex du **2026-11-02**, base `cba55ff9c375e0c3da6f8b38f25c0517374ba66d`.
 [Source canonique F07](../../backlog/source/mess/f07.md) ·
@@ -18,9 +18,10 @@ les variantes par rôle et les assertions existantes. Elle ne constitue ni une n
 navigateur UX-09 ni une mesure de compréhension auprès d’utilisateurs MESS.
 Aucune occurrence modifiée : captures avant/après et test rouge/vert de correction non applicables.
 
-**Clôture sans développement recommandée.** Le statut canonique reste **Ouvert / N/A**, conformément
-à la réserve de validation du changement de statut portée par la fiche d’audit. Cette livraison
-apporte la qualification manquante ; elle ne présume aucune décision de clôture métier.
+**Réalisé le 2026-11-02**, selon la décision explicite de l’utilisateur :
+« clôture MEP-016 approuvée sans développement ». Le [registre canonique](../../backlog/tracking/mess-e02.md)
+porte ce statut et cette date. La décision accepte le verdict lexical et ses limites ci-dessus,
+sans modification applicative ni nouvel arbitrage C09. [Décision, calculs et DoD de clôture](cloture.md).
 
 ## Attendu / observé
 
@@ -71,7 +72,7 @@ Les résultats effectifs du plan, du pré-push et de la CI du commit publié son
   non applicables au diff de prose ; aucune modification du code, des tests ou des dépendances.
 - Documentation relue : README, AGENTS/règles, charte, DoD, stratégie, coûts de validation,
   fondamentaux, contrat API général, Dashboard/Pilotage, vision, source F07 et fiche MEP-016.
-  Impact limité au README et au présent dossier ; architecture, critères et contrats conservés.
+  Impact de la clôture sur le README, le dossier, le registre et ses vues dérivées ; architecture, critères et contrats conservés.
 - Sécurité : aucun compte, secret, base ou identifiant réel ajouté ; les noms des jeux sont fictifs.
   Les libellés n’élargissent aucun scope, aucune permission ni aucune exposition d’auteur.
 - MEP-048 : branche/worktree préservés, aucun fichier de son chantier modifié ; statut et preuves
