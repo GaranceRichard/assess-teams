@@ -84,3 +84,10 @@ la qualification complémentaire et la correction des écarts B01/B02 du 2026-11
 Le verdict de qualification restante ci-dessus est historique ; les non-régressions rouge/vert,
 les captures et les gates du correctif fondent désormais la proposition de clôture.
 Cette référence ne modifie aucun statut canonique et ne vaut pas acceptation MESS.
+
+## Clôture approuvée le 2026-11-03
+
+L’utilisateur a validé le rapport consolidé et le correctif `79efb0d`, publié avec CI verte.
+Le [bilan de clôture](../qualification-mep-048/cloture.md) trace cette approbation et les preuves acceptées.
+Le registre canonique porte désormais Réalisé au 2026-11-03 ; les constats datés ci-dessus restent historiques.
+Cette clôture du PBI reste distincte de la recette MEP-070 et de l’acceptation MESS.

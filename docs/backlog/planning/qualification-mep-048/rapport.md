@@ -1,8 +1,8 @@
-# MEP-048 — rapport consolidé et proposition de clôture
+# MEP-048 — rapport consolidé et clôture approuvée
 
 2026-11-02, Codex. Qualification initiale, complémentaire et correction rapprochées.
-**Les trois scénarios de correction sont conformes ; clôture proposée, sous réserve du succès de la publication et de sa CI.**
-Aucun statut canonique ni date de réalisation n’est modifié par ce rapport.
+**Les trois scénarios de correction sont conformes ; clôture approuvée par l’utilisateur le 2026-11-03.**
+Le correctif `79efb0d` et sa CI sont verts ; [décision, registre et bilan de clôture](cloture.md).
 L’acceptation MESS et le GO/NO-GO restent des décisions distinctes.
 
 ## Périmètre et traçabilité
@@ -68,6 +68,6 @@ Les manques de navigation/rôles avaient été levés par la qualification compl
 B01/B02 sont maintenant corrigés par une évolution de présentation bornée, couverte en rouge/vert
 et relue dans les deux thèmes. Aucun nouvel indicateur ou arbitrage métier n’a été introduit.
 
-**Proposer la clôture de MEP-048 lorsque les gates requis et la CI du SHA publié sont verts.**
-Le statut « Ouvert » n’est pas remplacé automatiquement ; la décision de suivi reste à valider.
+**Clôture approuvée le 2026-11-03 sur ce rapport et le correctif `79efb0d` publié avec CI verte.**
+Le registre canonique porte « Réalisé » à cette date ; les vues dérivées sont synchronisées dans le lot documentaire.
 La consolidation ne transforme pas la conformité technique en acceptation métier MESS.
