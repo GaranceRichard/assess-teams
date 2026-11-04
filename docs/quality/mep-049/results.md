@@ -49,4 +49,5 @@ SHA-256 des tests exécutés :
 - `mobile-navigation.spec.ts` : `aca0939fed0d5a22002228df081049027241d33cb1377ea2e6904a7758bdf896`.
 - `mobile-dialogs.spec.ts` : `834d3b99e019f07fa4b2015b9c83855d13353d3d7ba91d7fe728d031b288b76e`.
 
-Le registre reste ouvert : décision de clôture et recette cible distinctes de cette livraison de qualification locale.
+Le registre était ouvert à l'issue de cette qualification locale. La [clôture fonctionnelle approuvée le 2026-11-03](cloture.md)
+réutilise les résultats acquis ; le téléphone physique reste un complément de recette MESS non exécuté.

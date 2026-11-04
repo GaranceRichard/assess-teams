@@ -1,6 +1,8 @@
 # MEP-049 — Protection de l'historique navigateur
 
 Élargissement du 2026-11-02 après la [qualification initiale](results.md).
+Correctif publié `3ab6769d713d7dcb28ac044d49699ca160e32ddb`, [CI verte](https://github.com/GaranceRichard/assess-teams/actions/runs/41498753219).
+[Clôture fonctionnelle approuvée le 2026-11-03](cloture.md), sur ces preuves acquises, sans nouvelle campagne applicative.
 La première publication a été arrêtée avant push ; le commit de qualification `d220680`
 n'a donc jamais été présenté comme une livraison complète sur main.
 
@@ -64,7 +66,8 @@ La relance visuelle est nécessaire car la campagne démo nettoie le dossier com
 ## Limites et revue
 
 Le tactile physique, le clavier virtuel d'un téléphone et la recette MESS restent non exécutés.
-Les vidéos sont du tactile émulé ; aucun statut canonique n'est clôturé automatiquement.
+Les vidéos sont du tactile émulé ; la clôture du registre découle de la [décision utilisateur explicite](cloture.md),
+avec essai physique complémentaire MESS non exécuté, sans verdict cible anticipé.
 README annoncé avant correction ; documentation du shell et des dialogues mise à jour ;
 contrats API, droits, calculs, modèle de données, snapshots et protections de fermeture existants conservés.
 Backend/migrations non applicables au changement frontend. Les gates et la CI du SHA exact restent bloquants.

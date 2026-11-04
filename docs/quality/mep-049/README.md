@@ -1,5 +1,8 @@
 # MEP-049 — Navigation mobile et interactions tactiles
 
+**Réalisé le 2026-11-03 : [clôture fonctionnelle approuvée](cloture.md), sans développement supplémentaire.**
+L'essai sur téléphone physique reste un contrôle complémentaire MESS explicitement non exécuté.
+
 Qualification locale du 2026-11-02 par Codex, sur la base applicative
 `d7f67499825264194730598c2fc0bee247853f3b`, avec les deux nouvelles suites de ce lot.
 [Contrat canonique](../../backlog/source/mess/f08.md) ·
@@ -71,5 +74,5 @@ aucune règle ni contrat API ne change. Backend et migrations non applicables au
 Le plan obligatoire recalcule les tests React dépendants, statiques frontend et parcours E2E complets
 du shell partagé ; les seuils exhaustifs restent inchangés. Les preuves initiales ne qualifient pas le correctif.
 La publication conserve `npm run publish`, pré-push bloquant et CI du SHA exact, sans PR.
-Le registre canonique n'est pas clôturé automatiquement : la présente preuve technique distingue
-les parcours locaux exécutés des réserves de recette cible/manuelle.
+La [décision explicite du 2026-11-03](cloture.md) clôture le registre sur ces preuves acquises ;
+la recette physique/cible reste distincte et non exécutée, complémentaire à la clôture fonctionnelle.

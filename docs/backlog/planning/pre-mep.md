@@ -8,7 +8,7 @@ et a guidé [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 25 Réalisés, 35 Ouverts, 2 Bloqués, 0 En cours ; MEP-013 et MEP-046 sont réalisés.
+et le [registre canonique](../tracking/pbis.md) comptent 26 Réalisés, 34 Ouverts, 2 Bloqués, 0 En cours ; MEP-013 et MEP-046 sont réalisés.
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -35,7 +35,7 @@ Chaque clôture actualise d’abord le registre, puis la synthèse ; aucune date
 | U2 — notation réalisée | MEP-044/013 et [MEP-045](qualification-mep-045/cloture.md) réalisés ; F05 complète | Huit critères conformes ; Échap protégé en attente/refus, réessai et zoom natif vérifiés ; correctif `08d0263`, CI verte. Preuves réutilisables par MEP-069, sans PV cible anticipé. |
 | U3a — résultats | MEP-014/046 et [MEP-047](../../quality/mep-047/README.md) réalisés ; [MEP-015](../../quality/mep-015/README.md) réalisé | Sélection/version/archives/lignée/scopes conservés ; radar corrigé après défaut démontré, légende et tableau qualifiés ; aucune nouvelle dépendance technique |
 | U3b — dashboard, parallélisable avec U3a | [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md), clôture lexicale approuvée sans développement ; [MEP-048 réalisé le 2026-11-03](qualification-mep-048/cloture.md), clôture des indicateurs approuvée | Inventaire 016 conforme par fait/rôle, refus tracés ; couverture/complétions/retards et accès aux sources qualifiés pour 048, B01/B02 corrigés dans `79efb0d`, CI verte ; aucun calcul supplémentaire |
-| U4 — observations responsive et interactions | [MEP-017 — Petits écrans](../source/mess/f08.md), [MEP-049 — Navigation tactile](../source/mess/f08.md), [MEP-018 — Chargement](../source/mess/f08.md), [MEP-050 — États vides](../source/mess/f08.md), [MEP-051 — Erreurs](../source/mess/f08.md) | Observer géométrie/actions, navigation/focus, attente/obsolescence, vides puis refus/réessai ; risque de divulgation, perte ou action inaccessible prioritaire ; correction seulement sur défaut reproduit |
+| U4 — observations responsive et interactions | [MEP-017 — Petits écrans](../source/mess/f08.md), [MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md), [MEP-018 — Chargement](../source/mess/f08.md), [MEP-050 — États vides](../source/mess/f08.md), [MEP-051 — Erreurs](../source/mess/f08.md) | 049 clôturé sur preuves acquises, téléphone physique complémentaire MESS non exécuté ; poursuivre géométrie/actions, attente/obsolescence, vides puis refus/réessai ; risque de divulgation, perte ou action inaccessible prioritaire ; correction seulement sur défaut reproduit |
 
 U1 précède les retouches locales pour réduire les reprises de styles ; ce n’est pas une dépendance ajoutée.
 U2, U3a, U3b et U4 peuvent avancer en parallèle sur composants distincts après cadrage commun.
