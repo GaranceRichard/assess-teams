@@ -92,15 +92,36 @@ it("shows a damaged empty snapshot without drawing scores", async () => {
   ).toBeVisible();
   expect(screen.queryByRole("img")).not.toBeInTheDocument();
 });
-it("keeps axes even if no latest team snapshot is usable", async () => {
-  api.getFamilyComparison.mockResolvedValueOnce({
-    ...resultFamilyComparison,
-    teams: [],
-  });
-  render(<ResultsPage actor={resultActor} theme="day" />);
-  await choose();
-  expect(await screen.findByRole("img")).toBeVisible();
-});
+it.each(["Admin", "Coach", "Viewer"] as const)(
+  "explains unavailable series for %s without asking for an impossible selection",
+  async (role) => {
+    api.getFamilyComparison.mockResolvedValueOnce({
+      ...resultFamilyComparison,
+      teams: [],
+    });
+    render(<ResultsPage actor={{ ...resultActor, role }} theme="day" />);
+    await choose();
+    expect(
+      await screen.findByText(
+        "Aucune équipe avec un résultat exploitable pour cette version.",
+      ),
+    ).toBeVisible();
+    expect(screen.getByRole("img")).toBeVisible();
+    expect(
+      screen.queryByText(/Sélectionnez une ou plusieurs équipes/),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("tab", { name: "Données détaillées" }));
+    expect(
+      screen.getByText(
+        "Aucune équipe avec un résultat exploitable pour cette version.",
+      ),
+    ).toBeVisible();
+    expect(
+      screen.queryByText(/Sélectionnez une ou plusieurs équipes/),
+    ).not.toBeInTheDocument();
+  },
+);
 it.each(["success", "error"])(
   "ignores stale comparison %s",
   async (outcome) => {

@@ -176,3 +176,6 @@ comparaison globale des versions, exports et édition depuis Results restent hor
 Le [Pilotage P0](steering-api.md) fournit une intention URL organisation/famille/équipe ; Results la valide
 contre ses réponses accessibles et sélectionne seulement une équipe éligible sur sa version radar.
 Une équipe source absente de cette version reçoit un message explicite ; les calculs restent inchangés.
+
+
+[MEP-050](../quality/mep-050/README.md) explicite les réponses sans équipe éligible, même si des axes sont conservés : aucun choix d’équipe impossible n’est demandé dans le radar, les détails ou la notice de lien profond. Le contrat HTTP et le refus de repli vers une ancienne complétion sont conservés.

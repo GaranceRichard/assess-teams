@@ -143,10 +143,12 @@ export function EvaluationPage() {
         }}
       />
       <div className="evaluation-workspace page-content">
-        <CollectionFrame {...collection} onChange={collection.changePage}>
-          {collection.failed && (
-            <p role="alert">Impossible de charger les évaluations.</p>
-          )}
+        <CollectionFrame
+          {...collection}
+          onChange={collection.changePage}
+          errorMessage="Impossible de charger les évaluations."
+          loadingMessage="Chargement en cours…"
+        >
           <EvaluationList
             evaluations={visibleEvaluations}
             selectedId={selectedId}

@@ -129,10 +129,12 @@ export function TeamPage({ actor }: Props) {
         </select>
       </label>
       {organization ? (
-        <CollectionFrame {...collection} onChange={collection.changePage}>
-          {collection.failed && (
-            <p role="alert">Impossible de charger les équipes.</p>
-          )}
+        <CollectionFrame
+          {...collection}
+          onChange={collection.changePage}
+          errorMessage="Impossible de charger les équipes."
+          loadingMessage="Chargement en cours…"
+        >
           <TeamList teams={teams} onDelete={setDeleting} onEdit={setEditing} />
         </CollectionFrame>
       ) : (

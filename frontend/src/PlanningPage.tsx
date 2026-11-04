@@ -159,10 +159,12 @@ export function PlanningPage({ actor }: Props) {
           />
           <section aria-labelledby="planned-evaluations-title">
             <h2 id="planned-evaluations-title">Évaluations planifiées</h2>
-            <CollectionFrame {...collection} onChange={collection.changePage}>
-              {collection.failed && (
-                <p role="alert">Impossible de charger la planification.</p>
-              )}
+            <CollectionFrame
+              {...collection}
+              onChange={collection.changePage}
+              errorMessage="Impossible de charger la planification."
+              loadingMessage="Chargement en cours…"
+            >
               <ScheduleList
                 onOpen={setEditing}
                 schedules={organizationSchedules}

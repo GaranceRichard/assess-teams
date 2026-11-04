@@ -98,7 +98,7 @@ export function useResultSelection(isSuperuser: boolean) {
             (team) => team.team_id === intent.current?.teamId,
           );
           if (requested) setSelected([requested.team_id]);
-          else
+          else if (data.teams.length > 0)
             setSelectionNotice(
               "L’équipe demandée n’a pas de résultat exploitable sur la version radar courante. Choisissez une équipe disponible.",
             );

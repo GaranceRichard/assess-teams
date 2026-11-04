@@ -7,6 +7,10 @@ type Props = {
   count: number;
   pageSize?: number;
   loading?: boolean;
+  failed?: boolean;
+  emptyMessage?: string;
+  errorMessage?: string;
+  loadingMessage?: string;
   onChange: (page: number) => void;
 };
 
@@ -16,6 +20,10 @@ export function CollectionFrame({
   count,
   pageSize = 20,
   loading = false,
+  failed = false,
+  emptyMessage,
+  errorMessage = "Impossible de charger la collection.",
+  loadingMessage = "Chargement…",
   onChange,
 }: Props) {
   return (
@@ -26,23 +34,32 @@ export function CollectionFrame({
         role="region"
         aria-label="Contenu de la collection"
       >
-        {children}
+        {loading ? (
+          <p role="status">{loadingMessage}</p>
+        ) : failed ? (
+          <p role="alert">{errorMessage}</p>
+        ) : count === 0 && emptyMessage ? (
+          <p>{emptyMessage}</p>
+        ) : (
+          children
+        )}
       </div>
-      {count > pageSize ? (
-        <Pagination
-          page={page}
-          count={count}
-          pageSize={pageSize}
-          busy={loading}
-          onChange={onChange}
-        />
-      ) : (
-        <footer className="pagination">
-          {loading
-            ? "Lecture en cours…"
-            : `${count} élément${count > 1 ? "s" : ""}`}
-        </footer>
-      )}
+      {!failed &&
+        (count > pageSize ? (
+          <Pagination
+            page={page}
+            count={count}
+            pageSize={pageSize}
+            busy={loading}
+            onChange={onChange}
+          />
+        ) : (
+          <footer className="pagination">
+            {loading
+              ? "Lecture en cours…"
+              : `${count} élément${count > 1 ? "s" : ""}`}
+          </footer>
+        ))}
     </div>
   );
 }

@@ -65,3 +65,19 @@ it("does not preselect an inaccessible organization or family", async () => {
   expect(screen.getByLabelText("Organisation")).toHaveValue("");
   expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
 });
+
+it("does not suggest choosing an available team when no series is eligible", async () => {
+  api.getFamilyComparison.mockResolvedValueOnce({
+    ...resultFamilyComparison,
+    teams: [],
+  });
+  render(<ResultsPage actor={resultActor} theme="day" />);
+  expect(
+    await screen.findByText(
+      "Aucune équipe avec un résultat exploitable pour cette version.",
+    ),
+  ).toBeVisible();
+  expect(
+    screen.queryByText(/Choisissez une équipe disponible/),
+  ).not.toBeInTheDocument();
+});

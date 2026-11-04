@@ -105,18 +105,20 @@ export function JournalPage<T extends JournalEntry>({
         page={page}
         count={data?.count ?? 0}
         loading={loading}
+        failed={Boolean(error)}
+        errorMessage={error || undefined}
         onChange={(value) => {
           setLoading(true);
           setPage(value);
         }}
       >
-        {error ? (
-          <p className="form-error" role="alert">
-            {error}
-          </p>
-        ) : data ? (
+        {data ? (
           <>
-            <JournalEntries entries={data.results} actionFor={actionFor} />
+            <JournalEntries
+              entries={data.results}
+              filtered={Object.values(filters).some(Boolean)}
+              actionFor={actionFor}
+            />
           </>
         ) : (
           <p>Chargement…</p>

@@ -79,18 +79,23 @@ export function LogsPage({ actor }: { actor: SessionUser }) {
         page={page}
         count={data?.count ?? 0}
         loading={loading}
+        failed={Boolean(error)}
+        errorMessage={error || undefined}
         onChange={(value) => {
           setLoading(true);
           setPage(value);
         }}
       >
-        {error ? (
-          <p className="form-error" role="alert">
-            {error}
-          </p>
-        ) : data ? (
+        {data ? (
           <>
-            <LogEntries entries={data.results} />
+            <LogEntries
+              entries={data.results}
+              filtered={Object.entries(filters).some(
+                ([key, value]) =>
+                  Boolean(value) &&
+                  (key !== "organization" || actor.is_superuser),
+              )}
+            />
           </>
         ) : (
           <p>Chargement…</p>

@@ -36,6 +36,13 @@ export function ResultsRadar({
       className="results-chart results-radar results-responsive-chart"
       aria-label="Comparaison des équipes"
     >
+      {visible.length === 0 && (
+        <p>
+          {teams.length === 0
+            ? "Aucune équipe avec un résultat exploitable pour cette version."
+            : "Sélectionnez une ou plusieurs équipes pour les comparer."}
+        </p>
+      )}
       <div className="results-radar-body">
         <div className="results-canvas">
           <Radar
@@ -77,9 +84,6 @@ export function ResultsRadar({
           </ol>
         </div>
       </div>
-      {visible.length === 0 && (
-        <p>Sélectionnez une ou plusieurs équipes pour les comparer.</p>
-      )}
       <ul className="results-legend" aria-label="Légende des équipes">
         {teams.map(
           (team, index) =>

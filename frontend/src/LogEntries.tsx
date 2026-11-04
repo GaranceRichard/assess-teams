@@ -35,10 +35,20 @@ function LogDetails({ entry }: { entry: LogEntry }) {
   );
 }
 
-export function LogEntries({ entries }: { entries: LogEntry[] }) {
+export function LogEntries({
+  entries,
+  filtered = true,
+}: {
+  entries: LogEntry[];
+  filtered?: boolean;
+}) {
   if (entries.length === 0) {
     return (
-      <p className="journal-empty">Aucun log ne correspond aux filtres.</p>
+      <p className="journal-empty">
+        {filtered
+          ? "Aucun log ne correspond aux filtres."
+          : "Aucun log accessible."}
+      </p>
     );
   }
   return (

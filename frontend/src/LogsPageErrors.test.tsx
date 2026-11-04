@@ -34,9 +34,7 @@ it("shows a dependency failure and an empty result", async () => {
   expect(
     await screen.findByText("Impossible de charger les filtres dépendants."),
   ).toBeVisible();
-  expect(
-    screen.getByText("Aucun log ne correspond aux filtres."),
-  ).toBeVisible();
+  expect(screen.getByText("Aucun log accessible.")).toBeVisible();
 });
 
 it("ignores pending requests after unmount", async () => {

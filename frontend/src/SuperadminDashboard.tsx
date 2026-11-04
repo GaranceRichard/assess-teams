@@ -101,13 +101,15 @@ export function SuperadminDashboard({ actor }: Props) {
           onChange={(event) => setSearch(event.target.value)}
         />
       </label>
-      <CollectionFrame {...collection} onChange={collection.changePage}>
-        {collection.failed && !error && (
-          <p role="alert">Impossible de charger les utilisateurs.</p>
-        )}
-        {collection.loading && (
-          <p role="status">Chargement des utilisateurs…</p>
-        )}
+      <CollectionFrame
+        {...collection}
+        onChange={collection.changePage}
+        errorMessage="Impossible de charger les utilisateurs."
+        loadingMessage="Chargement des utilisateurs…"
+        emptyMessage={
+          search ? "Aucun résultat." : "Aucun utilisateur accessible."
+        }
+      >
         <div className="table-wrap">
           <table>
             <thead>

@@ -4,6 +4,7 @@ import type { JournalEntry } from "./journals";
 type Props<T extends JournalEntry> = {
   entries: T[];
   actionFor: (entry: T) => string;
+  filtered?: boolean;
 };
 
 function dayKey(value: string): string {
@@ -14,10 +15,15 @@ function dayKey(value: string): string {
 export function JournalEntries<T extends JournalEntry>({
   entries,
   actionFor,
+  filtered = true,
 }: Props<T>) {
   if (entries.length === 0) {
     return (
-      <p className="journal-empty">Aucune entrée ne correspond aux filtres.</p>
+      <p className="journal-empty">
+        {filtered
+          ? "Aucune entrée ne correspond aux filtres."
+          : "Aucune entrée accessible."}
+      </p>
     );
   }
   const groups = entries.reduce<T[][]>((days, entry) => {

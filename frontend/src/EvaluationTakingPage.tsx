@@ -59,10 +59,12 @@ export function EvaluationTakingPage({ actor }: { actor: SessionUser }) {
         <h1>Évaluations</h1>
       </div>
       {error && <p role="alert">{error}</p>}
-      <CollectionFrame {...collection} onChange={collection.changePage}>
-        {collection.failed && (
-          <p role="alert">Impossible de charger les évaluations.</p>
-        )}
+      <CollectionFrame
+        {...collection}
+        onChange={collection.changePage}
+        errorMessage="Impossible de charger les évaluations."
+        loadingMessage="Chargement des évaluations…"
+      >
         {loading ? (
           <p role="status">Chargement des évaluations…</p>
         ) : (

@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { beforeEach, expect, it, vi } from "vitest";
 
 import { SuperadminDashboard } from "./SuperadminDashboard";
@@ -139,7 +145,9 @@ it("cancels or reports a refused deactivation", async () => {
     screen.getByRole("button", { name: "Confirmer la désactivation" }),
   );
   await waitFor(() =>
-    expect(screen.getByRole("alert")).toHaveTextContent("refused"),
+    expect(
+      within(screen.getByRole("dialog")).getByRole("alert"),
+    ).toHaveTextContent("refused"),
   );
 });
 
@@ -162,7 +170,9 @@ it("shows loading and mutation failures while preserving the dialog", async () =
   });
   fireEvent.click(screen.getByRole("button", { name: "Valider" }));
   await waitFor(() =>
-    expect(screen.getByRole("alert")).toHaveTextContent("refused"),
+    expect(
+      within(screen.getByRole("dialog")).getByRole("alert"),
+    ).toHaveTextContent("refused"),
   );
   fireEvent.click(screen.getByRole("button", { name: "Annuler" }));
 });

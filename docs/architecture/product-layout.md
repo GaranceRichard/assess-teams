@@ -102,3 +102,6 @@ Le nouveau contenu reste utilisable immédiatement. La préférence
 La [qualification MEP-049](../quality/mep-049/README.md) exerce au tactile sans survol toutes les destinations des trois rôles, menu ouvert/replié, dans les deux thèmes à 390×844 ; clavier aussi aux trois formats desktop UX. La préférence de repli existante reste conservée entre pages dans le shell, sans promesse nouvelle après reload. Les formulaires, refus de sauvegarde et retours de focus sont vérifiés sans modification des composants MEP-048.
 
 MEP-049 conserve la page et la modale de passation pendant Retour/Avance lorsque sa sauvegarde est en attente ou refusée. Le hook useProductNavigation indexe les entrées du shell et inverse la traversée refusée, sans démonter la saisie. Un rechargement ou une sortie demande alors la confirmation native ; après sauvegarde, la navigation habituelle est autorisée. [Régression et limites](../quality/mep-049/history.md).
+
+
+[MEP-050](../quality/mep-050/README.md) distingue absence accessible et recherche sans résultat dans les collections : attente et échec prioritaires, compteur masqué en échec, effacement des filtres conservé. Les actions restent régies par les droits existants.

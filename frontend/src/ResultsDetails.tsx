@@ -14,7 +14,11 @@ export function ResultsDetails({
   return (
     <section className="results-details" aria-label="Scores détaillés">
       {visible.length === 0 && (
-        <p>Sélectionnez une ou plusieurs équipes pour les comparer.</p>
+        <p>
+          {teams.length === 0
+            ? "Aucune équipe avec un résultat exploitable pour cette version."
+            : "Sélectionnez une ou plusieurs équipes pour les comparer."}
+        </p>
       )}
       <div
         className="results-table-scroll"
