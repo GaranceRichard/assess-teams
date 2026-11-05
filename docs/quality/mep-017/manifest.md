@@ -1,7 +1,7 @@
-﻿# Manifeste MEP-017
+# Manifeste MEP-017
 
-Base Git : `76f486a0b84168f28229476cf04dffe094ffd81d`.
-Candidat : cette base et les huit sources identifiées dans le [relevé SHA-256](manifest.csv).
+Base Git initiale : `76f486a0b84168f28229476cf04dffe094ffd81d`.
+Candidat resynchronisé : parent `4793611227cc8b3d79fe366094118cdd49d2195e`, puis les huit sources identifiées dans le [relevé SHA-256](manifest.csv).
 Les empreintes lient chaque capture/mesure aux octets conservés ; aucun cookie, profil ou base livré.
 Windows, Node 24.20.0, Python 3.12.10, Playwright 1.63.0, Chromium complet 153.0.8010.12.
 Données fictives seulement, palette Vert, thèmes changés par la commande produit réelle.
@@ -24,7 +24,10 @@ Les tableaux de mesures contiennent les dimensions et le verdict des actions exe
 Le rapport distingue les acquis antérieurs, les cellules exécutées et les limites de la qualification locale.
 Les sources partagées inchangées restent identifiées par la base Git ; les huit sources du candidat sont hachées.
 
-Les sorties complètes locales seront conservées dans
+Les sorties complètes locales sont conservées dans
 `C:/Users/garan/Desktop/Projets/Assess-teams-MEP-017-evidence`, sans les profils ni les bases de test.
 Les captures/mesures utiles sont aussi versionnées ici ; leur présence distante ne dépend pas de cette archive locale.
 Les gates et la CI restent obligatoires et indépendants de ces preuves de recette.
+
+Le 2026-11-05, les 84 cellules et les 36 mesures natives finales sont régénérées sur ce parent intégrant MEP-050.
+Les preuves initiales de refus restent celles de la base du 3 novembre ; les messages et états vides MEP-050 sont préservés.

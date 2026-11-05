@@ -2,7 +2,7 @@ Base applicative : 76f486a0b84168f28229476cf04dffe094ffd81d, Windows/Chromium, 2
 Commande : npm run quality:targeted -- e2e e2e/responsive-collections.spec.ts
 Sonde finale avec themes produit reels ; CSS initial restaure temporairement puis correctif remis.
 
-  1) [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (day) 
+  1) [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (day)
 
     Error: expect(received).toBe(expected) // Object.is equality
 
@@ -23,7 +23,7 @@ Sonde finale avec themes produit reels ; CSS initial restaure temporairement pui
 
     Error Context: test-results\responsive-collections-lon-7a278-ination-at-UX-05-sizes-day--chromium\error-context.md
 
-  2) [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (night) 
+  2) [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (night)
 
     Error: expect(received).toBe(expected) // Object.is equality
 
@@ -45,5 +45,5 @@ Sonde finale avec themes produit reels ; CSS initial restaure temporairement pui
     Error Context: test-results\responsive-collections-lon-9783a-ation-at-UX-05-sizes-night--chromium\error-context.md
 
   2 failed
-    [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (day) 
-    [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (night) 
+    [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (day)
+    [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (night)

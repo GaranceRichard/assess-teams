@@ -1,6 +1,7 @@
 # MEP-017 — Tableaux et contenus sur petits écrans
 
-Qualification locale du 2026-11-03 par Codex, Windows/Chromium, palette Vert, données fictives.
+Qualification initiale du 2026-11-03 par Codex, Windows/Chromium, palette Vert, données fictives.
+Complétée le 2026-11-05 après resynchronisation sur `4793611` (MEP-050) ; seules les preuves finales sont régénérées.
 Base applicative : `76f486a0b84168f28229476cf04dffe094ffd81d` (SHA complet et empreintes dans le manifeste).
 [Contrat F08](../../backlog/source/mess/f08.md) · [fiche](../../backlog/planning/audit-20261027/fiches/MEP-017.md) ·
 [UX-05](../ux-acceptance.md) · [DoD](../definition-of-done.md).
