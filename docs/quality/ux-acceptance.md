@@ -47,6 +47,9 @@ Les contrôles manuels complètent les assertions existantes ; aucun test cité 
 | UX-08 — MEP-045/050 | Dans la passation, provoquer le refus 400 de sauvegarde du test, tenter Échap/Fermer, lever le refus puis « Réessayer la sauvegarde ». Observer en cours/erreur/succès. | Erreur visible et annoncée, note conservée, fermeture protégée tant que non sauvée ; « Note enregistrée » seulement après succès serveur. Géométrie des actions stable entre les états ; reprise conserve la valeur. Refus : perte de saisie, fermeture silencieuse ou succès avant réponse. | Rapports `dialog-taking-accessibility`, `evaluation-taking-layout`, `EvaluationTakingNavigation.test.tsx` ; séquence des états et réponse serveur expurgée. |
 | UX-09 — MEP-014/046/047/048/015/016 | Admin : Utilisateurs en chargement → liste vide → erreur 500 ; Résultats : choisir modèle/équipes, radar → données → critère historique → retour ; Pilotage : ouvrir une source autorisée. Viewer : consulter les seuls résultats complétés. | Enveloppe stable loading/vide/erreur, message explicite ; données et sélections conservées entre restitutions, axes/légende/actions accessibles, tableau consultable au clavier. Absence de données distincte d’une note 0 ; accès non autorisé refusé sans données. Refus : écran muet, sélection perdue, chiffre ambigu ou action inaccessible. | `shell-states`, `results-layout`, `results-history-layout`, `results-longitudinal`, `viewer-results`, `steering` et `ResultsPageErrors.test.tsx` ; captures des états et du retour avec mêmes équipes sélectionnées. |
 
+La [qualification complémentaire MEP-017](mep-017/README.md) inventorie les acquis UX-05, les cellules longues
+mesurées, le refus reproduit et le cycle natif 100–200–100, avec revue visuelle distincte.
+
 ## Réutiliser les preuves existantes
 
 Les noms E2E ci-dessus correspondent à `frontend/e2e/<nom>.spec.ts` ; les fichiers React sont dans

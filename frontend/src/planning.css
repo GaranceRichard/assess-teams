@@ -127,3 +127,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Let the page scroll before the collection becomes too short for a long row. */
+@media (min-width: 761px) and (max-height: 600px) {
+  .planning-page.product-page > .planning-workspace {
+    min-block-size: 24rem;
+  }
+}

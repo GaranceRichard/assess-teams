@@ -15,7 +15,7 @@ sont créées uniquement au survol/focus dans un portail fixe hors du scroll, pu
 à la navigation, au scroll ou au redimensionnement : aucun pseudo-élément invisible ne déborde.
 
 `product-layout.css` définit `product-page`, `page-content` et `CollectionFrame` ;
-`product-panels.css` adapte les panneaux fonctionnels, sans hauteur spécifique à une route.
+`product-panels.css` adapte les panneaux fonctionnels.
 La zone compacte de titre/actions/filtres précède le contenu flex occupant l’espace restant.
 `CollectionFrame` contient une région scrollable accessible au clavier, un header de tableau sticky
 et une pagination séparée du scroll. Loading/empty/error gardent cette enveloppe.
@@ -26,7 +26,10 @@ pour ne pas coincer les lignes sous un en-tête plus haut que la zone restante. 
 la collection reste bornée et sa pagination reste visible dans le viewport desktop.
 Les formulaires, questions, profil, sélection Results et observations scrollent dans leurs panneaux.
 Une page trop compacte (zoom/hauteur réduite) conserve un repli de scroll interne accessible,
-avec un minimum commun de huit rem pour garder une région interactive visible, sans hauteur par route.
+avec un minimum commun de huit rem pour garder une région interactive visible. À partir de 761 px de largeur
+et au maximum 600 px de hauteur, Planification conserve un minimum de 24 rem pour ses panneaux : la page défile
+avant que les titres et la pagination ne réduisent excessivement la région des lignes longues.
+La [qualification MEP-017](../quality/mep-017/README.md) mesure ce cas et les cellules UX-05 complémentaires.
 Les modales sont bornées par `100dvh - 2rem` et gardent leurs actions accessibles par scroll interne.
 
 Sous 761 px, le document retrouve son flux naturel ; panneaux empilés, menu avec retour à la ligne sans scroll horizontal,

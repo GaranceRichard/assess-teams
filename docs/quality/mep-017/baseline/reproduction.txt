@@ -1,0 +1,49 @@
+Base applicative : 76f486a0b84168f28229476cf04dffe094ffd81d, Windows/Chromium, 2026-11-03.
+Commande : npm run quality:targeted -- e2e e2e/responsive-collections.spec.ts
+Sonde finale avec themes produit reels ; CSS initial restaure temporairement puis correctif remis.
+
+  1) [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (day) 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+       at responsive-geometry.ts:28
+
+      26 |   expect.soft(bounds.top).toBeGreaterThanOrEqual(0);
+      27 |   expect.soft(bounds.bottom).toBeLessThanOrEqual(bounds.height);
+    > 28 |   expect.soft(bounds.hit).toBe(true);
+         |                           ^
+      29 |   return bounds;
+      30 | }
+      31 |
+        at reachable (C:\Users\garan\Desktop\Projets\Assess-teams-MEP-017\frontend\e2e\responsive-geometry.ts:28:27)
+        at C:\Users\garan\Desktop\Projets\Assess-teams-MEP-017\frontend\e2e\responsive-collections.spec.ts:97:13
+
+    Error Context: test-results\responsive-collections-lon-7a278-ination-at-UX-05-sizes-day--chromium\error-context.md
+
+  2) [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (night) 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+       at responsive-geometry.ts:28
+
+      26 |   expect.soft(bounds.top).toBeGreaterThanOrEqual(0);
+      27 |   expect.soft(bounds.bottom).toBeLessThanOrEqual(bounds.height);
+    > 28 |   expect.soft(bounds.hit).toBe(true);
+         |                           ^
+      29 |   return bounds;
+      30 | }
+      31 |
+        at reachable (C:\Users\garan\Desktop\Projets\Assess-teams-MEP-017\frontend\e2e\responsive-geometry.ts:28:27)
+        at C:\Users\garan\Desktop\Projets\Assess-teams-MEP-017\frontend\e2e\responsive-collections.spec.ts:97:13
+
+    Error Context: test-results\responsive-collections-lon-9783a-ation-at-UX-05-sizes-night--chromium\error-context.md
+
+  2 failed
+    [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (day) 
+    [chromium] › e2e\responsive-collections.spec.ts:12:3 › long collections retain data, actions and pagination at UX-05 sizes (night) 

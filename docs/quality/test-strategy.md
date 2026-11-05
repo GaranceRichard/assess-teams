@@ -181,3 +181,9 @@ Les [dates et heures de présentation](../architecture/date-time-presentation.md
 Une recherche automatisée des formatages dispersés complète les contrôles des attributs techniques conservés.
 
 La [recette MEP-049](mep-049/README.md) ajoute les suites mobile-navigation et mobile-dialogs : trois rôles, deux thèmes, tactile sans survol, repli conservé, focus clavier aux formats UX, cibles mesurées et refus sans perte de saisie protégée. Vidéos émulées, relecture visuelle et recette physique/cible restent explicitement distinctes.
+
+
+MEP-017 complète UX-05 avec `responsive-collections` (textes longs, pages 1/2, géométrie et actions),
+`responsive-dialogs` (cinq dialogues, faible hauteur/mobile, clavier) et deux recettes natives locales
+`frontend/audits/responsive*-zoom.audit.ts`. Les mesures et la relecture visuelle sont distinguées
+dans le [rapport](mep-017/README.md) ; aucune émulation de viewport ne remplace le zoom navigateur.
