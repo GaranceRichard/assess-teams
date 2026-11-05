@@ -1,4 +1,4 @@
-# MEP-050 — Qualification et proposition de clôture
+# MEP-050 — Qualification et clôture approuvée
 
 Campagne du 2026-11-03, base `76f486a0b84168f28229476cf04dffe094ffd81d`.
 [Contrat FEAT-056](../../backlog/source/mess/f08.md) ·
@@ -79,10 +79,13 @@ Un zéro mesuré reste couvert par les parcours Results existants ; aucun calcul
   publié restent les conditions finales de livraison, confirmées dans le compte rendu de publication.
 - Pas de PR ; publication via `npm run publish`, suivi CI et fast-forward sûr du main principal.
 
-## Décision proposée
+## Clôture fonctionnelle approuvée le 2026-11-05
 
-Clôture fonctionnelle MEP-050 proposée sur les preuves de cette correction, après gates et CI verts.
-**Le registre reste Ouvert / N/A jusqu’à décision explicite de l’utilisateur.**
-Cette proposition ne clôture aucun autre PBI, ne requalifie pas MEP-047 et ne vaut pas recette MESS.
+L’utilisateur accepte ce rapport, les preuves associées et le correctif publié `4793611`.
+La [décision et revue DoD documentaires](cloture.md) portent la clôture : le registre canonique
+inscrit **Réalisé / 2026-11-05**. La campagne ci-dessus reste attribuée au correctif ; ses
+formulations de préparation et de livraison décrivent cette mission initiale, pas des travaux à relancer.
+Aucune campagne applicative n’est rejouée pour le lot documentaire de clôture.
+Aucun autre PBI n’est clôturé, MEP-047 n’est pas requalifié et aucune recette MESS n’est déduite.
 Le parcours existant de zoom natif 200 % des transitions passe dans la suite globale ; les états vides MEP-050 ne sont pas qualifiés spécifiquement à ce zoom. Tactile physique et environnement MESS non exécutés.
 Les captures automatiques doivent être distinguées de leur relecture visuelle réellement effectuée.
