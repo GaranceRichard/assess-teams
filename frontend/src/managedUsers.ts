@@ -23,7 +23,19 @@ export type InviteUserInput = Required<
 >;
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(url, { credentials: "same-origin", ...init });
+  let response: Response;
+  try {
+    response = await fetch(url, { credentials: "same-origin", ...init });
+  } catch {
+    throw new Error(
+      "La connexion au serveur a échoué. Votre saisie est conservée ; vérifiez votre connexion avant de réessayer.",
+    );
+  }
+  if (response.status >= 500) {
+    throw new Error(
+      "Le service est indisponible. Votre saisie est conservée ; réessayez plus tard.",
+    );
+  }
   if (!response.ok) {
     const data = await response.json().catch(() => ({}));
     throw new Error(
