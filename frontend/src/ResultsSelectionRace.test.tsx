@@ -24,9 +24,14 @@ beforeEach(() => {
   api.listResultFamilies.mockResolvedValue(resultFamilies);
   api.getFamilyComparison.mockResolvedValue(resultFamilyComparison);
 });
-it.each(["success", "error"])(
-  "ignores obsolete family list %s on organization switch",
-  async (outcome) => {
+it.each([
+  ["success", "success"],
+  ["error", "success"],
+  ["success", "error"],
+  ["error", "error"],
+])(
+  "ignores obsolete family list %s after current %s",
+  async (outcome, current) => {
     let resolve!: (data: unknown) => void;
     let reject!: (error: Error) => void;
     api.listResultFamilies.mockReturnValueOnce(
@@ -35,6 +40,8 @@ it.each(["success", "error"])(
         reject = no;
       }),
     );
+    if (current === "error")
+      api.listResultFamilies.mockRejectedValueOnce(new Error("B failed"));
     render(
       <ResultsPage
         actor={{ ...resultActor, is_superuser: true }}
@@ -48,14 +55,26 @@ it.each(["success", "error"])(
     fireEvent.change(screen.getByLabelText("Organisation"), {
       target: { value: "2" },
     });
-    await screen.findByRole("option", { name: "Maturité" });
+    if (current === "success")
+      await screen.findByRole("option", { name: "Maturité" });
+    else await screen.findByRole("alert");
     await act(async () => {
       if (outcome === "success") resolve([]);
       else reject(new Error("old request"));
     });
     expect(screen.getByLabelText("Organisation")).toHaveValue("2");
-    expect(screen.getByRole("option", { name: "Maturité" })).toBeVisible();
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    if (current === "success") {
+      expect(screen.getByRole("option", { name: "Maturité" })).toBeVisible();
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole("option", { name: "Maturité" }),
+      ).not.toBeInTheDocument();
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Impossible de charger les modèles",
+      );
+    }
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
     fireEvent.change(screen.getByLabelText("Organisation"), {
       target: { value: "" },
     });

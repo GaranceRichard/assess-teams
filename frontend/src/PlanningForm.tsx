@@ -1,5 +1,5 @@
-import { versionLabel } from "./evaluationVersionLabel";
-import { useState } from "react";
+import { PlanningEvaluationOption } from "./PlanningEvaluationOption";
+import { useRef, useState } from "react";
 
 import { DateInput } from "./DateInput";
 import type { Evaluation } from "./evaluations";
@@ -13,6 +13,8 @@ import {
 import type { Team } from "./teams";
 
 type Props = {
+  disabled?: boolean;
+  loading?: boolean;
   onSavingChange?: (saving: boolean) => void;
   organizationId: number;
   teams: Team[];
@@ -23,6 +25,8 @@ type Props = {
 };
 
 export function PlanningForm({
+  disabled = false,
+  loading = false,
   onSavingChange,
   organizationId,
   teams,
@@ -43,6 +47,7 @@ export function PlanningForm({
     String(schedule?.assignee_id ?? ""),
   );
   const [saving, setSaving] = useState(false);
+  const pending = useRef(false);
   const selectedTeam = teams.find((team) => team.id === Number(teamId));
   const selectedEvaluation = evaluations.find(
     (evaluation) => evaluation.id === Number(evaluationId),
@@ -53,6 +58,8 @@ export function PlanningForm({
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (pending.current || disabled) return;
+    pending.current = true;
     setSaving(true);
     onSavingChange?.(true);
     try {
@@ -72,6 +79,7 @@ export function PlanningForm({
     } catch {
       // The page owns and displays the API error.
     } finally {
+      pending.current = false;
       setSaving(false);
       onSavingChange?.(false);
     }
@@ -79,99 +87,96 @@ export function PlanningForm({
 
   return (
     <form className="planning-form" onSubmit={(event) => void submit(event)}>
-      <label>
-        Équipe
-        <select
-          value={teamId}
-          onChange={(event) => {
-            setTeamId(event.target.value);
-          }}
-          required
-        >
-          <option value="">Choisir une équipe</option>
-          {teams.map((team) => (
-            <option key={team.id} value={team.id}>
-              {team.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      {selectedTeam && (
+      {loading && <p role="status">Chargement des équipes…</p>}
+      <fieldset className="planning-fields" disabled={saving || disabled}>
         <label>
-          Responsable de l’évaluation
+          Équipe
           <select
-            value={assigneeId}
-            onChange={(event) => setAssigneeId(event.target.value)}
+            value={teamId}
+            onChange={(event) => {
+              setTeamId(event.target.value);
+            }}
             required
           >
-            <option value="">Choisir un responsable</option>
-            {assignees.map((assignee) => (
-              <option key={assignee.id} value={assignee.id}>
-                {assignee.identifier} — {assignee.user_type}
+            <option value="">Choisir une équipe</option>
+            {teams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.name}
               </option>
             ))}
           </select>
         </label>
-      )}
-      <label>
-        Modèle d’évaluation
-        <select
-          value={evaluationId}
-          onChange={(event) => setEvaluationId(event.target.value)}
-          required
-        >
-          <option value="">Choisir un modèle</option>
-          {evaluations.map((evaluation) => (
-            <option
-              disabled={evaluation.status !== "VALIDATED"}
-              key={evaluation.id}
-              value={evaluation.id}
+        {selectedTeam && (
+          <label>
+            Responsable de l’évaluation
+            <select
+              value={assigneeId}
+              onChange={(event) => setAssigneeId(event.target.value)}
+              required
             >
-              {versionLabel(evaluation.family_name, evaluation.version)}
-              {evaluation.status === "ARCHIVED"
-                ? " — Archivé (historique)"
-                : ""}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Planifier
-        <select
-          value={mode}
-          onChange={(event) => setMode(event.target.value as ScheduleMode)}
-        >
-          {Object.entries(scheduleLabels).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
-      {mode !== "immediate" && (
+              <option value="">Choisir un responsable</option>
+              {assignees.map((assignee) => (
+                <option key={assignee.id} value={assignee.id}>
+                  {assignee.identifier} — {assignee.user_type}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
         <label>
-          Première date
-          <DateInput
-            min={new Date().toISOString().slice(0, 10)}
-            value={firstDueDate}
-            onChange={setFirstDueDate}
+          Modèle d’évaluation
+          <select
+            value={evaluationId}
+            onChange={(event) => setEvaluationId(event.target.value)}
             required
-          />
+          >
+            <option value="">Choisir un modèle</option>
+            {evaluations.map((evaluation) => (
+              <PlanningEvaluationOption
+                key={evaluation.id}
+                evaluation={evaluation}
+              />
+            ))}
+          </select>
         </label>
-      )}
-      {historicalEvaluation && (
-        <p>
-          Référence historique : choisissez un modèle validé pour enregistrer
-          des modifications.
-        </p>
-      )}
-      <button disabled={saving || historicalEvaluation} type="submit">
-        {saving
-          ? "Enregistrement…"
-          : schedule
-            ? "Enregistrer les modifications"
-            : "Planifier l’évaluation"}
-      </button>
+        <label>
+          Planifier
+          <select
+            value={mode}
+            onChange={(event) => setMode(event.target.value as ScheduleMode)}
+          >
+            {Object.entries(scheduleLabels).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+        {mode !== "immediate" && (
+          <label>
+            Première date
+            <DateInput
+              min={new Date().toISOString().slice(0, 10)}
+              value={firstDueDate}
+              onChange={setFirstDueDate}
+              required
+            />
+          </label>
+        )}
+        {historicalEvaluation && (
+          <p>
+            Référence historique : choisissez un modèle validé pour enregistrer
+            des modifications.
+          </p>
+        )}
+        <button disabled={saving || historicalEvaluation} type="submit">
+          {saving
+            ? "Enregistrement…"
+            : schedule
+              ? "Enregistrer les modifications"
+              : "Planifier l’évaluation"}
+        </button>
+      </fieldset>
     </form>
   );
 }

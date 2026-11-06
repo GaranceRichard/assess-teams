@@ -1,11 +1,9 @@
 import { planningCandidates } from "./planningCandidates";
 import { CollectionFrame } from "./CollectionFrame";
 import { usePagedCollection } from "./usePagedCollection";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import type { SessionUser } from "./auth";
-import { listEvaluations, type Evaluation } from "./evaluations";
-import { listOrganizations, type Organization } from "./organizations";
 import { PlanningForm } from "./PlanningForm";
 import {
   createSchedule,
@@ -17,16 +15,15 @@ import {
 } from "./planning";
 import { ScheduleEditDialog } from "./ScheduleDialogs";
 import { ScheduleList } from "./ScheduleList";
-import { listTeams, type Team } from "./teams";
+import { usePlanningContext } from "./usePlanningContext";
 import "./planning.css";
 
 type Props = { actor: SessionUser };
 
 export function PlanningPage({ actor }: Props) {
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [organizationId, setOrganizationId] = useState<number | null>(null);
+  const context = usePlanningContext();
+  const { organizations, evaluations, teams, organizationId } = context;
+  const [saving, setSaving] = useState(false);
   const loadSchedules = useCallback(
     (page: number) => listSchedules(page, organizationId),
     [organizationId],
@@ -39,31 +36,6 @@ export function PlanningPage({ actor }: Props) {
   const { items: schedules, setItems: setSchedules } = collection;
   const [editing, setEditing] = useState<EvaluationSchedule | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let active = true;
-    Promise.all([listOrganizations(), listEvaluations()])
-      .then(([loadedOrganizations, loadedEvaluations]) => {
-        if (!active) return;
-        setOrganizations(loadedOrganizations);
-        setEvaluations(loadedEvaluations);
-        if (loadedOrganizations.length === 1)
-          setOrganizationId(loadedOrganizations[0].id);
-      })
-      .catch(() => {
-        if (active) setError("Impossible de charger la planification.");
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (organizationId === null) return;
-    listTeams(organizationId)
-      .then(setTeams)
-      .catch(() => setError("Impossible de charger les équipes."));
-  }, [organizationId]);
 
   async function create(input: ScheduleInput) {
     try {
@@ -125,15 +97,18 @@ export function PlanningPage({ actor }: Props) {
         <p className="eyebrow">Administration</p>
         <h1>Planification</h1>
       </div>
-      {error && !editing && <p role="alert">{error}</p>}
+      {(context.error || error) && !editing && (
+        <p role="alert">{context.error || error}</p>
+      )}
+      {context.loading && <p role="status">Chargement de la planification…</p>}
       <label className="planning-organization" htmlFor="planning-organization">
         Organisation
         <select
+          disabled={context.loading || saving}
           id="planning-organization"
           value={organizationId ?? ""}
           onChange={(event) => {
-            setTeams([]);
-            setOrganizationId(
+            context.selectOrganization(
               event.target.value ? Number(event.target.value) : null,
             );
           }}
@@ -151,6 +126,9 @@ export function PlanningPage({ actor }: Props) {
       ) : (
         <div className="planning-workspace page-content">
           <PlanningForm
+            loading={context.loadingTeams}
+            disabled={context.loadingTeams || Boolean(context.error)}
+            onSavingChange={setSaving}
             assignees={organizationAssignees}
             organizationId={organizationId}
             teams={teams}

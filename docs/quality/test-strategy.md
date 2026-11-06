@@ -187,3 +187,5 @@ MEP-017 complète UX-05 avec `responsive-collections` (textes longs, pages 1/2, 
 `responsive-dialogs` (cinq dialogues, faible hauteur/mobile, clavier) et deux recettes natives locales
 `frontend/audits/responsive*-zoom.audit.ts`. Les mesures et la relecture visuelle sont distinguées
 dans le [rapport](mep-017/README.md) ; aucune émulation de viewport ne remplace le zoom navigateur.
+
+[MEP-018](mep-018/README.md) qualifie les attentes, les quatre ordres de succes/erreur et les mutations retardees : `loading-context.spec.ts`, `planning-pending.spec.ts` et regressions React de Planification/Pilotage.

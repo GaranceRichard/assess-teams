@@ -134,3 +134,7 @@
     min-block-size: 24rem;
   }
 }
+
+.planning-fields {
+  display: contents;
+}

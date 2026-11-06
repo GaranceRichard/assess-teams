@@ -42,7 +42,7 @@ export function SteeringPage({
         )
       )}
       {state.loading && <p role="status">Chargement du pilotage…</p>}
-      {state.error && <p role="alert">{state.error}</p>}
+      {state.error && !state.data && <p role="alert">{state.error}</p>}
       {!state.loading && !state.error && state.organizations.length === 0 && (
         <p>Aucune organisation accessible.</p>
       )}
@@ -54,11 +54,13 @@ export function SteeringPage({
         )}
       {state.data && (
         <>
-          <SteeringSummary data={state.data} />
+          {!state.error && <SteeringSummary data={state.data} />}
           <CollectionFrame
             page={state.page}
             count={state.data.pagination?.count ?? state.data.teams.length}
             loading={state.loading}
+            failed={Boolean(state.error)}
+            errorMessage={state.error}
             onChange={state.changePage}
           >
             <SteeringTeams data={state.data} onNavigate={onNavigate} />
