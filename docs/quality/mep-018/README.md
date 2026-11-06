@@ -85,3 +85,20 @@ README, agent-rules, charte, DoD, strategie de tests, fondamentaux, contrat API/
 product-layout relus : aucune evolution backend, schema, migration, droit ou architecture.
 README, strategie et lien de qualification sont actualises ; les autres regles restent applicables.
 Les fichiers maintenus restent sous 200 lignes. Les gates automatiques restent bloquants.
+
+## Livraison technique et proposition de cloture - 2026-11-06
+
+Le candidat publie et qualifie est `8609c857b4404d5b1addfe8c7174a4c02fca8085`,
+apres integration de MEP-017 et MEP-051 sans alteration de leurs perimetres.
+Le pre-push proportionne passe : documentation, lint/format/TypeScript, 133 tests React dependants,
+150 tests navigateur applicatifs et 10 tests de demo ; aucun test backend requis par ce diff frontend.
+La relecture des captures du candidat confirme attente/protection desktop clair et refus avec saisies
+conservees sur mobile sombre. Le main principal a ete constate propre et synchronise en fast-forward.
+
+La [CI du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/42273721774)
+est verte (tentative 2). La premiere execution avait ete annulee apres un push documentaire concurrent ;
+la meme CI a ete relancee integralement apres la fin de l'autre execution, sans changement du workflow.
+
+Les quatre scenarios fonctionnels sont conformes sur ces preuves : cloture fonctionnelle proposee.
+La reserve de procedure initiale README reste tracee ci-dessus. Le registre canonique reste Ouvert
+jusqu'a validation de la proposition ; cette livraison ne constitue pas un PV cible ni un GO MESS.
