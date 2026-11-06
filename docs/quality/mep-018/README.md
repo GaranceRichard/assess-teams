@@ -76,6 +76,8 @@ Le statut canonique reste Ouvert ; cloture proposee sur preuves apres gates et C
 
 Resynchronisation du 2026-11-06 sur `62fb3ab` : les deux ajouts documentaires et la regle responsive
 MEP-017 de faible hauteur sont conserves ; le fieldset de sauvegarde reste distinct.
+Qualification apres rebase du candidat `e997f28d6278a64ac7b1d41288506b8a3ab6a5bd` : 17 tests React et 17 E2E passes,
+dont les collections/dialogues responsive en clair et sombre. Lint, formatage et TypeScript passent.
 
 ## Revue documentaire / DoD
 
