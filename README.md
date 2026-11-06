@@ -47,7 +47,7 @@ MEP-055 prépare le [contrat des prérequis d’installation MESS](docs/operatio
 
 ## Validations proportionnées
 
-Chantier en revue : [rationalisation des validations et des quality gates](docs/quality/validation-rationalisation/README.md), audit des relances UX, frontières par domaine et preuves stables ; publication soumise à validation explicite. Le [dispositif](docs/quality/validation-costs.md) conserve les seuils, la sécurité, la CI indépendante et la qualification MESS exhaustive. Le [partitionnement backend](docs/quality/backend-ci-performance.md), les [protections MEP-043](docs/quality/mep-043/README.md), la [CI](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent applicables ; aucun changement du circuit direct de publication.
+Chantier en revue : [rationalisation des validations et des quality gates](docs/quality/validation-rationalisation/README.md), audit des relances UX, frontières par domaine et preuves stables ; publication soumise à validation explicite. Le [dispositif](docs/quality/validation-costs.md) conserve les seuils, la sécurité, la CI indépendante et la qualification MESS exhaustive. Le [partitionnement backend](docs/quality/backend-ci-performance.md), les [protections MEP-043](docs/quality/mep-043/README.md), la [CI](docs/quality/ci.md) et son [bilan mesuré](docs/quality/ci-performance.md) restent applicables ; aucun changement du circuit direct de publication. [MEP-012 — qualification et proposition C06](docs/quality/mep-012/qualification.md) réconcilie les preuves historiques ; validation explicite attendue, Bloqué/N/A et indicateurs conservés.
 
 ## Socle technique
 
