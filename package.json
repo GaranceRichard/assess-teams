@@ -23,6 +23,6 @@
     "quality:benchmark": "node ./scripts/quality/benchmark.mjs"
   },
   "devDependencies": {
-    "concurrently": ">=9.2.0 <10"
+    "concurrently": "^9.2.5"
   }
 }

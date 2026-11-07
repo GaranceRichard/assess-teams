@@ -60,15 +60,11 @@ def test_caches_preserve_fresh_installs_and_real_e2e_prerequisites() -> None:
     assert browser_installs == ["npx playwright install --with-deps --only-shell chromium"]
 
 
-def test_obsolete_runs_are_cancelled_without_duplicate_push_and_pr_suites() -> None:
+def test_main_and_pr_triggers_preserve_exact_diff_and_independent_publications() -> None:
     # PyYAML's YAML 1.1 loader interprets the GitHub Actions key `on` as True.
     events = SELECTIVE[True]
     assert events["push"]["branches"] == ["main"]
     assert "pull_request" in events
-    assert SELECTIVE["concurrency"]["cancel-in-progress"] is True
-    group = SELECTIVE["concurrency"]["group"]
-    assert "github.workflow" in group
-    assert "github.event.pull_request.number || github.ref" in group
     checkout = JOBS["repository"]["steps"][0]
     assert checkout["with"]["fetch-depth"] == 0
     assert "QUALITY_DIFF_BASE" in JOBS["repository"]["env"]

@@ -128,6 +128,9 @@ Les dépendances réellement transversales/inconnues, suppressions applicatives 
 
 ## Isolation, publication et exploitation
 
+La concurrence CI isole chaque publication par run_id, avec annulation limitée aux mises à jour
+d’une même PR ; aucune file partagée entre commits main. [Preuves et réserve npm](ci-npm-20261106/README.md).
+
 Ports dérivés du chemin, temporaires et SQLite restent isolés par worktree/shard.
 Les overrides `ASSESS_E2E_*` restent disponibles ; une base E2E explicitement choisie impose une exécution fraîche.
 Seule la base jetable canonique est réinitialisée. Deux gates simultanés dans le même worktree sont refusés.

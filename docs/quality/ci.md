@@ -29,6 +29,10 @@ MEP-043 ne bloque plus les autres publications ; aucune nouvelle architecture n�
 
 ## CI ordinaire
 
+Chaque push main utilise un groupe de concurrence propre au run ; un nouveau push ne peut ni
+annuler sa validation active ni remplacer sa validation en attente. Le remplacement des validations
+obsolètes reste limité à une même PR. [Incident, tests et qualification npm](ci-npm-20261106/README.md).
+
 [`quality.yml`](../../.github/workflows/quality.yml) calcule son plan à partir du SHA de base PR ou du
 `before` du push et du candidat réellement exécuté (`github.sha`, merge synthétique pour les PR).
 Pas de filtre de chemins GitHub susceptible de laisser un required check indéfiniment absent.
