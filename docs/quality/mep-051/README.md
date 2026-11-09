@@ -93,3 +93,10 @@ les conditions de livraison ; leurs résultats finaux sont donnés au compte ren
 
 Clôture fonctionnelle **proposée sur ces preuves**, après livraison verte ; statut canonique MEP-051
 laissé Ouvert en attente de décision. MEP-017/018, recette cible MEP-069/070 et GO MESS restent distincts.
+
+## Qualification finale indépendante
+
+La [qualification finale du 2026-11-09](qualification-finale.md) confronte les pièces intègres,
+la CI exacte et l'exhaustive ultérieure, avec une [vérification chronologique du README](chronologie.md).
+Clôture proposée sans écart bloquant identifié ; approbation fonctionnelle toujours requise.
+Le statut reste Ouvert / N/A, sans recette MESS déduite.

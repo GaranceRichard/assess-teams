@@ -77,3 +77,19 @@ E2E complets : 134 parcours applicatifs et 10 parcours de démo réussis ; build
 | `validation-frontend.json` | 214 | `2bf3d373f6906c36d6404bb55a66a5b739755fe557757fcb6b3023ebdb7e21b3` |
 | `validation-metrics.jsonl` | 1144 | `7b311159cd697c425cdf49042bbeb54eb67833e03a3a5561efa072dbf3c5a688` |
 | `validation-plan.json` | 1447 | `4445e9202c8362b6fc1dff879d96ef7e9300927ea9dbd8d378064447d1705f67` |
+
+## Rapprochement final du 2026-11-09
+
+Les 18 pièces ci-dessus et les quatre empreintes d'entrées ont été vérifiées conformes.
+La [qualification finale](qualification-finale.md) distingue la campagne locale initiale
+(134 E2E applicatifs + 10 démo) de la CI du SHA exact publié (138 + 10), relue dans son journal.
+Aucun nouveau test applicatif n'est exécuté pour ce rapprochement documentaire.
+
+Pièces de publication et resynchronisation également relues dans le sous-dossier local
+`resynchronisation` ; empreintes relevées lors du présent examen, distinctes de l'inventaire initial :
+
+| Pièce | Octets | SHA-256 |
+| --- | ---: | --- |
+| `resynchronisation/publication.txt` | 830684 | `629d2a9a08eb5767ac712bdf3e30b07e564f748c0d0f3f35373267e9e4c1fa70` |
+| `resynchronisation/ci.json` | 9957 | `03daff6a34d0ae78eef39f73fe451eabb0605d974eb1c8ae6e83a4556f3bcc8e` |
+| `resynchronisation/relecture.txt` | 1723 | `2197868467b4810a2d8717946d11f7da5e43ae302366c7ae6a63464378d44d93` |
