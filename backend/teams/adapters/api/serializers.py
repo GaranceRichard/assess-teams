@@ -6,6 +6,19 @@ from identities.models import Organization, User
 from teams.models import Team
 
 
+class TeamDetailSerializer(serializers.ModelSerializer):
+    organization_id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Team
+        fields = ("id", "name", "organization_id", "is_active")
+        read_only_fields = fields
+
+
+class TeamDetailErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField()
+
+
 class TeamCoachSerializer(serializers.ModelSerializer):
     identifier = serializers.CharField(source="username")
 

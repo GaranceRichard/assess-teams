@@ -153,21 +153,8 @@ Elle ne choisit ni ne supprime aucun rattachement. Ces conflits doivent être r�
 
 ## Gestion des équipes d’une organisation
 
-`GET /api/admin/organizations/{organization_id}/teams/` liste les équipes actives de l’organisation sélectionnée.
-Le paramètre optionnel `include_archived=true` inclut aussi les équipes archivées pour les sélecteurs des Logs,
-sans modifier la liste active par défaut ni son scope. Une valeur invalide retourne `400`.
-`POST` sur la même route accepte exactement `name` et `coach_ids`, crée une équipe rattachée à cette seule
-organisation et peut lui affecter plusieurs Coachs. Le nom nettoyé est obligatoire et unique sans tenir compte
-de la casse dans l’organisation, y compris parmi les équipes archivées ; une autre organisation peut réutiliser
-ce nom. Chaque Coach doit être membre courant ; seul un inactif local déjà affecté peut être conservé (`400` sinon).
-
-`PUT /api/admin/teams/{team_id}/` remplace le nom et la liste courante des Coachs sans changer l’organisation.
-`DELETE` archive l’équipe et retourne `204` : elle disparaît de la liste active sans suppression physique. Les
-deux opérations retournent `404` pour une équipe inexistante, archivée ou hors périmètre.
-
-Ces routes exigent une session active de Superadmin ou d’Admin. Le Superadmin agit dans toute organisation ;
-l’Admin agit uniquement dans une organisation dont il est membre. Un Coach ou Viewer reçoit `403`. Le sélecteur
-du menu Équipes impose `organization_id` ; les [réponses MEP-011](organization-isolation.md) masquent les identités courantes hors organisation sans supprimer les liens historiques.
+Le [contrat Équipes](teams-api.md) décrit liste/création, GET détail actif ou archivé minimal
+Admin/Superadmin et PUT/DELETE limités aux actifs. Coach reste refusé en attente de C04.
 
 ## Modèles, questions et planification
 

@@ -26,7 +26,7 @@ ACTIONS = [
     ("organization-detail", "delete", {"root"}),
     ("organization-members", "put", ADMINS),
     ("team-list", "get post", ADMINS),
-    ("team-detail", "put delete", ADMINS),
+    ("team-detail", "get put delete", ADMINS),
     ("evaluation-list", "get post", ADMINS),
     ("evaluation-detail", "put delete", ADMINS),
     ("evaluation-new-version", "post", ADMINS),

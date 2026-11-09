@@ -75,9 +75,9 @@ Sans organisation, un Coach ne voit aucun utilisateur et un Viewer aucun résult
 
 ## Périmètre livré — gestion des organisations et équipes
 
-Le Superadmin crée et supprime physiquement les organisations. Un Admin consulte et renomme uniquement son organisation,
-et peut en gérer les Coachs et Viewers sans jamais modifier les Admin qui y sont rattachés.
-Le menu Équipes permet de choisir une organisation accessible, puis de créer, renommer, archiver ses équipes et de leur affecter un ou plusieurs Coachs de cette organisation. Les archives ne sont pas encore consultables ou réactivables. Une organisation utilisée par une passation commencée est protégée contre la suppression ; les autres dépendances restent soumises à l’arbitrage produit.
+La gestion des organisations conserve les droits et protections du [contrat API](docs/architecture/backend-api.md).
+Le [contrat Équipes](docs/architecture/teams-api.md) ajoute le GET TEAM-003 actif/archivé minimal Admin/Superadmin.
+Création, nom, Coachs et archivage sont préservés ; C04 reste ouvert, TEAM-003 non clôturé, TEAM-005/006/007 distincts.
 
 ## Périmètre livré — modèle d’évaluation
 

@@ -67,7 +67,7 @@ Tous les chemins ci-dessous sont préfixés par `/api/`. Les méthodes absentes 
 | Session, profil, Dashboard | `session/` GET/PATCH, login/logout POST, `dashboard/` GET | Django recharge l’identité ; préférences sans cible tierce ; profil/activité filtrés, paramètres forgés sans effet. |
 | Identités | `users/` POST ; `admin/users/` GET/POST ; `{id}/` PUT/DELETE ; deactivate/reactivate POST | Création technique Superadmin ; scope membres avant cible ; hiérarchie puis transition atomique, recherche après scope. |
 | Organisations | `admin/organizations/` GET/POST, `{id}/` GET/PUT/DELETE, `{id}/members/` PUT | `visible_organizations`, cardinalité, Admins protégés, transaction et verrou avant mutation de membres. |
-| Équipes | `admin/organizations/{id}/teams/` GET/POST, `admin/teams/{id}/` PUT/DELETE | Organisation accessible, équipe active ; références Coach résolues dans l’organisation, données courantes filtrées à la restitution. |
+| Équipes | `admin/organizations/{id}/teams/` GET/POST, `admin/teams/{id}/` GET/PUT/DELETE | Organisation accessible ; GET détail actif/archivé minimal Admin/Superadmin, PUT/DELETE actifs seulement ; Coach refusé (C04). Références Coach locales. |
 | Modèles | `admin/evaluations/` GET/POST ; `{id}/` PUT/DELETE ; validate/archive/versions POST | `visible_evaluations`, verrou de brouillon/version, propriétaire conservé ; filtre de liste ajouté au scope. |
 | Questions | `admin/evaluations/{id}/questions/` GET/POST ; `admin/questions/{id}/` PUT/DELETE | Parent et question filtrés par organisation ; pas de mutation d’une version immuable. |
 | Planning | `admin/planning/` GET/POST ; `{id}/` PUT/DELETE | Cible scopée et chacune des quatre références validée, transaction conservée ; exception Superadmin limitée à soi. |
@@ -94,8 +94,8 @@ Les tests d’inventaire MEP-008 et des mots de passe restent applicables.
   Le CRUD local, les familles et les résultats n’accordent aucun partage.
 - ARB-ORG-005 / ORG-004 : suppression d’organisation avec dépendances autres que passations
   commencées reste ouverte. La protection historique existante est testée, sans redéfinir les cascades.
-- TEAM-006/007 : consultation générale des archives et réactivation non livrées ; seul le filtre
-  existant des archives et les résultats historiques sont contrôlés ici.
+- TEAM-003 : [GET actif/archivé Admin/Superadmin](teams-api.md) livré sans ouverture Coach (C04).
+  TEAM-006/007 : liste dédiée d'archives et réactivation non livrées ; filtre Logs préservé.
 - MEP-037 garde la matrice générale des rôles/navigation ; MEP-038 garde exports et accès indirects.
   Les filtres/relations déjà présents sont testés ici pour ne laisser aucune fuite démontrée.
 - Les conflits d’unicité d’identité demeurent des validations globales de USER-004, sans révéler

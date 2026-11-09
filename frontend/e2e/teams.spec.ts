@@ -50,11 +50,35 @@ test("an Admin manages an organization's team and its coaches", async ({
   await expect(teamRow).toContainText("Delivery updated");
   await expect(teamRow).toContainText("team-coach-two-e2e");
 
+  const organizationId = await page
+    .getByRole("combobox", { name: "Organisation" })
+    .inputValue();
+  const teamsResponse = await page.request.get(
+    `/api/admin/organizations/${organizationId}/teams/`,
+  );
+  expect(teamsResponse.status()).toBe(200);
+  const [team] = await teamsResponse.json();
+  const detailUrl = `/api/admin/teams/${team.id}/`;
+  const active = await page.request.get(detailUrl);
+  expect(active.status()).toBe(200);
+  expect(await active.json()).toEqual({
+    id: team.id,
+    name: "Delivery updated",
+    organization_id: team.organization_id,
+    is_active: true,
+  });
+
   await teamRow.getByRole("button", { name: "Supprimer" }).click();
   await page.getByRole("button", { name: "Valider la suppression" }).click();
   await expect(
     page.getByText("Aucune équipe active pour cette organisation."),
   ).toBeVisible();
+  const archived = await page.request.get(detailUrl);
+  expect(archived.status()).toBe(200);
+  expect(await archived.json()).toEqual({
+    ...(await active.json()),
+    is_active: false,
+  });
 });
 
 test("a Coach sees assigned teams on the dashboard without a teams menu", async ({
@@ -85,4 +109,7 @@ test("a Coach sees assigned teams on the dashboard without a teams menu", async 
     "Évaluations",
     "Résultats",
   ]);
+  expect((await page.request.get("/api/admin/teams/999999/")).status()).toBe(
+    403,
+  );
 });

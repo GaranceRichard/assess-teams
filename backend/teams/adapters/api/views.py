@@ -12,8 +12,10 @@ from identities.application.lifecycle import lock_identity_changes
 from journals.activity_records import team_archived, team_changed, team_created
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
-from teams.adapters.api.scope import manageable_team
+from teams.adapters.api.scope import manageable_team, readable_team
 from teams.adapters.api.serializers import (
+    TeamDetailErrorSerializer,
+    TeamDetailSerializer,
     TeamInputSerializer,
     TeamListFilterSerializer,
     TeamSerializer,
@@ -93,6 +95,28 @@ class TeamListCreateView(APIView):
 class TeamDetailView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [CanManageOrganizations]
+
+    @extend_schema(
+        description=(
+            "Consulte l'identité et l'état d'une équipe active ou archivée. "
+            "Session active Superadmin (toute organisation) ou Admin membre de l'organisation. "
+            "Coach et Viewer refusés (403) ; aucun périmètre Coach avant C04. "
+            "Équipe inexistante ou hors périmètre : même 404 JSON sans donnée métier. "
+            "Identifiant absent ou mal formé : 404 du routeur, potentiellement non JSON. "
+            "Aucune mutation ni entrée au Journal métier ; le Log HTTP technique est conservé."
+        ),
+        responses={
+            200: TeamDetailSerializer,
+            403: OpenApiResponse(TeamDetailErrorSerializer, description="Session ou rôle refusé."),
+            404: OpenApiResponse(TeamDetailErrorSerializer, description="Équipe introuvable."),
+        },
+    )
+    def get(self, request, team_id: int):
+        team = readable_team(request.user, team_id)
+        describe_log_attempt(
+            request, "team-detail", LogSource.TEAMS, organization=team.organization, team=team
+        )
+        return Response(TeamDetailSerializer(team).data)
 
     @extend_schema(
         description=(
