@@ -51,10 +51,10 @@ Les champs des sources en conflit restent visibles jusqu’aux décisions C01–
 | [MEP-048 — Indicateurs](../planning/qualification-mep-048/cloture.md) | Réalisé le 2026-11-03 : qualification et clôture approuvées, écarts de lecture B01/B02 corrigés dans `79efb0d`, CI verte | Critères et refus conformes ; calculs, provenance, droits et absence de classement/score global préservés ; recette MEP-070 distincte. |
 | [MEP-015 — Radar](../planning/audit-20261027/fiches/MEP-015.md) | A : observer labels longs, légende, séries et tableau aux formats du cahier | Défaut localisé ou conformité documentée avant toute retouche de graphique. |
 | [MEP-016 — Vocabulaire](../../quality/mep-016/README.md) | Réalisé le 2026-11-02 : inventaire Dashboard/Pilotage par fait et rôle, qualification conforme et clôture approuvée sans développement | Évaluation/résultat/accompagnement distincts, refus éditoriaux tracés ; aucun nouveau sens ni arbitrage C09, MEP-048 indépendante. |
-| [MEP-017 — Petits écrans](../planning/audit-20261027/fiches/MEP-017.md) | A : tableaux/modales/scroll/actions, sans refonte du shell | Matrice de formats et refus observés ; corrections uniquement sur défaut reproduit. |
+| [MEP-017 — Petits écrans](../../quality/mep-017/cloture.md) | Réalisé le 2026-11-09 : formalisation de clôture confirmée par le responsable produit | Qualification `62fb3ab`, géométrie/actions, pagination et zoom natif ; CI et exhaustive acquises, recette MESS distincte. |
 | [MEP-049 — Navigation tactile](../../quality/mep-049/cloture.md) | Réalisé le 2026-11-03 : clôture fonctionnelle approuvée sur les preuves du correctif `3ab6769`, sans nouveau développement | Navigation/repli/focus/droits et notes protégées par Retour/Avance/confirmation ; 127 React / 131 E2E et CI verte acquis ; téléphone physique complémentaire MESS non exécuté. |
 | [MEP-050 — Vides](../../quality/mep-050/cloture.md) | Réalisé le 2026-11-05 : clôture approuvée sur le rapport, les preuves et le correctif `4793611`, CI verte | Absence, filtre vide, attente et refus distingués ; O1 et vides trompeurs corrigés, 209 React / 140 E2E acquis ; aucun développement ni campagne applicative supplémentaire. |
-| [MEP-018 — Attente](../planning/audit-20261027/fiches/MEP-018.md) / [MEP-051 — Erreurs](../planning/audit-20261027/fiches/MEP-051.md) | A : injecter attente/réponse obsolète, refus/panne et réessai avec saisie | États distingués, pas de faux succès/divulgation/perte ; conserver les protections déjà livrées. |
+| [MEP-018 — Attente](../../quality/mep-018/decision-20261109.md) / [MEP-051 — Erreurs](../../quality/mep-051/README.md) | Qualifications publiées ; 018 reste Ouvert après refus DoD, 051 reste Ouvert faute d’approbation fonctionnelle | Preuves acquises conservées ; aucune nouvelle campagne ni clôture implicite. |
 
 Pour les qualifications restantes : critères et DoD prouvés → clôture proposée ; comportement conforme mais preuve
 manquante → qualification ciblée ; défaut reproduit → correction minimale à préparer ; nouvelle exigence
@@ -72,7 +72,7 @@ valent pas ce verdict ; aucune refonte UX générale n’est justifiée par ces 
 
 | PBI / groupe | Livrable manquant et condition de passage |
 | --- | --- |
-| MEP-012 / MEP-043 — F04 | D+F pour 012 seulement : C06 réconcilie critères/suivi avec la décision du 21 octobre ; 043 reste réalisé, push direct et CI après intégration acceptés, réserve G05 non bloquante. Aucun chantier Git/CI/PR. |
+| MEP-012 / MEP-043 — F04 | D+F pour 012 seulement : [dossier C06 publié, non approuvé](../../quality/mep-012/proposition-c06.md), réconciliation avec la décision du 21 octobre à décider ; 043 reste réalisé, push direct et CI après intégration acceptés, réserve G05 non bloquante. Aucun chantier Git/CI/PR. |
 | MEP-055 / MEP-054 / MEP-022 — Profil et contrats | D+F : D01–D09 approuvent l’environnement ; 054 contractualise schéma/précédence/chemins/secrets, C11 fixe opérations/objectifs/responsables. Aucun OS, SLA, RPO/RTO ou volume par défaut. |
 | MEP-021 — Chargement commun | C+F après 054/009 : source approuvée consommée par API/workers/scripts, validations existantes préservées, refus avant effet. |
 | MEP-057/058/059/024 — Distribution | Inventaire versions/ABI/empreintes/droits → build produit local et wheelhouse compatible → package exact avec manifeste/notices, sans secrets ni résolution réseau cible. |

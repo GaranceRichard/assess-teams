@@ -3,13 +3,15 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-11-05 : 33 Ouverts, 27 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 44 %. Les acquis restent séparés.
+Au 2026-11-09 : 32 Ouverts, 28 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 45 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 **MEP-047 réalisé le 2026-11-01 : [qualification et clôture approuvée](../../quality/mep-047/README.md).** MEP-015 réalisé le 2026-11-02 : [qualification radar](../../quality/mep-015/README.md) ; [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md), clôture lexicale approuvée sans développement ; [MEP-048 réalisé le 2026-11-03](../planning/qualification-mep-048/cloture.md), qualification et correction `79efb0d` acceptées.
 MEP-014 et MEP-046 réalisés : [hiérarchie](../../quality/results-hierarchy.md) et [interprétation des scores](../../quality/mep-046/README.md) ; F06 atteint 4 PBI sur 4 avec MEP-015 et MEP-047.
 [MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture approuvée sur preuves acquises ; téléphone physique complémentaire MESS non exécuté. MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md). [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md) : absence/filtre/refus distincts et réserve O1 traitée sur `4793611`, clôture approuvée sans développement.
+
+[Rapprochement du 9 novembre, preuves et décisions restantes](../planning/reconciliation-mep-20261109.md) : MEP-017 clôturé ; 018 et 051 Ouverts, 012 et 055 Bloqués.
 
 ## Avancement des capacités
 
@@ -24,7 +26,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-012 — Expérience utilisateur | [F05 — FEAT-053 — Expérience de notation](../source/mess/f05.md) | 3 / 3 | 100 % |
 | EPIC-012 — Expérience utilisateur | [F06 — FEAT-054 — Résultats et comparaisons](../source/mess/f06.md) | 4 / 4 | 100 % |
 | EPIC-012 — Expérience utilisateur | [F07 — FEAT-055 — Pilotage et tableau de bord](../source/mess/f07.md) | 2 / 2 | 100 % |
-| EPIC-012 — Expérience utilisateur | [F08 — FEAT-056 — Responsive et états d’interaction](../source/mess/f08.md) | 2 / 5 | 40 % |
+| EPIC-012 — Expérience utilisateur | [F08 — FEAT-056 — Responsive et états d’interaction](../source/mess/f08.md) | 3 / 5 | 60 % |
 | EPIC-012 — Expérience utilisateur | [F09 — FEAT-057 — Cohérence visuelle et thèmes](../source/mess/f09.md) | 3 / 3 | 100 % |
 | EPIC-013 — Installation et exploitation MESS | [F10 — FEAT-058 — Configuration unique MESS](../source/mess/f10.md) | 0 / 2 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | [F11 — FEAT-059 — Contrat d’installation et d’exploitation](../source/mess/f11.md) | 0 / 4 | 0 % |
@@ -68,7 +70,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 06.04 | [MEP-047 — Améliorer les comparaisons entre équipes et évaluations](../source/mess/f06.md) | S | Réalisé — 2026-11-01 | RESULT-001, RESULT-002 |
 | 07.01 | [MEP-016 — Harmoniser le vocabulaire du tableau de bord](../source/mess/f07.md) | XS | Réalisé — 2026-11-02 | STEER-001, DASH-001 |
 | 07.02 | [MEP-048 — Clarifier les indicateurs et leur interprétation](../source/mess/f07.md) | S | Réalisé — 2026-11-03 | STEER-001, DASH-001 |
-| 08.01 | [MEP-017 — Adapter les tableaux et contenus aux petits écrans](../source/mess/f08.md) | S | Ouvert — N/A | PASS-001, RESULT-001, DASH-001 |
+| 08.01 | [MEP-017 — Adapter les tableaux et contenus aux petits écrans](../source/mess/f08.md) | S | Réalisé — 2026-11-09 | PASS-001, RESULT-001, DASH-001 |
 | 08.02 | [MEP-049 — Améliorer la navigation mobile et les interactions tactiles](../source/mess/f08.md) | S | Réalisé — 2026-11-03 | PASS-001, MEP-005 |
 | 08.03 | [MEP-018 — Améliorer les états de chargement](../source/mess/f08.md) | XS | Ouvert — N/A | AUTH-001, PASS-001, RESULT-001 |
 | 08.04 | [MEP-050 — Améliorer les états vides](../source/mess/f08.md) | XS | Réalisé — 2026-11-05 | AUTH-001, RESULT-001 |
