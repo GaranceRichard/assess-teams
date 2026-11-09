@@ -1,5 +1,10 @@
 # Rattrapage documentaire MEP — 2026-11-09
 
+**Évolution postérieure :** la [décision de gouvernance MEP-018 du même jour](../../quality/mep-018/cloture.md)
+accorde une dérogation exceptionnelle D01 et autorise sa clôture. L'inventaire, les décisions
+restant nécessaires et les chiffres ci-dessous décrivent le rattrapage publié dans `d692570`,
+avant cette dérogation ; les vues courantes intègrent désormais aussi MEP-018.
+
 Inventaire établi avant modification sur `7bb8406d0ea71438538106cdb9b2b2a202b948a8`,
 dernier `origin/main` récupéré le 2026-11-09. Le dossier de refus MEP-018 est déjà intégré.
 Périmètre : rapprochement documentaire, sans développement, nouveau PBI ou changement de gouvernance.
