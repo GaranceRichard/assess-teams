@@ -57,6 +57,7 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 [MEP-048 réalisé le 2026-11-03](../planning/qualification-mep-048/cloture.md) : clôture approuvée sur le rapport consolidé et le correctif `79efb0d`, CI verte ; [acquis, deltas et décisions](../source/08-ecarts-et-qualifications.md).
 [MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture fonctionnelle approuvée sur preuves acquises, sans nouveau développement. En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md) : clôture fonctionnelle approuvée sur le rapport, les preuves et le correctif `4793611`, sans nouveau développement.
+[MEP-051 réalisé le 2026-11-09](../../quality/mep-051/cloture.md) : clôture approuvée sans dérogation sur `5c1faf1` ; FEAT-056 5/5 et EPIC-012 17/17 PBI raffinés, sans GO MESS.
 [Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
 [dépendances et retour confirmé du circuit direct après MEP-043](../planning/mess-dependances.md).
 Les mentions U/I/C dans les sections sont des recommandations de lancement, pas de nouveaux états.
@@ -77,5 +78,5 @@ Les Jobs et FEAT-042 à FEAT-048 ne sont plus des unités actives. Le suivi cour
 se trouve exclusivement dans les sections MESS ci-dessus ; leurs anciennes valeurs restent archivées.
 03.01 référence JOURNAL-001/002 déjà réalisés ; aucun nouveau PBI de journalisation n’est créé.
 [MEP-041 — ancien alias et métadonnées conservées](mess-doublons-historique.md) est hors du suivi actif.
-Le MESS compte 62 PBI actifs : 29 Réalisés, 31 Ouverts, 2 Bloqués, 0 En cours. Les sections canoniques ci-dessus conservent les dates, preuves et blocages ; les 63 points initiaux restent couverts.
+Le MESS compte 62 PBI actifs : 30 Réalisés, 30 Ouverts, 2 Bloqués, 0 En cours. Les sections canoniques ci-dessus conservent les dates, preuves et blocages ; les 63 points initiaux restent couverts.
 L’[audit](../planning/mess-audit.md) distingue comptage, validation du périmètre et consolidation.

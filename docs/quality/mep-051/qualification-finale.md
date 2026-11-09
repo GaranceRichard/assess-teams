@@ -1,4 +1,4 @@
-﻿# MEP-051 — Qualification finale et proposition de clôture
+# MEP-051 — Qualification finale et proposition de clôture
 
 Examen indépendant du 2026-11-09 (America/Toronto), base `e2999b2` issue du dernier `origin/main`.
 Branche `qual/mep-051-final`, worktree temporaire dédié ; aucun chantier voisin modifié.
@@ -108,3 +108,7 @@ Les trois captures relues historiquement restent attribuées à leur campagne ; 
 visuelle exhaustive n'est déclarée. UX-06/08 conserve les limites de ses acquis et de la recette cible.
 Aucune certification d'accessibilité, acceptation C21, décision C04/C06/C10, clôture TEAM-003,
 MEP-012/055, recette MEP-069/070 ou GO MESS n'est déduit de cette proposition.
+
+## Décision postérieure à la proposition
+
+Le responsable produit a [approuvé la clôture fonctionnelle au 2026-11-09](cloture.md) sur ce dossier publié dans `5c1faf1`, sans dérogation. La proposition et sa matrice ci-dessus restent le constat antérieur à cette décision ; le registre courant porte désormais Réalisé. Limites et réserves conservées, aucun GO MESS.

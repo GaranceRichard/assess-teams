@@ -84,3 +84,5 @@ Le GO MESS, les PV cible et la promotion du candidat exact restent distincts de 
 Contrôles locaux du 2026-11-09 : `quality:targeted` réussi, scope documentation seul, zéro échec ;
 liens locaux des dix fichiers, statuts/dates des 96 lignes, sommes et empreintes du manifeste 017
 au SHA publié vérifiés. `git diff --check` conforme ; sources et rapports historiques hors diff.
+
+**Évolution ultérieure distincte :** [MEP-051 clôturé le 2026-11-09](../../quality/mep-051/cloture.md), après approbation explicite sur `5c1faf1`, sans dérogation. Les états et recomptages ci-dessus restent ceux du rattrapage initial ; consulter les vues courantes pour les indicateurs actualisés.

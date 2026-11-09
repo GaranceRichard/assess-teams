@@ -8,7 +8,7 @@ et a guidé [MEP-019](../../quality/light-theme.md), MEP-052 et [MEP-053](../../
 En parallèle, faire obtenir les décisions D01–D09 de **MEP-055 — Prérequis d’installation**, toujours Bloqué.
 
 Refonte intégrée à `942bd2f`, puis clôture documentaire MEP-067 le 2026-10-21. Les [62 lignes détaillées](../tracking/pre-mep-view.md)
-et le [registre canonique](../tracking/pbis.md) comptent 29 Réalisés, 31 Ouverts, 2 Bloqués, 0 En cours ; MEP-017 et MEP-018 sont clôturés le 2026-11-09, ce dernier avec [dérogation D01](../../quality/mep-018/cloture.md).
+et le [registre canonique](../tracking/pbis.md) comptent 30 Réalisés, 30 Ouverts, 2 Bloqués, 0 En cours ; MEP-017 et MEP-018 sont clôturés le 2026-11-09, ce dernier avec [dérogation D01](../../quality/mep-018/cloture.md). [MEP-051 est clôturé le même jour sans dérogation](../../quality/mep-051/cloture.md).
 Les dix acquis F01–F03, MEP-043 livré et le Job 1 ne sont pas relancés ; aucun PV cible n’est anticipé.
 [Revue des dépendances et arbitrages](mess-dependances.md) ; [contrôles de cohérence et DoD](mess-revue-ordonnancement.md).
 
@@ -35,7 +35,7 @@ Chaque clôture actualise d’abord le registre, puis la synthèse ; aucune date
 | U2 — notation réalisée | MEP-044/013 et [MEP-045](qualification-mep-045/cloture.md) réalisés ; F05 complète | Huit critères conformes ; Échap protégé en attente/refus, réessai et zoom natif vérifiés ; correctif `08d0263`, CI verte. Preuves réutilisables par MEP-069, sans PV cible anticipé. |
 | U3a — résultats | MEP-014/046 et [MEP-047](../../quality/mep-047/README.md) réalisés ; [MEP-015](../../quality/mep-015/README.md) réalisé | Sélection/version/archives/lignée/scopes conservés ; radar corrigé après défaut démontré, légende et tableau qualifiés ; aucune nouvelle dépendance technique |
 | U3b — dashboard, parallélisable avec U3a | [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md), clôture lexicale approuvée sans développement ; [MEP-048 réalisé le 2026-11-03](qualification-mep-048/cloture.md), clôture des indicateurs approuvée | Inventaire 016 conforme par fait/rôle, refus tracés ; couverture/complétions/retards et accès aux sources qualifiés pour 048, B01/B02 corrigés dans `79efb0d`, CI verte ; aucun calcul supplémentaire |
-| U4 — observations responsive et interactions | [MEP-017 réalisé le 2026-11-09](../../quality/mep-017/cloture.md), [MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md), [MEP-018 réalisé le 2026-11-09 avec dérogation D01](../../quality/mep-018/cloture.md), [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md), [MEP-051 — Erreurs](../source/mess/f08.md) | 017, 049, 050 et 018 clôturés sur preuves acquises ; D01 chronologique conservé et dérogation limitée à 018 ; 051 [qualifié, approbation manquante](../../quality/mep-051/README.md) ; aucune nouvelle correction ou recette MESS déduite |
+| U4 — observations responsive et interactions | [MEP-017 réalisé le 2026-11-09](../../quality/mep-017/cloture.md), [MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md), [MEP-018 réalisé le 2026-11-09 avec dérogation D01](../../quality/mep-018/cloture.md), [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md), [MEP-051 — Erreurs](../source/mess/f08.md) | 017, 049, 050 et 018 clôturés sur preuves acquises ; D01 chronologique conservé et dérogation limitée à 018 ; 051 [clôturé sans dérogation](../../quality/mep-051/cloture.md), FEAT-056 5/5 et EPIC-012 17/17 PBI raffinés réalisés ; aucune nouvelle correction ou recette MESS déduite |
 
 U1 précède les retouches locales pour réduire les reprises de styles ; ce n’est pas une dépendance ajoutée.
 U2, U3a, U3b et U4 peuvent avancer en parallèle sur composants distincts après cadrage commun.
@@ -124,8 +124,8 @@ Le détail des exigences est au [jalon canonique](../tracking/mess-jalon.md).
 
 ## Actions immédiatement exécutables et porte de sélection
 
-MEP-051 est le seul PBI UX encore ouvert ; ses prérequis canoniques sont réalisés et sa qualification
-est publiée, mais l'approbation fonctionnelle reste attendue. Aucun développement supplémentaire n'est présumé.
+[MEP-051 est Réalisé le 2026-11-09](../../quality/mep-051/cloture.md), sur approbation fonctionnelle explicite sans dérogation.
+FEAT-056 (5/5) et EPIC-012 (17/17) sont complets pour leurs PBI raffinés ; recettes cible et C21 restent distincts.
 **MEP-048 est réalisé le 2026-11-03**, après qualification et correction acceptées ; [clôture](qualification-mep-048/cloture.md).
 Les PBI restants peuvent produire observations ou inventaire lexical, puis un défaut précisément borné si constaté. F09 reste réalisée, PV cible distincts.
 Aucun PBI non réalisé complet n’est déclaré prêt pour développement sans réserve à la base auditée.

@@ -1,4 +1,4 @@
-﻿# MEP-051 — Erreurs et reprises
+# MEP-051 — Erreurs et reprises
 
 Qualification du 2026-11-06 (America/Toronto), Windows / Chromium, données fictives.
 Base synchronisée : `5f212e5642aef97ece27cce897e85f3851b44a80` ; clôture MEP-050 publiée,
@@ -98,5 +98,6 @@ laissé Ouvert en attente de décision. MEP-017/018, recette cible MEP-069/070 e
 
 La [qualification finale du 2026-11-09](qualification-finale.md) confronte les pièces intègres,
 la CI exacte et l'exhaustive ultérieure, avec une [vérification chronologique du README](chronologie.md).
-Clôture proposée sans écart bloquant identifié ; approbation fonctionnelle toujours requise.
-Le statut reste Ouvert / N/A, sans recette MESS déduite.
+La [clôture fonctionnelle du 2026-11-09](cloture.md) est ensuite approuvée sur ce dossier publié
+dans `5c1faf1`, sans dérogation ; statut Réalisé. La proposition historique ci-dessus est conservée.
+Aucune recette MESS ni validation physique ou certification nouvelle déduite.
