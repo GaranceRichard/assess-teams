@@ -5,6 +5,10 @@ Base qualifiee : `4793611227cc8b3d79fe366094118cdd49d2195e` (MEP-050 integre).
 [Source](../../backlog/source/mess/f08.md) / [fiche](../../backlog/planning/audit-20261027/fiches/MEP-018.md) /
 [recette UX](../ux-acceptance.md). La livraison technique et la proposition de cloture ne valent pas PV MESS.
 
+**Réévaluation du 2026-11-09 : [matrice des preuves et refus de clôture](decision-20261109.md).**
+Les preuves fonctionnelles sont concordantes ; l'écart chronologique README reste bloquant au titre
+de la DoD. MEP-018 reste Ouvert/N/A ; le présent rapport historique est conservé.
+
 ## Qualification avant correction
 
 Les tests existants `usePagedCollection`, `ResultsSelectionRace`, `PlanningLoading` et
