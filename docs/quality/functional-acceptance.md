@@ -37,6 +37,9 @@ Les scénarios utilisent uniquement les capacités démontrées dans la [couvert
 la [stratégie de tests](test-strategy.md), les contrats et les assertions citées dans chaque fiche.
 Le statut Réalisé d'un PBI historique ne vaut pas livraison de sa Feature entière.
 
+Le [lot TEAM-003](../architecture/teams-api.md) ajoute depuis cette base le GET détail actif/archivé Admin/Superadmin ;
+le périmètre Coach attend C04. Cette évolution ne vaut pas exécution ni acceptation de la recette cible.
+
 | État à la base de rédaction | Capacité / limite à respecter | Traitement en recette |
 | --- | --- | --- |
 | Livré | AUTH-001/002/003, DASH-001, USER-004 ; USER-001 au contrat historique | FON-01 à 04 ; ne pas exiger la saisie produit nom/prénom absente |

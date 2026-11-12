@@ -70,3 +70,20 @@ TEAM-003 reste ouvert : C04 doit décider le périmètre Coach, puis l'extension
 Le refus actuel du Coach ne satisfait pas son critère canonique de consultation.
 TEAM-005 conserve le second refus explicite à traiter séparément ; TEAM-006/007 restent hors périmètre.
 Aucune clôture du PBI, modification de décision produit ou promotion MESS n'est déduite de ce lot.
+
+## Audit de reprise du 2026-11-12
+
+Le commit préparé `9811d1c` était propre et non intégré à `origin/main`.
+La tentative de publication du 2026-11-09 a échoué avant push : pytest ne pouvait pas créer
+son répertoire temporaire `.cache/tmp/pytest-of-garan` (WinError 5). Aucun gate contourné.
+Rebase sur `ec4c3a5` effectué sans conflit ; les changements entrants sont documentaires.
+Relecture du code, des tests API/ORM/OpenAPI/E2E et des règles de livraison : périmètre approuvé conservé.
+La synthèse courante est réconciliée ; le cahier de recette signale le GET ajouté depuis sa base historique.
+Les audits datés restent historiques ; aucun statut canonique, arbitrage C04 ou autre chantier modifié.
+Validation de reprise : `npm.cmd run quality:targeted`, code 0, tous les domaines requis verts.
+Backend : **1 496 succès**, couverture **97,51 %**, lint/formatage/migrations conformes.
+Frontend : **493 succès / 119 fichiers** ; statements **94,87 %**, branches **93,32 %**,
+fonctions **96,35 %**, lignes **95,71 %** ; lint/formatage/typecheck/build conformes.
+E2E : **150 parcours applicatifs réussis en 21,5 min**, puis **10 démo en 38,1 s**.
+Les empreintes finales sont vérifiées ; aucun échec temporaire ni changement applicatif nécessaire.
+Publication via `npm run publish`, CI du SHA exact et nettoyage restent à confirmer.

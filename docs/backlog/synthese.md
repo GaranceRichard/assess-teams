@@ -89,9 +89,9 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | ORG-006 — Gérer le rattachement courant d’un Coach | Réalisé | cardinalité et scope ; 2026-09-28 |
 | TEAM-001 — Créer une équipe | Réalisé | API/UI/tests et unicité organisationnelle ; 2026-09-27 |
 | TEAM-002 — Lister les équipes | Ouvert | Admin/Superadmin livrés ; Coach absent, Viewer exclu |
-| TEAM-003 — Consulter une équipe | Ouvert | détail par identifiant absent |
+| TEAM-003 — Consulter une équipe | Ouvert | GET détail actif/archivé Admin/Superadmin ; périmètre Coach en attente de C04 |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
-| TEAM-005 — Archiver une équipe | Ouvert | archivage livré ; restitution archivée et second refus absents |
+| TEAM-005 — Archiver une équipe | Ouvert | archivage et GET archivé Admin/Superadmin livrés ; second refus explicite absent |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
 | TEAM-007 — Réactiver une équipe | Ouvert | absent ; effets de reprise C05 à décider |
 | COACH-001 — Affecter les Coachs courants d’une équipe | Réalisé | affectation locale multi-Coachs ; 2026-09-27 |
