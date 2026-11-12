@@ -61,11 +61,11 @@ contournement d'un quality gate : **150 parcours réels réussis en 21,6 min**, 
 **10 parcours démo réussis en 39,3 s**. Le gate E2E complet termine avec code 0.
 Commandes : `npm.cmd run quality:targeted`, puis `npm.cmd run quality:targeted -- --only e2e`
 pour la relance du seul domaine qui avait rencontré le refus d'accès.
-Publication et CI du SHA exact à consigner après leur exécution.
+La publication et la CI du SHA exact sont consignées dans la livraison de reprise ci-dessous.
 
 ## Limites et décision de clôture
 
-Clôture technique du seul découpage à proposer après gates, publication et CI du SHA exact.
+Le seul découpage Admin/Superadmin est techniquement livré après gates, publication et CI du SHA exact.
 TEAM-003 reste ouvert : C04 doit décider le périmètre Coach, puis l'extension sera spécifiée et validée.
 Le refus actuel du Coach ne satisfait pas son critère canonique de consultation.
 TEAM-005 conserve le second refus explicite à traiter séparément ; TEAM-006/007 restent hors périmètre.
@@ -86,4 +86,20 @@ Frontend : **493 succès / 119 fichiers** ; statements **94,87 %**, branches **9
 fonctions **96,35 %**, lignes **95,71 %** ; lint/formatage/typecheck/build conformes.
 E2E : **150 parcours applicatifs réussis en 21,5 min**, puis **10 démo en 38,1 s**.
 Les empreintes finales sont vérifiées ; aucun échec temporaire ni changement applicatif nécessaire.
-Publication via `npm run publish`, CI du SHA exact et nettoyage restent à confirmer.
+
+## Livraison de reprise confirmée
+
+`npm.cmd run publish` a resynchronisé sans conflit les deux commits sur `e3f02db`
+(apports documentaires MEP-031). Le commit applicatif est `38e0fcc` ; le candidat publié complet est
+`c7069843888921c70e89e30368ab791c04b6a2bb`, incluant le suivi d'audit.
+Le pre-push a refusé la réutilisation des preuves et réexécuté tous les domaines requis, sans bypass :
+**1 496 tests backend**, couverture **97,51 %** ; **493 tests frontend**, mêmes quatre couvertures ;
+**150 E2E applicatifs en 21,3 min**, puis **10 démo en 37,9 s**. Tous les statiques sont verts.
+
+[CI du SHA exact : succès, run 43245032252](https://github.com/GaranceRichard/assess-teams/actions/runs/43245032252).
+Plan, dépôt, frontend, huit partitions backend, couverture consolidée, E2E et `Required impact gate` verts.
+`npm run publish` a terminé avec code 0, push confirmé et main principal propre synchronisé par fast-forward.
+Le présent suivi final est documentaire ; sa publication suit le même circuit, avec sa propre CI exacte.
+La fermeture du seul worktree `assess-teams-team-003` et de `qual/team-003-consultation`
+suit la réussite de cette dernière publication. Les autres chantiers restent hors périmètre.
+TEAM-003 reste **Ouvert**, date **N/A**, en attente de C04 ; aucune clôture produit ni promotion MESS.
