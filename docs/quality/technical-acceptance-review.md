@@ -77,8 +77,13 @@ restent applicables ; tout gate requis en échec empêche le succès de livraiso
 frontière des preuves, README non applicable et règles documentaires conformes. Aucun test applicatif lancé.
 `git diff --check` réussi ; les champs obligatoires et verdicts Non exécuté des 17 scénarios sont vérifiés.
 Revue des 12 fichiers du lot : 202 liens locaux (fichiers et ancres) résolus, aucun absent ; tous sous 200 lignes.
-Le SHA intégré et l'URL de CI indépendante seront consignés après leur observation ;
-aucun succès de publication anticipé dans cette revue préparatoire.
+Publication initiale observée : `bbcd245b7f095069fe8ca07334e453201c1f136b`, par `npm run publish`.
+Resynchronisation sans conflit, pre-push documentaire réussi, push direct confirmé puis main avancé en fast-forward.
+La [CI indépendante du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/43229257129)
+est terminée en succès : plan, repository et Required impact gate verts ; backend/frontend/E2E/full non requis.
+Après ce succès, main principal vérifié propre et égal à origin/main (`0 0` de divergence).
+Le présent ajout de preuve est soumis à sa propre publication et CI exacte ; son résultat final et le nettoyage
+du seul chantier MEP-031 sont attestés dans le compte rendu de livraison, sans changer les verdicts TEC.
 La publication obligatoire utilise `npm run publish` : verrou, fetch/rebase sur dernier origin/main,
 pre-push bloquant, push branche dédiée → main, fast-forward sûr du checkout principal et attente CI exacte.
 Une CI rouge reste un échec après push ; aucun contournement ni intervention sur l'investigation autonome.
