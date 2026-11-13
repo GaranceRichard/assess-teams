@@ -1,5 +1,7 @@
 # Refonte de l’accueil et de la préparation documentaire
 
+[Résultats de publication et correctif de portabilité du test](documentation-welcome-validation.md).
+
 ## Préparation du changement
 
 - Périmètre : README, index et procédures d’accueil, règles documentaires, gate PowerShell et tests associés ; aucun code produit ni statut canonique.

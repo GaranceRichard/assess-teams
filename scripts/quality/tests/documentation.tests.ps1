@@ -47,7 +47,9 @@ function Assert-Documentation {
 try {
     # Hooks export repository/index locations. -C alone does not isolate a fixture.
     foreach ($name in $gitVariables) {
-        $savedGitEnvironment[$name] = [Environment]::GetEnvironmentVariable($name)
+        if (Test-Path "Env:$name") {
+            $savedGitEnvironment[$name] = (Get-Item "Env:$name").Value
+        }
         Remove-Item "Env:$name" -ErrorAction SilentlyContinue
     }
     New-Item -ItemType Directory $fixture | Out-Null
@@ -108,7 +110,10 @@ try {
 } finally {
     $env:QUALITY_DIFF_BASE = $oldBase
     foreach ($name in $gitVariables) {
-        [Environment]::SetEnvironmentVariable($name, $savedGitEnvironment[$name])
+        Remove-Item "Env:$name" -ErrorAction SilentlyContinue
+    }
+    foreach ($name in $savedGitEnvironment.Keys) {
+        Set-Item "Env:$name" -Value $savedGitEnvironment[$name]
     }
     $resolved = [IO.Path]::GetFullPath($fixture)
     if ($resolved.StartsWith($tempBase) -and (Test-Path -LiteralPath $resolved)) {
@@ -116,6 +121,13 @@ try {
     }
 }
 
+foreach ($name in $gitVariables) {
+    $present = Test-Path "Env:$name"
+    if ($present -ne $savedGitEnvironment.ContainsKey($name) -or
+        ($present -and (Get-Item "Env:$name").Value -cne $savedGitEnvironment[$name])) {
+        $failures += "Presence ou valeur de $name modifiee apres la fixture."
+    }
+}
 $afterHead = (& git -C $Root rev-parse HEAD) -join "`n"
 $afterStatus = (& git -C $Root status --porcelain) -join "`n"
 $afterConfig = (& git -C $Root config --local --list) -join "`n"
