@@ -107,10 +107,18 @@ def test_openapi_describes_both_collection_shapes_and_query_parameters():
         operation = schema["paths"][path]["get"]
         assert "page" in {parameter["name"] for parameter in operation["parameters"]}
         response = operation["responses"]["200"]["content"]["application/json"]["schema"]
-        shapes = schema["components"]["schemas"][response["$ref"].split("/")[-1]]["oneOf"]
-        assert shapes[0]["type"] == "array"
-        page = schema["components"]["schemas"][shapes[1]["$ref"].split("/")[-1]]
-        assert {"count", "next", "previous", "results"} == set(page["properties"])
+        components = schema["components"]["schemas"]
+        component = components[response["$ref"].split("/")[-1]]
+        collections = (
+            [components[variant["$ref"].split("/")[-1]] for variant in component["anyOf"]]
+            if "anyOf" in component
+            else [component]
+        )
+        for collection in collections:
+            shapes = collection["oneOf"]
+            assert shapes[0]["type"] == "array"
+            page = components[shapes[1]["$ref"].split("/")[-1]]
+            assert {"count", "next", "previous", "results"} == set(page["properties"])
 
 
 def test_user_search_filters_before_count_and_preserves_scope_and_links(collections):

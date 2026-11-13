@@ -26,7 +26,9 @@ références de publication seront consignés dans [validations](validations.md)
 Le schéma de collection utilise `anyOf` pour les projections Coach/Admin qui se
 recouvrent ; `oneOf` rejetait la liste vide et les réponses Admin. Reproduction :
 **2 échecs attendus, 3 succès**, puis contrats et schéma strict : **14 succès** (1,25 s).
-Les schémas génériques des autres collections ne sont pas modifiés.
+Les schémas génériques des autres collections ne sont pas modifiés. L’assertion
+transverse de pagination contrôle maintenant chaque projection Équipes : **10 succès**
+(6,72 s). Parcours navigateur ciblés Coach/Admin : **3 succès** (32,9 s).
 
 Les tests API couvrent aussi les passations en cours/complétées sans affectation d’équipe,
 les liens étrangers conservés, les sessions après retrait et la désactivation du compte.
