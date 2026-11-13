@@ -1,7 +1,8 @@
 # C04 — Qualification des lectures Coach TEAM-002/003
 
 Décision produit du 2026-11-12 : [source C04](../../backlog/source/00-arbitrage-c04-equipes-coach.md).
-Branche `c04-coach-team-reads`, base `2fedab8`, worktree isolé
+Branche `c04-coach-team-reads`, base initiale `2fedab8`, resynchronisée le 2026-11-13
+sur `f400a8e` (correctif de synchronisation des tests SQLite), worktree isolé
 `C:\Users\garan\Desktop\Projets\Assess-teams-worktrees\c04-coach-team-reads`.
 README annoncé avant développement. Aucun autre worktree n’est modifié.
 
@@ -34,6 +35,15 @@ Les tests API couvrent aussi les passations en cours/complétées sans affectati
 les liens étrangers conservés, les sessions après retrait et la désactivation du compte.
 Le parcours Playwright dédié vérifie les requêtes réelles, les refus de mutation,
 le retrait courant et le contexte vide, sans nouvelle route ni écran administratif.
+
+## Reprise du 2026-11-13
+
+La campagne du candidat initial `063767c` a validé **1 517 tests backend**
+(97,53 % de couverture) et **494 tests frontend** dans 119 fichiers
+(statements 94,87 %, branches 93,33 %, fonctions 96,35 %, lignes 95,71 %).
+Elle s’est interrompue pendant les E2E, après au moins 77 parcours réussis sur 151.
+Aucune qualification complète n’est déduite de cette campagne interrompue.
+Le nouveau candidat resynchronisé doit terminer la campagne complète avant publication.
 
 ## Revue documentaire et DoD
 
