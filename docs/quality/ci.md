@@ -64,7 +64,7 @@ Le job identity vérifie le SHA immuable et le publie dans son résumé ; tous l
 
 | Contrôle | Exécution exhaustive |
 | --- | --- |
-| Dépôt | Lignes, secrets, README, cohérence, règles, tests qualité/bootstrap/licences/validation |
+| Dépôt | Lignes, secrets, préparation documentaire pertinente, cohérence, règles, tests qualité/bootstrap/licences/validation |
 | Statiques backend | Ruff lint/format et migrations manquantes |
 | Backend | Huit partitions pytest, tous les tests, contrats/OpenAPI/sécurité/transactions/SQLite/exploitation existants |
 | Couverture backend | Fusion des données et collections disjointes/exhaustives ; branch coverage global >= 90 % |

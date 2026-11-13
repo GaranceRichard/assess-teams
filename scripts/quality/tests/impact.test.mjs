@@ -21,6 +21,8 @@ for (const path of [
   "backend/a/migrations/0001.py",
   "backend/config/x.py",
   "scripts/quality/impact.mjs",
+  "scripts/quality/check-documentation.ps1",
+  "scripts/quality/documentation-policy.ps1",
   ".github/workflows/quality.yml",
   "frontend/package-lock.json",
 ]) {

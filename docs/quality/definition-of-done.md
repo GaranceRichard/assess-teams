@@ -49,7 +49,9 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 
 ## Documentation
 
-- [ ] `README.md` a été mis à jour avant le début du travail avec le périmètre, le sujet et l'évolution attendue.
+- [ ] Le document propriétaire contient la préparation préalable : périmètre, objectif, effets attendus, risques, vérification et fichiers techniques concernés, selon la [politique documentaire](documentation-policy.md).
+- [ ] La revue de contenu explicite vérifie pertinence et préalable réel ; le gate ne certifie ni sémantique ni chronologie. Tout écart est signalé, aucune trace artificielle n’est admise.
+- [ ] Le README est actualisé seulement si valeur, capacités, découverte, installation exposée, liens ou informations publiques changent ; la politique prospective préserve les décisions et preuves historiques.
 - [ ] Une revue d'impact documentaire a été effectuée avant le push.
 - [ ] Le [README racine](../../README.md), les [règles des agents](agent-rules.md), la [charte qualité](quality-charter.md), la [Definition of Done](definition-of-done.md) et la [stratégie de tests](test-strategy.md) ont été vérifiés.
 - [ ] Les documentations d'architecture et d'API ainsi que les autres fichiers Markdown concernés ont été vérifiés.

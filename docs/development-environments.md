@@ -1,5 +1,32 @@
 # Environnements et identités locales
 
+## Installation et lancement
+
+Prérequis : Python 3.12 ou 3.13, Node.js 22 ou 24, npm et PowerShell (PowerShell 7 sous macOS/Linux).
+Depuis la racine du clone, `npm run dev:all` prépare chaque runtime local : dépendances racine/frontend,
+`backend/.venv`, requirements, migrations et identités fictives. Sous Windows, `npm.cmd` reste disponible.
+La base locale `backend/db.sqlite3` est créée au lancement et ignorée par Git.
+Chaque worktree possède ses dépendances propres, sans partage ni lien symbolique.
+
+`Ctrl+Shift+B` lance le même parcours dans VS Code avec deux terminaux dédiés.
+Les commandes séparées restent `npm run dev:backend` et `npm run dev:frontend` ; leurs scripts
+`scripts/dev-backend.ps1` et `scripts/dev-frontend.ps1` peuvent être exécutés directement avec PowerShell.
+Le premier lancement affiche la préparation des runtimes ; une erreur explicite arrête le service concerné.
+Les suivants ne resynchronisent les dépendances que lorsque nécessaire.
+
+- Interface React/Vite : `http://127.0.0.1:5173` ; proxy `/api/*` vers Django sur le port 8000.
+- Django : `http://127.0.0.1:8000` ; santé `/api/health/`, schéma `/api/schema/`, Swagger UI `/api/docs/`.
+- API et droits : [contrat backend](architecture/backend-api.md), plutôt qu’une seconde liste d’endpoints ici.
+
+Le premier Superadmin technique est créé séparément, depuis `backend`, après les migrations :
+
+```powershell
+& .\.venv\Scripts\python.exe manage.py createsuperuser --settings=config.settings_development
+```
+
+Sous macOS/Linux, utiliser `.venv/bin/python`. Les comptes fictifs ci-dessous ne créent jamais ce Superadmin.
+La [validation selon l’impact](quality/validation-costs.md) porte commandes qualité, hooks et publication.
+
 Les [limites de connexion et proxies fiables](architecture/login-security.md) utilisent les mêmes variables
 `LOGIN_ACCOUNT_LIMIT`, `LOGIN_ORIGIN_LIMIT`, `LOGIN_LIMIT_SECONDS` et `LOGIN_TRUSTED_PROXIES`
 dans les deux environnements ; les en-têtes transférés sont ignorés sans proxy explicitement fiable.

@@ -13,6 +13,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Architecture
 
+- [Permissions par rôle](architecture/role-permissions.md), [équipes](architecture/teams-api.md) et [passation](architecture/evaluation-taking.md) : contrats effectivement livrés.
 - [Démo publique interactive](architecture/public-demo.md) : composants réutilisés, fixtures, limites et GitHub Pages.
 - [Fondamentaux architecturaux](architecture/fundamentals.md) : navigation des principes structurants.
 - [Architecture hexagonale](architecture/hexagonal-architecture.md) et [Clean Code](architecture/clean-code.md).
@@ -28,6 +29,10 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 
 ## Qualité
 
+- [Préparation et revue documentaires](quality/documentation-policy.md) : document propriétaire, impact README et limites du gate.
+- [Validation selon l’impact et commandes](quality/validation-costs.md) ; [commandes de tests](quality/test-commands.md).
+- [Audit de l’accueil et matrice de conservation](quality/documentation-welcome.md).
+- [Incident CI du 11 novembre et correction du test SQLite](quality/ci-incident-20261111/README.md) : synchronisation observée, preuves et qualification conservées.
 - [Cahier de recette UX MEP-067](quality/ux-acceptance.md) : scénarios, mesures, refus et preuves pour les correctifs esthétiques.
 - [Règle permanente d'entrée des agents](../AGENTS.md) et [règles détaillées](quality/agent-rules.md)
 - [Charte qualité](quality/quality-charter.md)

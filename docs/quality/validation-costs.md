@@ -22,6 +22,30 @@ Ils ne remplacent pas le plan obligatoire de publication. Un échec applicable b
 `quality:quick` reste informatif au commit ; son plan statique ne lance aucun test applicatif.
 Pour la prose seule, il reste documentaire sans statiques backend/frontend.
 
+## Commandes qualité et hooks
+
+Depuis la racine : `npm run check:lines` contrôle tous les fichiers maintenus, selon les seules exclusions
+de `scripts/quality/files.ps1`. `npm run quality:quick` reste statique et informatif ; `npm run test:all`
+orchestre backend, frontend et E2E avec seuils de 90 %, résultats séparés et échec si un domaine requis échoue.
+Les [commandes de tests](test-commands.md) détaillent les sélections explicites.
+
+Activer les hooks versionnés une fois par clone :
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup-hooks.ps1
+```
+
+PowerShell 7 (`pwsh`) remplace `powershell.exe` sur les plateformes concernées.
+Le premier lancement backend active aussi les hooks. Des dispatchers physiques dans le répertoire Git
+commun permettent au `post-checkout` de préparer les runtimes propres à chaque worktree.
+Les statuts sont `PASS`, `WARNING`, `FAIL informatif`, `FAIL` et `NON APPLICABLE`.
+
+La [préparation documentaire](documentation-policy.md) est obligatoire pour les lots techniques :
+bloc complet ajouté, fichiers techniques explicitement couverts, document propriétaire et revue de contenu.
+La présence du README seule ne suffit plus ; sémantique et chronologie ne sont pas certifiées par le diff.
+Changer le gate ou ses tests reste transverse/exhaustif ; la prose seule conserve le scope documentaire.
+Cette règle prospective ne requalifie aucune preuve ou décision historique.
+
 ## Matrice exécutable
 
 La définition unique associe [`impact-classification.mjs`](../../scripts/quality/impact-classification.mjs) et le plan [`impact.mjs`](../../scripts/quality/impact.mjs).

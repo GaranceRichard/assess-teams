@@ -22,9 +22,9 @@ principal est le fast-forward sûr de sa branche locale `main` vers `origin/main
 
 ## Préparation obligatoire avant travail
 
-Avant tout développement, correction, refactoring ou changement technique, mettre à jour le [README racine](../../README.md) pour annoncer le périmètre travaillé, le sujet ou la feature lorsqu'il existe, et l'évolution attendue. Cette mise à jour précède le travail ; elle ne doit pas être ajoutée a posteriori pour satisfaire le gate.
+Avant tout développement, correction, refactoring ou changement technique, documenter préalablement le périmètre, l’objectif, les effets attendus, les risques et la vérification dans le document propriétaire, selon la [politique documentaire](documentation-policy.md). Ne jamais fabriquer ce préalable a posteriori.
 
-L'ordre temporel ne pouvant pas être vérifié fiablement par Git, l'automatisation contrôle qu'un lot comportant un changement applicatif ou technique comporte aussi une modification de `README.md`. Ce contrôle de cohérence ne remplace pas la responsabilité de mise à jour préalable et ne justifie jamais une modification artificielle sans changement de périmètre.
+Le gate exige une préparation ajoutée et complète rattachée à chaque fichier technique, puis une revue explicite du contenu et du préalable réel. Il ne certifie ni sémantique ni chronologie. Le README change seulement si valeur, fonctionnalités, découverte, installation exposée, liens ou informations publiques sont affectés. Politique prospective ; preuves et décisions historiques conservées.
 
 ## Règle bloquante des 200 lignes
 
@@ -95,7 +95,7 @@ Tout endpoint backend nouveau ou modifié doit être décrit par `drf-spectacula
 Pour chaque tâche, Codex doit automatiquement :
 
 1. lire le contexte et les règles du dépôt ;
-2. mettre à jour préalablement `README.md` lorsque la règle de préparation l'exige ;
+2. préparer préalablement le changement dans son document propriétaire et vérifier l’impact README ;
 3. réaliser le travail demandé ;
 4. mettre à jour la documentation concernée ;
 5. exécuter les contrôles et tests applicables ;
@@ -167,7 +167,7 @@ Tout autre circuit nécessite un nouvel accord explicite.
 
 ## Automatisation des quality gates
 
-Les commandes canoniques et l'installation des hooks sont documentées dans le [README](../../README.md#commandes-qualité). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le plan d’impact bloquant ; la CI GitHub recalcule le même plan et exige le succès des contrôles requis. Contourner le hook local ne dispense jamais du contrôle distant.
+Les commandes canoniques et l'installation des hooks sont documentées dans la [validation selon l’impact](validation-costs.md). Le `pre-commit` exécute le gate rapide, informatif et non bloquant. Le `pre-push` refuse une publication qui ne provient pas d'une branche et d'un worktree dédiés, qui contient des changements non commités, qui ne cible pas `main` ou qui n'intègre pas le SHA distant annoncé par Git. Il exécute ensuite le plan d’impact bloquant ; la CI GitHub recalcule le même plan et exige le succès des contrôles requis. Contourner le hook local ne dispense jamais du contrôle distant.
 
 La publication utilise `npm run publish` pour sérialiser les intégrations locales sans attendre les autres PBI.
 Pendant le développement, privilégier `quality:targeted` ; `quality:quick` reste statique et informatif.

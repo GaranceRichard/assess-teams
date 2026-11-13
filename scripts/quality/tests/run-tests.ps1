@@ -4,7 +4,6 @@ $ErrorActionPreference = 'Stop'
 $hostExecutable = (Get-Process -Id $PID).Path
 $lineChecker = Join-Path $Root 'scripts\quality\check-source-lines.ps1'
 $secretChecker = Join-Path $Root 'scripts\quality\check-secrets.ps1'
-$docChecker = Join-Path $Root 'scripts\quality\check-documentation.ps1'
 $tempBase = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
 $testRoot = Join-Path $tempBase ("assess-teams-quality-" + [guid]::NewGuid())
 $failures = @()
@@ -126,12 +125,7 @@ try {
     Set-Content -LiteralPath $source -Value "credential = '$fakeCredential'"
     Invoke-ExpectedExit 'credential refuse' $secretChecker @('-Root', $testRoot) 1
 
-    Invoke-ExpectedExit 'README absent refuse' $docChecker @(
-        '-Root', $testRoot, '-ChangedFilesList', 'backend/app.py'
-    ) 1
-    Invoke-ExpectedExit 'README present accepte' $docChecker @(
-        '-Root', $testRoot, '-ChangedFilesList', 'backend/app.py;README.md'
-    ) 0
+    Invoke-ExpectedExit 'Preparation documentaire : succes et refus' (Join-Path $Root 'scripts/quality/tests/documentation.tests.ps1') @('-Root', $Root) 0
 } finally {
     $resolvedTestRoot = [IO.Path]::GetFullPath($testRoot)
     if ($resolvedTestRoot.StartsWith($tempBase) -and (Test-Path -LiteralPath $resolvedTestRoot)) {

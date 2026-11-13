@@ -84,7 +84,7 @@ if ($Scope -in @('all', 'repository', 'documentation')) {
     Invoke-PowerShellCheck 'Detection locale de secrets' 'scripts\quality\check-secrets.ps1'
     Invoke-PowerShellCheck 'Coherence du repository' 'scripts\quality\check-repository.ps1'
     Invoke-QualityStep 'Integrite et frontiere des preuves visuelles' { & node scripts/quality/evidence-assets.mjs }
-    Invoke-PowerShellCheck 'README prealable au travail' 'scripts\quality\check-documentation.ps1'
+    Invoke-PowerShellCheck 'Preparation dans le document proprietaire' 'scripts\quality\check-documentation.ps1'
     Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
     if ($Mode -eq 'full' -and $Scope -ne 'documentation') {
         Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'

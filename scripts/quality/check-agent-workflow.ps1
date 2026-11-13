@@ -8,7 +8,9 @@ $requirements = @(
     @('AGENTS.md', 'Aucune PR dans le processus'),
     @('docs/quality/agent-rules.md', 'Chaque PBI parall'),
     @('docs/quality/agent-rules.md', 'ne cible pas `main`'),
-    @('README.md', 'Pre-push vers main'),
+    @('docs/quality/agent-rules.md', 'document propri'),
+    @('docs/quality/definition-of-done.md', 'politique documentaire'),
+    @('docs/quality/documentation-policy.md', 'revue de contenu'),
     @('.githooks/pre-push', 'check-contribution-workflow.ps1')
 )
 $failures = @()

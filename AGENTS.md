@@ -43,6 +43,8 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 
 ## Règles de livraison
 
+- Préparer tout changement technique dans son document propriétaire selon la [politique documentaire](docs/quality/documentation-policy.md).
+  Le README est la vitrine produit ; sa modification dépend de l’impact public réel, pas de la seule présence de code.
 - La séquence normale est `travail → validations ciblées → commit → resynchronisation → pre-push proportionné → push → CI du SHA exact`.
 - Le push de publication utilise la branche dédiée comme source et `main` comme destination.
 - Toute règle qualité existante d'Assess teams demeure applicable, notamment la limite de 200 lignes, les tests,
