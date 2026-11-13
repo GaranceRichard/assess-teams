@@ -1,5 +1,11 @@
 # TEAM-003 — Consulter une équipe
 
+Actualisation du 2026-11-12 : [C04 décidé](../../../source/00-arbitrage-c04-equipes-coach.md).
+Compte Coach actif, affectation et appartenance courantes exigés ; archives accessibles
+par ID tant que l’affectation est conservée, liste active seulement. [Qualification](../../../../quality/c04/README.md)
+et clôtures TEAM-002/003 séparées ; TEAM-006 reste distinct. Le diagnostic daté ci-dessous
+conserve l’état audité du 2026-10-27 et ses attentes C04 sont désormais remplacées par cette décision.
+
 Proposition analytique du 2026-10-27, base `3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6`.
 [Retour matrice](../matrice.md) · [Source canonique](../../../../../docs/backlog/source/02-equipes.md) · [Preuves equipes](../preuves.md#equipes).
 

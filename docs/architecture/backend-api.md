@@ -154,7 +154,7 @@ Elle ne choisit ni ne supprime aucun rattachement. Ces conflits doivent être r�
 ## Gestion des équipes d’une organisation
 
 Le [contrat Équipes](teams-api.md) décrit liste/création, GET détail actif ou archivé minimal
-Admin/Superadmin, PUT limité aux actifs et DELETE avec refus explicite 400 des archives accessibles. Coach reste refusé en attente de C04.
+Admin/Superadmin et Coach actuellement affecté, membre courant et actif selon C04 ; PUT reste Admin/Superadmin actif seulement et DELETE conserve le refus explicite 400 des archives accessibles.
 
 ## Modèles, questions et planification
 

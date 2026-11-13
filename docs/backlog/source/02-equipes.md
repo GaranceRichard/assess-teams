@@ -1,6 +1,6 @@
 ﻿## EPIC-002 — Gestion des équipes
 
-Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organisation. Toute équipe appartient obligatoirement à exactement une organisation selon les [concepts métier transverses](00-concepts-transverses.md), qui portent aussi les matrices CRUD. Le `Superadmin` cité ici est le superuser Django global, pas un quatrième rôle métier. Le vertical slice livré permet aux Superadmins et Admins de sélectionner une organisation accessible, lister, créer, renommer et archiver ses équipes ; `TEAM-001` et `TEAM-004` sont satisfaits. Le [découpage approuvé TEAM-003](../planning/qualification-team-003/rapport.md) ajoute le GET détail actif/archivé minimal Admin/Superadmin ; TEAM-003 reste ouvert en attente de C04. La liste Coach (Viewer exclu des écrans Équipes), la liste dédiée des archives et la réactivation restent absentes ; le filtre Logs inclut déjà les archives. `TEAM-005` ajoute le refus explicite 400 du second archivage selon le [contrat approuvé](../planning/qualification-team-005/rapport.md) ; il reste Ouvert / N/A jusqu’à approbation de clôture. L’affectation courante de plusieurs Coachs relève de l’Epic Accompagnement. Les [deltas et dépendances consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-deltas-bornés) conservent les acquis ; C04/C05 doivent décider scope Coach et effets de reprise, sans calendrier ou historique daté déduit de l’état courant.
+Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organisation, selon les [concepts transverses](00-concepts-transverses.md). Le Superadmin est le superuser Django global. TEAM-001/004 et la liste Admin/Superadmin sont livrés ; le [GET minimal Admin/Superadmin](../planning/qualification-team-003/preuves.md) est publié. [C04 décidé le 2026-11-12](00-arbitrage-c04-equipes-coach.md) autorise les lectures Coach des seules équipes actuellement affectées dans son organisation, compte actif requis : TEAM-002 liste les actifs et TEAM-003 lit un détail actif ou archivé. Leur qualification et leurs clôtures restent distinctes ; aucun statut n’est déduit de la décision. TEAM-006 (liste séparée des archives) et TEAM-007 restent distincts. C05 conserve les effets de reprise ; TEAM-005 ajoute le refus explicite 400 du second archivage selon le [contrat approuvé](../planning/qualification-team-005/rapport.md), sans changement de mutation dans C04 ; sa clôture reste soumise à approbation, Ouvert / N/A. Le filtre Logs Admin inclut déjà les archives. Affectations courantes multiples et historique éventuel relèvent de l’Epic Accompagnement, sans historique daté déduit de l’état courant.
 
 ### FEAT-005 — Constituer une équipe
 
@@ -44,14 +44,14 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Critères d’acceptation :**
   - le `Superadmin` peut lister les équipes de toutes les organisations ;
   - l’`Admin` peut lister uniquement les équipes de son organisation ;
-  - le `Coach` peut lister uniquement les équipes de son périmètre autorisé ;
+  - le `Coach` actif peut lister uniquement les équipes actives auxquelles il est actuellement affecté dans son organisation actuelle, selon [C04](00-arbitrage-c04-equipes-coach.md) ;
   - la liste contient chaque équipe active accessible une seule fois, avec son identifiant, son nom, son état et l’identifiant de son organisation ;
   - une équipe archivée n’apparaît pas dans la liste active par défaut ;
   - lorsqu’aucune équipe active n’est accessible, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
   - une équipe nouvellement créée par `TEAM-001` apparaît dans la liste active lors de la consultation suivante ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une équipe.
 - **Principaux cas de refus :** acteur non authentifié ; périmètre absent ou tentative d’accès hors du périmètre autorisé.
-- **Décision produit bloquante :** aucune pour Viewer : aucun accès administratif ; seules les équipes ayant des résultats COMPLETED sont proposées dans Results.
+- **Décision produit :** [C04 adopté le 2026-11-12](00-arbitrage-c04-equipes-coach.md) ; Viewer reste limité aux consultations déjà autorisées dans Results, sans écran Équipes ni droit de mutation.
 - **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -69,13 +69,13 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter une équipe de toute organisation ;
   - l’`Admin` peut consulter une équipe de son organisation uniquement ;
-  - le `Coach` peut consulter une équipe de son périmètre autorisé ;
-  - un identifiant existant et accessible restitue exactement une équipe avec son identifiant, son nom, son état et l’identifiant de son organisation ;
+  - le `Coach` actif peut consulter une équipe active ou archivée actuellement affectée dans son organisation actuelle ; ancien lien ou assignation de passation sans droit supplémentaire ([C04](00-arbitrage-c04-equipes-coach.md)) ;
+  - un identifiant existant et accessible restitue exclusivement `id`, `name`, `organization_id` et `is_active` ;
   - l’état présenté distingue explicitement une équipe active d’une équipe archivée ;
   - un identifiant inexistant produit une erreur explicite d’équipe introuvable sans contenu d’équipe ;
-  - un acteur sans accès à l’équipe ne reçoit aucune donnée métier et aucune confirmation de son existence.
+  - une équipe inaccessible et une équipe inexistante produisent le même HTTP 404 sans donnée métier ni confirmation d’existence ; organisation et affectation sont revérifiées à chaque requête.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent ou mal formé ; équipe inexistante ou hors du périmètre autorisé.
-- **Décision produit bloquante :** aucune pour Viewer : aucun accès administratif ; seules les équipes ayant des résultats COMPLETED sont proposées dans Results.
+- **Décision produit :** [C04 adopté le 2026-11-12](00-arbitrage-c04-equipes-coach.md) ; Viewer reste limité aux consultations déjà autorisées dans Results, sans écran Équipes ni droit de mutation.
 - **Dépendances :** `TEAM-001` ; `FEAT-004` pour le périmètre d’accès.
 - **Priorité :** P0.
 - **Domaine métier cible :** Gestion des équipes.
@@ -147,13 +147,13 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter les équipes archivées de toutes les organisations ;
   - l’`Admin` peut consulter les équipes archivées de son organisation uniquement ;
-  - le `Coach` peut consulter les équipes archivées de son périmètre autorisé ;
+  - le `Coach` actif pourra consulter les seules archives actuellement affectées dans son organisation actuelle, selon [C04](00-arbitrage-c04-equipes-coach.md) ; TEAM-006 reste un PBI distinct ;
   - la liste contient chaque équipe archivée accessible une seule fois, avec son identifiant, son nom, l’état `archivée` et l’identifiant de son organisation ;
   - aucune équipe active n’apparaît dans cette liste ;
   - lorsqu’aucune équipe n’est archivée, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
   - une équipe archivée par `TEAM-005` apparaît dans cette liste lors de la consultation suivante.
 - **Principaux cas de refus :** acteur non authentifié ; périmètre absent ou tentative de consulter une équipe archivée hors du périmètre autorisé.
-- **Décision produit bloquante :** aucune pour Viewer : aucun accès administratif ; seules les équipes ayant des résultats COMPLETED sont proposées dans Results.
+- **Décision produit :** [C04 adopté le 2026-11-12](00-arbitrage-c04-equipes-coach.md) ; Viewer reste limité aux consultations déjà autorisées dans Results, sans écran Équipes ni droit de mutation.
 - **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P1.
 - **Domaine métier cible :** Gestion des équipes.

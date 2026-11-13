@@ -10,7 +10,7 @@ def direct_reads(side):
     lineage = run.questions.first().lineage_id
     return [
         (f"/api/admin/organizations/{org}/", {"admin", "root"}),
-        (f"/api/admin/organizations/{org}/teams/", {"admin", "root"}),
+        (f"/api/admin/organizations/{org}/teams/", {"admin", "coach", "root"}),
         (f"/api/admin/evaluations/{evaluation.pk}/questions/", {"admin", "root"}),
         (f"/api/evaluations/{run.pk}/", {"admin", "coach", "root"}),
         (f"/api/results/versions/{evaluation.pk}/", {"admin", "coach", "viewer", "root"}),

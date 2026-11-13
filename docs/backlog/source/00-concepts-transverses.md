@@ -61,11 +61,11 @@ Le `DELETE` d’une Organisation est une suppression physique réservée au `Sup
 | Action | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
 | CREATE | Toutes les organisations | Organisation d'affectation | Non | Non |
-| READ | Toutes les organisations | Organisation d'affectation | Périmètre autorisé | Résultats uniquement, aucun écran Équipes |
+| READ | Toutes les organisations | Organisation d'affectation | Équipes actuellement affectées dans son organisation, compte actif ; [C04](00-arbitrage-c04-equipes-coach.md) | Résultats uniquement, aucun écran Équipes |
 | UPDATE | Toutes les organisations | Organisation d'affectation | Non | Non |
 | DELETE | Toutes les organisations | Organisation d'affectation | Non | Non |
 
-Pour les Équipes, `DELETE` réalise l’archivage canonique de `TEAM-005`. Pour les deux matrices, un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre. Toute lecture de donnée métier exige une identité authentifiée.
+Pour les Équipes, [C04 décidé le 2026-11-12](00-arbitrage-c04-equipes-coach.md) couvre la lecture active ou archivée tant que l’affectation et l’appartenance courantes sont conservées ; ancien lien ou assignation de passation sans droit supplémentaire. `DELETE` réalise l’archivage canonique de `TEAM-005`. Pour les deux matrices, un refus de droit ou de périmètre intervient avant toute écriture, ne produit aucun effet partiel et ne révèle aucune donnée hors périmètre. Toute lecture de donnée métier exige une identité authentifiée.
 
 ## Authentification des consultations
 

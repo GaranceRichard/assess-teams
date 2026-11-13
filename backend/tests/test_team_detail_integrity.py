@@ -26,14 +26,15 @@ def business_state():
 
 
 @pytest.mark.parametrize("active", [False, True])
-def test_detail_preserves_business_data_and_writes_only_one_http_log(active):
+@pytest.mark.parametrize("role", ["admin", "coach"])
+def test_detail_preserves_business_data_and_writes_only_one_http_log(active, role):
     organization, coach, admin, run = taking_context()
     team = run.team
     team.coaches.add(coach)
     assert complete(client_for(coach), run).status_code == 200
     team.is_active = active
     team.save(update_fields=["is_active"])
-    client = client_for(admin)
+    client = client_for(coach if role == "coach" else admin)
     before = business_state()
     previous_logs = list(LogEntry.objects.order_by("pk").values())
 

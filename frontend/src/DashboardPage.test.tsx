@@ -79,6 +79,18 @@ it.each(["Coach", "Viewer"] as const)(
   },
 );
 
+it("shows an explicit empty state for a Coach without active assigned teams", async () => {
+  const data: DashboardData = {
+    ...fixture,
+    profile: { ...fixture.profile, role: "Coach", team_names: [] },
+  };
+  vi.mocked(getDashboard).mockResolvedValue(data);
+  render(<DashboardPage {...props} user={data.profile} />);
+  expect(
+    await screen.findByText("Aucune équipe active actuellement affectée."),
+  ).toBeVisible();
+});
+
 it("labels global activity with each organization and shows Superadmin without an invented organization", async () => {
   const data: DashboardData = {
     ...fixture,

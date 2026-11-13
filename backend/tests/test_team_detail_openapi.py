@@ -40,3 +40,23 @@ def test_schema_documents_minimal_readonly_team_detail_and_existing_mutations():
         "$ref"
     ]
     assert "coaches" in schema["components"]["schemas"][mutation_ref.split("/")[-1]]["properties"]
+
+
+def test_schema_documents_coach_and_admin_collection_projections():
+    schema = APIClient().get(reverse("schema"), HTTP_ACCEPT="application/json").json()
+    operation = schema["paths"]["/api/admin/organizations/{organization_id}/teams/"]["get"]
+    assert "C04" in operation["description"]
+    assert "requestBody" not in operation
+    assert {"cookieAuth": []} in operation["security"]
+    components = schema["components"]["schemas"]
+    reference = operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"]
+    variants = components[reference.split("/")[-1]]["oneOf"]
+    assert {variant["$ref"].split("/")[-1] for variant in variants} == {
+        "TeamCollection",
+        "TeamDetailCollection",
+    }
+    for name in ("Team", "TeamDetail"):
+        collection = components[f"{name}Collection"]["oneOf"]
+        assert collection[0] == {"type": "array", "items": {"$ref": f"#/components/schemas/{name}"}}
+        page = components[f"{name}Page"]
+        assert page["properties"]["results"]["items"] == {"$ref": f"#/components/schemas/{name}"}

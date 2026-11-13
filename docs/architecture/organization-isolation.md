@@ -38,6 +38,7 @@ dernier Admin actif, unicité locale) et à la hiérarchie fonctionnelle existan
 | Admin | A | quelconque | B | Utilisateur B recherché ; filtre Journal/Logs B | Collection vide, aucune révélation | R1/R8 |
 | Admin | A | équipe A | A | Coach B dans corps ; équipe/modèle/responsable B dans planning | Refus 400 équipe / 404 planning | R1/R3/R7 |
 | Admin | A | quelconque | A | Gérer Admin pair / créer ou supprimer organisation | Refus fonctionnel 403 (membres protégés : 400) | R2 |
+| Coach | A | affecté actuellement à équipe A | A | Lire équipe active/archivée et liste active | Autorisé (C04) ; ancien lien ou passation seule sans droit | R1/R3 |
 | Coach | A | assigné au run A | A | Lire/démarrer/noter/finaliser passation ; Results COMPLETED | Autorisé | R4/R5 |
 | Coach | A | membre d’équipe A, non assigné | A | Consulter passation ou résultat d’un autre assigné | Refus 404 ; liste sans ce run | R3/R4/R5 |
 | Coach | A | ancien lien ou assignation B | B | Lecture, mutation ou résultat B | Refus 404 ; absent des listes | R1/R4/R5 |
@@ -67,7 +68,7 @@ Tous les chemins ci-dessous sont préfixés par `/api/`. Les méthodes absentes 
 | Session, profil, Dashboard | `session/` GET/PATCH, login/logout POST, `dashboard/` GET | Django recharge l’identité ; préférences sans cible tierce ; profil/activité filtrés, paramètres forgés sans effet. |
 | Identités | `users/` POST ; `admin/users/` GET/POST ; `{id}/` PUT/DELETE ; deactivate/reactivate POST | Création technique Superadmin ; scope membres avant cible ; hiérarchie puis transition atomique, recherche après scope. |
 | Organisations | `admin/organizations/` GET/POST, `{id}/` GET/PUT/DELETE, `{id}/members/` PUT | `visible_organizations`, cardinalité, Admins protégés, transaction et verrou avant mutation de membres. |
-| Équipes | `admin/organizations/{id}/teams/` GET/POST, `admin/teams/{id}/` GET/PUT/DELETE | Organisation accessible ; GET détail actif/archivé minimal Admin/Superadmin, PUT actif seulement ; DELETE refuse une archive accessible (400) après scope ; Coach refusé (C04). Références Coach locales. |
+| Équipes | `admin/organizations/{id}/teams/` GET/POST, `admin/teams/{id}/` GET/PUT/DELETE | Organisation accessible ; GET minimal actif/archivé Admin/Superadmin et Coach actif actuellement affecté et membre courant (C04), liste Coach active seulement ; PUT Admin/Superadmin actif seulement ; DELETE Admin/Superadmin refuse une archive accessible (400) après scope. Références Coach locales. |
 | Modèles | `admin/evaluations/` GET/POST ; `{id}/` PUT/DELETE ; validate/archive/versions POST | `visible_evaluations`, verrou de brouillon/version, propriétaire conservé ; filtre de liste ajouté au scope. |
 | Questions | `admin/evaluations/{id}/questions/` GET/POST ; `admin/questions/{id}/` PUT/DELETE | Parent et question filtrés par organisation ; pas de mutation d’une version immuable. |
 | Planning | `admin/planning/` GET/POST ; `{id}/` PUT/DELETE | Cible scopée et chacune des quatre références validée, transaction conservée ; exception Superadmin limitée à soi. |
@@ -94,7 +95,7 @@ Les tests d’inventaire MEP-008 et des mots de passe restent applicables.
   Le CRUD local, les familles et les résultats n’accordent aucun partage.
 - ARB-ORG-005 / ORG-004 : suppression d’organisation avec dépendances autres que passations
   commencées reste ouverte. La protection historique existante est testée, sans redéfinir les cascades.
-- TEAM-003 : [GET actif/archivé Admin/Superadmin](teams-api.md) livré sans ouverture Coach (C04).
+- TEAM-002/003 : [C04 décidé](../backlog/source/00-arbitrage-c04-equipes-coach.md), liste active et détail actif/archivé limités aux affectations et appartenances courantes du Coach actif ; aucune extension Results/passations.
   TEAM-006/007 : liste dédiée d'archives et réactivation non livrées ; filtre Logs préservé.
 - MEP-037 garde la matrice générale des rôles/navigation ; MEP-038 garde exports et accès indirects.
   Les filtres/relations déjà présents sont testés ici pour ne laisser aucune fuite démontrée.

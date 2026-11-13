@@ -88,8 +88,8 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | ORG-005 — Gérer le rattachement courant des Admins | Réalisé | scope et protection des pairs ; 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | Réalisé | cardinalité et scope ; 2026-09-28 |
 | TEAM-001 — Créer une équipe | Réalisé | API/UI/tests et unicité organisationnelle ; 2026-09-27 |
-| TEAM-002 — Lister les équipes | Ouvert | Admin/Superadmin livrés ; Coach absent, Viewer exclu |
-| TEAM-003 — Consulter une équipe | Ouvert | GET détail actif/archivé Admin/Superadmin ; périmètre Coach en attente de C04 |
+| TEAM-002 — Lister les équipes | Ouvert | [C04 décidé](source/00-arbitrage-c04-equipes-coach.md) : lectures Coach affectées en qualification ; clôture séparée attendue, Viewer exclu |
+| TEAM-003 — Consulter une équipe | Ouvert | GET détail actif/archivé ; extension Coach selon C04 en qualification, clôture séparée attendue |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
 | TEAM-005 — Archiver une équipe | Ouvert | archivage, GET archivé Admin/Superadmin et second refus explicite 400 ; clôture en attente d’approbation |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
@@ -161,7 +161,7 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Objet | `Superadmin` | `Admin` | `Coach` | `Viewer` |
 | --- | --- | --- | --- | --- |
 | Organisation | CRUD global | lecture/mise à jour de son organisation | aucun endpoint Organisation | aucun endpoint Organisation |
-| Équipe | création/liste/mise à jour/archivage global | mêmes actions dans son organisation | aucune lecture d’équipe par API | aucune lecture d’équipe par API |
+| Équipe | création/liste/mise à jour/archivage global | mêmes actions dans son organisation | liste active et détail actif/archivé affectés, organisation courante et compte actif (C04) | liste active et détail actif/archivé affectés, organisation courante et compte actif (C04) |
 | Utilisateur | liste/édition/désactivation/réactivation hors soi-même | Coach/Viewer de son organisation | Viewers de son organisation, fonction inchangée | refus |
 | Modèle/planification | gestion globale | gestion dans son organisation | aucune gestion | aucune gestion |
 | Passation | accès global, complétion et révision | mêmes actions dans son organisation | ses assignations dans son organisation ; complétions read-only | refus |

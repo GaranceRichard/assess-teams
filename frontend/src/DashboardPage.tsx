@@ -79,9 +79,14 @@ export function DashboardPage({
               </strong>
             </p>
           )}
-          {user.role === "Coach" && profile.team_names.length > 0 && (
+          {user.role === "Coach" && (
             <p>
-              Équipes : <strong>{profile.team_names.join(", ")}</strong>
+              Équipes :{" "}
+              <strong>
+                {profile.team_names.length > 0
+                  ? profile.team_names.join(", ")
+                  : "Aucune équipe active actuellement affectée."}
+              </strong>
             </p>
           )}
           <h3>Apparence</h3>

@@ -123,6 +123,6 @@ test("a Coach sees assigned teams on the dashboard without a teams menu", async 
     "Résultats",
   ]);
   expect((await page.request.get("/api/admin/teams/999999/")).status()).toBe(
-    403,
+    404,
   );
 });

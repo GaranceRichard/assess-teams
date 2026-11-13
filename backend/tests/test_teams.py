@@ -121,8 +121,8 @@ def test_admin_manages_only_teams_from_an_attached_organization() -> None:
 
 @pytest.mark.django_db
 @pytest.mark.api
-@pytest.mark.parametrize("role", [Role.COACH, Role.VIEWER])
-def test_team_management_refuses_coach_and_viewer(role: Role) -> None:
+@pytest.mark.parametrize("role", [Role.VIEWER])
+def test_team_list_refuses_viewer(role: Role) -> None:
     actor = create_user("actor", role)
     organization = Organization.objects.create(name="North")
     organization.users.add(actor)

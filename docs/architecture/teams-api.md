@@ -1,50 +1,67 @@
 # Contrat API des équipes
 
-Ces routes exigent une session active de Superadmin Django ou d'Admin (`cookieAuth`).
-Le Superadmin agit dans toute organisation ; l'Admin uniquement dans une organisation dont il est membre.
-Le scope est relu à chaque requête. Coach et Viewer reçoivent `403`, même affectés à l'équipe.
-Le découpage TEAM-003 Admin/Superadmin est approuvé ; C04 reste ouvert pour le périmètre Coach.
+Ces routes exigent une session active (`cookieAuth`). Le Superadmin Django agit dans toute
+organisation et l’Admin uniquement dans son organisation. [C04 du 2026-11-12](../backlog/source/00-arbitrage-c04-equipes-coach.md)
+autorise le Coach actif à lire uniquement ses équipes actuellement affectées dans son organisation
+actuelle. Appartenance et affectation sont revérifiées à chaque requête. Un ancien lien, une ancienne
+appartenance ou une assignation de passation ne donne aucun droit de lecture d’équipe.
+Viewer reste refusé (403) ; ses consultations existantes dans Results sont conservées.
+
+`CanReadTeams` s’applique aux lectures seulement, combinée avec la permission existante pour
+les Admins. `CanManageOrganizations` reste inchangée : aucune mutation ni consultation
+organisationnelle Coach supplémentaire. Les menus et écrans administratifs restent inchangés.
 
 ## Consultation minimale — TEAM-003
 
 `GET /api/admin/teams/{team_id}/` consulte une seule équipe active ou archivée, sans body.
-Le paramètre de chemin `team_id` est un entier obligatoire ; aucun filtre d'état n'est nécessaire.
-La réponse `200` est exactement :
+Le paramètre de chemin `team_id` est un entier obligatoire ; aucun filtre d’état n’est nécessaire.
+La réponse `200` est exclusivement :
 
 ```json
 {"id": 42, "name": "Alpha", "organization_id": 7, "is_active": true}
 ```
 
 Les quatre champs sont obligatoires et en lecture seule : deux entiers, une chaîne, un booléen.
-`is_active=false` distingue une archive, avec les mêmes ID, nom et organisation après archivage.
-Aucun Coach, membre, historique, modèle ou contenu d'organisation n'est exposé.
+`is_active=false` distingue une archive ; le Coach y accède tant que son affectation courante
+et son appartenance sont conservées. Aucun Coach, membre, historique, modèle ou contenu
+d’organisation n’est exposé.
 
 | Condition | Réponse |
 | --- | --- |
-| Acteur autorisé et équipe accessible, active ou archivée | 200 JSON minimal. |
-| Équipe inexistante ou hors périmètre | Même 404 JSON : `{"detail":"Équipe introuvable."}`. |
-| Coach, Viewer, session absente ou compte inactif | 403 JSON avec `detail`, avant recherche d'équipe. |
+| Superadmin/Admin autorisé ou Coach actif actuellement affecté et membre courant | 200 JSON minimal, actif ou archivé. |
+| Équipe inexistante, étrangère ou non affectée au Coach | Même 404 JSON : `{"detail":"Équipe introuvable."}`. |
+| Viewer, session absente ou compte inactif | 403 JSON avec `detail`, avant recherche d’équipe. |
 | ID 0, inexistant ou entier hors plage de stockage | 404 JSON sans erreur serveur. |
-| ID absent, texte, négatif ou décimal | 404 du routeur, éventuellement non JSON ; aucune donnée d'équipe. |
+| ID absent, texte, négatif ou décimal | 404 du routeur, éventuellement non JSON ; aucune donnée d’équipe. |
 | Erreur interne | 500 sûr du gestionnaire partagé, sans traceback ni donnée métier. |
 
-La lecture `readable_team` filtre l'organisation avant recherche et inclut les archives.
-Elle ne sauvegarde aucune donnée métier et ne crée aucune `ActivityEntry`.
-Le [middleware HTTP](journals-api.md) conserve un seul Log technique avec corrélation et contexte autorisé.
-Un refus hors périmètre ne charge aucun contexte de l'équipe étrangère.
+`readable_teams` filtre organisation et affectation avant recherche par identifiant dans `readable_team`.
+La lecture ne sauvegarde aucune donnée métier et ne crée aucune `ActivityEntry`.
+Le [middleware HTTP](journals-api.md) conserve un seul Log technique avec contexte autorisé.
+Un refus ne charge aucun contexte de l’équipe inaccessible.
 
-## Liste et création existantes
+## Liste active — TEAM-002
 
-`GET /api/admin/organizations/{organization_id}/teams/` liste les équipes actives de l'organisation.
-`include_archived=true` inclut aussi les archives pour les sélecteurs des Logs ; valeur invalide : `400`.
-La collection conserve sa projection avec Coachs et sa pagination optionnelle.
-Le menu Équipes impose le choix d'une organisation accessible.
+`GET /api/admin/organizations/{organization_id}/teams/` liste les actifs accessibles une seule fois.
+Coach : mêmes quatre champs minimaux, uniquement ses affectations courantes dans son organisation.
+Superadmin/Admin : projection existante enrichie de `coaches`, membres courants de l’organisation.
+Une collection hors organisation et une organisation inexistante donnent le même 404 sans divulgation.
+Sans équipe accessible : `[]`, ou `count=0` et `results=[]` si `page=1` est demandé.
+Le contexte Coach existant du Dashboard présente explicitement l’absence d’équipe active affectée.
 
-`POST` sur la même route accepte `name` et `coach_ids`, rattache l'équipe à cette seule organisation
+`include_archived=true` conserve le filtre Admin/Superadmin des sélecteurs Logs. Pour le Coach,
+la liste reste limitée aux **actifs**, même avec ce paramètre ; ce filtre ne réalise pas TEAM-006.
+Valeur invalide : 400. La pagination optionnelle conserve le filtrage avant comptage et sélection.
+OpenAPI décrit les deux projections et leurs variantes liste simple/enveloppe paginée.
+Aucune nouvelle lecture d’organisation n’est ouverte : C03 reste distinct.
+
+## Création, modification et archivage préservés
+
+Ces écritures restent réservées aux Admins/Superadmins via `CanManageOrganizations`.
+`POST` sur la collection accepte `name` et `coach_ids`, rattache l’équipe à cette organisation
 et peut lui affecter plusieurs Coachs. Le nom nettoyé est obligatoire et unique sans tenir compte
-de la casse dans l'organisation, archives comprises ; une autre organisation peut réutiliser ce nom.
-Chaque Coach doit être membre courant ; seul un inactif local déjà affecté peut être conservé (`400` sinon).
-Les [réponses MEP-011](organization-isolation.md) filtrent les données courantes hors organisation.
+de la casse dans l’organisation, archives comprises ; une autre organisation peut réutiliser ce nom.
+Chaque Coach doit être membre courant ; seul un inactif local déjà affecté peut être conservé.
 
 ## Modification et archivage — TEAM-005
 
@@ -76,7 +93,7 @@ Aucune liste dédiée TEAM-006 ni réactivation TEAM-007 n'est ajoutée.
 `test_team_detail`, `test_team_detail_integrity` et `test_team_detail_openapi` couvrent projection,
 deux états, rôles, ID, isolation, session après retrait, données historiques et capture HTTP unique.
 `test_teams`, `test_log_team_options`, `test_http_logs` et `test_openapi` protègent les acquis.
-Le parcours Playwright `teams.spec.ts` relit l'équipe active puis archivée et vérifie le refus Coach.
+Le parcours Playwright `teams.spec.ts` relit l’équipe active puis archivée ; les lectures Coach suivent désormais C04.
 Schéma strictement généré/validé, `/api/schema/` et `/api/docs/` restent contrôlés.
 [Preuves et limites du découpage](../backlog/planning/qualification-team-003/preuves.md).
 
@@ -85,3 +102,11 @@ absence d'écriture métier au second DELETE, scopes, rôles, sessions, CSRF et 
 `test_team_archive_openapi` protège le 400 et son schéma liste de chaînes avec exemple exact.
 Le parcours `teams.spec.ts` couvre archivage→relecture→second refus→relecture inchangée.
 [Qualification et preuves TEAM-005](../backlog/planning/qualification-team-005/preuves.md).
+
+`test_coach_team_reads` vérifie actifs/archives, projections, vrais refus, anciens liens,
+assignations de passation, sessions après retrait/désactivation et mutations toujours interdites.
+`test_team_detail_integrity` compare données métier et liens avant/après lecture, y compris Coach.
+`test_team_detail_openapi` couvre détail et projections de collection. Les tests équipes, rôles,
+isolation, Logs et Swagger protègent les acquis. `coach-team-reads.spec.ts` vérifie la session réelle,
+les GET, les refus, les retraits courants et l’état vide ; la navigation Admin reste protégée.
+[Qualification et soumissions séparées des clôtures](../quality/c04/README.md).

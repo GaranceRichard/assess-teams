@@ -67,20 +67,18 @@ def test_foreign_and_missing_teams_have_identical_safe_refusals(active, attached
         assert "Secret" not in str(entry.__dict__)
 
 
-@pytest.mark.parametrize("actor_kind", ["coach", "assigned-coach", "viewer", "inactive", "anon"])
+@pytest.mark.parametrize("actor_kind", ["viewer", "inactive", "anon"])
 @pytest.mark.parametrize("active", [False, True])
 def test_detail_refuses_unauthorized_actors_without_disclosing_existence(actor_kind, active):
     organization = Organization.objects.create(name="Own")
     team = Team.objects.create(name="Alpha", organization=organization, is_active=active)
     client = APIClient(enforce_csrf_checks=True)
     if actor_kind != "anon":
-        role = Role.COACH if "coach" in actor_kind else Role.VIEWER
+        role = Role.VIEWER
         if actor_kind == "inactive":
             role = Role.ADMIN
         actor = create_user("actor", role, is_active=actor_kind != "inactive")
         organization.users.add(actor)
-        if actor_kind == "assigned-coach":
-            team.coaches.add(actor)
         client.force_login(actor)
     before = ActivityEntry.objects.count()
 
