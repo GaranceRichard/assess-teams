@@ -35,7 +35,7 @@ def test_schema_documents_minimal_readonly_team_detail_and_existing_mutations():
         assert error["properties"] == {"detail": {"type": "string"}}
         assert error["required"] == ["detail"]
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404", "500"}
-    assert set(detail["delete"]["responses"]) == {"204", "403", "404", "500"}
+    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404", "500"}
     mutation_ref = detail["put"]["responses"]["200"]["content"]["application/json"]["schema"][
         "$ref"
     ]

@@ -75,7 +75,9 @@ def test_reading_an_archive_preserves_identity_and_does_not_make_it_mutable():
 
     assert read.status_code == 200
     assert read.json() == {**active.json(), "is_active": False}
-    assert renamed.status_code == repeated.status_code == 404
+    assert renamed.status_code == 404
+    assert repeated.status_code == 400
+    assert repeated.json() == ["Équipe déjà archivée."]
     assert business_state() == before
     collection = reverse("team-list", kwargs={"organization_id": organization.pk})
     assert client.get(collection).json() == []

@@ -91,7 +91,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | TEAM-002 — Lister les équipes | Ouvert | Admin/Superadmin livrés ; Coach absent, Viewer exclu |
 | TEAM-003 — Consulter une équipe | Ouvert | GET détail actif/archivé Admin/Superadmin ; périmètre Coach en attente de C04 |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
-| TEAM-005 — Archiver une équipe | Ouvert | archivage et GET archivé Admin/Superadmin livrés ; second refus explicite absent |
+| TEAM-005 — Archiver une équipe | Ouvert | archivage, GET archivé Admin/Superadmin et second refus explicite 400 ; clôture en attente d’approbation |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
 | TEAM-007 — Réactiver une équipe | Ouvert | absent ; effets de reprise C05 à décider |
 | COACH-001 — Affecter les Coachs courants d’une équipe | Réalisé | affectation locale multi-Coachs ; 2026-09-27 |

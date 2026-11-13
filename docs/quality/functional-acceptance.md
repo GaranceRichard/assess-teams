@@ -37,6 +37,8 @@ Les scénarios utilisent uniquement les capacités démontrées dans la [couvert
 la [stratégie de tests](test-strategy.md), les contrats et les assertions citées dans chaque fiche.
 Le statut Réalisé d'un PBI historique ne vaut pas livraison de sa Feature entière.
 
+Le [correctif TEAM-005](../backlog/planning/qualification-team-005/preuves.md) ajoute depuis cette base
+le second refus explicite 400 approuvé ; FON-06 et son état historique ci-dessous ne valent pas recette de ce delta.
 Le [lot TEAM-003](../architecture/teams-api.md) ajoute depuis cette base le GET détail actif/archivé Admin/Superadmin ;
 le périmètre Coach attend C04. Cette évolution ne vaut pas exécution ni acceptation de la recette cible.
 

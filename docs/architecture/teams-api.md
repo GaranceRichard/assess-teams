@@ -46,14 +46,29 @@ de la casse dans l'organisation, archives comprises ; une autre organisation peu
 Chaque Coach doit être membre courant ; seul un inactif local déjà affecté peut être conservé (`400` sinon).
 Les [réponses MEP-011](organization-isolation.md) filtrent les données courantes hors organisation.
 
-## Modification et archivage préservés
+## Modification et archivage — TEAM-005
 
 `PUT /api/admin/teams/{team_id}/` remplace nom et Coachs sans changer l'organisation.
-`DELETE` archive et retourne `204` ; l'équipe disparaît de la liste active sans suppression physique.
-Les deux opérations utilisent toujours `manageable_team`, limité aux actifs : une équipe inexistante,
-archivée ou hors périmètre donne `404`. Un GET d'archive réussi n'autorise aucune mutation de cette archive.
-La réponse PUT conserve les Coachs ; les activités métier existantes restent inchangées.
-Le second DELETE reste `404` : le refus explicite TEAM-005 n'est pas développé dans ce lot.
+Il conserve `manageable_team`, limité aux actifs : archive, absence et hors périmètre donnent `404`.
+Un GET d'archive réussi n'autorise aucune mutation de cette archive.
+
+`DELETE` archive une équipe active et retourne `204` sans corps ; elle disparaît de la liste active
+sans suppression physique ni modification de son identité, ses liens et ses données historiques.
+Une seule activité métier `team_archived` est créée avec la transition.
+Le contrat TEAM-005 approuvé le 2026-11-12 refuse explicitement une archive accessible :
+
+| Condition DELETE | Réponse | Effet et journalisation |
+| --- | --- | --- |
+| Équipe active accessible, Admin/Superadmin | 204 sans corps | is_active=false ; une activité d'archivage et un Log HTTP. |
+| Équipe déjà archivée accessible, Admin/Superadmin | 400 : `["Équipe déjà archivée."]` | Aucune sauvegarde métier ni activité ; un Log HTTP 400 avec contexte autorisé. |
+| Équipe inexistante ou hors organisation, active ou archivée | Même 404 : `{"detail":"No Team matches the given query."}` | Aucun effet métier ni contexte d'équipe étrangère. |
+| Coach/Viewer, session absente/inactive ou CSRF invalide | 403 existant | Refus avant recherche, aucun effet métier. |
+
+Le DELETE conserve d’abord `manageable_team` pour les actifs. Après son 404, le helper dédié
+`archivable_team` filtre à nouveau l’organisation avant recherche par ID et avant contrôle d’état.
+Il ne modifie ni `readable_team` ni `manageable_team` ; les erreurs DELETE 404 existantes sont conservées.
+Le refus 400 utilise `ValidationError`, comme les autres invariants de lifecycle backend.
+Aucun verrou ou mécanisme de concurrence nouveau, modèle, migration ou capacité annexe n'est introduit.
 Aucune liste dédiée TEAM-006 ni réactivation TEAM-007 n'est ajoutée.
 
 ## Validation
@@ -64,3 +79,9 @@ deux états, rôles, ID, isolation, session après retrait, données historiques
 Le parcours Playwright `teams.spec.ts` relit l'équipe active puis archivée et vérifie le refus Coach.
 Schéma strictement généré/validé, `/api/schema/` et `/api/docs/` restent contrôlés.
 [Preuves et limites du découpage](../backlog/planning/qualification-team-003/preuves.md).
+
+`test_team_archive` vérifie transition unique, snapshots ORM historiques, activité unique,
+absence d'écriture métier au second DELETE, scopes, rôles, sessions, CSRF et ID absents/hors plage.
+`test_team_archive_openapi` protège le 400 et son schéma liste de chaînes avec exemple exact.
+Le parcours `teams.spec.ts` couvre archivage→relecture→second refus→relecture inchangée.
+[Qualification et preuves TEAM-005](../backlog/planning/qualification-team-005/preuves.md).

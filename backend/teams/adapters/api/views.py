@@ -1,7 +1,9 @@
 from django.db import transaction
+from django.http import Http404
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -12,8 +14,9 @@ from identities.application.lifecycle import lock_identity_changes
 from journals.activity_records import team_archived, team_changed, team_created
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
-from teams.adapters.api.scope import manageable_team, readable_team
+from teams.adapters.api.scope import archivable_team, manageable_team, readable_team
 from teams.adapters.api.serializers import (
+    TEAM_ARCHIVE_ERROR_SCHEMA,
     TeamDetailErrorSerializer,
     TeamDetailSerializer,
     TeamInputSerializer,
@@ -160,12 +163,26 @@ class TeamDetailView(APIView):
         return Response(TeamSerializer(team).data)
 
     @extend_schema(
-        description="Archive une équipe active sans supprimer son historique.",
-        responses={204: None, 403: OpenApiResponse(), 404: OpenApiResponse()},
+        description=(
+            "Archive une équipe active sans supprimer son historique. "
+            "Une équipe accessible déjà archivée est refusée (400), sans nouvelle activité métier."
+        ),
+        responses={
+            204: None,
+            400: OpenApiResponse(
+                TEAM_ARCHIVE_ERROR_SCHEMA,
+                description="Équipe déjà archivée.",
+            ),
+            403: OpenApiResponse(),
+            404: OpenApiResponse(),
+        },
     )
     @transaction.atomic
     def delete(self, request, team_id: int):
-        team = manageable_team(request.user, team_id)
+        try:
+            team = manageable_team(request.user, team_id)
+        except Http404:
+            team = archivable_team(request.user, team_id)
         describe_log_attempt(
             request,
             "Échec d’archivage de l’équipe",
@@ -173,6 +190,8 @@ class TeamDetailView(APIView):
             organization=team.organization,
             team=team,
         )
+        if not team.is_active:
+            raise ValidationError("Équipe déjà archivée.")
         team.is_active = False
         team.save(update_fields=["is_active"])
         team_archived(request.user, team)

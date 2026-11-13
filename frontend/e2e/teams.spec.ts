@@ -79,6 +79,19 @@ test("an Admin manages an organization's team and its coaches", async ({
     ...(await active.json()),
     is_active: false,
   });
+
+  const csrf = (await page.context().cookies()).find(
+    (cookie) => cookie.name === "csrftoken",
+  );
+  expect(csrf).toBeDefined();
+  const repeated = await page.request.delete(detailUrl, {
+    headers: { "X-CSRFToken": csrf!.value },
+  });
+  expect(repeated.status()).toBe(400);
+  expect(await repeated.json()).toEqual(["Équipe déjà archivée."]);
+  const stillArchived = await page.request.get(detailUrl);
+  expect(stillArchived.status()).toBe(200);
+  expect(await stillArchived.json()).toEqual(await archived.json());
 });
 
 test("a Coach sees assigned teams on the dashboard without a teams menu", async ({

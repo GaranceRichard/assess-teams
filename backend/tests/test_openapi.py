@@ -159,7 +159,7 @@ def test_openapi_documents_team_management(api_client: APIClient) -> None:
     assert set(collection["post"]["responses"]) == {"201", "400", "403", "404", "500"}
     assert set(component["required"]) == {"name", "coach_ids"}
     assert set(detail["put"]["responses"]) == {"200", "400", "403", "404", "500"}
-    assert set(detail["delete"]["responses"]) == {"204", "403", "404", "500"}
+    assert set(detail["delete"]["responses"]) == {"204", "400", "403", "404", "500"}
 
 
 @pytest.mark.api

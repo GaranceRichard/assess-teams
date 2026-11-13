@@ -41,7 +41,7 @@ GET implique HEAD ; OPTIONS ne donne ni données métier ni droit de mutation.
 | admin/organizations/{id}/ | DELETE suppression | C | I | I | I | Contrôle is_superuser ; passation commencée protégée ; autres dépendances selon contrat existant. |
 | admin/organizations/{id}/members/ | PUT rattachements | C | C | I | I | UpdateOrganizationMembersSerializer : ensemble des Admin immuable pour Admin ; dernier Admin actif conservé. |
 | admin/organizations/{id}/teams/ | GET actifs/filtre archives ; POST création | C | C | I | I | CanManageOrganizations ; organisation accessible, Coachs membres et éligibles. |
-| admin/teams/{id}/ | PUT nom/Coachs ; DELETE archivage | C | C | I | I | Même permission ; équipe active accessible, organisation immuable. Aucune réactivation disponible. |
+| admin/teams/{id}/ | PUT nom/Coachs ; DELETE archivage | C | C | I | I | Même permission ; organisation immuable, PUT actif seulement ; second DELETE accessible refusé (400), hors scope/inexistant même 404. Aucune réactivation disponible. |
 | admin/teams/{id}/ | GET identité/état, actif ou archivé | A | C | I | I | CanManageOrganizations + readable_team ; projection minimale, 404 identique hors scope/inexistant ; Coach attend C04. |
 | admin/evaluations/ | GET liste ; POST brouillon | C | C | I | I | CanManageEvaluations + visible_evaluations ; organisation accessible. |
 | admin/evaluations/{id}/ | PUT édition ; DELETE brouillon | C | C | I | I | Même permission et scope ; état DRAFT requis. |

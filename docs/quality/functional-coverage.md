@@ -121,3 +121,8 @@ après refus ; les E2E existants restent exécutés dans l'environnement HTTP lo
 Les [preuves MEP-009](../operations/configuration/startup-validation.md) couvrent les démarrages
 réels Django/WSGI/ASGI/workers, les refus de configuration et la confidentialité des diagnostics.
 Les clés synthétiques acceptées sont générées à l'exécution, jamais des secrets MESS.
+
+TEAM-005 couvre aussi le second archivage accessible explicitement refusé (400) : tests API/ORM
+`test_team_archive`, OpenAPI `test_team_archive_openapi`, et `teams.spec.ts` avec session/CSRF réels.
+Les snapshots conservent modèles, questions, planifications, résultats, rattachements et activités antérieures ;
+le refus ne produit qu'un Log HTTP, sans sauvegarde métier. [Preuves](../backlog/planning/qualification-team-005/preuves.md).

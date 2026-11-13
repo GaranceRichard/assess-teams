@@ -5,6 +5,12 @@ from identities.domain.users import Role
 from identities.models import Organization, User
 from teams.models import Team
 
+TEAM_ARCHIVE_ERROR_SCHEMA = {
+    "type": "array",
+    "items": {"type": "string"},
+    "example": ["Équipe déjà archivée."],
+}
+
 
 class TeamDetailSerializer(serializers.ModelSerializer):
     organization_id = serializers.IntegerField(read_only=True)
