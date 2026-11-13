@@ -128,6 +128,10 @@ def child(pipe, path, kind, data):
                     if not announced and query.startswith(("UPDATE", "INSERT")):
                         announced = True
                         pipe.send("write_attempt")
+                        if kind == "api_wait":
+                            assert connection.in_atomic_block
+                            assert not connection.get_autocommit()
+                            pause(pipe, "write_parked")
                     return execute(query, params, many, context)
 
                 started = time.monotonic()

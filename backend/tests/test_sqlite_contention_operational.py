@@ -16,6 +16,7 @@ pytestmark = [pytest.mark.integration, pytest.mark.functional]
     "case",
     [
         "apis_release",
+        "apis_release_handoff",
         "apis_timeout",
         "commit_rollback",
         "api_worker_upgrade",

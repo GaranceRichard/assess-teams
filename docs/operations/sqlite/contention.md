@@ -88,7 +88,7 @@ Depuis `backend`, avec le runtime préparé :
 .venv/Scripts/python.exe -m pytest tests/test_sqlite_contention_operational.py tests/test_sqlite_replay_safety.py
 ```
 
-Le premier fichier lance onze scénarios avec settings développement **et production** : 22 cas sur
+Le premier fichier lance douze scénarios avec settings développement **et production** : 24 cas sur
 fichiers jetables. Le démarrage production valide ses paramètres réels. La remise immédiate est désactivée pour piloter
 les workers ; le transport de courriel est remplacé par un transport local suspendu. Sessions, CSRF, permissions, endpoints, ORM, modèles et Journal
 restent réels. Les PRAGMA MEP-039 sont conservés, sauf `busy_timeout=100` ms dans les pairs de test pour
@@ -96,6 +96,11 @@ provoquer rapidement les branches ; `test_sqlite_configuration` vérifie toujour
 
 `spawn` crée des processus indépendants. Pipes et signaux encadrent lecture, première écriture,
 Journal écrit, rollback et SMTP après commit. Aucune ordonnance dépendante d’un simple sommeil.
+Le cas positif suspend le concurrent à `write_parked`, avant son UPDATE natif, puis le reprend
+après le 201 du détenteur, donc après commit. Il qualifie le passage de relais, pas une attente
+native réussie ; `apis_timeout` conserve la contention native et le refus. La non-régression
+`apis_release_handoff` exige ces événements dans les deux modes, sans changer les 100 ms.
+Le [dossier incident](../../quality/ci-incident-20261111/correction.md) conserve les preuves rouge/verte.
 Les attentes de message sont limitées à 15 s, joins à 15 s, campagne isolée à 60 s ; les enfants restants
 sont arrêtés et joints même sur échec. Les temporaires sont propres au test et ne visent jamais une base existante.
 Chaque inspection d’invariants se fait avec une nouvelle connexion, après fermeture de tous les pairs

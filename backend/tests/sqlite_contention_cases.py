@@ -11,7 +11,7 @@ from tests.sqlite_contention_process import receive
 def apis(path, data, timeout=False):
     with Peers(path) as peers:
         first = peers.start("api_hold", data)
-        second = peers.start("api", {**data, "name": "Created second"})
+        second = peers.start("api" if timeout else "api_wait", {**data, "name": "Created second"})
         first.send("go")
         receive(first, "write_attempt")
         receive(first, "written")
@@ -22,10 +22,12 @@ def apis(path, data, timeout=False):
             assert refusal[0] == 500 and "base est occupée" in refusal[1]["detail"], refusal
             assert refusal[2]
         else:
-            assert not second.poll(0.03), "Contender escaped a held writer"
+            receive(second, "write_parked")
+            assert not second.poll(), "Contender escaped a held writer"
         first.send("continue")
         assert result(first)[0] == 201
         if not timeout:
+            second.send("continue")
             assert result(second)[0] == 201
     verify(path, teams=1 if timeout else 2, activities=1 if timeout else 2)
 
@@ -75,6 +77,10 @@ def run(case, path):
     data = setup(path)
     if case == "apis_release":
         apis(path, data)
+    elif case == "apis_release_handoff":
+        from tests.sqlite_contention_handoff import observed_handoff
+
+        observed_handoff(path, data)
     elif case == "apis_timeout":
         apis(path, data, timeout=True)
     elif case == "commit_rollback":
