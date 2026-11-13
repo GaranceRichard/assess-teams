@@ -50,7 +50,7 @@ Les responsabilités sont réparties entre trois rôles métier et une fonction 
 | Profil | Périmètre actuel |
 | --- | --- |
 | **Admin** | Organise et administre son organisation : membres Coach/Viewer, équipes, modèles, planification et Pilotage. Ne gère pas les Admins pairs. |
-| **Coach** | Réalise les passations qui lui sont assignées et consulte les résultats autorisés pour éclairer l’accompagnement. Peut gérer les Viewers de son organisation sans changer leur fonction ; ne crée pas de compte, ne gère pas les équipes ni Pilotage. |
+| **Coach** | Réalise les passations qui lui sont assignées et consulte les résultats autorisés pour éclairer l’accompagnement. Ses lectures API d’équipe couvrent ses affectations courantes, actives ou archivées, dans son organisation et avec un compte actif. Peut gérer les Viewers de son organisation sans changer leur fonction ; ne crée pas de compte et n’administre pas les équipes ni Pilotage. |
 | **Viewer** | Consulte les résultats des évaluations complétées de son organisation et son tableau de bord personnel ; aucun droit de passation ou d’administration. |
 | **Superadmin** | Assure l’administration technique globale explicitement prévue, sans appartenance organisationnelle. Gère notamment les Admins ; ce n’est pas un quatrième rôle métier. |
 

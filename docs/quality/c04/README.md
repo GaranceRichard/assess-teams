@@ -2,7 +2,7 @@
 
 Décision produit du 2026-11-12 : [source C04](../../backlog/source/00-arbitrage-c04-equipes-coach.md).
 Branche `c04-coach-team-reads`, base initiale `2fedab8`, resynchronisée le 2026-11-13
-sur `f400a8e` (correctif de synchronisation des tests SQLite), worktree isolé
+sur `f400a8e` (tests SQLite), puis `3a881f8` (politique documentaire et accueil produit), worktree isolé
 `C:\Users\garan\Desktop\Projets\Assess-teams-worktrees\c04-coach-team-reads`.
 README annoncé avant développement. Aucun autre worktree n’est modifié.
 
@@ -54,6 +54,27 @@ sont actualisés. Les audits datés conservent leur diagnostic historique avec u
 Aucun modèle ou migration, dépendance, rôle ou historique nouveau : migrations nouvelles N/A.
 La capture HTTP reste obligatoire ; aucun Journal métier pour une lecture ou un refus.
 Aucun statut, date canonique ou indicateur modifié avant approbation de clôture.
+
+## Revue de contenu après la nouvelle politique documentaire
+
+Le contrat propriétaire [Équipes](../../architecture/teams-api.md) porte le bloc normalisé
+et l’inventaire des fichiers API, tests et état vide réellement concernés. Sa pertinence
+vient des permissions, projections et refus de consultation qu’il décrit ; aucun script
+qualité ni règle de publication n’est modifié par C04. Le README reste la nouvelle vitrine
+produit et ne reçoit qu’une précision publique du périmètre de lecture Coach.
+
+La préparation réelle avant développement a utilisé le README et la source de décision C04,
+sous l’ancienne règle. Le nouveau format de bloc et l’inventaire fichier par fichier sont
+formalisés après développement pendant la resynchronisation ; cette chronologie est explicite,
+sans antériorité inventée ni dérogation prétendument approuvée. La décision, les refus testés,
+les limites TEAM-006/C03/C05 et les acquis de validation restent traçables. La revue de l’agent
+ne constitue pas une approbation humaine de clôture ou de ce point de chronologie.
+
+La campagne complète du candidat `eb533d880ff375a52699b3ca09e7e354d4d80c0d` est verte :
+**1 519 backend**, **494 frontend**, **151 E2E applicatifs** et **10 E2E de démo**.
+Couverture backend **97,53 %** ; quatre seuils frontend supérieurs à 90 %.
+Après resynchronisation, les fichiers backend/frontend sont identiques ; le pré-push
+applique les entrées et règles courantes avant publication, sans preuve artificielle.
 
 ## Soumissions distinctes
 

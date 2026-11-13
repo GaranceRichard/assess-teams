@@ -110,3 +110,37 @@ assignations de passation, sessions après retrait/désactivation et mutations t
 isolation, Logs et Swagger protègent les acquis. `coach-team-reads.spec.ts` vérifie la session réelle,
 les GET, les refus, les retraits courants et l’état vide ; la navigation Admin reste protégée.
 [Qualification et soumissions séparées des clôtures](../quality/c04/README.md).
+
+## Préparation du changement — application de C04 aux lectures
+
+- Périmètre : limiter les lectures TEAM-002 et TEAM-003 aux affectations courantes du Coach actif dans son organisation, sans nouvelle mutation ni écran administratif.
+- Objectif : appliquer la décision produit du 12 novembre après le GET Admin déjà livré, en supprimant le refus de rôle global pour ces seules lectures autorisées.
+- Effets attendus : une liste active minimale, un détail actif ou archivé à quatre champs, un état vide explicite et des refus identiques sans divulgation hors périmètre.
+- Risques : préserver les mutations Admin et Superadmin, les droits Viewer dans Results, le filtre Logs, les sessions après retrait et la séparation entre équipe et passation.
+- Vérification : confronter API et base de données, contrats OpenAPI, vrais refus, absence de mutation métier, tests React et parcours navigateur puis gates complets et CI du SHA publié.
+- Fichier : `backend/teams/adapters/api/permissions.py`
+- Fichier : `backend/teams/adapters/api/schema.py`
+- Fichier : `backend/teams/adapters/api/scope.py`
+- Fichier : `backend/teams/adapters/api/views.py`
+- Fichier : `backend/tests/role_matrix_helpers.py`
+- Fichier : `backend/tests/test_coach_team_list.py`
+- Fichier : `backend/tests/test_coach_team_reads.py`
+- Fichier : `backend/tests/test_collection_pagination.py`
+- Fichier : `backend/tests/test_isolation_reads.py`
+- Fichier : `backend/tests/test_team_detail.py`
+- Fichier : `backend/tests/test_team_detail_integrity.py`
+- Fichier : `backend/tests/test_team_detail_openapi.py`
+- Fichier : `backend/tests/test_teams.py`
+- Fichier : `frontend/e2e/coach-team-reads.spec.ts`
+- Fichier : `frontend/e2e/teams.spec.ts`
+- Fichier : `frontend/src/DashboardPage.test.tsx`
+- Fichier : `frontend/src/DashboardPage.tsx`
+
+Cette section normalise le 2026-11-13 la préparation existante lors de l’adoption de la
+nouvelle politique documentaire. La décision C04 et l’annonce README ont été rédigées
+avant le développement selon la règle alors applicable ; les scénarios API ont ensuite
+échoué avant adaptation. La forme actuelle du bloc et son inventaire explicite sont
+postérieurs au développement : ils ne sont pas présentés comme une preuve d’antériorité
+de ce format. La resynchronisation ne modifie aucun fichier applicatif C04.
+
+La revue de contenu est consignée dans le [dossier de qualification](../quality/c04/README.md).
