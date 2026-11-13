@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.http import Http404
-from drf_spectacular.utils import OpenApiResponse, PolymorphicProxySerializer, extend_schema
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ValidationError
@@ -16,6 +16,7 @@ from journals.activity_records import team_archived, team_changed, team_created
 from journals.log_context import describe_log_attempt
 from journals.models import LogSource
 from teams.adapters.api.permissions import CanReadTeams
+from teams.adapters.api.schema import TeamReadCollectionSerializer
 from teams.adapters.api.scope import archivable_team, manageable_team, readable_team, readable_teams
 from teams.adapters.api.serializers import (
     TEAM_ARCHIVE_ERROR_SCHEMA,
@@ -43,7 +44,7 @@ class TeamListCreateView(APIView):
         ),
         parameters=[TeamListFilterSerializer, PageQuerySerializer],
         responses={
-            200: PolymorphicProxySerializer(
+            200: TeamReadCollectionSerializer(
                 component_name="TeamReadCollection",
                 serializers=[
                     collection_schema(TeamSerializer),

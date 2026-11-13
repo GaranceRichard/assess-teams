@@ -19,8 +19,14 @@ Avant adaptation, `test_coach_team_reads.py` : **17 échecs attendus, 3 succès*
 Coach refusées en 403 au lieu des succès et 404 de périmètre requis (9,54 s).
 Après adaptation, première campagne ciblée : **78 succès** (40,51 s), incluant détail,
 intégrité, contrats stricts OpenAPI/Swagger, liste, Logs et isolation.
+Pagination/création et matrice des rôles : **93 succès** (21,89 s).
 React Dashboard : **8 succès**, dont l’état vide Coach. Les résultats complets et les
 références de publication seront consignés dans [validations](validations.md).
+
+Le schéma de collection utilise `anyOf` pour les projections Coach/Admin qui se
+recouvrent ; `oneOf` rejetait la liste vide et les réponses Admin. Reproduction :
+**2 échecs attendus, 3 succès**, puis contrats et schéma strict : **14 succès** (1,25 s).
+Les schémas génériques des autres collections ne sont pas modifiés.
 
 Les tests API couvrent aussi les passations en cours/complétées sans affectation d’équipe,
 les liens étrangers conservés, les sessions après retrait et la désactivation du compte.

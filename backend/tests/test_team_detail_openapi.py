@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+from jsonschema import Draft4Validator, ValidationError
 from rest_framework.test import APIClient
 
 pytestmark = [pytest.mark.api, pytest.mark.contract]
@@ -50,7 +51,7 @@ def test_schema_documents_coach_and_admin_collection_projections():
     assert {"cookieAuth": []} in operation["security"]
     components = schema["components"]["schemas"]
     reference = operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"]
-    variants = components[reference.split("/")[-1]]["oneOf"]
+    variants = components[reference.split("/")[-1]]["anyOf"]
     assert {variant["$ref"].split("/")[-1] for variant in variants} == {
         "TeamCollection",
         "TeamDetailCollection",
@@ -60,3 +61,18 @@ def test_schema_documents_coach_and_admin_collection_projections():
         assert collection[0] == {"type": "array", "items": {"$ref": f"#/components/schemas/{name}"}}
         page = components[f"{name}Page"]
         assert page["properties"]["results"]["items"] == {"$ref": f"#/components/schemas/{name}"}
+
+
+@pytest.mark.parametrize("kind", ["empty", "coach", "admin"])
+def test_collection_schema_accepts_real_overlapping_projections(kind):
+    schema = APIClient().get(reverse("schema"), HTTP_ACCEPT="application/json").json()
+    response = schema["paths"]["/api/admin/organizations/{organization_id}/teams/"]["get"][
+        "responses"
+    ]["200"]["content"]["application/json"]["schema"]
+    validator = Draft4Validator({**response, "components": schema["components"]})
+    team = {"id": 1, "name": "Assigned", "organization_id": 2, "is_active": True}
+    if kind == "admin":
+        team["coaches"] = [{"id": 3, "identifier": "coach", "is_active": True}]
+    validator.validate([] if kind == "empty" else [team])
+    with pytest.raises(ValidationError):
+        validator.validate([{"name": "Missing mandatory identity"}])
