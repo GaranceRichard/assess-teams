@@ -28,7 +28,7 @@ Il porte sur un SHA différent : aucune assimilation à un rerun de `ec4c3a5`.
 - [Vingt répétitions initiales](repetitions.md), [six chronologies initiales](chronologies.md).
 - [Provenance et extraits](provenance.md), [intégrité des sources de l’audit initial](sources.md).
 - [Décision approuvée et périmètre](decision.md), [correction et preuve rouge/verte](correction.md).
-- [Contrôles et livraison](validation.md).
+- [Contrôles et livraison](validation.md), [publication et CI du correctif](publication.md), [clôture](cloture.md).
 
 Les pages historiques décrivent la phase avant GO. Le traitement courant est décrit dans
 `correction.md` et `validation.md`. Les scripts exploratoires restent des recettes documentaires ;
@@ -37,4 +37,4 @@ Le README racine a été modifié avant le premier changement technique de cette
 
 Aucun workflow Playwright, comportement applicatif, contrat SQLite, seuil, statut PBI ou décision
 MESS n’est modifié. TEAM-003 et les autres chantiers sont conservés. Aucun défaut applicatif
-corrigé ni GO MESS n’est revendiqué. La CI du SHA publié doit être vérifiée avant clôture.
+corrigé ni GO MESS n’est revendiqué. La CI du correctif publié est verte ; la [clôture](cloture.md) conserve les limites du verdict.

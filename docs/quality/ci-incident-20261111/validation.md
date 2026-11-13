@@ -36,8 +36,10 @@ La revue couvre README, règles agents, charte, DoD, stratégie, CI, fondamentau
 Seuls le README, le protocole de contention et ce dossier nécessitent une mise à jour.
 Aucune route, modèle, migration, permission, dépendance ni décision MESS n’est changée.
 
-Publication autorisée par `npm run publish`, avec pre-push et CI du SHA exact à confirmer
-avant clôture. Les preuves backend peuvent être réutilisées uniquement selon leurs entrées
-et sélection exactes inchangées ; la CI reste indépendante.
+Publication du correctif confirmée via `npm run publish` : pre-push fraîchement réexécuté
+avec code 0, push direct du SHA `f400a8e98b0b363f1b10ccca6d4381781390234e`, puis
+[CI indépendante verte `43346012639`](publication.md), avec 1 498 tests backend passés.
+Le principal est propre et synchronisé par fast-forward au même SHA.
+La clôture documentaire suit le même circuit, sans nouvelle campagne applicative requise.
 
 Aucun statut PBI ni décision MESS n’est modifié. Le verdict SQLite historique reste indéterminé.
