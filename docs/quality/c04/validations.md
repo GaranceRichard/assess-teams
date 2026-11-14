@@ -1,6 +1,6 @@
 # C04 — Validations et publication
 
-## Campagne complète acquise
+## Campagne complète initiale
 
 Commande : `npm run quality:full`, sur le candidat propre
 `eb533d880ff375a52699b3ca09e7e354d4d80c0d`, avant la resynchronisation documentaire.
@@ -31,9 +31,8 @@ laissée au moteur officiel ; aucun cache n’est réécrit pour forcer une réu
 La première tentative `npm run publish` a rencontré le verrou d’une autre intégration
 active avant fetch, test ou push C04. Aucun verrou ni processus d’autre chantier modifié.
 
-Publication et CI du SHA exact encore attendues à cette rédaction. Aucun succès de
-livraison ou clôture canonique n’est déduit de la seule campagne locale complète.
-Les dossiers TEAM-002 et TEAM-003 restent des projets distincts jusqu’à ces preuves.
+À ce stade initial, publication et CI restaient attendues ; aucune clôture n’en était déduite.
+La publication finale réussie et les soumissions séparées sont consignées ci-dessous.
 
 ## Intégration du contrat TEAM-005 publié
 
@@ -49,3 +48,29 @@ archivage, intégrité, pagination, OpenAPI strict et Swagger ; **3 E2E** réuss
 29,8 s, dont second archivage à 400 et parcours Coach. Lint, formatage, migrations,
 limite de lignes et préparation documentaire passent. Le pré-push complet reste
 bloquant pour les entrées finales après cette resynchronisation.
+
+## Validation finale et publication réussie — 2026-11-13
+
+`npm run publish` a resynchronisé la branche sur `7fb7861`, puis a publié
+[`09e305a1215300ea59ded1cb13e5a23e87639e70`](https://github.com/GaranceRichard/assess-teams/commit/09e305a1215300ea59ded1cb13e5a23e87639e70) directement vers `main`, sans PR ni contournement.
+Les conflits avec TEAM-005 sont résolus ; son refus explicite du second archivage est conservé.
+
+| Gate final du candidat publié | Résultat |
+| --- | --- |
+| Préparation documentaire, lignes, secrets et cohérence | Vert avec les règles courantes. |
+| Backend complet | 1 539 tests réussis en 1 242,91 s ; couverture 97,54 %, seuil de 90 % atteint. |
+| Frontend complet | 494 tests / 119 fichiers, lint, formatage, typage et build verts. |
+| Couverture frontend | Statements 94,87 %, branches 93,33 %, fonctions 96,35 %, lignes 95,71 %. |
+| E2E application | 151 parcours réussis en 21,8 min. |
+| E2E démo | 10 parcours réussis en 39,4 s, build statique vert. |
+| Push | Source branche `c04-coach-team-reads`, destination `main`, pré-push bloquant respecté. |
+| CI indépendante | [Run 43542234233](https://github.com/GaranceRichard/assess-teams/actions/runs/43542234233) terminé avec `success` pour ce SHA exact. |
+| Main principal | Propre lors des contrôles du script et avancé exclusivement par fast-forward après push. |
+
+Les huit partitions backend, le frontend, le dépôt, les E2E et le gate agrégé requis sont verts.
+La preuve distante correspond au SHA publié ; aucune preuve d’un autre candidat ne la remplace.
+La recette MESS et une promotion MESS restent hors de cette qualification de développement.
+
+Les clôtures sont maintenant soumises séparément : [TEAM-002](soumission-team-002.md)
+et [TEAM-003](soumission-team-003.md). Ce sont des décisions demandées, pas des clôtures approuvées :
+registre canonique, dates et indicateurs restent inchangés. TEAM-006 reste un PBI distinct.

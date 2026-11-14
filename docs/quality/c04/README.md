@@ -7,6 +7,11 @@ sur `f400a8e` (tests SQLite), `3a881f8` (politique documentaire), puis `4c29aca`
 `C:\Users\garan\Desktop\Projets\Assess-teams-worktrees\c04-coach-team-reads`.
 README annoncé avant développement. Aucun autre worktree n’est modifié.
 
+Publication technique réussie sur [`09e305a`](https://github.com/GaranceRichard/assess-teams/commit/09e305a1215300ea59ded1cb13e5a23e87639e70) ;
+[CI indépendante verte](https://github.com/GaranceRichard/assess-teams/actions/runs/43542234233).
+[Preuves finales](validations.md#validation-finale-et-publication-réussie--2026-11-13).
+Les deux clôtures sont soumises séparément ; aucun statut canonique modifié.
+
 ## Périmètre et preuves
 
 - TEAM-002 : collection active minimale Coach, compte actif, affectation et appartenance
@@ -74,12 +79,12 @@ ne constitue pas une approbation humaine de clôture ou de ce point de chronolog
 La campagne complète du candidat `eb533d880ff375a52699b3ca09e7e354d4d80c0d` est verte :
 **1 519 backend**, **494 frontend**, **151 E2E applicatifs** et **10 E2E de démo**.
 Couverture backend **97,53 %** ; quatre seuils frontend supérieurs à 90 %.
-Après resynchronisation, les fichiers backend/frontend sont identiques ; le pré-push
-applique les entrées et règles courantes avant publication, sans preuve artificielle.
+Cette campagne précède la dernière intégration TEAM-005 ; le candidat final et son
+pré-push sont décrits dans les validations, sans réécriture artificielle des preuves.
 
 ## Soumissions distinctes
 
 Les dossiers [TEAM-002](soumission-team-002.md) et [TEAM-003](soumission-team-003.md)
-seront soumis séparément après qualification complète, publication et CI verte du SHA exact.
+sont soumis séparément après qualification complète, publication et CI verte du SHA exact.
 Ces soumissions ne sont pas des clôtures approuvées et ne modifient pas le registre canonique.
 La recette sur cible MESS demeure indépendante ; aucune qualification locale ne vaut PV MESS.

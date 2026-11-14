@@ -88,8 +88,8 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | ORG-005 — Gérer le rattachement courant des Admins | Réalisé | scope et protection des pairs ; 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | Réalisé | cardinalité et scope ; 2026-09-28 |
 | TEAM-001 — Créer une équipe | Réalisé | API/UI/tests et unicité organisationnelle ; 2026-09-27 |
-| TEAM-002 — Lister les équipes | Ouvert | [C04 décidé](source/00-arbitrage-c04-equipes-coach.md) : lectures Coach affectées en qualification ; clôture séparée attendue, Viewer exclu |
-| TEAM-003 — Consulter une équipe | Ouvert | GET détail actif/archivé ; extension Coach selon C04 en qualification, clôture séparée attendue |
+| TEAM-002 — Lister les équipes | Ouvert | [Qualifié et publié selon C04](../quality/c04/soumission-team-002.md), CI verte ; clôture séparée soumise, Viewer exclu |
+| TEAM-003 — Consulter une équipe | Ouvert | [GET minimal actif/archivé qualifié et publié](../quality/c04/soumission-team-003.md), Coach selon C04 ; clôture séparée soumise |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
 | TEAM-005 — Archiver une équipe | Réalisé | [Clôture approuvée](planning/qualification-team-005/cloture.md), critères/DoD et deux CI conformes ; 2026-11-13 |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
