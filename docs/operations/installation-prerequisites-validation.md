@@ -4,23 +4,39 @@ Compagnon du [contrat des prérequis](installation-prerequisites.md), établi le
 `a7cb03b`. Les identifiants D01–D09 ci-dessous sont des décisions de ce contrat, pas de nouveaux PBI.
 Aucun entretien, accord MESS, test sur cible ou qualification d’installation vierge n’est attesté.
 
+## Préparation de la consolidation du 2026-11-14
+
+- Périmètre : dossier d’arbitrage D01–D09 et confrontation documentaire au dernier `origin/main` (`353a0ff`).
+- Objectif : rendre les choix, risques, questions et preuves attendues directement utilisables en atelier MESS.
+- Effets attendus : fiches motivées et tableau unique de validation, sans approbation ni clôture implicites.
+- Risques : confondre proposition et accord, masquer les écarts hors ligne ou modifier des responsabilités C11.
+- Vérification : sources/code et dépendances confrontés, liens et contrôles documentaires ; refus sans preuve conservé.
+
+Aucun fichier technique ne sera modifié. Les preuves de 2026-10-19 restent historiques ; le README public,
+les statuts/dates/indicateurs et les autres chantiers ne changent pas. La préparation précède la rédaction
+des fiches et de la synthèse ; aucun audit applicatif acquis ne sera réexécuté.
+
 ## Décisions indispensables avant clôture
 
 Toutes les décisions sont **en attente**. Pour chacune, enregistrer la valeur retenue, les réserves,
 la référence de décision accessible aux exploitants, la date et les approbateurs habilités MESS/produit.
 Ne pas versionner credentials, adresses personnelles ou clés ; référencer leur stockage protégé.
 
-| ID | Valeur attendue / proposition à discuter | Validation demandée / entrée aval |
-| --- | --- | --- |
-| D01 | OS/édition/build et architecture exacts ; candidat Windows Server 2022 x64, capacité hôte mesurable | Exploitation MESS ; base de compatibilité de MEP-057/059 et recette de charge |
-| D02 | CPython complet, runtime SQLite lié, origine/empreinte, patching et dépendances système/TLS/fuseau | Exploitation MESS + contributeur ; cohérence OS/ABI/wheels, aucun support déduit de la CI |
-| D03 | Serveur WSGI ou ASGI et frontal, produits/versions/modules, topologie et identité du pair | Exploitation/sécurité MESS ; inventaire MEP-057, configuration MEP-054 ; aucune pile déjà livrée |
-| D04 | DNS, PKI/chaîne, politique TLS, stockage des clés, renouvellement/révocation hors Internet | Sécurité/PKI MESS ; validité côté clients et SMTP, responsabilités et preuve de confiance |
-| D05 | Matrice de flux avec sources/destinations/ports, accès administration et services internes | Réseau/sécurité MESS ; règles effectives, origine/CSRF et proxy cohérents |
-| D06 | Identités OS, habilitations installation/service/administration initiale, ACL et gestion des secrets | Exploitation/sécurité et responsable produit ; MEP-060/062, aucune identité réelle inventée |
-| D07 | Chemins absolus application/runtime/configuration/base/logs/temporaire/sauvegardes et capacité | Exploitation MESS ; code/données séparés après MEP-054/021, persistance MEP-060/026 |
-| D08 | Relais SMTP interne, port/mode/authentification, expéditeur, confiance et responsabilité | Messagerie/sécurité MESS ; pas d’envoi externe nécessaire, contrôle de remise ultérieur |
-| D09 | Ordonnanceur/superviseur retenu, fréquence/fuseau/créneau, droits, sorties et gestion des échecs | Exploitation MESS ; commandes existantes conservées, opérations MEP-022 et services MEP-063 |
+| ID / objet | Responsable MESS attendu | Preuve d’approbation attendue (référence, date, approbateur et réserves) | PBI consommateurs après accord et sous leurs prérequis |
+| --- | --- | --- | --- |
+| D01 — OS/édition/build/CPU/capacité | Infrastructure/exploitation ; produit pour usage C11 | Profil hôte homologué et relevé matériel/volumes approuvés | MEP-057/059/060/071 |
+| D02 — Python/SQLite/ABI/système | Exploitation/infrastructure + contributeur | Profil runtime, binaire/provenance/empreinte et maintenance approuvés ; réserves de wheels explicites | MEP-054/021/057/059/024/061 |
+| D03 — Serveur/frontal/topologie | Exploitation/infrastructure/sécurité | Schéma, produits/versions/modules/pairs et maintenance approuvés ; réserves d’intégration à lever | MEP-054/057/058/024/063 |
+| D04 — DNS/PKI/TLS/clés | Sécurité/PKI ; DNS et messagerie associés | Fiche noms/chaîne/politique/confiance/renouvellement approuvée, sans clé privée | MEP-054/021/057/034 |
+| D05 — Flux/ports/accès/origines | Réseau/sécurité ; exploitation pour administration | Matrice source/destination/protocole/port/finalité/propriétaire approuvée et références de règles | MEP-054/060/034/068 |
+| D06 — Comptes/ACL/secrets | Exploitation/sécurité/identités ; produit pour accès initial | Matrice d’habilitations et procédure stockage/injection/rotation approuvées, sans secret | MEP-054/021/060/062/063 |
+| D07 — Chemins/volumes/capacité | Exploitation/infrastructure ; sécurité/propriétaire des données | Plan de chemins/volumes/ACL et capacité approuvé, réserves C11 explicites | MEP-054/021/060/026/064 puis 027/065 |
+| D08 — Relais SMTP/confiance | Messagerie/sécurité ; exploitation associée | Fiche relais/port/TLS/authentification/expéditeur/limites et responsabilités approuvée | MEP-054/021/063/025/034/068 |
+| D09 — Ordonnanceur/supervision | Exploitation ; sécurité pour droits | Plan par commande, horaires/fuseau/reprise/sorties/alertes et rôles approuvé | MEP-022/063/025 |
+
+Le [dossier d’arbitrage du 2026-11-14](installation-prerequisites-arbitration.md) porte le **tableau unique
+de validation**, les fiches motivées, questions et risques croisés. Cette matrice décrit les preuves attendues,
+jamais des accords acquis ; aucune décision n’est rendue par la préparation ou la publication Git.
 
 Le profil proposé peut être amendé par MESS. Un choix différent exige de revoir le contrat et ses
 consommateurs ; aucune proposition ne remplace les contraintes SQLite/hors ligne/sans Docker et Node.
@@ -73,6 +89,9 @@ conditions réseau, preuves conformes **et** refus, résultats/codes et réserve
 
 ## Revue des critères de MEP-055 et de la DoD
 
+Revue du chantier initial du **2026-10-19** : les résultats et décomptes ci-dessous sont historiques,
+non des indicateurs recalculés au 2026-11-14. La consolidation actuelle est décrite après cette revue.
+
 | Attendu de la source | Résultat de ce chantier |
 | --- | --- |
 | OS/versions, Python, serveur/proxy, certificats, comptes/droits, chemins, ports, SMTP et ordonnanceur | Tous couverts par le contrat ; D01–D09 explicitement non validées |
@@ -93,3 +112,22 @@ Validation locale : `npm run quality:targeted` réussi (scope documentaire seul)
 `git diff --check` conforme ; 296 liens locaux des documents modifiés résolus, aucun absent.
 Registre MESS recompté : 51 Ouverts, 1 Bloqué (MEP-055), 10 Réalisés ; synthèses alignées.
 Le pre-push et la CI du SHA publié sont vérifiables dans Git/GitHub Actions ; aucun résultat cible revendiqué.
+
+## Revue de consolidation du 2026-11-14
+
+Préparation effectuée dans ce document avant rédaction des fiches ; aucun travail technique entrepris,
+aucun écart de procédure constaté. Six documents d’exploitation concernés : contrat/validation existants,
+synthèse d’arbitrage et trois groupes de fiches. Leurs responsabilités sont séparées : exigences, preuves
+attendues, décisions à recueillir et recommandations. Aucune approbation humaine attribuée à l’agent.
+
+README public, AGENTS/règles, charte, DoD, stratégie de tests, fondamentaux/API et contrats HTTP/SMTP,
+SQLite, configuration, notifications et purge relus pour impact ; aucun changement public ou applicatif.
+F11, registre canonique, plans/dépendances et décisions/C11 consultés ; statuts, dates et indicateurs
+inchangés. Historiques et preuves préexistants conservés ; leurs chiffres datés ne sont pas réactualisés.
+
+Contrôles locaux : `npm run quality:targeted` réussi, scope documentaire seul, zéro échec ;
+`git diff --check` conforme, 64 chemins de liens locaux résolus dans les six documents, fichiers <= 200 lignes.
+Relecture des refus : absence d’accord bloque toujours ; CDN Swagger encore incompatible avec le hors ligne ;
+profil/version/ACL/flux/services non qualifiés ne sont pas déclarés conformes. Aucun test applicatif,
+coverage, build ou essai Windows/MESS déclenché pour ce diff documentaire. Pre-push et CI du SHA exact
+restent requis par la publication ; leur résultat Git/GitHub ne vaut ni validation MESS ni clôture fonctionnelle.

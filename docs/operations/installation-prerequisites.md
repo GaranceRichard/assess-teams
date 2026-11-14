@@ -5,12 +5,15 @@ Périmètre : [MEP-055 — Définir les prérequis d’installation](../backlog/
 **Aucune cible ni aucun accord d’exploitation MESS n’est attesté.** Le contrat reste à valider avec MESS ;
 [suivi canonique](../backlog/tracking/mess-e03.md), [décisions et conformité](installation-prerequisites-validation.md).
 Ce document définit des conditions et des contrôles attendus ; il ne fournit aucun préflight exécutable.
+Réexamen du 2026-11-14 : [dossier d’arbitrage et fiches D01–D09](installation-prerequisites-arbitration.md).
+Le profil reste proposé ; aucune approbation MESS nouvelle ni qualification cible acquise.
 
 ## Lecture et frontière
 
 - **Démontré** : comportement ou contrainte traçable dans le dépôt, sans qualification de l’hébergement MESS.
 - **Proposé** : profil de discussion, jamais une version supportée ou un choix accepté implicitement.
 - **À valider MESS** : décision indispensable, avec référence, date et approbateurs à fournir avant clôture.
+- **À qualifier ultérieurement** : preuve de distribution, installation ou exploitation relevant des PBI consommateurs.
 
 Exploitation on-premise, SQLite permanente, installation et fonctionnement sans accès Internet.
 Aucun Docker, Node/npm, serveur Vite ou compilation frontend sur la cible. Les outils npm du dépôt sont
