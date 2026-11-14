@@ -82,3 +82,11 @@ sans autoriser une implémentation pendant la présente consolidation.
 Le [dossier ARB-ORG-005](../arb-org-005/README.md) actualise la lecture sur `3802d77`, compare A/B/C/D
 et soumet une recommandation au mainteneur. Il ne modifie ni les constats datés ci-dessus, ni le
 registre canonique, ni le statut Bloqué/N/A d’ORG-004 ; aucune politique n’est approuvée par sa publication.
+
+
+## Décision produit ultérieure du 2026-11-14
+
+Le responsable produit a approuvé A/R01–R09, sous rétentions existantes pour R03, sans validation
+externe MESS pour cet arbitrage ; D non retenu. [Registre canonique](../../source/00-arbitrages-organisations.md#arb-org-005--états-et-cycle-de-vie-dune-organisation)
+et [réalisation ORG-004](../realisation-org-004/README.md). Les constats ci-dessus restent historiques ;
+ORG-004 est désormais Ouvert/N/A et sa clôture fonctionnelle exige une nouvelle approbation explicite.

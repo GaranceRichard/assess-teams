@@ -82,7 +82,7 @@ recommandé ou la préparation d’un guide ne crée aucune attente supplémenta
 
 | Sujet | Point précis / options à approuver | Effet limité |
 | --- | --- | --- |
-| ARB-ORG-005 / ORG-004 | Dossier publié : protection conservatoire proposée, archivage éventuel ou purge dédiée ; aucune recommandation approuvée par ce mandat | Chantier ORG-004 protégé, comportement de suppression inchangé ; 033/GO doivent vérifier la politique effectivement décidée et réalisée |
+| ARB-ORG-005 / ORG-004 — décision rendue | Responsable produit le 2026-11-14 : A/R01–R09 approuvées, R03 sous rétentions existantes ; aucune validation externe MESS ni repli D | [Réalisation et preuves ORG-004](realisation-org-004/README.md), statut Ouvert/N/A jusqu’à approbation fonctionnelle ; 033/GO vérifient la protection du candidat |
 | C01/C02 | Collecte/reprise nom/prénom et lien mail/login ; conserver ou réviser explicitement champs mutables et droits actuels FEAT-004 | USER-002/003 complets non prêts ; USER-001 historique conservé |
 | C03 | Projection Coach minimale dédiée ou contexte existant seulement ; données et accès précis à choisir | ORG-002 complet non prêt ; Viewer conserve Results selon concepts |
 | C05 | Reprise automatique ou explicite des affectations/plans/échéances après réactivation, avec historique préservé | TEAM-007 non prêt ; TEAM-006 indépendant |
@@ -110,3 +110,7 @@ quality:targeted final réussi en documentation seule, zéro échec ; 905 liens 
 Tests backend/frontend/E2E, couverture et génération OpenAPI non applicables au seul diff documentaire.
 Publication : quality:targeted, commit, npm run publish, pré-push bloquant, CI du SHA exact et fast-forward
 sûr du main principal ; nettoyage du seul worktree et de la seule branche terminés, aucune PR.
+
+Suite ORG-004 du 2026-11-14 : la décision produit ci-dessus complète ce plan après sa refonte. Les
+mentions de conservation littérale d’ORG-004 dans la revue du mandat précédent restent historiques ;
+les conventions et autres dépendances de ce mandat sont conservées. Aucun PBI n’est clôturé ici.

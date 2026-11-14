@@ -1,13 +1,12 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from drf_spectacular.utils import OpenApiResponse, extend_schema
-from rest_framework import status
+from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
+from rest_framework import serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from assessments.models import EvaluationRun, EvaluationRunState
 from identities.adapters.api.organization_permissions import CanManageOrganizations
 from identities.adapters.api.organization_scope import (
     manageable_organization,
@@ -16,6 +15,8 @@ from identities.adapters.api.organization_serializers import (
     OrganizationSerializer,
     RenameOrganizationSerializer,
 )
+from identities.application.lifecycle import lock_identity_changes
+from identities.application.organization_deletion import assert_organization_deletable
 from identities.models import Organization
 from journals.activity_records import (
     organization_deleted,
@@ -80,11 +81,19 @@ class OrganizationDetailView(APIView):
     @extend_schema(
         description=(
             "Supprime définitivement une organisation et ses rattachements sans "
-            "supprimer les identités. Action réservée au Superadmin."
+            "supprimer les identités. Superadmin uniquement. Refus 400 dès qu’une équipe, "
+            "un référentiel, un plan, une passation/snapshot ou une notification liée existe, "
+            "quel que soit son état. Journaux/Logs conservés avec origine stable, sous "
+            "rétention existante ; accès résiduel Superadmin. Refus sans effet métier partiel."
         ),
         responses={
             204: None,
-            400: OpenApiResponse(),
+            400: OpenApiResponse(
+                response=inline_serializer(
+                    "OrganizationDeleteRefusal", fields={"detail": serializers.CharField()}
+                ),
+                description="Dépendances protégées ou provenance des traces non garantie.",
+            ),
             403: OpenApiResponse(),
             404: OpenApiResponse(),
         },
@@ -93,6 +102,7 @@ class OrganizationDetailView(APIView):
     def delete(self, request, organization_id: int):
         if not request.user.is_superuser:
             raise PermissionDenied("Seul le Superadmin peut supprimer une organisation.")
+        lock_identity_changes()
         organization = get_object_or_404(Organization, pk=organization_id)
         describe_log_attempt(
             request,
@@ -100,9 +110,7 @@ class OrganizationDetailView(APIView):
             LogSource.ORGANIZATIONS,
             organization=organization,
         )
+        assert_organization_deletable(organization)
         organization_deleted(request.user, organization)
-        EvaluationRun.objects.filter(
-            organization=organization, state=EvaluationRunState.NOT_STARTED
-        ).delete()
         organization.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

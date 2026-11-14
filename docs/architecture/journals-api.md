@@ -37,6 +37,21 @@ Les labels connus restent lisibles après suppression des objets ; ils sont nett
 Les nouveaux index portent méthode, statut, niveau et source ; date et FKs étaient déjà indexées. Les listes
 chargent les relations avec `select_related`, sans requête par ligne.
 
+## Provenance organisationnelle — ORG-004
+
+La migration `journals.0011` ajoute `organization_origin_id` aux activités et Logs : entier positif
+nullable, non relationnel, capturé à la création et indépendant de `organization_id`, FK vivante nullable.
+La reprise complète uniquement les anciennes lignes encore reliées, sans changer noms, dates, acteurs
+ou corrélations. Les traces déjà détachées restent à origine inconnue ; aucun rapprochement par nom.
+Après suppression admise, la FK devient NULL mais l’origine et le nom au moment du fait restent lisibles.
+L’interface distingue les origines des organisations homonymes et indique les origines non renseignées.
+Le contexte HTTP capture l’origine avant disparition. L’INSERT de Log acquiert le verrou d’écriture ;
+si sa FK échoue car l’organisation a disparu avant cette écriture, seule cette insertion DB annulée
+est répétée une fois sans lien vivant, avec son origine conservée. Aucun HTTP/SMTP n’est rejoué ;
+les lectures/refus continuent à n’écrire qu’un Log, sans UPDATE métier.
+L’activité de suppression est dans la transaction métier ; le Log middleware reste indépendant.
+Ces champs et garanties n’introduisent aucune durée illimitée ni modification des mécanismes de rétention.
+
 ## Filtres et scopes
 
 Les filtres des Logs sont combinables : `organization` (alias historique `organization_id`), `actor`,
@@ -44,10 +59,14 @@ Les filtres des Logs sont combinables : `organization` (alias historique `organi
 `level`, `source`, `status_code` (100–599) et `page`. Les bornes sont inclusives ; une plage inversée
 ou une valeur invalide retourne 400. Une page inexistante retourne 404.
 
+`organization_origin_id` est également un filtre positif des deux collections, y compris pour une
+organisation supprimée ; `organization`/`organization_id` gardent leur sens de référence vivante.
 Le scope est appliqué au queryset avant tous les filtres. Le Superadmin voit les logs de toutes les
 organisations et ceux sans organisation. L’Admin voit exclusivement son organisation unique, même avec
 un filtre organisation/acteur/équipe/évaluation forgé ; un Admin sans rattachement unique reçoit 403.
 Coachs, Viewers et anonymes reçoivent 403. Les paramètres ne peuvent pas élargir un scope.
+Les traces d’une organisation supprimée sont Superadmin seules : un ancien Admin sans organisation
+est refusé ; un rattachement ultérieur ailleurs ne lui redonne aucun accès à ces traces.
 
 Le sélecteur Évaluation distingue les versions avec le libellé de référence existant ; chaque filtre
 cible l’identifiant exact de version. La création de version fournit le modèle créé au contexte HTTP.

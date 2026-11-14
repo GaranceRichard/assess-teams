@@ -6,6 +6,7 @@ from journals.models import LogLevel, LogSource
 class JournalFilterSerializer(serializers.Serializer):
     date = serializers.DateField(required=False)
     organization_id = serializers.IntegerField(required=False, min_value=1)
+    organization_origin_id = serializers.IntegerField(required=False, min_value=1)
     player = serializers.CharField(required=False, allow_blank=False, max_length=150)
     team = serializers.CharField(required=False, allow_blank=False, max_length=255)
     page = serializers.IntegerField(required=False, min_value=1)
@@ -14,6 +15,7 @@ class JournalFilterSerializer(serializers.Serializer):
 class LogFilterSerializer(serializers.Serializer):
     organization = serializers.IntegerField(required=False, min_value=1)
     organization_id = serializers.IntegerField(required=False, min_value=1)
+    organization_origin_id = serializers.IntegerField(required=False, min_value=1)
     actor = serializers.IntegerField(required=False, min_value=1)
     team = serializers.IntegerField(required=False, min_value=1)
     evaluation = serializers.IntegerField(required=False, min_value=1)
@@ -43,6 +45,7 @@ def filter_logs(queryset, params):
     lookups = {
         "organization": "organization_id",
         "organization_id": "organization_id",
+        "organization_origin_id": "organization_origin_id",
         "actor": "actor_id",
         "team": "team_id",
         "evaluation": "evaluation_id",
@@ -67,6 +70,8 @@ def filter_entries(queryset, params, serializer_class=JournalFilterSerializer):
         queryset = queryset.filter(created_at__date=filters["date"])
     if "organization_id" in filters:
         queryset = queryset.filter(organization_id=filters["organization_id"])
+    if "organization_origin_id" in filters:
+        queryset = queryset.filter(organization_origin_id=filters["organization_origin_id"])
     if "player" in filters:
         queryset = queryset.filter(actor_name__icontains=filters["player"])
     if "team" in filters:

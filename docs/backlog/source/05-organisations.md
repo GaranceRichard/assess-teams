@@ -4,7 +4,7 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 ### FEAT-036 — Gérer le cycle de vie d’une organisation
 
-Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et le renommage sont livrés ; la consultation reste limitée aux Admins/Superadmins et la suppression doit être réconciliée avec les dépendances apparues depuis sa livraison initiale.
+Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et le renommage sont livrés ; la consultation reste limitée aux Admins/Superadmins et la suppression suit désormais la politique conservatrice décidée par ARB-ORG-005, à réaliser et qualifier dans ORG-004.
 
 Les [écarts consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-deltas-bornés) distinguent C03 (projection Coach à décider, Viewer selon concepts) et ARB-ORG-005 (politique destructive). Aucun élargissement de droit ni politique nouvelle n’est déduit du code.
 
@@ -94,9 +94,13 @@ Les [écarts consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-delt
   - un `Admin`, un `Coach` et un `Viewer` ne peuvent pas supprimer une organisation ;
   - une suppression refusée ne produit aucun effet partiel ;
   - les comptes utilisateurs survivent à la suppression et leurs autres rattachements restent intacts ;
+  - toute équipe, famille/version/question/repère, planification, passation/snapshot ou notification liée bloque, quel que soit son état ; aucune suppression automatique des NOT_STARTED ;
+  - les traces seules ne bloquent pas si leur origine organisationnelle stable est conservée ; elles restent soumises aux rétentions existantes et accessibles au seul Superadmin après suppression ;
+  - le contrôle d’admissibilité, le refus sans activité de succès et le succès sont protégés sous concurrence ;
+  - la confirmation explique les conséquences et refus réels, sans possibilité de forçage ;
   - tout futur modèle historique dépendant devra protéger ses données contre une cascade silencieuse.
-- **Principaux cas de refus :** acteur non authentifié ; `Admin`, `Coach` ou `Viewer` ; organisation inexistante.
-- **Décision produit bloquante :** `ARB-ORG-005` est rouvert pour le traitement des équipes, modèles et planifications désormais dépendants.
+- **Principaux cas de refus :** acteur non authentifié ; `Admin`, `Coach` ou `Viewer` ; organisation inexistante ; dépendance métier protégée ou provenance des traces non garantie.
+- **Décision produit :** `ARB-ORG-005` option A/R01–R09 approuvée le 2026-11-14 par le responsable produit ; aucune validation externe MESS requise pour cet arbitrage. [Réalisation et preuves](../planning/realisation-org-004/README.md), clôture fonctionnelle distincte.
 - **Dépendances :** aucune dans le modèle courant.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.

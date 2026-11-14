@@ -45,6 +45,8 @@ def test_superadmin_deletes_an_organization_but_keeps_its_users() -> None:
     assert not Organization.objects.filter(pk=organization.pk).exists()
     assert Organization.objects.filter(pk=other.pk).exists()
     assert User.objects.filter(pk__in=[admin.pk, viewer.pk]).count() == 2
+    assert list(other.users.values_list("pk", flat=True)) == [viewer.pk]
+    assert not admin.organizations.exists()
 
 
 @pytest.mark.django_db

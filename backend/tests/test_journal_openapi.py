@@ -19,6 +19,7 @@ def test_openapi_documents_read_only_journals() -> None:
     assert {parameter["name"] for parameter in activity_get["parameters"]} == {
         "date",
         "organization_id",
+        "organization_origin_id",
         "page",
         "player",
         "team",
@@ -26,6 +27,7 @@ def test_openapi_documents_read_only_journals() -> None:
     assert {parameter["name"] for parameter in logs_get["parameters"]} == {
         "organization",
         "organization_id",
+        "organization_origin_id",
         "actor",
         "team",
         "evaluation",
@@ -38,6 +40,12 @@ def test_openapi_documents_read_only_journals() -> None:
         "page",
     }
     fields = schema["components"]["schemas"]["LogEntry"]["properties"]
-    assert {"method", "status_code", "evaluation_id", "evaluation_name"} <= fields.keys()
+    assert {
+        "method",
+        "status_code",
+        "evaluation_id",
+        "evaluation_name",
+        "organization_origin_id",
+    } <= fields.keys()
 
     assert "X-Correlation-ID" in logs_get["responses"]["200"]["headers"]

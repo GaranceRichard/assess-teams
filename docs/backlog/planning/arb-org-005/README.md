@@ -1,6 +1,10 @@
 # ARB-ORG-005 — Proposition sur la suppression d’une organisation
 
-Dossier du 2026-11-14, **à soumettre au mainteneur ; aucune politique approuvée**.
+Dossier de proposition historique du 2026-11-14, publié au commit `c82f4e4`.
+**Suite : option A/R01–R09 approuvées par le responsable produit le 2026-11-14**, sous rétention existante
+pour R03, sans validation externe MESS ni repli D. Voir le [registre canonique](../../source/00-arbitrages-organisations.md#arb-org-005--états-et-cycle-de-vie-dune-organisation)
+et la [réalisation autorisée ORG-004](../realisation-org-004/README.md).
+Les sections suivantes conservent l’analyse et les propositions telles que soumises avant cette décision.
 Base contrôlée demandée : `353a0ff434ebfedd0aa12428cdac5853e5e96f1c`.
 Analyse après récupération du dernier `origin/main` : `3802d77687f23b83b53c12926b48727d7eaf2341`.
 La seule évolution entre ces bases concerne le dossier documentaire MEP-055 ; aucun code applicatif.

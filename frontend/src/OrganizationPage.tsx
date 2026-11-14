@@ -99,8 +99,12 @@ export function OrganizationPage({ isSuperadmin = false }: Props) {
       );
       setDeleting(null);
       setError(null);
-    } catch {
-      setError("La suppression de l’organisation a été refusée.");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "La suppression de l’organisation a été refusée.",
+      );
     }
   }
 

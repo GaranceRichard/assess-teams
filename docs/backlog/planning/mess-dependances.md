@@ -37,7 +37,7 @@ Les dépendances réalisées restent dans la source ; la colonne suivante cite l
 | [USER-002 — Consultation](../source/01-identites.md) | Non prêt : C01/C02 sur identité et droits ; liste livrée conservée | Détail/champs et refus par rôle, API/UI/OpenAPI après décision |
 | [USER-003 — Modification](../source/01-identites.md) | Non prêt : C02 et delta USER-002 ; critères divergents explicitement proposés | Champs approuvés, atomiques, absence d’élévation et régression API/UI |
 | [ORG-002 — Consultation](../source/05-organisations.md) | Non prêt : projection Coach C03 ; Admin/Superadmin livrés | Projection décidée et refus, sans serializer administratif divulgué |
-| [ORG-004 — Suppression](../source/05-organisations.md) | Bloqué : ARB-ORG-005 ; chantier parallèle protégé | Décision puis intégrité/protection et vrais refus, aucune mutation ici |
+| [ORG-004 — Suppression](../source/05-organisations.md) | Ouvert : A/R01–R09 décidées le 2026-11-14 par le responsable produit ; réalisation autorisée | [S01–S11 et preuves](realisation-org-004/preuves.md), protection effective et clôture fonctionnelle explicite attendue ; aucun repli D |
 | [TEAM-006 — Archives](../source/02-equipes.md) | Prêt : TEAM-005 et C04 satisfaits | Archives exclusives par scope, vide UI, archivage→liste→détail, Logs conservés |
 | [TEAM-007 — Réactivation](../source/02-equipes.md) | Non prêt : effets de reprise C05 ; TEAM-005 acquis | Même identité/historique, listes correctes et scénarios de reprise décidés |
 | [MEP-012 — Conformité Git/CI](../source/mess/f04.md) | Bloqué : décision C06 sur dossier déjà publié | Verdict/date explicitement approuvés, critères révisés reliés aux preuves acquises |
@@ -76,7 +76,9 @@ Les dépendances réalisées restent dans la source ; la colonne suivante cite l
 ## Gouvernance et décisions réservées
 
 Les décisions produit précises et options restent dans le [plan](pre-mep.md#décisions-qui-restent-réellement-nécessaires).
-C01/C02/C03/C05, ARB-ORG-005 et C06 ne sont pas résolus par une convention technique.
+C01/C02/C03/C05 et C06 ne sont pas résolus par une convention technique. ARB-ORG-005 a été décidé
+séparément par le responsable produit le 2026-11-14, sans validation externe MESS, sous rétentions existantes.
+La recette 033/034 et le GO vérifient la politique réellement protégée sur leur candidat ; aucune clôture implicite.
 C04 est décidé, TEAM-002/003/005 réalisés ; aucune qualification supplémentaire de ces PBI n’est relancée.
 C21 reste une acceptation visuelle distincte ; aucune inclusion ou exclusion au candidat déduite de CI.
 

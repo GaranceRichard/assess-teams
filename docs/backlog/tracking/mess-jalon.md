@@ -19,7 +19,9 @@ les PBI non satisfaits restent ouverts/bloqués. Une nouvelle décision est hist
 Le [plan de lancement](../planning/pre-mep.md) mène de MEP-067 (cahier UX) aux deux chantiers parallèles,
 puis au candidat convergé, à MEP-032/068 et aux recettes MEP-033/069/070 et MEP-034/071/072.
 [Blocages et arbitrages](../planning/mess-dependances.md) : D01–D09, seuils/responsables d’exploitation,
-suivi MEP-012 et ARB-ORG-005. La recette MEP-034 peut avancer sans MEP-043 ; F04 reste exigée ici.
+suivi MEP-012 et protection de la politique ARB-ORG-005, décidée par le responsable produit le
+2026-11-14 sans validation externe MESS. [ORG-004 : réalisation/preuves](../planning/realisation-org-004/README.md).
+La recette MEP-034 peut avancer sans MEP-043 ; F04 reste exigée ici.
 MEP-043 est Réalisé selon les critères expressément révisés ; sa réserve G05 acceptée n’est pas réouverte.
 Toute limitation de périmètre exige décision explicite et effet vérifiable ; aucun retrait n’est acté ici.
 
@@ -33,7 +35,7 @@ Pour GO, les vingt Features MESS ont leurs critères/refus satisfaits selon la D
 restent valides dans leur périmètre. Les PV F18/F19/F20 concernent le même candidat effectivement livré ;
 les guides/configuration/exploitation et la reprise sont démontrés, la CI et le pre-push sont conformes,
 aucune anomalie bloquante sécurité, intégrité, exploitation ou UX ne subsiste. Les arbitrages applicables
-sont résolus ou le périmètre est explicitement limité, notamment ARB-ORG-005.
+sont résolus ou le périmètre est explicitement limité ; la politique ARB-ORG-005 approuvée doit être effectivement protégée sur le candidat.
 
 Prérequis de décision GO : 18.01/18.02, 19.01/19.02/19.03, 20.01/20.02/20.03 et ensemble des capacités
 F01 à F20 satisfaites ; identifiants dans la [source](../source/07-pre-mep.md) et les fiches détaillées.

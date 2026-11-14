@@ -1,5 +1,5 @@
 import { formatDate, formatTime } from "./dateTime";
-import type { JournalEntry } from "./journals";
+import { organizationLabel, type JournalEntry } from "./journals";
 
 type Props<T extends JournalEntry> = {
   entries: T[];
@@ -48,7 +48,7 @@ export function JournalEntries<T extends JournalEntry>({
                   <time dateTime={entry.created_at}>
                     {formatTime(entry.created_at)}
                   </time>{" "}
-                  <span>{entry.organization_name || "SYSTÈME"}</span>
+                  <span>{organizationLabel(entry)}</span>
                   <span>{entry.actor_name || "—"}</span>
                   <span>{entry.team_name || "—"}</span>
                   <strong>{actionFor(entry)}</strong>

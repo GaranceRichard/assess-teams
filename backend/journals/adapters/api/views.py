@@ -30,7 +30,10 @@ class ActivityJournalView(APIView):
     @extend_schema(
         description=(
             "Liste les actions métier réussies. Le Superadmin voit le périmètre global ; "
-            "l’Admin voit exclusivement son organisation."
+            "l’Admin voit exclusivement son organisation. organization_origin_id identifie "
+            "l’origine stable même après suppression ; ces traces résiduelles sont "
+            "Superadmin seules, "
+            "sous les rétentions existantes."
         ),
         parameters=[JournalFilterSerializer],
         responses={200: ActivityPageSerializer, 400: OpenApiResponse(), 403: OpenApiResponse()},
@@ -50,7 +53,9 @@ class LogsView(APIView):
     @extend_schema(
         description=(
             "Liste les événements applicatifs nettoyés. Les logs système sans organisation "
-            "sont réservés au Superadmin."
+            "sont réservés au Superadmin, comme les traces d’une organisation supprimée. "
+            "organization_origin_id conserve et filtre la provenance stable ; organization_id "
+            "reste la référence vivante nullable. Rétentions existantes inchangées."
         ),
         parameters=[
             LogFilterSerializer,

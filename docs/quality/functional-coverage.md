@@ -126,3 +126,13 @@ TEAM-005 couvre aussi le second archivage accessible explicitement refusé (400)
 `test_team_archive`, OpenAPI `test_team_archive_openapi`, et `teams.spec.ts` avec session/CSRF réels.
 Les snapshots conservent modèles, questions, planifications, résultats, rattachements et activités antérieures ;
 le refus ne produit qu'un Log HTTP, sans sauvegarde métier. [Preuves](../backlog/planning/qualification-team-005/preuves.md).
+
+
+## Suppression Organisation — ORG-004
+
+La [qualification ORG-004](../backlog/planning/realisation-org-004/preuves.md) rattache S01–S11 au contrôle
+des dépendances de tous états, aux refus sans mutation, à la conservation des identités, à la migration
+de provenance Journal/Logs et aux scopes résiduels. Des processus SQLite indépendants exercent les
+courses équipe/planification/démarrage/notification/Log/double DELETE dans les deux configurations.
+React et Playwright avec backend réel vérifient confirmation, annulation, refus et succès à deux formats.
+La clôture fonctionnelle attend une approbation explicite ; aucune recette cible MESS n’en est déduite.

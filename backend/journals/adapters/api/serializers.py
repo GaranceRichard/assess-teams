@@ -5,12 +5,14 @@ from journals.models import ActivityEntry, LogEntry
 
 class JournalEntrySerializer(serializers.ModelSerializer):
     organization_id = serializers.IntegerField(read_only=True, allow_null=True)
+    organization_origin_id = serializers.IntegerField(read_only=True, allow_null=True)
 
     class Meta:
         fields = (
             "id",
             "created_at",
             "organization_id",
+            "organization_origin_id",
             "organization_name",
             "actor_name",
             "team_name",

@@ -64,6 +64,16 @@ Pas de transfert, partage, export métier, objectif, tendance calculée, histori
 Une limitation d'ARB-ORG-005 exige une décision et une protection effectives vérifiables avant recette/GO ;
 la seule exclusion d'un cas du cahier ne protège pas l'application.
 
+## Suite de la décision Organisation du 2026-11-14
+
+La table précédente conserve sa base historique. Depuis celle-ci, le responsable produit a approuvé
+ARB-ORG-005 A/R01–R09, sous rétentions existantes ; aucune validation externe MESS pour cet arbitrage,
+D non retenu. ORG-004 est Ouvert/N/A, clôture fonctionnelle explicite distincte de la livraison technique.
+Le [lot FON-05](functional-acceptance-admin.md#fon-05--organisation-renommage-et-rattachements-courants)
+et les [S01–S11/preuves ORG-004](../backlog/planning/realisation-org-004/preuves.md) préparent les succès
+admissibles et les refus de toutes dépendances, ainsi que provenance, droits et concurrence.
+Ces travaux locaux ne valent pas exécution du PV MESS ni GO ; autres prérequis inchangés.
+
 ## Appuis automatisés disponibles
 
 Depuis le poste de préparation, commandes existantes pour des reprises ciblées, avec les

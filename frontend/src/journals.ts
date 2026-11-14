@@ -10,10 +10,19 @@ export type JournalEntry = {
   id: number;
   created_at: string;
   organization_id: number | null;
+  organization_origin_id?: number | null;
   organization_name: string;
   actor_name: string;
   team_name: string;
 };
+
+export function organizationLabel(entry: JournalEntry): string {
+  const name = entry.organization_name || "SYSTÈME";
+  if (entry.organization_id !== null || !entry.organization_name) return name;
+  return entry.organization_origin_id == null
+    ? `${name} (origine non renseignée)`
+    : `${name} (origine #${entry.organization_origin_id})`;
+}
 
 export type ActivityEntry = JournalEntry & {
   target_user?: number | null;

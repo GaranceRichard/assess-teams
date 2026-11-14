@@ -74,6 +74,7 @@ class HttpLogMiddleware:
                 evaluation=live_http_relation(evaluation, status_code, organization),
                 evaluation_name=details.evaluation_name if evaluation else "",
                 correlation_id=correlation_id,
+                organization_origin_id=details.organization_origin_id,
                 organization_name=details.organization_name,
                 team_name=details.team_name if team else "",
             )

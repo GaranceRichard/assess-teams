@@ -13,7 +13,7 @@ Aucun identifiant/parent nouveau ; 58 réalisés, 36 ouverts, 2 bloqués ; aucun
 | USER-002 — Consultation | Liste et scopes livrés | Détail/identité complète après C01/C02 ; choix produit explicites, pas nouvel audit |
 | USER-003 — Modification | Édition et autorisations FEAT-004 livrées | C02 réconcilie les critères de delta proposés avec la matrice ; aucune capacité supprimée par inférence |
 | ORG-002 — Consultation | Admin/Superadmin livrés, Viewer via Results | Projection minimale Coach C03 à décider ; aucun serializer administratif ouvert implicitement |
-| ORG-004 — Suppression | Dossier ARB-ORG-005 publié, chantier parallèle protégé | Politique des données dépendantes toujours à décider ; aucune recommandation considérée approuvée |
+| ORG-004 — Suppression | A/R01–R09 approuvées par le responsable produit le 2026-11-14 ; [registre](00-arbitrages-organisations.md#arb-org-005--états-et-cycle-de-vie-dune-organisation) | [Réalisation et qualification](../planning/realisation-org-004/README.md) autorisées, statut Ouvert/N/A ; clôture fonctionnelle explicite attendue |
 | TEAM-002/003 — Liste et détail | C04 décidé ; clôtures distinctes approuvées le 2026-11-13 | Aucun travail supplémentaire déduit de ce mandat |
 | TEAM-005 — Archivage | Clôture approuvée le 2026-11-13, refus du second archivage et historique prouvés | Aucun changement, acquis utilisable par TEAM-006 |
 | TEAM-006 — Archives | Scope C04 décidé, TEAM-005 réalisé, filtre Logs acquis | **Prêt** : liste séparée des seules archives, vide, détail et vrais refus ; aucune préparation supplémentaire requise |
@@ -63,7 +63,7 @@ Versions exactes, ABI et droits sont figés par 057 ; protocole de mesure par 02
 
 | Question | Autorité et consommateurs réels |
 | --- | --- |
-| ARB-ORG-005 | Responsable produit : traitement par donnée/état ou limitation effective ; ORG-004, 033 et GO si risque destructif exposé ; dossier et chantier existants préservés |
+| ARB-ORG-005 — décidé | Responsable produit le 2026-11-14 : A/R01–R09 sous rétentions existantes, sans validation externe MESS ni repli D ; ORG-004 autorisé puis 033/034 et GO vérifient la politique effective sur candidat |
 | C01/C02 | Produit : collecte/reprise identité, lien mail/login, champs/cibles/droits ; USER-002/003 complets non prêts |
 | C03/C05 | Produit : projection Organisation Coach et effets de réactivation ; ORG-002 et TEAM-007 concernés ; C04 déjà décidé |
 | C06 | Produit/dépôt : verdict/date de MEP-012 à approuver sur le dossier publié ; aucun nouvel audit Git/Apps ou circuit PR |

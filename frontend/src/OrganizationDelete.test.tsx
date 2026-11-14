@@ -61,7 +61,11 @@ it("shows deletion only to a Superadmin and removes the organization", async () 
 });
 
 it("keeps the confirmation open when deletion is refused", async () => {
-  api.deleteOrganization.mockRejectedValue(new Error("refused"));
+  api.deleteOrganization.mockRejectedValue(
+    new Error(
+      "Suppression refusée : dépendances protégées présentes — équipes.",
+    ),
+  );
   render(<OrganizationPage isSuperadmin />);
 
   await screen.findByText("North");
@@ -73,8 +77,57 @@ it("keeps the confirmation open when deletion is refused", async () => {
   );
 
   expect(await screen.findByRole("alert")).toHaveTextContent(
-    "suppression de l’organisation a été refusée",
+    "Suppression refusée : dépendances protégées présentes — équipes.",
   );
   expect(screen.getByRole("dialog")).toBeVisible();
+  expect(screen.getByText("North")).toBeVisible();
+});
+
+it("explains protected data and retention and cancels without deleting", async () => {
+  render(<OrganizationPage isSuperadmin />);
+  await screen.findByText("North");
+  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  const dialog = screen.getByRole("dialog");
+  expect(dialog).toHaveTextContent("quel que soit leur état");
+  expect(dialog).toHaveTextContent("durées de rétention applicables");
+  fireEvent.click(within(dialog).getByRole("button", { name: "Annuler" }));
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  expect(api.deleteOrganization).not.toHaveBeenCalled();
+  expect(screen.getByText("North")).toBeVisible();
+});
+
+it("prevents duplicate submission while the API is pending", async () => {
+  let finish!: () => void;
+  api.deleteOrganization.mockReturnValue(
+    new Promise<void>((resolve) => {
+      finish = resolve;
+    }),
+  );
+  render(<OrganizationPage isSuperadmin />);
+  await screen.findByText("North");
+  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: "Supprimer l’organisation" }),
+  );
+  expect(screen.getByRole("button", { name: "Suppression…" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Annuler" })).toBeDisabled();
+  expect(api.deleteOrganization).toHaveBeenCalledTimes(1);
+  finish();
+  await waitFor(() =>
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+  );
+});
+
+it("keeps the organization after an unexpected refusal without an Error", async () => {
+  api.deleteOrganization.mockRejectedValue(null);
+  render(<OrganizationPage isSuperadmin />);
+  await screen.findByText("North");
+  fireEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: "Supprimer l’organisation" }),
+  );
+  expect(await screen.findByRole("alert")).toHaveTextContent(
+    "suppression de l’organisation a été refusée",
+  );
   expect(screen.getByText("North")).toBeVisible();
 });

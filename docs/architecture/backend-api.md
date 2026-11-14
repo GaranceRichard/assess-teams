@@ -136,10 +136,18 @@ Le Superadmin agit sur toute organisation ; un Admin agit uniquement sur une org
 Une cible hors périmètre retourne `404`, tandis qu’un rôle non autorisé reçoit `403`.
 
 `DELETE /api/admin/organizations/{organization_id}/` effectue une suppression physique réservée au
-Superadmin et retourne `204`. Les rattachements plusieurs-à-plusieurs disparaissent avec l’organisation, mais
-les identités restent présentes. Un Admin, un Coach ou un Viewer reçoit `403` ; une cible inexistante retourne
-`404`. Les dépendances sans passation commencée sont supprimées par cascade. Une passation commencée protège
-son organisation et ses références : leur suppression retourne `400`. `ARB-ORG-005` reste ouvert pour les autres dépendances.
+Superadmin et retourne `204` après commit. Membres seuls admissibles : les rattachements courants de la
+cible disparaissent, les identités et leurs autres liens restent intacts. Admin/Coach/Viewer, anonyme ou
+CSRF invalide : `403` ; cible inexistante : `404`. Selon ARB-ORG-005 option A/R01–R09 décidée le 2026-11-14,
+toute équipe active/archivée, famille/version/question/repère, planification, run/snapshot ou notification
+liée bloque quel que soit son état. Le contrôle couvre aussi les liens indirects ; aucun NOT_STARTED
+n’est supprimé automatiquement. Refus `400` avec `{detail: "Suppression refusée : …"}` et catégories,
+sans mutation métier ni activité de succès. Un Log technique de refus reste permis. Verrou d’écriture
+SQLite avant lecture des invariants et suppression dans la même transaction ; contention selon le
+contrat d’erreur existant, jamais faux succès. Les traces seules sont admises si leur origine stable
+est garantie ; elles restent consultables par le seul Superadmin après disparition du périmètre,
+sous les rétentions existantes. Voir [provenance Journal/Logs](journals-api.md#provenance-organisationnelle--org-004)
+et [réalisation/preuves](../backlog/planning/realisation-org-004/README.md).
 
 `PUT /api/admin/organizations/{organization_id}/members/` remplace atomiquement la liste courante des membres.
 Le Superadmin peut agir sur toute organisation ; un Admin agit uniquement sur son organisation. La liste doit

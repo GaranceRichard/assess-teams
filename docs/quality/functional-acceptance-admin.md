@@ -72,7 +72,10 @@ Les noms de suites ci-dessous désignent `frontend/e2e/<nom>.spec.ts` ; leur pr�
 ## FON-05 — Organisation, renommage et rattachements courants
 
 - **PBI / préconditions :** ORG-001/003/005/006, MEP-011 ; G0/G1 et Admin/Coach non encore rattachés pour une nouvelle organisation.
-  ORG-002 est partiel ; ORG-004 est Bloqué, aucune suppression avec dépendances comme nominal admis.
+  ORG-002 est partiel ; ORG-004 est Ouvert, politique A/R01–R09 approuvée le 2026-11-14.
+  Après réalisation sur le candidat, compléter ce lot avec les [S01–S11 et preuves](../backlog/planning/realisation-org-004/README.md) :
+  succès sans patrimoine protégé, membres conservés ; dépendances de tous états refusées, provenance
+  et accès résiduels Superadmin, rollback et concurrence. Aucun PV cible exécuté par cette mise à jour.
 - **Actions :** Superadmin crée `Recette Gamma` avec un Admin actif et un Coach ; Admin Gamma renomme cette organisation,
   ajoute/retire un Coach courant ; relire la fiche sous Admin et Superadmin, puis vérifier les sessions des membres retirés.
 - **Attendu vérifiable :** création 201 atomique ; renommage conserve ID/membres ; remplacement membres conserve les Admins pour l'Admin,

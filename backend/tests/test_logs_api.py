@@ -84,6 +84,7 @@ def test_failed_operation_records_sanitized_error_for_its_organization() -> None
         "id",
         "created_at",
         "organization_id",
+        "organization_origin_id",
         "organization_name",
         "actor_name",
         "team_name",

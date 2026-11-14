@@ -68,6 +68,9 @@ class JournalEntryFields(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    organization_origin_id = models.PositiveBigIntegerField(
+        null=True, blank=True, editable=False, db_index=True
+    )
     organization_name = models.CharField(max_length=255, blank=True)
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -85,6 +88,11 @@ class JournalEntryFields(models.Model):
         related_name="+",
     )
     team_name = models.CharField(max_length=255, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self._state.adding and self.organization_id is not None:
+            self.organization_origin_id = self.organization_id
+        super().save(*args, **kwargs)
 
     class Meta:
         abstract = True

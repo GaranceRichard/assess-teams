@@ -1,5 +1,5 @@
 import { formatDateTime } from "./dateTime";
-import type { LogEntry } from "./journals";
+import { organizationLabel, type LogEntry } from "./journals";
 
 function shown(value: string | undefined): string {
   return value || "—";
@@ -17,7 +17,7 @@ function LogDetails({ entry }: { entry: LogEntry }) {
         <dt>Source</dt>
         <dd>{entry.source}</dd>
         <dt>Organisation</dt>
-        <dd>{shown(entry.organization_name)}</dd>
+        <dd>{entry.organization_name ? organizationLabel(entry) : "—"}</dd>
         <dt>Utilisateur</dt>
         <dd>{shown(entry.actor_name)}</dd>
         <dt>Équipe</dt>
@@ -85,7 +85,9 @@ export function LogEntries({
                 <strong className="log-level">{entry.level}</strong>
               </td>
               <td>{entry.source}</td>
-              <td>{shown(entry.organization_name)}</td>
+              <td>
+                {entry.organization_name ? organizationLabel(entry) : "—"}
+              </td>
               <td>{shown(entry.actor_name)}</td>
               <td>{shown(entry.team_name)}</td>
               <td>{shown(entry.evaluation_name)}</td>

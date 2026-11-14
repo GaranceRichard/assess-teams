@@ -89,8 +89,10 @@ pilotage initial et administration cloisonnée par organisation.
 
 Des limites demeurent : la révision Admin remplace les notes et conserve seulement le dernier réviseur,
 en plus de l’auteur et de la date initiaux ; l’historique complet des révisions et affectations n’est pas livré.
-La réactivation des équipes n’est pas disponible. Certains droits Coach et traitements de suppression
-restent à arbitrer ; aucun partage interorganisation ne découle des résultats.
+La réactivation des équipes n’est pas disponible. Certains droits Coach restent à arbitrer ; aucun
+partage interorganisation ne découle des résultats. La suppression d’une organisation est réservée
+au Superadmin et refusée si des données métier protégées existent. Les identités et les traces sont
+conservées selon les règles applicables.
 
 Le développement du socle et la préparation de l’exploitation **MESS** restent distincts :
 la démo et les capacités livrées ne constituent ni une installation cible qualifiée ni un GO MESS.

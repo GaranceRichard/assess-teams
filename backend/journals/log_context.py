@@ -13,9 +13,14 @@ class LogContext:
     organization: Organization | None = None
     team: Team | None = None
     evaluation: Evaluation | None = None
+    organization_origin_id: int | None = None
     organization_name: str = ""
     team_name: str = ""
     evaluation_name: str = ""
+
+    def __post_init__(self):
+        if self.organization is not None:
+            object.__setattr__(self, "organization_origin_id", self.organization.pk)
 
 
 def describe_log_attempt(

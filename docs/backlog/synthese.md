@@ -84,7 +84,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | ORG-001 — Créer une organisation | Réalisé | création et rattachements atomiques ; 2026-09-24 |
 | ORG-002 — Consulter les organisations | Ouvert | Superadmin/Admin livrés ; projection Coach C03 à décider ; Viewer selon concepts |
 | ORG-003 — Modifier une organisation | Réalisé | renommage cloisonné ; 2026-09-24 |
-| ORG-004 — Supprimer une organisation | Bloqué | cascade actuelle sur données dépendantes ; `ARB-ORG-005` |
+| ORG-004 — Supprimer une organisation | Ouvert | `ARB-ORG-005` A/R01–R09 approuvées le 2026-11-14 ; [réalisation/preuves](planning/realisation-org-004/README.md), clôture fonctionnelle explicite attendue |
 | ORG-005 — Gérer le rattachement courant des Admins | Réalisé | scope et protection des pairs ; 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | Réalisé | cardinalité et scope ; 2026-09-28 |
 | TEAM-001 — Créer une équipe | Réalisé | API/UI/tests et unicité organisationnelle ; 2026-09-27 |
@@ -148,7 +148,7 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 
 ## Écarts et décisions encore ouverts
 
-- `ARB-ORG-005` doit décider le traitement des équipes, modèles et planifications avant de rétablir `ORG-004`.
+- `ARB-ORG-005` est résolu par le responsable produit le 2026-11-14 : A/R01–R09 sous rétentions existantes ; ORG-004 Ouvert/N/A jusqu’à approbation fonctionnelle après réalisation et qualification.
 - `ARB-ORG-008` est résolu : dernier Admin actif protégé, transitions explicites et aucune suppression physique métier.
 - `ARB-ORG-010` reste ouvert pour un éventuel partage de modèles ; le code ne livre qu’un périmètre strictement local.
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.

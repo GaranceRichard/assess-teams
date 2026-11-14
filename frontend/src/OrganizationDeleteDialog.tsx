@@ -41,7 +41,17 @@ export function OrganizationDeleteDialog({
         <ErrorNotice error={error} />
         <p id="OrganizationDeleteDialog-description">
           {organization.name} sera définitivement supprimée. Ses utilisateurs
-          conserveront leurs comptes.
+          conserveront leurs comptes et leurs autres rattachements.
+        </p>
+        <p>
+          La suppression sera refusée si des équipes, des référentiels, des
+          planifications, des passations, des observations ou des notifications
+          liées existent, quel que soit leur état, même archivé ou non commencé.
+        </p>
+        <p>
+          Le Journal et les Logs conserveront leur provenance et resteront
+          consultables par le Superadmin, selon les durées de rétention
+          applicables.
         </p>
         <div className="organization-dialog-actions">
           <button

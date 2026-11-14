@@ -17,7 +17,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | ORG-001 — Créer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |
 | ORG-002 — Consulter les organisations | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Ouvert | lecture Superadmin/Admin livrée ; projection Coach C03 à décider ; Viewer limité aux résultats selon concepts | N/A |
 | ORG-003 — Modifier une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-24 |
-| ORG-004 — Supprimer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Bloqué | `ARB-ORG-005` rouvert pour les données dépendantes | N/A |
+| ORG-004 — Supprimer une organisation | FEAT-036 — Gérer le cycle de vie d’une organisation | M | Sol — puissance élevée | Ouvert | `ARB-ORG-005` décidé le 2026-11-14 ; réalisation autorisée, clôture fonctionnelle explicite attendue | N/A |
 | ORG-005 — Gérer le rattachement courant des Admins | FEAT-037 — Rattacher un Admin à une organisation | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | FEAT-038 — Rattacher un Coach à une organisation | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-28 |
 | TEAM-001 — Créer une équipe | FEAT-005 — Constituer une équipe | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-27 |
