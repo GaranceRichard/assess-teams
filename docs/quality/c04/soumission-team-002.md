@@ -1,5 +1,8 @@
 # TEAM-002 — Soumission séparée de clôture
 
+**Clôture TEAM-002 approuvée le 2026-11-13 : [décision indépendante](cloture-team-002.md).**
+Le texte ci-dessous conserve la soumission et son état avant cette décision.
+
 Soumission du 2026-11-13 après qualification complète, publication et CI verte.
 Décision demandée : approuver séparément la clôture canonique de TEAM-002.
 Statut **Ouvert**, date **N/A** conservés jusqu’à votre décision explicite.

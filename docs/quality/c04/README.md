@@ -10,7 +10,7 @@ README annoncé avant développement. Aucun autre worktree n’est modifié.
 Publication technique réussie sur [`09e305a`](https://github.com/GaranceRichard/assess-teams/commit/09e305a1215300ea59ded1cb13e5a23e87639e70) ;
 [CI indépendante verte](https://github.com/GaranceRichard/assess-teams/actions/runs/43542234233).
 [Preuves finales](validations.md#validation-finale-et-publication-réussie--2026-11-13).
-Les deux clôtures sont soumises séparément ; aucun statut canonique modifié.
+Les deux clôtures sont [approuvées séparément](#clôtures-canoniques-approuvées--2026-11-13) ; le registre porte Réalisé / 2026-11-13 / aucun pour chaque PBI.
 
 ## Périmètre et preuves
 
@@ -84,7 +84,34 @@ pré-push sont décrits dans les validations, sans réécriture artificielle des
 
 ## Soumissions distinctes
 
+Le passage ci-dessous conserve l’état de soumission antérieur au GO ; les décisions ultérieures sont enregistrées séparément plus bas.
+
 Les dossiers [TEAM-002](soumission-team-002.md) et [TEAM-003](soumission-team-003.md)
 sont soumis séparément après qualification complète, publication et CI verte du SHA exact.
-Ces soumissions ne sont pas des clôtures approuvées et ne modifient pas le registre canonique.
+Ces soumissions conservées décrivent l’état avant le GO ; les deux décisions indépendantes ci-dessous portent leur approbation ultérieure.
 La recette sur cible MESS demeure indépendante ; aucune qualification locale ne vaut PV MESS.
+
+## Clôtures canoniques approuvées — 2026-11-13
+
+Enregistrement documentaire repris le 2026-11-14, sans modifier la date fonctionnelle approuvée du 2026-11-13.
+Le GO du mainteneur approuve distinctement [TEAM-002](cloture-team-002.md) et
+[TEAM-003](cloture-team-003.md), chacune à Réalisé, date 2026-11-13, blocage aucun.
+Critères, refus, DoD, validations complètes et deux CI publiées sont explicitement approuvés.
+Le registre est modifié sur ces deux lignes seulement ; les preuves et la chronologie réelle
+ci-dessus restent conservées. Le lot est strictement documentaire, sans impact produit README.
+
+| Indicateur | Avant les deux décisions | Après les deux décisions |
+| --- | --- | --- |
+| Global | 56/96 réalisés = 58 % ; 37 ouverts, 0 en cours, 3 bloqués | 58/96 réalisés = 60 % ; 35 ouverts, 0 en cours, 3 bloqués |
+| PBI non réalisés | 40 | 38 |
+| Fonctionnel | 26/34 réalisés = 76 % | 28/34 réalisés = 82 % |
+| EPIC-002 — Gestion des équipes | 3/7 réalisés = 43 % | 5/7 réalisés = 71 % |
+| FEAT-007 — Consulter les équipes | 0/2 réalisés = 0 % | 2/2 réalisés = 100 % |
+| MESS actif | 30/62 réalisés = 48 % | Inchangé : 30/62 réalisés = 48 % |
+
+Comptage recalculé depuis les 34 lignes fonctionnelles et les 62 lignes MESS actives,
+sans doublon, avec arrondi à l’entier le plus proche selon la gouvernance. Les 15 Epics,
+61 Features, 42 raffinées, 19 non raffinées et 96 PBI restent inchangés. Aucune clôture
+ou décision supplémentaire n’est déduite ; TEAM-005, TEAM-006/007, C03/C05, arbitrages
+Organisation et décisions MESS sont préservés. L’inscription publiée est à confirmer
+après `npm run publish` et la CI verte du SHA exact de ce lot, puis nettoyage exclusif.

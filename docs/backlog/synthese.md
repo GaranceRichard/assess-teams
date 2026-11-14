@@ -31,7 +31,7 @@ Les Features larges de pilotage restent incomplètes.
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
 | EPIC-001 — Identités, coachs et habilitations | 4 | 8 | 6 | 75 % |
-| EPIC-002 — Gestion des équipes | 4 | 7 | 3 | 43 % |
+| EPIC-002 — Gestion des équipes | 4 | 7 | 5 | 71 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 4 | 4 | 100 % |
 | EPIC-004 — Affectations et planification des évaluations | 5 | 1 | 1 | 100 % |
@@ -88,8 +88,8 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | ORG-005 — Gérer le rattachement courant des Admins | Réalisé | scope et protection des pairs ; 2026-09-28 |
 | ORG-006 — Gérer le rattachement courant d’un Coach | Réalisé | cardinalité et scope ; 2026-09-28 |
 | TEAM-001 — Créer une équipe | Réalisé | API/UI/tests et unicité organisationnelle ; 2026-09-27 |
-| TEAM-002 — Lister les équipes | Ouvert | [Qualifié et publié selon C04](../quality/c04/soumission-team-002.md), CI verte ; clôture séparée soumise, Viewer exclu |
-| TEAM-003 — Consulter une équipe | Ouvert | [GET minimal actif/archivé qualifié et publié](../quality/c04/soumission-team-003.md), Coach selon C04 ; clôture séparée soumise |
+| TEAM-002 — Lister les équipes | Réalisé | [Clôture distincte approuvée](../quality/c04/cloture-team-002.md), critères/refus/DoD et deux CI conformes ; 2026-11-13 |
+| TEAM-003 — Consulter une équipe | Réalisé | [Clôture distincte approuvée](../quality/c04/cloture-team-003.md), critères/refus/DoD et deux CI conformes ; 2026-11-13 |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
 | TEAM-005 — Archiver une équipe | Réalisé | [Clôture approuvée](planning/qualification-team-005/cloture.md), critères/DoD et deux CI conformes ; 2026-11-13 |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
@@ -154,7 +154,7 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
 - partage, historique général, calculs d’évolution/tendance, alertes et pilotage élargi restent non réalisés.
 - les préférences de canal et les nouveaux types de notifications restent hors du périmètre livré.
-- [Consolidation : acquis, écarts et décisions attribuables](source/08-ecarts-et-qualifications.md) : C01/C02, C03/C04/C05, C06, C11, C12 et C21 restent ouverts ; correctif transitions publié `eede631`, acceptation visuelle utilisateur non acquise, sans nouveau PBI ni verdict esthétique déduit de CI.
+- [Consolidation : acquis, écarts et décisions attribuables](source/08-ecarts-et-qualifications.md) : C01/C02, C03/C05, C06, C11, C12 et C21 restent ouverts ; C04 est décidé et TEAM-002/003 clôturés séparément ; correctif transitions publié `eede631`, acceptation visuelle utilisateur non acquise, sans nouveau PBI ni verdict esthétique déduit de CI.
 
 ## Matrices CRUD réellement protégées par le backend
 
@@ -181,14 +181,14 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 37 |
+| PBIs ouverts | 35 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 3 |
-| PBIs non réalisés | 40 |
-| PBIs réalisés | 56 |
-| Avancement global | 58 % |
+| PBIs non réalisés | 38 |
+| PBIs réalisés | 58 |
+| Avancement global | 60 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 56 réalisés (26 fonctionnels, dont [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 30 MESS, dont MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 58 réalisés (28 fonctionnels, dont TEAM-002 et TEAM-003 clôturés séparément le 2026-11-13 et [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 30 MESS, dont MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 Couverture analytique inchangée : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
 

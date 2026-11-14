@@ -1,5 +1,8 @@
 # TEAM-003 — Consulter une équipe
 
+**Clôture distincte approuvée le 2026-11-13 : [décision TEAM-003](../../../../quality/c04/cloture-team-003.md).**
+Le diagnostic daté ci-dessous reste historique ; le registre porte le statut courant Réalisé.
+
 Actualisation du 2026-11-12 : [C04 décidé](../../../source/00-arbitrage-c04-equipes-coach.md).
 Compte Coach actif, affectation et appartenance courantes exigés ; archives accessibles
 par ID tant que l’affectation est conservée, liste active seulement. [Qualification](../../../../quality/c04/README.md)
