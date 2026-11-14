@@ -76,3 +76,9 @@ destructif non arbitré demeure exposé ; **MEP-034** vérifie droits/refus/inva
 **MEP-035** ne peut rendre GO sans traitement de cet arbitrage nécessaire ; un NO-GO motivé n’achève
 aucun PBI. Décider et protéger ce risque peut avancer indépendamment de la distribution MESS,
 sans autoriser une implémentation pendant la présente consolidation.
+
+## Complément de proposition du 2026-11-14
+
+Le [dossier ARB-ORG-005](../arb-org-005/README.md) actualise la lecture sur `3802d77`, compare A/B/C/D
+et soumet une recommandation au mainteneur. Il ne modifie ni les constats datés ci-dessus, ni le
+registre canonique, ni le statut Bloqué/N/A d’ORG-004 ; aucune politique n’est approuvée par sa publication.
