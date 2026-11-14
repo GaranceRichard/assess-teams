@@ -2,7 +2,8 @@
 
 Décision produit du 2026-11-12 : [source C04](../../backlog/source/00-arbitrage-c04-equipes-coach.md).
 Branche `c04-coach-team-reads`, base initiale `2fedab8`, resynchronisée le 2026-11-13
-sur `f400a8e` (tests SQLite), puis `3a881f8` (politique documentaire et accueil produit), worktree isolé
+sur `f400a8e` (tests SQLite), `3a881f8` (politique documentaire), puis `4c29aca`
+(incluant le contrat TEAM-005 publié), worktree isolé
 `C:\Users\garan\Desktop\Projets\Assess-teams-worktrees\c04-coach-team-reads`.
 README annoncé avant développement. Aucun autre worktree n’est modifié.
 

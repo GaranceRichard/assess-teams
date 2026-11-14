@@ -144,3 +144,13 @@ postérieurs au développement : ils ne sont pas présentés comme une preuve d�
 de ce format. La resynchronisation ne modifie aucun fichier applicatif C04.
 
 La revue de contenu est consignée dans le [dossier de qualification](../quality/c04/README.md).
+
+## Ajustement préparé après intégration TEAM-005
+
+La resynchronisation avec le refus explicite d’archivage publié fait dépasser la limite
+de 200 lignes au module des vues. Avant cet ajustement technique, le choix est de déplacer
+uniquement l’annotation OpenAPI du GET détail vers `backend/teams/adapters/api/schema.py`,
+déjà propriétaire de l’union de liste ; `backend/teams/adapters/api/views.py` garde le handler.
+Aucun traitement d’archivage, scope de mutation, champ ou statut n’est modifié par ce déplacement.
+Les contrats GET et DELETE, refus Coach, intégrité, schéma strict et parcours équipes seront
+rejoués avant le pré-push applicable au candidat final. Cette préparation précède ce déplacement.

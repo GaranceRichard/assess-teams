@@ -34,3 +34,18 @@ active avant fetch, test ou push C04. Aucun verrou ni processus d’autre chanti
 Publication et CI du SHA exact encore attendues à cette rédaction. Aucun succès de
 livraison ou clôture canonique n’est déduit de la seule campagne locale complète.
 Les dossiers TEAM-002 et TEAM-003 restent des projets distincts jusqu’à ces preuves.
+
+## Intégration du contrat TEAM-005 publié
+
+Nouvelle base `4c29aca`, incluant `8f89855` (refus explicite du second archivage).
+Les conflits C04/TEAM-005 sont résolus en conservant le DELETE Admin à 400 sur une
+archive accessible et les lectures Coach C04 ; aucun statut canonique n’est modifié.
+Le déplacement préparé de la seule annotation GET vers le module de schéma remet
+les vues sous 200 lignes. Les corps de POST, PUT et DELETE sont identiques à ceux
+de `origin/main`, vérifiés par comparaison de leurs arbres syntaxiques Python.
+
+Après résolution : **89 tests backend ciblés** réussis en 34,43 s, couvrant lectures,
+archivage, intégrité, pagination, OpenAPI strict et Swagger ; **3 E2E** réussis en
+29,8 s, dont second archivage à 400 et parcours Coach. Lint, formatage, migrations,
+limite de lignes et préparation documentaire passent. Le pré-push complet reste
+bloquant pour les entrées finales après cette resynchronisation.
