@@ -24,7 +24,7 @@ Le bootstrap du premier `Superadmin` par Django est un prérequis opératoire de
 
 1. **Contrats Utilisateurs :** compléter `USER-002` et `USER-003`; `USER-004` est livré avec désactivation/réactivation explicites.
 2. **Cycle Organisation :** compléter `ORG-002`; décider avec `ARB-ORG-005` le sort des données dépendantes avant de reprendre `ORG-004`.
-3. **Cycle Équipes :** `TEAM-001` et `TEAM-004` sont livrés ; compléter `TEAM-002`, `TEAM-003` et `TEAM-005`, puis `TEAM-006` et `TEAM-007`.
+3. **Cycle Équipes :** `TEAM-001` et `TEAM-004` sont livrés ; `TEAM-005` est [clôturé le 2026-11-13](qualification-team-005/cloture.md) ; compléter `TEAM-002` et `TEAM-003`, puis `TEAM-006` et `TEAM-007`.
 4. **Rattachements historiques :** les états courants `ORG-005`, `ORG-006` et `COACH-001` sont livrés ; l’historisation de `FEAT-008`, `FEAT-009`, `FEAT-037` et `FEAT-038` reste à raffiner.
 5. **Référentiel d’évaluation :** `EVAL-001` livre le CRUD local, `EVAL-002` la validation immuable et l’archivage, `EVAL-003` les familles et versions ; modalités et partage éventuel restent à raffiner/arbitrer.
 6. **Planification :** `PLAN-001` livre le planning courant ; périodes d’association, historique et calcul piloté par les finalisations restent dans `FEAT-015`, `FEAT-016` et `FEAT-018`.

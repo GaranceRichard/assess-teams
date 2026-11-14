@@ -31,7 +31,7 @@ Les Features larges de pilotage restent incomplètes.
 | Epic | Features | PBI | Réalisés | Avancement |
 | --- | ---: | ---: | ---: | ---: |
 | EPIC-001 — Identités, coachs et habilitations | 4 | 8 | 6 | 75 % |
-| EPIC-002 — Gestion des équipes | 4 | 7 | 2 | 29 % |
+| EPIC-002 — Gestion des équipes | 4 | 7 | 3 | 43 % |
 | EPIC-002A — Accompagnement des équipes | 2 | 1 | 1 | 100 % |
 | EPIC-003 — Référentiel des modèles d’évaluation | 4 | 4 | 4 | 100 % |
 | EPIC-004 — Affectations et planification des évaluations | 5 | 1 | 1 | 100 % |
@@ -91,7 +91,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | TEAM-002 — Lister les équipes | Ouvert | [C04 décidé](source/00-arbitrage-c04-equipes-coach.md) : lectures Coach affectées en qualification ; clôture séparée attendue, Viewer exclu |
 | TEAM-003 — Consulter une équipe | Ouvert | GET détail actif/archivé ; extension Coach selon C04 en qualification, clôture séparée attendue |
 | TEAM-004 — Modifier une équipe | Réalisé | renommage cloisonné ; 2026-09-27 |
-| TEAM-005 — Archiver une équipe | Ouvert | archivage, GET archivé Admin/Superadmin et second refus explicite 400 ; clôture en attente d’approbation |
+| TEAM-005 — Archiver une équipe | Réalisé | [Clôture approuvée](planning/qualification-team-005/cloture.md), critères/DoD et deux CI conformes ; 2026-11-13 |
 | TEAM-006 — Consulter les équipes archivées | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent |
 | TEAM-007 — Réactiver une équipe | Ouvert | absent ; effets de reprise C05 à décider |
 | COACH-001 — Affecter les Coachs courants d’une équipe | Réalisé | affectation locale multi-Coachs ; 2026-09-27 |
@@ -181,14 +181,14 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 38 |
+| PBIs ouverts | 37 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 3 |
-| PBIs non réalisés | 41 |
-| PBIs réalisés | 55 |
-| Avancement global | 57 % |
+| PBIs non réalisés | 40 |
+| PBIs réalisés | 56 |
+| Avancement global | 58 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 55 réalisés (25 fonctionnels et 30 MESS, dont MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 56 réalisés (26 fonctionnels, dont [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 30 MESS, dont MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 Couverture analytique inchangée : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
 

@@ -1,5 +1,8 @@
 # TEAM-005 — Qualification initiale et contrat approuvé
 
+Statut historique conservé ci-dessous ; [clôture fonctionnelle approuvée le 2026-11-13](cloture.md),
+statut courant dans le registre canonique.
+
 Date : 2026-11-12 (America/Toronto). Constat initial des phases 1 et 2, conservé comme preuve avant correction.
 Base récupérée par `git fetch origin main`, puis confirmée par `git ls-remote` :
 `2fedab80cdcff42325c6c1bfc06f5650c702c2ae` (`origin/main`).

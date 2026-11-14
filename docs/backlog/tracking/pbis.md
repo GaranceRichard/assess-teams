@@ -24,7 +24,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | TEAM-002 — Lister les équipes | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | liste Admin/Superadmin livrée ; scope Coach C04 à décider, Viewer exclu des écrans Équipes | N/A |
 | TEAM-003 — Consulter une équipe | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Ouvert | GET minimal actif/archivé Admin/Superadmin ajouté selon découpage approuvé ; accès Coach en attente de C04 | N/A |
 | TEAM-004 — Modifier une équipe | FEAT-006 — Faire évoluer les informations d’une équipe | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-27 |
-| TEAM-005 — Archiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | archivage et relecture TEAM-003 conservés ; second refus explicite 400 ajouté selon contrat approuvé ; clôture en attente d’approbation | N/A |
+| TEAM-005 — Archiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Réalisé | aucun | 2026-11-13 |
 | TEAM-006 — Consulter les équipes archivées | FEAT-010 — Gérer la sortie et la reprise du suivi actif | S | Sol — puissance moyenne | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent | N/A |
 | TEAM-007 — Réactiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | capacité absente ; effets affectations/planning C05 à décider | N/A |
 | COACH-001 — Affecter les Coachs courants d’une équipe | FEAT-008 — Affecter un coach à une équipe | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-27 |

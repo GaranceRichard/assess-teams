@@ -1,5 +1,8 @@
 # TEAM-005 — Exécution et preuves après approbation
 
+Statut historique conservé ci-dessous ; [clôture fonctionnelle approuvée le 2026-11-13](cloture.md),
+statut courant dans le registre canonique.
+
 Contrat et publication explicitement approuvés par l'utilisateur le 2026-11-12.
 [Qualification initiale et contrat exact](rapport.md), base `2fedab80cdcff42325c6c1bfc06f5650c702c2ae`.
 Branche `team-005-archive-refusal`, worktree isolé annoncé dans le rapport.
