@@ -77,8 +77,30 @@ Frontend : statements **94,87 %**, branches **93,32 %**, fonctions **96,35 %**, 
 Lint, formatage, build, typage, migrations, contrat OpenAPI strict et contrôles de sécurité requis verts.
 E2E : **150 parcours applicatifs en 22,8 min**, puis **10 démo en 41,0 s**, tous réussis.
 Le 2026-11-13, la nouvelle politique et vitrine de `3a881f8` sont intégrées sans modifier ce code métier.
-Les preuves antérieures sont conservées ; le pre-push recalculera et relancera les contrôles invalidés.
-Publication et CI du candidat resynchronisé : à consigner après leur réussite.
+Les preuves antérieures sont conservées ; le pre-push a recalculé et relancé tous les contrôles invalidés.
+
+## Livraison et CI du SHA exact — 2026-11-13
+
+`npm run publish` a publié **`8f8985534cf562eabc15fecaa216344cd0887889`** directement vers main,
+après resynchronisation sur `3a881f8fc1cc80d2895df40c5e1c101c9477a0f9`, sans PR ni bypass.
+Le nouveau README produit et les corrections CI entrantes sont intégralement préservés.
+Le pre-push a réexécuté les quatre domaines obligatoires avec succès :
+
+| Contrôle final | Résultat |
+| --- | --- |
+| Documentation, lignes, secrets, structure et préparation propriétaire | Vert ; fichier de vue 198 lignes, aucun fichier maintenu au-delà de 200. |
+| Backend complet | **1 518 succès en 1 235,83 s**, couverture **97,52 %**. |
+| Frontend complet | **493 tests / 119 fichiers**, quatre couvertures **94,87 / 93,32 / 96,35 / 95,71 %**. |
+| Statiques, migrations, contrat strict, build et typage | Tous conformes ; aucune migration requise. |
+| E2E applicatifs | **150 succès en 21,0 min**, dont archivage→GET→second 400 exact→GET inchangé. |
+| E2E de démo | **10 succès en 37,8 s** ; build statique conforme. |
+
+[CI indépendante du SHA exact : succès — run 43481970237](https://github.com/GaranceRichard/assess-teams/actions/runs/43481970237).
+Plan, repository, frontend, backend statique, huit partitions backend, couverture globale, E2E
+et **Required impact gate** réussis. Le job exhaustif non sélectionné reste non applicable au plan.
+`publish` confirme push, fast-forward sûr du main principal et CI verte ; aucun échec applicable masqué.
+Le présent suivi final est documentaire et suit le même circuit, avec sa propre CI exacte.
+Le nettoyage concerne uniquement le worktree et la branche TEAM-005, après ce dernier succès.
 La preuve rouge ne remplace aucun gate de livraison.
 
 ## Revue documentaire et limites
@@ -93,4 +115,11 @@ Aucun nouvel écran ni changement visuel ; recette visuelle UX nouvelle non appl
 Aucun changement de modèle : migration nouvelle non applicable ; contrôle migrations existant reste requis.
 Le correctif séquentiel n'introduit aucune politique nouvelle pour deux requêtes concurrentes.
 Toute anomalie de concurrence démontrée sera documentée et soumise à décision complémentaire.
-La clôture ne sera proposée qu'après publication et CI exactes vertes ; aucune promotion MESS déduite.
+## Verdict et proposition de clôture
+
+Les sept scénarios du mandat sont satisfaits dans le périmètre approuvé ; preuves rouges puis vertes,
+contrat exact, historique, permissions/isolation, non-régressions et DoD applicable sont démontrés.
+La publication et la CI du SHA applicatif exact sont vertes : **clôture de TEAM-005 proposée**.
+Cette proposition ne vaut pas approbation humaine. TEAM-005 reste **Ouvert / N/A** ; aucune date de
+réalisation ni aucun indicateur de backlog n’est actualisé avant accord explicite du mainteneur.
+TEAM-003/C04, TEAM-006/007, les autres PBI et les décisions MESS ne sont pas modifiés par cette proposition.
