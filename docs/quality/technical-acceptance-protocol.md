@@ -7,22 +7,24 @@ Retour au [cahier](technical-acceptance.md). P0, G et R0 sont normatifs pour tou
 - Candidat : version, SHA Git complet, package/manifeste et empreintes SHA-256 des archives,
   runtime et outils ; provenance et versions du schéma/migrations. Aucune substitution par le SHA de rédaction.
 - Environnement : identifiant du clone/hôte, OS/build/CPU/RAM/disque, Python/SQLite, serveur/frontal,
-  navigateur, horloge UTC et fuseaux ; chemins et identité OS approuvés D01–D09.
+  navigateur, horloge UTC et fuseaux ; chemins et identité OS selon le profil de référence D01–D09.
 - Configuration : référence/version expurgée, settings production, origine, hosts, pairs transport,
   flux autorisés et politique de conservation ; attester les secrets présents sans valeur ni empreinte de secret.
   Vérifier que l'API, les workers et commandes utilisent la même configuration et le même fichier SQLite.
-- Rôles : exécutant habilité OS, responsable recette, observateur, autorité d'incident et approbateur désignés
-  par MEP-022 ; comptes applicatifs distincts, mots de passe privés remis hors des preuves.
+- Rôles : exécutant habilité OS, responsable recette, observateur, autorité d'incident et relecteur désignés pour la campagne ; rôles opératoires décrits
+  par MEP-022, sans RACI externe obligatoire sur le banc ; comptes applicatifs distincts, mots de passe privés remis hors des preuves.
 - État initial : services/PID/tâches, état des files, compteurs et relevé des objets/relations/activités,
   point de sauvegarde cohérent, contrôles d'intégrité et espace disponible. Documenter l'état spécifique de la fiche.
-- Paramètres : décision signée, valeur/unité, instrument/version, source et formule de mesure,
-  fenêtre, bornes de début/fin, critère d'échec et condition d'arrêt approuvés avant toute injection.
+- Paramètres : protocole de référence versionné, valeur/unité, instrument/version, source et formule de mesure,
+  fenêtre, bornes de début/fin, critère d'échec et condition d'arrêt fixés avant toute injection sur clone.
   Les entrées manquantes restent `À définir — C11 / MEP-022` selon la [matrice](technical-acceptance-dependencies.md).
 - Réseau et sécurité : isoler cible/clones, limiter SMTP à la boîte de recette ; autoriser les injections
   seulement dans ce périmètre. Ne jamais désactiver la vérification TLS pour fabriquer un succès.
 
 Précondition absente : variante non lançable, à consigner Bloqué dans un futur PV ; le cahier reste Non exécuté.
-Un scénario conditionnel n'est pas une procédure d'exploitation livrée. Sa finalisation bloque la clôture MEP-031.
+Un scénario conditionnel n'est pas une procédure d'exploitation livrée. Son consommateur finalise
+les commandes après livraison de l’outil et avant exécution ; cela ne crée pas un prérequis de clôture
+de MEP-031 à tous les outils futurs. Un paramètre du protocole 022 manquant bloque bien le cahier concerné.
 
 ## G — Jeux fictifs reproductibles
 

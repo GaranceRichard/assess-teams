@@ -1,7 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
-> **Prochain travail :** [MEP-015 — Observation radar](planning/audit-20261027/fiches/MEP-015.md) ; [MEP-047 réalisé le 2026-11-01, sans nouveau code](../quality/mep-047/README.md), décisions D01–D09 en parallèle. [Séquence et passages jusqu’au GO](planning/pre-mep.md).
+> **Prochain travail :** [MEP-054 — Contrat de configuration unique](source/mess/f10.md), prêt ; [dix prochains PBI, aptitudes et parallèles](planning/pre-mep.md). D01–D09 ne conditionnent plus le développement ; aucune qualification MESS réelle anticipée.
 > **Préparation MESS :** [Epic → Feature → PBI](source/07-pre-mep.md), [livraison progressive](planning/pre-mep.md), [suivi des capacités](tracking/pre-mep-view.md) et [GO/NO-GO](tracking/mess-jalon.md).
 
 ## Direction et sources de référence

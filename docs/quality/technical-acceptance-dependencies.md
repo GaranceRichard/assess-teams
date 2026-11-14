@@ -1,10 +1,10 @@
 # MEP-031 — Traçabilité, dépendances et décisions
 
 [Index](technical-acceptance.md) · [Qualification et DoD](technical-acceptance-review.md).
-Statuts à `ec4c3a535065c54e3c25abea8f52b722f5bef5be` : MEP-031 **Ouvert / N/A**,
-MEP-022 **Ouvert**, MEP-055 **Bloqué**, MEP-039 **Réalisé** ; C11 et D01–D09 non approuvées.
-Autorités : [registre E01](../backlog/tracking/mess-e01.md), [E03](../backlog/tracking/mess-e03.md),
-[E04](../backlog/tracking/mess-e04.md), [décisions](../backlog/planning/audit-20261027/decisions-mess.md).
+État courant au 2026-11-14 : MEP-031 et MEP-022 Ouverts ; MEP-055 **Ouvert/N/A sur approbation
+explicite**, sans clôture ; MEP-039 réalisé. Les axes D01–D09 ne sont plus des décisions externes
+obligatoires. [Profil et C11](../operations/installation-prerequisites.md) : paramètres techniques du projet,
+limites et engagements éventuels du site réel distincts. Tous les verdicts TEC restent **Non exécuté**.
 
 ## Dépendances canoniques et ordonnancement
 
@@ -22,7 +22,7 @@ et [F20](../backlog/source/mess/f20.md) :
 | MEP-072 | MEP-068, MEP-031, MEP-064, MEP-027, MEP-065 |
 
 Les capacités ci-dessous sont des entrées concrètes de procédure, pas des modifications de ces dépendances.
-Préparer matrices/jeux et collecter décisions en parallèle est recommandé ; l'ordre I/C du
+Préparer matrices/jeux et définir les paramètres techniques en parallèle est recommandé ; l'ordre I/C du
 [plan](../backlog/planning/pre-mep.md) reste indicatif. Chaque scénario attend seulement les entrées qu'il consomme.
 MEP-043 n'est pas réintroduit comme prérequis de MEP-034 ; F04 reste traité au GO selon la source.
 
@@ -32,7 +32,7 @@ Chaque ligne relie l'exigence MEP-031 à son contrat, son risque et son consomma
 Refus/Preuves des fiches complètent la chaîne, sans confondre preuves acquises et preuves cible attendues.
 Les rôles ci-dessous sont attendus, pas des titulaires nommés ni des accords présumés.
 
-| Scénario / exigence → contrat → risque | Capacité disponible | Capacité manquante | Décision externe | Responsable | Consommateur |
+| Scénario / exigence → contrat → risque | Capacité disponible | Capacité manquante | Entrée de profil / politique applicable | Responsable | Consommateur |
 | --- | --- | --- | --- | --- | --- |
 | [TEC-01](technical-acceptance-installation.md#tec-01) installation → MEP-055 → pose incomplète/destructive | Matrice de prérequis, Django/migrations | MEP-057/058/059/024 package ; 060/061 préflight/pose ; 062/025 bootstrap/diagnostic ; guide 028 | D01–D09, C11 capacité/durée | Exploitation, contributeur distribution, recette | MEP-032 |
 | [TEC-02](technical-acceptance-installation.md#tec-02) hors Internet → F18/055 → dépendance externe | Build local, parcours FON ; écart CDN identifié | 058/024 assets locaux complets, 063 services ; capture réseau cible à choisir | D05/D08, C11 fenêtre | Réseau/exploitation, recette | MEP-068 |
@@ -52,30 +52,26 @@ Les rôles ci-dessous sont attendus, pas des titulaires nommés ni des accords p
 | [TEC-16](technical-acceptance-recovery.md#tec-16) rollback → F14/F15 → couple incompatible | Versions/migrations historisées | Upgrade 026 et rollback 065 reproductibles, deux packages qualifiés | C11 couple/perte/RPO/RTO | Exploitation, produit/propriétaire données | MEP-072 |
 | [TEC-17](technical-acceptance-installation.md#tec-17) gates → CI/DoD → promotion invalide | Plan/pre-push/CI/qualification/promotion exact SHA | Preuve exhaustive du futur candidat ; témoins de refus accessibles | Périmètre candidat/GO explicite, aucun changement de gouvernance | Responsable dépôt/produit/recette | MEP-032 ; MEP-035 |
 
-## Paramètres et décisions restant à obtenir
+## Paramètres techniques à finaliser et décisions de site
 
-Pour chaque décision : référence, valeur/unité, périmètre, date, réserves et approbateurs habilités.
-Aucune valeur du matériel local, des fixtures ou des essais CI n'est substituable à un objectif approuvé.
+MEP-022 fixe les valeurs de campagne avant essai : valeur/unité, jeu, instrument/version, fenêtre,
+bornes de mesure, répétitions, arrêt et preuves. Ces choix relèvent du projet ; aucun accord externe
+n’est requis pour développer ou qualifier le banc. Les invariants acquis restent obligatoires.
 
-| Repère | Valeur attendue | Décideur attendu | Usage / effet bloquant |
-| --- | --- | --- | --- |
-| C11 — charge/volume | `À définir — C11 / MEP-022` : utilisateurs/sessions/actions, écrivains API/workers, taille des données, mix/débit et paliers | Produit pour usage ; exploitation/contributeur pour mesure | TEC-08/09/10/14 : définir injection/charge ; absence bloque protocole quantitatif et conclusion de capacité |
-| C11 — protocole | `À définir — C11 / MEP-022` : instruments/versions, barrières, fenêtres/durée/répétitions, horloge, conditions d'arrêt et collecte | Recette + exploitation/contributeur | TEC-02/08/09/10/11/13/14 : reproduction et mesure ; absence bloque les variantes concernées |
-| C11 — performances/stabilité | `À définir — C11 / MEP-022` : latence/percentiles, débit utile, budget d'erreurs/BUSY, ressources et limites disque | Produit + exploitation | TEC-01/08/10/14 : comparer mesure/objectif ; absence interdit verdict de performance ou dimensionnement |
-| C11 — disponibilité | `À définir — C11 / MEP-022` : service couvert, période, formule, événements/exclusions maintenance et seuil | Exploitation + responsable produit/MESS | TEC-10/12 : calculer disponibilité ; absence bloque cette qualification |
-| C11 — notifications/intervention | `À définir — C11 / MEP-022` : âge de file, délai de résorption, détection/intervention/rotation et escalade | Messagerie/exploitation + produit pour service attendu | TEC-03/05/10/11/12 : mesurer reprise/alertes ; absence bloque acceptation opérationnelle, sans changer les retries livrés |
-| C11 — sauvegarde | `À définir — C11 / MEP-022` : fréquence, contenu, conservation, destination/capacité, vérification et accès | Exploitation/sécurité + propriétaire données | TEC-13/14/15 : sauvegarde autorisée et restaurable ; absence bloque destruction et qualification backup |
-| C11 — RPO | `À définir — C11 / MEP-022` : perte admissible par incident, unité, point de référence et traitement données post-upgrade | Produit/propriétaire données + exploitation | TEC-15/16 : comparer jalons récupérés/perdus ; absence interdit d'accepter une perte |
-| C11 — RTO | `À définir — C11 / MEP-022` : durée admissible, début incident/décision, fin service accepté, cas couverts | Exploitation + produit/propriétaire données | TEC-10/15/16 : mesurer reprise ; absence bloque verdict temporel |
-| C11 — conservation/purge/preuves | `À définir — C11 / MEP-022` : durée technique, lots/plafonds/fréquence, politiques des logs externes/backups/PV, gel et accès | MESS métier/conformité/propriétaire données + exploitation | TEC-13 et tous PV : autorisation/supervision ; absence bloque purge finie et finalisation ; activity reste keep |
-| C11 — responsabilités | `À définir — C11 / MEP-022` : titulaires installation/surveillance/incident/restore/rollback/PV, autorisation et suppléance | Responsables MESS habilités | P0 et TEC-01 à 17 : attribuer les gestes ; absence bloque leur exécution autorisée et clôture MEP-031 |
-| D01/D02 | Profil OS/build/CPU/capacité et Python/SQLite/ABI/empreintes approuvés | Exploitation MESS + contributeur pour runtime | TEC-01/08/10 et package ; incompatibilité ou absence bloque profil cible |
-| D03/D04/D05 | Serveur/frontal/topologie/pair réel, TLS/PKI/DNS/renouvellement/révocation, flux exacts | Exploitation/sécurité/PKI/réseau MESS | TEC-01/02/03/04/06/12 : confiance et réseau ; absence bloque conformité infrastructure |
-| D06/D07 | Identités/habilitations/ACL/secrets et chemins absolus/capacité | Exploitation/sécurité ; produit pour accès initial | TEC-01/05/08/12/14/15/16 : permissions/persistance ; absence bloque installation/reprise sûre |
-| D08 | Relais/port/TLS/authentification/expéditeur/confiance et responsabilité | Messagerie/sécurité MESS | TEC-02/05/11 : remise et injection contrôlées ; absence bloque recette SMTP |
-| D09 | Superviseur/ordonnanceur, fréquence/fuseau/créneaux/droits/sorties et échecs | Exploitation MESS | TEC-11/12/13 : exécution/restart/absence de chevauchement ; absence bloque recette services |
+| Paramètre | Entrée / vérification sur référence | Limite du site réel |
+| --- | --- | --- |
+| Charge/volume | Acteurs/écrivains, mix, paliers et durée fixés par 022 ; intégrité, refus sûrs et limites observées en 071 | Aucune volumétrie ni performance garantie au MESS sans usage représentatif défini et éprouvé |
+| Latence/disponibilité | Formule, événements, fenêtre et mesures brutes ; critères structurels sans corruption ni double effet | Aucun SLA externe inventé ; une garantie demandée requiert un objectif produit explicite |
+| SMTP/intervention | Détecter panne, observer file/reprises et mesurer résorption ; mécanismes acquis conservés | Relais, titulaires et éventuels délais de service du site à établir avant exploitation réelle |
+| Sauvegarde | Contenu/version/schéma/destination protégée, méthode cohérente et contrôle d’intégrité ; paramètres 022 | Aucune politique de conservation ni perte réelle acceptée implicitement |
+| Reprise | Clone au point choisi, début incident et fin aux contrôles de service réussis ; durée/jalons perdus mesurés | RPO/RTO contractuels éventuels à décider si requis ; aucune conclusion de conformité à un objectif inconnu |
+| Purge/preuves | Activity=keep ; simulation et lots techniques sur données fictives autorisées ; références protégées | Toute destruction métier reste soumise à la politique réellement approuvée ; aucun assouplissement |
+| Rôles opératoires | 022 décrit qui installe, observe et restaure ; exécutant habilité sur le banc nommé dans son PV | Titulaires du site réel nécessaires avant exploitation, sans bloquer le cahier ni les outils |
+| D01–D03 | Profil REF-WIN-01 ; versions/ABI/composants exacts et empreintes 057, wheels 059, intégration serveur éprouvée | OS/build/runtime/ressources réels à comparer ; une différence non testée reste non qualifiée |
+| D04–D05 | Noms/ports/TLS/confiance locaux et refus proxy/CSRF, aucune sortie Internet | DNS/PKI/flux réels à fournir et éprouver ; aucune homologation déduite du banc |
+| D06–D07 | Comptes/ACL/chemins persistants et refus avant écrasement, même configuration et SQLite | Droits et stockage réels à vérifier ; aucune donnée ni clé de production dans les preuves |
+| D08–D09 | Relais de test, ordonnanceur et état observable selon profil ; pas de double worker | Accès et supervision réels à attribuer et qualifier avant GO du site |
 
-Les groupes D ci-dessus résument la [matrice canonique D01–D09](../operations/installation-prerequisites-validation.md)
-qui conserve le détail par décision. Une proposition Windows Server ou un délai --watch n'est pas un accord.
-La politique de destruction métier n'est pas approuvée par une valeur de configuration : activity reste protégée.
-Tout paramètre encore manquant conserve son libellé ; aucun silence ne vaut approbation ni dérogation.
+Les procédures exactes des outils futurs sont complétées par le PBI consommateur avant essai ; MEP-031
+n’attend pas leur réalisation pour définir le cahier. Une inconnue d’intégrité, de sécurité ou une
+précondition matérielle absente empêche bien le verdict de la variante concernée.

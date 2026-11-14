@@ -25,7 +25,7 @@ Les valeurs sont explicites : aucune ne doit être complétée depuis le code ou
 | TEAM-003 — Consulter une équipe | FEAT-007 — Consulter les équipes | S | Sol — puissance moyenne | Réalisé | aucun | 2026-11-13 |
 | TEAM-004 — Modifier une équipe | FEAT-006 — Faire évoluer les informations d’une équipe | M | Sol — puissance élevée | Réalisé | aucun | 2026-09-27 |
 | TEAM-005 — Archiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Réalisé | aucun | 2026-11-13 |
-| TEAM-006 — Consulter les équipes archivées | FEAT-010 — Gérer la sortie et la reprise du suivi actif | S | Sol — puissance moyenne | Ouvert | archives disponibles pour le filtre Logs ; écran dédié absent | N/A |
+| TEAM-006 — Consulter les équipes archivées | FEAT-010 — Gérer la sortie et la reprise du suivi actif | S | Sol — puissance moyenne | Ouvert | Prêt : TEAM-005 et C04 satisfaits ; consultation séparée des archives à livrer, filtre Logs conservé | N/A |
 | TEAM-007 — Réactiver une équipe | FEAT-010 — Gérer la sortie et la reprise du suivi actif | M | Sol — puissance élevée | Ouvert | capacité absente ; effets affectations/planning C05 à décider | N/A |
 | COACH-001 — Affecter les Coachs courants d’une équipe | FEAT-008 — Affecter un coach à une équipe | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre courant | 2026-09-27 |
 | EVAL-001 — Administrer un modèle local et ses questions ordonnées | FEAT-011 — Composer un modèle d’évaluation ordonné | M | Sol — puissance élevée | Réalisé | aucun dans le périmètre local | 2026-09-28 |
@@ -55,12 +55,12 @@ les dix filtres structurés, le contexte Évaluation et les preuves de confident
 **MEP-045 réalisé le 2026-10-31 : [preuves et clôture](../planning/qualification-mep-045/cloture.md).**
 **MEP-047 réalisé le 2026-11-01 : [qualification et clôture approuvée](../../quality/mep-047/README.md), sans nouveau code.** MEP-015 réalisé le 2026-11-02 : labels corrigés et qualification radar complète. [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md) : clôture lexicale approuvée sans développement.
 [MEP-048 réalisé le 2026-11-03](../planning/qualification-mep-048/cloture.md) : clôture approuvée sur le rapport consolidé et le correctif `79efb0d`, CI verte ; [acquis, deltas et décisions](../source/08-ecarts-et-qualifications.md).
-[MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture fonctionnelle approuvée sur preuves acquises, sans nouveau développement. En parallèle, obtenir D01–D09 pour **MEP-055 — Prérequis d’installation**, toujours Bloqué.
+[MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture fonctionnelle approuvée sur preuves acquises, sans nouveau développement. MEP-055 est Ouvert/N/A sur approbation explicite du 2026-11-14 ; aucune clôture, profil de référence distinct du site MESS réel.
 [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md) : clôture fonctionnelle approuvée sur le rapport, les preuves et le correctif `4793611`, sans nouveau développement.
 [MEP-051 réalisé le 2026-11-09](../../quality/mep-051/cloture.md) : clôture approuvée sans dérogation sur `5c1faf1` ; FEAT-056 5/5 et EPIC-012 17/17 PBI raffinés, sans GO MESS.
 [Ordre complet UX/installation, critères de passage et GO](../planning/pre-mep.md) ;
 [dépendances et retour confirmé du circuit direct après MEP-043](../planning/mess-dependances.md).
-Les mentions U/I/C dans les sections sont des recommandations de lancement, pas de nouveaux états.
+Les aptitudes Prêt/Non prêt dans le plan ne sont pas de nouveaux statuts ; consulter les dépendances réelles de chaque source.
 
 La [source MESS](../source/07-pre-mep.md) définit quatre Epics et vingt Features, séparées du backlog
 fonctionnel général ci-dessus. Les sections liées ci-dessous font partie de ce même registre canonique :

@@ -1,5 +1,10 @@
 # Natures de travail et passages — analyse A à F
 
+> **Propositions historiques conservées.** Les [38 aptitudes courantes](../mess-dependances.md) et
+> le [plan du 2026-11-14](../pre-mep.md) remplacent les lancements/blocages datés ci-dessous.
+> Aucun accord externe D01–D09 n’est un prérequis ; les décisions produit non prises restent réservées.
+
+
 [Retour matrice](matrice.md) · [Fiches](raffinement.md) · [Trajectoire](trajectoire.md).
 52 lignes = 51 PBI non réalisés + delta historique USER-001. Les 44 autres réalisés restent des acquis ;
 aucune prochaine implémentation ne leur est attribuée. Les catégories peuvent coexister, sans nouveau statut.

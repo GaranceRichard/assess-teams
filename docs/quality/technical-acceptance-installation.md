@@ -1,5 +1,10 @@
 # MEP-031 — Installation, autonomie et gates
 
+Pour les essais sur REF-WIN-01, les axes D et paramètres C11 sont des entrées techniques définies par
+le projet, sans signatures externes. Les opérations sur le site réel gardent leurs habilitations et les
+politiques de données réellement nécessaires ; [cadre courant](../operations/installation-prerequisites.md).
+
+
 [Index](technical-acceptance.md) · [P0, jeux G, R0 et PV](technical-acceptance-protocol.md).
 
 ## TEC-01
@@ -8,7 +13,7 @@
 | --- | --- |
 | Identifiant / objectif | TEC-01 — Poser un candidat exact sans dépendance Internet ni effet destructif sur environnement hors contrat. |
 | Références | [MEP-032](../backlog/source/mess/f18.md), [prérequis et refus C01–C10](../operations/installation-prerequisites-validation.md), MEP-024/060/061/062/025/028. |
-| Préconditions | P0 ; exploitant installation habilité D06, responsable recette ; cible vierge attestée, profil approuvé, package/manifeste et guide définitifs. Installateur/préflight/diagnostic encore absents : finalisation bloquée sur leurs propriétaires. |
+| Préconditions | P0 ; exploitant installation habilité D06, responsable recette ; cible vierge attestée, profil de référence identifié, package/manifeste et guide définitifs. Installateur/préflight/diagnostic encore absents : exécution de MEP-032 en attente de ces outils, sans bloquer le cahier 031. |
 | Données | Répertoire vierge inventorié ; configuration fictive privée ; compte initial explicite, puis G-A. Clone distinct pour chaque défaut. |
 | Procédure | 1. Comparer OS/ABI/Python/SQLite et empreintes au manifeste approuvé. 2. Bloquer Internet, vérifier les flux internes D05. 3. Exécuter préflight puis pose selon les commandes MEP-060/061 livrées. 4. Initialiser migrations/compte par MEP-062 ; inspecter `showmigrations --plan`. 5. Contrôler statiques, lien profond React, `/admin/`, `/api/health/`, `/api/schema/`, `/api/docs/`, API et workers avec le diagnostic MEP-025. 6. Relancer selon le contrat d'idempotence définitif et comparer données/configuration. |
 | Injection | Rejouer séparément avec package altéré, ABI incompatible, prérequis absent et répertoire SQLite non inscriptible ; sélectionner les mécanismes OS approuvés D01/D06, sans modifier le package nominal. |

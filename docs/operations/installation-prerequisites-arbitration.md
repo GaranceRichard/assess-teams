@@ -1,5 +1,11 @@
 # MEP-055 — Dossier d’arbitrage des prérequis MESS
 
+> **Analyse historique conservée.** Le mandat du 2026-11-14 retire les neuf approbations externes
+> comme prérequis de développement. Le [profil courant et ses contrôles](installation-prerequisites.md)
+> prévalent ; recommandations, questions d’atelier et statuts datés ci-dessous ne sont ni des décisions
+> produit approuvées ni des blocages actuels. Aucun environnement MESS réel n’est déclaré qualifié.
+
+
 Dossier d’atelier du **2026-11-14**, confronté à `origin/main`
 `353a0ff434ebfedd0aa12428cdac5853e5e96f1c` après fetch. Source :
 [MEP-055 / FEAT-059 / EPIC-013, P1](../backlog/source/mess/f11.md).

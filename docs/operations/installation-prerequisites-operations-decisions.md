@@ -1,5 +1,11 @@
 # MEP-055 — Fiches D07–D09 : persistance, SMTP et exécution
 
+> **Analyse historique conservée.** Le mandat du 2026-11-14 retire les neuf approbations externes
+> comme prérequis de développement. Le [profil courant et ses contrôles](installation-prerequisites.md)
+> prévalent ; recommandations, questions d’atelier et statuts datés ci-dessous ne sont ni des décisions
+> produit approuvées ni des blocages actuels. Aucun environnement MESS réel n’est déclaré qualifié.
+
+
 Fiches d’atelier du 2026-11-14. [Synthèse et validation](installation-prerequisites-arbitration.md).
 Toutes les recommandations sont **proposées, non approuvées**. Le
 [contrat initial](installation-prerequisites.md) conserve les exigences détaillées.

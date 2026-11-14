@@ -1,5 +1,10 @@
 # MEP-031 — Notifications, services et journaux
 
+Pour les essais sur REF-WIN-01, les axes D et paramètres C11 sont des entrées techniques définies par
+le projet, sans signatures externes. Les opérations sur le site réel gardent leurs habilitations et les
+politiques de données réellement nécessaires ; [cadre courant](../operations/installation-prerequisites.md).
+
+
 [Index](technical-acceptance.md) · [P0, jeux G, R0 et PV](technical-acceptance-protocol.md).
 
 ## TEC-11
@@ -30,7 +35,7 @@
 | Procédure | 1. Utiliser le démarrage MEP-063 définitif puis le répéter ; inventorier serveur, workers et ordonnanceur. 2. Vérifier même settings/base/identité et génération quotidienne des échéances. 3. Arrêter proprement en repos puis pendant transaction et SMTP sur variantes distinctes ; relever fermeture des connexions, rollback et état sending/unknown. 4. Redémarrer service puis hôte selon D09 ; vérifier reprise et absence de tâches en rafale. 5. Déclencher les tâches aux créneaux retenus et vérifier codes non nuls, supervision et destinataire d'alerte. |
 | Injection | Second démarrage, terminaison contrôlée puis arrêt brutal du processus d'essai ; worker absent, code worker non nul/BUSY, horaire manqué. Mécanismes/signaux OS et points d'arrêt à fixer dans MEP-063/022, pas de commande système présumée. |
 | Attendu | Topologie et nombre de processus conformes, une instance de chaque worker existant suivant MEP-039 ; aucun worker orphelin ou doublé au restart. Services sous compte habilité ; connexions libérées avant/après passe, pas de transaction pendant SMTP. Arrêt/restart préserve notes/provenance/queues, supervision rend l'échec visible. |
-| Seuil | Nombre/topologie : contrats MEP-039/063 et D03/D09 ; fuseau/créneaux/rattrapage à approuver. Durée d'arrêt/démarrage, détection/escalade et disponibilité : `À définir — C11 / MEP-022`. Les 5 s de sommeil --watch ne sont pas une garantie de délai de remise. |
+| Seuil | Nombre/topologie : contrats MEP-039/063 et D03/D09 ; fuseau/créneaux/rattrapage définis dans le protocole de référence. Durée d'arrêt/démarrage, détection/escalade et disponibilité : `À définir — C11 / MEP-022`. Les 5 s de sommeil --watch ne sont pas une garantie de délai de remise. |
 | Refus | Second démarrage refusé ou rendu idempotent selon le contrat MEP-063 final, sans processus supplémentaire ; absence de succès après code non nul, tâche purge non autorisée jamais activée. Perte de donnée, reprise SMTP incertaine aveugle ou exécution en rafale = échec ; pas d'invention du code OS de refus. |
 | Preuves | Commandes finales et codes, inventaires PID/tâches avant/après, configuration expurgée, journaux système/services et alertes, horodatages, états métier/queues, intégrité après arrêt brutal. |
 | Remise en état | R0 ; arrêter les seuls processus de test, restaurer l'ordonnancement approuvé et vérifier chaque worker unique ; traiter unknown selon TEC-11, garder purge suspendue si décision manque. |

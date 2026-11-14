@@ -1,5 +1,10 @@
 # D — Trajectoire consolidée : choisir un travail sur son delta
 
+> **Propositions historiques conservées.** Les [38 aptitudes courantes](../mess-dependances.md) et
+> le [plan du 2026-11-14](../pre-mep.md) remplacent les lancements/blocages datés ci-dessous.
+> Aucun accord externe D01–D09 n’est un prérequis ; les décisions produit non prises restent réservées.
+
+
 Base `3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6` ; consolidation du 2026-10-28.
 [96 diagnostics](matrice.md) · [Natures A–F](actions.md) · [Ordre UX motivé](ordonnancement-ux.md) ·
 [Décisions MESS](decisions-mess.md) · [Suppression Organisation](suppression-organisation.md).

@@ -1,5 +1,10 @@
 # Décisions de préparation MESS : environnement, objectifs et responsabilités
 
+> **État historique.** Le [plan courant du 2026-11-14](../pre-mep.md) et les sources corrigées prévalent.
+> D01–D09 ne sont plus des approbations externes préalables ; C11 distingue protocole du projet et
+> engagements du site réel ; C12 est facultatif. Les propositions et constats datés ci-dessous sont conservés.
+
+
 [Trajectoire](trajectoire.md) · [C11](contradictions.md).
 Source des D01–D09 : [matrice canonique MEP-055](../../../../docs/operations/installation-prerequisites-validation.md).
 Les décisions sont toujours non approuvées. Les propriétaires ci-dessous sont des rôles attendus,

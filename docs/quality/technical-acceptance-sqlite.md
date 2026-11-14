@@ -1,5 +1,10 @@
 # MEP-031 — SQLite, concurrence et stabilité
 
+Pour les essais sur REF-WIN-01, les axes D et paramètres C11 sont des entrées techniques définies par
+le projet, sans signatures externes. Les opérations sur le site réel gardent leurs habilitations et les
+politiques de données réellement nécessaires ; [cadre courant](../operations/installation-prerequisites.md).
+
+
 [Index](technical-acceptance.md) · [P0, jeux G, R0 et PV](technical-acceptance-protocol.md).
 Les [mesures MEP-039](../operations/sqlite/measurements.md) et les suites multiprocessus sont des preuves
 de développement sur fichiers jetables. Elles ne mesurent ni capacité ni disponibilité de la cible MESS.
@@ -44,13 +49,13 @@ L'incident CI du 11 novembre 2026 est en investigation indépendante ; aucune or
 | Champ | Contenu |
 | --- | --- |
 | Identifiant / objectif | TEC-10 — Mesurer les limites du candidat sous charge réelle API/workers et après interruption, sans déduire un SLA des tests. |
-| Références | [limites MEP-039](../operations/sqlite/README.md), [C11](../backlog/planning/audit-20261027/decisions-mess.md), [MEP-071](../backlog/source/mess/f20.md), [services MEP-063](../backlog/source/mess/f14.md). |
+| Références | [limites MEP-039](../operations/sqlite/README.md), [C11](../operations/installation-prerequisites.md#objectifs-dexploitation--c11), [MEP-071](../backlog/source/mess/f20.md), [services MEP-063](../backlog/source/mess/f14.md). |
 | Préconditions | P0 ; C11 charge/disponibilité/méthode approuvées, services et instruments disponibles ; recette, exploitation et propriétaire d'usage ; clone représentatif identifié sans données réelles ni campagne voisine. |
 | Données | G-S/G-N/G-J complétés aux volumes approuvés (questions/runs/journaux/files/utilisateurs) ; répartition lectures/écritures/connexions/SMTP et concurrence fixées avant exécution ; inclure les écritures des Logs HTTP. |
-| Procédure | 1. Vérifier état/repos et oracles métier. 2. Appliquer montée, palier et durée de stabilité du protocole C11 signé via l'outil de charge retenu par MEP-071. 3. Exécuter API et workers sur le même fichier ; collecter latence, taux d'erreurs, BUSY, ressources, âge des files et intégrité. 4. Injecter arrêt/restart de TEC-12 puis mesurer retour au service et résorption. 5. Confronter chaque mesure aux seuils et conserver la limite observée sans l'extrapoler. |
+| Procédure | 1. Vérifier état/repos et oracles métier. 2. Appliquer montée, palier et durée de stabilité du protocole de référence MEP-022 via l'outil de charge retenu par MEP-071. 3. Exécuter API et workers sur le même fichier ; collecter latence, taux d'erreurs, BUSY, ressources, âge des files et intégrité. 4. Injecter arrêt/restart de TEC-12 puis mesurer retour au service et résorption. 5. Confronter chaque mesure aux seuils et conserver la limite observée sans l'extrapoler. |
 | Injection | Saturation jusqu'à la limite approuvée et interruption service contrôlée ; conditions de sécurité/arrêt, fenêtre et cadence à décider. Aucun générateur de charge MESS ni commande cible n'est livré dans le dépôt : propriétaire MEP-071, protocole MEP-022. |
 | Attendu | Pendant nominal, invariants intacts et mesures dans contrat ; pendant dépassement, diagnostic et refus sans faux succès/effet partiel ; après restart, intégrité et queues cohérentes, service rétabli selon C11. |
-| Seuil | Volumes, concurrence API/workers, débit/mix, durée/paliers/répétitions, latence/percentiles, erreurs admissibles, ressources, délai de file, disponibilité et reprise : **`À définir — C11 / MEP-022`**. Voir valeurs, décideurs, usages et blocages dans la matrice. |
+| Seuil | Volumes, concurrence API/workers, débit/mix, durée/paliers/répétitions, latence/percentiles, erreurs admissibles, ressources, délai de file, disponibilité et reprise : **`À définir — C11 / MEP-022`**. Le projet fixe le protocole ; publier les limites mesurées. Aucun objectif de capacité/SLA réel supposé approuvé ; intégrité et refus sûrs restent obligatoires. |
 | Refus | Dépassement du seuil approuvé, perte/corruption, double effet, worker concurrent indésirable ou verrou sans diagnostic = échec. Seuil/instrument/fenêtre manquant = Bloqué, pas « stable » par absence de crash ; un gate rouge ne valide aucune mesure. |
 | Preuves | Décisions et profil exact, outil/version/paramètres, mesures brutes horodatées par phase, formules et agrégats, événements d'interruption, PID, ressources/queues/invariants avant-après, anomalies et intégrité. Disponibilité = temps disponible / fenêtre contractuelle, exclusions seulement si approuvées. |
 | Remise en état | R0 ; arrêter le générateur et tous ses processus, attendre/contrôler les files suivant contrat, rétablir les services uniques et isoler toute base suspecte. |

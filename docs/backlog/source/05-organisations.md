@@ -39,20 +39,21 @@ Les [écarts consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-delt
 - **Identifiant :** `ORG-002`.
 - **Feature parente :** `FEAT-036`.
 - **Titre :** Consulter les organisations.
-- **User story :** en tant que `Superadmin`, `Admin`, `Coach` ou `Viewer`, je veux lister et consulter les organisations accessibles afin de connaître le contexte organisationnel du dispositif.
+- **User story :** en tant que `Superadmin` ou `Admin`, puis selon décision C03 `Coach`, je veux lister et consulter les organisations accessibles afin de connaître le contexte organisationnel du dispositif.
 - **Intention métier :** rendre le contexte organisationnel consultable sans révéler de données hors périmètre.
 - **Description :** exposer dans le backend une liste des organisations accessibles et la consultation d’une organisation par son identifiant stable.
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter toutes les organisations ;
   - l’`Admin` peut consulter uniquement son organisation d'affectation ;
-  - le `Coach` et le `Viewer` peuvent consulter uniquement les organisations de leur périmètre autorisé ;
+  - la projection minimale du `Coach` reste à décider en C03 ; aucun serializer administratif ne lui est ouvert par défaut ;
+  - le `Viewer` reçoit son contexte par Results selon les concepts, sans accès autonome à l’administration des organisations ;
   - une liste des organisations est disponible ;
   - une organisation peut être consultée par identifiant ;
   - les informations retournées sont cohérentes avec le périmètre autorisé ;
   - toute consultation exige une identité authentifiée ;
   - aucun accès hors périmètre ne révèle l’existence ou les données d’une organisation.
 - **Principaux cas de refus :** acteur non authentifié ; identifiant absent, mal formé ou inexistant ; organisation hors du périmètre autorisé.
-- **Décision produit bloquante :** aucune ; le rattachement unique de l'Admin détermine son périmètre.
+- **Décision produit nécessaire :** C03 pour les champs et l’accès Coach ; Admin/Superadmin livrés conservés. Preuves attendues après décision : projection exacte, liste/détail et refus par rôle/organisation, API/UI/OpenAPI.
 - **Dépendances :** `ORG-001`.
 - **Priorité :** P0.
 - **Domaine métier cible :** Organisations.

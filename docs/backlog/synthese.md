@@ -108,7 +108,7 @@ raffinées et les limites explicites des PBIs restent hors du dénominateur.
 | JOURNAL-001 — Consulter les activités métier réussies | Réalisé | journal cloisonné et testé ; 2026-09-28 |
 | JOURNAL-002 — Consulter les logs applicatifs | Réalisé | capture HTTP exhaustive, contexte sûr, dix filtres et cloisonnement ; extension 2026-10-05 |
 
-## Préparation MESS — suivi au 2026-11-09
+## Préparation MESS — suivi au 2026-11-14
 
 La [référence opérationnelle](source/07-pre-mep.md) porte quatre Epics, vingt Features raffinées et
 62 PBI actifs après audit du 2026-10-14 ; les 63 points initiaux restent couverts, dont 03.01 acquis. Les Epics/Features fonctionnels généraux restent conservés.
@@ -117,7 +117,7 @@ Le [suivi des vingt capacités et de leurs PBI](tracking/pre-mep-view.md) est d�
 MEP-014 réalisé le 2026-10-23 : [contexte et provenance des Résultats, preuves avant/après](../quality/results-hierarchy.md) ; vingt apparences, formats UX, pre-push et CI complète du SHA publié verts ; [MEP-046 — scores et limites explicités](../quality/mep-046/README.md) est réalisé le 2026-10-26 ; F06 atteint 4 PBI sur 4 avec MEP-015 et MEP-047.
 MEP-013 réalisé le 2026-10-26 : [sélection explicite, onze valeurs et preuves UX-07/08](../quality/mep-013/README.md) ; pre-push et CI du SHA `ee50313` verts.
 MEP-045 réalisé le 2026-10-31 : [huit critères conformes et clôture](planning/qualification-mep-045/cloture.md), correctif `08d0263` et CI verte ; F05 atteint 3/3. [MEP-047 réalisé le 2026-11-01](../quality/mep-047/README.md) : sept verdicts Passé, clôture sans code approuvée. MEP-015 réalisé le 2026-11-02 : [qualification radar](../quality/mep-015/README.md) ; [MEP-016 réalisé le 2026-11-02](../quality/mep-016/README.md) : clôture lexicale approuvée sans développement ; F07 atteint 2/2 avec [MEP-048 réalisé le 2026-11-03](planning/qualification-mep-048/cloture.md), clôture approuvée sur le rapport consolidé et le correctif `79efb0d` avec CI verte.
-[MEP-049 réalisé le 2026-11-03](../quality/mep-049/cloture.md) et [MEP-050 réalisé le 2026-11-05](../quality/mep-050/cloture.md) conservent leurs preuves et dates. [MEP-018 réalisé le 2026-11-09](../quality/mep-018/cloture.md) : décision de gouvernance, dérogation exceptionnelle D01 limitée à la chronologie préalable du README ; non-conformité historique conservée, critères démontrés sur `8609c85`, CI tentative 2 verte et preuve ultérieure `54afdde`. F08 atteint 5/5 avec [MEP-017 clôturé séparément le 2026-11-09](../quality/mep-017/cloture.md) et [MEP-051 clôturé sur approbation le même jour](../quality/mep-051/cloture.md), sans dérogation ; EPIC-012 atteint 17/17 PBI raffinés réalisés. Aucun PV MESS ni téléphone physique complémentaire acquis par cette clôture. En parallèle : décisions D01–D09 de MEP-055, puis configuration, distribution hors ligne et exploitation.
+[MEP-049 réalisé le 2026-11-03](../quality/mep-049/cloture.md) et [MEP-050 réalisé le 2026-11-05](../quality/mep-050/cloture.md) conservent leurs preuves et dates. [MEP-018 réalisé le 2026-11-09](../quality/mep-018/cloture.md) : décision de gouvernance, dérogation exceptionnelle D01 limitée à la chronologie préalable du README ; non-conformité historique conservée, critères démontrés sur `8609c85`, CI tentative 2 verte et preuve ultérieure `54afdde`. F08 atteint 5/5 avec [MEP-017 clôturé séparément le 2026-11-09](../quality/mep-017/cloture.md) et [MEP-051 clôturé sur approbation le même jour](../quality/mep-051/cloture.md), sans dérogation ; EPIC-012 atteint 17/17 PBI raffinés réalisés. Aucun PV MESS ni téléphone physique complémentaire acquis par cette clôture. Suite : MEP-054, MEP-057 et MEP-022 prêts sur le profil de référence ; aucun accord externe D01–D09 préalable.
 Le [plan pilotable jusqu’à MEP-035](planning/pre-mep.md) donne ordre, parallèles et critères de passage.
 [Suivi F04, dépendances et MEP-043 livré](planning/mess-dependances.md) : pas de nouveau chantier Git/CI,
 GO non autorisé si conformité nécessaire non démontrée. MEP-030 définit le [cahier fonctionnel FON-01 à FON-18](../quality/functional-acceptance.md) le 2026-10-22 ; seul ce PBI documentaire est clôturé par cette livraison, aucun PV cible anticipé.
@@ -132,7 +132,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 30 | 30 | 0 | 2 | 48 % |
+| MESS actif — E01 à E04 | 62 | 30 | 31 | 0 | 1 | 48 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -142,7 +142,7 @@ Les [correspondances MEP et acquis CI](planning/pre-mep-rapprochements.md) conse
 GO dépend des preuves du candidat livré, des gates et des arbitrages pertinents ; aucun GO déduit du scoring.
 Les rapports d’audit externes ne sont pas disponibles localement ; aucun défaut n’est présumé par leur intitulé.
 
-MEP-055 — [Prérequis d’installation](../operations/installation-prerequisites-validation.md) : Bloqué, N/A ; contrat préparé, validation MESS D01–D09 absente, aucune cible qualifiée. Aucun PBI supplémentaire réalisé.
+MEP-055 — [Prérequis d’installation](../operations/installation-prerequisites-validation.md) : **Ouvert / N/A**, requalification explicitement approuvée par le responsable produit le 2026-11-14 ; aucune clôture. [Profil de référence testable](../operations/installation-prerequisites.md), site MESS réel non qualifié ; les neuf accords externes ne sont plus des prérequis.
 
 MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, N/A ; audit distant du 2026-10-20, aucune protection/check obligatoire, pré-push local distinct de la CI après push et inventaire Apps refusé. Constat historique conservé ; [MEP-043 livré selon critères révisés et réserve G05 acceptée](../quality/mep-043/closure.md). L’écart entre son récit de clôture de MEP-012 et le statut canonique encore Bloqué est [signalé](planning/mess-dependances.md), sans nouvelle clôture déduite.
 
@@ -154,7 +154,7 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 - `ARB-ORG-006`, `ARB-ORG-007` et `ARB-ORG-013` restent ouverts pour historique des rattachements, transfert d’équipe et partage/agrégation.
 - partage, historique général, calculs d’évolution/tendance, alertes et pilotage élargi restent non réalisés.
 - les préférences de canal et les nouveaux types de notifications restent hors du périmètre livré.
-- [Consolidation : acquis, écarts et décisions attribuables](source/08-ecarts-et-qualifications.md) : C01/C02, C03/C05, C06, C11, C12 et C21 restent ouverts ; C04 est décidé et TEAM-002/003 clôturés séparément ; correctif transitions publié `eede631`, acceptation visuelle utilisateur non acquise, sans nouveau PBI ni verdict esthétique déduit de CI.
+- [Consolidation : acquis, écarts et décisions attribuables](source/08-ecarts-et-qualifications.md) : C01/C02, C03/C05, C06 et C21 restent ouverts ; C11 sépare mesures du projet et engagements éventuels du site réel, C12 reste facultatif ; C04 est décidé et TEAM-002/003 clôturés séparément ; correctif transitions publié `eede631`, acceptation visuelle utilisateur non acquise, sans nouveau PBI ni verdict esthétique déduit de CI.
 
 ## Matrices CRUD réellement protégées par le backend
 
@@ -170,7 +170,7 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Pilotage | lecture d’une organisation choisie | lecture de son organisation imposée | refus | refus |
 | Journaux | lecture globale | lecture de son organisation | refus | refus |
 
-[Rattrapage du 2026-11-09](planning/reconciliation-mep-20261109.md) : MEP-017 clôturé à la date de formalisation confirmée ; [MEP-018 clôturé ensuite avec dérogation D01](../quality/mep-018/cloture.md). [MEP-051 clôturé ensuite sans dérogation](../quality/mep-051/cloture.md) sur décision explicite du 2026-11-09 ; MEP-012/055 Bloqués. FEAT-056 : 5/5 et EPIC-012 : 17/17 (100 % des PBI raffinés) ; aucun GO MESS déduit.
+[Rattrapage du 2026-11-09](planning/reconciliation-mep-20261109.md) : MEP-017 clôturé à la date de formalisation confirmée ; [MEP-018 clôturé ensuite avec dérogation D01](../quality/mep-018/cloture.md). [MEP-051 clôturé ensuite sans dérogation](../quality/mep-051/cloture.md) sur décision explicite du 2026-11-09 ; MEP-012 Bloqué ; MEP-055 requalifié Ouvert le 2026-11-14, sans clôture. FEAT-056 : 5/5 et EPIC-012 : 17/17 (100 % des PBI raffinés) ; aucun GO MESS déduit.
 
 ## Scoring global
 
@@ -181,15 +181,15 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 35 |
+| PBIs ouverts | 36 |
 | PBIs en cours | 0 |
-| PBIs bloqués | 3 |
+| PBIs bloqués | 2 |
 | PBIs non réalisés | 38 |
 | PBIs réalisés | 58 |
 | Avancement global | 60 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 58 réalisés (28 fonctionnels, dont TEAM-002 et TEAM-003 clôturés séparément le 2026-11-13 et [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 30 MESS, dont MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 et MEP-012 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 58 réalisés (28 fonctionnels, dont TEAM-002 et TEAM-003 clôturés séparément le 2026-11-13 et [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 30 MESS, dont MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 passe à Ouvert/N/A sur approbation explicite du 2026-11-14, sans clôture ; MEP-012 et ORG-004 restent Bloqués. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
-Couverture analytique inchangée : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
+Diagnostic historique du 2026-10-27, sans valeur de blocage actuel : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories datées ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
 
-[Audit contradictoire, écarts et couverture des 63 points](planning/mess-audit.md).
+[Prochains PBI et aptitudes courantes](planning/pre-mep.md) : MEP-054 recommandé ; MEP-057, MEP-022, TEAM-006 et MEP-055 prêts pour leurs périmètres. [Historique des 63 points](planning/mess-audit.md).

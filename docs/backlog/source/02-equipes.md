@@ -147,7 +147,7 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Critères d’acceptation :**
   - le `Superadmin` peut consulter les équipes archivées de toutes les organisations ;
   - l’`Admin` peut consulter les équipes archivées de son organisation uniquement ;
-  - le `Coach` actif pourra consulter les seules archives actuellement affectées dans son organisation actuelle, selon [C04](00-arbitrage-c04-equipes-coach.md) ; TEAM-006 reste un PBI distinct ;
+  - le `Coach` actif consulte les seules archives actuellement affectées dans son organisation actuelle, selon [C04](00-arbitrage-c04-equipes-coach.md) ; TEAM-006 reste un PBI distinct ;
   - la liste contient chaque équipe archivée accessible une seule fois, avec son identifiant, son nom, l’état `archivée` et l’identifiant de son organisation ;
   - aucune équipe active n’apparaît dans cette liste ;
   - lorsqu’aucune équipe n’est archivée, le résultat est une liste vide valide et l’interface présente un état vide explicite ;
@@ -158,7 +158,7 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
 - **Priorité :** P1.
 - **Domaine métier cible :** Gestion des équipes.
 - **Valeur apportée :** permet de retrouver une équipe inactive et d’accéder à son suivi conservé.
-- **Notes d’implémentation :** aucune pagination, recherche ou vue historique détaillée n’est incluse sans besoin complémentaire.
+- **Preuves / limites :** API et UI des seules archives, vide explicite, parcours archivage→archives→détail et refus de scope ; Logs inchangés. C04 et TEAM-005 satisfaits : prêt, sans nouvel audit ni recherche avancée.
 
 #### TEAM-007 — Réactiver une équipe
 
@@ -177,12 +177,12 @@ Cet Epic porte l’identité et le cycle de vie d’une équipe dans son organis
   - après réactivation, l’équipe apparaît dans la liste active de `TEAM-002` et disparaît de la liste de `TEAM-006` ;
   - si la réactivation est refusée, l’état et l’historique restent inchangés.
 - **Principaux cas de refus :** acteur non authentifié ; `Coach` ou `Viewer` ; équipe inexistante, déjà active ou hors du périmètre autorisé.
-- **Blocage hérité :** `TEAM-005` ; les périmètres d’administration sont décidés.
+- **Décision nécessaire :** C05 doit préciser maintien/reprise des affectations, échéances et passations en cours ; TEAM-005 est réalisé. Aucune relance automatique décidée ici.
 - **Dépendances :** `TEAM-005` ; `FEAT-004` pour l’autorisation.
 - **Priorité :** P1.
 - **Domaine métier cible :** Gestion des équipes.
 - **Valeur apportée :** évite les doublons d’identité et restaure le suivi avec tout son contexte historique.
-- **Notes d’implémentation :** la reprise éventuelle d’affectations, de planifications ou d’autres activités reste gouvernée par les Epics propriétaires de ces capacités.
+- **Preuves attendues :** transition explicite, même identité/historique, listes avant/après et refus sans effet ; scénarios C05 à finaliser après décision, sans restaurer implicitement de planification.
 
 ### Dépendances internes de l’Epic
 

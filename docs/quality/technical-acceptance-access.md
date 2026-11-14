@@ -1,5 +1,10 @@
 # MEP-031 — Authentification, permissions et isolation
 
+Pour les essais sur REF-WIN-01, les axes D et paramètres C11 sont des entrées techniques définies par
+le projet, sans signatures externes. Les opérations sur le site réel gardent leurs habilitations et les
+politiques de données réellement nécessaires ; [cadre courant](../operations/installation-prerequisites.md).
+
+
 [Index](technical-acceptance.md) · [P0, jeux G, R0 et PV](technical-acceptance-protocol.md).
 Reprendre une requête nominale observée et son schéma réel, changer seulement l'élément testé.
 Pour un refus de droit ou de scope, conserver session et CSRF valides afin d'exercer la bonne frontière.

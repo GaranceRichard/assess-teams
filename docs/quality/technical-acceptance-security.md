@@ -1,5 +1,10 @@
 # MEP-031 — Transport et démarrage sécurisé
 
+Pour les essais sur REF-WIN-01, les axes D et paramètres C11 sont des entrées techniques définies par
+le projet, sans signatures externes. Les opérations sur le site réel gardent leurs habilitations et les
+politiques de données réellement nécessaires ; [cadre courant](../operations/installation-prerequisites.md).
+
+
 [Index](technical-acceptance.md) · [P0, jeux G, R0 et PV](technical-acceptance-protocol.md).
 
 ## TEC-03
@@ -13,7 +18,7 @@
 | Procédure | 1. Vérifier chaîne/nom/validité sans Internet depuis client neuf ; enregistrer le certificat public et le magasin de confiance utilisé. 2. Vérifier redirection HTTP sûre vers l'origine configurée et accès initial sans credentials HTTP. 3. Observer `REMOTE_ADDR` réel et remplacement de `X-Forwarded-Proto` au frontal. 4. Injecter chaque variante depuis un pair de test non approuvé, puis depuis le proxy approuvé. 5. Contrôler ACL réseau backend, HSTS et `private, no-store` sur `/api/`. 6. Exercer renouvellement/révocation selon procédure PKI D04, encore à fournir si absente. |
 | Injection | Certificat non conforme, Host non autorisé, pair non fiable avec `X-Forwarded-Proto: https` et faux `X-Forwarded-For` ; valeur forwarded multiple/invalide ; proxy fiable HTTP omettant le protocole ; POST HTTP sans credential. Utiliser l'injecteur approuvé D03/D05, aucune route de diagnostic ajoutée. |
 | Attendu | Certificat nominal reconnu hors ligne ; en-tête client écrasé, backend inaccessible aux clients non autorisés. GET HTTP sûr : 301 vers origine configurée ; variantes applicatives de proxy/Host : 400. POST HTTP : 400 sans mutation/session. HSTS et cookies conformes au contrat. |
-| Seuil | Valeurs fixes MEP-002 (dont HSTS 31536000 s), pas un SLA ; versions TLS, validité/rotation/révocation et flux = décisions D03–D05 requises. Délais d'intervention : `À définir — C11 / MEP-022`. |
+| Seuil | Valeurs fixes MEP-002 (dont HSTS 31536000 s), pas un SLA ; versions TLS, validité/rotation/révocation et flux = paramètres D03–D05 du profil à vérifier. Délais d'intervention : `À définir — C11 / MEP-022`. |
 | Refus | Client refuse certificat non reconnu/expiré/nom erroné avant session ; faux proxy/Host reçoit le refus contractuel, aucun changement d'origine ni mutation. Ne pas cliquer une exception TLS. Politique de révocation non définie = variante Bloquée ; 500 inattendu ou boucle de redirection = échec. |
 | Preuves | Certificats publics/chaîne et dates, décision PKI, résultats client, statuts/headers expurgés, preuve de pair réel et règles réseau, comparaison métier/activité avant/après refus. |
 | Remise en état | R0 ; remettre le certificat approuvé, retirer certificats/règles de test et vérifier la chaîne nominale sans exception navigateur. |

@@ -3,15 +3,15 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-11-09 : 30 Ouverts, 30 Réalisés, 0 En cours, 2 Bloqués ; avancement actif 48 %. Les acquis restent séparés.
+Au 2026-11-14 : 31 Ouverts, 30 Réalisés, 0 En cours, 1 Bloqué ; avancement actif 48 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 **MEP-047 réalisé le 2026-11-01 : [qualification et clôture approuvée](../../quality/mep-047/README.md).** MEP-015 réalisé le 2026-11-02 : [qualification radar](../../quality/mep-015/README.md) ; [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md), clôture lexicale approuvée sans développement ; [MEP-048 réalisé le 2026-11-03](../planning/qualification-mep-048/cloture.md), qualification et correction `79efb0d` acceptées.
 MEP-014 et MEP-046 réalisés : [hiérarchie](../../quality/results-hierarchy.md) et [interprétation des scores](../../quality/mep-046/README.md) ; F06 atteint 4 PBI sur 4 avec MEP-015 et MEP-047.
-[MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture approuvée sur preuves acquises ; téléphone physique complémentaire MESS non exécuté. MEP-055 reste Bloqué en parallèle. [Plan complet et passages U/I/C](../planning/pre-mep.md) ;
+[MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture approuvée sur preuves acquises ; téléphone physique complémentaire MESS non exécuté. MEP-055 est Ouvert/N/A sur décision explicite du 2026-11-14. [Plan et dix prochains PBI](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md). [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md) : absence/filtre/refus distincts et réserve O1 traitée sur `4793611`, clôture approuvée sans développement.
 
-[Rapprochement du 9 novembre](../planning/reconciliation-mep-20261109.md) : MEP-017 clôturé ; [MEP-018 ensuite clôturé avec dérogation D01](../../quality/mep-018/cloture.md) ; [MEP-051 clôturé ensuite sans dérogation](../../quality/mep-051/cloture.md), 012 et 055 Bloqués. EPIC-012 : 17/17 PBI raffinés réalisés ; aucune recette MESS déduite.
+[Rapprochement du 9 novembre](../planning/reconciliation-mep-20261109.md) : MEP-017 clôturé ; [MEP-018 ensuite clôturé avec dérogation D01](../../quality/mep-018/cloture.md) ; [MEP-051 clôturé ensuite sans dérogation](../../quality/mep-051/cloture.md), 012 Bloqué ; 055 requalifié Ouvert le 2026-11-14, sans clôture. EPIC-012 : 17/17 PBI raffinés réalisés ; aucune recette MESS déduite.
 
 ## Avancement des capacités
 
@@ -54,7 +54,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 02.03 | [MEP-040 — Gérer les conflits sur les opérations critiques](../source/mess/f02.md) | S | Réalisé — 2026-10-18 | MEP-010, EVAL-003, USER-004, AUTH-002 |
 | 03.02 | [MEP-042 — Configurer les durées de conservation des journaux](../source/mess/f03.md) | XS | Réalisé — 2026-10-19 | JOURNAL-001, JOURNAL-002 |
 | 03.03 | [MEP-020 — Automatiser la purge des journaux](../source/mess/f03.md) | S | Réalisé — 2026-10-19 | MEP-042 |
-| 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | XS | Bloqué — N/A | aucune ; [audit GitHub](../../quality/mep-012/README.md), G01–G05 |
+| 04.01 | [MEP-012 — Vérifier les protections de branche et les contrôles CI](../source/mess/f04.md) | XS | Bloqué — N/A | aucune |
 | 04.02 | [MEP-043 — Mettre en place les protections manquantes](../source/mess/f04.md) | S | Réalisé — 2026-10-21 | MEP-012 |
 
 ## E02 — EPIC-012 — Expérience utilisateur
@@ -83,13 +83,13 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 
 | Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
 | --- | --- | --- | --- | --- |
-| 10.01 | [MEP-054 — Définir le contrat de configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-036, MEP-055 |
+| 10.01 | [MEP-054 — Définir le contrat de configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-036 |
 | 10.02 | [MEP-021 — Charger et valider la configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-054, MEP-009 |
-| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | XS | Bloqué — N/A | aucune ; validation MESS D01–D09 en attente |
-| 11.02 | [MEP-022 — Définir les opérations d’exploitation](../source/mess/f11.md) | S | Ouvert — N/A | MEP-055, MEP-054, MEP-042 |
+| 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | XS | Ouvert — N/A | aucune |
+| 11.02 | [MEP-022 — Définir les opérations d’exploitation](../source/mess/f11.md) | S | Ouvert — N/A | MEP-042 |
 | 11.03 | [MEP-023 — Actualiser le README et l’architecture](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
 | 11.04 | [MEP-056 — Actualiser le backlog](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
-| 12.01 | [MEP-057 — Inventorier les dépendances nécessaires à la distribution](../source/mess/f12.md) | S | Ouvert — N/A | MEP-055, MEP-054, MEP-006 |
+| 12.01 | [MEP-057 — Inventorier les dépendances nécessaires à la distribution](../source/mess/f12.md) | S | Ouvert — N/A | MEP-006 |
 | 12.02 | [MEP-058 — Préparer le frontend compilé pour la distribution](../source/mess/f12.md) | S | Ouvert — N/A | MEP-057 |
 | 12.03 | [MEP-059 — Préparer les dépendances Python hors ligne](../source/mess/f12.md) | S | Ouvert — N/A | MEP-057 |
 | 12.04 | [MEP-024 — Assembler le package autonome](../source/mess/f12.md) | S | Ouvert — N/A | MEP-058, MEP-059, MEP-021, MEP-022 |
@@ -99,7 +99,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 13.04 | [MEP-025 — Vérifier l’installation et diagnostiquer les échecs](../source/mess/f13.md) | S | Ouvert — N/A | MEP-062 |
 | 14.01 | [MEP-063 — Automatiser le démarrage et l’arrêt de l’application](../source/mess/f14.md) | S | Ouvert — N/A | MEP-025, MEP-004 |
 | 14.02 | [MEP-026 — Automatiser la mise à jour de l’application](../source/mess/f14.md) | S | Ouvert — N/A | MEP-063, MEP-064 |
-| 15.01 | [MEP-064 — Réaliser une sauvegarde cohérente de SQLite](../source/mess/f15.md) | S | Ouvert — N/A | MEP-025, MEP-022 |
+| 15.01 | [MEP-064 — Réaliser une sauvegarde cohérente de SQLite](../source/mess/f15.md) | S | Ouvert — N/A | MEP-021, MEP-022 |
 | 15.02 | [MEP-027 — Restaurer les données SQLite](../source/mess/f15.md) | S | Ouvert — N/A | MEP-064, MEP-063 |
 | 15.03 | [MEP-065 — Revenir à la version précédente après une mise à jour](../source/mess/f15.md) | S | Ouvert — N/A | MEP-026, MEP-027 |
 
@@ -107,11 +107,11 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 
 | Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
 | --- | --- | --- | --- | --- |
-| 16.01 | [MEP-028 — Rédiger le guide d’installation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-025, MEP-023 |
-| 16.02 | [MEP-066 — Rédiger le guide d’exploitation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-020, MEP-026, MEP-065, MEP-023 |
+| 16.01 | [MEP-028 — Rédiger le guide d’installation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-025 |
+| 16.02 | [MEP-066 — Rédiger le guide d’exploitation](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-020, MEP-026, MEP-065 |
 | 16.03 | [MEP-029 — Documenter le transfert, le fork et la licence Apache 2.0](../source/mess/f16.md) | XS | Ouvert — N/A | MEP-006, MEP-024 |
-| 17.01 | [MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) | S | Réalisé — 2026-10-22 | PASS-001, EVAL-004, RESULT-001, STEER-001 ; [cahier fonctionnel](../../quality/functional-acceptance.md) |
-| 17.02 | [MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) | XS | Réalisé — 2026-10-21 | MEP-005, MEP-007, DASH-001, RESULT-001 ; [cahier UX](../../quality/ux-acceptance.md) |
+| 17.01 | [MEP-030 — Définir les scénarios de recette fonctionnelle](../source/mess/f17.md) | S | Réalisé — 2026-10-22 | PASS-001, EVAL-004, RESULT-001, STEER-001 |
+| 17.02 | [MEP-067 — Définir les scénarios de recette UX](../source/mess/f17.md) | XS | Réalisé — 2026-10-21 | MEP-005, MEP-007, DASH-001, RESULT-001 |
 | 17.03 | [MEP-031 — Définir les scénarios de recette technique](../source/mess/f17.md) | S | Ouvert — N/A | MEP-022, MEP-039 |
 | 18.01 | [MEP-032 — Installer Assess Teams sur un environnement vierge](../source/mess/f18.md) | S | Ouvert — N/A | MEP-025, MEP-028, MEP-031 |
 | 18.02 | [MEP-068 — Vérifier le fonctionnement sans connexion Internet](../source/mess/f18.md) | S | Ouvert — N/A | MEP-032, MEP-063, MEP-030 |

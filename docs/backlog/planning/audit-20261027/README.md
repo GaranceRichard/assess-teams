@@ -1,5 +1,10 @@
 # Audit contradictoire et raffinement intégral — conclusions et décisions ouvertes
 
+> **État historique.** Le [plan courant du 2026-11-14](../pre-mep.md) et les sources corrigées prévalent.
+> D01–D09 ne sont plus des approbations externes préalables ; C11 distingue protocole du projet et
+> engagements du site réel ; C12 est facultatif. Les propositions et constats datés ci-dessous sont conservés.
+
+
 Travail commencé le **2026-10-27**, repris et contrôlé le **2026-10-28** (America/Toronto).
 Base examinée : **`3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6`**, dernier `origin/main`
 récupéré au démarrage et revérifié à la reprise. Le SHA n’a pas changé entre ces deux vérifications.

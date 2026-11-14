@@ -1,105 +1,88 @@
-# Dépendances et décisions MESS — consolidation du 2026-10-29
+# Dépendances et disponibilité du backlog
 
-Compagnon du [chemin de lancement](pre-mep.md). Les [fiches F01–F20](../source/07-pre-mep.md)
-font autorité pour les dépendances ; le [registre](../tracking/pbis.md) pour statuts/dates/preuves.
-Le [détail des 62 PBI](../tracking/pre-mep-view.md) conserve chaque identifiant, parent et prérequis.
-L’audit du 2026-10-14 et ses archives restent historiques, sans réécriture des constats datés.
-Les [frontières consolidées](../source/08-ecarts-et-qualifications.md) précisent acquis, deltas et natures A–F ;
-les passages par PBI restent dans la [trajectoire détaillée](audit-20261027/trajectoire.md), sans nouveaux arcs.
+État courant du 2026-11-14 ; [ordre par valeur](pre-mep.md), [sources](../README.md#source-fonctionnelle-détaillée)
+et [registre canonique](../tracking/pbis.md). Cette vue couvre les **38 PBI non réalisés** ; les 58 réalisés
+restent acquis, avec leurs critères, preuves et dates. Les attentes documentaires des anciens audits ne
+s’ajoutent pas aux champs Dépendances des sources. « Prêt » est une aptitude de planification.
 
-## Dépendances techniques et choix d’ordre
+## Relations corrigées et contraintes conservées
 
-| Relation examinée | Nature / décision de cette refonte | Conséquence de pilotage |
+| Relation / sujet | Nature | Effet courant |
 | --- | --- | --- |
-| Job 1 → Job 7 ou F01 entière avant UX | Ordre historique, aucune dépendance active | Ne pas attendre F04 pour lancer l’UX ou préparer MESS ; ne pas relancer les dix réalisés F01–F03 |
-| MEP-067 → MEP-019/053 | Entrée réelle : mesures de contraste/zoom/hiérarchie | Dépendances conservées et satisfaites ; U1 désormais réalisé, aucun redémarrage |
-| MEP-067 pour les autres PBI UX | Cahier de qualification commun | Même référence ; aucun nouvel arc technique ni correction présumée |
-| MEP-047 avant MEP-015 | Choix de preuve, pas dépendance technique | 047 : sélection/version/lignée/scopes déjà présents, preuve plus bornée ; 015 : matrice visuelle radar. Un défaut de lisibilité démontré prime cet ordre |
-| MEP-016 / MEP-048 | Inventaire lexical et qualification des faits indépendants | Paralléliser ; 048 n’attend pas un patch lexical hypothétique, ni 016 un nouveau calcul |
-| Les cinq PBI F08 | Responsabilités distinctes, collecte de preuves partageable | Ordre selon risque réel : fuite/perte/action inaccessible, puis états et géométrie ; ne pas créer de refonte ni absorber C21 |
-| Typographie/thèmes avant notation/résultats/dashboard | Ordre pour réduire les reprises visuelles | Paralléliser les composants distincts ; ne pas sérialiser toute l’UX par Feature |
-| MEP-055 → MEP-054/057 | Profil cible indispensable, pas simple convention | Conserver ; préparer schéma/inventaire, sans figer OS, ABI, serveur ou valeurs non approuvés |
-| MEP-054 → MEP-021/022/057 | Contrat consommé par chargement, exploitation et inventaire | Trois branches possibles, sans attendre l’achèvement de toute F11 |
-| MEP-057 → MEP-058/059 → MEP-024 | Composants/compatibilité et manifeste réels | Frontend et Python en parallèle ; prototype possible, candidat final après convergence UX |
-| MEP-024 → MEP-060 → MEP-061 → MEP-062 → MEP-025 | Données d’entrée de l’installation | Conserver ; une copie de sources ou le bootstrap développeur ne les réalise pas |
-| MEP-025 → MEP-063/064 ; MEP-063/064 → MEP-026/027 → MEP-065 | Services, sauvegarde, upgrade et restauration réels | Deux paires parallèles ; rollback du couple version/schéma après les deux branches |
-| Services dans MEP-024 alors que MEP-063 suit l’installation | Assemblages successifs, pas une exigence de développer les services avant le premier package | Réassembler le candidat final avec tous les outils ; ne pas créer de cycle ni oublier un composant |
-| Guides/cahiers après tout le produit | Attente artificielle de préparation | Trames et scénarios anticipés ; clôture seulement avec commandes et seuils réels, guide avant son usage en recette |
-| MEP-012 → MEP-043, alors que conformité 012 attend les corrections 043 | Verrou logique historique, pas cycle formel du graphe | MEP-043 est désormais livré selon critères révisés ; conserver décision/preuves et signaler le suivi MEP-012 encore Bloqué, sans nouvel audit |
-| MEP-043 → MEP-034 | Attente de gouvernance sans entrée technique pour les essais applicatifs listés en F20 | Retirée explicitement de la source F20 et de sa vue dérivée ; F04 reste exigée au GO, aucun critère sécurité ou CI retiré |
-| F04 → MEP-035 | Exigence actuelle de conformité, distincte du runtime | Conservée selon les critères/décisions applicables ; MEP-043 réalisé avec réserve acceptée, MEP-012 canonique encore Bloqué |
-| Ensemble UX/exploitation avant MEP-032 | Convergence recommandée pour une seule campagne de candidat | Aucun arc technique ajouté ; installation de développement possible avant, sans PV final revendiqué |
-| Migration du dépôt vers Azure DevOps Server → package/installation | Aucune dépendance de ce type dans les fiches actives | Ne pas transformer un transfert d’hébergement en chantier CI ni en gate de construction/installation |
+| D01–D09 → développement MESS | Approbations externes artificielles supprimées | Axes d’analyse conservés ; [REF-WIN-01](../../operations/installation-prerequisites.md) fournit la convention de référence ; site réel non qualifié |
+| MEP-054 → MEP-055 | Dépendance de clôture supprimée | Schéma paramétrable après inventaire 036 ; pas besoin des valeurs réelles d’un site |
+| MEP-057 → MEP-055/054 | Dépendances supprimées | Inventorier/figer runtime, ABI, serveur et droits après 006 ; aucune dépendance à la forme du futur chargeur |
+| MEP-022 → MEP-055/054 | Dépendances supprimées | Définir opérations, rôles et mesures sur référence après 042 ; pas de SLA externe imposé |
+| MEP-064 → MEP-025 | Attente d’installateur supprimée ; entrée remplacée par 021 | Sauvegarde sur vraie SQLite de référence après configuration 021 et opérations 022 ; PV cible en 072 |
+| MEP-028/066 → MEP-023 | Attente entre documents supprimée | Guides consomment les commandes livrées ; alignement README dans la DoD, pas un verrou technique |
+| MEP-024 → services futurs | Cycle logique évité dans les critères | Assemble les outils livrés au SHA ; réassemblage final avec 063/065, aucun outil absent présumé présent |
+| MEP-031 → tous les outils futurs | Aucun arc ajouté | Cahier après 022/039 ; procédures exactes finalisées avant essai par leur consommateur |
+| MEP-034 → MEP-043 | Retrait antérieur conservé | Qualification applicative indépendante de la gouvernance Git ; F04 au GO selon décision acquise |
+| MEP-012 / C06 | Décision de suivi réellement requise | Dossier publié déjà disponible, Bloqué/N/A conservé ; ni PR, barrière CI distante, nouvel audit ou réserve G05 réouverte |
+| C12 / MEP-056 | Option de restructuration, aucun blocage | Conserver son contrôle de cohérence après 021/022 ; absorption seulement sur décision explicite |
+| UX → installation entière | Ordre recommandé, pas dépendance | Les 17 PBI UX réalisés ne sont pas relancés ; CI sélective et qualification exhaustive restent distinctes |
 
-Modification de dépendance décidée ici : **MEP-034 n’attend plus MEP-043 pour sa livraison applicative**.
-Avant : la qualification TLS, secrets, scopes, SMTP et purge attendait aussi un PBI de protections Git.
-Après : ses prérequis applicatifs restent inchangés ; l’examen de conformité F04 demeure obligatoire
-pour GO dans MEP-035. Le critère F20 porte sur la sécurité du candidat installé, indépendante du dépôt.
-Aucune autre dépendance source n’est supprimée, aucun statut/date/parent/critère de refus n’est modifié.
+Les sources F10–F17 et les vues dérivées portent les mêmes prérequis. Les versions/ABI, l’intégrité SQLite,
+la sécurité, la distribution hors Internet, les commandes réellement livrées et les PV restent obligatoires.
+Un site absent est un obstacle réel pour sa recette et son GO, pas pour développer le profil de référence.
 
-## Activités anticipables et travaux hors chaîne technique
+## Aptitude de chacun des 38 PBI non réalisés
 
-- Dès maintenant : 048 reste en qualification, autres UX en observations ciblées ; 045 et [047](../../quality/mep-047/README.md) réalisés, comme 013/014/019/030/044/046/052/053/067 ; collecte D01–D09 et C11, réservation des cibles et données fictives.
-- Préparation seule : MEP-054/057/031, MEP-028/066/029 ; confronter l’existant, marquer les inconnues, finaliser après les entrées canoniques.
-- MEP-023/056 avancent après le contrat sans attendre le package. Cette réorganisation du backlog n’est pas leur livraison contractuelle.
-- MEP-029 ne bloque pas les essais d’installation, mais sa documentation de reprise reste exigée avant GO. Apache 2.0/NOTICE déjà acquis, aucun travail de licence recréé.
-- MEP-066 peut être rédigé pendant les services/reprises ; sa clôture attend MEP-065. Ne pas attendre ce guide pour rédiger MEP-030/067/031.
-- Les fonctions générales encore ouvertes (utilisateurs, équipes, partage, évolutions) ne sont pas ajoutées en bloc à la MEP. Le cahier et la décision de périmètre doivent distinguer acquis, limites acceptées et lacunes indispensables.
+Chaque lien renvoie à la fiche qui porte résultat observable, périmètre, critères et vrais refus. La preuve
+attendue permet une **proposition** de clôture ; aucun document seul ni code présent ne vaut acceptation.
+Les dépendances réalisées restent dans la source ; la colonne suivante cite les entrées encore manquantes.
 
-« Hors chaîne technique » ne signifie pas facultatif au GO. Aucun des 62 PBI n’est placé arbitrairement
-après MEP-035. Tout retrait demanderait décision produit/MESS explicite avec conséquences sur les scénarios.
-Les correctifs nécessaires sont bornés au défaut et au portage validé, avec tests et DoD ; C21 reste sans
-PBI attribué. [Conditions des qualifications et de l’ordre UX](audit-20261027/ordonnancement-ux.md).
-
-## MEP-043 livré : publication libérée
-
-Lors de la préparation initiale sur `d24fb35`, MEP-043 avait deux commits locaux non intégrés ;
-la conservation locale était donc appliquée. À la reprise du chantier le 2026-10-21 :
-
-- `origin/main` et main principal propre sont à `7f456fdbb4fc3ba03e77955630ccad08537a3e5b`.
-- Les commits `dffd979`/`7c00603`, le nettoyage `2b3723d` et la clôture révisée `7f456fd` sont intégrés.
-- Le worktree et la branche MEP-043 ont été nettoyés ; seules les archives conservées et les preuves versionnées font référence.
-- [Livraison et CI exactes](../../quality/mep-043/delivery.md), [clôture avec réserve G05 acceptée](../../quality/mep-043/closure.md) : MEP-043 est Réalisé le 2026-10-21 ; aucune conformité initiale rétroactive ni inventaire Apps complet revendiqué.
-- Le [ruleset main](https://github.com/GaranceRichard/assess-teams/rules/25544011) conserve suppression/force-push interdits, bypass vide et push direct ; CI après intégration expressément acceptée.
-
-La condition de conservation locale est levée : resynchroniser cette refonte, conserver les critères
-révisés et la clôture de MEP-043, valider la documentation puis publier avec `npm run publish`.
-Aucun script, workflow ou réglage GitHub n’est modifié par le chantier documentaire.
-
-**Écart de suivi restant MEP-012 :** les documents de clôture MEP-043 disent MEP-012 déjà clôturée,
-mais sa source F04 et la ligne canonique intégrée la conservent Bloqué/N/A. Le registre faisant autorité,
-cette refonte conserve ce statut et signale la divergence avant GO, sans inventer une réalisation/date,
-sans rouvrir MEP-043, sans nouvel audit Git/Apps ni remettre G05 en blocage de publication.
-L’audit daté du 2026-10-20 reste historique ; le recadrage explicite MEP-043 est conservé.
-
-## Arbitrages nécessaires avant GO, sans nouveau chantier
-
-| Décision attendue | Interlocuteur attendu / preuve de résolution | Effet tant qu’absente |
+| PBI / capacité | Aptitude actuelle / entrée manquante réelle | Preuve de sortie attendue |
 | --- | --- | --- |
-| D01–D09 | Habilités MESS selon la matrice de MEP-055 ; choix, date, approbateurs et référence accessibles | MEP-055 reste Bloqué ; aucune cible approuvée ni artefact final compatible présumé |
-| C11 — Objectifs/responsabilités MEP-022 | Produit/propriétaire des données et exploitation MESS ; charge, disponibilité, sauvegarde/reprise, RACI et protocoles mesurables | Contrat, cahier technique et PV charge/reprise non concluables ; ni SLA, volumétrie ou RPO/RTO inventés |
-| C06 — Suivi F04 / MEP-012 | Responsable dépôt/produit ; table critères initiaux→décision du 21 octobre→preuves→verdict/date proposés à valider | MEP-043 reste clos ; 012 reste Bloqué/N/A, aucune correction Git/CI ou barrière serveur recréée |
-| Inventaire des acteurs G05 | Réserve expressément acceptée dans la clôture MEP-043 ; preuves historiques conservées | Non vérifié, non bloquant ; aucun nouvel audit exigé ni inventaire fictif |
-| ARB-ORG-005 et limites fonctionnelles | Responsable produit/MESS ; traitement sûr des dépendances ou limitation effective approuvée, scénarios et refus vérifiables | Refus de recette administration et de GO si une opération destructive non arbitrée reste exposée |
-| C01/C02 | Produit : collecte/reprise et contrats champs/cibles/droits Utilisateurs | USER-002/003 complets et delta distinct USER-001 attendent ; aucun droit réduit ou étendu implicitement |
-| C03/C04/C05 | Produit : projection Organisation Coach, scope Équipes Coach, effets de réactivation | Seules les consultations/extensions/reprises concernées attendent ; Viewer demeure selon concepts |
-| C12 | Produit : maintien ou absorption explicite du contrôle MEP-056 après 021/022 | ID/statut conservés ; cette finalisation documentaire ne livre pas son contrat |
-| C21 | Produit/UX avec utilisateur : portage et inclusion au candidat, attendu et acceptation visuelle | Correctif technique publié dans main `eede631`, acceptation visuelle utilisateur ouverte ; aucun PBI attribué ni gate implicite ; CI verte ne valide pas l’esthétique |
-| Transfert effectif du dépôt Azure DevOps Server | Repreneur MESS ; destination/droits et reprise à convenir si exigés au transfert | MEP-029 documente le fork ; ne prouve aucune migration réalisée ni nouvelle CI on-premise |
+| [USER-002 — Consultation](../source/01-identites.md) | Non prêt : C01/C02 sur identité et droits ; liste livrée conservée | Détail/champs et refus par rôle, API/UI/OpenAPI après décision |
+| [USER-003 — Modification](../source/01-identites.md) | Non prêt : C02 et delta USER-002 ; critères divergents explicitement proposés | Champs approuvés, atomiques, absence d’élévation et régression API/UI |
+| [ORG-002 — Consultation](../source/05-organisations.md) | Non prêt : projection Coach C03 ; Admin/Superadmin livrés | Projection décidée et refus, sans serializer administratif divulgué |
+| [ORG-004 — Suppression](../source/05-organisations.md) | Bloqué : ARB-ORG-005 ; chantier parallèle protégé | Décision puis intégrité/protection et vrais refus, aucune mutation ici |
+| [TEAM-006 — Archives](../source/02-equipes.md) | Prêt : TEAM-005 et C04 satisfaits | Archives exclusives par scope, vide UI, archivage→liste→détail, Logs conservés |
+| [TEAM-007 — Réactivation](../source/02-equipes.md) | Non prêt : effets de reprise C05 ; TEAM-005 acquis | Même identité/historique, listes correctes et scénarios de reprise décidés |
+| [MEP-012 — Conformité Git/CI](../source/mess/f04.md) | Bloqué : décision C06 sur dossier déjà publié | Verdict/date explicitement approuvés, critères révisés reliés aux preuves acquises |
+| [MEP-054 — Contrat configuration](../source/mess/f10.md) | Prêt : 036 acquis, paramètres de référence disponibles | Schéma typé/précédence et exemples nominal/refus sans secret |
+| [MEP-021 — Chargeur commun](../source/mess/f10.md) | Non prêt : 054 ; 009 acquis | Même source/base API/workers/scripts ; valeurs invalides refusées avant effet |
+| [MEP-055 — Prérequis](../source/mess/f11.md) | Prêt : requalification Ouvert/N/A explicitement approuvée le 2026-11-14 ; aucune attente d’accord MESS | Cohérence/refus du profil et limites de compatibilité ; clôture distincte |
+| [MEP-022 — Opérations](../source/mess/f11.md) | Prêt : 042 acquis, conventions du projet suffisantes | Gestes, rôles, diagnostic et protocoles mesurables, aucun SLA prétendu convenu |
+| [MEP-023 — Entrées README/architecture](../source/mess/f11.md) | Non prêt : 021/022 | Liens et information exacte sur les capacités effectivement livrées |
+| [MEP-056 — Cohérence du suivi](../source/mess/f11.md) | Non prêt : 021/022 ; C12 n’est pas un prérequis | Sources/registre/synthèse alignés dans les documents existants, pas de rapport autonome |
+| [MEP-057 — Inventaire distribution](../source/mess/f12.md) | Prêt : 006 acquis et référence définie | Versions/provenance/empreintes/licences/ABI fermées, incompatibilités nommées |
+| [MEP-058 — Build frontend](../source/mess/f12.md) | Non prêt : 057 | Build normal, routes et assets locaux dont Swagger, empreintes/version |
+| [MEP-059 — Wheels Python](../source/mess/f12.md) | Non prêt : 057 | Installation des dépendances exactes sans réseau, refus wheel absente/altérée/incompatible |
+| [MEP-024 — Package](../source/mess/f12.md) | Non prêt : 058/059/021/022 | Assemblage reproductible SHA/manifeste/notices et refus d’altération, puis réassemblage final |
+| [MEP-060 — Préflight](../source/mess/f13.md) | Non prêt : 024/021 | Profil/ACL/chemins/empreintes vérifiés et relance sans destruction |
+| [MEP-061 — Pose composants](../source/mess/f13.md) | Non prêt : 060 | Pose locale et relance, absence de faux succès/résolution réseau |
+| [MEP-062 — SQLite/bootstrap](../source/mess/f13.md) | Non prêt : 061 | Migrations/bootstrap explicites sans doublon ni perte, base persistante protégée |
+| [MEP-025 — Diagnostic installation](../source/mess/f13.md) | Non prêt : 062 | Health/API/assets/commandes workers, diagnostic expurgé et codes non nuls sur échec |
+| [MEP-063 — Services](../source/mess/f14.md) | Non prêt : 025 ; 004 acquis | Start/stop/restart surveillés, absence de worker doublé et transaction abandonnée |
+| [MEP-026 — Upgrade](../source/mess/f14.md) | Non prêt : 063/064 | Package/backup avant migration, persistance, arrêt sûr sur erreur |
+| [MEP-064 — Sauvegarde](../source/mess/f15.md) | Non prêt : 021/022 ; n’attend plus 025 | Point cohérent sous écritures, manifeste/version/schéma/intégrité et refus destination |
+| [MEP-027 — Restauration](../source/mess/f15.md) | Non prêt : 064/063 | Clone restauré au point choisi, provenance, durée et refus sans écrasement |
+| [MEP-065 — Rollback](../source/mess/f15.md) | Non prêt : 026/027 | Couple code/configuration/schéma/données rétabli, pertes du clone mesurées et incompatibilité refusée |
+| [MEP-028 — Guide installation](../source/mess/f16.md) | Non prêt : 025 ; n’attend plus 023 | Commandes réellement rejouables et diagnostics, aucun téléchargement cible |
+| [MEP-066 — Guide exploitation](../source/mess/f16.md) | Non prêt : 026/065 ; 020 acquis ; n’attend plus 023 | Gestes/commandes réels, contrôles et reprise exercés, rôles explicités |
+| [MEP-029 — Fork/transfert](../source/mess/f16.md) | Non prêt : 024 ; 006 acquis | Reconstruction du package et droits/notices, aucune migration d’hébergement imposée |
+| [MEP-031 — Cahier technique](../source/mess/f17.md) | Non prêt : 022 ; 039 acquis | Scénarios/refus/invariants/mesures reproductibles, aucun PV anticipé |
+| [MEP-032 — Installation vierge](../source/mess/f18.md) | Non prêt : 025/028/031 et environnement vierge disponible | PV du package exact sur profil/hôte identifiés, pas d’adaptation improvisée |
+| [MEP-068 — Usage hors Internet](../source/mess/f18.md) | Non prêt : 032/063 et environnement ; 030 acquis | Parcours/assets/commandes sans sortie Internet, SMTP interne distingué |
+| [MEP-033 — Recette administration](../source/mess/f19.md) | Non prêt : 068/environnement et politique destructive ARB-ORG-005 réellement appliquée | PV par rôle, intégrité et refus ; aucun contournement par masquage de scénario |
+| [MEP-069 — Recette notation](../source/mess/f19.md) | Non prêt : 068/environnement ; autres prérequis acquis | Planification→passation→révision, saisie, versions/provenance et UX sur candidat |
+| [MEP-070 — Recette résultats](../source/mess/f19.md) | Non prêt : 068/environnement ; autres prérequis acquis | PV Results/Pilotage par rôle, compatible et contextualisé sans fuite |
+| [MEP-034 — Recette sécurité](../source/mess/f20.md) | Non prêt : 068/031 et environnement ; acquis sécurité conservés | TLS/CSRF/secrets/scopes/SMTP/purge et refus sans effet sur candidat |
+| [MEP-071 — Recette SQLite](../source/mess/f20.md) | Non prêt : 068/031/063 et environnement ; 010/040 acquis | Protocole de référence, invariants sous charge et limites mesurées, aucune capacité MESS présumée |
+| [MEP-072 — Exercice reprise](../source/mess/f20.md) | Non prêt : 068/031/064/027/065 et clone isolé | Incident/upgrade/reprise exacts, intégrité/provenance et mesures ; aucun RPO/RTO réel accepté implicitement |
 
-La décision de clôture MEP-043 accepte explicitement les limites du circuit direct et la réserve G05.
-Cette refonte la reprend sans exiger une nouvelle barrière CI. Les gates actuels, la qualification
-exhaustive du SHA exact et toutes les recettes de production restent obligatoires ; le suivi MEP-012
-encore contradictoire est distingué de cette livraison technique réussie.
+## Gouvernance et décisions réservées
 
-## Ordre des décisions et preuves d’exploitation
+Les décisions produit précises et options restent dans le [plan](pre-mep.md#décisions-qui-restent-réellement-nécessaires).
+C01/C02/C03/C05, ARB-ORG-005 et C06 ne sont pas résolus par une convention technique.
+C04 est décidé, TEAM-002/003/005 réalisés ; aucune qualification supplémentaire de ces PBI n’est relancée.
+C21 reste une acceptation visuelle distincte ; aucune inclusion ou exclusion au candidat déduite de CI.
 
-D01/D02/D03 fixent compatibilité et exécution ; D04/D05/D08 confiance et flux ; D06/D07/D09 identités,
-persistance et supervision. Les propriétaires MESS et les livrables débloqués sont détaillés dans la
-[matrice D01–D09/C11](audit-20261027/decisions-mess.md). Ces groupes se confrontent entre eux,
-sans présumer OS, versions, chemins, SLA, volumes ou objectifs de reprise approuvés.
-C11 sépare environnement, objectifs mesurables, responsabilités et protocoles : installation après profil,
-package/guide/diagnostic disponibles ; concurrence après charge/protocole/cible décidés ; reprise après
-objectifs, couple sauvegardé et outils livrés. Trames anticipables, PV sur candidat seulement.
-Le [graphe de suppression](audit-20261027/suppression-organisation.md) distingue NOT_STARTED supprimés,
-historiques protégés, cascades et liens perdus : ARB-ORG-005 doit couvrir ces effets avant 033/GO concernés.
+MEP-043 conserve sa clôture du 2026-10-21 et la réserve G05 acceptée. La publication directe, les gates
+locaux, CI indépendante après intégration et qualification exhaustive du SHA exact restent acquis.
+Une migration Azure DevOps Server n’est pas une dépendance de construction/installation ; le transfert
+réel, s’il est demandé, exigera destination et droits propres sans nouveau circuit PR/CI implicite.
+GO MESS attend les preuves du site réellement destiné à l’exploitation et ses responsabilités ; aucune
+approbation externe supplémentaire n’est créée. Le jalon MEP-035 reste Ouvert, sans décision rendue.

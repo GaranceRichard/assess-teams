@@ -1,5 +1,10 @@
 # C — Registre des contradictions et arbitrages proposés
 
+> **État historique.** Le [plan courant du 2026-11-14](../pre-mep.md) et les sources corrigées prévalent.
+> D01–D09 ne sont plus des approbations externes préalables ; C11 distingue protocole du projet et
+> engagements du site réel ; C12 est facultatif. Les propositions et constats datés ci-dessous sont conservés.
+
+
 [Retour à la matrice](matrice.md). Constats au SHA `3e6fb70094e13e3566505fd2ccc5a8ff11ed5af6`.
 Les repères C01–C21 sont locaux à cet audit : ils ne créent aucune décision canonique ni nouveau PBI.
 Une proposition ci-dessous n’autorise ni correction de code, ni changement de statut/date, ni retrait de MEP.

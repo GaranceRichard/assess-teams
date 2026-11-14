@@ -16,39 +16,28 @@ Aucun fichier technique ne sera modifié. Les preuves de 2026-10-19 restent hist
 les statuts/dates/indicateurs et les autres chantiers ne changent pas. La préparation précède la rédaction
 des fiches et de la synthèse ; aucun audit applicatif acquis ne sera réexécuté.
 
-## Décisions indispensables avant clôture
+<a id="décisions-indispensables-avant-clôture"></a>
 
-Toutes les décisions sont **en attente**. Pour chacune, enregistrer la valeur retenue, les réserves,
-la référence de décision accessible aux exploitants, la date et les approbateurs habilités MESS/produit.
-Ne pas versionner credentials, adresses personnelles ou clés ; référencer leur stockage protégé.
+## Correction du mandat — 2026-11-14
 
-| ID / objet | Responsable MESS attendu | Preuve d’approbation attendue (référence, date, approbateur et réserves) | PBI consommateurs après accord et sous leurs prérequis |
-| --- | --- | --- | --- |
-| D01 — OS/édition/build/CPU/capacité | Infrastructure/exploitation ; produit pour usage C11 | Profil hôte homologué et relevé matériel/volumes approuvés | MEP-057/059/060/071 |
-| D02 — Python/SQLite/ABI/système | Exploitation/infrastructure + contributeur | Profil runtime, binaire/provenance/empreinte et maintenance approuvés ; réserves de wheels explicites | MEP-054/021/057/059/024/061 |
-| D03 — Serveur/frontal/topologie | Exploitation/infrastructure/sécurité | Schéma, produits/versions/modules/pairs et maintenance approuvés ; réserves d’intégration à lever | MEP-054/057/058/024/063 |
-| D04 — DNS/PKI/TLS/clés | Sécurité/PKI ; DNS et messagerie associés | Fiche noms/chaîne/politique/confiance/renouvellement approuvée, sans clé privée | MEP-054/021/057/034 |
-| D05 — Flux/ports/accès/origines | Réseau/sécurité ; exploitation pour administration | Matrice source/destination/protocole/port/finalité/propriétaire approuvée et références de règles | MEP-054/060/034/068 |
-| D06 — Comptes/ACL/secrets | Exploitation/sécurité/identités ; produit pour accès initial | Matrice d’habilitations et procédure stockage/injection/rotation approuvées, sans secret | MEP-054/021/060/062/063 |
-| D07 — Chemins/volumes/capacité | Exploitation/infrastructure ; sécurité/propriétaire des données | Plan de chemins/volumes/ACL et capacité approuvé, réserves C11 explicites | MEP-054/021/060/026/064 puis 027/065 |
-| D08 — Relais SMTP/confiance | Messagerie/sécurité ; exploitation associée | Fiche relais/port/TLS/authentification/expéditeur/limites et responsabilités approuvée | MEP-054/021/063/025/034/068 |
-| D09 — Ordonnanceur/supervision | Exploitation ; sécurité pour droits | Plan par commande, horaires/fuseau/reprise/sorties/alertes et rôles approuvé | MEP-022/063/025 |
+La procédure de neuf approbations externes n’a pas été demandée par le responsable produit.
+Elle est retirée des prérequis courants. D01–D09 sont conservés comme axes d’analyse technique du
+[profil REF-WIN-01](installation-prerequisites.md#profil-technique-de-référence-ref-win-01), sans accord MESS supposé.
+Le [dossier publié](installation-prerequisites-arbitration.md) reste historique ; recommandations et preuves
+techniques utiles sont conservées, ses conditions d’atelier ne pilotent plus les PBI.
 
-Le [dossier d’arbitrage du 2026-11-14](installation-prerequisites-arbitration.md) porte le **tableau unique
-de validation**, les fiches motivées, questions et risques croisés. Cette matrice décrit les preuves attendues,
-jamais des accords acquis ; aucune décision n’est rendue par la préparation ou la publication Git.
-
-Le profil proposé peut être amendé par MESS. Un choix différent exige de revoir le contrat et ses
-consommateurs ; aucune proposition ne remplace les contraintes SQLite/hors ligne/sans Docker et Node.
-La clôture de MEP-055 exige D01–D09 définies avec MESS et leurs incompatibilités résolues ; les
-preuves d’installation de bout en bout restent exigées dans les PBI suivants, sans dépendance circulaire.
+Acceptation actuelle de MEP-055 : prérequis explicites, profil cohérent et contrôlable, adaptations de site,
+incompatibilités et refus documentés. Le contrat n’attend pas l’installation complète de ses consommateurs.
+La levée Bloqué→Ouvert a été approuvée explicitement le 2026-11-14 par le responsable produit ;
+réalisation N/A, aucune clôture ni autre changement de statut autorisé par cette décision.
+MEP-054/057 peuvent produire leurs sorties indépendamment de cette régularisation du suivi.
 
 ## Cohérence avec les capacités et les PBI consommateurs
 
 | Consommateur | Entrée fournie / responsabilité conservée | Écart à ne pas masquer |
 | --- | --- | --- |
 | [MEP-054/021 — Configuration unique](../backlog/source/mess/f10.md) | Schéma et chargement commun API/workers/scripts : chemins, origine, proxies, SMTP, secrets/services | Actuellement environnement et constantes ; base fixée dans `backend`, aucune configuration unique livrée |
-| [MEP-022 — Opérations](../backlog/source/mess/f11.md) | Affecter responsables et objectifs mesurables, procédures SMTP/purge/sauvegarde/reprise | Ne pas inventer disponibilité, RPO/RTO, fréquence de backup ou accord d’exploitation |
+| [MEP-022 — Opérations](../backlog/source/mess/f11.md) | Affecter responsables et objectifs mesurables, procédures SMTP/purge/sauvegarde/reprise | Définir protocole et rôles de référence ; ne promettre aucun SLA/RPO/RTO ni accord MESS |
 | [MEP-057 — Inventaire](../backlog/source/mess/f12.md) | Profil OS/Python, serveur/proxy, workers/ordonnanceur, assets locaux, licences et empreintes | Requirements par intervalles et aucun serveur inclus ; inventaire/verrou cible à réaliser |
 | [MEP-058/059 — Frontend et wheels](../backlog/source/mess/f12.md) | Build normal et statiques locaux, wheelhouse complet adapté OS/CPU/Python | Swagger utilise un CDN par défaut ; ne pas assimiler build démo ou bootstrap à la distribution |
 | [MEP-024 — Package](../backlog/source/mess/f12.md) | Assembler composants, dépendances, services et notices vérifiables, sans secret ni réseau | Aucun package autonome fourni par ce contrat |
@@ -58,8 +47,8 @@ preuves d’installation de bout en bout restent exigées dans les PBI suivants,
 | [MEP-064/027/065 — Sauvegarde](../backlog/source/mess/f15.md) | Chemins/droits et capacité pour sauvegarde cohérente, restauration et retour arrière | Ne pas qualifier une copie de base ouverte comme sauvegarde livrée |
 | [MEP-032/068 — Recette hors ligne](../backlog/source/mess/f18.md) | Environnement vierge conforme, refus explicites, installation et usage sans Internet | Version/SHA/manifeste exacts et preuves réelles attendus ; cible actuelle inconnue |
 
-Les dépendances canoniques restent inchangées : MEP-055 n’attend pas la réalisation de ses consommateurs.
-Ceux qui en dépendent ne sont pas prêts à clôturer tant que son contrat n’est pas approuvé.
+MEP-054 et MEP-057 ne dépendent plus de la clôture MEP-055 ; MEP-022 ne dépend plus de 055/054.
+Les versions/ABI et composants restent une entrée obligatoire du package ; aucun contrôle technique retiré.
 Les mesures SQLite de MEP-039/010/040 n’attestent ni volumétrie ni disponibilité MESS.
 
 ## Critères de conformité et vrais refus
@@ -69,11 +58,11 @@ La conformité ne peut être prononcée sur une valeur manquante ; conserver un 
 
 | Contrôle | Cas conforme à démontrer | Cas de refus / qualification suspendue |
 | --- | --- | --- |
-| C01 — Profil approuvé | OS/build/CPU/Python/SQLite identiques au profil signé et au manifeste | OS/version non retenus, architecture ou ABI différente, décision absente |
+| C01 — Profil identifié | OS/build/CPU/Python/SQLite identiques au profil de référence versionné et au manifeste | OS/version non retenus, architecture ou ABI différente ou non vérifiée |
 | C02 — Hors ligne | Installation puis parcours produit, admin/docs/assets, workers sans sortie Internet | Téléchargement pip/CDN, Docker, Node/npm, Vite, compilation frontend ou asset absent |
 | C03 — Serveur | Service de production et routage React/API/admin/statiques locaux, lien profond fonctionnel | Serveur dev, build démo, 404 masquée par SPA, serveur manquant ou module incompatible |
 | C04 — TLS/proxy | Chaîne reconnue hors ligne, URL HTTPS, hosts/CSRF/pairs exacts ; faux forwarded refusé | Certificat expiré/non reconnu, HTTP de mutation, wildcard/proxy universel, pair réécrit |
-| C05 — Flux | Accès client au frontal, backend limité au proxy, SMTP/DNS/temps internes approuvés | Backend exposé aux clients, port occupé/non autorisé, service obligatoire hors contrat |
+| C05 — Flux | Accès client au frontal, backend limité au proxy, SMTP/DNS/temps internes du profil | Backend exposé aux clients, port occupé/non autorisé, service obligatoire hors contrat |
 | C06 — Identités/secrets | Service non administrateur, secrets forts privés, bootstrap production explicite | Credentials de développement, droits globaux, secret dans commande/rapport/assets |
 | C07 — Persistance | Chemins absolus approuvés, ACL base/répertoire auxiliaire correctes, relance sans perte | Base SMB/NFS/synchronisée/multi-hôte, répertoire non inscriptible, données écrasées |
 | C08 — SQLite | Même fichier API/workers ; DELETE/FULL, timeout 5000 ms, FK actives ; espace disponible | Autre moteur, WAL imposé, bases différentes, journal impossible ou volume insuffisant |
@@ -87,10 +76,10 @@ SMTP réels : MEP-009 ne suffit pas à conclure une conformité infrastructure.
 Pour une future recette, consigner profil et SHA exacts, manifeste/empreintes, configuration expurgée,
 conditions réseau, preuves conformes **et** refus, résultats/codes et réserves ; aucun faux succès partiel.
 
-## Revue des critères de MEP-055 et de la DoD
+## Revue historique des critères de MEP-055 et de la DoD
 
 Revue du chantier initial du **2026-10-19** : les résultats et décomptes ci-dessous sont historiques,
-non des indicateurs recalculés au 2026-11-14. La consolidation actuelle est décrite après cette revue.
+non des indicateurs recalculés au 2026-11-14. Les conditions D01–D09 de ces revues sont remplacées par la correction du mandat ci-dessus.
 
 | Attendu de la source | Résultat de ce chantier |
 | --- | --- |
@@ -113,7 +102,7 @@ Validation locale : `npm run quality:targeted` réussi (scope documentaire seul)
 Registre MESS recompté : 51 Ouverts, 1 Bloqué (MEP-055), 10 Réalisés ; synthèses alignées.
 Le pre-push et la CI du SHA publié sont vérifiables dans Git/GitHub Actions ; aucun résultat cible revendiqué.
 
-## Revue de consolidation du 2026-11-14
+## Revue historique de consolidation du 2026-11-14
 
 Préparation effectuée dans ce document avant rédaction des fiches ; aucun travail technique entrepris,
 aucun écart de procédure constaté. Six documents d’exploitation concernés : contrat/validation existants,

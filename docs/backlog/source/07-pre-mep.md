@@ -52,11 +52,11 @@ Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassa
 
 ## Suivi, dépendances et décision
 
-Après MEP-067/053/019/052/013/046 et [MEP-045 réalisé le 2026-10-31](../planning/qualification-mep-045/cloture.md) :
-**MEP-047 — Qualification des comparaisons**, puis qualifications UX conditionnelles ; aucun développement présumé pour 047/048. D01–D09 et
-préparation installation avancent en parallèle. Le [plan pilotable](../planning/pre-mep.md) et les
-[frontières consolidées](08-ecarts-et-qualifications.md) distinguent acquis, écarts, preuves, décisions et
-recettes cible ; aucun PBI, priorité, durée ou retrait de capacité requise au GO n’est ajouté.
+Prochain recommandé : **MEP-054 — Contrat de configuration unique**, prêt ; MEP-057, MEP-022 et
+TEAM-006 indépendants peuvent avancer en parallèle. Les 17 PBI UX sont réalisés ; aucune qualification
+préalable supplémentaire de ces acquis. [Plan courant](../planning/pre-mep.md) et [aptitudes](../planning/mess-dependances.md).
+MEP-055 est Ouvert/N/A par décision explicite du 2026-11-14, sans clôture. Le profil de référence peut
+être défini et qualifié par le projet ; D01–D09 ne sont pas des approbations externes obligatoires.
 
 - [Ordonnancement par dépendances réelles et livraison progressive](../planning/pre-mep.md).
 - [Audit contradictoire et matrice des 63 points initiaux](../planning/mess-audit.md).
@@ -65,6 +65,7 @@ recettes cible ; aucun PBI, priorité, durée ou retrait de capacité requise au
 - [Jalon MEP-035 — Décision GO/NO-GO](../tracking/mess-jalon.md), décision non rendue.
 - [Ancienne source et décisions historiques](070-mep-historique.md), sans règle de lancement active.
 
-Le responsable et les seuils de disponibilité/reprise sont à convenir avec MESS dans F11.
+F11 définit rôles, opérations et mesures de référence ; les responsabilités et engagements éventuels
+du site réel restent à établir avant son exploitation, sans bloquer les outils du projet.
 ARB-ORG-005 et les autres arbitrages ouverts restent dans leur registre ; la préparation MESS ne les tranche pas.
 Les rapports d’audit externes ne sont pas disponibles localement ; aucune conclusion d’audit n’est inventée.

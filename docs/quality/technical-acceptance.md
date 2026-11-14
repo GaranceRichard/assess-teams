@@ -7,8 +7,10 @@ Préparé le 2026-11-12 sur le dernier `origin/main` récupéré :
 [fiche de qualification](../backlog/planning/audit-20261027/fiches/MEP-031.md).
 
 **MEP-031 reste Ouvert / N/A. Tous les verdicts TEC restent `Non exécuté`.**
-Ce cahier préparatoire est publiable ; sa finalisation exige MEP-022, les décisions C11 et D01–D09
-applicables, les procédures définitives et l'approbation explicite du responsable produit.
+Ce cahier reste à finaliser après MEP-022 : paramètres et mesures de référence définis par le projet.
+D01–D09 sont des axes de contrôle, sans approbations externes obligatoires ; la clôture de MEP-031
+reste à proposer distinctement au responsable produit. Les commandes futures sont finalisées avant
+leur exécution par leur consommateur, sans dépendance du cahier à tous les outils.
 Ni test local, ni CI verte, ni clôture ultérieure du cahier ne constitue une recette MESS ou ne la déclenche.
 
 ## Préparer et utiliser le cahier
@@ -69,6 +71,6 @@ Aucune intervention dans son worktree, dans TEAM-003, ni dans les workflows de p
 La [revue DoD et le registre de publication](technical-acceptance-review.md) portent exclusivement sur ce lot documentaire.
 Les dépendances canoniques restent MEP-022 et MEP-039 ; les autres capacités/décisions sont des entrées
 des scénarios consommateurs, sans nouvel arc de dépendance ni nouveau PBI.
-Après livraison MEP-022 et décisions approuvées : remplacer les inconnues, vérifier commandes et seuils/refus,
+Après livraison MEP-022 : remplacer les inconnues du protocole de référence et vérifier attentes/refus,
 soumettre le cahier final au responsable produit ; clôturer et recalculer les indicateurs seulement après son accord.
-La préparation se termine à sa publication vérifiée, sans attendre ces décisions externes.
+Aucun PV sur un site MESS absent ni engagement de service réel n’est déduit d’un essai de référence.

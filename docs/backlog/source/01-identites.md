@@ -91,7 +91,7 @@ Les [frontières et écarts consolidés](08-ecarts-et-qualifications.md#produit-
   - la liste « tous les utilisateurs » est globale pour un `Superadmin` et cloisonnée par organisation pour tous les rôles métier ;
   - un identifiant inexistant ou inaccessible ne révèle aucune donnée utilisateur, et aucune consultation n’expose de secret d’authentification.
 - **Principaux cas de refus :** demande non authentifiée ou compte demandeur inactif ; consultation ou écriture demandée par un `Viewer` ; identifiant absent, mal formé, inexistant ou hors du périmètre organisationnel applicable.
-- **Décision produit bloquante :** aucune ; l'organisation unique de l'Admin détermine son périmètre.
+- **Décisions produit à résoudre :** C01 (collecte/reprise des noms et lien mail/login) et C02 (champs et droits cohérents avec FEAT-004) ; liste livrée conservée, détail et identité complète non prêts.
 - **Capacité prérequise :** le rattachement organisationnel unique est matérialisé par `ORG-001`.
 - **Dépendances :** `USER-001` ; `FEAT-004` pour l’autorisation ; `FEAT-037` pour le périmètre organisationnel de l’`Admin`.
 - **Priorité :** P0.
@@ -106,15 +106,15 @@ Les [frontières et écarts consolidés](08-ecarts-et-qualifications.md#produit-
 - **Titre :** Modifier un utilisateur.
 - **User story :** en tant que `Superadmin` technique ou `Admin` autorisé, je veux modifier un utilisateur selon mes droits afin de maintenir ses informations à jour.
 - **Intention métier :** corriger les informations d’identité sans contourner la hiérarchie d’autorisation ni altérer les faits passés.
-- **Description :** modifier `nom`, `prénom` et `mail` d’une identité. L’identifiant stable, la fonction métier, les rattachements organisationnels et les traces historiques ne sont pas modifiables par ce PBI. La relation éventuelle entre `mail` et `username` n’est pas décidée par ce PBI.
-- **Critères d’acceptation :**
+- **Description du delta proposé, à arbitrer C02 :** modifier `nom`, `prénom` et `mail` d’une identité. L’identifiant stable, la fonction métier, les rattachements organisationnels et les traces historiques ne sont pas modifiables par ce PBI. La relation éventuelle entre `mail` et `username` n’est pas décidée par ce PBI.
+- **Critères proposés pour le delta — C02 non approuvé :**
   - un `Superadmin` peut modifier un utilisateur de fonction `Admin`, `Coach` ou `Viewer` ;
   - un `Admin` peut modifier un `Coach` ou un `Viewer` de son organisation active, mais ne peut modifier aucun `Admin` ;
   - un `Coach` ou un `Viewer` ne peut modifier aucun autre utilisateur ; la modification de son propre profil n’entre pas dans ce PBI ;
   - une modification valide met à jour `nom`, `prénom` ou `mail`, conserve l’identifiant et l’historique, et aucun refus ne produit de modification partielle ;
   - aucun utilisateur, y compris un `Superadmin`, ne peut modifier un compte `Superadmin` par ce PBI.
 - **Principaux cas de refus :** rôle demandeur interdit ; cible `Superadmin` ; `Admin` ciblant un `Admin` ou une autre organisation ; cible inexistante ; données invalides ; tentative de modifier l’identifiant, la fonction ou un rattachement organisationnel.
-- **Décisions produit bloquantes :** aucune ; la dépendance à `USER-002` reste nécessaire.
+- **Décision produit à résoudre :** C02 ; les critères de delta ci-dessus sont proposés, non approuvés lorsqu’ils contredisent FEAT-004. Conserver les capacités livrées de cette matrice jusqu’à décision explicite.
 - **Dépendances :** `USER-002` ; `FEAT-004` pour l’autorisation et le périmètre.
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
@@ -185,11 +185,8 @@ Les [frontières et écarts consolidés](08-ecarts-et-qualifications.md#produit-
 - **Priorité :** P0.
 - **Domaine métier cible :** Identités et habilitations.
 
-### Dépendances internes du Sprint 1
+### Préparation des deux PBI ouverts
 
-```text
-USER-001 + FEAT-037
-└── USER-002
-    ├── USER-003
-    └── USER-004
-```
+USER-002/003 attendent C01/C02 ; FEAT-004 conserve les droits livrés. La décision précisera collecte/reprise,
+champs mutables et cibles ; preuves de clôture : API/UI par rôle, détail autorisé, refus sans fuite ni mutation
+partielle et contrats OpenAPI. USER-004 est réalisé et ne dépend pas d’une reprise de USER-002/003.

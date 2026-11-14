@@ -1,9 +1,10 @@
 # Planification du backlog
 
 Le [plan pré-MEP MESS](pre-mep.md) organise la livraison par Epic → Feature → PBI, selon les dépendances réelles, et le jalon GO/NO-GO séparé.
-Pour la MEP, appliquer le [cahier UX MEP-067 livré](../../quality/ux-acceptance.md) : MEP-045 est [réalisé le 2026-10-31](qualification-mep-045/cloture.md).
-[MEP-047 réalisé le 2026-11-01](../../quality/mep-047/README.md). Prochain : **MEP-015 — Observation radar**, 048 reste distinct ; preuves ciblées et D01–D09 en parallèle.
-Ce chemin prime ; les [actions et décisions consolidées](../source/08-ecarts-et-qualifications.md) conditionnent chaque lancement.
+Prochain recommandé : **MEP-054 — Contrat de configuration unique**, prêt ; MEP-057, MEP-022 et
+TEAM-006 peuvent avancer en parallèle. Le [plan courant](pre-mep.md) donne les dix prochains PBI et
+l’[aptitude des 38 non réalisés](mess-dependances.md). Les décisions produit précises restent réservées ;
+D01–D09 ne sont plus des approbations externes préalables au développement.
 La séquence métier ci-dessous reste une orientation générale, sans réouverture des acquis ni ajout
 d’automatisme exigeant tous les compléments fonctionnels avant la MEP ; ses arbitrages restent applicables.
 

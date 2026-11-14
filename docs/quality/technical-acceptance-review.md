@@ -1,5 +1,10 @@
 # MEP-031 — Qualification préalable, revue DoD et livraison préparatoire
 
+> Revue historique du lot préparatoire. Les conditions courantes sont dans le [cahier](technical-acceptance.md)
+> et le [profil de référence](../operations/installation-prerequisites.md) : D01–D09 sans accords externes
+> obligatoires, C11 mesurable par le projet. Aucun verdict TEC ni résultat de cette revue datée n’est réécrit.
+
+
 [Cahier](technical-acceptance.md) · [Matrice](technical-acceptance-dependencies.md).
 Revue documentaire du 2026-11-12 ; base fraîche `origin/main` :
 `ec4c3a535065c54e3c25abea8f52b722f5bef5be`.
