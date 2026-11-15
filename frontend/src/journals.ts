@@ -17,11 +17,13 @@ export type JournalEntry = {
 };
 
 export function organizationLabel(entry: JournalEntry): string {
-  const name = entry.organization_name || "SYSTÈME";
-  if (entry.organization_id !== null || !entry.organization_name) return name;
-  return entry.organization_origin_id == null
+  const name = entry.organization_name || "Organisation";
+  if (entry.organization_id !== null && entry.organization_name) return name;
+  if (entry.organization_origin_id != null)
+    return `${name} (origine #${entry.organization_origin_id})`;
+  return entry.organization_name
     ? `${name} (origine non renseignée)`
-    : `${name} (origine #${entry.organization_origin_id})`;
+    : "SYSTÈME";
 }
 
 export type ActivityEntry = JournalEntry & {

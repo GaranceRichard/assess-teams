@@ -4,7 +4,7 @@ Cet Epic porte l’identité et le cycle de vie du périmètre Organisation ains
 
 ### FEAT-036 — Gérer le cycle de vie d’une organisation
 
-Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et le renommage sont livrés ; la consultation reste limitée aux Admins/Superadmins et la suppression suit désormais la politique conservatrice décidée par ARB-ORG-005, à réaliser et qualifier dans ORG-004.
+Cette Feature est raffinée par `ORG-001` à `ORG-004` pour couvrir le CRUD backend des Organisations. `nom` est la seule donnée métier obligatoire et l’identifiant technique est stable. La création et le renommage sont livrés ; la consultation reste limitée aux Admins/Superadmins et la suppression applique la politique conservatrice décidée par ARB-ORG-005 ; sa réalisation et sa qualification sont documentées dans ORG-004, dont la clôture fonctionnelle reste distincte.
 
 Les [écarts consolidés](08-ecarts-et-qualifications.md#produit--acquis-et-deltas-bornés) distinguent C03 (projection Coach à décider, Viewer selon concepts) et ARB-ORG-005 (politique destructive). Aucun élargissement de droit ni politique nouvelle n’est déduit du code.
 

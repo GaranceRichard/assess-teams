@@ -56,3 +56,48 @@ avant une unique insertion détachée préservant l’origine. Aucun test ni inv
 Le test OpenAPI Journal a été aligné sur le nouveau filtre d’origine explicitement documenté.
 Après correction : 55 tests ciblés verts, incluant les invariants TEAM, la provenance, le contrat Journal,
 les erreurs de contrainte étrangères au contexte et les 22 cas concurrents dans les deux configurations.
+
+
+## Resynchronisation documentaire
+
+Le chantier est resynchronisé sur `264723b76566c478d9c19a31db517df4d24017de` avant sa campagne finale.
+Les trois conflits de planification ont été résolus en conservant la refonte MESS de ce commit et
+ses conventions, dépendances et autres PBI ; seules les lignes de décision/suivi ORG-004 sont actualisées.
+Aucun fichier applicatif n’a changé dans cette intégration amont. Les sorties de couverture de la
+campagne interrompue restent des artefacts locaux, retirés avant relance et absents de tout commit.
+
+
+## Campagne générale finale et revue de livraison
+
+Campagne exécutée le 2026-11-14 par `npm run quality:targeted`, plan exhaustif imposé par la migration
+et le contrat API. Résultats contrôlés à la reprise du 2026-11-15 ; les preuves ne périment pas par
+leur âge, et leur réutilisation exige toujours les entrées et sélections exactes du dépôt.
+
+| Contrôle | Résultat observé |
+| --- | --- |
+| Dépôt et préparation | Gates structure, 200 lignes, secrets, préparation propriétaire et suites de l’outillage : zéro échec |
+| Backend | 1 604 tests réussis ; couverture globale 97,53 % ; lint/formatage conformes, migrations cohérentes sans changement manquant |
+| Frontend | 120 fichiers / 499 tests réussis ; lint, formatage, typage et build conformes |
+| Couverture frontend | Instructions 94,97 % ; branches 93,55 % ; fonctions 96,47 % ; lignes 95,81 % ; quatre seuils >= 90 % |
+| E2E applicatif | 155 parcours réussis avec backend réel, dont les quatre ORG-004 aux deux formats |
+| Démo statique | Build et 10 parcours réussis sans backend |
+| Revue documentaire | 319 liens locaux/ancres contrôlés après resynchronisation ; aucun chemin absent ni ancre invalide, fichiers maintenus <= 200 lignes |
+
+Le premier build frontend avait détecté une fixture de test au niveau de Log trop largement typé ;
+la fixture est désormais explicitement de type `LogEntry`, sans cast d’assouplissement. Le build et
+la campagne frontend complète ci-dessus ont ensuite réussi. Une origine connue reste visible même
+si le nom historique est vide ; aucune donnée historique n’est reconstruite pour cet affichage.
+Les preuves locales backend/frontend/E2E sont distinctes et contrôlées par le pré-push ; la publication
+reste conditionnée au gate bloquant et à la CI indépendante du SHA exact. Le SHA et le lien de CI
+sont communiqués dans le rapport de livraison, sans prétendre qu’un rapport local vaut recette MESS.
+
+## Proposition de clôture fonctionnelle — à approuver
+
+Proposition au responsable produit : approuver la conformité d’ORG-004 aux règles R01–R09 et aux
+scénarios S01–S11 sur la version livrée, sur la base des tests, des invariants et de la revue ci-dessus.
+Aucun écart fonctionnel bloquant n’est identifié. Les origines anciennes déjà détachées restent
+inconnues conformément à la décision, les rétentions existantes restent applicables et une contention
+technique n’est jamais considérée comme un succès métier. Les recettes cible et le GO MESS restent distincts.
+
+**ORG-004 demeure Ouvert / N/A jusqu’à l’approbation fonctionnelle explicite du responsable produit.**
+Ce dossier et sa publication ne modifient pas automatiquement ce statut, sa date ou ceux des recettes.

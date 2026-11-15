@@ -64,7 +64,7 @@ Les traces restent soumises aux purges existantes et aucune durée n’est modif
 
 La qualification prépare MEP-033/034 et le GO/NO-GO MEP-035 ; elle ne constitue pas un PV cible MESS.
 TEAM-002/003/005 et C04 restent clos ; transfert, archivage Organisation, rétention générale et D exclus.
-Les résultats et la proposition de clôture seront consignés dans le présent dossier après validation.
+Les résultats et la proposition de clôture sont consignés dans les [preuves de validation](preuves.md), sans clôture automatique.
 
 
 ## Qualification et revue de contenu

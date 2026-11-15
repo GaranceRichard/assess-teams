@@ -3,7 +3,7 @@ import { expect, it } from "vitest";
 
 import { JournalEntries } from "./JournalEntries";
 import { LogEntries } from "./LogEntries";
-import { organizationLabel } from "./journals";
+import { organizationLabel, type LogEntry } from "./journals";
 import { logEntries } from "./logsTestFixtures";
 
 const trace = {
@@ -29,7 +29,8 @@ it("distinguishes historical organizations with identical names", () => {
 });
 
 it("shows the durable origin in Logs without inventing missing old origins", () => {
-  render(<LogEntries entries={[{ ...logEntries[0], ...trace }]} />);
+  const log: LogEntry = { ...logEntries[0], ...trace, level: "INFO" };
+  const { rerender } = render(<LogEntries entries={[log]} />);
   expect(screen.getAllByText("Same name (origine #42)")[0]).toBeVisible();
   expect(organizationLabel({ ...trace, organization_origin_id: null })).toBe(
     "Same name (origine non renseignée)",
@@ -37,7 +38,13 @@ it("shows the durable origin in Logs without inventing missing old origins", () 
   expect(organizationLabel({ ...trace, organization_id: 42 })).toBe(
     "Same name",
   );
-  expect(organizationLabel({ ...trace, organization_name: "" })).toBe(
-    "SYSTÈME",
-  );
+  rerender(<LogEntries entries={[{ ...log, organization_name: "" }]} />);
+  expect(screen.getAllByText("Organisation (origine #42)")[0]).toBeVisible();
+  expect(
+    organizationLabel({
+      ...trace,
+      organization_name: "",
+      organization_origin_id: null,
+    }),
+  ).toBe("SYSTÈME");
 });

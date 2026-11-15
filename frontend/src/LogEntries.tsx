@@ -17,7 +17,11 @@ function LogDetails({ entry }: { entry: LogEntry }) {
         <dt>Source</dt>
         <dd>{entry.source}</dd>
         <dt>Organisation</dt>
-        <dd>{entry.organization_name ? organizationLabel(entry) : "—"}</dd>
+        <dd>
+          {entry.organization_name || entry.organization_origin_id != null
+            ? organizationLabel(entry)
+            : "—"}
+        </dd>
         <dt>Utilisateur</dt>
         <dd>{shown(entry.actor_name)}</dd>
         <dt>Équipe</dt>
@@ -86,7 +90,9 @@ export function LogEntries({
               </td>
               <td>{entry.source}</td>
               <td>
-                {entry.organization_name ? organizationLabel(entry) : "—"}
+                {entry.organization_name || entry.organization_origin_id != null
+                  ? organizationLabel(entry)
+                  : "—"}
               </td>
               <td>{shown(entry.actor_name)}</td>
               <td>{shown(entry.team_name)}</td>
