@@ -1,0 +1,164 @@
+# Caddy 2.11.9 — 148 modules incorporés
+
+[Index](README.md) · [ZIP et SBOM exacts](artifacts.md).
+Le SBOM CycloneDX contient 152 entrées : les 148 modules ci-dessous, Caddy produit, son main généré `caddy`, Go stdlib et le fichier exécutable.
+Le main est `v0.0.0-20261104230511-0d98caea58f7` ; le module applicatif Caddy réel apparaît aussi dans cette table.
+Go stdlib : `go1.27.3`, BSD-3-Clause ; [texte exact](https://raw.githubusercontent.com/golang/go/go1.27.3/LICENSE),
+SHA-256 `911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad`.
+Toutes les lignes sont des dépendances incorporées au binaire cible ; aucun Go, module ou compilateur requis sur cible.
+La provenance de chaque module est `https://proxy.golang.org/<module>/@v/<version>.zip` : les majuscules utilisent l’échappement Go `!` + minuscule.
+`h1` est l’empreinte Go des sources, recalculée sur l’archive et rapprochée de `caddy build-info` et du SBOM.
+L’empreinte du code machine est celle du ZIP/exécutable agrégé, pas le h1 des sources.
+Licences rapprochées des textes dans chaque archive de module ; conserver aussi les NOTICE présents.
+CC0 concerne `github.com/zeebo/blake3`. Les autres licences sont permissives MIT, BSD et Apache-2.0.
+
+| Module | Version | Empreinte Go | Licence | Texte embarqué : SHA-256 |
+| --- | --- | --- | --- | --- |
+| cel.dev/cel-go | v0.32.0 | h1:irvpFKr5EuGPyxeME03ERh0rii1TX+BDAnB9eL3IvNk= | Apache-2.0 | LICENSE: 4cdb9af102dfbb0ca03d87d6f650a505df098646a4080f4665b389ad9c6caa02 |
+| cel.dev/expr | v0.25.3 | h1:A2jO8jwOugrrovveCWfj0KEZOfqiLgAcwjpHPhzIGw0= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| cloud.google.com/go/auth | v0.23.3 | h1:UMK+oBtuNGMCR/6i6mmySUItqjOazpJrbmZyhGbGBWo= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| cloud.google.com/go/auth/oauth2adapt | v0.2.8 | h1:keo8NaayQZ6wimpNSmW5OPc283g65QNIiLpZnkHRbnc= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| cloud.google.com/go/compute/metadata | v0.9.1 | h1:CTE1OWBQ0vnF5uHwdFAQJvMQ0Fi/KRcqqKTo9V0F8Ik= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| dario.cat/mergo | v1.0.2 | h1:85+piFYR1tMbRrLcDwR18y4UKJ3aH1Tbzi24VRW1TK8= | BSD-3-Clause | LICENSE: cb7684632b729955293cab8a0bbf4134d53d9532a30761c33c8a4878302a7bd3 |
+| filippo.io/bigmod | v0.1.0 | h1:UNzDk7y9ADKST+axd9skUpBQeW7fG2KrTZyOE4uGQy8= | BSD-3-Clause | LICENSE: 2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067 |
+| filippo.io/edwards25519 | v1.2.0 | h1:crnVqOiS4jqYleHd9vaKZ+HKtHfllngJIiOpNpoJsjo= | BSD-3-Clause | LICENSE: 2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067 |
+| github.com/BurntSushi/toml | v1.6.0 | h1:dRaEfpa2VI55EwlIW72hMRHdWouJeRF7TPYhI+AUQjk= | MIT | COPYING: d21cb1c60785d6d3a84a7059323ccafc45c645b1bbda281c76a62d66ad2d7dc3 |
+| github.com/DeRuina/timberjack | v1.4.8 | h1:V7SIoCzkyWD93WmyKECSX+tMu/hLqQQvptlhEsbBIhI= | MIT | LICENSE: d64d73b7e2ffc460053728197c024cc67927f8dd784cb98a058ce6d76479dd40 |
+| github.com/KimMachineGun/automemlimit | v1.0.0 | h1:+MqlvDE/pkJNjk1rU+O14QsH8k10nJAD0frB0lsxyvw= | MIT | LICENSE: 28576a98c02916f720f05aa4a9e30dabfb91cc153efeecd63d34616694d9ff60 |
+| github.com/Masterminds/goutils | v1.1.1 | h1:5nUrii3FMTL5diU80unEVvNevw1nH4+ZV4DSLVJLSYI= | Apache-2.0 | LICENSE.txt: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/Masterminds/semver/v3 | v3.5.0 | h1:kQceYJfbupGfZOKZQg0kou0DgAKhzDg2NZPAwZ/2OOE= | MIT | LICENSE.txt: 2db9097f7b3750c1c9426996d21fe443d339131fb758c2167d2d5fabe8e6cbf9 |
+| github.com/Masterminds/sprig/v3 | v3.3.0 | h1:mQh0Yrg1XPo6vjYXgtf5OtijNAKJRNcTdOOGZe3tPhs= | MIT | LICENSE.txt: dbad9a1f3fee465db42b92cb8a41ddaae028248fdcc54f46f1e72f7707d21dc2 |
+| github.com/alecthomas/chroma/v2 | v2.27.0 | h1:FodwmyOBgJULFYmDqibcp9pvfDLWdtPRh9v/r5BXYZs= | MIT | COPYING: 13654b052f885cb3fa47d7343e13975d9c8a64c3bcd84993c35d5eb01f22b23f |
+| github.com/antlr4-go/antlr/v4 | v4.13.1 | h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ= | BSD-2-Clause | LICENSE: 683fcd416d83b64781e229a3c2a598462fbf55c5c9fea54be244766b22c033cf |
+| github.com/aryann/difflib | v0.0.0-20210328193216-ff5ff6dc229b | h1:uUXgbcPDK3KpW29o4iy7GtuappbWT0l5NaMo9H9pJDw= | MIT | LICENSE: 949aa74c306e61ac17d96a8c4eb52d69f803722fa5b5009dec83c37b65c730ec |
+| github.com/beorn7/perks | v1.0.1 | h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM= | MIT | LICENSE: 0db7c9ebb3717e526f34f87dd1ee8bc77d36846e29cb0cec9246f7138fbe962b |
+| github.com/bits-and-blooms/bitset | v1.25.0 | h1:0Ro0qF4abCkM6SqWPVj29sFhAbMPAZpaDD7xhJ10beM= | BSD-3-Clause | LICENSE: 409ae7da5df143584d1ae1e94bd0f1d5b3b2d134d1e354cf3160cdbf263849d1 |
+| github.com/caddyserver/caddy/v2 | v2.11.9 | h1:bhZtcRKQOq0fuLvEgCdPYvUxXyGn9kzjG4lh2332DTE= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/caddyserver/certmagic | v0.25.6 | h1:vHMtFSLKTa6kuZz6w0SnRMpQ388tSkww8ye355BgAM4= | Apache-2.0 | LICENSE.txt: b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1 |
+| github.com/caddyserver/zerossl | v0.1.6 | h1:1yrhTx5DWi43wOJPQ+Y4mVl++EPmSqqT/4REW//lsas= | MIT | LICENSE: 1ef7b0f3816510e2c4727a6e45b770ddb5ab123d73074e7f0b424767db0f9f7b |
+| github.com/ccoveille/go-safecast/v2 | v2.0.1 | h1:2+mIu3gXtwmWelBia2kkxfB8eP4orTHDH7ClSlWkd6I= | MIT | LICENSE: ceb4a97e3600dc270b6b15cb8c1a42158efbdcd23f0e1256143ebd72f1d5fb56 |
+| github.com/cenkalti/backoff/v5 | v5.0.3 | h1:ZN+IMa753KfX5hd8vVaMixjnqRZ3y8CuJKRKj1xcsSM= | MIT | LICENSE: 5c0476add4c38b55d0ed5ac11b85e00c38f26e1caee20dfe3ab58190103d1fbc |
+| github.com/cespare/xxhash/v2 | v2.3.0 | h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs= | MIT | LICENSE.txt: f566a9f97bacdaf00d9f21dd991e81dc11201c4e016c86b470799429a1c9a79c |
+| github.com/chzyer/readline | v1.5.1 | h1:upd/6fQk4src78LMRzh5vItIt361/o4uq553V8B5sGI= | MIT | LICENSE: 3e07c02046bf3c2a73f060636997e0323dbe92a2d4ba43ef9e6b05a1031ae4c4 |
+| github.com/cloudflare/circl | v1.6.5 | h1:O64F26HEqNhznd/hrC5KZXVKYuKM2rx4deZDTc4ihQA= | BSD-3-Clause | LICENSE: b0da1764fe4d13d610b695536fc3f2ebc362482d053a1cd258e36975bc6b97a7 |
+| github.com/coreos/go-oidc/v3 | v3.21.0 | h1:wZo4Q9Pum8dYEj0eMUPrqR+kvuGkeUplbLpNCkBqoWM= | Apache-2.0 | LICENSE: cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14 |
+| github.com/cpuguy83/go-md2man/v2 | v2.0.7 | h1:zbFlGlXEAKlwXpmvle3d8Oe3YnkKIK4xSRTd3sHPnBo= | MIT | LICENSE.md: a55959c4e3e8917bfa857359bb641115336276a6cc97408fd8197e079fb18470 |
+| github.com/dlclark/regexp2/v2 | v2.8.0 | h1:CekDhPLGfm+GAJmPVFIG+5dqMIQPkyHJll7BbdneDfw= | MIT | LICENSE: 9be5d04bb4d706914d5bf943710da4afeb42048f7c529902fb57c82762a991a9 |
+| github.com/dunglas/go-urlpattern | v1.0.0 | h1:AmMwIDXWJFezeE1v38rxvQRGvvzTlityFuifLLVfoQQ= | BSD-3-Clause | LICENSE: 033df283c9686328c4ba0670394585219888c1b9f61f7fa749f9120a4db5c7c0 |
+| github.com/dunglas/httpsfv | v1.1.1 | h1:HoSs101zIE9I23DlqlmljJ/OIi7ILwrH347pXhRZdxI= | BSD-3-Clause | LICENSE: 2a5341732bde88aeb3b066492df6e15bf10d082761f9e3a251236ce80419d6ba |
+| github.com/dustin/go-humanize | v1.1.0 | h1:dbKTrvD0klcbBV/h4AWJdMuZogJACoMlvWIWZ5b2xWg= | MIT | LICENSE: a973b4498c13eb74baa2a8e5c351426a6826f2fcdd909916dbe53ee2e755fd71 |
+| github.com/felixge/httpsnoop | v1.1.0 | h1:3YtUj32ZZkqZtt3sZZsClsymw/QDuVfpNhoA31zeORc= | MIT | LICENSE.txt: 8108e14b5cb2b6bcd51583d3849ef0c2b5c4de61758256c20308bc70d1775dbb |
+| github.com/fxamacker/cbor/v2 | v2.9.4 | h1:xwjVlxEMR3S605oUlgBjKLTTeGFciYPGYCtF/35LKGo= | MIT | LICENSE: 78cad457d5ea7318230f3d969d4cdf29cef45524a1fc8ca3a97646da1ad7a841 |
+| github.com/go-chi/chi/v5 | v5.4.0 | h1:+ufzvFTGKyin26Or5DLrlIDq4ygIDBVcj7oVNeeaYFE= | MIT | LICENSE: a2d51b7515acfaff2f7a88688650f2fc4fd99561383e72bba2305e3db59a1647 |
+| github.com/go-jose/go-jose/v3 | v3.0.5 | h1:BLLJWbC4nMZOfuPVxoZIxeYsn6Nl2r1fITaJ78UQlVQ= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/go-jose/go-jose/v4 | v4.1.6 | h1:sNRkftxFJxwsILiQukqp5z83QBSmntVwmgRY7AqBDO4= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/go-logr/logr | v1.4.4 | h1:tG4xh9yMsRCAiodLVTxyrkzSZ9+o0L1Kg/+cPVcbP/8= | Apache-2.0 | LICENSE: b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1 |
+| github.com/go-logr/stdr | v1.2.2 | h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/google/certificate-transparency-go | v1.3.3 | h1:hq/rSxztSkXN2tx/3jQqF6Xc0O565UQPdHrOWvZwybo= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/google/go-tpm | v0.9.8 | h1:slArAR9Ft+1ybZu0lBwpSmpwhRXaa85hWtMinMyRAWo= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/google/go-tspi | v0.3.0 | h1:ADtq8RKfP+jrTyIWIZDIYcKOMecRqNJFOew2IT0Inus= | Apache-2.0 | LICENSE: cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14 |
+| github.com/google/s2a-go | v0.1.10 | h1:EMp+aOuXN6l8cE/gjF5Bt+vyZxsUuyCWe9chDWR/+uU= | Apache-2.0 | LICENSE.md: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/google/uuid | v1.6.0 | h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0= | BSD-3-Clause | LICENSE: 0a8d61ed3cbfd5312326e8126c31ce9c627a283adc99131b56896d29ada04b2d |
+| github.com/googleapis/enterprise-certificate-proxy | v0.3.22 | h1:NU4XpII6jD+Dxcot94fqjE+AfJoE/lQP9q3faYGzC/c= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/googleapis/gax-go/v2 | v2.25.0 | h1:77gyzCOrTyzPKfzGZJG/V5DO4/Kuamek8W+cYJQ4U8k= | BSD-3-Clause | LICENSE: b95218cd9607855a6536384c0262922b30a0c2bf56e4ced790240f3a3bac4722 |
+| github.com/grpc-ecosystem/grpc-gateway/v2 | v2.30.0 | h1:/Tnpcb2E0Pz/tN9s3bfEY2Q8ePCEX9iuS+cneUwncnw= | BSD-3-Clause | LICENSE: a15b1d1b168954c92ff7fb1620382418f7c72f4f4d251ee791d1098ad68ab0c4 |
+| github.com/huandu/xstrings | v1.6.1 | h1:yYdKSd6Sjv3fNZt9BDjl1FDsPNfQEaYi19L5LzK2JKs= | MIT | LICENSE: d298ca9d57c94e16547637f1d7122481ecdb83932c9b901fac349c4c382b82eb |
+| github.com/inconshreveable/mousetrap | v1.1.0 | h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8= | Apache-2.0 | LICENSE: 4819582701f150b28a563a6cd8ed0bf5a754e3c67b90ad38d78ba4131bf77795 |
+| github.com/klauspost/compress | v1.20.1 | h1:T7kKElXUMXrUJ2E9QhQhxFtcK5rPyLdsGZvdbLMPdiQ= | Apache-2.0 | LICENSE: 0d9e582ee4bff57bf1189c9e514e6da7ce277f9cd3bc2d488b22fbb39a6d87cf |
+| github.com/klauspost/cpuid/v2 | v2.4.0 | h1:S6Hrbc7+ywsr0r+RLapfGBHfyefhCTwEh3A0tV913Dw= | MIT | LICENSE: 5d966570d7a442d4e969892860a914e542c97f262c873baee8f0aa48e1f40212 |
+| github.com/libdns/libdns | v1.1.1 | h1:wPrHrXILoSHKWJKGd0EiAVmiJbFShguILTg9leS/P/U= | MIT | LICENSE: e75b5c81dc881b74f84c306c2d0b7db1affbe78d9c0feb5722eb432fd534bea5 |
+| github.com/manifoldco/promptui | v0.9.0 | h1:3V4HzJk1TtXW1MTZMP7mdlwbBpIinw3HztaIlYthEiA= | BSD-3-Clause | LICENSE.md: 05a3af14dd6f2e357727c4d445660072be70b11e7c27b9dc735c9de4bb65ddcb |
+| github.com/mattn/go-colorable | v0.1.15 | h1:+u9SLTRGnXv73cEsnsmoZBom+dMU88B2M0aDcWy0/jY= | MIT | LICENSE: 88a2379b3ca34bf5c57127aff9dcb802bbb60ece0805cdbda65b3bd115f971d9 |
+| github.com/mattn/go-isatty | v0.0.24 | h1:tGZZoVgT/KiqK1c8ocVLeDS8BSWMRd47J3Lbz7vsReI= | MIT | LICENSE: 08eab1118c80885fa1fa6a6dd7303f65a379fcb3733e063d20d1bbc2c76e6fa1 |
+| github.com/mgutz/ansi | v0.0.0-20200706080929-d51e80ef957d | h1:5PJl274Y63IEHC+7izoQE9x6ikvDFZS2mDVS3drnohI= | MIT | LICENSE: 66e8a6491399ee36b111ba6df0af68ee82b375fb6fbfd54c8382c9dc3fbd9c9a |
+| github.com/mholt/acmez/v3 | v3.1.7 | h1:XTqpuUcRdRoIBuDoI+M4mCnRnPTPN4rqH3Mb723Rg4U= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/miekg/dns | v1.1.73 | h1:uhT8nJxmTrPJYClxVxTCX+CVn6qnzSiybRk72Z6DgrE= | BSD-3-Clause | LICENSE: f200ff9bad73385db2ed81e23ee2c1fe069eb5776e17fae4ee85ad0a9e1361a5 |
+| github.com/mitchellh/copystructure | v1.2.0 | h1:vpKXTN4ewci03Vljg/q9QvCGUDttBOGBIa15WveJJGw= | MIT | LICENSE: 3c377fad2e5ae1d7081c7c2f16da867a87cca1d1f5f1aa7ed0b8a16bb553142a |
+| github.com/mitchellh/go-ps | v1.0.0 | h1:i6ampVEEF4wQFF+bkYfwYgY+F/uYJDktmvLPf7qIgjc= | MIT | LICENSE.md: 3c377fad2e5ae1d7081c7c2f16da867a87cca1d1f5f1aa7ed0b8a16bb553142a |
+| github.com/mitchellh/reflectwalk | v1.0.2 | h1:G2LzWKi524PWgd3mLHV8Y5k7s6XUvT0Gef6zxSIeXaQ= | MIT | LICENSE: 22adc4abdece712a737573672f082fd61ac2b21df878efb87ffcff4354a07f26 |
+| github.com/munnerz/goautoneg | v0.0.0-20191010083416-a7dc8b61c822 | h1:C3w9PqII01/Oq1c1nUAm88MOHcQC9l5mIlSMApZMrHA= | BSD-3-Clause | LICENSE: aa1376b9bc5dea6f30cdefde40c176a254f247d2814d0a9929395138631b2ae0 |
+| github.com/nlnwa/whatwg-url | v0.6.2 | h1:jU61lU2ig4LANydbEJmA2nPrtCGiKdtgT0rmMd2VZ/Q= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/pbnjay/memory | v0.0.0-20210728143218-7b4eea64cf58 | h1:onHthvaw9LFnH4t2DcNVpwGmV9E1BkGknEliJkfwQj0= | BSD-3-Clause | LICENSE: f0e4a9d181cbbbc742355f1723a4273fff79d999fd4d65caa2dc92fbcc5937be |
+| github.com/pires/go-proxyproto | v0.15.0 | h1:dTshmNbFm/D+0+sbrxUuddPOZ5Y0B7c5NhtsBkm6LqI= | Apache-2.0 | LICENSE: 666f1951be1d543e744818d232bb311a4a310fd1d344288642c796fca39af3c7 |
+| github.com/pkg/errors | v0.9.1 | h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4= | BSD-2-Clause | LICENSE: 8d427fd87bc9579ea368fde3d49f9ca22eac857f91a9dec7e3004bdfab7dee86 |
+| github.com/prometheus/client_golang | v1.24.1 | h1:JnJkREXzWxUdCuPFpIWZiPispT9xVV59uiuyR2bPlnU= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/prometheus/client_model | v0.6.3 | h1:O0jaTVAYNxTHYInEPFJt5I3+sN8zqBtVMPTB1qyxiEo= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/prometheus/common | v0.71.0 | h1:9KDAKb7Mj3HEVKyFCK6Dc/HIwlBzZIN2l7/lrHl3KK8= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/prometheus/otlptranslator | v1.0.0 | h1:s0LJW/iN9dkIH+EnhiD3BlkkP5QVIUVEoIwkU+A6qos= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/quic-go/qpack | v0.6.0 | h1:g7W+BMYynC1LbYLSqRt8PBg5Tgwxn214ZZR34VIOjz8= | MIT | LICENSE.md: 1b6a897efd39b20b3cdce8cd306160d115dbded39d855ceeffe21dc11e4d53df |
+| github.com/quic-go/quic-go | v0.63.0 | h1:LIFGHI4PFUhhw2dDD1ARHdCff143ffMHwZtbnbuJ78A= | MIT | LICENSE: 77d0b7b53e8abb84cf4dd3f9945a7fdf27044240d2e8023966a721a9a46fe96e |
+| github.com/rs/xid | v1.6.0 | h1:fV591PaemRlL6JfRxGDEPl69wICngIQ3shQtzfy2gxU= | MIT | LICENSE: c480873f0ff2b7e2c539bdd84fb4da4178d8d02479c94924f7bffeafb7add358 |
+| github.com/russross/blackfriday/v2 | v2.1.0 | h1:JIOH55/0cWyOuilr9/qlrm0BSXldqnqwMsf35Ld67mk= | BSD-2-Clause | LICENSE.txt: 75e1ca97a84a9da6051dee0114333388216f2c4a5a028296b882ff3d57274735 |
+| github.com/shopspring/decimal | v1.4.0 | h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k= | MIT | LICENSE: b92ba0f6ee02f2309628bfdadb123668a17c016e475ba477b857d33470d9d625 |
+| github.com/shurcooL/sanitized_anchor_name | v1.0.0 | h1:PdmoCO6wvbs+7yrJyMORt4/BmY5IYyJwS/kOiWx8mHo= | MIT | LICENSE: c8024e31c1de453fea90f22a221968835cc7af9d520274a2576c9ec9976055b0 |
+| github.com/sirupsen/logrus | v1.10.2 | h1:G2SED73/qrAu6YwbdxOD6peLkCBI3z7L+ykJFTXJBBo= | MIT | LICENSE: 51a0c9ec7f8b7634181b8d4c03e5b5d204ac21d6e72f46c313973424664b2e6b |
+| github.com/slackhq/nebula | v1.11.2 | h1:eP61cSfUuoEVGViD50gZBsAbBLPUAhoNOYewPmEwPG4= | MIT | LICENSE: aefd0cce553f24945ce1c692c3c4f9fda581f078ba82977845715cd18565b3bd |
+| github.com/smallstep/certificates | v0.30.2 | h1:1G3xBi8sJ740iA1mMPW2Svv7EIZKJ4Zf/iQtA5QlN0Y= | Apache-2.0 | LICENSE: 6fac0a40e0507e3ba32cd3471c808fa5ba4b088700bd22d81250f40f6cc74db5 |
+| github.com/smallstep/cli-utils | v0.12.2 | h1:lGzM9PJrH/qawbzMC/s2SvgLdJPKDWKwKzx9doCVO+k= | Apache-2.0 | LICENSE: 33431c2ec626405f633ec9ee4bf169f6ec49a4ee39b2dd9a5cc0cd5478d8266a |
+| github.com/smallstep/go-attestation | v0.4.4-0.20260814222900-a849f4e2cd68 | h1:KcK2guFXrE5sX/nvF1b+atHP6DjRB1gCv3ppyTXB2Zk= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| github.com/smallstep/linkedca | v0.26.0 | h1:NsxTVo3zI3KwOFFiVodeHtuGgKq0b5kOUXVLjjNTvXY= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/smallstep/nosql | v0.8.0 | h1:FBTCUfKPmWYbrozW+RBKu+fnvbn+zr5rVli/XB4Jp4A= | Apache-2.0 | LICENSE: f32684fdc4a08d433c818514dff0fa2d6a212e16359a6ba522f05b1b0f9470b5 |
+| github.com/smallstep/pkcs7 | v0.2.3 | h1:bhoQ3TeZmdoXTatcwxCbk+FMcdsyr0gYrrW2Xq2qr+s= | MIT | LICENSE: d01c6d371866b3c7a1a7e20994d88d2ce83f22974ec6d3596a6125b44495813d |
+| github.com/smallstep/scep | v0.0.0-20260331191114-261f960a40d1 | h1:lpXBkQKj1rT1oGX/2idvt8xbrOrnoQxH/+CjoeMxs9E= | MIT | LICENSE: 6a0d712ff4c257b13183759363dce13459da5b6cd938b082c2401c02914ca4c6 |
+| github.com/smallstep/truststore | v0.13.0 | h1:90if9htAOblavbMeWlqNLnO9bsjjgVv2hQeQJCi/py4= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| github.com/spf13/cast | v1.10.0 | h1:h2x0u2shc1QuLHfxi+cTJvs30+ZAHOGRic8uyGTDWxY= | MIT | LICENSE: feb6d17a0e7a64e5ab0f7e2b0e0ee3e69c1a6396626fd554dc0cddaa06851b44 |
+| github.com/spf13/cobra | v1.10.2 | h1:DMTTonx5m65Ic0GOoRY2c16WCbHxOOw6xxezuLaBpcU= | Apache-2.0 | LICENSE.txt: 5e3400b93bbb099e83e52bab885e7441750673c21f97988ca3f1240639b63283 |
+| github.com/spf13/pflag | v1.0.10 | h1:4EBh2KAYBwaONj6b2Ye1GiHfwjqyROoF4RwYO+vPwFk= | BSD-3-Clause | LICENSE: b8514c577c1c4b46cee454d5a882b15fa411e72c5bd7f801f241591789fce61a |
+| github.com/tailscale/go-winio | v0.0.0-20231025203758-c4f33415bf55 | h1:Gzfnfk2TWrk8Jj4P4c1a3CtQyMaTVCznlkLZI++hok4= | MIT | LICENSE: cf248820bf1178370bb4f1670a59f8748d46bc96d0f64080cd631511c6046409 |
+| github.com/tailscale/tscert | v0.0.0-20251216020129-aea342f6d747 | h1:RnBbFMmodYzhC6adOjTbtUQXyzV8dcvKYbolzs6Qch0= | BSD-3-Clause | LICENSE: 3227488750adebf5a8b33cc4105a109ae3d3267191c2a9ac7a2ecc38805ad4e8 |
+| github.com/urfave/cli | v1.22.17 | h1:SYzXoiPfQjHBbkYxbew5prZHS1TOLT3ierW8SYLqtVQ= | MIT | LICENSE: 2be6c75f36f3022ea015fea7b1b7135ce67d477ee721d0fc6c98678badb13b8b |
+| github.com/x448/float16 | v0.8.4 | h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM= | MIT | LICENSE: a555f1194fdac34da70fb416968f7e2217b02352c26c1eac2fa45fcb4290ae8d |
+| github.com/yuin/goldmark | v1.8.6 | h1:d0VcaP1sx9GkFVkoW+KtggpGi2KZ965i14b0+bDQST4= | MIT | LICENSE: c1d6f653c38c80294dc7994647ba0dcc508ce64a86996303c804efa2f7982bff |
+| github.com/yuin/goldmark-highlighting/v2 | v2.0.0-20230729083705-37449abec8cc | h1:+IAOyRda+RLrxa1WC7umKOZRsGq4QrFFMYApOeHzQwQ= | MIT | LICENSE: c1d6f653c38c80294dc7994647ba0dcc508ce64a86996303c804efa2f7982bff |
+| github.com/zeebo/blake3 | v0.2.4 | h1:KYQPkhpRtcqh0ssGYcKLG1JYvddkEA8QwCM/yBqhaZI= | CC0-1.0 | LICENSE: 0589f544f68ffc436e6e21efec2cf7cc2dbb2ac09ce6cb8a8cdb75ab74489716 |
+| go.etcd.io/bbolt | v1.5.0 | h1:S7GAl7Fxv12yohbwFfIbQCGDWbQbtDGPET4P/bD4lxU= | MIT | LICENSE: c15d721c37e277a11584547de6d618541501f7aa10c4e32a945a4f9ff36cb0f6 |
+| go.opentelemetry.io/auto/sdk | v1.2.1 | h1:jXsnJ4Lmnqd11kwkBV2LgLoFMZKizbCi5fNZ/ipaZ64= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| go.opentelemetry.io/contrib/bridges/prometheus | v0.71.0 | h1:9qgxsFLskbDMXl8WMqThoF6w8yGJgCumn9qRc67OmnI= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/exporters/autoexport | v0.71.0 | h1:VCsJbp0YLyPtx2tu5Vgv2a2/qLoaMCj8hT2uZ34+Mx0= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp | v0.71.0 | h1:3g7B90UzBltIDKq1/5mrTGxTnOFDV0ICOhLoxiZ8jlg= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/propagators/autoprop | v0.71.0 | h1:uy7dcw6v3XK3LMGj2sB9CXtJtTHX8QA9pjSrLhvf86c= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/propagators/aws | v1.46.0 | h1:JslT1wq/5vb6lQsbdOqShvIEs7sDlf0IvKxNZdadfjY= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/propagators/b3 | v1.46.0 | h1:OFVqWObn7xLIbOjE/koO0LS9fZJNgAyBD0msA+UQAoc= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/propagators/jaeger | v1.46.0 | h1:uxl0SGcmuBkHj/Adl9oftEAyiawQBPL5RzMAmt/Yvq4= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/contrib/propagators/ot | v1.46.0 | h1:SxC/1xmJJJdGQTNmavqW8ju85TRXiZHeFaQdnEMCWLE= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel | v1.46.0 | h1:FHt5/CDyVxi/8IM1CH7VE/rRgq3kLHa2mSTVMO8AWyc= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc | v0.22.0 | h1:Bu39F5tzJct+f2IZbB8989fwyTps3c8e7EsUQsz+vs8= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp | v0.22.0 | h1:lYk7RmxdLK865qLwibroNGldHa1U7SWKYYvNjlK7PIo= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc | v1.46.0 | h1:qkDYCAFiZXLcs1L4aY+tP2wguQ4kURANqHOQMA2et2s= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp | v1.46.0 | h1:AP23h/mFgb/lc7tdck1Kfn9qxsM8TAeNPCU5C3pzaps= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlptrace | v1.46.0 | h1:OFnwLJr+pF3iHrlGSzbxyuo6/6HyBlnlN1CWEJmBVcw= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc | v1.46.0 | h1:w53CDeOA/Kurp7yRsegSr6pbbr759dOvJ+yNmWM6Hxs= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp | v1.46.0 | h1:KrC1YrQeSt46ITMWAbgQx1M1eV1/1TKzttrBzymPmss= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/prometheus | v0.68.0 | h1:QOf2IftqQwITVRJpnn0M7M9ZCbgWfxz4P7i9C9yc2N4= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/stdout/stdoutlog | v0.22.0 | h1:kvMAiLEudKmk+CSG+iYbU8vTUGNNDaf/V09OO5lrTwI= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/stdout/stdoutmetric | v1.46.0 | h1:PR9eAf7o0dQs3hshZNZpE9aW2dXWX/KdDf6pJilVD3U= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/exporters/stdout/stdouttrace | v1.46.0 | h1:KdRxPiAoMptR3vfWzvjjvutTsSiwbC2uG0496rzZNfo= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/log | v0.22.0 | h1:5DBNnfvaJ6CVdkJ+Jle8Tzs50aSSv49TXGj9XRsEYw0= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/metric | v1.46.0 | h1:yBnkXvgV7AXFILZc5K6IZe/CBFF3OS7BJ8ov6/lj0K8= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/sdk | v1.46.0 | h1:h5CNQQjEbuQXY/JfZtgt3i7HVFV3aHPO2OAwO2eTYPI= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/sdk/log | v0.22.0 | h1:PRL+s6P63XT4E/bheEflopPUpVxuvANqZwtt89yhoGk= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/sdk/metric | v1.46.0 | h1:0piZ26EG4RBfebb2jhDH6ERCYHoVWduc3kLgPCwSnSE= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/otel/trace | v1.46.0 | h1:OULy7ccdJnZtJ0UDYFOIGaCmiWzJ8Vi2G/Rsu60qs1c= | Apache-2.0 | LICENSE: 1ae07514be1d7bb33f0698f8d91fb51b8b9fe1463157ec1c72081a49b9bc6f40 |
+| go.opentelemetry.io/proto/otlp | v1.11.0 | h1:5rrYs0Ykyj50sdU/JU0x8etU+LubXWb+gED6TbEdMIk= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| go.step.sm/crypto | v0.91.0 | h1:0mN0DwVOvUuh7VbyTnxABZuAkxwak/Grp8Y/b4YaZDU= | Apache-2.0 | LICENSE: c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4 |
+| go.uber.org/automaxprocs | v1.6.0 | h1:O3y2/QNTOdbF+e/dpXNNW7Rx2hZ4sTIPyybbxyNqTUs= | MIT | LICENSE: 5d7e88625cbc52ce4a5da7902d7afb09255635b5a60de640e202b1af943b9a19 |
+| go.uber.org/multierr | v1.11.0 | h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0= | MIT | LICENSE.txt: dcdabe03bef2382a130640d1c3a4cd5ec42aba1035095c38272fde694eb72405 |
+| go.uber.org/zap | v1.28.0 | h1:IZzaP1Fv73/T/pBMLk4VutPl36uNC+OSUh3JLG3FIjo= | MIT | LICENSE: c2b97b3281be272711909076c8402499b4b5a3216196af47a25b1d3674d86152 |
+| go.uber.org/zap/exp | v0.3.0 | h1:6JYzdifzYkGmTdRR59oYH+Ng7k49H9qVpWwNSsGJj3U= | MIT | LICENSE: c2b97b3281be272711909076c8402499b4b5a3216196af47a25b1d3674d86152 |
+| go.yaml.in/yaml/v3 | v3.0.5 | h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw= | Apache-2.0 | LICENSE: d18f6323b71b0b768bb5e9616e36da390fbd39369a81807cca352de4e4e6aa0b |
+| golang.org/x/crypto | v0.57.0 | h1:3ZVCjf8Ggz7zneR/EHRVx68Ctf+2pmIMP2UFhh9cC6M= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/crypto/x509roots/fallback | v0.0.0-20261030153154-30a33513ff6d | h1:5NBkmd8MXirajj6AAEpi4HFVJnVkBNPTL1ggYAKqaws= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/exp | v0.0.0-20260908205506-85c1c2202aba | h1:Ck8QetSgk912qxWLMCKxd0in+aiyBQyDSMae6e/xmpU= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/net | v0.60.0 | h1:79p50tfZlm0J9YfoDsSi639qSXNGVwEzOPLCxM2FsYU= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/oauth2 | v0.37.0 | h1:JUlcxA8oAtauLfiH8FX2/FkAWHAdi0QtGCGc+hofE98= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/sync | v0.23.0 | h1:KameEIfc1IkluZyXWLn39Wd4tURc6GbCiISGiZm2bQk= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/sys | v0.48.0 | h1:bbX/i/6MgT9BVLM9RT1thmxL04yeTAhbEz4SyadbXoo= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/term | v0.46.0 | h1:3+OXuTbaKDgwk8jTi3aSLHRlmWqHEUDUtxnbFigO4YE= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/text | v0.42.0 | h1:JbOZXgfeCPU9gacVtYliJqOhD+zhrEqK4LfdpmlUZqI= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| golang.org/x/time | v0.16.0 | h1:vMb6ptszcQMkcwiRTAuNNU50gom6++Q/6gY2hDM6VDE= | BSD-3-Clause | LICENSE: 911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad |
+| google.golang.org/api | v0.298.0 | h1:YW18RkHBMZBA1ergX0m4biagzgbiPTb2uTsRsDPWNRY= | BSD-3-Clause | LICENSE: 110244b02140866ee37d17fa7449436a377ec3b85a481fbb208f4c87964382de |
+| google.golang.org/genproto/googleapis/api | v0.0.0-20260921155816-b14227669459 | h1:GS9OIt/j7c8bvBjYNgnKQysVfmV7e4jM0H8ZK95G4t8= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| google.golang.org/genproto/googleapis/rpc | v0.0.0-20260921155816-b14227669459 | h1:b0xCahf3FK2m2Cv0p4vTozGPWncCvLfwV86UNg8xWU8= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| google.golang.org/grpc | v1.83.2 | h1:EManeRomTObA0BU7I8vXgg/78uE5MJ9M8B39EX2WscU= | Apache-2.0 | LICENSE: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 |
+| google.golang.org/protobuf | v1.36.12 | h1:pJOKDDOyeXErUroCihFAd5LQuwXBSpVnKGrj5o/fwxc= | BSD-3-Clause | LICENSE: 4835612df0098ca95f8e7d9e3bffcb02358d435dbb38057c844c99d7f725eb20 |
+| gopkg.in/yaml.v3 | v3.0.1 | h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA= | Apache-2.0 | LICENSE: d18f6323b71b0b768bb5e9616e36da390fbd39369a81807cca352de4e4e6aa0b |
