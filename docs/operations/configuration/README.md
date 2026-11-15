@@ -55,3 +55,8 @@ Les settings explicitement définis/importés, variables consommées et paramèt
 recensés. Les défauts génériques des bibliothèques sans usage propre au dépôt, les champs métier et
 les arguments standards complets de npm/Git/Django ne sont pas des paramètres d'installation du produit.
 Les héritages de sécurité et options SQLite pertinents sont toutefois explicités pour éviter les angles morts.
+
+Le [contrat unique MEP-054 v1](unique-contract.md) définit désormais le schéma, la précédence,
+les références privées et les correspondances destinées à MEP-021, sans chargement applicatif.
+Ses [exemples fictifs](unique-examples.md) et [contrôles reproductibles](unique-validation.md)
+complètent cet inventaire historique ; aucune valeur réelle de site n'est requise.
