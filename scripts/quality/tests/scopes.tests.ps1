@@ -57,7 +57,8 @@ try {
 
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
     $documentary = @('npm run check:lines', 'node scripts/quality/evidence-assets.mjs')
-    $repository = $documentary + @('node --test scripts/legal/npm-notices.test.mjs',
+    $repository = $documentary + @('python -m unittest discover -s scripts/distribution -p test_python_wheelhouse.py -v',
+        'node --test scripts/legal/npm-notices.test.mjs',
         'node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs',
         'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs scripts/quality/tests/evidence-regression.test.mjs scripts/quality/tests/runtime-inputs.test.mjs scripts/quality/tests/installed-cache.test.mjs',
         'node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs scripts/quality/tests/proportionality*.test.mjs')
@@ -77,6 +78,8 @@ try {
     $env:SCOPE_FAILURE = 'ruff check'
     Assert-Scope 'quality.ps1' 'backend-static' $backend[0..1] 0 'quick'
     $env:SCOPE_FAILURE = 'npm-notices.test'
+    Assert-Scope 'quality.ps1' 'repository' $repository 1
+    $env:SCOPE_FAILURE = 'test_python_wheelhouse'
     Assert-Scope 'quality.ps1' 'repository' $repository 1
     $env:SCOPE_FAILURE = 'run build'
     Assert-Scope 'quality.ps1' 'frontend' ($frontend + @('suite frontend')) 1

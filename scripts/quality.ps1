@@ -87,6 +87,10 @@ if ($Scope -in @('all', 'repository', 'documentation')) {
     Invoke-PowerShellCheck 'Preparation dans le document proprietaire' 'scripts\quality\check-documentation.ps1'
     Invoke-PowerShellCheck 'Workflow documentaire des agents' 'scripts\quality\check-agent-workflow.ps1'
     if ($Mode -eq 'full' -and $Scope -ne 'documentation') {
+        Invoke-QualityStep 'Wheelhouse Python et vrais refus hors ligne' {
+            $python = Get-PythonExecutable
+            & $python -m unittest discover -s scripts/distribution -p test_python_wheelhouse.py -v
+        }
         Invoke-PowerShellCheck 'Tests du socle qualite' 'scripts\quality\tests\run-tests.ps1'
         Invoke-PowerShellCheck 'Tests des scopes qualite' 'scripts\quality\tests\scopes.tests.ps1'
         Invoke-PowerShellCheck 'Tests du bootstrap local' 'scripts\bootstrap\tests\run-tests.ps1'

@@ -12,7 +12,7 @@ Les roues ont été téléchargées uniquement comme pièces de contrôle ; aucu
 
 | Composant | Version | Requires-Python | Licence établie | Dépendances actives |
 | --- | --- | --- | --- | --- |
-| asgiref | 3.13.0 | >=3.11 | MIT | aucune |
+| asgiref | 3.13.0 | >=3.11 | BSD-3-Clause | aucune |
 | attrs | 26.1.0 | >=3.9 | MIT | aucune |
 | Django | 5.2.19 | >=3.10 | BSD-3-Clause | asgiref>=3.8.1, sqlparse>=0.3.1, tzdata; sys_platform == "win32" |
 | djangorestframework | 3.16.1 | >=3.9 | BSD-3-Clause | django>=4.2 |
@@ -29,6 +29,9 @@ Les roues ont été téléchargées uniquement comme pièces de contrôle ; aucu
 | waitress | 3.0.2 | >=3.9.0 | ZPL-2.1 | aucune |
 
 ## Verrou extractible destiné à MEP-059
+
+Correction MEP-059 : la licence asgiref 3.13.0 est BSD-3-Clause selon son METADATA et son LICENSE
+original déjà haché dans python-notices.md ; l’ancienne mention MIT était erronée. Aucun artefact ni hash ne change.
 
 Copier ce bloc dans un fichier de travail ; conserver les URLs et noms des wheels de la table suivante.
 Le mode `--require-hashes --only-binary=:all:` et ces quinze pins interdisent une nouvelle résolution flottante.
