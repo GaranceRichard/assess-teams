@@ -37,7 +37,7 @@ def test_real_startup_refuses_invalid_or_unauthorized_policy(mode, configuration
         production_environment(DJANGO_SETTINGS_MODULE=f"config.settings_{mode}", **configuration)
     )
     assert result.returncode != 0
-    assert diagnostic in result.stderr
+    assert ("structure invalide" if mode == "production" else diagnostic) in result.stderr
     assert "private-invalid-input" not in result.stderr + result.stdout
 
 

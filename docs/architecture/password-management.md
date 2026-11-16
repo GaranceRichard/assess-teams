@@ -122,7 +122,8 @@ En développement, `dev:backend` lance le worker et l’arrête avec le serveur.
 Les emails Django sont écrits dans `backend/.mail/`, ignoré par Git, sans contenu dans le terminal.
 Ce dossier contient des liens privés ; supprimer les fichiers locaux après usage et ne pas les publier.
 
-En production, configurer `APP_BASE_URL` avec une URL publique HTTPS explicite, sans identifiants,
+En production, configurer `http.origin` du [fichier unique](../operations/configuration/unique-loading.md)
+avec une URL publique HTTPS explicite, sans identifiants,
 query ni fragment. Le lien n’utilise jamais Host ni les headers proxy de la requête.
 Configurer SMTP : `EMAIL_HOST`, `EMAIL_PORT` (587), `EMAIL_USE_TLS` (true),
 `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `DEFAULT_FROM_EMAIL` ; timeout réseau de dix secondes.

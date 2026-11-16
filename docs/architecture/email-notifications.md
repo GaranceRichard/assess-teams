@@ -77,8 +77,9 @@ la déduplication. Les fichiers de courriel de développement restent privés et
 
 Appliquer `identities.0008` et `notifications.0001/0002` avec les mêmes settings et la même base que l’API.
 Aucun broker, fournisseur de messagerie ou service externe supplémentaire n’est requis.
-Le relais SMTP interne se configure avec `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`,
-`EMAIL_USE_SSL`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` et `DEFAULT_FROM_EMAIL`.
+Le relais SMTP interne se configure dans `smtp.*` et `secrets.smtp_credential_file` du
+[fichier unique MEP-021](../operations/configuration/unique-loading.md), commun à l'API et aux workers.
+Les noms `EMAIL_*` et `DEFAULT_FROM_EMAIL` restent les settings internes, sans surcharge par environnement.
 TLS explicite et SSL implicite sont exclusifs ; SMTP interne sans authentification accepte des credentials vides.
 Les [contrôles MEP-009](../operations/configuration/startup-security.md) valident ces paramètres au
 démarrage : expéditeur explicite hors développement, credential externe fort et TLS obligatoire

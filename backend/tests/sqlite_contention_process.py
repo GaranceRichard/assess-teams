@@ -7,10 +7,20 @@ from unittest.mock import patch
 
 
 def configure(path):
+    import os
+
     import django
     from django.conf import settings
 
-    settings.DATABASES["default"]["NAME"] = path
+    from tests.installation_helpers import provision_database
+
+    if os.environ.get("DJANGO_SETTINGS_MODULE") in {
+        "config.settings_production",
+        "config.settings",
+    }:
+        provision_database(os.environ["ASSESS_CONFIG_FILE"], path)
+    else:
+        settings.DATABASES["default"]["NAME"] = path
     settings.EMAIL_DELIVER_ON_COMMIT = False
     django.setup()
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"

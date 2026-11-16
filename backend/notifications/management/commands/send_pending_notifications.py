@@ -1,5 +1,6 @@
 import time
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import OperationalError, close_old_connections
 
@@ -26,4 +27,8 @@ class Command(BaseCommand):
                 self.stdout.write(f"Notifications : {counts}")
             if not options["watch"]:
                 return
-            time.sleep(5)
+            time.sleep(
+                settings.INSTALLATION["services"]["delivery_seconds"]
+                if settings.ENVIRONMENT == "production"
+                else 5
+            )

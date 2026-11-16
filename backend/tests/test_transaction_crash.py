@@ -13,7 +13,11 @@ SCRIPT = """
 import os
 import django
 from django.conf import settings
-settings.DATABASES['default']['NAME'] = os.environ['TRANSACTION_TEST_DB']
+from tests.installation_helpers import provision_database
+if os.environ['DJANGO_SETTINGS_MODULE'] == 'config.settings_production':
+    provision_database(os.environ['ASSESS_CONFIG_FILE'], os.environ['TRANSACTION_TEST_DB'])
+else:
+    settings.DATABASES['default']['NAME'] = os.environ['TRANSACTION_TEST_DB']
 django.setup()
 from django.core.management import call_command
 from unittest.mock import patch
@@ -75,9 +79,10 @@ def test_abrupt_process_exit_recovers_sqlite_without_partial_business_data(envir
             [sys.executable, "-c", SCRIPT],
             cwd=backend,
             env={
-                **production_environment(),
+                **production_environment(
+                    APP_BASE_URL=f"{'https' if environment == 'production' else 'http'}://testserver"
+                ),
                 "DJANGO_SETTINGS_MODULE": f"config.settings_{environment}",
-                "APP_BASE_URL": f"{'https' if environment == 'production' else 'http'}://testserver",
                 "TRANSACTION_TEST_DB": str(database),
             },
             capture_output=True,

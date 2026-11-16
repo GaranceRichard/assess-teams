@@ -1,15 +1,9 @@
-import os
-
-from config.email_security import production_email_settings
-from config.http_security import production_http_settings
-from config.secret_security import require_secret
+from config.installation import load_installation
 from config.settings_base import *  # noqa: F403
 
 ENVIRONMENT = "production"
 DEBUG = False
-SECRET_KEY = require_secret(os.environ.get("DJANGO_SECRET_KEY"), "DJANGO_SECRET_KEY")
-HTTP_SECURITY = production_http_settings(os.environ)
-globals().update(HTTP_SECURITY)
+globals().update(load_installation())
 MIDDLEWARE = [
     MIDDLEWARE[0],  # noqa: F405 - retain HTTP logging around transport refusals.
     "config.http_middleware.HttpSecurityMiddleware",
@@ -24,7 +18,7 @@ SPECTACULAR_SETTINGS = {
         "validatorUrl": None,
         "queryConfigEnabled": False,
     },
-    "SERVERS": [{"url": HTTP_SECURITY["FRONTEND_URL"]}],
+    "SERVERS": [{"url": FRONTEND_URL}],  # noqa: F405
     "DESCRIPTION": (
         "Contrat HTTP du backend Assess teams. Production : HTTPS obligatoire ; "
         "400 pour transport, hôte ou proxy non fiable ; 301 pour accès HTTP sûr ; "
@@ -32,6 +26,5 @@ SPECTACULAR_SETTINGS = {
     ),
 }
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-globals().update(production_email_settings(os.environ))
 EMAIL_TIMEOUT = 10
 EMAIL_DELIVER_ON_COMMIT = False

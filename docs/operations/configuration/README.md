@@ -60,3 +60,7 @@ Le [contrat unique MEP-054 v1](unique-contract.md) définit désormais le schém
 les références privées et les correspondances destinées à MEP-021, sans chargement applicatif.
 Ses [exemples fictifs](unique-examples.md) et [contrôles reproductibles](unique-validation.md)
 complètent cet inventaire historique ; aucune valeur réelle de site n'est requise.
+
+Le [chargement effectif MEP-021](unique-loading.md) applique ce contrat en production aux API,
+workers et commandes Django ; le sélecteur obligatoire remplace les variables historiques.
+Les preuves MEP-036/054 demeurent conservées dans leur périmètre initial.

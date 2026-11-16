@@ -2,6 +2,10 @@
 
 ## Frontière de production
 
+Avec [MEP-021](../operations/configuration/unique-loading.md), ces noms sont les entrées internes
+des validateurs ; la production les reçoit du fichier unique (`http.*`), sans injection des
+variables historiques. Les listes du JSON sont des tableaux d'entrées exactes.
+
 `config.settings_production` exige une `APP_BASE_URL` HTTPS exacte, sans credentials,
 chemin applicatif, query ni fragment. L'application est publiée à la racine de cette origine ;
 React et `/api/` sont servis sur la même origine par le proxy. Les invitations, notifications et
@@ -106,7 +110,7 @@ Les suites `test_http_security_configuration.py`, `test_http_security_transport.
 hôtes/origines, cache, cookies, session complète et vrais refus sans changement de préférence.
 Elles complètent les tests existants de mutations métier et les parcours Playwright en HTTP local.
 
-Exécuter `manage.py check --deploy` avec les variables de production avant ouverture du service.
+Exécuter `manage.py check --deploy` avec `ASSESS_CONFIG_FILE` avant ouverture du service.
 Django émet volontairement `security.W005` et `security.W021` pour les choix de sous-domaines
 et de preload décrits ci-dessus ; le test exige qu'aucun autre problème ne soit présent.
 Vérifier depuis le frontal : absence de boucle, cookie `Secure`, refus CSRF et header proxy client

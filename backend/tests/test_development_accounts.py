@@ -114,7 +114,6 @@ def test_bootstrap_is_blocked_in_production() -> None:
 
 def test_production_settings_do_not_load_development_mechanism(monkeypatch) -> None:
     configure_production(monkeypatch)
-    monkeypatch.setenv("APP_BASE_URL", "https://assess-teams.example")
     production = importlib.import_module("config.settings_production")
 
     assert production.ENVIRONMENT == "production"
@@ -126,7 +125,6 @@ def test_manage_py_defaults_to_production_without_seed_command() -> None:
     backend = Path(__file__).resolve().parents[1]
     environment = production_environment()
     environment.pop("DJANGO_SETTINGS_MODULE", None)
-    environment["APP_BASE_URL"] = "https://assess-teams.example"
 
     environment_result = subprocess.run(
         [

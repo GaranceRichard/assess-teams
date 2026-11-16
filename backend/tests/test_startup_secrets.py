@@ -1,4 +1,6 @@
+import json
 import secrets
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -62,16 +64,18 @@ def test_random_external_key_is_accepted():
 @pytest.mark.parametrize("missing", [True, False], ids=["absent", "weak"])
 def test_real_process_refuses_missing_or_weak_key_without_leaking(missing):
     environment = production_environment()
+    source = Path(environment["ASSESS_CONFIG_FILE"])
+    document = json.loads(source.read_text("utf-8"))
+    secret_file = source.parent / document["secrets"]["django_key_file"]
     if missing:
-        environment.pop("DJANGO_SECRET_KEY")
+        secret_file.unlink()
     else:
-        environment["DJANGO_SECRET_KEY"] = "development-" + secrets.token_urlsafe(40)
+        secret_file.write_text("development-" + secrets.token_urlsafe(40), encoding="utf-8")
     result = startup(environment)
     assert result.returncode != 0
     assert "DJANGO_SECRET_KEY" in result.stderr
-    assert (
-        environment.get("DJANGO_SECRET_KEY", "not-in-output") not in result.stdout + result.stderr
-    )
+    if not missing:
+        assert secret_file.read_text("utf-8") not in result.stdout + result.stderr
 
 
 @pytest.mark.parametrize("entry", ["django.setup", "wsgi", "asgi", "alias", "worker"])
@@ -86,21 +90,36 @@ def test_real_entrypoints_validate_external_configuration(entry, valid):
         "execute_from_command_line(['manage.py', 'send_pending_notifications', '--help'])",
     }[entry]
     environment = production_environment()
+    source = Path(environment["ASSESS_CONFIG_FILE"])
+    document = json.loads(source.read_text("utf-8"))
+    secret_file = source.parent / document["secrets"]["django_key_file"]
     if entry in {"wsgi", "asgi"}:
         environment.pop("DJANGO_SETTINGS_MODULE")
     elif entry == "alias":
         environment["DJANGO_SETTINGS_MODULE"] = "config.settings"
     if not valid:
-        environment["DJANGO_SECRET_KEY"] = "development-" + secrets.token_urlsafe(40)
+        secret_file.write_text("development-" + secrets.token_urlsafe(40), encoding="utf-8")
     result = startup(environment, code)
     assert (result.returncode == 0) is valid, "Unexpected startup outcome (output withheld)."
     if not valid:
         assert "DJANGO_SECRET_KEY" in result.stderr
-    assert environment["DJANGO_SECRET_KEY"] not in result.stdout + result.stderr
+    assert secret_file.read_text("utf-8") not in result.stdout + result.stderr
 
 
 def test_development_process_starts_without_any_production_inputs():
     environment = production_environment(DJANGO_SETTINGS_MODULE="config.settings_development")
-    environment.pop("DJANGO_SECRET_KEY")
     environment["APP_BASE_URL"] = "http://127.0.0.1:5173"
     assert startup(environment).returncode == 0
+
+
+def test_explicit_development_option_is_applied_before_production_validation():
+    environment = production_environment(DJANGO_SETTINGS_MODULE="config.settings_development")
+    environment["DJANGO_SETTINGS_MODULE"] = "config.settings_production"
+    code = (
+        "import sys, runpy; sys.argv = ['manage.py', 'shell', "
+        "'--settings=config.settings_development', '-c', "
+        "\"from django.conf import settings; assert settings.ENVIRONMENT == 'development'\"]; "
+        "runpy.run_path('manage.py', run_name='__main__')"
+    )
+    result = startup(environment, code)
+    assert result.returncode == 0, result.stderr

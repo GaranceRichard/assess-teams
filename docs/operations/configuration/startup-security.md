@@ -3,7 +3,9 @@
 Contrat courant du 2026-10-15, fondé sur l'[inventaire MEP-036](README.md), notamment R01–R03/R05–R06.
 [Preuves et DoD](startup-validation.md) ; [fiche canonique](../../backlog/source/mess/f01.md).
 SQLite, le transport HTTP MEP-002 et les workers existants sont conservés.
-Ce contrôle n'ajoute ni chargeur `.env`, ni contrat unique F10, ni dépendance d'exploitation.
+Depuis [MEP-021](unique-loading.md), les mêmes gardes consomment le fichier unique F10 en production.
+Les noms historiques ci-dessous désignent les entrées internes des validateurs ; leur présence
+dans l'environnement est refusée avec le fichier. Aucun chargeur `.env` n'est ajouté.
 
 ## Sélection et refus
 
@@ -53,8 +55,8 @@ ni disponibilité SMTP, ni certificats du frontal ; ces preuves relèvent de la 
    puis la remettre par un canal approuvé à l'exploitant. Ne jamais la coller dans ce dépôt,
    un ticket, un exemple, un test, un argument de commande ou une sortie console.
 2. Conserver clé et credential SMTP hors des sources **et du package distribué**, dans le
-   stockage privé du service/de l'OS. Injecter leurs variables dans le processus de l'API
-   et des workers. Django ne lit pas de fichier `.env` automatiquement.
+   stockage privé du service/de l'OS. Référencer leurs fichiers dans `secrets.*` du fichier commun
+   sélectionné par `ASSESS_CONFIG_FILE` pour l'API et les workers, sans variable secrète concurrente.
 3. Restreindre lecture/écriture au compte du service et aux administrateurs habilités :
    ACL Windows sans groupes Users/Everyone ; sous Unix fichier 0600 et répertoire 0700.
    Appliquer la même protection aux sauvegardes, à SQLite et aux fichiers mail privés.
@@ -69,7 +71,7 @@ ni disponibilité SMTP, ni certificats du frontal ; ces preuves relèvent de la 
 
 1. Inventorier les consommateurs (API, ASGI/WSGI, workers, ordonnanceur) et planifier une
    interruption coordonnée ; préparer un nouveau secret aléatoire dans le stockage privé.
-2. Arrêter les consommateurs, remplacer `DJANGO_SECRET_KEY` dans toutes leurs injections,
+2. Arrêter les consommateurs, remplacer le fichier référencé par `secrets.django_key_file`,
    puis les redémarrer sur la même clé. Aucun `SECRET_KEY_FALLBACKS` n'est activé : l'ancienne
    clé est révoquée immédiatement. Ne pas conserver une clé compromise pour faciliter un retour.
 3. Prévoir la reconnexion des utilisateurs : les sessions et liens signés d'invitation/
@@ -78,7 +80,7 @@ ni disponibilité SMTP, ni certificats du frontal ; ces preuves relèvent de la 
 4. Pour SMTP, créer/remplacer le credential côté relais et dans le stockage externe,
    redémarrer les deux workers, vérifier une remise contrôlée, puis révoquer l'ancien credential.
    En cas de compromission, révoquer sans attendre et accepter la mise en attente des courriels.
-5. Exécuter les contrôles de démarrage et `manage.py check --deploy` avec l'injection privée,
+5. Exécuter les contrôles de démarrage et `manage.py check --deploy` avec le sélecteur commun,
    puis vérifier HTTPS/session et remise SMTP sur l'instance cible. Ne pas joindre de valeurs
    aux preuves ; consigner date, responsable, référence de version et succès/refus seulement.
 6. Supprimer les anciennes copies selon la politique de rétention des secrets et sauvegardes.

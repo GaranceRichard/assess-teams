@@ -11,7 +11,11 @@ SCRIPT = """
 import json, os, sqlite3, subprocess, sys
 import django
 from django.conf import settings
-settings.DATABASES['default']['NAME'] = os.environ['SQLITE_PROBE_DB']
+from tests.installation_helpers import provision_database
+if os.environ['DJANGO_SETTINGS_MODULE'] == 'config.settings_production':
+    provision_database(os.environ['ASSESS_CONFIG_FILE'], os.environ['SQLITE_PROBE_DB'])
+else:
+    settings.DATABASES['default']['NAME'] = os.environ['SQLITE_PROBE_DB']
 django.setup()
 from django.db import connection, transaction
 from identities.models import User
@@ -72,9 +76,10 @@ def test_real_django_connections_and_ineffective_row_lock(tmp_path, environment)
         [sys.executable, "-c", SCRIPT],
         cwd=Path(__file__).resolve().parents[1],
         env={
-            **production_environment(),
+            **production_environment(
+                APP_BASE_URL=f"{'https' if environment == 'production' else 'http'}://testserver"
+            ),
             "DJANGO_SETTINGS_MODULE": f"config.settings_{environment}",
-            "APP_BASE_URL": f"{'https' if environment == 'production' else 'http'}://testserver",
             "SQLITE_PROBE_DB": str(tmp_path / "django.sqlite3"),
         },
         capture_output=True,

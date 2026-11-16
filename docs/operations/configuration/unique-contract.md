@@ -2,7 +2,7 @@
 
 [Source canonique](../../backlog/source/mess/f10.md) · [exemples](unique-examples.md) ·
 [preuves reproductibles et revue DoD](unique-validation.md).
-Contrat d'installation uniquement ; aucun chargement livré avant MEP-021.
+Contrat d'installation acquis ; chargement effectif livré par [MEP-021](unique-loading.md).
 
 ## Préparation du changement — MEP-054
 
@@ -32,9 +32,9 @@ elles ne constituent pas une seconde source de paramètres. Leur injection inter
 validateurs existants devra rester privée. Les paramètres de commande d'une opération
 (simulation, bornage, décision de purge) restent des arguments de cette opération.
 
-Aujourd'hui les variables historiques restent consommées comme avant : ce contrat ne prétend
-pas être déjà appliqué. MEP-021 doit adapter notamment les contrôles qui lisent `os.environ`,
-sans affaiblir MEP-009. Les modes développement/test et leurs scripts ne migrent pas implicitement.
+À la livraison documentaire MEP-054, les variables historiques restaient consommées comme avant.
+MEP-021 applique maintenant ce contrat en production, avec injection privée dans les contrôles
+MEP-009. Les modes développement/test et leurs scripts ne migrent pas implicitement.
 
 ## Schéma structurel versionné
 

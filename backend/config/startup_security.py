@@ -5,7 +5,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 from config.email_security import validate_email_settings
-from config.http_security import configured_list, production_http_settings, trusted_proxy_networks
+from config.http_security import production_http_settings, trusted_proxy_networks
 from config.secret_security import require_secret
 
 EMAIL_NAMES = (
@@ -46,21 +46,30 @@ def validate_production_settings(settings, environment=None):
         raise ImproperlyConfigured("ENVIRONMENT: production, development ou test explicite requis.")
     if settings.DEBUG is not False:
         raise ImproperlyConfigured("DEBUG: doit être désactivé en production.")
-    key = require_secret(environment.get("DJANGO_SECRET_KEY"), "DJANGO_SECRET_KEY")
+    from config.installation import load_installation
+
+    expected = load_installation(environment)
+    key = require_secret(expected["SECRET_KEY"], "DJANGO_SECRET_KEY")
     if settings.SECRET_KEY != key or settings.SECRET_KEY_FALLBACKS:
         raise ImproperlyConfigured(
             "SECRET_KEY: utiliser DJANGO_SECRET_KEY externe, sans fallback embarqué."
         )
     validate_http_settings(settings)
-    configured_list(environment, "LOGIN_TRUSTED_PROXIES")
     validate_proxy_consistency(settings.TRUSTED_PROXIES, settings.LOGIN_TRUSTED_PROXIES)
     validate_email_settings({name: getattr(settings, name) for name in EMAIL_NAMES})
-    if settings.EMAIL_HOST_PASSWORD != environment.get("EMAIL_HOST_PASSWORD", ""):
+    if settings.EMAIL_HOST_PASSWORD != expected["EMAIL_HOST_PASSWORD"]:
         raise ImproperlyConfigured("EMAIL_HOST_PASSWORD: fournir le secret externe au processus.")
     if settings.EMAIL_BACKEND != "django.core.mail.backends.smtp.EmailBackend":
         raise ImproperlyConfigured("EMAIL_BACKEND: backend SMTP requis en production.")
     if "development_data" in settings.INSTALLED_APPS:
         raise ImproperlyConfigured("INSTALLED_APPS: exclure development_data de la production.")
+    for name, value in expected.items():
+        if getattr(settings, name, None) != value:
+            raise ImproperlyConfigured(f"{name}: conserver la configuration unique validée.")
+    if settings.EMAIL_TIMEOUT != 10 or settings.EMAIL_DELIVER_ON_COMMIT is not False:
+        raise ImproperlyConfigured(
+            "EMAIL_TIMEOUT/EMAIL_DELIVER_ON_COMMIT: protections fixes requises."
+        )
 
 
 def validate_http_settings(settings):

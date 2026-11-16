@@ -85,6 +85,6 @@ def test_parse_errors_never_echo_values_or_exception_chains(name):
     environment = production_environment(**{name: marker})
     result = startup(environment)
     assert result.returncode != 0
-    assert name in result.stderr
+    assert ("structure invalide" if name == "EMAIL_PORT" else name) in result.stderr
     assert marker not in result.stdout + result.stderr
     assert "During handling" not in result.stderr

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Assess teams installation configuration v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "paths", "sqlite", "http", "smtp", "secrets", "services", "backups", "journals"],
+  "properties": {
+    "version": {"const": 1},
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["releases", "runtime", "data", "logs", "tmp", "backups", "frontend", "static"],
+      "properties": {
+        "releases": {"$ref": "#/$defs/path"},
+        "runtime": {"$ref": "#/$defs/path"},
+        "data": {"$ref": "#/$defs/path"},
+        "logs": {"$ref": "#/$defs/path"},
+        "tmp": {"$ref": "#/$defs/path"},
+        "backups": {"$ref": "#/$defs/path"},
+        "frontend": {"$ref": "#/$defs/path"},
+        "static": {"$ref": "#/$defs/path"}
+      }
+    },
+    "sqlite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {"file": {"$ref": "#/$defs/path"}}
+    },
+    "http": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "certificate_file", "private_key_file"],
+      "properties": {
+        "origin": {"type": "string", "minLength": 1},
+        "account_limit": {"type": "integer", "minimum": 1},
+        "origin_limit": {"type": "integer", "minimum": 1},
+        "limit_seconds": {"type": "integer", "minimum": 1},
+        "hosts": {"$ref": "#/$defs/list"},
+        "csrf_origins": {"$ref": "#/$defs/list"},
+        "proxies": {"$ref": "#/$defs/list"},
+        "login_proxies": {"$ref": "#/$defs/list"},
+        "certificate_file": {"$ref": "#/$defs/path"},
+        "private_key_file": {"$ref": "#/$defs/path"}
+      }
+    },
+    "smtp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["host", "port", "starttls", "ssl", "sender"],
+      "properties": {
+        "host": {"type": "string", "minLength": 1},
+        "port": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "starttls": {"type": "boolean"},
+        "ssl": {"type": "boolean"},
+        "sender": {"type": "string", "minLength": 1},
+        "user": {"type": "string"}
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["django_key_file"],
+      "properties": {
+        "django_key_file": {"$ref": "#/$defs/path"},
+        "smtp_credential_file": {"$ref": "#/$defs/path"}
+      }
+    },
+    "services": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["account", "api_host", "api_port", "delivery_seconds", "due_time", "timezone"],
+      "properties": {
+        "account": {"type": "string", "pattern": "\\S"},
+        "api_host": {"enum": ["127.0.0.1", "::1"]},
+        "api_port": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "delivery_seconds": {"type": "integer", "minimum": 1},
+        "due_time": {"type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"},
+        "timezone": {"type": "string", "minLength": 1}
+      }
+    },
+    "backups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interval_hours", "retention_days"],
+      "properties": {
+        "interval_hours": {"$ref": "#/$defs/optionalDuration"},
+        "retention_days": {"$ref": "#/$defs/optionalDuration"}
+      }
+    },
+    "journals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activity", "technical"],
+      "properties": {
+        "activity": {"const": "keep"},
+        "technical": {"oneOf": [{"const": "keep"}, {"type": "integer", "minimum": 1, "maximum": 999999999}]}
+      }
+    }
+  },
+  "$defs": {
+    "path": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "list": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "optionalDuration": {"type": ["integer", "null"], "minimum": 1}
+  }
+}

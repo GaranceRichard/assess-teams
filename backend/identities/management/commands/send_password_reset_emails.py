@@ -1,5 +1,6 @@
 import time
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import OperationalError, close_old_connections
 
@@ -12,7 +13,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--watch", action="store_true", help="Traiter la file toutes les 5 secondes."
+            "--watch", action="store_true", help="Traiter la file selon la fréquence configurée."
         )
 
     def handle(self, *args, **options):
@@ -27,4 +28,8 @@ class Command(BaseCommand):
             if not options["watch"]:
                 self.stdout.write(f"Récupération : {counts}")
                 return
-            time.sleep(5)
+            time.sleep(
+                settings.INSTALLATION["services"]["delivery_seconds"]
+                if settings.ENVIRONMENT == "production"
+                else 5
+            )

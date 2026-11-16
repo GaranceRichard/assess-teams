@@ -55,7 +55,9 @@ Les throttles DRF standards utilisent des opérations de cache non atomiques :
 
 ## Installation on-premise et proxy
 
-Variables d'environnement communes au développement et à la production :
+Variables de développement et noms internes des validateurs ci-dessous. En production,
+[MEP-021](../operations/configuration/unique-loading.md) charge leurs champs `http.*` du fichier
+unique ; fournir ces variables en concurrence est refusé.
 
 | Variable | Défaut | Effet |
 | --- | --- | --- |

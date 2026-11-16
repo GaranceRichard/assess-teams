@@ -27,9 +27,9 @@ Le premier Superadmin technique est créé séparément, depuis `backend`, aprè
 Sous macOS/Linux, utiliser `.venv/bin/python`. Les comptes fictifs ci-dessous ne créent jamais ce Superadmin.
 La [validation selon l’impact](quality/validation-costs.md) porte commandes qualité, hooks et publication.
 
-Les [limites de connexion et proxies fiables](architecture/login-security.md) utilisent les mêmes variables
+Les [limites de connexion et proxies fiables](architecture/login-security.md) utilisent les variables
 `LOGIN_ACCOUNT_LIMIT`, `LOGIN_ORIGIN_LIMIT`, `LOGIN_LIMIT_SECONDS` et `LOGIN_TRUSTED_PROXIES`
-dans les deux environnements ; les en-têtes transférés sont ignorés sans proxy explicitement fiable.
+en développement et leurs champs du fichier unique en production, sans confiance proxy implicite.
 
 ## Sélection explicite des réglages
 
@@ -42,11 +42,11 @@ Django utilise deux modules de réglages sans détection implicite :
 
 `manage.py` utilise par défaut `config.settings`, alias vers la production ; ASGI et WSGI sélectionnent
 directement `config.settings_production`. Une sélection externe `DJANGO_SETTINGS_MODULE` est respectée.
-Une exécution de production doit fournir `DJANGO_SECRET_KEY` aléatoire, une `APP_BASE_URL` HTTPS
-exacte et `DEFAULT_FROM_EMAIL` explicite hors développement ; [refus et rotation MEP-009](operations/configuration/startup-security.md).
-Les listes `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS` et `DJANGO_TRUSTED_PROXIES`
-restreignent hôtes, origines et pairs proxy ; leurs défauts et refus sont décrits dans la
-[sécurisation HTTP](architecture/http-security.md). `DEFAULT_FROM_EMAIL` est une adresse d'expéditeur.
+La production exige le chemin absolu `ASSESS_CONFIG_FILE`, identique pour tous les consommateurs :
+[chargement MEP-021 et références privées](operations/configuration/unique-loading.md).
+Le fichier fournit origine HTTPS, hôtes, proxys, SMTP et références de secrets ; les variables
+historiques concurrentes sont refusées. Les [protections HTTP](architecture/http-security.md)
+et les [gardes/rotation MEP-009](operations/configuration/startup-security.md) restent appliquées.
 Une configuration absente ou invalide ne bascule jamais vers le développement.
 
 En développement, les emails sont écrits dans `backend/.mail/`, ignoré par Git, sans contenu dans

@@ -6,7 +6,9 @@ Il prépare les entrées du contrat unique MEP-054/021 et le consommateur MEP-02
 
 ## Paramètres et périmètres
 
-Les variables du processus sont chargées dans tous les modes Django, sans fichier `.env` implicite.
+En développement/test, les variables du processus restent chargées sans fichier `.env` implicite.
+En production, [MEP-021](unique-loading.md) fournit les champs `journals.*` du fichier unique ;
+les variables historiques concurrentes sont refusées, sans modifier les règles ci-dessous.
 `config.journal_retention.journal_retention_settings(environment)` retourne le contrat normalisé
 `JOURNAL_RETENTION = {"activity": None, "technical": None | entier}`.
 `None` signifie **sans échéance configurée**, jamais zéro jour ni autorisation de destruction.
@@ -41,7 +43,7 @@ Cette validation ne lit ni ne modifie SQLite. Une erreur arrête le démarrage, 
 | --- | --- |
 | Admin | Consulte les journaux de son organisation unique selon les permissions existantes ; remonte ses besoins de preuve ; aucun accès applicatif d'écriture à cette configuration |
 | Superadmin | Consulte les journaux globaux et organisationnels ; coordonne les besoins ; son rôle produit seul n'accorde ni accès OS ni droit de destruction des preuves |
-| Exploitant habilité de l'instance | Injecte les variables approuvées dans API et workers, vérifie le démarrage et redémarre les consommateurs ; protège configuration et SQLite par les ACL du service |
+| Exploitant habilité de l'instance | Fournit la politique approuvée dans le fichier commun aux API et workers, vérifie le démarrage et redémarre les consommateurs ; protège configuration et SQLite par les ACL du service |
 | MESS / responsables métier et de conformité à désigner | Arbitrent finalités, durées et droit de destruction ; une intervention technique ou un rôle Admin ne vaut pas décision métier |
 
 La configuration est un paramètre d'installation de sensibilité C, sans secret. Elle n'a aucun endpoint,

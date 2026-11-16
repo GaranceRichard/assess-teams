@@ -70,7 +70,7 @@ def test_effective_production_overrides_are_refused_before_serving(mutation, dia
     [
         ({"DJANGO_TRUSTED_PROXIES": "10.0.0.1"}, "LOGIN_TRUSTED_PROXIES"),
         ({"LOGIN_TRUSTED_PROXIES": "::/0"}, "LOGIN_TRUSTED_PROXIES"),
-        ({"LOGIN_TRUSTED_PROXIES": "10.0.0.1,"}, "LOGIN_TRUSTED_PROXIES"),
+        ({"LOGIN_TRUSTED_PROXIES": "10.0.0.1,"}, "structure invalide"),
         ({"DJANGO_CSRF_TRUSTED_ORIGINS": "https://other.example"}, "CSRF"),
     ],
 )
