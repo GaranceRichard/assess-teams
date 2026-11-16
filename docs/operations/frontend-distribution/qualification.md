@@ -69,3 +69,18 @@ Le contenu satisfait les critères et vrais refus du PBI. La DoD de livraison ex
 le pre-push obligatoire, le push direct par `npm run publish`, la CI verte du SHA exact et le fast-forward propre du principal.
 Le rapport de publication fournit ces preuves finales sans commit circulaire de son propre SHA.
 La clôture fonctionnelle sera proposée uniquement avec ces preuves ; le statut canonique attend l'approbation utilisateur.
+
+## Campagnes locales complètes du 2026-11-16
+
+| Contrôle | Résultat vérifié |
+| --- | --- |
+| Dépôt et outillage | Lignes, secrets, préparation, intégrité, bootstrap, scopes, licences et matrice conformes |
+| Backend | 1 607 tests ; couverture 97,53 % ; lint, format, migrations et contrats OpenAPI conformes |
+| Frontend | 120 fichiers, 499 tests ; statements 94,97 %, branches 93,55 %, fonctions 96,47 %, lignes 95,81 % |
+| Build frontend | Typage et build normaux conformes ; avertissement de taille de chunk informatif |
+| E2E complet | 155 parcours applicatifs puis dix parcours de démo réussis, sans exclusion |
+| Sous-artefact | Dix tests d'acceptation/refus ; 26 URL locales Chromium, aucune requête externe ni erreur JavaScript |
+
+La première tentative E2E n'a pas démarré son backend faute de droit d'installation des hooks partagés.
+Elle n'est pas une preuve de réussite ; la relance avec le bootstrap autorisé produit le verdict complet ci-dessus.
+Les preuves locales restent celles de leurs sélections et entrées ; le pre-push les réévalue, sans exception ni contournement.
