@@ -1,7 +1,7 @@
 # Backlog produit
 
 > **Suivi courant :** consulter la [synthèse du backlog](synthese.md), vue humaine complète de l’avancement.
-> **Prochain travail :** [MEP-054 — Contrat de configuration unique](source/mess/f10.md), prêt ; [dix prochains PBI, aptitudes et parallèles](planning/pre-mep.md). D01–D09 ne conditionnent plus le développement ; aucune qualification MESS réelle anticipée.
+> **Prochain travail :** [MEP-021 — Charger et valider la configuration unique](source/mess/f10.md), prêt ; [dix prochains PBI, aptitudes et parallèles](planning/pre-mep.md). D01–D09 ne conditionnent plus le développement ; aucune qualification MESS réelle anticipée.
 > **Préparation MESS :** [Epic → Feature → PBI](source/07-pre-mep.md), [livraison progressive](planning/pre-mep.md), [suivi des capacités](tracking/pre-mep-view.md) et [GO/NO-GO](tracking/mess-jalon.md).
 
 ## Direction et sources de référence

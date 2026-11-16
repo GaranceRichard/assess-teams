@@ -1,8 +1,8 @@
-﻿# MEP-054 — Vérification et revue de livraison
+# MEP-054 — Vérification et revue de livraison
 
 [Contrat](unique-contract.md) · [exemples](unique-examples.md) · [PBI](../../backlog/source/mess/f10.md).
 La vérification porte sur le contrat documentaire ; aucun chargement API/workers/scripts ajouté.
-Le statut canonique reste Ouvert ; clôture fonctionnelle proposée seulement après approbation explicite.
+À la livraison du 2026-11-15, le statut était Ouvert ; la clôture approuvée du 2026-11-16 est consignée ci-dessous.
 
 ## Reproduction du contrôle du contrat
 
@@ -158,3 +158,15 @@ Django 5.2.19 et jsonschema 4.26.0 ; ce contrôle documentaire ne qualifie pas R
 `npm.cmd run quality:targeted` : scope documentation, zéro échec ; lignes, scanner de secrets,
 cohérence, intégrité et workflow documentaire conformes. Relecture des quatre fichiers :
 uniquement des références fictives, aucun secret réel, aucune modification de statut canonique.
+
+## Clôture fonctionnelle approuvée — 2026-11-16
+
+Le responsable produit autorise explicitement la clôture dans le mandat du 2026-11-16, après correction
+MEP-022 et vérification finale. Critères/refus et DoD conformes sur les preuves existantes ci-dessus :
+schéma et exemple valide, 12 refus structurels, 7 sémantiques, précédence, chemins et références privées.
+Réalisation publiée : `9abde71ae465cee50828041e0773f49f8312c4cc` ;
+[CI indépendante réussie du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/43765318526).
+Aucune réserve incompatible avec la clôture du contrat ; aucun chargeur MEP-021 déclaré livré.
+Contrôles applicatifs, coverage, build/typecheck, migrations et E2E non applicables au présent suivi documentaire.
+Les contrôles documentaires, pre-push et CI du commit de clôture restent requis ; aucune recette MESS déduite.
+Statut/date faisant autorité : [registre E03](../../backlog/tracking/mess-e03.md), Réalisé le 2026-11-16.

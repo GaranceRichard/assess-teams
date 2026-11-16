@@ -2,7 +2,7 @@
 
 [Contrat](operations.md) · [fiche canonique](../backlog/source/mess/f11.md).
 Revue documentaire du 2026-11-15, initialement sur `9d8cc6f` puis confrontée à `9abde71` (MEP-054).
-Le statut canonique reste Ouvert / N/A ; aucune clôture n'est appliquée par ce lot.
+À la livraison du 2026-11-15, le statut était Ouvert / N/A ; la clôture du 2026-11-16 est consignée ci-dessous.
 Les parcours ci-dessous vérifient une **définition de procédures**, sans prétendre les exécuter sur cible.
 
 ## Critères d'acceptation et preuve de couverture
@@ -143,3 +143,18 @@ Vérification ciblée : l'ancienne phrase est refusée avant correction ; décis
 encore ouverte sont explicitement distinguées après correction, avec liens vers les deux sources.
 Aucun nouveau contrôle applicatif n'est requis ; gates documentaires et CI du SHA corrigé restent bloquants.
 Cette correction ne clôt ni MEP-022 ni ORG-004 ; les clôtures approuvées du mandat suivent après sa CI verte.
+
+## Clôture fonctionnelle approuvée — 2026-11-16
+
+Le responsable produit autorise explicitement la clôture dans le mandat du 2026-11-16. Critères/refus
+et DoD conformes sur les preuves ci-dessus : huit opérations, champs et branches d'échec, protocoles
+REP-REF-01/CHG-REF-01, refus destructifs, perte implicite et dépendance Internet ; aucun SLA supposé.
+Réalisation `bf001efd5a15a2caf47430ad3a72fcff0f3b05ea` et
+[CI exacte réussie](https://github.com/GaranceRichard/assess-teams/actions/runs/43766384218).
+Correction préalable ARB-ORG-005 : `493246ee69069e71fea3d3f4de70b4ccc291add5` ; [CI exacte réussie](https://github.com/GaranceRichard/assess-teams/actions/runs/43866124809).
+Régression documentaire vérifiée : ancienne phrase refusée, distinction corrigée conforme ; cinq documents,
+huit opérations et 52 liens locaux contrôlés. Aucun autre arbitrage associé dans les opérations à corriger.
+La décision du 2026-11-14 est acquise ; ORG-004 reste Ouvert/N/A, clôture fonctionnelle non autorisée ici.
+Aucune réserve incompatible avec la définition ; automatisation et qualification sur site restent aux consommateurs.
+Applicabilité DoD inchangée : contrôles documentaires seuls ; aucun nouveau test applicatif nécessaire.
+Statut/date faisant autorité : [registre E03](../backlog/tracking/mess-e03.md), Réalisé le 2026-11-16.

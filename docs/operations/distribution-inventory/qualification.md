@@ -100,3 +100,17 @@ Lignes (maximum du dossier : 164), scanner de secrets, structure, intégrité, p
 Revue complémentaire : PASS liens locaux, identité archive source/lock Swagger, 801 compléments du lock et export MEP-006 des six notices npm.
 Les évolutions documentaires MEP-022 présentes sur origin/main seront conservées par resynchronisation ;
 aucune entrée applicative ni pièce d’inventaire n’est modifiée par ce lot.
+
+## Clôture fonctionnelle approuvée — 2026-11-16
+
+Le responsable produit autorise explicitement la clôture dans le mandat du 2026-11-16. Critères/refus
+et DoD conformes sur les preuves existantes : nomenclature directe/transitive fermée, versions/ABI,
+provenance/empreintes/licences, séparation build/cible, cinq vrais refus et incompatibilités signalées.
+Réalisation publiée : `6aec11f95ba0255f9bf8643ce63a7959ccfb2d8f` ;
+[CI indépendante réussie du SHA exact](https://github.com/GaranceRichard/assess-teams/actions/runs/43767626367).
+I01–I03 restent intégralement applicables : runtime corrigé à identifier/vérifier avant packaging (MEP-059/024),
+précompilé Swagger refusé et assets à produire (MEP-058/024), hôte/intégration à vérifier lors de l'installation
+et des recettes (notamment MEP-025/032/068). Aucune incompatibilité déclarée résolue ni risque accepté.
+Ces limites ne bloquent pas la clôture de l'inventaire ; elles interdisent de déclarer son candidat distribuable.
+Applicabilité DoD inchangée : suivi documentaire seul, aucun build, wheelhouse ni qualification MESS acquis.
+Statut/date faisant autorité : [registre E03](../../backlog/tracking/mess-e03.md), Réalisé le 2026-11-16.

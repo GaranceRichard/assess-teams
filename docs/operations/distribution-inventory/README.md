@@ -50,4 +50,4 @@ les notices et les incompatibilités du runtime. Le téléchargement de pièces 
 Les deux PBI produiront leurs propres artefacts et preuves ; aucun de leurs critères n’est déclaré satisfait ici.
 La disponibilité d’un binaire Python corrigé et sa nouvelle empreinte restent une limite explicite avant packaging.
 
-Clôture fonctionnelle proposée seulement après publication et CI verte du SHA exact ; statut canonique inchangé.
+Clôture fonctionnelle approuvée le 2026-11-16 : [décision, preuves et réserves conservées](qualification.md#clôture-fonctionnelle-approuvée--2026-11-16).
