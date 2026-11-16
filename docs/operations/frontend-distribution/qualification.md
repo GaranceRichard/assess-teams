@@ -65,7 +65,7 @@ Les notices restent intégrales ; aucun secret, cache, binaire ni artefact local
 Modèles/migrations métier : non applicables, aucun modèle modifié ; le contrôle de migrations reste requis par le gate.
 Contrats utilisateur et permissions : inchangés, protégés par les campagnes exhaustives.
 
-Le contenu satisfait les critères et vrais refus du PBI. La DoD de livraison exige encore les gates exhaustifs,
+Le contenu satisfait les critères et vrais refus du PBI. La DoD de livraison exige les gates exhaustifs,
 le pre-push obligatoire, le push direct par `npm run publish`, la CI verte du SHA exact et le fast-forward propre du principal.
 Le rapport de publication fournit ces preuves finales sans commit circulaire de son propre SHA.
 La clôture fonctionnelle sera proposée uniquement avec ces preuves ; le statut canonique attend l'approbation utilisateur.

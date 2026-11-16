@@ -63,3 +63,21 @@ Les adaptateurs `/api/session/login/` et `/api/session/logout/` sont présents ;
 Les rapports, le manifeste et les preuves de navigateur accompagnent la remise locale hors du worktree nettoyé.
 Le rapport final de publication fournit le lien durable de cette remise, ses empreintes et le SHA exact de la CI verte.
 Cette archive frontend n'est pas le package autonome MEP-024 et ne contient ni runtime Python ni serveur Windows.
+
+## Candidat de remise qualifié
+
+SHA des sources et outils de préparation : `8ac7e0634ce54da37b71b2726c1abfd2409a6f35`.
+La documentation de résultats publiée ensuite ne change aucune de ces entrées, vérifiées à nouveau avant remise.
+Le sous-artefact contient 198 fichiers hachés, plus son manifeste : neuf frontend, onze Swagger/inventaire,
+175 textes/notices/attributions et trois rapports de compilation. Le ZIP contient exactement ces 199 entrées.
+Une relecture directe du ZIP a vérifié l'ensemble des hashes, indépendamment de la copie de travail.
+
+| Pièce de remise | SHA-256 |
+| --- | --- |
+| frontend-resources.zip, 1 238 892 octets | 79d9af7de03e5f1d087a6041058d019b1aedde0f5be40e0faa742c70e877be26 |
+| manifest.json, 110 256 octets | 6b45b11ef5145c2ae07535228b44b7ce7abd6c202c199ef1f96416c31c78ef5b |
+| Liste canonique des 198 fichiers (`payloadSha256`) | 09d4110fadb2d3c94080451b95782564344602b1e17903d59b4058165ca4031c |
+
+La remise est conservée hors checkout et worktree : `Assess-teams-artifacts/MEP-058/8ac7e0634ce5/`,
+avec l'arbre vérifié, le ZIP et les rapports d'audit/navigateur. Le lien physique exact est fourni à la livraison.
+Les preuves de gates/publication y sont ajoutées après leur exécution ; elles ne modifient pas le ZIP.
