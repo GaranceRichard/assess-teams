@@ -1,5 +1,7 @@
 import json
 import shutil
+import subprocess
+import sys
 import traceback
 from pathlib import Path
 
@@ -8,7 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from config.installation import load_installation
 from config.installation_paths import resolve_path
-from tests.installation_helpers import change_document, installation_file
+from tests.installation_helpers import change_document, installation_file, startup_audit
 
 pytestmark = [pytest.mark.functional, pytest.mark.contract]
 
@@ -103,3 +105,17 @@ def test_filesystem_resolution_failure_does_not_expose_the_private_path(tmp_path
     with pytest.raises(ImproperlyConfigured) as error:
         resolve_path(private_path, tmp_path)
     assert private_path not in "".join(traceback.format_exception(error.value))
+
+
+def test_application_exit_mutations_are_still_observed_by_the_startup_audit(tmp_path):
+    destination = tmp_path / "forbidden-application-effect"
+    code = startup_audit() + (
+        f"import os; atexit.register(os.mkdir, {str(destination)!r}); "
+        "raise RuntimeError('startup refused')"
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", code], capture_output=True, text=True, timeout=30
+    )
+    assert result.returncode != 0
+    assert "UNEXPECTED_EFFECT" in result.stderr
+    assert not destination.exists()

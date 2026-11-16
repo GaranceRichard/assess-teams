@@ -136,6 +136,23 @@ n'est pas utilisée comme preuve complète. Le plan impose repository/backend/fr
 le pré-push doit le réussir sur le candidat resynchronisé, puis la CI indépendante du SHA exact.
 Le rapport de publication fournit ces résultats et leur référence ; aucun gate n'est dispensé.
 
+## Ajustement préalable du harnais sous couverture — 2026-11-16
+
+Le pré-push révèle que coverage sauvegarde sa propre base SQLite dans un callback atexit,
+après le refus Django ; la sentinelle signalait cette collecte comme un effet applicatif.
+Le harnais déjà préparé (`backend/tests/installation_helpers.py`, `backend/tests/test_installation_processes.py`
+et `backend/tests/test_installation_paths.py`) gardera la sentinelle pendant le démarrage et les
+callbacks applicatifs enregistrés ensuite, puis la désactivera avant les callbacks de collecte
+préexistants. Vérification : 21 vrais refus sous couverture et contre-épreuve d'une mutation
+applicative à la sortie. Aucune couverture désactivée, aucun chemin SQLite applicatif exempté,
+aucune modification des validateurs ni des seuils de publication.
+
+Vérification du 2026-11-16 : **22 tests sous couverture réussis**, soit les 21 refus réels et
+la contre-épreuve à la sortie. La collecte de couverture reste active et les mutations
+applicatives restent interdites. Les quatre suites de configuration totalisent maintenant
+**150 cas permanents**. Les permissions des seuls caches jetables de ce worktree ont été
+réparées après mélange des comptes sandbox/utilisateur ; aucun fichier de production touché.
+
 ## Préparation de la résolution de resynchronisation — 2026-11-17
 
 MEP-058 publié ajoute les ressources Swagger locales aux settings de production. Le conflit

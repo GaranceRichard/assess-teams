@@ -7,7 +7,12 @@ from pathlib import Path
 import pytest
 
 from config.installation import LEGACY_NAMES
-from tests.installation_helpers import change_document, installation_file, private_file
+from tests.installation_helpers import (
+    change_document,
+    installation_file,
+    private_file,
+    startup_audit,
+)
 
 pytestmark = [pytest.mark.functional, pytest.mark.integration]
 BACKEND = Path(__file__).resolve().parents[1]
@@ -93,13 +98,7 @@ def test_invalid_configuration_refuses_every_entry_before_any_effect(tmp_path, e
         change_document(source, "smtp.host", None, remove=True)
     elif refusal == "invalid":
         change_document(source, "smtp.sender", marker)
-    code = """
-import sys
-def audit(event, arguments):
-    if event in {'sqlite3.connect', 'socket.connect', 'os.mkdir', 'os.remove', 'os.rename'}:
-        raise AssertionError('UNEXPECTED_EFFECT')
-sys.addaudithook(audit)
-"""
+    code = startup_audit()
     if entry in {"wsgi", "asgi"}:
         code += f"import config.{entry}"
     else:

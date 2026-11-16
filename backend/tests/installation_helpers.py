@@ -11,6 +11,22 @@ from tempfile import TemporaryDirectory
 DIRECTORIES = []
 
 
+def startup_audit():
+    # atexit is LIFO: later application callbacks remain guarded. The pre-existing
+    # coverage callback runs after this sentinel has finished observing startup.
+    return """
+import atexit, sys
+audit_active = [True]
+atexit.register(audit_active.clear)
+def audit(event, arguments):
+    if audit_active and event in {
+        'sqlite3.connect', 'socket.connect', 'os.mkdir', 'os.remove', 'os.rename'
+    }:
+        raise AssertionError('UNEXPECTED_EFFECT')
+sys.addaudithook(audit)
+"""
+
+
 def markdown_json(name):
     folder = Path(__file__).resolve().parents[2] / "docs/operations/configuration"
     text = (folder / name).read_text(encoding="utf-8-sig")
