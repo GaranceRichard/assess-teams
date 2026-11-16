@@ -13,6 +13,10 @@ Les [permissions API restrictives](api-permissions.md) imposent l'authentificati
 - schéma OpenAPI : `/api/schema/` ;
 - Swagger UI : `/api/docs/`.
 
+En production, Swagger charge ses fichiers depuis `/static/swagger-ui/` et utilise le schéma local,
+avec le validateur distant désactivé. Les [ressources MEP-058](../operations/frontend-distribution/README.md)
+doivent être exposées par le serveur cible ; aucun CDN n'est nécessaire. Le développement conserve son réglage existant.
+
 Tout endpoint backend nouveau ou modifié documente, selon ce qui s'applique :
 
 - la méthode HTTP et le chemin ;

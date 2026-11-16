@@ -25,6 +25,13 @@ for (const path of [
   "scripts/quality/documentation-policy.ps1",
   ".github/workflows/quality.yml",
   "frontend/package-lock.json",
+  "docs/operations/distribution-inventory/swagger-components-1.md",
+  "docs/operations/distribution-inventory/swagger-components-2.md",
+  ...Array.from(
+    { length: 7 },
+    (_, i) =>
+      `docs/operations/distribution-inventory/swagger-build-${i + 1}.md`,
+  ),
 ]) {
   test(`unknown or critical ${path} fails closed`, () =>
     assert.deepEqual(scopes([path]), fullScopes));

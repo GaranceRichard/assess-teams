@@ -17,6 +17,13 @@ MIDDLEWARE = [
 ]
 SPECTACULAR_SETTINGS = {
     **SPECTACULAR_SETTINGS,  # noqa: F405
+    "SWAGGER_UI_DIST": "/static/swagger-ui",
+    "SWAGGER_UI_FAVICON_HREF": "/static/swagger-ui/favicon-32x32.png",
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "validatorUrl": None,
+        "queryConfigEnabled": False,
+    },
     "SERVERS": [{"url": HTTP_SECURITY["FRONTEND_URL"]}],
     "DESCRIPTION": (
         "Contrat HTTP du backend Assess teams. Production : HTTPS obligatoire ; "

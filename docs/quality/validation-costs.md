@@ -73,6 +73,8 @@ Les tests `impact*.test.mjs` et les invariants YAML en protègent les décisions
 | Suppression applicative, fichier/type inconnu, lien symbolique ou sous-module | Exhaustif ; type non ordinaire sans réutilisation de preuve |
 
 Les emplacements de prose sont explicitement bornés, pas déduits de la seule extension.
+Les neuf tables `distribution-inventory/swagger-components-{1,2}.md` et `swagger-build-{1..7}.md`
+sont des entrées de préparation de MEP-058 : leur modification exige le plan exhaustif.
 `frontend/src/README.md`, un Markdown arbitraire ou `docs/legal/*` ne sont pas de la prose sans impact.
 Les deux côtés d'un renommage sont examinés ; un déplacement de documentation vers le runtime élargit le plan.
 Le diff inclut les modes et les ajouts de déclarations critiques connues, même dans un fichier au nom anodin.

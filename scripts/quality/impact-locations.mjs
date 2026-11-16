@@ -11,15 +11,18 @@ export const evidenceAsset = (path) => evidence.has(path);
 export const evidenceAssets = [...evidence];
 
 export const pureDocument = (path) =>
-  [
+  !/^docs\/operations\/distribution-inventory\/swagger-(components-[12]|build-[1-7])\.md$/.test(
+    path,
+  ) &&
+  ([
     "README.md",
     "AGENTS.md",
     "docs/README.md",
     "docs/development-environments.md",
   ].includes(path) ||
-  /^docs\/(backlog|quality|architecture|product|operations)\/.*\.md$/.test(
-    path,
-  );
+    /^docs\/(backlog|quality|architecture|product|operations)\/.*\.md$/.test(
+      path,
+    ));
 
 const browserConfigs = new Set([
   "frontend/playwright.config.ts",

@@ -63,6 +63,7 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [MEP-009 — Configuration sûre, protection des secrets, rotation et preuves](operations/configuration/startup-security.md).
 - [MEP-020 — Purge technique : simulation, planification, intégrité et reprise](operations/journal-purge.md).
 - [MEP-057 — Inventaire fermé de distribution REF-WIN-01, empreintes, droits et incompatibilités](operations/distribution-inventory/README.md).
+- [MEP-058 — Frontend compilé et Swagger local traçable](operations/frontend-distribution/README.md).
 - [MEP-059 — Wheelhouse Python hors ligne, protocole et réserve runtime I01](operations/python-wheelhouse/README.md).
 
 - [Référence opérationnelle : quatre Epics et vingt Features](backlog/source/07-pre-mep.md).
