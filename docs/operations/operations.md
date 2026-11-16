@@ -46,7 +46,10 @@ Les rôles ci-dessous définissent des capacités requises, pas une affectation 
 | Vérificateur de recette | Prépare les clones fictifs, observe intégrité et mesures, publie résultats et limites du banc |
 
 L'identité de l'autorité et des intervenants du site réel reste à attribuer avant son exploitation.
-L'exploitant n'invente pas une autorisation métier ; les arbitrages ouverts, dont ARB-ORG-005, restent ouverts.
+L'exploitant n'invente pas une autorisation métier. [ARB-ORG-005](../backlog/source/00-arbitrages-organisations.md#arb-org-005--états-et-cycle-de-vie-dune-organisation)
+est décidé depuis le 2026-11-14 : option A et R01–R09 approuvées, R03 sous les politiques de conservation existantes.
+ORG-004 est réalisé techniquement et publié ; sa clôture fonctionnelle reste ouverte,
+selon le [registre canonique](../backlog/tracking/pbis.md).
 Le rôle Admin produit ne donne accès ni à la base ni aux files globales.
 
 ## Entrées et trace communes à chaque intervention

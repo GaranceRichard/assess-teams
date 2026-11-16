@@ -130,3 +130,16 @@ sous approbation explicite ; aucun statut canonique modifié.
 - La preuve finale du diff commité, le pre-push et la CI indépendante restent dans les journaux
   de publication et GitHub Actions du SHA exact, cités dans le rapport de livraison à l'utilisateur.
 - La qualification du contrat ne modifie aucun verdict de recette TEC ni statut canonique.
+
+## Correction ciblée — 2026-11-16
+
+Revue du mandat avant correction : seul le classement erroné d'ARB-ORG-005 parmi les arbitrages ouverts
+est concerné ; procédures, règles métier, critères et périmètre restent identiques. Le registre d'arbitrage
+porte la décision du 2026-11-14 (option A, R01–R09, R03 sous conservation existante) ; le registre canonique
+maintient ORG-004 Ouvert/N/A malgré sa réalisation technique publiée. Ces deux sources font autorité.
+La recherche des références associées dans les opérations ne relève aucune autre mention à corriger.
+Le README, les règles qualité, l'architecture et l'API ne sont pas affectés par cette rectification de suivi.
+Vérification ciblée : l'ancienne phrase est refusée avant correction ; décision, conservation et clôture
+encore ouverte sont explicitement distinguées après correction, avec liens vers les deux sources.
+Aucun nouveau contrôle applicatif n'est requis ; gates documentaires et CI du SHA corrigé restent bloquants.
+Cette correction ne clôt ni MEP-022 ni ORG-004 ; les clôtures approuvées du mandat suivent après sa CI verte.
