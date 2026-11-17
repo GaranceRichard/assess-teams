@@ -1,9 +1,9 @@
 # Backlog opérationnel — chemin vers une version installable MESS
 
-Suivi actualisé le 2026-11-16 ; refonte du 2026-11-14 sur `c82f4e4` ; [sources](../README.md#source-fonctionnelle-détaillée),
-[registre canonique](../tracking/pbis.md), [dépendances et disponibilité des 35 non réalisés](mess-dependances.md).
-Les **96 PBI actifs** comptent 61 réalisés et 35 non réalisés après les trois clôtures approuvées
-le 2026-11-16 (054/057/022). Le rapprochement du 14 novembre et ses décisions restent historiques.
+Suivi actualisé le 2026-11-17 ; refonte du 2026-11-14 sur `c82f4e4` ; [sources](../README.md#source-fonctionnelle-détaillée),
+[registre canonique](../tracking/pbis.md), [dépendances et disponibilité des 34 non réalisés](mess-dependances.md).
+Les **96 PBI actifs** comptent 62 réalisés et 34 non réalisés après la clôture MEP-059 approuvée
+le 2026-11-17 sur `695f2be`, après celles du 2026-11-16 (054/057/022). Le rapprochement du 14 novembre et ses décisions restent historiques.
 Les huit PBI Job 1, MEP-041 archivé et MEP-035 hors dénominateur restent conservés.
 
 ## Préparation de la remise en cohérence — 2026-11-14
@@ -32,7 +32,7 @@ Un banc qualifié ne qualifie que ce banc ; l’accès au site réel reste néce
 
 <a id="actions-immédiatement-exécutables-et-porte-de-sélection"></a>
 
-## Les dix prochains PBI par valeur
+## Les neuf prochains PBI par valeur
 
 Tous gardent la priorité canonique P1. L’ordre combine réduction du risque, capacité débloquée et coût
 recommandé ; XS/S ne sont pas des engagements. Les Non prêts sont la suite prévue une fois leurs entrées livrées.
@@ -41,14 +41,13 @@ recommandé ; XS/S ne sont pas des engagements. Les Non prêts sont la suite pr�
 | ---: | --- | --- | --- |
 | 1 | [MEP-021 — Chargement commun de la configuration](../source/mess/f10.md) | **Prêt** : MEP-054 et MEP-009 réalisés ; contrat et refus disponibles | Première capacité runtime de la chaîne ; S |
 | 2 | [MEP-058 — Frontend et assets locaux de distribution](../source/mess/f12.md) | **Prêt** : MEP-057 réalisé ; I02 Swagger à traiter sur les assets produits | Artefact normal sans CDN ni build cible ; S |
-| 3 | [MEP-059 — Dépendances Python hors ligne](../source/mess/f12.md) | **Prêt à engager** : MEP-057 réalisé ; I01 runtime corrigé à traiter avant packaging | Wheels exactes et pose sans Internet à démontrer ; S |
-| 4 | [TEAM-006 — Consultation séparée des archives](../source/02-equipes.md) | **Prêt** : TEAM-005 réalisé et droits C04 décidés | Valeur utilisateur indépendante de l'installation ; S |
-| 5 | [MEP-055 — Prérequis d'installation](../source/mess/f11.md) | **Prêt** : Ouvert/N/A sur décision du 2026-11-14 ; aucune clôture déduite | Vérifier le contrat de référence et ses refus ; XS |
-| 6 | [MEP-031 — Scénarios de recette technique](../source/mess/f17.md) | **Prêt** : MEP-022 et MEP-039 réalisés ; finaliser le cahier | Attentes mesurables, sans PV cible anticipé ; S |
-| 7 | [MEP-024 — Assemblage reproductible du package](../source/mess/f12.md) | **Non prêt** : attend 058/059/021 ; 022 réalisé, I01–I03 conservées | Package exact et manifeste, outils livrés seulement ; S |
-| 8 | [MEP-060 — Préflight et chemins persistants](../source/mess/f13.md) | **Non prêt** : package 024 et configuration 021 manquants | Refus avant effet destructif ; S |
-| 9 | [MEP-061 — Pose locale des composants](../source/mess/f13.md) | **Non prêt** : préflight 060 à livrer | Installation sans résolution réseau ; S |
-| 10 | [MEP-064 — Sauvegarde cohérente SQLite](../source/mess/f15.md) | **Non prêt** : attend 021 ; 022 réalisé, sans attente 025 | Snapshot cohérent et refus, indépendants de l'installateur ; S |
+| 3 | [TEAM-006 — Consultation séparée des archives](../source/02-equipes.md) | **Prêt** : TEAM-005 réalisé et droits C04 décidés | Valeur utilisateur indépendante de l'installation ; S |
+| 4 | [MEP-055 — Prérequis d'installation](../source/mess/f11.md) | **Prêt** : Ouvert/N/A sur décision du 2026-11-14 ; aucune clôture déduite | Vérifier le contrat de référence et ses refus ; XS |
+| 5 | [MEP-031 — Scénarios de recette technique](../source/mess/f17.md) | **Prêt** : MEP-022 et MEP-039 réalisés ; finaliser le cahier | Attentes mesurables, sans PV cible anticipé ; S |
+| 6 | [MEP-024 — Assemblage reproductible du package](../source/mess/f12.md) | **Non prêt** : attend 058/021 ; 059 et 022 réalisés, I01–I03 conservées | Package exact et manifeste, outils livrés seulement ; S |
+| 7 | [MEP-060 — Préflight et chemins persistants](../source/mess/f13.md) | **Non prêt** : package 024 et configuration 021 manquants | Refus avant effet destructif ; S |
+| 8 | [MEP-061 — Pose locale des composants](../source/mess/f13.md) | **Non prêt** : préflight 060 à livrer | Installation sans résolution réseau ; S |
+| 9 | [MEP-064 — Sauvegarde cohérente SQLite](../source/mess/f15.md) | **Non prêt** : attend 021 ; 022 réalisé, sans attente 025 | Snapshot cohérent et refus, indépendants de l'installateur ; S |
 
 MEP-055 : **Ouvert / N/A sur approbation explicite du responsable produit le 2026-11-14**, sans clôture.
 Prêt pour vérifier la cohérence du contrat et ses refus, puis proposer sa clôture distinctement. MEP-012 attend la décision
@@ -56,9 +55,9 @@ C06 sur son dossier publié ; aucune nouvelle investigation Git/CI n’est une t
 
 ## Chemin technique et travaux parallèles
 
-1. **Dès maintenant en parallèle** : 021 (chargeur), 058 (frontend), 059 (Python) et TEAM-006 (archives).
+1. **Dès maintenant en parallèle** : 021 (chargeur), 058 (frontend) et TEAM-006 (archives).
    Limiter les éditions concurrentes de documentation commune ; intégrer chaque PBI prêt sans attendre les autres.
-2. **054/057/022 réalisés** : 021/058/059 peuvent être engagés, I01–I03 sans résolution présumée. Après 021,
+2. **054/057/022/059 réalisés** : 021/058 peuvent être engagés, I01–I03 sans résolution présumée. Après 021,
    064 livre la sauvegarde indépendamment de l’installateur ; 031 peut finaliser le cahier technique. 023/056 alignent les sources
    de 021/022 dans leurs documents existants, sans nouveau dossier ni campagne d’audit.
 3. **Installation** : 058 + 059 + 021 + 022 → 024 → 060 → 061 → 062 → 025. 025 vérifie les commandes
@@ -126,3 +125,12 @@ strictement documentaires. Les décisions, historiques et réserves I01–I03 re
 Contrôles de clôture : PASS, seules les trois transitions/dates autorisées parmi 96 entrées ;
 62 statuts/dates MESS alignés avec la vue dérivée, 35 aptitudes non réalisées et 404 liens locaux vérifiés.
 Critères F10/F11/F12 et texte I01–I03 identiques ; quality:targeted documentaire réussi, zéro échec.
+
+
+## Clôture MEP-059 approuvée — 2026-11-17
+
+La décision fonctionnelle valide les wheels et les refus sur `695f2be` et sa CI exacte réussie.
+Le registre porte la date effective d’approbation du 2026-11-17. Les indicateurs courants atteignent
+62/96 réalisés, 34 non réalisés, MESS 34/62, E03 4/19 et F12 2/4.
+I01 et I03 sont intégralement conservées dans les [preuves de clôture](../../operations/python-wheelhouse/qualification.md#clôture-fonctionnelle-approuvée--2026-11-17).
+MEP-024 attend encore 058 et 021, avec les réserves du candidat de distribution à traiter.

@@ -1,4 +1,4 @@
-﻿# MEP-059 — Qualification des wheels et verdict
+# MEP-059 — Qualification des wheels et verdict
 
 [Préparation](README.md) · [protocole](protocol.md) · [journal réel](installation.log) ·
 [source canonique](../../backlog/source/mess/f12.md).
@@ -109,7 +109,7 @@ Verdict fonctionnel : **préparation des wheels qualifiée ; clôture fonctionne
 périmètre canonique des dépendances Python**, sans levée I01 ni acceptation d’un runtime final.
 La DoD de livraison exige encore le succès des validations locales, du pré-push et de la CI du SHA exact.
 Le rapport final confirme ces gates ; toute incompatibilité réelle ou gate rouge interdit de déclarer le PBI réalisé.
-Le statut canonique attend l’approbation explicite de l’utilisateur.
+La proposition a reçu l’approbation fonctionnelle du responsable produit le 2026-11-17.
 
 ## Validations locales finales — 2026-11-16
 
@@ -126,3 +126,20 @@ Un passage de la fixture documentaire a détecté un changement d’état Git ; 
 puis le gate complet ont passé sans modification ni contournement de ce test existant.
 La preuve backend précédente n’étant plus réutilisable selon son empreinte, la campagne complète a été rejouée.
 Ces validations locales ne remplacent pas le pré-push ni la CI indépendante du SHA effectivement publié.
+
+## Clôture fonctionnelle approuvée — 2026-11-17
+
+Le responsable produit approuve explicitement la clôture de MEP-059 sur la réalisation
+`695f2be80bb19cd32e71e76fdb76363d1f3fcc89` et sa CI réussie le 2026-11-17.
+Le registre canonique porte Réalisé à cette date effective d’approbation.
+Les critères, refus, installation locale et validations acquis ci-dessus fondent cette décision.
+La publication de la réalisation a passé le pré-push et la CI indépendante du SHA exact.
+La clôture documentaire suit ses propres gates et sa CI sur son SHA final.
+[CI de la réalisation](https://github.com/GaranceRichard/assess-teams/actions/runs/43965472209).
+
+I01 et I03 sont conservées intégralement dans leurs sections de qualification.
+I01 exige un runtime corrigé identifié et requalifié avant acceptation d’une distribution finale.
+Python 3.13.17 garde son usage exclusif de banc et son refus comme composant distribuable.
+I03 conserve la portée du banc Windows 10.0.26200 et l’attente des preuves Windows Server 2022/site MESS.
+La revue documentaire porte sur le registre, les agrégats et les aptitudes de ses consommateurs.
+Le README produit, les règles qualité, la DoD et les contrats d’architecture/API restent applicables.

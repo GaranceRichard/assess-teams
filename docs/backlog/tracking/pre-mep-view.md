@@ -3,7 +3,7 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-11-16 : 28 Ouverts, 33 Réalisés, 0 En cours, 1 Bloqué ; avancement actif 53 %. Les acquis restent séparés.
+Au 2026-11-17 : 27 Ouverts, 34 Réalisés, 0 En cours, 1 Bloqué ; avancement actif 55 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 **MEP-047 réalisé le 2026-11-01 : [qualification et clôture approuvée](../../quality/mep-047/README.md).** MEP-015 réalisé le 2026-11-02 : [qualification radar](../../quality/mep-015/README.md) ; [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md), clôture lexicale approuvée sans développement ; [MEP-048 réalisé le 2026-11-03](../planning/qualification-mep-048/cloture.md), qualification et correction `79efb0d` acceptées.
@@ -30,7 +30,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-012 — Expérience utilisateur | [F09 — FEAT-057 — Cohérence visuelle et thèmes](../source/mess/f09.md) | 3 / 3 | 100 % |
 | EPIC-013 — Installation et exploitation MESS | [F10 — FEAT-058 — Configuration unique MESS](../source/mess/f10.md) | 1 / 2 | 50 % |
 | EPIC-013 — Installation et exploitation MESS | [F11 — FEAT-059 — Contrat d’installation et d’exploitation](../source/mess/f11.md) | 1 / 4 | 25 % |
-| EPIC-013 — Installation et exploitation MESS | [F12 — FEAT-060 — Distribution autonome hors ligne](../source/mess/f12.md) | 1 / 4 | 25 % |
+| EPIC-013 — Installation et exploitation MESS | [F12 — FEAT-060 — Distribution autonome hors ligne](../source/mess/f12.md) | 2 / 4 | 50 % |
 | EPIC-013 — Installation et exploitation MESS | [F13 — FEAT-061 — Installation automatisée](../source/mess/f13.md) | 0 / 4 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | [F14 — FEAT-062 — Cycle d’exploitation](../source/mess/f14.md) | 0 / 2 | 0 % |
 | EPIC-013 — Installation et exploitation MESS | [F15 — FEAT-063 — Sauvegarde et réversibilité](../source/mess/f15.md) | 0 / 3 | 0 % |
@@ -91,7 +91,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | 11.04 | [MEP-056 — Actualiser le backlog](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
 | 12.01 | [MEP-057 — Inventorier les dépendances nécessaires à la distribution](../source/mess/f12.md) | S | Réalisé — 2026-11-16 | MEP-006 |
 | 12.02 | [MEP-058 — Préparer le frontend compilé pour la distribution](../source/mess/f12.md) | S | Ouvert — N/A | MEP-057 |
-| 12.03 | [MEP-059 — Préparer les dépendances Python hors ligne](../source/mess/f12.md) | S | Ouvert — N/A | MEP-057 |
+| 12.03 | [MEP-059 — Préparer les dépendances Python hors ligne](../source/mess/f12.md) | S | Réalisé — 2026-11-17 | MEP-057 |
 | 12.04 | [MEP-024 — Assembler le package autonome](../source/mess/f12.md) | S | Ouvert — N/A | MEP-058, MEP-059, MEP-021, MEP-022 |
 | 13.01 | [MEP-060 — Préparer les répertoires et les paramètres d’installation](../source/mess/f13.md) | S | Ouvert — N/A | MEP-024, MEP-021 |
 | 13.02 | [MEP-061 — Installer les composants et dépendances](../source/mess/f13.md) | S | Ouvert — N/A | MEP-060 |

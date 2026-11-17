@@ -1,7 +1,7 @@
 # Dépendances et disponibilité du backlog
 
-État courant du 2026-11-16 ; [ordre par valeur](pre-mep.md), [sources](../README.md#source-fonctionnelle-détaillée)
-et [registre canonique](../tracking/pbis.md). Cette vue couvre les **35 PBI non réalisés** ; les 61 réalisés
+État courant du 2026-11-17 ; [ordre par valeur](pre-mep.md), [sources](../README.md#source-fonctionnelle-détaillée)
+et [registre canonique](../tracking/pbis.md). Cette vue couvre les **34 PBI non réalisés** ; les 62 réalisés
 restent acquis, avec leurs critères, preuves et dates. Les attentes documentaires des anciens audits ne
 s’ajoutent pas aux champs Dépendances des sources. « Prêt » est une aptitude de planification.
 
@@ -26,7 +26,7 @@ Les sources F10–F17 et les vues dérivées portent les mêmes prérequis. Les 
 la sécurité, la distribution hors Internet, les commandes réellement livrées et les PV restent obligatoires.
 Un site absent est un obstacle réel pour sa recette et son GO, pas pour développer le profil de référence.
 
-## Aptitude de chacun des 35 PBI non réalisés
+## Aptitude de chacun des 34 PBI non réalisés
 
 Chaque lien renvoie à la fiche qui porte résultat observable, périmètre, critères et vrais refus. La preuve
 attendue permet une **proposition** de clôture ; aucun document seul ni code présent ne vaut acceptation.
@@ -46,8 +46,7 @@ Les dépendances réalisées restent dans la source ; la colonne suivante cite l
 | [MEP-023 — Entrées README/architecture](../source/mess/f11.md) | Non prêt : 021 ; 022 réalisé | Liens et information exacte sur les capacités effectivement livrées |
 | [MEP-056 — Cohérence du suivi](../source/mess/f11.md) | Non prêt : 021 ; 022 réalisé ; C12 n’est pas un prérequis | Sources/registre/synthèse alignés dans les documents existants, pas de rapport autonome |
 | [MEP-058 — Build frontend](../source/mess/f12.md) | Prêt : 057 réalisé ; I02 Swagger à traiter | Build normal, routes et assets locaux dont Swagger, empreintes/version |
-| [MEP-059 — Wheels Python](../source/mess/f12.md) | Prêt à engager : 057 réalisé ; I01 runtime corrigé à traiter avant packaging | Installation des dépendances exactes sans réseau, refus wheel absente/altérée/incompatible |
-| [MEP-024 — Package](../source/mess/f12.md) | Non prêt : 058/059/021 ; 022 réalisé, I01–I03 conservées | Assemblage reproductible SHA/manifeste/notices et refus d’altération, puis réassemblage final |
+| [MEP-024 — Package](../source/mess/f12.md) | Non prêt : 058/021 ; 059 et 022 réalisés, I01–I03 conservées | Assemblage reproductible SHA/manifeste/notices et refus d’altération, puis réassemblage final |
 | [MEP-060 — Préflight](../source/mess/f13.md) | Non prêt : 024/021 | Profil/ACL/chemins/empreintes vérifiés et relance sans destruction |
 | [MEP-061 — Pose composants](../source/mess/f13.md) | Non prêt : 060 | Pose locale et relance, absence de faux succès/résolution réseau |
 | [MEP-062 — SQLite/bootstrap](../source/mess/f13.md) | Non prêt : 061 | Migrations/bootstrap explicites sans doublon ni perte, base persistante protégée |
@@ -87,5 +86,6 @@ GO MESS attend les preuves du site réellement destiné à l’exploitation et s
 approbation externe supplémentaire n’est créée. Le jalon MEP-035 reste Ouvert, sans décision rendue.
 
 Les clôtures approuvées du 2026-11-16 (054/057/022) et leurs preuves figurent au [registre E03](../tracking/mess-e03.md).
-I01–I03 ne sont pas levées : 059/024 consomment la réserve runtime, 058/024 la réserve Swagger ;
+MEP-059 est clôturé le 2026-11-17 sur les wheels qualifiées au banc, avec I01 et I03 conservées.
+I01 reste à traiter avant acceptation du runtime de distribution en 024, et I02 sur les assets de 058/024 ;
 les vérifications d'hôte et d'intégration restent à l'installation et aux recettes, sans nouvel arc ajouté.
