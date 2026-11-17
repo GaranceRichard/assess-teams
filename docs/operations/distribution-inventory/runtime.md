@@ -84,3 +84,20 @@ Les certificats/clé et la chaîne de confiance du banc sont des entrées privé
 [Textes natifs hachés et imports PE](native-evidence.md) : preuves complémentaires des composants liés.
 
 La [publication officielle 3.13.18](https://www.python.org/downloads/release/python-31318/) pr?cise les correctifs et l?absence de binaires Windows.
+
+## Préparation du changement — C3 / réserve I01 (2026-11-17)
+
+- Périmètre : rechercher un runtime corrigé pour REF-WIN-01, sans modifier les wheels MEP-059 ni les contrats consommateurs.
+- Objectif : décider sur des pièces officielles actuelles si un binaire standard Windows x64 cp313 est réellement qualifiable.
+- Effets attendus : publier un rapport de décision et un protocole de reprise ; conserver I01 si une preuve obligatoire manque.
+- Risques : confondre source et binaire, compatibilité ABI et sécurité, ou banc embarqué et runtime standard distribuable.
+- Vérification : consulter les publications et avis officiels, hacher les pièces obtenues, rejouer les contrôles et distinguer les essais impossibles.
+- Documents : `runtime-i01-report.md`, `runtime-i01-sources.md` et `runtime-i01-protocol.md` dans ce dossier ; aucun outil produit prévu.
+
+Ce préalable précède les essais C3. L’inventaire historique ci-dessus reste une preuve MEP-057,
+avec ses composants et refus initiaux ; I02, I03 et les statuts canoniques restent inchangés.
+Le périmètre documentaire comprend aussi `runtime-i01-security.md`, `runtime-i01-checks.md` et `runtime-i01-evidence.md` : avis amont, contrôles extractibles et résultats C3. Ces exemples de qualification restent manuels, hors produit et hors pipeline.
+
+## Décision C3 — 2026-11-17
+
+**I01 reste ouverte (verdict B).** Le [rapport dédié](runtime-i01-report.md) consigne les canaux officiels vérifiés, les octets/signatures, les avis actuels et les refus réellement reproduits. Le [protocole de reprise](runtime-i01-protocol.md) exige un candidat corrigé complet avant qualification ; aucune acceptation du banc 3.13.17 n’en découle.
