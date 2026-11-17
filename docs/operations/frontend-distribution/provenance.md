@@ -66,7 +66,7 @@ Cette archive frontend n'est pas le package autonome MEP-024 et ne contient ni r
 
 ## Candidat de remise qualifié
 
-SHA des sources et outils de préparation : `6c758207fdf9fba6fc9e6eee3024d1c73c6b39e9`.
+SHA des sources et outils de préparation : `ca962920b02f22c16f841457d49fe7971502c3f7`.
 La documentation de résultats publiée ensuite ne change aucune de ces entrées, vérifiées à nouveau avant remise.
 Le sous-artefact contient 198 fichiers hachés, plus son manifeste : neuf frontend, onze Swagger/inventaire,
 175 textes/notices/attributions et trois rapports de compilation. Le ZIP contient exactement ces 199 entrées.
@@ -74,14 +74,17 @@ Une relecture directe du ZIP a vérifié l'ensemble des hashes, indépendamment 
 
 | Pièce de remise | SHA-256 |
 | --- | --- |
-| frontend-resources.zip, 1 238 888 octets | b830570f73d4726dba2bf71033694e3a74a3dbe755a01ebd883c759d447e41ab |
-| manifest.json, 110 256 octets | 65362c4260fd2b14c6130ef33d6e4075f015629f060691bd6391078cdc773dfc |
+| frontend-resources.zip, 1 238 883 octets | e376f7d683373126f1372f7f4ab8db022ed7342fd9e87755ff0a2f4f9a157b89 |
+| manifest.json, 110 256 octets | 9636be8563e78236bb751427dd1ab01007bd0af6597979fb9f806783477a57a4 |
 | Liste canonique des 198 fichiers (`payloadSha256`) | 09d4110fadb2d3c94080451b95782564344602b1e17903d59b4058165ca4031c |
 
-La remise est conservée hors checkout et worktree : `Assess-teams-artifacts/MEP-058/6c758207fdf9/`,
+La remise est conservée hors checkout et worktree : `Assess-teams-artifacts/MEP-058/ca962920b02f/`,
 avec l'arbre vérifié, le ZIP et les rapports d'audit/navigateur. Le lien physique exact est fourni à la livraison.
 Les preuves de gates/publication y sont ajoutées après leur exécution ; elles ne modifient pas le ZIP.
 La resynchronisation du 2026-11-16 reprend les publications documentaires `493246e` et `182d93f`,
 dont les clôtures approuvées de MEP-054/057/022. Elle ne change aucun fichier technique du lot.
 La reconstruction après cette resynchronisation conserve exactement les 198 fichiers du payload ;
 seuls le SHA de provenance et les hashes de documents d'inventaire actualisés changent dans le manifeste.
+La reprise sur `695f2be` conserve aussi le wheelhouse MEP-059 publié et ses contrôles.
+Les sept fichiers de préparation frontend sont désormais explicites : les outils Python et leur cache
+ne sont ni consommés comme code frontend ni parcourus comme fichiers de provenance.
