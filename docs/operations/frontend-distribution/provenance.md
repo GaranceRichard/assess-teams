@@ -88,3 +88,19 @@ seuls le SHA de provenance et les hashes de documents d'inventaire actualisés c
 La reprise sur `695f2be` conserve aussi le wheelhouse MEP-059 publié et ses contrôles.
 Les sept fichiers de préparation frontend sont désormais explicites : les outils Python et leur cache
 ne sont ni consommés comme code frontend ni parcourus comme fichiers de provenance.
+
+## Préparation du changement — C2, réconciliation MEP-021 (2026-11-17)
+
+- Périmètre : réconcilier les entrées frontend, Swagger et configuration de production, en conservant les octets et empreintes de la remise historique `ca962920b02f`.
+- Objectif : identifier les fichiers effectivement consommés par le nouveau candidat et empêcher une provenance absente ou incompatible avec son SHA déclaré.
+- Effets attendus : tracer le chargeur et le schéma MEP-021, contrôler la propreté de toutes les entrées déclarées et refuser un manifeste privé de provenance.
+- Risques : préserver le build normal, les licences et les refus MEP-057/058 ; ne pas modifier le chargeur, le wheelhouse, les statuts ni le correctif C1.
+- Vérification : contre-épreuves avant correction, deux reconstructions indépendantes avec entrées identiques, comparaison des 198 fichiers, refus sur copies et gates du dépôt ; navigateur uniquement après C1 publié avec CI verte.
+- Fichier : `scripts/distribution/frontend-artifact.mjs`
+- Fichier : `scripts/distribution/verify.mjs`
+- Fichier : `scripts/distribution/verify.test.mjs`
+
+La phase indépendante distingue explicitement l'archive historique qualifiée de tout candidat reconstruit.
+La configuration privée temporaire du protocole C1 n'est jamais distribuée ni hachée comme source publique.
+Le SHA applicatif désigne le dépôt complet ; les empreintes détaillent les entrées de préparation et de configuration,
+sans prétendre que les fichiers backend deviennent un payload frontend. Aucune qualification intégrée n'est anticipée.

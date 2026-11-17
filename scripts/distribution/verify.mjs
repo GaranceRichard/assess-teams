@@ -17,6 +17,25 @@ export function verify(directory) {
     throw new Error("Normal product build required; demo refused");
   if (manifest.swagger?.precompiledAccepted !== false)
     throw new Error("Precompiled Swagger refused (I02)");
+  const attributed = (entries) =>
+    Array.isArray(entries) &&
+    entries.length > 0 &&
+    new Set(entries.map((entry) => entry.path)).size === entries.length &&
+    entries.every(
+      (entry) =>
+        typeof entry.path === "string" &&
+        !/[\\:]/.test(entry.path) &&
+        !entry.path
+          .split("/")
+          .some((part) => !part || part === "." || part === "..") &&
+        /^[a-f0-9]{64}$/.test(entry.sha256),
+    );
+  if (
+    !/^[a-f0-9]{40}$/.test(manifest.sourceCommit) ||
+    !attributed(manifest.sourceInputs) ||
+    !attributed(manifest.preparationInputs)
+  )
+    throw new Error("Untraceable artifact provenance");
   const actual = [];
   function walk(folder, prefix = "") {
     for (const name of readdirSync(folder)) {

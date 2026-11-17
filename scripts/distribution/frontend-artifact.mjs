@@ -22,18 +22,36 @@ if (existsSync(output))
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const git = (...args) =>
   execFileSync("git", args, { cwd: root, encoding: "utf8" }).trim();
-git(
-  "diff",
-  "--exit-code",
-  "HEAD",
-  "--",
+const sourcePaths = [
   "frontend",
   "scripts/legal",
   "docs/legal",
   "LICENSE",
   "NOTICE",
-  "backend/config/settings_production.py",
-);
+  "backend/config",
+  "backend/requirements.txt",
+  "docs/operations/distribution-inventory",
+];
+const preparationPaths = [
+  "frontend-artifact.mjs",
+  "offline-test.mjs",
+  "swagger-build.cjs",
+  "swagger-inputs.mjs",
+  "swagger-notices.mjs",
+  "verify.mjs",
+  "verify.test.mjs",
+].map((name) => `scripts/distribution/${name}`);
+if (
+  git(
+    "status",
+    "--porcelain",
+    "--untracked-files=all",
+    "--",
+    ...sourcePaths,
+    ...preparationPaths,
+  )
+)
+  throw new Error("Uncommitted artifact input; source attribution refused");
 if (Object.keys(process.env).some((name) => name.startsWith("VITE_")))
   throw new Error("Unrecorded VITE environment override");
 if (readdirSync(join(root, "frontend")).some((name) => name.startsWith(".env")))
@@ -82,33 +100,15 @@ for (const name of ["bundle", "standalone", "stylesheets"]) {
   const portable = match ? text.split(match[1]).join("<swagger-source>") : text;
   writeFileSync(join(output, "provenance", `${name}-stats.json`), portable);
 }
-const inputPaths = git(
-  "ls-files",
-  "frontend",
-  "scripts/legal",
-  "docs/legal",
-  "LICENSE",
-  "NOTICE",
-  "backend/config/settings_production.py",
-  "docs/operations/distribution-inventory",
-)
+const inputPaths = git("ls-files", ...sourcePaths)
   .split("\n")
   .filter(Boolean);
-const sourceInputs = inputPaths.map((path) => ({
+const attribute = (path) => ({
   path,
   sha256: hash(readFileSync(join(root, path))),
-}));
-const preparationInputs = [
-  "frontend-artifact.mjs",
-  "offline-test.mjs",
-  "swagger-build.cjs",
-  "swagger-inputs.mjs",
-  "swagger-notices.mjs",
-  "verify.mjs",
-  "verify.test.mjs",
-]
-  .map((name) => `scripts/distribution/${name}`)
-  .map((path) => ({ path, sha256: hash(readFileSync(join(root, path))) }));
+});
+const sourceInputs = inputPaths.map(attribute);
+const preparationInputs = preparationPaths.map(attribute);
 function files(folder) {
   return readdirSync(folder, { withFileTypes: true }).flatMap((entry) => {
     const path = join(folder, entry.name);
@@ -139,6 +139,15 @@ const manifest = {
     platform: process.platform,
     architecture: process.arch,
     node: process.version,
+    python: execFileSync(
+      join(
+        root,
+        "backend/.venv",
+        process.platform === "win32" ? "Scripts/python.exe" : "bin/python",
+      ),
+      ["--version"],
+      { encoding: "utf8" },
+    ).trim(),
     npm: execSync("npm --version", { encoding: "utf8" }).trim(),
   },
   sourceInputs,

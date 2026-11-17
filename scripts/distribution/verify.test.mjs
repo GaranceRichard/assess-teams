@@ -6,10 +6,13 @@ import {
   rmSync,
   readFileSync,
   writeFileSync,
+  mkdirSync,
+  existsSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, resolve, sep } from "node:path";
 import { createHash } from "node:crypto";
+import { execFileSync, spawnSync } from "node:child_process";
 import { verify } from "./verify.mjs";
 
 const artifact = resolve(
@@ -36,10 +39,7 @@ function changed(action, expected) {
     assert.throws(() => verify(temporary), expected);
   } finally {
     const target = resolve(temporary);
-    assert(
-      target.startsWith(resolve(tmpdir()) + "\\") ||
-        target.startsWith(resolve(tmpdir()) + "/"),
-    );
+    assert(target.startsWith(resolve(tmpdir()) + sep));
     rmSync(target, { recursive: true, force: true });
   }
 }
@@ -115,3 +115,84 @@ test("refuses an unidentified component license", () =>
     writeFileSync(join(root, path), JSON.stringify(components));
     reseal(root, path);
   }, /Untraceable Swagger component/));
+
+for (const field of ["sourceCommit", "sourceInputs", "preparationInputs"]) {
+  test(`refuses absent ${field} attribution`, () =>
+    changed((root) => {
+      const file = join(root, "manifest.json");
+      const manifest = JSON.parse(readFileSync(file));
+      delete manifest[field];
+      writeFileSync(file, JSON.stringify(manifest));
+    }, /Untraceable artifact provenance/));
+}
+test("refuses input attribution with an invalid digest", () =>
+  changed((root) => {
+    const file = join(root, "manifest.json");
+    const manifest = JSON.parse(readFileSync(file));
+    manifest.sourceInputs[0].sha256 = "unrecorded";
+    writeFileSync(file, JSON.stringify(manifest));
+  }, /Untraceable artifact provenance/));
+
+for (const dirty of [
+  "scripts/distribution/swagger-inputs.mjs",
+  "docs/operations/distribution-inventory/components.md",
+  "frontend/untracked.ts",
+]) {
+  test(`refuses generation before compilation with uncommitted ${dirty}`, () => {
+    const fixture = mkdtempSync(join(tmpdir(), "assess-mep-058-inputs-"));
+    try {
+      mkdirSync(join(fixture, "scripts/distribution"), { recursive: true });
+      mkdirSync(join(fixture, "docs/operations/distribution-inventory"), {
+        recursive: true,
+      });
+      mkdirSync(join(fixture, "frontend"));
+      writeFileSync(
+        join(fixture, "docs/operations/distribution-inventory/components.md"),
+        "Inventoried",
+      );
+      for (const name of [
+        "frontend-artifact.mjs",
+        "verify.mjs",
+        "swagger-inputs.mjs",
+      ])
+        cpSync(
+          resolve("scripts/distribution", name),
+          join(fixture, "scripts/distribution", name),
+        );
+      writeFileSync(
+        join(fixture, "frontend/package.json"),
+        JSON.stringify({
+          scripts: {
+            build: `node -e "require('fs').writeFileSync('build-started','yes')"`,
+          },
+        }),
+      );
+      const git = (...args) =>
+        execFileSync("git", args, { cwd: fixture, stdio: "pipe" });
+      git("init");
+      git("add", ".");
+      git("config", "user.name", "Fixture");
+      git("config", "user.email", "fixture@example.test");
+      git("config", "commit.gpgsign", "false");
+      git("commit", "-m", "Fixture inputs");
+      writeFileSync(join(fixture, dirty), "// uncommitted input\n", {
+        flag: "a",
+      });
+      const result = spawnSync(
+        process.execPath,
+        [
+          join(fixture, "scripts/distribution/frontend-artifact.mjs"),
+          "swagger",
+          "artifact",
+        ],
+        { cwd: fixture, encoding: "utf8" },
+      );
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /Uncommitted artifact input/);
+      assert.equal(existsSync(join(fixture, "frontend/build-started")), false);
+    } finally {
+      assert(resolve(fixture).startsWith(resolve(tmpdir()) + sep));
+      rmSync(fixture, { recursive: true, force: true });
+    }
+  });
+}
