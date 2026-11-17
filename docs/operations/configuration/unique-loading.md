@@ -160,3 +160,28 @@ sur `backend/config/settings_production.py` sera résolu en conservant ces resso
 protections, avec l'URL publique issue du fichier commun. Aucun contrat de chargement changé.
 Vérification : les trois tests Swagger locaux de MEP-058 et les tests de configuration/API
 restent dans le backend exhaustif du pré-push, suivi de la CI indépendante du SHA publié.
+
+## Préparation du changement — correction CI MEP-021 — 2026-11-17
+
+Le SHA `8a7371ac8076b6cd6717ed05755c7696bf167696` a passé les quatre gates locaux puis
+échoué en CI : trois refus shell reflètent leur marqueur dans la ligne source de la traceback
+Python 3.13, bien que le refus ImproperlyConfigured précède la commande. Le test sera corrigé
+en séparant la préparation des arguments de l'appel runpy ; les assertions et l'audit restent intacts.
+- Périmètre : corriger uniquement la construction du programme de test ; aucun code applicatif changé.
+- Objectif : distinguer une ligne source affichée d'une sentinelle réellement exécutée.
+- Effets attendus : les mêmes refus détectent les effets réels sur Python 3.12 et Python 3.13.
+- Risques : conserver le refus avant effet et la confidentialité, sans masquer les effets applicatifs.
+- Vérification : reproduire les trois échecs avec sources en linecache, puis 21 refus sous couverture et contre-test atexit, pré-push applicable et CI indépendante du SHA correctif.
+- Fichier : `backend/tests/test_installation_processes.py`
+Un test WAL existant a aussi expiré (attente 100 ms, libération prévue après 30 ms) ; son shard est
+relancé sans modification pour qualifier cet incident distinct. Aucun timeout applicatif n'est changé.
+Le statut canonique MEP-021 reste inchangé ; la clôture attend l'approbation du demandeur.
+
+Résultats : les trois refus shell échouent avant correction et passent après, avec le formateur
+traceback utilisant linecache. Les **22 tests sous couverture** (21 refus et contre-test atexit)
+passent aussi après correction. Aucune assertion retirée, aucune sentinelle désactivée.
+Le shard WAL inchangé réussit à sa relance sur le même SHA (run 44100923741, tentative 2) ;
+la marge de temps de ce probe reste sensible à l'ordonnancement, sans modification de SQLite.
+La préparation réelle précédait le code ; ses libellés ont été normalisés au format du gate.
+Revue documentaire du correctif : propriétaire actualisé ; README, règles, charte, DoD, stratégie,
+architecture et API restent pertinents, sans impact produit ni changement du contrat MEP-054.

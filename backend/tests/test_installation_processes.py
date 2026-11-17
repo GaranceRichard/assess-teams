@@ -103,10 +103,10 @@ def test_invalid_configuration_refuses_every_entry_before_any_effect(tmp_path, e
         code += f"import config.{entry}"
     else:
         code += (
-            "import runpy; "
+            "import runpy\n"
             f"sys.argv = ['manage.py', '{entry}'"
             + (", '-c', 'raise AssertionError(\"UNEXPECTED_EFFECT\")'" if entry == "shell" else "")
-            + "]; runpy.run_path('manage.py', run_name='__main__')\n"
+            + "]\nrunpy.run_path('manage.py', run_name='__main__')\n"
         )
     env = environment(source)
     env["PYTHONDONTWRITEBYTECODE"] = "1"
