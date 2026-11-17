@@ -23,6 +23,10 @@ La vérification portera sur le HTML réel et sur le refus du rendu CDN actuel a
 Les paramètres d'installation de MEP-021 et le wheelhouse de MEP-059 restent indépendants.
 Le statut canonique ne change pas ; une clôture fonctionnelle sera proposée après publication et CI verte.
 
+La resynchronisation MEP-059 ajoute des outils Python et leur cache dans le dossier de scripts partagé.
+La provenance frontend doit nommer ses sept fichiers réellement utilisés, sans parcourir ces nouveaux outils
+ni leurs répertoires générés. La génération sera vérifiée après exécution du contrôle wheelhouse du dépôt.
+
 ## Contrat de sortie
 
 Le sous-artefact contient `frontend/` (build produit normal, neuf fichiers dont six mentions légales),

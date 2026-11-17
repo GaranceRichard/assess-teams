@@ -98,7 +98,15 @@ const sourceInputs = inputPaths.map((path) => ({
   path,
   sha256: hash(readFileSync(join(root, path))),
 }));
-const preparationInputs = readdirSync(join(root, "scripts/distribution"))
+const preparationInputs = [
+  "frontend-artifact.mjs",
+  "offline-test.mjs",
+  "swagger-build.cjs",
+  "swagger-inputs.mjs",
+  "swagger-notices.mjs",
+  "verify.mjs",
+  "verify.test.mjs",
+]
   .map((name) => `scripts/distribution/${name}`)
   .map((path) => ({ path, sha256: hash(readFileSync(join(root, path))) }));
 function files(folder) {
