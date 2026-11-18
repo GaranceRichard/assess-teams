@@ -10,7 +10,7 @@ import {
   existsSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve, sep } from "node:path";
+import { dirname, join, resolve, sep } from "node:path";
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
 import { verify } from "./verify.mjs";
@@ -116,27 +116,28 @@ test("refuses an unidentified component license", () =>
     reseal(root, path);
   }, /Untraceable Swagger component/));
 
-for (const field of ["sourceCommit", "sourceInputs", "preparationInputs"]) {
-  test(`refuses absent ${field} attribution`, () =>
+for (const field of [
+  "sourceCommit",
+  "sourceInputs",
+  "preparationInputs",
+  "digest",
+]) {
+  test(`refuses missing or invalid ${field} attribution`, () =>
     changed((root) => {
       const file = join(root, "manifest.json");
       const manifest = JSON.parse(readFileSync(file));
-      delete manifest[field];
+      if (field === "digest") manifest.sourceInputs[0].sha256 = "unrecorded";
+      else delete manifest[field];
       writeFileSync(file, JSON.stringify(manifest));
     }, /Untraceable artifact provenance/));
 }
-test("refuses input attribution with an invalid digest", () =>
-  changed((root) => {
-    const file = join(root, "manifest.json");
-    const manifest = JSON.parse(readFileSync(file));
-    manifest.sourceInputs[0].sha256 = "unrecorded";
-    writeFileSync(file, JSON.stringify(manifest));
-  }, /Untraceable artifact provenance/));
 
 for (const dirty of [
   "scripts/distribution/swagger-inputs.mjs",
   "docs/operations/distribution-inventory/components.md",
   "frontend/untracked.ts",
+  "backend/tests/installation_helpers.py",
+  "docs/operations/configuration/unique-examples.md",
 ]) {
   test(`refuses generation before compilation with uncommitted ${dirty}`, () => {
     const fixture = mkdtempSync(join(tmpdir(), "assess-mep-058-inputs-"));
@@ -175,6 +176,7 @@ for (const dirty of [
       git("config", "user.email", "fixture@example.test");
       git("config", "commit.gpgsign", "false");
       git("commit", "-m", "Fixture inputs");
+      mkdirSync(dirname(join(fixture, dirty)), { recursive: true });
       writeFileSync(join(fixture, dirty), "// uncommitted input\n", {
         flag: "a",
       });

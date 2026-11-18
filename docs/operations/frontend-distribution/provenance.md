@@ -172,3 +172,9 @@ Remise réelle hors checkout : `Assess-teams-artifacts/MEP-058/5850929cac88/`, a
 manifestes, contrôles directs, sources de préparation de la preuve et résultats des gates/publication.
 **Cette remise reste indépendante : aucun protocole navigateur corrigé C1 n'a été exécuté.**
 Sa convergence exige C1 publié avec CI verte, reconstruction et protocole hors ligne sur le nouveau candidat.
+
+
+## Convergence après C1
+
+La [réconciliation intégrée C2](reconciliation-c2.md) conserve séparément la nouvelle qualification,
+les sources réellement consommées par C1 et la remise reconstruite après sa CI verte.

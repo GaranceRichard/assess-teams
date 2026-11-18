@@ -30,11 +30,14 @@ const sourcePaths = [
   "NOTICE",
   "backend/config",
   "backend/requirements.txt",
+  "backend/tests/installation_helpers.py",
+  "docs/operations/configuration/unique-examples.md",
   "docs/operations/distribution-inventory",
 ];
 const preparationPaths = [
   "frontend-artifact.mjs",
   "offline-test.mjs",
+  "offline-test.test.mjs",
   "swagger-build.cjs",
   "swagger-inputs.mjs",
   "swagger-notices.mjs",
