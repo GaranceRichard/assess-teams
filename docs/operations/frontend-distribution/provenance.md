@@ -145,7 +145,7 @@ au moment de cette preuve. La convergence exige son intégration avec CI verte, 
 hors ligne corrigé. L'ancienne preuve navigateur ne vaut jamais qualification de ce nouveau manifeste.
 
 
-## Remise C2 resynchronisée — qualification intégrée en attente
+## Pré-remise C2 du 2026-11-17 — avant publication C1
 
 Sources de remise : `5850929cac8852bdbfcc54e227ec8a3184257588`, après intégration documentaire C3
 `b4c07af045ff3e00419712bb500c24e1ad0e8ded`. Le candidat contient MEP-021 ; C1 reste absent.

@@ -132,3 +132,15 @@ Cette campagne ne constitue pas le protocole hors ligne corrigé C1, toujours ab
 Le pré-push réévalue ses entrées après resynchronisation ; la CI du SHA publié reste requise.
 La pré-remise indépendante est conservée hors checkout sous `Assess-teams-artifacts/MEP-058/13cc0f505edf/`,
 avec le bundle Git borné de ses sources, les deux ZIP et les comparaisons, sans promotion de qualification.
+
+
+## Qualification intégrée C2 après publication C1 — 2026-11-18
+
+Les pré-remises indépendantes ci-dessus sont conservées comme étapes historiques.
+La [réconciliation intégrée](reconciliation-c2.md) identifie le nouveau SHA source, ses deux ZIP,
+les 493 sources/huit outils effectivement tracés et les 19 acceptations/refus réussis.
+Les dix tests C1 inchangés passent ; le protocole corrigé réussit sur les deux reconstructions :
+26 URL locales, zéro requête externe, erreur JavaScript ou requête échouée, Swagger et schéma réels.
+Les octets exécutables/notices sont identiques ; seuls les diagnostics de deux rapports Webpack varient.
+Le pré-push exhaustif et la CI du SHA exact restent requis avant succès de livraison.
+Les réserves I01–I03 et la décision fonctionnelle de clôture restent celles du rapport intégré.
