@@ -23,24 +23,32 @@ const pages = JSON.parse(
     [
       "-c",
       `
-import base64, json, os, secrets
-os.environ.update(DJANGO_SETTINGS_MODULE='config.settings_production',
-    DJANGO_SECRET_KEY=secrets.token_urlsafe(64), APP_BASE_URL='https://assess.example',
-    DEFAULT_FROM_EMAIL='noreply@assess.example')
-from django.conf import settings
-settings.DATABASES['default']['NAME'] = ':memory:'
-import django
-django.setup()
-from django.core.management import call_command
-from django.test import Client
-call_command('migrate', verbosity=0)
-client = Client()
-result = {}
-for path in ['/api/docs/', '/api/schema/?format=json', '/api/session/']:
-    response = client.get(path, secure=True, HTTP_HOST='assess.example')
-    result[path] = {'status': response.status_code, 'type': response.get('Content-Type'),
-        'body': base64.b64encode(response.content).decode()}
-print(json.dumps(result))
+import base64, json, os
+from contextlib import ExitStack
+from config.installation import LEGACY_NAMES
+from tests.installation_helpers import installation_file, cleanup
+for name in LEGACY_NAMES:
+    os.environ.pop(name, None)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings_production'
+with ExitStack() as resources:
+    resources.callback(cleanup)
+    source = installation_file()
+    (source.parent / 'data').mkdir()
+    os.environ['ASSESS_CONFIG_FILE'] = str(source.resolve())
+    import django
+    django.setup()
+    from django.db import connections
+    resources.callback(connections.close_all)
+    from django.core.management import call_command
+    from django.test import Client
+    call_command('migrate', interactive=False, verbosity=0)
+    client = Client()
+    result = {}
+    for path in ['/api/docs/', '/api/schema/?format=json', '/api/session/']:
+        response = client.get(path, secure=True, HTTP_HOST='assess.example')
+        result[path] = {'status': response.status_code, 'type': response.get('Content-Type'),
+            'body': base64.b64encode(response.content).decode()}
+    print(json.dumps(result))
 `,
     ],
     { cwd: join(root, "backend"), encoding: "utf8" },
@@ -97,22 +105,24 @@ const server = createServer((request, response) => {
   });
   response.end(readFileSync(file));
 });
-await new Promise((done) => server.listen(0, "127.0.0.1", done));
-const origin = `http://127.0.0.1:${server.address().port}`;
-const browser = await chromium.launch({ headless: true });
-const context = await browser.newContext({ serviceWorkers: "block" });
-const external = [],
-  errors = [],
-  failures = [];
-await context.route("**/*", (route) => {
-  if (new URL(route.request().url()).origin === origin) return route.continue();
-  external.push(route.request().url());
-  return route.abort("blockedbyclient");
-});
-const page = await context.newPage();
-page.on("pageerror", (error) => errors.push(error.message));
-page.on("requestfailed", (request) => failures.push(request.url()));
+let browser;
 try {
+  await new Promise((done) => server.listen(0, "127.0.0.1", done));
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({ serviceWorkers: "block" });
+  const external = [],
+    errors = [],
+    failures = [];
+  await context.route("**/*", (route) => {
+    if (new URL(route.request().url()).origin === origin)
+      return route.continue();
+    external.push(route.request().url());
+    return route.abort("blockedbyclient");
+  });
+  const page = await context.newPage();
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("requestfailed", (request) => failures.push(request.url()));
   for (const route of manifest.routes.filter((path) => !path.includes(":"))) {
     await page.goto(origin + route);
     const expected =
@@ -169,7 +179,9 @@ try {
     `PASS offline browser: ${proof.requests.length} URLs; no external request or browser error`,
   );
 } finally {
-  await context.close();
-  await browser.close();
-  await new Promise((done) => server.close(done));
+  try {
+    await browser?.close();
+  } finally {
+    await new Promise((done) => server.close(done));
+  }
 }
