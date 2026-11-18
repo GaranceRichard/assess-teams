@@ -16,7 +16,7 @@ Push-Location backend
 Pop-Location
 ```
 
-Reproduire les shards CI depuis la racine (avec les huit runtimes backend préparés en CI) :
+Reproduire les shards CI depuis la racine (avec les dix runtimes backend préparés en CI) :
 
 ```powershell
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 1
@@ -27,6 +27,8 @@ Reproduire les shards CI depuis la racine (avec les huit runtimes backend prépa
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 6
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 7
 & backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 8
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 9
+& backend/.venv/Scripts/python.exe scripts/quality/backend_shards.py 10
 Push-Location backend
 & .venv/Scripts/python.exe ../scripts/quality/combine_backend_coverage.py coverage
 Pop-Location
@@ -35,7 +37,7 @@ Pop-Location
 Sous Linux, remplacer `Scripts/python.exe` par `bin/python`. Les shards ne valident pas
 le seuil individuellement : la fusion exhaustive est obligatoire. Ne pas les utiliser seuls
 comme gate local ; `npm run quality:full` reste la référence sans sharding.
-Pour rafraîchir les poids, fournir les huit rapports : `python scripts/quality/backend_test_timings.py <junit-1.xml> <junit-2.xml> <junit-3.xml> <junit-4.xml> <junit-5.xml> <junit-6.xml> <junit-7.xml> <junit-8.xml> --source <run-id>`.
+Pour rafraîchir les poids, fournir les dix rapports : `python scripts/quality/backend_test_timings.py <junit-1.xml> <junit-2.xml> <junit-3.xml> <junit-4.xml> <junit-5.xml> <junit-6.xml> <junit-7.xml> <junit-8.xml> <junit-9.xml> <junit-10.xml> --source <run-id>`.
 La commande conserve le nombre de partitions et la liste auditée des fichiers répartis par cas.
 
 Tests frontend seuls, avec coverage, puis E2E :
@@ -65,7 +67,7 @@ les preuves locales bornées, l’isolation des worktrees et `npm run publish`.
 Dépôt/documentation restent frais ; la CI sélective ne réutilise aucune preuve locale. Nightly et qualification MESS restent exhaustives ; [garanties et limites](ci.md).
 Les tests, seuils de 90 %, migrations, contrats et sécurité restent obligatoires.
 
-En CI, `ASSESS_E2E_SHARD=1/2` ou `2/2` transmet le shard natif aux deux
+En CI, `ASSESS_E2E_SHARD=1/5` à `5/5` transmet le shard natif aux deux
 campagnes du scope E2E. Les runners isolent base, trois ports et temporaires.
 Localement, retirer cette variable : `quality:full` reste exhaustif sans shard.
 Les inventaires et résultats sont contrôlés par le gate final ; une campagne

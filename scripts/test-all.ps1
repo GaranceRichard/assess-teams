@@ -85,7 +85,7 @@ if ($Scope -in @('all', 'frontend', 'e2e')) {
         if ($Scope -in @('all', 'e2e')) {
             $shardArguments = @()
             if ($env:ASSESS_E2E_SHARD) {
-                if ($env:ASSESS_E2E_SHARD -notmatch '^[12]/2$') {
+                if ($env:ASSESS_E2E_SHARD -notmatch '^[1-5]/5$') {
                     Write-Host '[FAIL] Shard E2E invalide.' -ForegroundColor Red
                     exit 1
                 }

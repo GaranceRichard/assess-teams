@@ -59,7 +59,7 @@ try {
     $documentary = @('npm run check:lines', 'node scripts/quality/evidence-assets.mjs')
     $repository = $documentary + @('python -m unittest discover -s scripts/distribution -p test_python_wheelhouse.py -v',
         'node --test scripts/legal/npm-notices.test.mjs',
-        'node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs',
+        'node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs scripts/quality/tests/e2e-artifacts.test.mjs scripts/quality/tests/ci-diff-base.test.mjs',
         'node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs scripts/quality/tests/evidence-regression.test.mjs scripts/quality/tests/runtime-inputs.test.mjs scripts/quality/tests/installed-cache.test.mjs',
         'node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs scripts/quality/tests/proportionality*.test.mjs')
     $backend = @('python -m ruff check .', 'python -m ruff format --check .',
@@ -99,12 +99,12 @@ try {
     Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo', 'npm run test:e2e:demo') 1
     $env:SCOPE_FAILURE = 'build:demo'
     Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e', 'npm run build:demo') 1
-    $env:ASSESS_E2E_SHARD = '1/2'
+    $env:ASSESS_E2E_SHARD = '1/5'
     $env:SCOPE_FAILURE = 'NEVER_MATCH'
-    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e -- --shard=1/2', 'npm run build:demo', 'npm run test:e2e:demo -- --shard=1/2')
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e -- --shard=1/5', 'npm run build:demo', 'npm run test:e2e:demo -- --shard=1/5')
     $env:SCOPE_FAILURE = 'test:e2e'
-    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e -- --shard=1/2', 'npm run build:demo', 'npm run test:e2e:demo -- --shard=1/2') 1
-    $env:ASSESS_E2E_SHARD = '3/2'
+    Assert-Scope 'test-all.ps1' 'e2e' @('npm run test:e2e -- --shard=1/5', 'npm run build:demo', 'npm run test:e2e:demo -- --shard=1/5') 1
+    $env:ASSESS_E2E_SHARD = '6/5'
     Assert-Scope 'test-all.ps1' 'e2e' @() 1
     Remove-Item Env:ASSESS_E2E_SHARD
     Write-Host '[PASS] Scopes independants, suite complete sans doublons et echecs bloquants.'

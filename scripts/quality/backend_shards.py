@@ -23,6 +23,8 @@ def partition(nodeids, durations, count, split_files=()):
 
     for nodeid in nodeids:
         files.setdefault(group(nodeid), []).append(nodeid)
+    if len(files) < count:
+        raise ValueError("Not enough independent test groups for nonempty shards")
     loads = [0.0] * count
     assignments = {}
     # Unknown files are still executed, with a conservative default weight.

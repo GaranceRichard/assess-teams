@@ -71,7 +71,7 @@ Cette checklist est **bloquante**. Une tâche est Done uniquement si chaque poin
 - [ ] Aucun processus ne crée de PR ni n’exige une approbation ou une fusion GitHub.
 - [ ] Les règles main interdisent force-push/suppression sans bloquer son push direct validé.
 - [ ] Chaque publication main conserve sa validation indépendante sans annulation/remplacement par une autre publication ; la CI du SHA exact est verte.
-- [ ] La CI indépendante recalcule le plan et son `Required impact gate` passe. En exhaustif : huit partitions backend, deux E2E, fusions complètes et seuils de 90 % ; en documentaire : aucun test applicatif.
+- [ ] La CI indépendante recalcule le plan et son `Required impact gate` passe. En exhaustif : dix partitions backend, cinq E2E, fusions complètes et seuils de 90 % ; en documentaire : aucun test applicatif.
 - [ ] Le build et le typecheck frontend passent, localement et en CI.
 - [ ] Tout contrôle non applicable est explicitement identifié et justifié ; aucun échec applicable n'est masqué.
 - [ ] Sauf instruction explicite contraire du prompt, le changement est commité puis poussé conformément aux [règles de référence](agent-rules.md).

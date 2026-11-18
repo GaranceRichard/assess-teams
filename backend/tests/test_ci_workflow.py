@@ -124,10 +124,10 @@ def test_pages_waits_for_the_complete_quality_workflow_on_the_same_main_sha():
     assert pages["jobs"]["deploy"]["needs"] == "build"
 
 
-def test_two_e2e_shards_are_isolated_and_reports_are_required_by_the_final_gate():
+def test_five_e2e_shards_are_isolated_and_reports_are_required_by_the_final_gate():
     assert JOBS["e2e"]["uses"] == "./.github/workflows/e2e.yml"
-    assert E2E["strategy"] == {"fail-fast": False, "matrix": {"shard": [1, 2]}}
-    assert E2E["env"]["ASSESS_E2E_SHARD"] == "${{ matrix.shard }}/2"
+    assert E2E["strategy"] == {"fail-fast": False, "matrix": {"shard": [1, 2, 3, 4, 5]}}
+    assert E2E["env"]["ASSESS_E2E_SHARD"] == "${{ matrix.shard }}/5"
     for name in ("DB", "BACKEND_PORT", "FRONTEND_PORT", "DEMO_PORT"):
         assert "matrix.shard" in E2E["env"][f"ASSESS_E2E_{name}"]
     artifact = E2E["steps"][-1]

@@ -54,7 +54,7 @@ def test_targeted_backend_keeps_the_diff_selection_without_running_full_shards()
 def test_parallel_backend_capacity_matches_measured_weights_and_immutable_checkouts():
     jobs = workflow("backend")["jobs"]
     timing = json.loads((ROOT / "scripts/quality/backend-test-durations.json").read_text())
-    assert timing["shards"] == 8
+    assert timing["shards"] == 10
     assert jobs["backend-tests"]["strategy"] == {
         "fail-fast": False,
         "matrix": {"shard": list(range(1, timing["shards"] + 1))},

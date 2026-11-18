@@ -41,6 +41,7 @@ jobs:
     uses: ./.github/workflows/exhaustive.yml
     with:
       candidate: ${{ github.sha }}
+      base: ${{ github.event.pull_request.base.sha || github.event.before }}
   repository:
     needs: plan
     if: needs.plan.outputs.full == 'false'

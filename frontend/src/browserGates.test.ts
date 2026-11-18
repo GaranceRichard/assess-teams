@@ -34,7 +34,7 @@ describe("browser validation configuration contracts", () => {
     const { shardReports } = await import("../e2e/reports");
     vi.stubEnv("ASSESS_E2E_SHARD", undefined);
     expect(shardReports("app")).toEqual({ reporter: "list" });
-    vi.stubEnv("ASSESS_E2E_SHARD", "3/2");
+    vi.stubEnv("ASSESS_E2E_SHARD", "6/5");
     expect(() => shardReports("app")).toThrow("Invalid E2E shard");
     vi.resetModules();
     await expect(import("../playwright.config")).rejects.toThrow(
@@ -45,7 +45,7 @@ describe("browser validation configuration contracts", () => {
     );
   });
 
-  for (const shard of ["1/2", "2/2"]) {
+  for (const shard of ["1/5", "2/5", "3/5", "4/5", "5/5"]) {
     it(`preserves independently collectable app/demo reports for ${shard}`, async () => {
       const { shardReports } = await import("../e2e/reports");
       vi.stubEnv("ASSESS_E2E_SHARD", shard);
@@ -53,13 +53,23 @@ describe("browser validation configuration contracts", () => {
       for (const suite of ["app", "demo"] as const)
         expectShardReports(shardReports(suite), suite, index);
     });
+    it(`preserves Chromium diagnostics for ${shard} after artifact consolidation`, async () => {
+      const { browserLogArgs } = await import("../e2e/reports");
+      vi.stubEnv("ASSESS_E2E_SHARD", shard);
+      for (const suite of ["app", "demo"] as const) {
+        expect(browserLogArgs(suite)[1]).toMatch(
+          new RegExp(`${suite}-${shard.replace("/", "-")}-chromium\\.log$`),
+        );
+      }
+    });
   }
 
   for (const [ci, shard] of [
     [undefined, undefined],
     ["1", undefined],
-    ["1", "1/2"],
-    ["1", "2/2"],
+    ...["1/5", "2/5", "3/5", "4/5", "5/5"].map(
+      (shard) => ["1", shard] as const,
+    ),
   ] as const) {
     it(`loads actual app/demo configs: CI=${ci ?? "local"}, shard=${shard ?? "none"}`, async () => {
       vi.stubEnv("CI", ci);

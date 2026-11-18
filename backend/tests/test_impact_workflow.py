@@ -61,7 +61,7 @@ def test_promotion_requires_remote_qualification_and_never_deploys_on_failed_gat
 def test_exhaustive_domains_cannot_be_skipped_by_daily_impact_selection():
     jobs = workflow("exhaustive")["jobs"]
     backend = workflow("backend")["jobs"]
-    assert backend["backend-tests"]["strategy"]["matrix"]["shard"] == [1, 2, 3, 4, 5, 6, 7, 8]
+    assert backend["backend-tests"]["strategy"]["matrix"]["shard"] == list(range(1, 11))
     assert backend["backend-tests"]["strategy"]["fail-fast"] is False
     assert backend["backend-coverage"]["needs"] == "backend-tests"
     assert set(jobs["quality"]["needs"]) == {
@@ -78,3 +78,26 @@ def test_exhaustive_domains_cannot_be_skipped_by_daily_impact_selection():
             assert "selective.mjs" not in command and "quality:targeted" not in command
     qualifier = (ROOT / "scripts/quality/qualification.mjs").read_text(encoding="utf-8")
     assert '"--fresh"' in qualifier
+
+
+def test_exhaustive_resolves_documentation_base_from_the_tested_candidate_before_gates():
+    config = workflow("exhaustive")
+    jobs = config["jobs"]
+    identity = jobs["identity"]
+    assert identity["outputs"]["base"] == "${{ steps.diff.outputs.base }}"
+    resolver = identity["steps"][-1]
+    assert resolver["id"] == "diff"
+    assert "node --input-type=module" in resolver["run"]
+    assert "`${candidate}^1`" in resolver["run"]
+    assert resolver["env"]["CANDIDATE"] == "${{ inputs.candidate || github.sha }}"
+    assert resolver["env"]["QUALITY_DIFF_BASE"] == (
+        "${{ inputs.base || github.event.pull_request.base.sha || github.event.before }}"
+    )
+    assert jobs["repository"]["env"]["QUALITY_DIFF_BASE"] == "${{ needs.identity.outputs.base }}"
+    assert workflow("quality")["jobs"]["full"]["with"]["base"] == (
+        "${{ github.event.pull_request.base.sha || github.event.before }}"
+    )
+    assert "base" in config[True]["workflow_call"]["inputs"]
+    for job in jobs.values():
+        assert "continue-on-error" not in job
+        assert all("continue-on-error" not in step for step in job.get("steps", []))

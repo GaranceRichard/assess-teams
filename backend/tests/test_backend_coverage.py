@@ -18,6 +18,12 @@ def write_manifests(directory, count=2):
             "exit_code": 0,
         }
         (directory / f"manifest-{index}.json").write_text(json.dumps(manifest))
+        (directory / f"coverage-version-{index}.txt").write_text(
+            f"coverage=={coverage.__version__}\n"
+        )
+        (directory / f"junit-{index}.xml").write_text(
+            f'<testsuite><testcase name="test_{chr(96 + index)}"/></testsuite>'
+        )
 
 
 def test_complete_disjoint_shards_are_required(tmp_path):
@@ -25,7 +31,9 @@ def test_complete_disjoint_shards_are_required(tmp_path):
     assert merger.validate_shards(tmp_path, 2) == 2
 
 
-@pytest.mark.parametrize("filename", [".coverage.2", "manifest-2.json"])
+@pytest.mark.parametrize(
+    "filename", [".coverage.2", "manifest-2.json", "junit-2.xml", "coverage-version-2.txt"]
+)
 def test_missing_shard_data_or_manifest_blocks_coverage(tmp_path, filename):
     write_manifests(tmp_path)
     (tmp_path / filename).unlink()
@@ -126,7 +134,7 @@ def test_relative_branch_data_merges_across_distinct_runner_checkouts(tmp_path, 
         cov.save()
 
 
-@pytest.mark.parametrize("count", [3, 8])
+@pytest.mark.parametrize("count", [3, 10])
 @pytest.mark.parametrize("missing", [None, "coverage", "manifest"])
 def test_parallel_partitions_require_every_shard(tmp_path, missing, count):
     write_manifests(tmp_path, count)
@@ -137,3 +145,52 @@ def test_parallel_partitions_require_every_shard(tmp_path, missing, count):
             merger.validate_shards(tmp_path, count)
     else:
         assert merger.validate_shards(tmp_path, count) == count
+
+
+@pytest.mark.parametrize("defect", ["corrupt", "missing-case", "failure", "error", "skipped"])
+def test_incomplete_or_unsuccessful_junit_is_rejected(tmp_path, defect):
+    write_manifests(tmp_path, 10)
+    path = tmp_path / "junit-10.xml"
+    if defect == "corrupt":
+        path.write_text("invalid XML")
+    elif defect == "missing-case":
+        path.write_text("<testsuite/>")
+    else:
+        path.write_text(f'<testsuite><testcase name="test_j"><{defect}/></testcase></testsuite>')
+    with pytest.raises((ValueError, merger.ElementTree.ParseError)):
+        merger.validate_shards(tmp_path, 10)
+
+
+@pytest.mark.parametrize("defect", ["empty", "corrupt", "line-only", "no-execution"])
+def test_each_coverage_database_is_required(tmp_path, monkeypatch, defect):
+    monkeypatch.chdir(tmp_path)
+    output = tmp_path / "coverage"
+    output.mkdir()
+    write_manifests(output, 10)
+    source = tmp_path / "source"
+    source.mkdir()
+    module = source / "example.py"
+    module.write_text("value = 1\n")
+    config = tmp_path / ".coveragerc"
+    config.write_text(f"[run]\nbranch=True\nsource={source}\n[report]\nfail_under=90\n")
+    for index in range(1, 11):
+        cov = coverage.Coverage(
+            config_file=str(config), data_file=str(output / f".coverage.{index}")
+        )
+        cov.start()
+        exec(compile(module.read_text(), str(module), "exec"), {})
+        cov.stop()
+        cov.save()
+    broken = output / ".coverage.10"
+    if defect in {"line-only", "no-execution"}:
+        data = coverage.CoverageData(basename=str(broken))
+        data.erase()
+        if defect == "line-only":
+            data.add_lines({str(module): {1}})
+        else:
+            data.add_arcs({str(module): []})
+        data.write()
+    else:
+        broken.write_bytes(b"" if defect == "empty" else b"not a coverage database")
+    with pytest.raises(ValueError, match="coverage shard"):
+        merger.combine(output, config, 10)

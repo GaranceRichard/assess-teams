@@ -5,7 +5,7 @@ import type { ReporterDescription } from "@playwright/test";
 export function shardReports(suite: "app" | "demo") {
   const shard = process.env.ASSESS_E2E_SHARD;
   if (!shard) return { reporter: "list" as const };
-  if (!/^[12]\/2$/.test(shard)) throw new Error("Invalid E2E shard");
+  if (!/^[1-5]\/5$/.test(shard)) throw new Error("Invalid E2E shard");
   const index = shard.split("/")[0];
   const directory = resolve(import.meta.dirname, "../.cache/e2e");
   const reporter: ReporterDescription[] = [
@@ -30,10 +30,9 @@ export function shardReports(suite: "app" | "demo") {
 export function browserLogArgs(suite: "app" | "demo") {
   const directory = resolve(import.meta.dirname, "../.cache/e2e");
   mkdirSync(directory, { recursive: true });
-  return [
-    "--enable-logging",
-    `--log-file=${resolve(directory, `${suite}-chromium.log`)}`,
-  ];
+  const shard = process.env.ASSESS_E2E_SHARD?.replace("/", "-");
+  const name = `${suite}${shard ? `-${shard}` : ""}-chromium.log`;
+  return ["--enable-logging", `--log-file=${resolve(directory, name)}`];
 }
 
 // Windows Headless Shell leaves GPU diagnostics beside its executable.

@@ -61,15 +61,17 @@ ou manuellement, avec un SHA complet facultatif (par défaut le SHA de main au d
 Le workflow sélectif peut également l'appeler pour un changement large.
 Il ne réutilise pas les preuves locales et n'est pas annulé par une nouvelle publication.
 Le job identity vérifie le SHA immuable et le publie dans son résumé ; tous les checkouts utilisent ce SHA.
+Il résout aussi `QUALITY_DIFF_BASE` : base explicite du push/PR appelant, premier parent du candidat
+pour dispatch/schedule, même historique. Un parent absent ou une base vide/invalide bloque les domaines.
 
 | Contrôle | Exécution exhaustive |
 | --- | --- |
 | Dépôt | Lignes, secrets, préparation documentaire pertinente, cohérence, règles, tests qualité/bootstrap/licences/validation |
 | Statiques backend | Ruff lint/format et migrations manquantes |
-| Backend | Huit partitions pytest, tous les tests, contrats/OpenAPI/sécurité/transactions/SQLite/exploitation existants |
+| Backend | Dix partitions pytest, tous les tests, contrats/OpenAPI/sécurité/transactions/SQLite/exploitation existants |
 | Couverture backend | Fusion des données et collections disjointes/exhaustives ; branch coverage global >= 90 % |
 | Frontend | Lint, format, typecheck/build, tous les Vitest, quatre seuils >= 90 % |
-| E2E | Deux shards isolés ; tous les parcours réels et démo, build de démo inclus |
+| E2E | Cinq shards isolés ; tous les parcours réels et démo, build de démo inclus |
 | Rapport final | Fusion HTML et inventaires E2E exhaustifs, tous les jobs requis réussis |
 
 Le moteur partagé `backend.yml` sert aussi le backend complet sélectif ; voir le [diagnostic MEP-037](backend-ci-performance.md). Le partitionnement conserve ses garanties : fichiers pytest entiers sauf les cas autonomes de conflits SQLite, poids conservateurs pour les nouveaux,
@@ -80,6 +82,8 @@ Les artefacts backend (JUnit/manifests/couverture), frontend et Playwright perme
 La preuve `qualification/qualification.json` n'est produite qu'après succès des contrôles ET des fusions.
 Elle contient SHA, run ID, provenance GitHub, portée exhaustive et horodatage ; rétention 30 jours.
 Un run rouge reste rouge et ne produit pas de preuve de promotion exploitable.
+Un déclenchement quotidien retardé ou manqué ne crée aucune attestation : seul un run réussi fait preuve.
+Le [diagnostic CI-OPT 10/5](ci-opt-10-5.md) distingue mesures et contrats simulés.
 
 ## Candidat MESS et promotion
 

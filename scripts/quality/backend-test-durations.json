@@ -1,5 +1,5 @@
 {
-  "shards": 8,
+  "shards": 10,
   "source": "GitHub Actions 39125905327 attempt 1, 11e3a41, Ubuntu Python 3.13, complete successful backend JUnit; new workflow and MEP-038 files: Windows Python 3.12 JUnit, 15 passed, 2026-10-18; weights max(1s, 2x measured), no coverage; critical conflicts scheduling estimate 300s, based on backend run 39162211478 (1010s) vs 39083777674 (748s); case-isolated split",
   "seconds": {
     "tests/test_activity_journal.py": 2.66,

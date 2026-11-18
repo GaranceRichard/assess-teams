@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const frontend = resolve(root, "frontend");
 const shard = process.env.ASSESS_E2E_SHARD;
-if (!/^[12]\/2$/.test(shard || "")) throw new Error("Invalid E2E shard");
+if (!/^[1-5]\/5$/.test(shard || "")) throw new Error("Invalid E2E shard");
 const directory = resolve(frontend, ".cache/e2e");
 mkdirSync(directory, { recursive: true });
 for (const suite of ["app", "demo"]) {

@@ -34,8 +34,10 @@ def test_only_audited_independent_cases_can_split_an_expensive_file():
     assert sorted(node for part in plan for node in part) == sorted(complete)
     assert sum(bool(set(cases).intersection(part)) for part in plan) > 1
     assert sum(bool(set(ordinary).intersection(part)) for part in plan) == 1
-    unsplit = shards.partition(complete, durations, 3)
+    unsplit = shards.partition(complete, durations, 2)
     assert sum(bool(set(cases).intersection(part)) for part in unsplit) == 1
+    with pytest.raises(ValueError, match="Not enough independent"):
+        shards.partition(complete, durations, 3)
 
 
 def test_new_file_weight_uses_scheduled_units_instead_of_a_split_file_total():
@@ -46,7 +48,7 @@ def test_new_file_weight_uses_scheduled_units_instead_of_a_split_file_total():
     assert all(set(cases).intersection(part) for part in plan)
 
 
-@pytest.mark.parametrize("nodeids,count", [(["a", "a"], 2), (["a"], 0)])
+@pytest.mark.parametrize("nodeids,count", [(["a", "a"], 2), (["a"], 0), (["a"], 10)])
 def test_invalid_partition_is_rejected(nodeids, count):
     with pytest.raises(ValueError):
         shards.partition(nodeids, {}, count)
@@ -58,10 +60,10 @@ def test_real_pytest_shards_execute_the_entire_collection_once(tmp_path):
     for filename in ("test_fast.py", "test_slow.py", "test_new.py"):
         (suite / filename).write_text("def test_pass():\n    assert True\n")
     (suite / "test_new.py").write_text(
-        "\n".join(f"def test_case_{index}():\n    assert True\n" for index in range(6))
+        "\n".join(f"def test_case_{index}():\n    assert True\n" for index in range(18))
     )
     manifests = []
-    for index in (1, 2, 3):
+    for index in range(1, 11):
         output = tmp_path / str(index)
         output.mkdir()
         arguments = [str(suite), "-q", f"--rootdir={tmp_path}"]
@@ -70,7 +72,7 @@ def test_real_pytest_shards_execute_the_entire_collection_once(tmp_path):
             f"sys.path.insert(0, {str(SCRIPTS)!r}); "
             "from pathlib import Path; from backend_shards import ShardSelection; "
             "durations={'suite/test_slow.py':10,'suite/test_fast.py':10,'suite/test_new.py':30}; "
-            f"plugin=ShardSelection({index},3,durations,Path({str(output)!r}),"
+            f"plugin=ShardSelection({index},10,durations,Path({str(output)!r}),"
             "['suite/test_new.py']); "
             f"raise SystemExit(pytest.main({arguments!r},"
             "plugins=[plugin]))"
@@ -83,12 +85,13 @@ def test_real_pytest_shards_execute_the_entire_collection_once(tmp_path):
         )
         assert result.returncode == 0, result.stdout + result.stderr
         manifest = json.loads((output / f"manifest-{index}.json").read_text())
-        assert len(manifest["collected"]) == 8
+        assert len(manifest["collected"]) == 20
         assert manifest["exit_code"] == 0
         assert f"{len(manifest['selected'])} passed" in result.stdout
         manifests.append(manifest)
     selected = [nodeid for manifest in manifests for nodeid in manifest["selected"]]
-    assert len(selected) == len(set(selected)) == 8
+    assert len(manifests) == 10
+    assert len(selected) == len(set(selected)) == 20
     assert set(selected) == set(manifests[0]["collected"])
     assert sum(any("test_new.py" in node for node in item["selected"]) for item in manifests) > 1
 
@@ -126,7 +129,7 @@ def test_duration_refresh_preserves_the_audited_case_split(tmp_path, monkeypatch
     assert refreshed["source"] == "successful run"
 
 
-def test_current_weights_balance_eight_deterministic_partitions():
+def test_current_weights_balance_ten_deterministic_partitions():
     timing = json.loads(shards.TIMINGS.read_text())
     durations = timing["seconds"]
     split_files = timing["split_files"]
@@ -137,14 +140,17 @@ def test_current_weights_balance_eight_deterministic_partitions():
         for index in range(42 if filename in split_files else 1)
     ]
     plan = shards.partition(nodeids, durations, timing["shards"], split_files)
-    assert timing["shards"] == len(plan) == 8
+    assert timing["shards"] == len(plan) == 10
     assert sorted(nodeid for part in plan for nodeid in part) == sorted(nodeids)
     assert [set(part) for part in plan] == [
-        set(part) for part in shards.partition(list(reversed(nodeids)), durations, 8, split_files)
+        set(part) for part in shards.partition(list(reversed(nodeids)), durations, 10, split_files)
     ]
     sizes = Counter(nodeid.split("::")[0] for nodeid in nodeids)
     loads = [
         sum(durations[node.split("::")[0]] / sizes[node.split("::")[0]] for node in part)
         for part in plan
     ]
-    assert max(loads) - min(loads) < 1
+    assert all(plan)
+    # The indivisible operational file is the lower bound at ten shards.
+    assert max(loads) == durations["tests/test_sqlite_contention_operational.py"]
+    assert max(loads[1:]) - min(loads[1:]) < 1
