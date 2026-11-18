@@ -143,3 +143,32 @@ sa relecture contrôle chaque entrée, taille et empreinte, manifeste compris.
 Ce candidat n'a pas encore de qualification navigateur après MEP-021 : le correctif C1 n'est pas publié
 au moment de cette preuve. La convergence exige son intégration avec CI verte, reconstruction et protocole
 hors ligne corrigé. L'ancienne preuve navigateur ne vaut jamais qualification de ce nouveau manifeste.
+
+
+## Remise C2 resynchronisée — qualification intégrée en attente
+
+Sources de remise : `5850929cac8852bdbfcc54e227ec8a3184257588`, après intégration documentaire C3
+`b4c07af045ff3e00419712bb500c24e1ad0e8ded`. Le candidat contient MEP-021 ; C1 reste absent.
+Le frontend et les manifestes sont reconstruits sur ce SHA. Les entrées applicatives, les sept outils
+et les neuf tables consommées pour Swagger sont inchangés, vérifiés par diff et empreintes :
+les deux compilations Swagger indépendantes restent valides, sans réécriture de leurs rapports.
+
+Le manifeste enregistre 491 sources et sept scripts. Les six documents publics C3 supplémentaires
+et la mise à jour de runtime.md font évoluer les seules métadonnées d'inventaire conservatrices ;
+aucun runtime Python, outil npm/Node, code de compilation ni configuration privée n'est distribué.
+La composition reste 198 fichiers : neuf frontend, 186 statiques/inventaire/notices et trois rapports,
+plus le manifeste, soit exactement 199 entrées dans chacun des deux ZIP relus.
+
+| Pièce réelle de remise resynchronisée | SHA-256 |
+| --- | --- |
+| ZIP, 1259307 octets | 408b274481efd91fda2ac45bee23c1c1328d14254bc462fa7045d155101648f9 |
+| manifest.json | 2d8dbd43a05ef367c820ab4bca7583790249e3646d079ffbe460fabda6f8492f |
+| Liste canonique des 198 fichiers (`payloadSha256`) | e04d6f519fed99409fd43ca8d66f807d83725bb383562d74c685af93bd405562 |
+
+Les dix-sept acceptations/refus passent à nouveau sur ce candidat. Les ressources exécutables et notices
+restent identiques ; les seuls diagnostics d'importeurs des deux rapports Webpack expliquent les payloads
+et ZIP différents entre répétitions. Le rapport de comparaison conserve leurs empreintes complètes.
+Remise réelle hors checkout : `Assess-teams-artifacts/MEP-058/5850929cac88/`, avec arbre, deux ZIP,
+manifestes, contrôles directs, sources de préparation de la preuve et résultats des gates/publication.
+**Cette remise reste indépendante : aucun protocole navigateur corrigé C1 n'a été exécuté.**
+Sa convergence exige C1 publié avec CI verte, reconstruction et protocole hors ligne sur le nouveau candidat.
