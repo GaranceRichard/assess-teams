@@ -64,7 +64,7 @@ Les rapports, le manifeste et les preuves de navigateur accompagnent la remise l
 Le rapport final de publication fournit le lien durable de cette remise, ses empreintes et le SHA exact de la CI verte.
 Cette archive frontend n'est pas le package autonome MEP-024 et ne contient ni runtime Python ni serveur Windows.
 
-## Candidat de remise qualifié
+## Candidat historique qualifié — ca962920b02f
 
 SHA des sources et outils de préparation : `ca962920b02f22c16f841457d49fe7971502c3f7`.
 La documentation de résultats publiée ensuite ne change aucune de ces entrées, vérifiées à nouveau avant remise.
@@ -104,3 +104,42 @@ La phase indépendante distingue explicitement l'archive historique qualifiée d
 La configuration privée temporaire du protocole C1 n'est jamais distribuée ni hachée comme source publique.
 Le SHA applicatif désigne le dépôt complet ; les empreintes détaillent les entrées de préparation et de configuration,
 sans prétendre que les fichiers backend deviennent un payload frontend. Aucune qualification intégrée n'est anticipée.
+
+
+## Réconciliation C2 indépendante de C1 — 2026-11-17
+
+La remise historique ci-dessus reste inchangée ; elle précède le chargement MEP-021.
+Le nouveau candidat de phase 1 utilise les sources et outils committés en
+`13cc0f505edf7f4cc5eee4e4c3d64fb31be5989b`, issus de `fa5822491ff5e5a41f33d34285eca35882d95850` incluant MEP-021.
+Il reste en version **0.0.0** : 198 fichiers contrôlés, plus le manifeste, soit 199 entrées ZIP.
+Les 485 entrées sources ajoutent 27 fichiers : configuration publique `backend/config/` complète
+et exigence `backend/requirements.txt`. Seul `settings_production.py` change parmi les anciennes entrées.
+La sélection des arbres publics frontend/configuration est conservatrice, sans prétendre tracer chaque import.
+Les sept scripts de préparation sont nommés explicitement ; Python de préparation est désormais enregistré
+avec Node/npm. Aucun document privé de configuration, secret, runtime ou wheelhouse n'entre dans le payload.
+
+| Pièce réelle du candidat de phase 1 | SHA-256 |
+| --- | --- |
+| ZIP, 1258997 octets | 67765f0c97b5dc6ef0cde29af0fe9f25ab4440e1512d42d08edd5d60fd5a8699 |
+| manifest.json | 3d8d1869990cb7097a5b7cb2a245790509891313a577ea414fbb9046abf0701d |
+| Liste des 198 fichiers (`payloadSha256`) | e04d6f519fed99409fd43ca8d66f807d83725bb383562d74c685af93bd405562 |
+
+Deux reconstructions distinctes vérifient les mêmes entrées, versions et outils : Node 24.20.0,
+npm 11.19.0 et Python 3.12.10 sur Windows x64. Les neuf fichiers frontend, les ressources Swagger,
+les notices et `components.json` sont identiques entre répétitions et à la remise historique.
+Les 114 archives de composants sont contrôlées par SHA-256/SRI et comparées aux fichiers installés,
+notices incluses ; aucune version, licence ou attribution n'est substituée.
+
+Deux rapports Webpack (`bundle-stats.json`, `standalone-stats.json`) varient uniquement sur
+`issuer`, `issuerName` et `issuerPath` : le premier importeur observé dépend de l'ordonnancement
+parallèle de Webpack. Une comparaison récursive sans ces seuls diagnostics donne des rapports identiques ;
+les modules, assets et diagnostics restants sont conservés intégralement dans les sorties livrées.
+Le rapport stylesheets est identique. Les empreintes de compilation historiques ci-dessus sont retrouvées.
+Le second payload vaut `f09351d0270af1cdfccf5548c9954a5d31101266f99aa33f837808f4a7798a15` ; **les ZIP/payloads complets ne sont pas identiques**.
+Cette divergence de preuve est identifiée, pas effacée par réécriture des rapports ou du code tiers.
+Le ZIP de remise utilise des dates fixes au 1980-01-01 et une compression Deflate de niveau neuf ;
+sa relecture contrôle chaque entrée, taille et empreinte, manifeste compris.
+
+Ce candidat n'a pas encore de qualification navigateur après MEP-021 : le correctif C1 n'est pas publié
+au moment de cette preuve. La convergence exige son intégration avec CI verte, reconstruction et protocole
+hors ligne corrigé. L'ancienne preuve navigateur ne vaut jamais qualification de ce nouveau manifeste.

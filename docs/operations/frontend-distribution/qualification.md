@@ -3,7 +3,10 @@
 [Contrat](README.md) · [provenance](provenance.md) · [sécurité](security.md) ·
 [source canonique F12](../../backlog/source/mess/f12.md).
 
-## Preuves par critère
+Les tableaux et campagnes initiaux ci-dessous qualifient exclusivement la remise historique
+`ca962920b02f` ; les résultats C2 sont distingués dans la section de réconciliation.
+
+## Preuves historiques par critère
 
 | Exigence canonique | Preuve exécutée |
 | --- | --- |
@@ -84,3 +87,48 @@ La clôture fonctionnelle sera proposée uniquement avec ces preuves ; le statut
 La première tentative E2E n'a pas démarré son backend faute de droit d'installation des hooks partagés.
 Elle n'est pas une preuve de réussite ; la relance avec le bootstrap autorisé produit le verdict complet ci-dessus.
 Les preuves locales restent celles de leurs sélections et entrées ; le pre-push les réévalue, sans exception ni contournement.
+
+
+## Réconciliation C2 — phase indépendante (2026-11-17)
+
+La préparation de C2 dans `provenance.md` a réellement précédé les modifications techniques.
+Trois défauts de provenance sont démontrés : configuration importée MEP-021 non détaillée,
+entrées de préparation/inventaire ou sources non suivies acceptées avant compilation,
+et manifeste dépourvu de SHA/liste d'entrées accepté par le vérificateur.
+Sept contre-épreuves échouent avant correction et passent après ; dix-sept tests passent ensuite
+sur l'archive historique et sur le nouveau candidat complet. La génération réelle constitue
+le positif des nouvelles gardes, avec contrôle direct des 485 sources et sept scripts de préparation.
+Les vrais refus historiques restent exécutés : fichier absent/altéré, notices, démo réelle,
+compilation sur cible, script CDN même rescellé, précompilé I02, OAuth et licence non attribuée.
+
+Deux reconstructions du frontend normal et de Swagger contrôlent l'égalité des octets exécutables,
+notices et inventaires. La variation des seuls diagnostics d'importeurs Webpack est exposée dans
+la [provenance C2](provenance.md), avec les empreintes distinctes des deux payloads ; aucune
+reproductibilité binaire de l'archive complète n'est revendiquée.
+
+C1 est encore absent de main lors de cette phase. Aucun nouveau résultat navigateur n'est annoncé,
+aucune preuve historique n'est promue et la qualification intégrée reste à exécuter après sa CI verte.
+Le sous-artefact contient des octets statiques, sans sources de compilation, npm ni runtime Node ;
+l'absence effective de besoin de réseau/CDN sera reconfirmée par le protocole C1 sur le candidat convergent.
+Les réserves I01 (runtime Python), I02 (précompilé refusé, reconstruction attribuée) et I03
+(Windows Server 2022/site MESS non qualifiés) restent bornées comme ci-dessus.
+
+Revue de contenu C2 : les documents d'exploitation portent la provenance et ses limites réelles.
+README produit, règles agents, charte, DoD, stratégie de tests, fondamentaux et API ont été relus ;
+aucun changement de capacité publique, contrat HTTP, modèle ou migration n'appelle leur modification.
+Aucun fichier C1, chargeur, wheelhouse, runtime C3 ou statut canonique n'est modifié.
+Les gates et la CI du SHA publié seront joints à la remise après leur exécution ; aucun succès anticipé.
+MEP-058 reste soumis à une décision fonctionnelle explicite, sans clôture par cet audit.
+
+
+## Gates C2 indépendants — sources 13cc0f5
+
+`npm run quality:targeted` calcule et réussit le plan exhaustif : repository, backend, frontend et E2E.
+Backend : 1 758 tests, couverture 97,41 %, lint/format et migrations conformes.
+Frontend : 120 fichiers, 499 tests ; statements 94,97 %, branches 93,55 %, fonctions 96,47 %, lignes 95,81 %.
+Build normal/typecheck conformes ; 155 parcours applicatifs et dix parcours de démonstration réussis.
+Les dix-sept tests du sous-artefact et la comparaison des deux reconstructions restent joints aux preuves.
+Cette campagne ne constitue pas le protocole hors ligne corrigé C1, toujours absent du main retenu à cette étape.
+Le pré-push réévalue ses entrées après resynchronisation ; la CI du SHA publié reste requise.
+La pré-remise indépendante est conservée hors checkout sous `Assess-teams-artifacts/MEP-058/13cc0f505edf/`,
+avec le bundle Git borné de ses sources, les deux ZIP et les comparaisons, sans promotion de qualification.
