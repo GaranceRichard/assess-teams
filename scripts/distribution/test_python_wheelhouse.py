@@ -139,5 +139,10 @@ class WheelhouseTests(unittest.TestCase):
             runtime_profile(Path(sys.executable))
 
 
+def load_tests(loader, tests, pattern):
+    tests.addTests(loader.discover(str(SCRIPTS), pattern="test_package.py"))
+    return tests
+
+
 if __name__ == "__main__":
     unittest.main()

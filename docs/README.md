@@ -73,3 +73,5 @@ Ce dossier regroupe toute la documentation du dépôt par responsabilité. Le [R
 - [Jalon décisionnel GO/NO-GO](backlog/tracking/mess-jalon.md).
 
 - [Audit contradictoire : 61 annoncés, 63 points couverts, 62 PBI actifs](backlog/planning/mess-audit.md).
+
+- [MEP-024 — Assemblage vérifiable du candidat autonome, refus I01 explicite](operations/autonomous-package/README.md).
