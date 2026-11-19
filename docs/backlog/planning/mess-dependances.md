@@ -44,7 +44,7 @@ Les dépendances réalisées restent dans la source ; la colonne suivante cite l
 | [MEP-055 — Prérequis](../source/mess/f11.md) | Prêt : requalification Ouvert/N/A explicitement approuvée le 2026-11-14 ; aucune attente d’accord MESS | Cohérence/refus du profil et limites de compatibilité ; clôture distincte |
 | [MEP-023 — Entrées README/architecture](../source/mess/f11.md) | Prêt : 021 et 022 réalisés | Liens et information exacte sur les capacités effectivement livrées |
 | [MEP-056 — Cohérence du suivi](../source/mess/f11.md) | Prêt : 021 et 022 réalisés ; C12 n’est pas un prérequis | Sources/registre/synthèse alignés dans les documents existants, pas de rapport autonome |
-| [MEP-058 — Build frontend](../source/mess/f12.md) | Prêt : 057 réalisé ; I02 Swagger à traiter | Build normal, routes et assets locaux dont Swagger, empreintes/version |
+| [MEP-058 — Build frontend](../source/mess/f12.md) | Réalisé le 2026-11-19 : clôture approuvée ; I02 traitée | Build normal, routes et assets locaux dont Swagger, empreintes/version |
 | [MEP-024 — Package](../source/mess/f12.md) | Non prêt : 058 ; 021, 059 et 022 réalisés, I01–I03 conservées | Assemblage reproductible SHA/manifeste/notices et refus d’altération, puis réassemblage final |
 | [MEP-060 — Préflight](../source/mess/f13.md) | Non prêt : 024 ; 021 réalisé | Profil/ACL/chemins/empreintes vérifiés et relance sans destruction |
 | [MEP-061 — Pose composants](../source/mess/f13.md) | Non prêt : 060 | Pose locale et relance, absence de faux succès/résolution réseau |

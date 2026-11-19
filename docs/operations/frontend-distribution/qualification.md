@@ -144,3 +144,19 @@ Les dix tests C1 inchangés passent ; le protocole corrigé réussit sur les deu
 Les octets exécutables/notices sont identiques ; seuls les diagnostics de deux rapports Webpack varient.
 Le pré-push exhaustif et la CI du SHA exact restent requis avant succès de livraison.
 Les réserves I01–I03 et la décision fonctionnelle de clôture restent celles du rapport intégré.
+
+## Clôture fonctionnelle approuvée — 2026-11-19
+
+Le responsable produit approuve explicitement la clôture de MEP-058 au 19 novembre 2026.
+C1–C5 et vrais refus conformes sur `c14e60cf26885e10f7acaf699d4bd521657f2e96` : build normal,
+19 acceptations/refus, dix tests C1, trois contrats Swagger et 26 URL Chromium sans tentative externe.
+493 sources, huit outils et 198 fichiers vérifiés ; reconstructions C2 réutilisées aux mêmes entrées.
+Les diagnostics Webpack variables ne démontrent aucune identité binaire des ZIP complets.
+[CI exacte](https://github.com/GaranceRichard/assess-teams/actions/runs/44446171810) verte ;
+[publication C2 exhaustive](https://github.com/GaranceRichard/assess-teams/actions/runs/44313206575) verte.
+Remise finale : `Assess-teams-artifacts/MEP-058/c14e60cf2688-final/`, conservée hors dépôt.
+I01 reste au runtime Python ; I03 à Windows/MESS. Aucun package MEP-024 ni environnement MESS qualifié.
+Revue documentaire : registre, vues et indicateurs actualisés sur cette seule approbation.
+README, règles, charte, DoD, tests, architecture et API : aucune capacité publique modifiée.
+Plan : prose seule, contrôles documentaires frais ; tests applicatifs/E2E non applicables.
+Pré-push et CI exacte obligatoires pour cette publication ; aucun autre statut modifié.

@@ -43,7 +43,7 @@ Les Features larges de pilotage restent incomplètes.
 | EPIC-010 — Traçabilité opérationnelle | 2 | 2 | 2 | 100 % |
 | EPIC-011 — Sécurité et robustesse MESS | 4 | 12 | 11 | 92 % |
 | EPIC-012 — Expérience utilisateur MESS | 5 | 17 | 17 | 100 % |
-| EPIC-013 — Installation et exploitation MESS | 6 | 19 | 5 | 26 % |
+| EPIC-013 — Installation et exploitation MESS | 6 | 19 | 6 | 32 % |
 | EPIC-014 — Documentation, transfert et recette MESS | 5 | 14 | 2 | 14 % |
 
 Un Epic à 100 % signifie seulement que tous ses PBIs actuellement raffinés sont réalisés ; les Features non
@@ -132,7 +132,7 @@ MEP-020 — [Purge des journaux](../operations/journal-purge-validation.md) est 
 
 | Périmètre | PBI | Réalisés | Ouverts | En cours | Bloqués | Avancement |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MESS actif — E01 à E04 | 62 | 35 | 26 | 0 | 1 | 56 % |
+| MESS actif — E01 à E04 | 62 | 36 | 25 | 0 | 1 | 58 % |
 | Historique Job 1 — MEP-001 à MEP-008 | 8 | 8 | 0 | 0 | 0 | 100 % historique |
 
 03.01 référence les acquis JOURNAL-001/002, sans PBI supplémentaire ; MEP-041 reste archivé avec sa date du 2026-10-05.
@@ -181,15 +181,15 @@ MEP-012 — [Protections GitHub et CI](../quality/mep-012/README.md) : Bloqué, 
 | Features raffinées | 42 |
 | Features non raffinées | 19 |
 | Nombre total de PBIs | 96 |
-| PBIs ouverts | 32 |
+| PBIs ouverts | 31 |
 | PBIs en cours | 0 |
 | PBIs bloqués | 1 |
-| PBIs non réalisés | 33 |
-| PBIs réalisés | 63 |
-| Avancement global | 66 % |
+| PBIs non réalisés | 32 |
+| PBIs réalisés | 64 |
+| Avancement global | 67 % |
 
-Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 63 réalisés (28 fonctionnels, dont TEAM-002 et TEAM-003 clôturés séparément le 2026-11-13 et [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 35 MESS, dont MEP-021 clôturé le 2026-11-19 et MEP-059 clôturé le 2026-11-17, puis MEP-054, MEP-057 et MEP-022 clôturés le 2026-11-16, puis MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 passe à Ouvert/N/A sur approbation explicite du 2026-11-14, sans clôture ; MEP-012 reste Bloqué ; ORG-004 reste Ouvert/N/A, décision ARB-ORG-005 acquise et clôture fonctionnelle distincte attendue. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
+Scoring recalculé depuis le registre : 34 PBI fonctionnels + 62 PBI MESS ; 64 réalisés (28 fonctionnels, dont TEAM-002 et TEAM-003 clôturés séparément le 2026-11-13 et [TEAM-005 clôturé le 2026-11-13](planning/qualification-team-005/cloture.md), et 36 MESS, dont MEP-058 clôturé le 2026-11-19, puis MEP-021 clôturé le 2026-11-19 et MEP-059 clôturé le 2026-11-17, puis MEP-054, MEP-057 et MEP-022 clôturés le 2026-11-16, puis MEP-051, MEP-018, MEP-017, MEP-050, MEP-049, MEP-048, MEP-016, MEP-015, MEP-047, MEP-045, MEP-013, MEP-046, MEP-014, MEP-044, MEP-019, MEP-030, MEP-067, MEP-052 et MEP-053). Les anciens totaux globaux omettaient quatre réalisations fonctionnelles déjà canoniques ; MEP-055 passe à Ouvert/N/A sur approbation explicite du 2026-11-14, sans clôture ; MEP-012 reste Bloqué ; ORG-004 reste Ouvert/N/A, décision ARB-ORG-005 acquise et clôture fonctionnelle distincte attendue. MEP-043 est Réalisé selon les [critères explicitement révisés le 2026-10-21](../quality/mep-043/closure.md) : protections compatibles et push direct validés, limite CI après intégration acceptée, réserve G05 non vérifiée (403) non bloquante ; la publication du backlog est libérée. MEP-041 est un alias archivé non compté. Les huit PBI historiques du Job 1,
 FEAT-042 à FEAT-048 archivées et le jalon MEP-035 sont exclus des indicateurs actifs selon la gouvernance.
 Diagnostic historique du 2026-10-27, sans valeur de blocage actuel : **47 déjà couverts, 20 partiels, 22 non couverts, 2 insuffisamment définis, 5 bloqués** ; aucun doublon actif intégral démontré. Ces catégories datées ne remplacent pas les statuts ; les 19 Features sans PBI restent non raffinées.
 
-[Prochains PBI et aptitudes courantes](planning/pre-mep.md) : MEP-058 recommandé ; TEAM-006, MEP-055, MEP-031, MEP-023, MEP-056 et MEP-064 prêts selon leurs sources ; I01–I03 conservées pour leurs consommateurs. [Historique des 63 points](planning/mess-audit.md).
+[Prochains PBI et aptitudes courantes](planning/pre-mep.md) : MEP-058 réalisé le 2026-11-19 ; TEAM-006, MEP-055, MEP-031, MEP-023, MEP-056 et MEP-064 prêts selon leurs sources ; I01–I03 conservées pour leurs consommateurs. [Historique des 63 points](planning/mess-audit.md).

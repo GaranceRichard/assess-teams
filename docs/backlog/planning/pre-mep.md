@@ -1,8 +1,8 @@
 # Backlog opérationnel — chemin vers une version installable MESS
 
 Suivi actualisé le 2026-11-19 ; refonte du 2026-11-14 sur `c82f4e4` ; [sources](../README.md#source-fonctionnelle-détaillée),
-[registre canonique](../tracking/pbis.md), [dépendances et disponibilité des 33 non réalisés](mess-dependances.md).
-Les **96 PBI actifs** comptent 63 réalisés et 33 non réalisés après la clôture MEP-021 approuvée
+[registre canonique](../tracking/pbis.md), [dépendances et disponibilité des 32 non réalisés](mess-dependances.md).
+Les **96 PBI actifs** comptent 64 réalisés et 32 non réalisés après les clôtures MEP-058 et MEP-021 approuvées
 le 2026-11-19, après MEP-059 le 2026-11-17 et les clôtures du 2026-11-16 (054/057/022). Le rapprochement du 14 novembre et ses décisions restent historiques.
 Les huit PBI Job 1, MEP-041 archivé et MEP-035 hors dénominateur restent conservés.
 
@@ -39,7 +39,7 @@ recommandé ; XS/S ne sont pas des engagements. Les Non prêts sont la suite pr�
 
 | Rang | PBI / capacité livrable | Aptitude actuelle et raison | Valeur / coût recommandé |
 | ---: | --- | --- | --- |
-| 1 | [MEP-058 — Frontend et assets locaux de distribution](../source/mess/f12.md) | **Prêt** : MEP-057 réalisé ; I02 Swagger à traiter sur les assets produits | Artefact normal sans CDN ni build cible ; S |
+| 1 | [MEP-058 — Frontend et assets locaux de distribution](../source/mess/f12.md) | **Réalisé le 2026-11-19** : clôture approuvée ; I02 traitée pour les octets reconstruits | Artefact normal sans CDN ni build cible ; S |
 | 2 | [TEAM-006 — Consultation séparée des archives](../source/02-equipes.md) | **Prêt** : TEAM-005 réalisé et droits C04 décidés | Valeur utilisateur indépendante de l'installation ; S |
 | 3 | [MEP-055 — Prérequis d'installation](../source/mess/f11.md) | **Prêt** : Ouvert/N/A sur décision du 2026-11-14 ; aucune clôture déduite | Vérifier le contrat de référence et ses refus ; XS |
 | 4 | [MEP-031 — Scénarios de recette technique](../source/mess/f17.md) | **Prêt** : MEP-022 et MEP-039 réalisés ; finaliser le cahier | Attentes mesurables, sans PV cible anticipé ; S |
