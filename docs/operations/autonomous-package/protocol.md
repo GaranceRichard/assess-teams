@@ -97,7 +97,7 @@ backend/.venv/Scripts/python.exe -m unittest discover -s scripts/distribution -p
 Remove-Item Env:MEP024_CANDIDATE
 ```
 
-Les dix tests wheels existants et neuf tests portables d'assemblage sont exécutés par le
+Les dix tests wheels existants et dix tests portables d'assemblage sont exécutés par le
 gate repository existant, sans changement de sélection CI. Les contre-épreuves d'intégration
 utilisent uniquement des copies temporaires du candidat réel désigné ; la référence reste
 inchangée. La CI Linux ne dispose pas de cet artefact de préparation Windows externe et

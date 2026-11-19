@@ -3,7 +3,6 @@
 import io
 import re
 import subprocess
-import tarfile
 
 from package_common import ROOT, digest, require
 
@@ -57,14 +56,32 @@ def source_paths(sha):
 def source_blobs(sha):
     selected = source_paths(sha)
     roots = sorted({path.split("/")[0] for path in selected})
-    data = git("archive", "--format=tar", sha, "--", *roots, binary=True)
-    result = {}
-    with tarfile.open(fileobj=io.BytesIO(data)) as archive:
-        for path in selected:
-            member = archive.getmember(path)
-            require(member.isfile(), "Non-regular source refused")
-            result[path] = archive.extractfile(member).read()
-    return result
+    tree = git("ls-tree", "-r", sha, "--", *roots)
+    entries = {}
+    for line in tree.splitlines():
+        metadata, path = line.split("\t", 1)
+        entries[path] = metadata.split()
+    for path in selected:
+        mode, kind, _ = entries[path]
+        require(
+            mode in ("100644", "100755") and kind == "blob",
+            "Non-regular source refused",
+        )
+    objects = [entries[path][2] for path in selected]
+    result = subprocess.run(
+        ["git", "-C", str(ROOT), "cat-file", "--batch"],
+        input=("\n".join(objects) + "\n").encode(),
+        capture_output=True,
+        check=True,
+    )
+    stream = io.BytesIO(result.stdout)
+    blobs = {}
+    for path, oid in zip(selected, objects, strict=True):
+        actual, kind, size = stream.readline().decode().split()
+        require(actual == oid and kind == "blob", "Git object identity mismatch")
+        blobs[path] = stream.read(int(size))
+        require(stream.read(1) == b"\n", "Incomplete Git object")
+    return blobs
 
 
 def source_records(sha):

@@ -2,6 +2,7 @@
 
 import argparse
 import base64
+import hashlib
 import io
 import re
 import urllib.request
@@ -9,7 +10,15 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from package_common import ROOT, digest, inventory, read_json, require, write_json
+from package_common import (
+    ROOT,
+    digest,
+    inventory,
+    read_json,
+    require,
+    safe_path,
+    write_json,
+)
 from wheel_metadata import rows
 
 DOCS = ROOT / "docs/operations/distribution-inventory"
@@ -39,13 +48,9 @@ def module_notice(row, cache, fetch, output):
         entries = sorted(n for n in archive.namelist() if not n.endswith("/"))
         stream = "".join(digest(archive.read(n)) + "  " + n + "\n" for n in entries)
         actual = (
-            "h1:"
-            + base64.b64encode(
-                __import__("hashlib").sha256(stream.encode()).digest()
-            ).decode()
+            "h1:" + base64.b64encode(hashlib.sha256(stream.encode()).digest()).decode()
         )
         require(actual == expected, "Caddy module h1 mismatch: " + name)
-        prefix = escape(name) + "@" + escape(version) + "/"
         # Go ZIP paths retain module spelling (the URL alone is escaped).
         prefix = entries[0].split("@", 1)[0] + "@" + version + "/"
         expected_notices = re.findall(r"([^ ,;]+): ([a-f0-9]{64})", notices)
@@ -65,6 +70,7 @@ def module_notice(row, cache, fetch, output):
         records = []
         for n in selected:
             relative = "legal/" + name.replace("/", "_") + "/" + n[len(prefix) :]
+            safe_path(relative)
             target = output / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(archive.read(n))

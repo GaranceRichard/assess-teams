@@ -65,3 +65,5 @@ extension de test_package.py : distinguer une propriété/affectation d'un libel
 et autoriser uniquement les métadonnées sous les notices frontend déjà vérifiées.
 Vérification : régression des libellés publics, metadata légale et vraie affectation
 secrète fictive ; fichiers privés et package.json hors legal restent refusés.
+
+[Reconstruction et vérification](protocol.md) · [Preuves, critères et limites](qualification.md).
