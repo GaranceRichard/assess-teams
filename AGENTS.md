@@ -53,12 +53,56 @@ qualité, de tests, de documentation et de livraison restent obligatoires dans
 
 ## Validation selon l'impact
 
-- Pendant le développement, `npm run quality:targeted` calcule le plan local ; les tests explicites restent disponibles.
-- Le pré-push utilise le diff réel annoncé par Git et bloque tout échec requis ; jamais de `--no-verify`.
+Chaque agent doit minimiser le coût des validations tout au long de son intervention, selon l'impact réel
+du changement, en conservant toutes les obligations de qualité et de livraison.
+
+### Plan préalable et feedback pendant le développement
+
+- Avant toute exécution de validation, établir un plan identifiant le composant ou domaine modifié,
+  ses dépendances directes et transitives démontrées, les tests du composant concernés, les intégrations
+  nécessaires et les parcours E2E concernés ; justifier les niveaux non applicables.
+- L'appartenance au même dépôt ne démontre aucune dépendance entre composants.
+- `npm run quality:targeted` calcule le plan local ; privilégier les commandes explicites ciblées lorsque
+  sa sélection automatique dépasse le besoin du diagnostic immédiat.
+
+Exécuter progressivement les validations applicables :
+
+1. Tests du composant modifié.
+2. Tests d'intégration des dépendances concernées.
+3. E2E ciblés lorsque le comportement utilisateur est impacté.
+
+- Ne pas lancer par précaution les suites complètes backend, frontend ou E2E étrangères au changement.
+- Exemple : une modification exclusivement visuelle du radar React privilégie les tests Radar,
+  les intégrations concernées et les parcours Results ; aucun test backend d'identification sans dépendance démontrée.
+
+### Extension justifiée du périmètre
+
+- Toute extension à un autre domaine doit être motivée par une dépendance ou un risque identifié ; ajuster le plan.
+- Sécurité, authentification, permissions, contrats API, transactions, configuration et infrastructure transverse
+  conservent les validations renforcées applicables de la matrice, notamment pour la sécurité des sessions.
+- SQLite/sécurité internes : backend complet renforcé ; contrats utilisateur : frontend/E2E requis ;
+  transverse, inconnu ou dépendance non maîtrisée : exhaustif conservateur.
+
+### Gates de livraison et réutilisation des preuves
+
+- Les tests de feedback pendant le développement ne remplacent jamais le plan obligatoire du pré-push,
+  la CI indépendante, la nightly exhaustive ou la qualification MESS.
+- Le pré-push utilise le diff réel annoncé par Git et bloque tout échec requis, même si son périmètre
+  dépasse les tests ciblés déjà exécutés.
+- Aucun contournement de hook, seuil, couverture ou contrôle obligatoire ; jamais de `--no-verify`.
 - Prose/backlog audités : contrôles documentaires seuls, aucun test backend/frontend/E2E.
-- SQLite/sécurité internes : backend complet renforcé ; contrats utilisateur : frontend/E2E requis ; transverse ou inconnu : exhaustif conservateur.
-- Les preuves versionnées restent valides sans expiration temporelle si leurs entrées et sélections exactes sont inchangées, y compris après resynchronisation.
+- Ne pas répéter une campagne réussie si ses entrées effectives, son environnement et sa sélection vérifiée
+  sont inchangés et si sa preuve est réutilisable selon la politique existante. Les preuves versionnées
+  restent valides sans expiration temporelle dans ces conditions, y compris après resynchronisation.
+  Les contrôles obligatoirement frais restent exécutés.
 - La CI sélective est indépendante ; le push direct n'a pas de barrière CI distante avant intégration.
 - `publish` attend sa réussite avant succès de livraison. Une CI rouge reste un échec même après le push.
 - Nightly quotidienne et `quality:qualify` restent exhaustifs ; promotion MESS liée au SHA exact qualifié.
 - [Matrice, commandes et preuves](docs/quality/validation-costs.md) ; [protections et limites CI](docs/quality/ci.md).
+
+### Économie de temps et de tokens
+
+- Éviter les campagnes redondantes et les lancements simultanés inutiles.
+- Ne pas surveiller les journaux par interrogations répétitives sans décision à prendre.
+- Communiquer les jalons significatifs, blocages et résultats, plutôt que chaque progression de tests.
+- Présenter une synthèse finale des tests exécutés, de ceux non exécutés et de la justification des extensions éventuelles.
