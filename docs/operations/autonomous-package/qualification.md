@@ -98,3 +98,8 @@ L'élargissement vient de la politique effective, sans modification du moteur da
 Le rapport externe conserve les résultats des gates, couvertures, publication et CI du
 SHA exact après leur exécution ; aucun succès anticipé ni qualification MESS déduite.
 La DoD fonctionnelle demeure non satisfaite pour le package complet à cause de I01.
+
+Durcissement final : 16 tests d'intégration réussis. Deux défauts sont reproduits avec
+les vérificateurs antérieurs : reçu frontend divergent et URL Caddy inventée acceptés
+après rescellement cohérent ; les nouveaux contrôles les refusent. La preuve avant/après
+et la campagne du candidat final restent jointes au rapport externe de remise.

@@ -67,3 +67,11 @@ Vérification : régression des libellés publics, metadata légale et vraie aff
 secrète fictive ; fichiers privés et package.json hors legal restent refusés.
 
 [Reconstruction et vérification](protocol.md) · [Preuves, critères et limites](qualification.md).
+
+## Préparation du durcissement final des reçus
+
+La revue du manifeste demande un rapprochement explicite des deux reçus inclus et du
+payload frontend, ainsi que des URLs Caddy avec les tables canoniques. package_verify.py
+et package_caddy.py seront renforcés avant publication ; test_package_refusals.py exercera
+un reçu divergent et une origine Caddy inventée sur copies rescellées du candidat réel.
+Le SHA externe demeure l'ancre de confiance après transport, sans risque accepté.

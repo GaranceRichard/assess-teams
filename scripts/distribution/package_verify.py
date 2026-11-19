@@ -76,6 +76,15 @@ def verify(directory, expected_sha256, source_sha, integrity_only=False):
         == manifest["inputs"]["frontendManifestSha256"],
         "Frontend receipt mismatch",
     )
+    require(
+        frontend["payloadSha256"] == manifest["inputs"]["frontendPayloadSha256"],
+        "Frontend payload receipt mismatch",
+    )
+    require(
+        digest((directory / "hosting/caddy/manifest.json").read_bytes())
+        == manifest["inputs"]["caddyManifestSha256"],
+        "Caddy receipt mismatch",
+    )
     wheels = wheels_contract(directory / "python")
     require(len(wheels) == 15, "Incomplete wheel closure")
     caddy = verify_caddy(directory / "hosting/caddy")

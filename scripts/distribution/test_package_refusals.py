@@ -56,6 +56,20 @@ class RealPackageRefusals(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Source inventory"):
             self.check()
 
+    def test_divergent_receipt_and_invented_caddy_origin_refused(self):
+        self.manifest["inputs"]["frontendPayloadSha256"] = "0" * 64
+        with self.assertRaisesRegex(ValueError, "receipt"):
+            self.check()
+        self.manifest = read_json(Path(CANDIDATE) / "manifest.json")
+        path = self.root / "hosting/caddy/manifest.json"
+        caddy = read_json(path)
+        caddy["origins"][0]["origin"] = "https://example.invalid/invented"
+        self.manifest["components"][-2]["origin"] = caddy["origins"]
+        write_json(path, caddy)
+        self.manifest["inputs"]["caddyManifestSha256"] = digest(path.read_bytes())
+        with self.assertRaisesRegex(ValueError, "Caddy origins"):
+            self.check()
+
     def test_false_source_sha_refused(self):
         self.manifest["sourceCommit"] = "0" * 40
         with self.assertRaisesRegex(ValueError, "Source SHA mismatch"):

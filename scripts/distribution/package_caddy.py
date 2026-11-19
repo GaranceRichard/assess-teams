@@ -146,12 +146,21 @@ def verify(output):
         == "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
         "Caddy license mismatch",
     )
+    origins = []
     for filename, link, sha in rows(DOCS / "artifacts.md"):
         if filename.startswith("caddy_"):
+            origins.append(
+                {
+                    "file": filename,
+                    "origin": re.search(r"\((https:[^)]+)\)", link)[1],
+                    "sha256": sha,
+                }
+            )
             require(
                 digest((output / filename).read_bytes()) == sha,
                 "Caddy aggregate missing or altered",
             )
+    require(manifest["origins"] == origins, "Caddy origins mismatch")
     canonical = rows(DOCS / "caddy-modules.md")
     require(
         len(manifest["components"]) == len(canonical) == 148, "Missing Caddy component"
@@ -161,6 +170,14 @@ def verify(output):
             [item["name"], item["version"], item["goH1"], item["license"]] == row[:4],
             "Caddy provenance mismatch",
         )
+        url = (
+            "https://proxy.golang.org/"
+            + escape(row[0])
+            + "/@v/"
+            + escape(row[1])
+            + ".zip"
+        )
+        require(item["origin"] == url, "Caddy module origin mismatch")
         require(item["notices"], "Missing Caddy notices")
         for file, sha in re.findall(r"([^ ,;]+): ([a-f0-9]{64})", row[4]):
             path = "legal/" + item["name"].replace("/", "_") + "/" + file
