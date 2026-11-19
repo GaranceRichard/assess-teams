@@ -58,9 +58,14 @@ test("mixed specs run a union, shared UI still requires demo and broad layout re
     demoTests: [demo],
     demo: false,
   });
-  assert.equal(
-    planImpact(["frontend/src/ProductSidebar.tsx", demo]).checks.at(-1).demo,
-    true,
+  const shared = planImpact([
+    "frontend/src/ProductSidebar.tsx",
+    demo,
+  ]).checks.at(-1);
+  assert.ok(shared.demo || shared.demoTests.includes(demo));
+  assert.ok(shared.tests.includes("frontend/e2e/sidebar-layout.spec.ts"));
+  assert.ok(
+    shared.demoTests.includes("frontend/demo-e2e/sidebar-layout.spec.ts"),
   );
   assert.equal(
     planImpact(["frontend/src/transitions.css"]).checks.at(-1).scope,

@@ -1,22 +1,13 @@
-// Shared animation/layout primitives remain broad: focus, overlays and geometry
-// affect every route. Only previously audited component boundaries are narrow.
-const journeys = {
-  "frontend/src/DashboardPage.tsx": ["dashboard.spec.ts"],
-  "frontend/src/DashboardActivity.tsx": ["dashboard.spec.ts"],
-  "frontend/src/ProductSidebar.tsx": [
-    "sidebar-layout.spec.ts",
-    "brand-logo.spec.ts",
-    "product-shell.spec.ts",
-  ],
-  "frontend/src/SidebarLink.tsx": ["sidebar-layout.spec.ts"],
-};
+import { dependents, sorted } from "./dependency-graph.mjs";
+import { journeySelection } from "./journey-dependencies.mjs";
 
-export function frontendImpact(path, patch, security, securityCode) {
+export function frontendImpact(path, patch, security, securityCode, context) {
   if (
     /^frontend\/src\//.test(path) &&
     (security.test(path) ||
+      path === "frontend/src/navigation.ts" ||
       securityCode.test(patch) ||
-      /fetch\(|localStorage|contract/i.test(path + patch))
+      /fetch\s*\(|localStorage|contract/i.test(path + patch))
   )
     return {
       kind: "frontend-contract",
@@ -29,24 +20,45 @@ export function frontendImpact(path, patch, security, securityCode) {
       tests: [path],
       reason: "Test frontend isole",
     };
-  if (/^frontend\/src\/.*\.(ts|tsx|css)$/.test(path)) {
-    const ui = ![
-      "frontend/src/dateInputValue.ts",
-      "frontend/src/appreciationForScore.ts",
-      "frontend/src/collectionPage.ts",
-    ].includes(path);
+  if (!/^frontend\/src\/.*\.(ts|tsx|css)$/.test(path)) return null;
+  const frontend = context?.frontend();
+  if (!frontend || frontend.error || !frontend.graph.has(path))
+    return {
+      kind: "full",
+      reason: "Dependances frontend absentes ou non analysables",
+    };
+  const reached = dependents(frontend.graph, [path]);
+  const proven = dependents(frontend.graph, [path], false);
+  const isTest = (item) => frontend.caseFiles.has(item);
+  if (!Array.from(proven).some(isTest) || frontend.opaque.has(path))
+    return {
+      kind: "full",
+      reason: "Aucun test composant prouve ou import dynamique",
+    };
+  const frontendTests = sorted([...reached].filter(isTest));
+  const ui =
+    path.endsWith(".css") ||
+    [...reached].some(
+      (file) => file.endsWith(".tsx") && !/\.test\./.test(file),
+    );
+  // Utility leaves with only test consumers have no browser behavior.
+  const journeys = ui ? journeySelection(frontend, [path]) : {};
+  if (frontend.globalStyles.has(path))
     return {
       kind: "frontend-related",
       related: [path],
-      e2e: ui
-        ? journeys[path]?.map((name) => `frontend/e2e/${name}`) || ["*"]
-        : [],
-      reason: !ui
-        ? "Dependants transitifs Vitest"
-        : journeys[path]
-          ? "Composant audite: dependants Vitest, parcours cartographies et demo"
-          : "UI sans frontiere prouvee: dependants Vitest et tous les E2E; aucun impact pytest",
+      frontendTests,
+      e2e: ["*"],
+      demo: true,
+      reason: "Style global ou frontiere CSS non demontree: tous les parcours",
     };
-  }
-  return null;
+  return {
+    kind: "frontend-related",
+    related: [path],
+    frontendTests,
+    ...journeys,
+    reason: ui
+      ? "Importeurs transitifs Vitest et pages/parcours consommateurs recalcules"
+      : "Dependants transitifs Vitest; aucune UI consommatrice",
+  };
 }

@@ -49,24 +49,25 @@ Cette règle prospective ne requalifie aucune preuve ou décision historique.
 ## Matrice exécutable
 
 La définition unique associe [`impact-classification.mjs`](../../scripts/quality/impact-classification.mjs) et le plan [`impact.mjs`](../../scripts/quality/impact.mjs).
-Les tests `impact*.test.mjs` et les invariants YAML en protègent les décisions.
+Les tests `impact*.test.mjs`, `dependency*.test.mjs` et les invariants YAML protègent les décisions.
 
 | Changement | Contrôles obligatoires |
 | --- | --- |
 | Prose auditée ou cinq preuves visuelles UX inventoriées | `documentation` : lignes, secrets, conflits, README, règles, intégrité et liens des preuves ; aucun test applicatif ni suite d'outillage |
 | Test backend ordinaire isolé | Dépôt, Ruff/format/migrations, fichier pytest modifié |
-| Filtrage local des journaux | Dépôt, statiques backend, tests filtres/journal/logs/OpenAPI explicitement cartographiés |
-| Autre Python backend non sensible | Dépôt et backend complet avec couverture ; dépendants inconnus, donc sélection plus large |
+| Filtrage local des journaux | Dépôt, statiques backend et consommateurs imports/routes/OpenAPI recalculés |
+| Python backend non sensible analysable | Dépôt, statiques et tests des importeurs, fixtures, routes et commandes ; clients React et E2E concernés si un contrat API est atteint |
 | Test frontend ordinaire isolé | Dépôt, lint/format/typage frontend, test Vitest modifié |
-| Feuilles frontend auditées | Dépôt, statiques frontend, tests dépendants transitifs via `vitest related --run` |
-| Autre source frontend, composant ou CSS | Statiques et tests dépendants ; parcours cartographiés ou tous les E2E si inconnus ; build et parcours démo pour les composants partagés |
+| Source frontend analysable | Dépôt, statiques, union des tests du graphe et de `vitest related --run` ; aucun seuil global appliqué à une couverture partielle |
+| Composant ou CSS frontend | Importeurs et propriétaires CSS, pages consommatrices, specs réelles/démo ; navigation non résolue conservée, styles globaux tous E2E |
 | Test E2E applicatif isolé | Documentation, statiques frontend et spec explicite, backend réel du parcours conservé ; aucune campagne pytest |
 | Test E2E de démo isolé | Documentation, statiques frontend, typecheck/build démo et spec explicite ; aucun démarrage backend |
 | Configuration Playwright ou helper E2E TypeScript | Repository, statiques frontend, neuf contrats Vitest des configurations réelles/shards/diagnostics, puis tous les E2E applicatifs/démo ; aucune campagne backend |
 | Configurations Vite/ESLint/tsconfig auditées, src/test ou src/demo | Repository, frontend complet avec seuils et E2E complets ; aucun consommateur pytest démontré |
 | SQLite/transactions/workers internes, tests sensibles | Dépôt et backend complet, couverture >= 90 %, intégration et multiprocessus inclus ; pas de frontend/E2E automatique |
 | Permissions techniques `/api/users/` | Dépôt et backend complet : autorisations, refus sans effet, rôles/rattachements, sessions et contrats |
-| Sécurité ou contrat backend produit, adapters API, domaines et modèles | Dépôt, backend complet, frontend complet et tous les E2E ; dépendances UI non bornées |
+| Sécurité backend produit, identités, scopes et modèles | Dépôt, backend complet, frontend complet et tous les E2E ; dépendances sensibles non réduites |
+| Écriture persistante ou contrat non borné | Backend/frontend/E2E complets ; notifications internes backend complet, sans inventer un graphe des lecteurs ORM |
 | Sécurité/contrat frontend | Dépôt, frontend complet et tous les E2E |
 | Configuration backend et migrations | Exhaustif, sauf helper interne `config/sqlite_contention.py` audité ci-dessous |
 | Autre configuration, dépendances, hooks, scripts communs, CI/livraison, documents juridiques distribués | Exhaustif |
@@ -81,9 +82,9 @@ Le diff inclut les modes et les ajouts de déclarations critiques connues, même
 Une nouvelle dépendance applicative vers un document doit modifier cette matrice et ses tests dans le même lot.
 Les exceptions d'outillage et les cinq PNG/WebM sont nommées dans `impact-locations.mjs`, jamais déduites des seules extensions.
 Le gate documentaire refuse les preuves absentes référencées, conteneurs invalides et consommateurs explicites du dossier UX.
-Les composants sont cartographiés par chemin exact ; un homonyme, une primitive de focus ou un CSS partagé sans frontière prouvée garde tous les E2E.
-La carte reste volontairement prudente : elle n'infère pas automatiquement tous les imports Python dynamiques.
-Aucun `--passWithNoTests` n'est accepté : une sélection frontend sans test échoue.
+Les consommateurs sont recalculés par imports, propriétaires CSS, fixtures, routes et commandes : [rapport global](dependency-validation.md).
+Analyse impossible ou test composant non prouvé : exhaustif ; navigation opaque conservée. Le callback SMTP robuste borne uniquement l'impact UI.
+Le runner impose `--no-passWithNoTests`, y compris pour `related` dont le défaut Vitest est permissif : une sélection vide échoue.
 Les tests ciblés n'appliquent pas un seuil global à une couverture partielle ; les seuils globaux de 90 %
 restent appliqués aux campagnes exhaustives et aux scopes applicatifs complets.
 

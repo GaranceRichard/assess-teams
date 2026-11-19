@@ -38,7 +38,7 @@ obsolètes reste limité à une même PR. [Incident, tests et qualification npm]
 Pas de filtre de chemins GitHub susceptible de laisser un required check indéfiniment absent.
 Le plan JSON est archivé. Base introuvable : échec bloquant, jamais sélection documentaire implicite.
 
-La même fonction `planImpact` pilote pré-push et CI. Les jobs hors plan sont explicitement skipped.
+La même fonction `planImpact` pilote développement, pré-push et CI. Son [analyse des dépendances](dependency-validation.md) recalcule imports, fixtures, routes et parcours, avec refus des réductions non prouvées. Les jobs hors plan sont explicitement skipped.
 Le gate final `Required impact gate` utilise `always()` et exige succès de chaque job requis,
 refuse échec/annulation/absence et n'accepte que les skips justifiés par ce plan.
 La CI ne fait confiance à aucune empreinte locale : elle exécute ses contrôles avec `CI` actif.

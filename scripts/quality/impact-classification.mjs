@@ -1,3 +1,4 @@
+import { backendImpact } from "./backend-impact.mjs";
 import {
   pureDocument,
   evidenceAsset,
@@ -8,12 +9,13 @@ export { pureDocument } from "./impact-locations.mjs";
 // Fail closed: only reviewed locations qualify as prose or isolated changes.
 export const fullScopes = ["repository", "backend", "frontend", "e2e"];
 
-const security = /permission|auth|session|password|security/i;
+const security =
+  /permission|auth|session|password|security|(?:^|\/)(?:.*_)?scope\.py$/i;
 const integrity =
   /transaction|sqlite|worker|transaction\.atomic|BEGIN IMMEDIATE/i;
 const securityCode =
-  /authentication_classes|permission_classes|csrf_exempt|authorization|password/i;
-const contract = /\/(adapters\/api|domain)\/|models|serializ|views|contract/i;
+  /authentication_classes|permission_classes|csrf|authorization|credentials|sessionid|password|\.role\b|is_superuser|canAccess/i;
+
 const transverse =
   /^(scripts|\.github|\.githooks)\/|(^|\/)(package[^/]*\.json|.*lock[^/]*|requirements[^/]*|pyproject\.toml|.*config[^/]*|\.coveragerc)$/i;
 // These leaves have no UI contract; unmapped Python changes use the whole backend.
@@ -26,7 +28,7 @@ const backendLeaves = {
   ],
 };
 
-export function classify(change) {
+export function classify(change, context) {
   const {
     path,
     status = "M",
@@ -70,7 +72,8 @@ export function classify(change) {
   // Narrow audited exception: the retry helper is DB-only; settings remain transverse.
   const sqliteHelper = path === "backend/config/sqlite_contention.py";
   if (
-    (transverse.test(path) || /^backend\/.*(config|migrations)\//.test(path)) &&
+    ((transverse.test(path) && !/^frontend\/src\//.test(path)) ||
+      /^backend\/.*(config|migrations)\//.test(path)) &&
     !sqliteHelper
   )
     return {
@@ -98,7 +101,8 @@ export function classify(change) {
       !worker &&
       ((sqliteHelper && contractCode.test(patch)) ||
         (!sqliteHelper &&
-          ((contract.test(path) && !backendLeaves[path]) || secured)));
+          (secured ||
+            /(^|\/)(.*models|membership_invariants)\.py$/.test(path))));
     if (uiContract)
       return {
         kind: "backend-contract",
@@ -118,6 +122,8 @@ export function classify(change) {
         tests: [path],
         reason: "Test backend isole",
       };
+    const dependencies = backendImpact(path, context);
+    if (dependencies) return dependencies;
     if (backendLeaves[path])
       return {
         kind: "backend-targeted",
@@ -130,7 +136,7 @@ export function classify(change) {
     };
   }
   return (
-    frontendImpact(path, patch, security, securityCode) || {
+    frontendImpact(path, patch, security, securityCode, context) || {
       kind: "full",
       reason:
         "Changement non classifiable: dependances non prouvees, quatre domaines requis",

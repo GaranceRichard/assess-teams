@@ -54,10 +54,18 @@ test("isolated backend tests have no frontend or E2E campaign", () => {
     { scope: "backend-targeted", tests: ["backend/tests/test_health.py"] },
   ]);
   assert.deepEqual(plan.skipped, ["frontend", "e2e"]);
-  assert.deepEqual(scopes(["backend/notifications/errors.py"]), [
-    "documentation",
-    "backend",
-  ]);
+  const notifications = planImpact(["backend/notifications/errors.py"]);
+  assert.deepEqual(
+    notifications.checks.map(({ scope }) => scope),
+    ["documentation", "backend-static", "backend-targeted"],
+  );
+  assert.ok(
+    notifications.checks
+      .at(-1)
+      .tests.includes("backend/tests/test_email_smtp.py"),
+  );
+  assert.ok(notifications.skipped.includes("frontend"));
+  assert.ok(notifications.skipped.includes("e2e"));
 });
 
 test("frontend dependency graph and known journeys select deterministic controls", () => {
@@ -69,22 +77,16 @@ test("frontend dependency graph and known journeys select deterministic controls
     plan.checks.map(({ scope }) => scope),
     ["documentation", "frontend-static", "frontend-targeted", "e2e-targeted"],
   );
-  assert.deepEqual(plan.checks.at(-1).tests, [
-    "frontend/e2e/dashboard.spec.ts",
-  ]);
-  assert.deepEqual(scopes(["frontend/src/new-widget.tsx"]), [
-    "documentation",
-    "frontend-static",
-    "frontend-targeted",
-    "e2e",
-  ]);
-  assert.deepEqual(scopes(["frontend/src/dateInputValue.ts"]), [
-    "documentation",
-    "frontend-static",
-    "frontend-targeted",
-  ]);
+  assert.ok(
+    plan.checks.at(-1).tests.includes("frontend/e2e/dashboard.spec.ts"),
+  );
+  assert.ok(plan.skipped.includes("backend"));
+  assert.deepEqual(scopes(["frontend/src/new-widget.tsx"]), fullScopes);
+  const leaf = planImpact(["frontend/src/dateInputValue.ts"]);
+  assert.ok(leaf.skipped.includes("backend"));
+  assert.ok(leaf.checks.some(({ scope }) => scope === "frontend-targeted"));
+  assert.ok(leaf.checks.at(-1).tests.includes("frontend/e2e/planning.spec.ts"));
 });
-
 test("mixed critical changes override a documentary selection; full is always exhaustive", () => {
   assert.deepEqual(scopes(["README.md", "scripts/x.mjs"]), fullScopes);
   assert.deepEqual(

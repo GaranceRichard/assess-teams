@@ -99,7 +99,7 @@ if ($Scope -in @('all', 'repository', 'documentation')) {
             & node --test scripts/quality/tests/complete-ci.test.mjs scripts/quality/tests/e2e-reports.test.mjs scripts/quality/tests/e2e-artifacts.test.mjs scripts/quality/tests/ci-diff-base.test.mjs
         }
         Invoke-QualityStep 'Tests de validation proportionnee' { & node --test scripts/quality/tests/validation.test.mjs scripts/quality/tests/validation-inputs.test.mjs scripts/quality/tests/validation-policy.test.mjs scripts/quality/tests/validation-publish.test.mjs scripts/quality/tests/evidence-regression.test.mjs scripts/quality/tests/runtime-inputs.test.mjs scripts/quality/tests/installed-cache.test.mjs }
-        Invoke-QualityStep 'Tests de la matrice et du candidat' { & node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs scripts/quality/tests/proportionality*.test.mjs }
+        Invoke-QualityStep 'Tests de la matrice et du candidat' { & node --test scripts/quality/tests/impact.test.mjs scripts/quality/tests/impact-git.test.mjs scripts/quality/tests/impact-execution.test.mjs scripts/quality/tests/sensitive-impact.test.mjs scripts/quality/tests/direct-publication.test.mjs scripts/quality/tests/proportionality*.test.mjs scripts/quality/tests/dependency*.test.mjs }
     }
 }
 

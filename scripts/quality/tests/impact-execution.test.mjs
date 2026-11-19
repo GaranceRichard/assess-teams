@@ -106,8 +106,14 @@ test("delivery status must belong to the exact pushed SHA and a successful push 
   const other = { ...run, headSha: "two", conclusion: "cancelled" };
   assert.equal(conclusion([other, run], "one"), "success");
   assert.equal(conclusion([other, run], "two"), "failure");
-  assert.equal(conclusion([{ ...run, event: "pull_request" }], "one"), "pending");
-  assert.equal(conclusion([{ ...run, status: "in_progress" }], "one"), "pending");
+  assert.equal(
+    conclusion([{ ...run, event: "pull_request" }], "one"),
+    "pending",
+  );
+  assert.equal(
+    conclusion([{ ...run, status: "in_progress" }], "one"),
+    "pending",
+  );
   assert.equal(conclusion([run], "two"), "pending");
   for (const result of ["failure", "cancelled", "skipped"])
     assert.equal(
@@ -175,5 +181,6 @@ test("mixed frontend source/test changes execute a single union of affected test
     assert.equal(status, 0);
     assert.equal(calls.length, 1);
     assert.ok(calls[0].includes("related"));
-    assert.equal(calls[0].length, 5);
+    assert.equal(calls[0].length, 6);
+    assert.ok(calls[0].includes("--no-passWithNoTests"));
   }));

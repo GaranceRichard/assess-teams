@@ -47,6 +47,7 @@ export function executeCheck(root, env, check, invoke) {
       scope,
     ]);
   const tests = (check.tests || []).map((path) => resolve(root, path));
+  if (check.scope === "backend-targeted" && !tests.length) return 1;
   if (check.scope === "backend-targeted")
     return run(
       pythonPath(root),
@@ -77,8 +78,11 @@ export function executeCheck(root, env, check, invoke) {
         ]),
       ].map((path) => relative(frontend, path));
       // Related includes a changed test itself and its importers: one union, no duplicate run.
-      // No --passWithNoTests: an empty affected graph must block.
-      return node([vitest, "related", "--run", ...paths], frontend);
+      // Vitest related defaults to allowing zero tests; explicitly refuse that default.
+      return node(
+        [vitest, "related", "--run", "--no-passWithNoTests", ...paths],
+        frontend,
+      );
     }
     return tests.length ? node([vitest, "run", ...tests], frontend) : 1;
   }

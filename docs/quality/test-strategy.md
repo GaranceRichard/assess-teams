@@ -71,7 +71,7 @@ Chaque correction de bug ajoute un test qui reproduit le défaut réel. Le test 
 
 ### Tests E2E
 
-Playwright valide les parcours métier critiques à travers l'interface et le backend réels. La sélection est fondée sur le risque : valeur métier, fréquence, permissions, persistance, erreurs critiques et dépendances entre écrans.
+Playwright valide les parcours métier critiques à travers l'interface et le backend réels. La sélection est fondée sur les dépendances démontrées et le risque : valeur métier, fréquence, permissions, persistance et erreurs critiques. Le [graphe de validation](dependency-validation.md) relie composants, intégrations, contrats et parcours ; une frontière inconnue reste conservatrice.
 
 Chaque parcours critique est inventorié avec son état de couverture. Les scénarios incluent le chemin nominal et les refus métier essentiels sans dupliquer inutilement les tests de niveaux inférieurs.
 La CI utilise cinq shards indépendants pour les parcours réels et de démo ; leurs inventaires et résultats consolidés garantissent l’exécution exhaustive sans doublons. Chaque shard isole SQLite, services, ports, temporaires et rapports. Les parcours utilisent un seul worker par shard tant que le backend E2E repose sur SQLite, afin de sérialiser leurs écritures et d’éviter une contention propre à cette base locale.

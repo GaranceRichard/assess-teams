@@ -1,3 +1,4 @@
+import { dependencyContext } from "./dependency-context.mjs";
 import { classify, fullScopes } from "./impact-classification.mjs";
 export {
   classify,
@@ -5,10 +6,11 @@ export {
   pureDocument,
 } from "./impact-classification.mjs";
 
-export function planImpact(changes, { exhaustive = false } = {}) {
+export function planImpact(changes, { exhaustive = false, root } = {}) {
+  const context = exhaustive ? undefined : dependencyContext(root);
   const classifications = changes.map((change) => ({
     path: typeof change === "string" ? change : change.path,
-    ...classify(change),
+    ...classify(change, context),
   }));
   const full =
     exhaustive || classifications.some(({ kind }) => kind === "full");
@@ -42,15 +44,32 @@ export function planImpact(changes, { exhaustive = false } = {}) {
       classifications.some(({ kind }) => kind === "backend")
     )
       checks.push({ scope: "backend" });
-    else if (selected("backend-targeted").length)
+    else if (
+      [...selected("backend-targeted"), ...selected("backend-related")].length
+    )
       checks.push(
         { scope: "backend-static" },
-        { scope: "backend-targeted", tests: selected("backend-targeted") },
+        {
+          scope: "backend-targeted",
+          tests: [
+            ...new Set([
+              ...selected("backend-targeted"),
+              ...selected("backend-related"),
+            ]),
+          ].sort(),
+        },
       );
-    const related = selected("frontend-related", "related");
+    const related = [
+      ...new Set([
+        ...selected("frontend-related", "related"),
+        ...selected("backend-related", "related"),
+      ]),
+    ].sort();
     const tests = [
       ...new Set([
         ...selected("frontend-targeted"),
+        ...selected("frontend-related", "frontendTests"),
+        ...selected("backend-related", "frontendTests"),
         ...selected("e2e-tooling", "frontendTests"),
       ]),
     ].sort();
@@ -68,10 +87,17 @@ export function planImpact(changes, { exhaustive = false } = {}) {
     const e2e = [
       ...new Set([
         ...selected("frontend-related", "e2e"),
+        ...selected("backend-related", "e2e"),
         ...selected("e2e-targeted"),
       ]),
     ].sort();
-    const demoTests = selected("e2e-demo-targeted");
+    const demoTests = [
+      ...new Set([
+        ...selected("e2e-demo-targeted"),
+        ...selected("frontend-related", "demoTests"),
+        ...selected("backend-related", "demoTests"),
+      ]),
+    ].sort();
     if (frontendContract || e2e.includes("*") || tooling)
       checks.push({ scope: "e2e" });
     else if (e2e.length || demoTests.length)
@@ -79,7 +105,11 @@ export function planImpact(changes, { exhaustive = false } = {}) {
         scope: "e2e-targeted",
         tests: e2e,
         ...(demoTests.length ? { demoTests } : {}),
-        demo: selected("frontend-related", "e2e").length > 0,
+        demo: classifications.some(
+          (entry) =>
+            ["frontend-related", "backend-related"].includes(entry.kind) &&
+            entry.demo,
+        ),
       });
   }
   const required = new Set(checks.map(({ scope }) => scope.split("-")[0]));

@@ -8,6 +8,11 @@ import { main, runValidation } from "../validate.mjs";
 import { fixture, options } from "./validation-fixtures.mjs";
 
 test("sensitive and transverse changes escalate; isolated UI stays targeted", () => {
+  assert.equal(
+    requiresFull(["frontend/src/Button.tsx"]),
+    true,
+    "Unknown component refuses reduction",
+  );
   for (const path of [
     "backend/a/migrations/1.py",
     "scripts/check.ps1",
@@ -18,7 +23,7 @@ test("sensitive and transverse changes escalate; isolated UI stays targeted", ()
     assert.equal(requiresFull([path]), true, path);
   }
   assert.equal(
-    requiresFull(["frontend/src/Button.tsx", "docs/quality/guide.md"]),
+    requiresFull(["frontend/src/ResultsRadar.tsx", "docs/quality/guide.md"]),
     false,
   );
 });
