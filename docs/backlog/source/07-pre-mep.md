@@ -52,8 +52,8 @@ Une recommandation XS/S ne permet pas d’élargir la fiche : un écart dépassa
 
 ## Suivi, dépendances et décision
 
-Prochain recommandé : **MEP-021 — Charger et valider la configuration unique**, prêt ; MEP-058 et
-TEAM-006 indépendants peuvent avancer en parallèle. Les 17 PBI UX sont réalisés ; aucune qualification
+MEP-021 est [clôturé sur approbation le 2026-11-19](../../operations/configuration/unique-closure.md). Prochain recommandé :
+**MEP-058 — Préparer le frontend compilé pour la distribution** ; TEAM-006 peut avancer indépendamment. Les 17 PBI UX sont réalisés ; aucune qualification
 préalable supplémentaire de ces acquis. [Plan courant](../planning/pre-mep.md) et [aptitudes](../planning/mess-dependances.md).
 MEP-055 est Ouvert/N/A par décision explicite du 2026-11-14, sans clôture. Le profil de référence peut
 être défini et qualifié par le projet ; D01–D09 ne sont pas des approbations externes obligatoires.

@@ -1,10 +1,10 @@
 # Planification du backlog
 
 Le [plan pré-MEP MESS](pre-mep.md) organise la livraison par Epic → Feature → PBI, selon les dépendances réelles, et le jalon GO/NO-GO séparé.
-Prochain recommandé : **MEP-021 — Charger et valider la configuration unique**, prêt ; MEP-058 et
-TEAM-006 peuvent être engagés en parallèle. I01–I03 restent aux consommateurs de l’inventaire 057 réalisé.
-Le [plan courant](pre-mep.md) donne les neuf prochains PBI et
-l’[aptitude des 34 non réalisés](mess-dependances.md). Les décisions produit précises restent réservées ;
+MEP-021 est clôturé sur approbation le 2026-11-19. Prochain recommandé : **MEP-058 — Préparer le frontend compilé pour la distribution** ;
+TEAM-006 peut avancer indépendamment. I01–I03 restent aux consommateurs de l’inventaire 057 réalisé.
+Le [plan courant](pre-mep.md) donne les huit prochains PBI et
+l’[aptitude des 33 non réalisés](mess-dependances.md). Les décisions produit précises restent réservées ;
 D01–D09 ne sont plus des approbations externes préalables au développement.
 La séquence métier ci-dessous reste une orientation générale, sans réouverture des acquis ni ajout
 d’automatisme exigeant tous les compléments fonctionnels avant la MEP ; ses arbitrages restent applicables.

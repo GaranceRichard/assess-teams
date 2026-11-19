@@ -2,7 +2,7 @@
 
 [Contrat acquis MEP-054](unique-contract.md) · [preuves MEP-054](unique-validation.md) ·
 [source canonique](../../backlog/source/mess/f10.md).
-Le statut canonique reste inchangé, la clôture fonctionnelle attend l'approbation du demandeur.
+[Clôture fonctionnelle approuvée le 2026-11-19](unique-closure.md) ; les étapes datées ci-dessous restent historiques.
 
 ## Préparation du changement — MEP-021
 
@@ -118,7 +118,7 @@ Les ACL, groupes effectifs du compte de service, lecteurs synchronisés non iden
 leur chemin/environnement, confiance et échéance TLS/SMTP restent à qualifier sur le site cible.
 Le chargeur ne sonde ni le relais SMTP ni le frontal ; il ne prétend pas qualifier un site MESS.
 Le schéma embarqué doit accompagner le backend distribué ; le packaging reste son PBI propre.
-Clôture fonctionnelle proposée sous réserve d'approbation ; aucun statut canonique changé.
+À la livraison initiale : clôture proposée sous réserve d'approbation ; aucun statut canonique changé.
 
 ## Résultats locaux avant publication — 2026-11-15
 

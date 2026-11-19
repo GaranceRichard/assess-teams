@@ -1,9 +1,9 @@
 # Périmètres livrés, écarts et qualifications
 
-Complément des sources d’Epics, actualisé au 2026-11-16. Les [96 diagnostics historiques](../planning/audit-20261027/matrice.md)
+Complément des sources d’Epics, actualisé au 2026-11-19. Les [96 diagnostics historiques](../planning/audit-20261027/matrice.md)
 restent analytiques ; les [registres](../tracking/pbis.md) portent statuts et dates. Le [plan courant](../planning/pre-mep.md)
-et les [35 aptitudes](../planning/mess-dependances.md) remplacent leurs conseils de lancement obsolètes.
-Aucun identifiant/parent nouveau ; 61 réalisés, 34 ouverts, 1 bloqué ; seules clôtures nouvelles : 054/057/022, approuvées le 2026-11-16.
+et les [33 aptitudes](../planning/mess-dependances.md) remplacent leurs conseils de lancement obsolètes.
+Aucun identifiant/parent nouveau ; 63 réalisés, 32 ouverts, 1 bloqué ; dernière clôture : MEP-021, approuvée le 2026-11-19.
 
 ## Produit : acquis et deltas bornés
 
@@ -44,7 +44,7 @@ acceptation utilisateur et inclusion au candidat à décider. CI et mesures ne v
 | MEP-012 / MEP-043 | Dossier C06 publié : verdict/date 012 à approuver ; 043 réalisé, push direct et CI après intégration acquis, G05 accepté non bloquant ; aucune nouvelle barrière |
 | MEP-055 | Ouvert/N/A sur approbation explicite du 2026-11-14, sans clôture ; vérifier contrat/refus du profil, pas obtenir neuf signatures |
 | MEP-054 / MEP-022 | **Réalisés le 2026-11-16** : [preuves et décision](../tracking/mess-e03.md), contrat et définition seulement ; aucun SLA ni outil futur acquis |
-| MEP-021 | **Prêt** : 054/009 réalisés ; même source/configuration/base pour API/workers/scripts et refus avant effet à réaliser |
+| MEP-021 | **Réalisé le 2026-11-19** : [qualification et clôture approuvée](../../operations/configuration/unique-closure.md), source commune et refus avant effet ; aucune recette de site MESS déduite |
 | MEP-057/058/059/024 | 057 **Réalisé le 2026-11-16** : inventaire et refus, I01–I03 conservées ; 059 **Réalisé le 2026-11-17** sur `695f2be`, I01/I03 conservées ; 058 prêt à engager, puis 024 après ses prérequis ; aucun package acquis |
 | MEP-060/061/062/025 | Préflight, pose hors ligne, migrations/bootstrap et diagnostic ; bootstrap développeur ne prouve aucune installation cible |
 | MEP-063/064/026/027/065 | Services, sauvegarde cohérente, upgrade, restauration et rollback ; 064 après 021/022 sans attente 025 ; aucun RPO/RTO réel inventé |

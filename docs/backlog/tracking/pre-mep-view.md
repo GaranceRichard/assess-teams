@@ -3,12 +3,12 @@
 Détail de la [synthèse principale](../synthese.md), sans autorité concurrente.
 Statuts/dates et tailles issus des [sections du registre canonique](pbis.md) ; périmètre/dépendances dans les
 [sources MESS](../source/07-pre-mep.md). Quatre Epics, vingt Features raffinées et 62 PBI actifs, selon l’audit du 2026-10-14.
-Au 2026-11-17 : 27 Ouverts, 34 Réalisés, 0 En cours, 1 Bloqué ; avancement actif 55 %. Les acquis restent séparés.
+Au 2026-11-19 : 26 Ouverts, 35 Réalisés, 0 En cours, 1 Bloqué ; avancement actif 56 %. Les acquis restent séparés.
 Les huit réalisations historiques du Job 1 et le jalon sont séparés du dénominateur opérationnel.
 
 **MEP-047 réalisé le 2026-11-01 : [qualification et clôture approuvée](../../quality/mep-047/README.md).** MEP-015 réalisé le 2026-11-02 : [qualification radar](../../quality/mep-015/README.md) ; [MEP-016 réalisé le 2026-11-02](../../quality/mep-016/README.md), clôture lexicale approuvée sans développement ; [MEP-048 réalisé le 2026-11-03](../planning/qualification-mep-048/cloture.md), qualification et correction `79efb0d` acceptées.
 MEP-014 et MEP-046 réalisés : [hiérarchie](../../quality/results-hierarchy.md) et [interprétation des scores](../../quality/mep-046/README.md) ; F06 atteint 4 PBI sur 4 avec MEP-015 et MEP-047.
-[MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture approuvée sur preuves acquises ; téléphone physique complémentaire MESS non exécuté. MEP-055 est Ouvert/N/A sur décision explicite du 2026-11-14. [Plan et dix prochains PBI](../planning/pre-mep.md) ;
+[MEP-049 réalisé le 2026-11-03](../../quality/mep-049/cloture.md) : clôture approuvée sur preuves acquises ; téléphone physique complémentaire MESS non exécuté. MEP-055 est Ouvert/N/A sur décision explicite du 2026-11-14. [Plan et huit prochains PBI](../planning/pre-mep.md) ;
 [revue des dépendances et suivi F04](../planning/mess-dependances.md). [MEP-050 réalisé le 2026-11-05](../../quality/mep-050/cloture.md) : absence/filtre/refus distincts et réserve O1 traitée sur `4793611`, clôture approuvée sans développement.
 
 [Rapprochement du 9 novembre](../planning/reconciliation-mep-20261109.md) : MEP-017 clôturé ; [MEP-018 ensuite clôturé avec dérogation D01](../../quality/mep-018/cloture.md) ; [MEP-051 clôturé ensuite sans dérogation](../../quality/mep-051/cloture.md), 012 Bloqué ; 055 requalifié Ouvert le 2026-11-14, sans clôture. EPIC-012 : 17/17 PBI raffinés réalisés ; aucune recette MESS déduite.
@@ -28,7 +28,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | EPIC-012 — Expérience utilisateur | [F07 — FEAT-055 — Pilotage et tableau de bord](../source/mess/f07.md) | 2 / 2 | 100 % |
 | EPIC-012 — Expérience utilisateur | [F08 — FEAT-056 — Responsive et états d’interaction](../source/mess/f08.md) | 5 / 5 | 100 % |
 | EPIC-012 — Expérience utilisateur | [F09 — FEAT-057 — Cohérence visuelle et thèmes](../source/mess/f09.md) | 3 / 3 | 100 % |
-| EPIC-013 — Installation et exploitation MESS | [F10 — FEAT-058 — Configuration unique MESS](../source/mess/f10.md) | 1 / 2 | 50 % |
+| EPIC-013 — Installation et exploitation MESS | [F10 — FEAT-058 — Configuration unique MESS](../source/mess/f10.md) | 2 / 2 | 100 % |
 | EPIC-013 — Installation et exploitation MESS | [F11 — FEAT-059 — Contrat d’installation et d’exploitation](../source/mess/f11.md) | 1 / 4 | 25 % |
 | EPIC-013 — Installation et exploitation MESS | [F12 — FEAT-060 — Distribution autonome hors ligne](../source/mess/f12.md) | 2 / 4 | 50 % |
 | EPIC-013 — Installation et exploitation MESS | [F13 — FEAT-061 — Installation automatisée](../source/mess/f13.md) | 0 / 4 | 0 % |
@@ -84,7 +84,7 @@ Livraison calculée : tous les PBI de la Feature Réalisés selon la gouvernance
 | Repère | PBI et source | Taille | Statut / date | Prérequis PBI |
 | --- | --- | --- | --- | --- |
 | 10.01 | [MEP-054 — Définir le contrat de configuration unique](../source/mess/f10.md) | S | Réalisé — 2026-11-16 | MEP-036 |
-| 10.02 | [MEP-021 — Charger et valider la configuration unique](../source/mess/f10.md) | S | Ouvert — N/A | MEP-054, MEP-009 |
+| 10.02 | [MEP-021 — Charger et valider la configuration unique](../source/mess/f10.md) | S | Réalisé — 2026-11-19 | MEP-054, MEP-009 |
 | 11.01 | [MEP-055 — Définir les prérequis d’installation](../source/mess/f11.md) | XS | Ouvert — N/A | aucune |
 | 11.02 | [MEP-022 — Définir les opérations d’exploitation](../source/mess/f11.md) | S | Réalisé — 2026-11-16 | MEP-042 |
 | 11.03 | [MEP-023 — Actualiser le README et l’architecture](../source/mess/f11.md) | XS | Ouvert — N/A | MEP-021, MEP-022 |
