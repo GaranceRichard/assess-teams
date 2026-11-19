@@ -55,3 +55,13 @@ L'archive REFUSED est un ensemble réutilisable pour préparation, jamais un pac
 La qualification Windows Server/MESS (I03), les services, l'installation, SQLite initiale et la
 reprise restent aux PBI propriétaires. I02 est traitée exclusivement pour les octets Swagger
 reconstruits ; le précompilé historique reste refusé.
+
+## Ajustement préalable après le premier assemblage réel
+
+Le premier candidat a été refusé par le scanner : trois package.json sont les preuves
+juridiques MEP-058 conservées dans legal/, et quatre libellés UI Swagger ressemblent à
+des affectations dans le JavaScript minifié. Avant correction de package_common.py et
+extension de test_package.py : distinguer une propriété/affectation d'un libellé cité,
+et autoriser uniquement les métadonnées sous les notices frontend déjà vérifiées.
+Vérification : régression des libellés publics, metadata légale et vraie affectation
+secrète fictive ; fichiers privés et package.json hors legal restent refusés.

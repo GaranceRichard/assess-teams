@@ -75,6 +75,19 @@ class PackageComponentTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "secret"):
                 scan(path, "backend/config/unsafe.py")
 
+    def test_original_legal_metadata_and_public_ui_labels_are_not_secrets(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "fixture"
+            path.write_text('label("Password:"),code(" ****** ")')
+            scan(path, "web/static/swagger-ui/swagger-ui-bundle.js")
+            path.write_text('{"license": "MIT"}')
+            scan(path, "web/static/swagger-ui/legal/node_modules_format/package.json")
+            with self.assertRaisesRegex(ValueError, "metadata"):
+                scan(path, "backend/package.json")
+            path.write_text('{"password": "' + "test-only-value" + '"}')
+            with self.assertRaisesRegex(ValueError, "secret"):
+                scan(path, "documentation/unsafe.txt")
+
     def test_missing_source_identity_refused(self):
         with self.assertRaisesRegex(ValueError, "Full source SHA"):
             assert_source("HEAD")

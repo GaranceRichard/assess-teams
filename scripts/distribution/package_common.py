@@ -70,7 +70,7 @@ def scan(path, relative):
         r"(^|/)(\.env[^/]*|node_modules|__pycache__|\.git|private|secrets|"
         r"data|uploads|backups|logs|runtime|pip|development_data|tests)(/|$)|"
         r"\.(sqlite3?|db|pem|key|pfx|p12|pyc)$|"
-        r"(^|/)(Dockerfile|package(-lock)?\.json)$"
+        r"(^|/)Dockerfile$"
     )
     require(
         not re.search(forbidden, relative, re.IGNORECASE), "Private/build file refused"
@@ -80,15 +80,29 @@ def scan(path, relative):
         or relative == "hosting/caddy/caddy.exe",
         "Unqualified executable refused",
     )
+    require(
+        not relative.endswith(("/package.json", "/package-lock.json"))
+        or relative.startswith("web/static/swagger-ui/legal/"),
+        "Build metadata outside original legal notices",
+    )
     data = Path(path).read_bytes()
     if b"\0" in data[:8192]:
         return
     text = data.decode("utf-8", errors="replace")
+    names = "(?:api[_-]?key|client[_-]?secret|secret[_-]?key|password|access[_-]?token)"
     patterns = [
         r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
         r"AKIA[0-9A-Z]{16}",
         r"gh[pousr]_[A-Za-z0-9_]{30,}",
         r"xox[aboprs]-[A-Za-z0-9-]{10,}",
-        r"""(?i)(?:api[_-]?key|client[_-]?secret|password|access[_-]?token)\s*[:=]\s*["'][^"']{8,}["']""",
     ]
     require(not any(re.search(p, text) for p in patterns), "Potential secret refused")
+    assignment = rf"""(?i)(?<![\w"'])(?:["']{names}["']|{names})\s*[:=]\s*(?P<quote>["'])(?P<value>[^\r\n]*?)(?P=quote)"""
+    public_messages = {"Choisissez un mot de passe diff\u00e9rent de l'actuel."}
+    require(
+        not any(
+            len(m["value"]) >= 8 and m["value"] not in public_messages
+            for m in re.finditer(assignment, text)
+        ),
+        "Potential secret refused",
+    )
