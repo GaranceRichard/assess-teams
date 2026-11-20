@@ -1,7 +1,8 @@
 # MEP-022 — Sauvegarde, reprise et mesures
 
 [Contrat et habilitations](operations.md) · [cycle O01–O06](operations-lifecycle.md).
-Méthode de référence à implémenter par MEP-064/027/065 ; aucun outil nouveau livré ici.
+Méthode de référence ; [MEP-064](sqlite-backup.md) automatise O07 avec vérification isolée.
+Restauration et retour de version restent MEP-027/065 ; aucun exercice cible déduit.
 Le contenu exact d'une campagne est inventorié avant essai depuis le package/configuration effectifs.
 
 ## O07 — Sauvegarde cohérente

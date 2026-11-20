@@ -81,7 +81,7 @@ elles ne prouvent pas que deux opérations métier incompatibles sont exclues (M
 - Héberger le fichier sur disque local avec verrouillage fiable ; API, workers et SQLite partagent la machine.
   Écarter un partage SMB/NFS, dossier synchronisé ou plusieurs hôtes accédant directement au fichier.
 - Protéger le répertoire et ses fichiers auxiliaires ; conserver de l’espace pour le journal et les backups.
-  La cohérence des sauvegardes reste MEP-064 ; copier un fichier ouvert n’est pas une procédure livrée ici.
+  La [sauvegarde cohérente MEP-064](../sqlite-backup.md) utilise l’API backup ; une copie brute active est refusée.
 - Déployer ces paramètres avec API et workers arrêtés. Un fichier antérieurement WAL doit être fermé par
   tous ses utilisateurs avant conversion ; ne jamais supprimer ses fichiers `-wal`/`-shm` pour forcer le mode.
 - Après redémarrage, vérifier par une connexion Django au fichier cible `journal_mode=delete`,

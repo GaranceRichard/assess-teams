@@ -110,8 +110,9 @@ fixe DELETE/FULL, timeout 5 s, connexions API/workers et limites mesurées sur f
 La cible on-premise MESS doit être installable et
 exploitable hors ligne sans Docker ni Node/npm ; build React et dépendances Python se préparent ailleurs.
 Le [contrat des prérequis MEP-055](../operations/installation-prerequisites.md) distingue exigences démontrées, propositions et décisions MESS en attente ; aucune cible approuvée ni installation qualifiée.
-Configuration unique, package autonome, installation, opérations et reprise restent à livrer/qualifier
-selon le contrat MESS, sans annoncer leur disponibilité par cette refonte documentaire.
+Le [chargeur MEP-021](../operations/configuration/unique-loading.md) et la
+[sauvegarde cohérente MEP-064](../operations/sqlite-backup.md) sont disponibles pour le profil documenté.
+Package autonome, installation et reprise restent à livrer/qualifier selon le contrat MESS.
 Les journaux HTTP et métier, transactions, contrôles d’accès et workers SMTP existants sont réutilisés.
 La [matrice MEP-011](organization-isolation.md) distingue rôle, scope courant et contexte historique,
 avec refus des références croisées et exceptions Superadmin explicitement bornées.
